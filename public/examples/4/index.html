@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c1512">
+  <meta name="description" content="AERIS — клубные резиденции в окружении природы и современной архитектуры.">
+  <title>AERIS — клубные резиденции</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Prata&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="loader" aria-hidden="true">
+    <div class="loader__brand">AERIS</div>
+    <div class="loader__line"><span></span></div>
+    <div class="loader__count">00</div>
+  </div>
+
+  <div class="cursor" aria-hidden="true"><span>Смотреть</span></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="header" data-block="header">
+    <a class="logo" href="#top" aria-label="AERIS, на главную">AERIS<sup>®</sup></a>
+    <nav class="nav" aria-label="Главная навигация">
+      <a href="#concept">Концепция</a>
+      <a href="#residences">Резиденции</a>
+      <a href="#advantages">Привилегии</a>
+    </nav>
+    <button class="button button--light magnetic" data-modal-open>Выбрать резиденцию</button>
+    <button class="menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main id="top">
+    <section class="hero" data-block="hero">
+      <div class="hero__media image-reveal">
+        <img src="assets/images/hero-v2.webp" alt="Современная клубная резиденция среди деревьев">
+        <div class="hero__veil"></div>
+      </div>
+      <div class="hero__topline">
+        <span>55°45′21″ с. ш.</span>
+        <span>Москва · Серебряный бор</span>
+        <span>2027</span>
+      </div>
+      <div class="hero__content">
+        <p class="eyebrow reveal" data-field="eyebrow">Клубные резиденции</p>
+        <h1 class="hero__title split-title" aria-label="AERIS" data-field="title">
+          <span>A</span><span>E</span><span>R</span><span>I</span><span>S</span>
+        </h1>
+        <div class="hero__aside reveal">
+          <p class="hero__manifest" data-field="subtitle">Архитектура тишины.<br>Пространство вашей свободы.</p>
+          <p>Частная коллекция из 24 резиденций, где современная архитектура становится продолжением природного ландшафта.</p>
+        </div>
+      </div>
+      <div class="hero__bottom">
+        <span class="scroll-hint">Листайте <i></i></span>
+        <span>01 / 07</span>
+      </div>
+    </section>
+
+    <section class="intro section" id="concept" data-block="concept">
+      <div class="section-label reveal">( О проекте )</div>
+      <div class="intro__grid">
+        <h2 class="display reveal" data-field="title">Вневременная<br><em>архитектура.</em><br>Осознанная жизнь.</h2>
+        <figure class="intro__image parallax image-reveal">
+          <img src="assets/images/lounge-tall-v2.webp" alt="Светлый интерьер гостиной">
+          <figcaption>Гостиная · резиденция 03</figcaption>
+        </figure>
+        <div class="intro__copy reveal">
+          <p>AERIS создан для тех, кто выбирает редкое равновесие: динамику мегаполиса и абсолютную приватность, технологичный комфорт и близость к природе.</p>
+          <p>Каждая деталь — от пластики фасада до сценариев освещения — подчинена вашему ощущению спокойствия.</p>
+          <a class="text-link magnetic" href="#residences">Исследовать проект <span>↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="metrics section" data-block="metrics">
+      <div class="metrics__blueprint" aria-hidden="true">
+        <svg viewBox="0 0 900 520" fill="none">
+          <path d="M35 80h190v80h120v-90h175v110h180v-60h155v280H690v70H520V350H330v110H145V330H35z"/>
+          <path d="M225 80v250M345 160h175M520 70v280M700 180v220M145 330h185M520 350h170"/>
+          <circle cx="520" cy="180" r="28"/><path d="M492 180h56M520 152v56"/>
+        </svg>
+      </div>
+      <div class="metrics__heading">
+        <span class="section-label reveal">( В цифрах )</span>
+        <p class="reveal">Продуманная среда<br>для частной жизни</p>
+      </div>
+      <div class="metrics__grid">
+        <article class="metric reveal">
+          <strong><span class="counter" data-target="6">0</span></strong>
+          <p>корпусов<br>в едином ансамбле</p>
+        </article>
+        <article class="metric reveal">
+          <strong><span class="counter" data-target="24">0</span></strong>
+          <p>эксклюзивные<br>резиденции</p>
+        </article>
+        <article class="metric metric--wide reveal">
+          <strong><span class="counter" data-target="18">0</span><small> га</small></strong>
+          <p>закрытой парковой территории</p>
+        </article>
+        <article class="metric reveal">
+          <strong><span class="counter" data-target="150">0</span><small> м²</small></strong>
+          <p>минимальная<br>площадь резиденции</p>
+        </article>
+        <article class="metric reveal">
+          <strong>24/7</strong>
+          <p>консьерж-сервис<br>и безопасность</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="residences section" id="residences" data-block="residences">
+      <div class="residences__head">
+        <span class="section-label reveal">( Резиденции )</span>
+        <div class="slider-index reveal"><b>01</b><span>/ 03</span></div>
+      </div>
+      <div class="residence-stage">
+        <article class="residence-card is-active" data-slide="0">
+          <div class="residence-card__collage">
+            <figure class="residence-card__image image-reveal"><img src="assets/images/bedroom-v2.webp" alt="Интерьер спальни"></figure>
+            <figure class="residence-card__image image-reveal"><img src="assets/images/lounge-v2.webp" alt="Просторная гостиная"></figure>
+            <figure class="residence-card__image image-reveal"><img src="assets/images/hero-v2.webp" alt="Резиденция в лесном окружении"></figure>
+          </div>
+          <div class="residence-card__content">
+            <span>Коллекция 01</span>
+            <h2 data-field="title">Резиденции<br><em>Linea</em></h2>
+            <div>
+              <p>Панорамные двухуровневые пространства с собственными террасами и видом на сосновый парк.</p>
+              <button class="button button--light magnetic" data-modal-open>Подробнее</button>
+            </div>
+          </div>
+        </article>
+        <article class="residence-card" data-slide="1">
+          <div class="residence-card__collage residence-card__collage--reverse">
+            <figure class="residence-card__image"><img src="assets/images/lounge-tall-v2.webp" alt="Видовая гостиная"></figure>
+            <figure class="residence-card__image"><img src="assets/images/lounge-v2.webp" alt="Интерьер гостиной"></figure>
+            <figure class="residence-card__image"><img src="assets/images/wellness-v2.webp" alt="Частная зона отдыха"></figure>
+          </div>
+          <div class="residence-card__content">
+            <span>Коллекция 02</span>
+            <h2>Пентхаусы<br><em>Aria</em></h2>
+            <div>
+              <p>Редкие пространства верхних этажей с высотой потолков до 7 метров и приватным лифтом.</p>
+              <button class="button button--light magnetic" data-modal-open>Подробнее</button>
+            </div>
+          </div>
+        </article>
+        <article class="residence-card" data-slide="2">
+          <div class="residence-card__collage">
+            <figure class="residence-card__image"><img src="assets/images/wellness-v2.webp" alt="Приватная wellness-зона"></figure>
+            <figure class="residence-card__image"><img src="assets/images/hero-v2.webp" alt="Архитектура в природном окружении"></figure>
+            <figure class="residence-card__image"><img src="assets/images/bedroom-v2.webp" alt="Интерьер мастер-спальни"></figure>
+          </div>
+          <div class="residence-card__content">
+            <span>Коллекция 03</span>
+            <h2>Виллы<br><em>Terra</em></h2>
+            <div>
+              <p>Отдельно стоящие дома с собственным садом, SPA-пространством и камерным внутренним двором.</p>
+              <button class="button button--light magnetic" data-modal-open>Подробнее</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="residence-controls">
+        <button class="round-control" data-prev aria-label="Предыдущая резиденция">←</button>
+        <div class="progress"><span></span></div>
+        <button class="round-control" data-next aria-label="Следующая резиденция">→</button>
+      </div>
+    </section>
+
+    <section class="philosophy section" data-block="philosophy">
+      <figure class="philosophy__media parallax image-reveal">
+        <img src="assets/images/lounge-v2.webp" alt="Интерьер с панорамным остеклением">
+      </figure>
+      <div class="philosophy__content">
+        <span class="section-label reveal">( Философия )</span>
+        <h2 class="display reveal" data-field="title">Дом, который<br>возвращает<br><em>к себе</em></h2>
+        <p class="reveal">Естественный свет, тактильные материалы и выверенные пропорции формируют пространство, в котором хочется замедлиться.</p>
+        <button class="button magnetic reveal" data-modal-open>Записаться на встречу</button>
+      </div>
+      <div class="philosophy__orb" aria-hidden="true"></div>
+    </section>
+
+    <section class="advantages section" id="advantages" data-block="advantages">
+      <div class="advantages__head">
+        <span class="section-label reveal">( Привилегии )</span>
+        <h2 class="display reveal" data-field="title">Искусство<br><em>жить без спешки</em></h2>
+      </div>
+      <div class="advantage-list">
+        <article class="advantage reveal" data-image="assets/images/wellness-v2.webp">
+          <span>01</span><h3>Wellness-клуб</h3><p>SPA, фитнес и пространство восстановления только для резидентов.</p><i>↗</i>
+        </article>
+        <article class="advantage reveal" data-image="assets/images/hero-v2.webp">
+          <span>02</span><h3>Природный парк</h3><p>18 гектаров лесного ландшафта и маршруты для прогулок.</p><i>↗</i>
+        </article>
+        <article class="advantage reveal" data-image="assets/images/lounge-v2.webp">
+          <span>03</span><h3>Club Lounge</h3><p>Библиотека, гостиная и приватная столовая для ваших встреч.</p><i>↗</i>
+        </article>
+        <article class="advantage reveal" data-image="assets/images/bedroom-v2.webp">
+          <span>04</span><h3>Сервис 24/7</h3><p>Команда, которая незаметно решает повседневные задачи.</p><i>↗</i>
+        </article>
+      </div>
+      <div class="advantages__preview" aria-hidden="true"><img src="assets/images/wellness-v2.webp" alt=""></div>
+    </section>
+
+    <section class="panorama" data-block="panorama">
+      <div class="panorama__track">
+        <span>ПРОСТРАНСТВО</span><i>ДЛЯ</i><span>ВДОХНОВЕНИЯ</span>
+        <span>ПРОСТРАНСТВО</span><i>ДЛЯ</i><span>ВДОХНОВЕНИЯ</span>
+      </div>
+      <figure class="panorama__image image-reveal">
+        <img src="assets/images/lounge-v2.webp" alt="Панорамная гостиная">
+      </figure>
+    </section>
+
+    <section class="contact section" data-block="contact">
+      <div class="contact__meta reveal">
+        <span class="section-label">( Приватная презентация )</span>
+        <p>Москва<br>Серебряный бор</p>
+      </div>
+      <div class="contact__main">
+        <p class="eyebrow reveal">Откройте AERIS лично</p>
+        <h2 class="display reveal" data-field="title">Ваше новое<br><em>пространство жизни</em></h2>
+        <button class="button button--light button--large magnetic reveal" data-modal-open>Назначить встречу <span>↗</span></button>
+      </div>
+      <footer class="footer" data-block="footer">
+        <a class="logo" href="#top">AERIS<sup>®</sup></a>
+        <div><a href="#">Презентация PDF</a><a href="#">Политика конфиденциальности</a></div>
+        <span>© 2026 AERIS</span>
+      </footer>
+    </section>
+  </main>
+
+  <div class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal__close" data-modal-close aria-label="Закрыть">×</button>
+    <div class="modal__content">
+      <span class="section-label">( Личная встреча )</span>
+      <h2 id="modal-title">Познакомьтесь<br>с проектом <em>AERIS</em></h2>
+      <p>Оставьте контакты — персональный консультант свяжется с вами и подберёт удобное время.</p>
+      <form>
+        <label><span>Ваше имя</span><input type="text" name="name" placeholder="Александр" required></label>
+        <label><span>Телефон</span><input type="tel" name="phone" placeholder="+7 999 000-00-00" required></label>
+        <button class="button button--light" type="submit">Отправить заявку</button>
+      </form>
+      <small>Нажимая кнопку, вы соглашаетесь с политикой обработки данных.</small>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

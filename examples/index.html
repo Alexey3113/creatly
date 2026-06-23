@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Портфолио интерактивных сайтов: FitMe, Люмен, FORMA, AERIS и Место."
+    />
+    <meta name="theme-color" content="#07070d" />
+    <title>Alexend Sites — портфолио интерактивных сайтов</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <canvas class="field-canvas" aria-hidden="true"></canvas>
+    <div class="cursor" aria-hidden="true"><span></span></div>
+
+    <header class="site-header" data-header>
+      <a class="logo magnetic" href="#top" aria-label="Alexend Sites, на главную">
+        <span class="logo__mark">A</span>
+        <span>alexend<br />sites</span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#works">Проекты</a>
+        <a href="#motion">Анимации</a>
+        <a href="#process">Подход</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+      <a class="header-cta magnetic" href="#works">Смотреть кейсы <span>↘</span></a>
+    </header>
+
+    <main id="top">
+      <section class="hero" data-scene>
+        <canvas class="hero-webgl" aria-hidden="true"></canvas>
+        <div class="hero-blob-field" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="hero__glow hero__glow--one" aria-hidden="true"></div>
+        <div class="hero__glow hero__glow--two" aria-hidden="true"></div>
+        <div class="hero__grid" aria-hidden="true"></div>
+        <div class="hero-vortex" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Temporarily disabled while debugging scroll/render stability.
+        <svg class="arc-map" viewBox="0 0 1200 760" aria-hidden="true">
+          <path id="arcOne" class="arc arc--one" d="M116 545 C232 202 493 124 671 254 S1002 448 1090 164" />
+          <path id="arcTwo" class="arc arc--two" d="M170 180 C382 355 560 108 790 274 S990 560 1112 418" />
+          <path id="arcThree" class="arc arc--three" d="M54 420 C250 690 492 612 652 470 S880 190 1170 285" />
+
+          <g class="arc-chip arc-chip--a">
+            <circle r="17" />
+            <text>AI</text>
+            <animateMotion dur="14s" repeatCount="indefinite" rotate="0"><mpath href="#arcOne" /></animateMotion>
+          </g>
+          <g class="arc-chip arc-chip--a">
+            <circle r="15" />
+            <text>UX</text>
+            <animateMotion dur="14s" begin="-7s" repeatCount="indefinite" rotate="0"><mpath href="#arcOne" /></animateMotion>
+          </g>
+          <g class="arc-chip arc-chip--b">
+            <circle r="16" />
+            <text>3D</text>
+            <animateMotion dur="18s" repeatCount="indefinite" rotate="0"><mpath href="#arcTwo" /></animateMotion>
+          </g>
+          <g class="arc-chip arc-chip--b">
+            <circle r="14" />
+            <text>JS</text>
+            <animateMotion dur="18s" begin="-9s" repeatCount="indefinite" rotate="0"><mpath href="#arcTwo" /></animateMotion>
+          </g>
+          <g class="arc-chip arc-chip--c">
+            <circle r="16" />
+            <text>UI</text>
+            <animateMotion dur="22s" repeatCount="indefinite" rotate="0"><mpath href="#arcThree" /></animateMotion>
+          </g>
+          <g class="arc-chip arc-chip--c">
+            <circle r="14" />
+            <text>CRM</text>
+            <animateMotion dur="22s" begin="-11s" repeatCount="indefinite" rotate="0"><mpath href="#arcThree" /></animateMotion>
+          </g>
+        </svg>
+        -->
+
+        <div class="hero__content">
+          <div class="eyebrow reveal">
+            <span class="live-dot"></span>
+            Алексей · разработка · дизайн · автоматизация
+          </div>
+          <h1 class="hero-title" aria-label="Алексей делает сайты, интерфейсы и автоматизацию бизнеса">
+            <span class="title-line reveal">Алексей</span>
+            <span class="title-line title-line--shift reveal">делает сайты,</span>
+            <span class="title-line title-line--accent reveal">которые двигают бизнес</span>
+          </h1>
+          <p class="hero-copy reveal">
+            6 лет в разработке и дизайне: собираю презентационные сайты,
+            интерфейсы, анимации и автоматизацию бизнес-процессов в одну
+            понятную систему, которая выглядит дорого и работает на задачу.
+          </p>
+          <div class="hero-actions reveal">
+            <a class="button button--primary magnetic" href="#works">
+              Открыть проекты <span>↗</span>
+            </a>
+            <a class="button button--ghost magnetic" href="#motion">Показать эффекты</a>
+          </div>
+        </div>
+
+        <div class="hero-intel reveal" aria-label="Ключевые компетенции">
+          <article class="intel-card intel-card--lead">
+            <span>опыт</span>
+            <strong><b data-count="6">0</b> лет</strong>
+            <p>разработка, дизайн, запуск и улучшение цифровых продуктов</p>
+          </article>
+          <article class="intel-card">
+            <span>фокус</span>
+            <strong>бизнес</strong>
+            <p>автоматизация процессов, заявки, CRM-логика, интеграции и воронки</p>
+          </article>
+          <article class="intel-card">
+            <span>уровень</span>
+            <strong>wow + logic</strong>
+            <p>анимации, WebGL, инфографика и строгая структура под продажу</p>
+          </article>
+        </div>
+
+        <div class="skill-panels reveal" aria-label="Навыки Алексея">
+          <article class="skill-panel skill-panel--wide" style="--delay: .08s">
+            <span>01</span>
+            <strong>Frontend</strong>
+            <p>Адаптивные сайты, интерфейсы, анимации, чистая структура и скорость загрузки.</p>
+          </article>
+          <article class="skill-panel" style="--delay: .2s">
+            <span>02</span>
+            <strong>UX/UI</strong>
+            <p>Визуальная система, сценарии, презентационный экран и понятная логика.</p>
+          </article>
+          <article class="skill-panel" style="--delay: .32s">
+            <span>03</span>
+            <strong>Motion</strong>
+            <p>WebGL, 3D-слои, scroll-анимации и живые микровзаимодействия.</p>
+          </article>
+          <article class="skill-panel" style="--delay: .44s">
+            <span>04</span>
+            <strong>Automation</strong>
+            <p>Заявки, CRM, API, боты и процессы, которые экономят время бизнеса.</p>
+          </article>
+          <article class="skill-panel skill-panel--accent" style="--delay: .56s">
+            <span>05</span>
+            <strong>AI / No-code</strong>
+            <p>Быстрые прототипы, интеграции и связки сервисов без лишней сложности.</p>
+          </article>
+        </div>
+
+        <aside class="profile-system reveal" aria-label="Инфографика профиля Алексея">
+          <div class="profile-photo-card">
+            <img src="assets/фудзи.jpg" alt="Алексей" />
+            <div class="profile-photo-card__shade"></div>
+            <div class="profile-photo-card__caption">
+              <span>Алексей</span>
+              <strong>dev / design / automation</strong>
+            </div>
+          </div>
+          <div class="profile-node profile-node--top">
+            <span>6 лет</span>
+            <small>цифровые продукты</small>
+          </div>
+          <div class="profile-node profile-node--right">
+            <span>web + ai</span>
+            <small>автоматизация бизнесов</small>
+          </div>
+          <div class="profile-node profile-node--bottom">
+            <span>full cycle</span>
+            <small>идея → дизайн → код → запуск</small>
+          </div>
+          <svg class="profile-lines" viewBox="0 0 560 520" aria-hidden="true">
+            <path d="M214 190 C92 152 80 62 158 34" />
+            <path d="M342 218 C482 186 515 226 532 285" />
+            <path d="M245 356 C152 410 178 492 267 485" />
+          </svg>
+        </aside>
+
+        <div class="orbit-stage reveal" aria-label="Орбита проектов">
+          <div class="orbit-rings" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+
+          <div class="project-flow" data-project-flow>
+            <a class="flow-card magnetic" style="--accent: var(--lime)" href="https://fitme.alexend-bot.ru/" target="_blank" rel="noreferrer" data-flow-card>
+              <img src="assets/portfolio/fitme-hero-couple.webp" alt="FitMe" />
+              <span class="flow-card__index">01</span>
+              <strong class="flow-card__name">FitMe</strong>
+              <small>fashion app / mobile first</small>
+            </a>
+            <a class="flow-card magnetic" style="--accent: var(--mint)" href="https://sites.alexend-bot.ru/2" target="_blank" rel="noreferrer" data-flow-card>
+              <img src="assets/portfolio/lumen-ai-workspace.webp" alt="Люмен" />
+              <span class="flow-card__index">02</span>
+              <strong class="flow-card__name">Люмен</strong>
+              <small>ai workspace / dashboard</small>
+            </a>
+            <a class="flow-card magnetic" style="--accent: var(--cyan)" href="https://sites.alexend-bot.ru/3" target="_blank" rel="noreferrer" data-flow-card>
+              <img src="assets/portfolio/forma-hero-residence.webp" alt="FORMA" />
+              <span class="flow-card__index">03</span>
+              <strong class="flow-card__name">FORMA</strong>
+              <small>real estate / premium</small>
+            </a>
+            <a class="flow-card magnetic" style="--accent: var(--violet)" href="https://sites.alexend-bot.ru/4" target="_blank" rel="noreferrer" data-flow-card>
+              <img src="assets/portfolio/aeris-hero.webp" alt="AERIS" />
+              <span class="flow-card__index">04</span>
+              <strong class="flow-card__name">AERIS</strong>
+              <small>tech landing / motion</small>
+            </a>
+            <a class="flow-card magnetic" style="--accent: var(--pink)" href="https://sites.alexend-bot.ru/5" target="_blank" rel="noreferrer" data-flow-card>
+              <img src="assets/portfolio/mesto-restaurant-sever.webp" alt="Место" />
+              <span class="flow-card__index">05</span>
+              <strong class="flow-card__name">Место</strong>
+              <small>restaurant / emotion</small>
+            </a>
+            <div class="flow-controls" aria-label="Переключение проектов">
+              <button type="button" data-flow-prev aria-label="Предыдущий проект">←</button>
+              <span><b data-flow-current>01</b> / 05</span>
+              <button type="button" data-flow-next aria-label="Следующий проект">→</button>
+            </div>
+          </div>
+          <div class="flow-base" aria-hidden="true"></div>
+
+          <div class="core-panel">
+            <span>Alexey Portfolio</span>
+            <strong>5 проектов</strong>
+            <small>тяните карточки мышью →</small>
+          </div>
+        </div>
+
+        <div class="hero-metrics reveal">
+          <article>
+            <strong data-count="6">0</strong>
+            <span>лет в разработке и дизайне</span>
+          </article>
+          <article>
+            <strong data-count="5">0</strong>
+            <span>показательных проектов</span>
+          </article>
+          <article>
+            <strong>AI</strong>
+            <span>автоматизация бизнеса и интерфейсов</span>
+          </article>
+        </div>
+
+        <a class="scroll-hint" href="#works" aria-label="Перейти к проектам">
+          <span>листайте</span>
+          <i></i>
+        </a>
+      </section>
+
+      <div class="marquee marquee--one" aria-hidden="true">
+        <div class="marquee__track">
+          <span>FitMe · Люмен · FORMA · AERIS · Место · FitMe · Люмен · FORMA · AERIS · Место · </span>
+          <span>FitMe · Люмен · FORMA · AERIS · Место · FitMe · Люмен · FORMA · AERIS · Место · </span>
+        </div>
+      </div>
+
+      <section class="dashboard section" id="dashboard">
+        <div class="section-head">
+          <span class="section-kicker reveal">Под капотом</span>
+          <h2 class="reveal">Живая инфографика вместо статичных цифр на скриншотах.</h2>
+          <p class="reveal">
+            Каждая плашка ниже — рабочий пример визуализации данных: кольца
+            прогресса, бары, графики и счётчики, которые легко переносятся в
+            любой проект из портфолио.
+          </p>
+        </div>
+        <div class="dash-grid">
+          <article class="dash-card dash-card--ring reveal">
+            <span>Производительность</span>
+            <div class="dash-ring">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="dash-ring__track" cx="60" cy="60" r="52" />
+                <circle class="dash-ring__value" cx="60" cy="60" r="52" style="--pct: .96" />
+              </svg>
+              <strong><b data-count="96">0</b>%</strong>
+            </div>
+            <p>Lighthouse score на демо-сборках</p>
+          </article>
+
+          <article class="dash-card dash-card--bars reveal">
+            <span>Скорость секций</span>
+            <div class="dash-bars">
+              <div class="dash-bar" style="--val: 92%"><span>Hero</span></div>
+              <div class="dash-bar" style="--val: 78%"><span>Projects</span></div>
+              <div class="dash-bar" style="--val: 88%"><span>Motion</span></div>
+              <div class="dash-bar" style="--val: 65%"><span>Contact</span></div>
+            </div>
+          </article>
+
+          <article class="dash-card dash-card--spark reveal">
+            <span>Вовлечение по скроллу</span>
+            <svg class="dash-spark" viewBox="0 0 240 90" preserveAspectRatio="none" aria-hidden="true">
+              <path class="dash-spark__line" d="M4 70 C 40 20, 70 80, 110 30 S 180 10, 236 26" />
+            </svg>
+            <strong>+38%</strong>
+          </article>
+
+          <article class="dash-card dash-card--counters reveal">
+            <span>За 6 лет</span>
+            <div class="dash-counters">
+              <div><b data-count="5">0</b><small>проектов в портфолио</small></div>
+              <div><b data-count="20">0</b><small>анимационных приёмов</small></div>
+              <div><b data-count="100">0</b><small>% на связи с клиентом</small></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="works section" id="works">
+        <div class="section-head">
+          <span class="section-kicker reveal">Портфолио сайтов</span>
+          <h2 class="reveal">Каждый проект выглядит как отдельный продукт, но вместе они собираются в единую витрину.</h2>
+          <p class="reveal">
+            Карточки раскрывают тему, визуальный приём и прямую ссылку на сайт. На
+            десктопе они специально повернуты под углами, чтобы страница не ощущалась
+            обычной сеткой.
+          </p>
+        </div>
+
+        <div class="project-stack">
+          <article class="project-card project-card--lime reveal tilt-card" style="--shift: -7deg">
+            <div class="project-card__inner">
+              <div class="project-card__front">
+                <div class="project-card__media">
+                  <img src="assets/portfolio/fitme-watch-mockup.webp" alt="FitMe fitness app" />
+                  <div class="project-card__badge">mobile app</div>
+                  <svg class="card-orbit card-orbit--lime" viewBox="0 0 100 100" aria-hidden="true">
+                    <g>
+                      <circle r="15" />
+                      <text>AI</text>
+                      <animateMotion dur="9s" repeatCount="indefinite" rotate="0" path="M50 12 A 38 38 0 1 1 49.99 12" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="project-card__body">
+                  <span>01 / FitMe</span>
+                  <h3>Фитнес-приложение с живыми карточками</h3>
+                  <p>Светлый health-tech лендинг, телефонные интерфейсы, sticky-секция и мягкие плашки прогресса.</p>
+                  <a href="https://fitme.alexend-bot.ru/" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+                </div>
+              </div>
+              <div class="project-card__back">
+                <span>01 / FitMe</span>
+                <h3>Что внутри</h3>
+                <ul class="tech-tags">
+                  <li>Sticky-секции</li>
+                  <li>Карточки тренировок</li>
+                  <li>Прогресс-плашки</li>
+                </ul>
+                <div class="back-metric">
+                  <strong>0.8s</strong>
+                  <small>до первой интеракции</small>
+                </div>
+                <a href="https://fitme.alexend-bot.ru/" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card project-card--green reveal tilt-card" style="--shift: 5deg">
+            <div class="project-card__inner">
+              <div class="project-card__front">
+                <div class="project-card__media">
+                  <img src="assets/portfolio/lumen-team-office.webp" alt="Люмен" />
+                  <div class="project-card__badge">AI teams</div>
+                  <svg class="card-orbit card-orbit--mint" viewBox="0 0 100 100" aria-hidden="true">
+                    <g>
+                      <circle r="15" />
+                      <text>UX</text>
+                      <animateMotion dur="10s" repeatCount="indefinite" rotate="0" path="M50 12 A 38 38 0 1 1 49.99 12" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="project-card__body">
+                  <span>02 / Люмен</span>
+                  <h3>Платформа развития команд в эпоху ИИ</h3>
+                  <p>Тёмная hero-сцена, canvas-сеть, карточки маршрутов, метрики и технологичный зелёный акцент.</p>
+                  <a href="https://sites.alexend-bot.ru/2" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+                </div>
+              </div>
+              <div class="project-card__back">
+                <span>02 / Люмен</span>
+                <h3>Что внутри</h3>
+                <ul class="tech-tags">
+                  <li>Canvas-сеть связей</li>
+                  <li>Карточки маршрутов</li>
+                  <li>Анимированные метрики</li>
+                </ul>
+                <div class="back-metric">
+                  <strong>94%</strong>
+                  <small>motion index секции</small>
+                </div>
+                <a href="https://sites.alexend-bot.ru/2" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card project-card--estate reveal tilt-card" style="--shift: -3deg">
+            <div class="project-card__inner">
+              <div class="project-card__front">
+                <div class="project-card__media">
+                  <img src="assets/portfolio/forma-riverside.webp" alt="FORMA недвижимость" />
+                  <div class="project-card__badge">real estate</div>
+                  <svg class="card-orbit card-orbit--cyan" viewBox="0 0 100 100" aria-hidden="true">
+                    <g>
+                      <circle r="15" />
+                      <text>3D</text>
+                      <animateMotion dur="11s" repeatCount="indefinite" rotate="0" path="M50 12 A 38 38 0 1 1 49.99 12" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="project-card__body">
+                  <span>03 / FORMA</span>
+                  <h3>Премиальная недвижимость с кинематографией</h3>
+                  <p>Параллакс, preloader, кастомный курсор, крупная типографика и карточки объектов в глубине сцены.</p>
+                  <a href="https://sites.alexend-bot.ru/3" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+                </div>
+              </div>
+              <div class="project-card__back">
+                <span>03 / FORMA</span>
+                <h3>Что внутри</h3>
+                <ul class="tech-tags">
+                  <li>Параллакс-слои</li>
+                  <li>Кастомный курсор</li>
+                  <li>Preloader-сцена</li>
+                </ul>
+                <div class="back-metric">
+                  <strong>3</strong>
+                  <small>слоя глубины на сцену</small>
+                </div>
+                <a href="https://sites.alexend-bot.ru/3" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card project-card--forest reveal tilt-card" style="--shift: 7deg">
+            <div class="project-card__inner">
+              <div class="project-card__front">
+                <div class="project-card__media">
+                  <img src="assets/portfolio/aeris-lounge.webp" alt="AERIS резиденции" />
+                  <div class="project-card__badge">residence</div>
+                  <svg class="card-orbit card-orbit--violet" viewBox="0 0 100 100" aria-hidden="true">
+                    <g>
+                      <circle r="15" />
+                      <text>UI</text>
+                      <animateMotion dur="9.5s" repeatCount="indefinite" rotate="0" path="M50 12 A 38 38 0 1 1 49.99 12" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="project-card__body">
+                  <span>04 / AERIS</span>
+                  <h3>Клубные резиденции в природной эстетике</h3>
+                  <p>Тёмная luxury-палитра, serif-типографика, слайдер резиденций, blueprint-графика и модальные сценарии.</p>
+                  <a href="https://sites.alexend-bot.ru/4" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+                </div>
+              </div>
+              <div class="project-card__back">
+                <span>04 / AERIS</span>
+                <h3>Что внутри</h3>
+                <ul class="tech-tags">
+                  <li>Slider резиденций</li>
+                  <li>Blueprint-графика</li>
+                  <li>Модальные сценарии</li>
+                </ul>
+                <div class="back-metric">
+                  <strong>5</strong>
+                  <small>резиденций в слайдере</small>
+                </div>
+                <a href="https://sites.alexend-bot.ru/4" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card project-card--food reveal tilt-card" style="--shift: -5deg">
+            <div class="project-card__inner">
+              <div class="project-card__front">
+                <div class="project-card__media">
+                  <img src="assets/portfolio/mesto-restaurant-liniya.webp" alt="Место ресторанный сервис" />
+                  <div class="project-card__badge">food tech</div>
+                  <svg class="card-orbit card-orbit--pink" viewBox="0 0 100 100" aria-hidden="true">
+                    <g>
+                      <circle r="15" />
+                      <text>GO</text>
+                      <animateMotion dur="8.5s" repeatCount="indefinite" rotate="0" path="M50 12 A 38 38 0 1 1 49.99 12" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="project-card__body">
+                  <span>05 / Место</span>
+                  <h3>Сервис выбора ресторанов через свайпы</h3>
+                  <p>Яркая consumer-эстетика, телефон в hero, бесконечные карточки, свайп-механика и живые отзывы.</p>
+                  <a href="https://sites.alexend-bot.ru/5" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+                </div>
+              </div>
+              <div class="project-card__back">
+                <span>05 / Место</span>
+                <h3>Что внутри</h3>
+                <ul class="tech-tags">
+                  <li>Свайп-механика</li>
+                  <li>Бесконечные карточки</li>
+                  <li>Живые отзывы</li>
+                </ul>
+                <div class="back-metric">
+                  <strong>∞</strong>
+                  <small>лента рекомендаций</small>
+                </div>
+                <a href="https://sites.alexend-bot.ru/5" target="_blank" rel="noreferrer">Открыть сайт ↗</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="marquee marquee--two" aria-hidden="true">
+        <div class="marquee__track marquee__track--reverse">
+          <span>React · WebGL · Canvas · 3D · CRM · AI · UX/UI · Motion · Автоматизация · </span>
+          <span>React · WebGL · Canvas · 3D · CRM · AI · UX/UI · Motion · Автоматизация · </span>
+        </div>
+      </div>
+
+      <section class="motion section" id="motion">
+        <div class="motion__text">
+          <span class="section-kicker reveal">Анимационная система</span>
+          <h2 class="reveal">Не просто «появления», а ощущение управляемого пространства.</h2>
+          <p class="reveal">
+            В первом варианте уже есть магнитные элементы, световые траектории,
+            орбитальные карточки, canvas-частицы, счётчики, scroll-reveal,
+            3D-наклоны и бегущие инфографические ленты.
+          </p>
+        </div>
+        <div class="motion-board reveal">
+          <div class="signal signal--one"></div>
+          <div class="signal signal--two"></div>
+          <div class="signal signal--three"></div>
+          <div class="board-card board-card--main">
+            <span>motion index</span>
+            <strong><b data-count="94">0</b>%</strong>
+            <div class="wave-bars" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </div>
+          <div class="board-card board-card--small">
+            <span>orbit path</span>
+            <strong>∞</strong>
+          </div>
+          <div class="board-card board-card--wide">
+            <span>scroll depth</span>
+            <div class="depth-line"><i></i></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="process section" id="process">
+        <div class="process-map" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="section-head section-head--center">
+          <span class="section-kicker reveal">Как показывать заказчику</span>
+          <h2 class="reveal">Сайт работает как презентация: сначала вау-сцена, потом быстрый выбор нужного кейса.</h2>
+        </div>
+        <svg class="steps-path" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+          <path id="stepsLine" class="steps-path__line" d="M40 130 C 260 30, 480 210, 760 90 S 1040 30, 1160 110" />
+          <g class="dot-travel">
+            <circle r="7" />
+            <animateMotion dur="7s" repeatCount="indefinite"><mpath href="#stepsLine" /></animateMotion>
+          </g>
+          <g class="dot-travel dot-travel--b">
+            <circle r="5" />
+            <animateMotion dur="7s" begin="-3.5s" repeatCount="indefinite"><mpath href="#stepsLine" /></animateMotion>
+          </g>
+        </svg>
+        <div class="steps">
+          <article class="step reveal">
+            <span>01</span>
+            <h3>Зацепить первым экраном</h3>
+            <p>Кинематографичная сцена с орбитой проектов показывает, что это не шаблонная подборка ссылок.</p>
+          </article>
+          <article class="step reveal">
+            <span>02</span>
+            <h3>Дать понятный обзор</h3>
+            <p>Каждая карточка объясняет нишу, визуальный подход и сильную часть реализации.</p>
+          </article>
+          <article class="step reveal">
+            <span>03</span>
+            <h3>Быстро открыть демо</h3>
+            <p>Все проекты ведут на публичные адреса, поэтому заказчик сразу переходит к живому сайту.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="contact__panel reveal">
+          <div class="testimonial-arc" data-testimonial-arc>
+            <div class="testimonial-arc__visual">
+              <span class="arc-rail"></span>
+              <article class="arc-review is-active" data-review-card>
+                <span>01</span>
+                <p>«Сразу видно не шаблон: первый экран цепляет, а дальше понятно, что за проект и зачем он нужен.»</p>
+                <strong>лендинг / презентация</strong>
+              </article>
+              <article class="arc-review" data-review-card>
+                <span>02</span>
+                <p>«Анимации не ради шума. Они помогают вести внимание и делают сайт дороже без потери смысла.»</p>
+                <strong>motion / интерфейс</strong>
+              </article>
+              <article class="arc-review" data-review-card>
+                <span>03</span>
+                <p>«Понравилось, что дизайн, код и бизнес-логика собраны в один процесс, без разрыва между идеей и запуском.»</p>
+                <strong>автоматизация / запуск</strong>
+              </article>
+            </div>
+            <div class="testimonial-arc__content">
+              <span class="section-kicker">Отзывы по дуге</span>
+              <h2>Не просто “красиво”. Сайт должен вести внимание, объяснять ценность и оставлять ощущение уровня.</h2>
+              <div class="testimonial-arc__controls" aria-label="Переключение отзывов">
+                <button type="button" data-review-prev aria-label="Предыдущий отзыв">←</button>
+                <div><b data-review-current>01</b><span>/ 03</span></div>
+                <button type="button" data-review-next aria-label="Следующий отзыв">→</button>
+              </div>
+            </div>
+          </div>
+          <div class="contact-telegram">
+            <div>
+              <span>Связаться</span>
+              <strong>Обсудим сайт, автоматизацию или презентационный лендинг в Telegram.</strong>
+            </div>
+            <a class="button button--primary magnetic" href="https://t.me/leostyle_fe" target="_blank" rel="noreferrer">Написать @leostyle_fe ↗</a>
+            <a class="button button--ghost magnetic" href="#top">Вернуться наверх</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

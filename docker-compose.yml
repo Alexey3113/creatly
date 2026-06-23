@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-sitebuilder}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-sitebuilder_pass}
+      POSTGRES_DB: ${DB_NAME:-sitebuilder}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-sitebuilder}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-sitebuilder}:${DB_PASSWORD:-sitebuilder_pass}@db:5432/${DB_NAME:-sitebuilder}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.5}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      NEXT_PUBLIC_TELEGRAM_BOT_USERNAME: ${NEXT_PUBLIC_TELEGRAM_BOT_USERNAME}
+      SESSION_SECRET: ${SESSION_SECRET}
+      VDS_HOST: ${VDS_HOST}
+      VDS_PORT: ${VDS_PORT:-22}
+      VDS_USER: ${VDS_USER}
+      VDS_PASSWORD: ${VDS_PASSWORD}
+      VDS_DOMAIN: ${VDS_DOMAIN:-sites.alexend-bot.ru}
+      VDS_SITES_ROOT: ${VDS_SITES_ROOT:-/var/www/sites.alexend-bot.ru}
+    ports:
+      - "127.0.0.1:3000:3000"
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - sites_data:/var/www/sites
+      - ./nginx/certs:/etc/nginx/certs:ro
+    # For SSL, mount certbot certs or use acme.sh
+
+volumes:
+  pgdata:
+  sites_data:

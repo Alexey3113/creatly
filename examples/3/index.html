@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FORMA — коллекция современной недвижимости и инвестиционных объектов."
+    />
+    <title>FORMA — недвижимость новой формы</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="assets/images/hero-residence.webp"
+      imagesrcset="assets/images/hero-residence-1200.webp 1200w, assets/images/hero-residence.webp 2200w"
+      imagesizes="100vw"
+      as="image"
+      type="image/webp"
+      fetchpriority="high"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="cursor" aria-hidden="true"><span>Смотреть</span></div>
+
+    <div class="preloader" aria-hidden="true">
+      <div class="preloader__brand">FORMA</div>
+      <div class="preloader__line"><span></span></div>
+      <div class="preloader__counter">00</div>
+    </div>
+
+    <header class="header" data-block="header">
+      <a class="logo magnetic" href="#top" aria-label="FORMA, на главную">
+        <svg viewBox="0 0 42 42" aria-hidden="true">
+          <path d="M3 3h36v36H3zM11 11h20v20H11z" />
+        </svg>
+        <span>FOR<br />MA</span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#catalog">Объекты</a>
+        <a href="#services">Подход</a>
+        <a href="#invest">Инвестиции</a>
+        <a href="#about">О компании</a>
+      </nav>
+      <div class="header__actions">
+        <a class="header__phone" href="tel:+74951234567">+7 495 123-45-67</a>
+        <button class="menu-button magnetic" type="button" aria-label="Открыть меню">
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" data-block="hero">
+        <div class="hero__backdrop" data-depth="-0.05">
+          <!-- Для коммерческого запуска заменить на авторскую архитектурную съемку или короткое 4K-видео. -->
+          <img
+            src="assets/images/hero-residence.webp"
+            srcset="
+              assets/images/hero-residence-1200.webp 1200w,
+              assets/images/hero-residence.webp      2200w
+            "
+            sizes="100vw"
+            alt="Современная вилла с панорамным остеклением"
+            width="2200"
+            height="1496"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+        <div class="hero__veil" aria-hidden="true"></div>
+        <div class="hero__grid" aria-hidden="true"></div>
+        <div class="hero__glow" aria-hidden="true"></div>
+
+        <div class="hero__stage container">
+          <div class="hero__kicker hero-sequence">
+            <span class="live-dot"></span>
+            <span>Частная коллекция · 2026</span>
+          </div>
+
+          <div class="hero__heading">
+            <p class="hero__overline hero-sequence" data-field="eyebrow">Архитектура для жизни</p>
+            <h1 aria-label="Новая форма вашего пространства" data-field="title">
+              <span class="hero__word"><span>Новая форма</span></span>
+              <span class="hero__word hero__word--offset"><span>вашего пространства</span></span>
+            </h1>
+            <div class="hero__heading-bottom hero-sequence">
+              <p>
+                Находим редкие объекты, проверяем каждую деталь и собираем
+                сделку вокруг вашего сценария жизни.
+              </p>
+              <a class="hero__action magnetic" href="#catalog" data-field="primaryAction">
+                <span>Смотреть коллекцию</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M14 7l5 5-5 5" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="hero-deck" aria-label="Избранные объекты">
+            <article class="hero-card hero-card--back" data-depth="0.52">
+              <img
+                src="assets/images/north-forest-560.webp"
+                alt=""
+                width="560"
+                height="373"
+                loading="lazy"
+                decoding="async"
+              />
+              <span>Северный лес</span>
+            </article>
+            <article class="hero-card hero-card--middle" data-depth="0.78">
+              <img
+                src="assets/images/sea-horizon-560.webp"
+                alt=""
+                width="560"
+                height="373"
+                loading="lazy"
+                decoding="async"
+              />
+              <span>Морской горизонт</span>
+            </article>
+            <article class="hero-card hero-card--front media-hover" data-depth="1">
+              <div class="hero-card__image">
+                <img
+                  src="assets/images/riverside-720.webp"
+                  alt="Резиденция Риверсайд"
+                  width="720"
+                  height="604"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="hero-card__number">01 / 24</span>
+                <span class="hero-card__status"><i></i> Доступен</span>
+              </div>
+              <div class="hero-card__body">
+                <div>
+                  <small>Резиденция</small>
+                  <strong>Риверсайд</strong>
+                </div>
+                <div class="hero-card__facts">
+                  <span>620 м²</span>
+                  <span>5 спален</span>
+                  <span>14 км</span>
+                </div>
+                <span class="hero-card__arrow">↗</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="hero-data hero-data--demand" data-depth="0.35">
+            <div class="hero-data__head">
+              <span>Индекс спроса</span>
+              <strong>+18.4%</strong>
+            </div>
+            <svg viewBox="0 0 220 62" preserveAspectRatio="none" aria-hidden="true">
+              <path class="hero-data__area" d="M0 56 C26 50 34 34 58 39 S91 47 111 27 S145 36 164 17 S196 20 220 4 L220 62 L0 62Z" />
+              <path class="hero-data__line" d="M0 56 C26 50 34 34 58 39 S91 47 111 27 S145 36 164 17 S196 20 220 4" />
+            </svg>
+            <div class="hero-data__scale"><span>Янв</span><span>Июн</span><span>Дек</span></div>
+          </div>
+
+          <div class="hero-data hero-data--location" data-depth="0.6">
+            <span class="hero-data__pin">⌖</span>
+            <div>
+              <small>Локация</small>
+              <strong>Новая Москва</strong>
+            </div>
+            <span class="hero-data__distance">24 мин<br /><small>до центра</small></span>
+          </div>
+
+          <div class="hero__index hero-sequence">
+            <span>FORMA / ESTATE</span>
+            <span>55°45′21″ N</span>
+          </div>
+
+          <a class="hero__scroll" href="#catalog">
+            <span>Исследовать</span>
+            <i><b></b></i>
+          </a>
+        </div>
+
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee__track">
+            <span>Москва</span><i></i><span>Санкт-Петербург</span><i></i>
+            <span>Сочи</span><i></i><span>Дубай</span><i></i>
+            <span>Москва</span><i></i><span>Санкт-Петербург</span><i></i>
+            <span>Сочи</span><i></i><span>Дубай</span><i></i>
+          </div>
+        </div>
+      </section>
+
+      <section class="finder section" id="catalog" data-block="catalog">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow reveal">Точный поиск</p>
+              <h2 class="split-heading" data-field="title">
+                Дом, который<br /><em>совпадает с вами</em>
+              </h2>
+            </div>
+            <p class="section-copy reveal">
+              От камерной квартиры в центре до резиденции у воды. Только
+              проверенные проекты с понятной историей и сильной архитектурой.
+            </p>
+          </div>
+
+          <form class="filter-panel reveal" action="#" onsubmit="return false">
+            <div class="filter-tabs" role="tablist">
+              <button class="active" type="button">Купить</button>
+              <button type="button">Арендовать</button>
+              <button type="button">Новостройки</button>
+              <button type="button">Инвестиции</button>
+            </div>
+            <div class="filter-fields">
+              <label>
+                <span>Город</span>
+                <select>
+                  <option>Москва</option>
+                  <option>Санкт-Петербург</option>
+                  <option>Сочи</option>
+                  <option>Дубай</option>
+                </select>
+              </label>
+              <label>
+                <span>Тип объекта</span>
+                <select>
+                  <option>Любой</option>
+                  <option>Квартира</option>
+                  <option>Пентхаус</option>
+                  <option>Вилла</option>
+                </select>
+              </label>
+              <label>
+                <span>Бюджет</span>
+                <select>
+                  <option>до 100 млн ₽</option>
+                  <option>100–250 млн ₽</option>
+                  <option>от 250 млн ₽</option>
+                </select>
+              </label>
+              <button class="button button--dark magnetic" type="submit">
+                <span>Показать 42 объекта</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M14 7l5 5-5 5" />
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <div class="catalog-head">
+            <h3>Избранная коллекция</h3>
+            <div class="catalog-nav">
+              <button class="slider-prev magnetic" type="button" aria-label="Назад">←</button>
+              <span><b>01</b> / 04</span>
+              <button class="slider-next magnetic" type="button" aria-label="Вперед">→</button>
+            </div>
+          </div>
+
+          <div class="property-slider">
+            <article class="property-card media-hover">
+              <div class="property-card__image">
+                <!-- Заменить на профессиональную съемку конкретного объекта. -->
+                <img
+                  src="assets/images/riverside.webp"
+                  alt="Загородная резиденция Риверсайд"
+                  width="1400"
+                  height="1174"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="property-card__tag">Премьера</span>
+                <button type="button" aria-label="Добавить в избранное">♡</button>
+              </div>
+              <div class="property-card__body">
+                <p>Московская область · 14 км</p>
+                <h4>Риверсайд</h4>
+                <div class="property-card__meta">
+                  <span>620 м²</span><span>5 спален</span><span>2025</span>
+                </div>
+                <div class="property-card__price">от 184 млн ₽</div>
+              </div>
+            </article>
+
+            <article class="property-card media-hover">
+              <div class="property-card__image">
+                <!-- Заменить на профессиональную съемку конкретного объекта. -->
+                <img
+                  src="assets/images/arbat.webp"
+                  alt="Современный пентхаус Арбат 28"
+                  width="1400"
+                  height="933"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="property-card__tag">В центре</span>
+                <button type="button" aria-label="Добавить в избранное">♡</button>
+              </div>
+              <div class="property-card__body">
+                <p>Москва · Арбат</p>
+                <h4>Арбат 28</h4>
+                <div class="property-card__meta">
+                  <span>248 м²</span><span>3 спальни</span><span>Терраса</span>
+                </div>
+                <div class="property-card__price">от 310 млн ₽</div>
+              </div>
+            </article>
+
+            <article class="property-card media-hover">
+              <div class="property-card__image">
+                <!-- Заменить на профессиональную съемку конкретного объекта. -->
+                <img
+                  src="assets/images/sea-horizon.webp"
+                  alt="Вилла на побережье Черного моря"
+                  width="1400"
+                  height="933"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="property-card__tag">У моря</span>
+                <button type="button" aria-label="Добавить в избранное">♡</button>
+              </div>
+              <div class="property-card__body">
+                <p>Сочи · Хоста</p>
+                <h4>Морской горизонт</h4>
+                <div class="property-card__meta">
+                  <span>480 м²</span><span>4 спальни</span><span>Бассейн</span>
+                </div>
+                <div class="property-card__price">от 225 млн ₽</div>
+              </div>
+            </article>
+
+            <article class="property-card media-hover">
+              <div class="property-card__image">
+                <img
+                  src="assets/images/north-forest.webp"
+                  alt="Вилла среди сосен"
+                  width="1400"
+                  height="933"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="property-card__tag">Приватно</span>
+                <button type="button" aria-label="Добавить в избранное">♡</button>
+              </div>
+              <div class="property-card__body">
+                <p>Санкт-Петербург · Курортный район</p>
+                <h4>Северный лес</h4>
+                <div class="property-card__meta">
+                  <span>540 м²</span><span>5 спален</span><span>Спа</span>
+                </div>
+                <div class="property-card__price">от 270 млн ₽</div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="manifesto" data-block="manifesto">
+        <div class="manifesto__sticky">
+          <div class="manifesto__image">
+            <!-- Нужен авторский атмосферный видеоролик или серия интерьерных кадров. -->
+            <img
+              src="assets/images/interior.webp"
+              alt="Интерьер современной резиденции"
+              width="2000"
+              height="1500"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="manifesto__content container">
+            <p class="eyebrow">Больше, чем метры</p>
+            <p class="manifesto__quote" data-field="title">
+              Мы находим не просто недвижимость.
+              <span>Мы находим вашу следующую главу.</span>
+            </p>
+            <a class="text-link" href="#about">Узнать о нашем подходе <i>↗</i></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="services section" id="services" data-block="services">
+        <div class="container">
+          <div class="section-heading section-heading--wide">
+            <div>
+              <p class="eyebrow reveal">Сервис 360°</p>
+              <h2 class="split-heading" data-field="title">
+                Берем на себя<br /><em>весь путь к сделке</em>
+              </h2>
+            </div>
+            <div class="services__intro reveal">
+              <p>
+                Один персональный консультант и команда экспертов: от первого
+                запроса до ключей и дальнейшего управления активом.
+              </p>
+              <span>Средний срок подбора — 18 дней</span>
+            </div>
+          </div>
+
+          <div class="service-list">
+            <article class="service-item">
+              <span class="service-item__number">01</span>
+              <h3>Точный подбор</h3>
+              <p>
+                Составляем персональную карту приоритетов и показываем только
+                релевантные объекты.
+              </p>
+              <div class="service-item__visual service-item__visual--map">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <button class="service-item__button magnetic" type="button">↗</button>
+            </article>
+            <article class="service-item">
+              <span class="service-item__number">02</span>
+              <h3>Экспертиза</h3>
+              <p>
+                Проверяем документы, качество строительства, окружение и
+                ликвидность каждого предложения.
+              </p>
+              <div class="service-item__visual service-item__visual--rings">
+                <i></i><i></i><i></i>
+              </div>
+              <button class="service-item__button magnetic" type="button">↗</button>
+            </article>
+            <article class="service-item">
+              <span class="service-item__number">03</span>
+              <h3>Сделка под ключ</h3>
+              <p>
+                Организуем переговоры, юридическое сопровождение, расчеты и
+                передачу объекта.
+              </p>
+              <div class="service-item__visual service-item__visual--bars">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <button class="service-item__button magnetic" type="button">↗</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="investment section" id="invest" data-block="investment">
+        <div class="container investment__grid">
+          <div class="investment__copy">
+            <p class="eyebrow reveal">Инвестиционный потенциал</p>
+            <h2 class="split-heading" data-field="title">
+              Недвижимость,<br /><em>которая работает</em>
+            </h2>
+            <p class="reveal">
+              Формируем понятную модель доходности и показываем прогноз на
+              горизонте пяти лет без скрытых допущений.
+            </p>
+            <div class="investment__facts">
+              <div><strong class="counter" data-target="12.8">0</strong><small>%</small><span>средняя доходность</span></div>
+              <div><strong class="counter" data-target="93">0</strong><small>%</small><span>объектов растут в цене</span></div>
+            </div>
+          </div>
+
+          <div class="calculator reveal">
+            <div class="calculator__head">
+              <span>Прогноз капитала</span>
+              <span>5 лет</span>
+            </div>
+            <div class="calculator__value">
+              <small>Стоимость объекта</small>
+              <strong><span id="propertyValue">80</span> млн ₽</strong>
+            </div>
+            <input id="priceRange" type="range" min="30" max="250" value="80" step="5" />
+            <div class="chart" aria-label="График прогнозируемого роста">
+              <div class="chart__labels"><span>2026</span><span>2027</span><span>2028</span><span>2029</span><span>2030</span></div>
+              <svg viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#d9ff43" stop-opacity=".45" />
+                    <stop offset="100%" stop-color="#d9ff43" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path class="chart__area" d="M0 190 C90 180 105 145 180 150 S280 110 350 118 S470 55 600 34 L600 220 L0 220Z" />
+                <path class="chart__line" d="M0 190 C90 180 105 145 180 150 S280 110 350 118 S470 55 600 34" />
+              </svg>
+              <span class="chart__dot"></span>
+            </div>
+            <div class="calculator__result">
+              <div><span>Прогноз стоимости</span><strong id="futureValue">145,2 млн ₽</strong></div>
+              <div><span>Прирост капитала</span><strong id="growthValue">+65,2 млн ₽</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about section" id="about" data-block="about">
+        <div class="container">
+          <div class="about__top">
+            <p class="eyebrow reveal">FORMA в цифрах</p>
+            <p class="about__lead split-heading">
+              Соединяем людей с выдающимися пространствами
+              <em>с 2012 года.</em>
+            </p>
+          </div>
+          <div class="about__stats">
+            <div><strong class="counter" data-target="640">0</strong><span>успешных сделок</span></div>
+            <div><strong class="counter" data-target="28">0</strong><small>млрд ₽</small><span>в управлении</span></div>
+            <div><strong class="counter" data-target="17">0</strong><span>городов присутствия</span></div>
+            <div><strong class="counter" data-target="9.6">0</strong><small>/ 10</small><span>индекс рекомендации</span></div>
+          </div>
+          <div class="about__media media-hover">
+            <!-- Для финальной версии провести постановочную съемку команды в офисе. -->
+            <img
+              src="assets/images/office.webp"
+              alt="Современный офис команды FORMA"
+              width="2000"
+              height="1335"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="about__caption">
+              <span>Команда FORMA</span>
+              <span>Москва · 2026</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta" data-block="cta">
+        <div class="cta__shape cta__shape--one"></div>
+        <div class="cta__shape cta__shape--two"></div>
+        <div class="container">
+          <p class="eyebrow reveal">Начнем с разговора</p>
+          <h2 data-field="title">
+            <span class="title-line"><span>Найдём место,</span></span>
+            <span class="title-line title-line--indent"><span>которое ваше</span></span>
+          </h2>
+          <div class="cta__bottom">
+            <p>
+              Расскажите, что для вас важно. Мы вернемся с первой подборкой
+              в течение 24 часов.
+            </p>
+            <a class="round-link round-link--large magnetic" href="mailto:hello@forma.estate">
+              <span>Обсудить задачу</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M14 7l5 5-5 5" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" data-block="footer">
+      <div class="container">
+        <div class="footer__main">
+          <a class="logo logo--footer" href="#top">
+            <svg viewBox="0 0 42 42" aria-hidden="true"><path d="M3 3h36v36H3zM11 11h20v20H11z" /></svg>
+            <span>FOR<br />MA</span>
+          </a>
+          <div class="footer__contact">
+            <p>Офис продаж</p>
+            <a href="tel:+74951234567">+7 495 123-45-67</a>
+            <a href="mailto:hello@forma.estate">hello@forma.estate</a>
+          </div>
+          <div class="footer__address">
+            <p>Москва</p>
+            <span>Большая Никитская, 12</span>
+            <span>Ежедневно, 09:00–21:00</span>
+          </div>
+          <div class="footer__social">
+            <a href="#">Telegram ↗</a>
+            <a href="#">VKontakte ↗</a>
+            <a href="#">YouTube ↗</a>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <span>© 2026 FORMA Estate</span>
+          <a href="#">Политика конфиденциальности</a>
+          <span>Сделано с вниманием к форме</span>
+        </div>
+      </div>
+    </footer>
+
+    <div class="mobile-menu" aria-hidden="true">
+      <button class="mobile-menu__close" type="button" aria-label="Закрыть меню">×</button>
+      <a href="#catalog">Объекты</a>
+      <a href="#services">Подход</a>
+      <a href="#invest">Инвестиции</a>
+      <a href="#about">О компании</a>
+      <a href="tel:+74951234567">+7 495 123-45-67</a>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

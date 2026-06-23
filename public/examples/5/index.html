@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Место — сервис для выбора ресторанов и бронирования столиков через свайпы.">
+  <title>Место — ресторан найдётся сам</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/images/restaurant-sever.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header" data-block="header">
+    <a class="logo" href="#top" aria-label="Место, на главную">
+      <span class="logo-mark">м</span>
+      <span>место</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Основная навигация">
+      <a href="#discover">Как это работает</a>
+      <a href="#places">Заведения</a>
+      <a href="#reviews">Отзывы</a>
+    </nav>
+    <button class="header-cta" data-scroll-to="discover">
+      Найти столик
+      <span>↗</span>
+    </button>
+  </header>
+
+  <main id="top">
+    <section class="hero" data-block="hero">
+      <div class="hero-orbit orbit-one" aria-hidden="true">
+        <span class="mini-photo mini-1"></span>
+        <span class="orbit-icon">✦</span>
+      </div>
+      <div class="hero-orbit orbit-two" aria-hidden="true">
+        <span class="orbit-icon">♥</span>
+        <span class="mini-photo mini-2"></span>
+      </div>
+
+      <div class="eyebrow reveal" data-field="eyebrow">
+        <span class="pulse"></span>
+        247 столиков доступны сегодня
+      </div>
+      <h1 class="hero-title reveal" data-field="title">
+        Ресторан<br>
+        <span class="title-accent">найдётся сам.</span>
+      </h1>
+      <p class="hero-copy reveal" data-field="subtitle">
+        Свайпай места по настроению, выбирай время<br class="desktop-only">
+        и бронируй столик за пару касаний.
+      </p>
+      <div class="hero-actions reveal">
+        <button class="primary-button" data-scroll-to="discover" data-field="primaryAction">
+          Начать выбирать
+          <span class="button-arrow">→</span>
+        </button>
+        <button class="play-button" data-scroll-to="how">
+          <span class="play-icon">▶</span>
+          Как это работает
+        </button>
+      </div>
+
+      <div class="hero-stage reveal" aria-label="Пример карточек ресторанов">
+        <div class="hero-card-stream stream-left" aria-hidden="true">
+          <div class="stream-track">
+            <article class="stream-card stream-photo photo-breakfast">
+              <span>завтрак</span><strong>Тепло</strong><small>4.8 • 850 м</small>
+            </article>
+            <article class="stream-card stream-pick">
+              <i>♥</i><strong>93% мэтч</strong><small>уютный вечер</small>
+            </article>
+            <article class="stream-card stream-photo photo-date">
+              <span>для свидания</span><strong>Север</strong><small>вид на город</small>
+            </article>
+            <article class="stream-card stream-note">
+              <span>свободно сегодня</span><strong>19:30</strong><small>столик у окна</small>
+            </article>
+            <article class="stream-card stream-photo photo-breakfast">
+              <span>завтрак</span><strong>Тепло</strong><small>4.8 • 850 м</small>
+            </article>
+            <article class="stream-card stream-pick">
+              <i>♥</i><strong>93% мэтч</strong><small>уютный вечер</small>
+            </article>
+            <article class="stream-card stream-photo photo-date">
+              <span>для свидания</span><strong>Север</strong><small>вид на город</small>
+            </article>
+            <article class="stream-card stream-note">
+              <span>свободно сегодня</span><strong>19:30</strong><small>столик у окна</small>
+            </article>
+          </div>
+        </div>
+        <div class="hero-card-stream stream-right" aria-hidden="true">
+          <div class="stream-track">
+            <article class="stream-card stream-photo photo-party">
+              <span>вечеринка</span><strong>Точка</strong><small>DJ-сет с 22:00</small>
+            </article>
+            <article class="stream-card stream-people">
+              <div class="tiny-avatars"><span></span><span></span><span></span></div>
+              <strong>12 друзей</strong><small>уже выбрали место</small>
+            </article>
+            <article class="stream-card stream-photo photo-dinner">
+              <span>особый повод</span><strong>Линия</strong><small>chef's table</small>
+            </article>
+            <article class="stream-card stream-rating">
+              <i>★ 4.9</i><strong>Выбор гостей</strong><small>за эту неделю</small>
+            </article>
+            <article class="stream-card stream-photo photo-party">
+              <span>вечеринка</span><strong>Точка</strong><small>DJ-сет с 22:00</small>
+            </article>
+            <article class="stream-card stream-people">
+              <div class="tiny-avatars"><span></span><span></span><span></span></div>
+              <strong>12 друзей</strong><small>уже выбрали место</small>
+            </article>
+            <article class="stream-card stream-photo photo-dinner">
+              <span>особый повод</span><strong>Линия</strong><small>chef's table</small>
+            </article>
+            <article class="stream-card stream-rating">
+              <i>★ 4.9</i><strong>Выбор гостей</strong><small>за эту неделю</small>
+            </article>
+          </div>
+        </div>
+        <article class="float-card float-card-left">
+          <span class="float-label">рядом с вами</span>
+          <strong>12 мест</strong>
+          <span>в пределах 2 км</span>
+        </article>
+        <div class="hero-phone">
+          <div class="phone-top">
+            <span>9:41</span>
+            <span>● ● ▰</span>
+          </div>
+          <div class="phone-brand">
+            <span class="logo-mark small">м</span>
+            <strong>вечер вдвоём</strong>
+            <button aria-label="Фильтры">⌁</button>
+          </div>
+          <div class="phone-card">
+            <img src="assets/images/restaurant-sever.webp" alt="Интерьер ресторана Север" width="1400" height="933" fetchpriority="high" decoding="async">
+            <div class="phone-card-gradient"></div>
+            <div class="phone-card-content">
+              <div class="badge-row">
+                <span>Итальянская</span>
+                <span>₽₽₽</span>
+              </div>
+              <h3>Север</h3>
+              <p>Панорамный ресторан • 1,2 км</p>
+            </div>
+          </div>
+          <div class="phone-actions" aria-hidden="true">
+            <span class="phone-action dislike">×</span>
+            <span class="phone-action info">i</span>
+            <span class="phone-action like">♥</span>
+          </div>
+        </div>
+        <article class="float-card float-card-right">
+          <span class="rating">4.9</span>
+          <div class="tiny-avatars">
+            <span></span><span></span><span></span>
+          </div>
+          <strong>93% мэтч</strong>
+          <span>вам точно понравится</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="marquee" aria-label="Преимущества" data-block="marquee">
+      <div class="marquee-track">
+        <span>БЕЗ ЗВОНКОВ</span><i>✦</i>
+        <span>ЖИВЫЕ МЕСТА</span><i>✦</i>
+        <span>БРОНЬ ЗА 30 СЕКУНД</span><i>✦</i>
+        <span>БЕЗ ЗВОНКОВ</span><i>✦</i>
+        <span>ЖИВЫЕ МЕСТА</span><i>✦</i>
+        <span>БРОНЬ ЗА 30 СЕКУНД</span><i>✦</i>
+      </div>
+    </section>
+
+    <section class="discover section-dark" id="discover" data-block="discover">
+      <div class="section-heading reveal">
+        <span class="section-number">01</span>
+        <div>
+          <p class="kicker">ЗНАКОМСТВО СО ВКУСОМ</p>
+          <h2 data-field="title">Один свайп.<br><em>И это мэтч.</em></h2>
+        </div>
+        <p class="heading-note">Мы собрали места, которые подходят именно вам. Потяните карточку или используйте кнопки.</p>
+      </div>
+
+      <div class="swipe-experience">
+        <aside class="taste-panel reveal">
+          <p class="panel-label">ВАШЕ НАСТРОЕНИЕ</p>
+          <h3>Сегодня хочется...</h3>
+          <div class="taste-list">
+            <button class="taste active" data-filter="all"><span>✨</span> Что-то особенное</button>
+            <button class="taste" data-filter="cozy"><span>🕯</span> Уютный вечер</button>
+            <button class="taste" data-filter="loud"><span>♫</span> Шумно и весело</button>
+            <button class="taste" data-filter="view"><span>◒</span> Красивый вид</button>
+          </div>
+          <div class="match-stat">
+            <span>Точность подбора</span>
+            <strong id="matchStat">93%</strong>
+            <div><i></i></div>
+          </div>
+        </aside>
+
+        <div class="deck-wrap reveal">
+          <div class="swipe-hint" aria-label="Потяните карточку влево, чтобы пропустить, или вправо, чтобы выбрать">
+            <span class="hint-choice hint-reject"><i>←</i> пропустить</span>
+            <span class="hint-gesture"><i></i><strong>Тяните карточку</strong></span>
+            <span class="hint-choice hint-accept">выбрать <i>→</i></span>
+          </div>
+          <div class="card-deck" id="cardDeck" aria-live="polite"></div>
+          <div class="deck-actions">
+            <button class="deck-button reject" id="rejectButton" aria-label="Пропустить ресторан">×</button>
+            <button class="deck-button details" id="detailsButton" aria-label="Подробнее о ресторане">i</button>
+            <button class="deck-button accept" id="acceptButton" aria-label="Выбрать ресторан">♥</button>
+          </div>
+        </div>
+
+        <aside class="live-panel reveal">
+          <div class="live-head">
+            <span class="live-dot"></span>
+            <span>СЕЙЧАС В МЕСТЕ</span>
+          </div>
+          <div class="live-avatars">
+            <span class="live-avatar avatar-a"></span>
+            <span class="live-avatar avatar-b"></span>
+            <span class="live-avatar avatar-c"></span>
+            <span class="live-avatar more">+8</span>
+          </div>
+          <p><strong>11 человек</strong> смотрят эти же места прямо сейчас</p>
+          <div class="activity">
+            <span class="activity-icon">♥</span>
+            <p><strong>Аня выбрала «Север»</strong><br>2 минуты назад</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="how" id="how" data-block="how-it-works">
+      <div class="section-heading light reveal">
+        <span class="section-number">02</span>
+        <div>
+          <p class="kicker">НИКАКОЙ МАГИИ. ПОЧТИ.</p>
+          <h2 data-field="title">От настроения<br><em>до столика.</em></h2>
+        </div>
+      </div>
+      <div class="steps">
+        <article class="step-card reveal">
+          <div class="step-visual mood-visual">
+            <span class="mood-ring ring-one"></span>
+            <span class="mood-ring ring-two"></span>
+            <span class="mood-chip mood-a">уютно</span>
+            <span class="mood-chip mood-b">вид</span>
+            <span class="mood-chip mood-c">вдвоём</span>
+            <span class="mood-core">01</span>
+          </div>
+          <span class="step-index">01 / НАСТРОЕНИЕ</span>
+          <h3>Скажите, как хотите провести вечер</h3>
+          <p>Пара касаний, и мы понимаем ваш вайб, кухню и бюджет.</p>
+        </article>
+        <article class="step-card featured reveal">
+          <div class="step-visual swipe-visual">
+            <div class="auto-swipe-card swipe-card-a"><span>НЕ СЕЙЧАС</span></div>
+            <div class="auto-swipe-card swipe-card-b"><span>МЭТЧ</span></div>
+            <div class="auto-swipe-card swipe-card-c"><span>СМОТРИМ</span></div>
+            <div class="swipe-direction"><i>×</i><span>автовыбор</span><b>♥</b></div>
+          </div>
+          <span class="step-index">02 / СВАЙП</span>
+          <h3>Выбирайте сердцем, как в дейтинге</h3>
+          <p>Нравится — вправо. Не сегодня — влево. Всё просто.</p>
+        </article>
+        <article class="step-card reveal">
+          <div class="step-visual calendar-visual">
+            <div class="calendar-top"><span>Сегодня</span><strong>19:30</strong></div>
+            <div class="calendar-slots"><i></i><i class="selected"></i><i></i><i></i></div>
+            <span class="calendar-check">✓</span>
+            <span class="booking-pop">Столик ваш</span>
+          </div>
+          <span class="step-index">03 / БРОНЬ</span>
+          <h3>Выберите время — столик уже ваш</h3>
+          <p>Подтверждение приходит сразу. Без звонков и ожидания.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="places section-dark" id="places" data-block="places">
+      <div class="places-head reveal">
+        <div>
+          <p class="kicker">МЕСТА, В КОТОРЫЕ ВЛЮБЛЯЮТСЯ</p>
+          <h2 data-field="title">Не просто поесть.<br><em>Почувствовать.</em></h2>
+        </div>
+        <div class="city-pill">
+          <span>Ваш город</span>
+          <strong>Москва⌄</strong>
+        </div>
+      </div>
+      <div class="place-carousel reveal" id="placeCarousel">
+        <div class="carousel-rainbow" aria-hidden="true">
+          <i></i><i></i><i></i><i></i>
+        </div>
+        <div class="place-arc" id="placeArc" aria-live="polite"></div>
+        <div class="place-caption">
+          <span class="place-counter"><b id="placeCurrent">01</b> / 05</span>
+          <div>
+            <p id="placeType">Авторская кухня • ₽₽₽</p>
+            <h3 id="placeName">Культура</h3>
+            <span id="placeAddress">Большая Никитская, 24 • 4.9</span>
+          </div>
+          <div class="place-controls">
+            <button id="placePrev" aria-label="Предыдущее заведение">←</button>
+            <button class="place-book" id="placeBook">Выбрать столик ↗</button>
+            <button id="placeNext" aria-label="Следующее заведение">→</button>
+          </div>
+        </div>
+      </div>
+      <p class="photo-note">Фотографии используются как демонстрационные. Для коммерческой версии потребуются оригинальные снимки заведений высокого качества.</p>
+    </section>
+
+    <section class="reviews" id="reviews" data-block="reviews">
+      <div class="reviews-copy reveal">
+        <p class="kicker">ГОВОРЯТ, ЭТО ЛЮБОВЬ</p>
+        <h2 data-field="title">Свидания<br><em>с хорошим вкусом.</em></h2>
+        <p>Истории тех, кто уже нашёл своё место.</p>
+        <div class="review-controls">
+          <button id="reviewPrev" aria-label="Предыдущий отзыв">←</button>
+          <span><strong id="reviewCurrent">01</strong> / 04</span>
+          <button id="reviewNext" aria-label="Следующий отзыв">→</button>
+        </div>
+      </div>
+
+      <div class="review-scene reveal" id="reviewScene">
+        <div class="u-path" aria-hidden="true"></div>
+        <article class="review-card active" data-review="0">
+          <div class="review-person">
+            <span class="review-avatar avatar-review-1"></span>
+            <div><strong>Саша и Лера</strong><span>вместе 3 года</span></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <blockquote>«Хотели просто поужинать, а нашли наше новое любимое место. Теперь каждый четверг — маленькое свидание»</blockquote>
+          <div class="review-place"><span>Их мэтч</span><strong>Культура ↗</strong></div>
+        </article>
+        <article class="review-card next" data-review="1">
+          <div class="review-person">
+            <span class="review-avatar avatar-review-2"></span>
+            <div><strong>Миша</strong><span>ценитель завтраков</span></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <blockquote>«За минуту нашёл идеальное место для воскресного бранча. Интерфейс затягивает сильнее меню»</blockquote>
+          <div class="review-place"><span>Его мэтч</span><strong>Тепло ↗</strong></div>
+        </article>
+        <article class="review-card far" data-review="2">
+          <div class="review-person">
+            <span class="review-avatar avatar-review-3"></span>
+            <div><strong>Катя</strong><span>любит новые места</span></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <blockquote>«Наконец не надо открывать двадцать вкладок. Все красивые места уже собраны здесь»</blockquote>
+          <div class="review-place"><span>Её мэтч</span><strong>Точка ↗</strong></div>
+        </article>
+        <article class="review-card behind" data-review="3">
+          <div class="review-person">
+            <span class="review-avatar avatar-review-4"></span>
+            <div><strong>Дима и Оля</strong><span>исследуют Москву</span></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <blockquote>«Свайпнули вправо и через час уже сидели у окна. Кажется, будущее бронирования наступило»</blockquote>
+          <div class="review-place"><span>Их мэтч</span><strong>Север ↗</strong></div>
+        </article>
+        <div class="review-magnet" aria-hidden="true">♥</div>
+      </div>
+    </section>
+
+    <section class="final-cta" data-block="final-cta">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <div class="cta-floating cta-float-one">сегодня<br><strong>20:00</strong></div>
+      <div class="cta-floating cta-float-two"><span>♥</span><br>это мэтч</div>
+      <p class="kicker reveal">ВАШ СТОЛИК УЖЕ ЖДЁТ</p>
+      <h2 class="reveal" data-field="title">Ну что,<br><em>куда сегодня?</em></h2>
+      <button class="primary-button light-button reveal" data-scroll-to="discover">
+        Найти своё место <span>→</span>
+      </button>
+    </section>
+  </main>
+
+  <footer data-block="footer">
+    <a class="logo footer-logo" href="#top"><span class="logo-mark">м</span><span>место</span></a>
+    <p>Сервис умного выбора ресторанов<br>и мгновенного бронирования.</p>
+    <div class="footer-links">
+      <a href="#discover">Как это работает</a>
+      <a href="#places">Заведения</a>
+      <a href="#reviews">Отзывы</a>
+    </div>
+    <span class="copyright">© 2026 Место</span>
+  </footer>
+
+  <div class="booking-modal" id="bookingModal" aria-hidden="true">
+    <button class="modal-backdrop" data-close-modal aria-label="Закрыть окно"></button>
+    <div class="booking-dialog" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+      <button class="modal-close" data-close-modal aria-label="Закрыть">×</button>
+      <div class="booking-progress"><span></span><span class="active"></span><span></span></div>
+      <p class="kicker">ЭТО МЭТЧ!</p>
+      <h2 id="bookingTitle">Выберите время</h2>
+      <p class="booking-subtitle"><strong id="bookingPlace">Север</strong> • сегодня</p>
+      <div class="date-row">
+        <button><span>ПН</span><strong>15</strong></button>
+        <button class="active"><span>ВТ</span><strong>16</strong></button>
+        <button><span>СР</span><strong>17</strong></button>
+        <button><span>ЧТ</span><strong>18</strong></button>
+      </div>
+      <p class="slot-label">Свободное время</p>
+      <div class="time-grid">
+        <button>18:00</button><button>18:30</button><button>19:00</button>
+        <button class="selected">19:30</button><button>20:00</button><button>20:30</button>
+      </div>
+      <div class="guests">
+        <span>Количество гостей</span>
+        <div><button id="guestMinus">−</button><strong id="guestCount">2</strong><button id="guestPlus">+</button></div>
+      </div>
+      <button class="confirm-button" id="confirmBooking">Забронировать на 19:30 <span>→</span></button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status">
+    <span>✓</span>
+    <div><strong>Столик забронирован</strong><p>Детали отправлены на ваш телефон</p></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

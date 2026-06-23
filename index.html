@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Builder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar sidebar--left">
+        <div class="brand">
+          <span class="brand__mark">B</span>
+          <div>
+            <strong data-i18n="appName">Site Builder</strong>
+            <small data-i18n="appSubtitle">Редактор HTML-шаблонов</small>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel__head">
+            <h2 data-i18n="sourceTitle">Источник</h2>
+            <span data-i18n="mvpBadge">MVP</span>
+          </div>
+
+          <label class="file-picker">
+            <span data-i18n="htmlFile">HTML файл</span>
+            <input id="htmlInput" type="file" accept=".html,text/html" />
+          </label>
+          <label class="file-picker">
+            <span data-i18n="cssFile">CSS файл</span>
+            <input id="cssInput" type="file" accept=".css,text/css" />
+          </label>
+          <label class="file-picker">
+            <span data-i18n="jsFile">JavaScript файл</span>
+            <input id="jsInput" type="file" accept=".js,text/javascript,application/javascript" />
+          </label>
+
+          <div class="button-row">
+            <button class="button button--primary" id="loadFilesButton" type="button" data-i18n="loadFiles">Загрузить</button>
+            <button class="button" id="loadDemoButton" type="button" data-i18n="loadDemo">Демо</button>
+          </div>
+
+          <div class="example-grid" aria-label="Examples">
+            <button type="button" data-example="2">Example 2</button>
+            <button type="button" data-example="3">Example 3</button>
+            <button type="button" data-example="4">Example 4</button>
+            <button type="button" data-example="5">Example 5</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <h2 data-i18n="blocksTitle">Блоки</h2>
+            <span id="blockCount">0</span>
+          </div>
+          <div class="empty-state" id="emptyBlocks" data-i18n="emptyBlocks">
+            В шаблоне нет элементов с data-block. Добавьте data-block к секциям, чтобы Builder мог распознать структуру.
+          </div>
+          <div class="block-list" id="blockList"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <h2 data-i18n="fieldsTitle">Поля блока</h2>
+            <span id="fieldCount">0</span>
+          </div>
+          <div class="empty-state" id="emptyFields" data-i18n="emptyFields">
+            Выберите блок. Если у шаблона есть data-field, здесь появятся понятные поля для редактирования.
+          </div>
+          <div class="field-list" id="fieldList"></div>
+        </section>
+
+        <section class="panel panel--muted" data-mode-panel="ai structure">
+          <div class="panel__head">
+            <h2 data-i18n="aiTitle">AI</h2>
+            <span data-i18n="manifest">manifest</span>
+          </div>
+          <textarea class="manifest-box" id="manifestBox" readonly></textarea>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="topbar__left">
+            <div class="mode-switcher" aria-label="Editor mode">
+              <button class="is-active" type="button" data-mode="content">Content</button>
+              <button type="button" data-mode="design">Design</button>
+              <button type="button" data-mode="structure">Structure</button>
+              <button type="button" data-mode="ai">AI</button>
+            </div>
+
+            <div class="segmented" aria-label="Viewport">
+              <button class="is-active" type="button" data-viewport="desktop">Desktop</button>
+              <button type="button" data-viewport="tablet">Tablet</button>
+              <button type="button" data-viewport="mobile">Mobile</button>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <label class="select-label">
+              <span data-i18n="scale">Масштаб</span>
+              <select id="scaleSelect">
+                <option value="fit">Fit</option>
+                <option value="1">100%</option>
+                <option value="0.75">75%</option>
+                <option value="0.5">50%</option>
+              </select>
+            </label>
+            <button class="button" id="saveProjectButton" type="button" data-i18n="saveJson">Сохранить JSON</button>
+            <label class="button button--file">
+              <span data-i18n="loadJson">Открыть JSON</span>
+              <input id="projectInput" type="file" accept=".json,application/json" />
+            </label>
+            <button class="icon-button" id="languageButton" type="button" aria-label="Change language">RU</button>
+          </div>
+        </header>
+
+        <section class="preview-stage">
+          <div class="preview-frame" id="previewFrame" data-viewport="desktop">
+            <iframe id="preview" title="Website preview" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+          </div>
+        </section>
+      </main>
+
+      <aside class="sidebar sidebar--right">
+        <section class="panel" data-mode-panel="structure ai">
+          <div class="panel__head">
+            <h2 data-i18n="qualityTitle">Production score</h2>
+            <span id="qualityScore">0</span>
+          </div>
+          <div class="quality-list" id="qualityList"></div>
+        </section>
+
+        <section class="panel inspector">
+          <div class="panel__head">
+            <h2 data-i18n="inspectorTitle">Настройки</h2>
+            <span id="selectedType" data-i18n="nothingSelected">ничего</span>
+          </div>
+          <div class="empty-state" id="emptyInspector" data-i18n="emptyInspector">
+            Выберите блок или элемент прямо в превью.
+          </div>
+          <form id="inspectorForm" class="inspector-form" hidden>
+            <label data-control-group="content">
+              <span data-i18n="elementLabel">Название</span>
+              <input id="labelInput" type="text" />
+            </label>
+            <label id="textControl" data-control-group="content">
+              <span data-i18n="textLabel">Текст</span>
+              <textarea id="textInput" rows="4"></textarea>
+            </label>
+            <label id="imageControl" data-control-group="content">
+              <span data-i18n="imageLabel">Изображение</span>
+              <input id="imageInput" type="url" placeholder="https://..." />
+            </label>
+            <div class="grid-2" data-control-group="design">
+              <label>
+                <span data-i18n="textColor">Цвет текста</span>
+                <input id="colorInput" type="color" />
+              </label>
+              <label>
+                <span data-i18n="background">Фон</span>
+                <input id="backgroundInput" type="color" />
+              </label>
+            </div>
+            <label data-control-group="design">
+              <span data-i18n="fontSize">Размер текста</span>
+              <input id="fontSizeInput" type="range" min="10" max="96" value="16" />
+            </label>
+            <label data-control-group="design">
+              <span data-i18n="padding">Внутренний отступ</span>
+              <input id="paddingInput" type="range" min="0" max="120" value="24" />
+            </label>
+            <label data-control-group="design">
+              <span data-i18n="radius">Скругление</span>
+              <input id="radiusInput" type="range" min="0" max="64" value="0" />
+            </label>
+            <div class="grid-2" data-control-group="design structure">
+              <label>
+                <span data-i18n="visibility">Показ</span>
+                <select id="displayInput">
+                  <option value="" data-i18n="visible">Виден</option>
+                  <option value="none" data-i18n="hidden">Скрыт</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="breakpoint">Режим</span>
+                <select id="scopeInput">
+                  <option value="all">All</option>
+                  <option value="desktop">Desktop</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="mobile">Mobile</option>
+                </select>
+              </label>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel" data-mode-panel="design">
+          <div class="panel__head">
+            <h2 data-i18n="tokensTitle">Дизайн-система</h2>
+            <span id="tokenCount">0</span>
+          </div>
+          <div class="empty-state" id="emptyTokens" data-i18n="emptyTokens">
+            CSS variables не найдены. На следующих этапах Builder сможет предложить токены автоматически.
+          </div>
+          <div class="token-list" id="tokenList"></div>
+        </section>
+
+        <section class="panel" data-mode-panel="structure">
+          <div class="panel__head">
+            <h2 data-i18n="outlineTitle">Структура</h2>
+            <span id="outlineCount">0</span>
+          </div>
+          <div class="outline-list" id="outlineList"></div>
+        </section>
+
+        <section class="panel" data-mode-panel="ai">
+          <div class="panel__head">
+            <h2 data-i18n="aiCommandTitle">AI-команда</h2>
+            <span data-i18n="draft">draft</span>
+          </div>
+          <textarea class="ai-command" id="aiCommandInput" placeholder="Например: сделай hero короче, премиальнее и сохрани мобильную адаптацию"></textarea>
+          <button class="button button--wide" id="copyAiContextButton" type="button" data-i18n="copyAiContext">Скопировать контекст</button>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <h2 data-i18n="projectTitle">Проект</h2>
+            <span id="statusLabel" data-i18n="ready">готов</span>
+          </div>
+          <div class="meta-grid">
+            <div><span data-i18n="htmlStatus">HTML</span><strong id="htmlStatus">-</strong></div>
+            <div><span data-i18n="cssStatus">CSS</span><strong id="cssStatus">-</strong></div>
+            <div><span data-i18n="jsStatus">JS</span><strong id="jsStatus">-</strong></div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
