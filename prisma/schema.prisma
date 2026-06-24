@@ -21,6 +21,8 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   projects     Project[]
+  transfersOut TransferRequest[] @relation("TransferFrom")
+  transfersIn  TransferRequest[] @relation("TransferTo")
 }
 
 model Project {
@@ -40,6 +42,7 @@ model Project {
   userId      Int
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   leads       Lead[]
+  transfers   TransferRequest[]
 
   @@index([userId])
 }
@@ -52,5 +55,20 @@ model Lead {
   source    String?
   createdAt DateTime @default(now())
 
+  @@index([projectId])
+}
+
+model TransferRequest {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  fromId    Int
+  from      User     @relation("TransferFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  toId      Int
+  to        User     @relation("TransferTo", fields: [toId], references: [id], onDelete: Cascade)
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+
+  @@index([toId])
   @@index([projectId])
 }

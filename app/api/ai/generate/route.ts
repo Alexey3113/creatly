@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { buildSystemPrompt, buildUserPrompt, parseGeneratedCode } from "@/lib/ai/prompts";
+import { buildSystemPrompt, buildUserPrompt, parseGeneratedCode, type ScrapedSiteData } from "@/lib/ai/prompts";
 import { loadTemplateCode, loadTemplateFrames } from "@/lib/ai/template-context";
 import { getSession } from "@/lib/auth/session";
 import { aiLimiter, getClientId, LIMITS, rateLimitResponse } from "@/lib/rate-limit";
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { brief, templateId } = body as { brief: string; templateId: string };
+  const { brief, templateId, scrapedData } = body as { brief: string; templateId: string; scrapedData?: ScrapedSiteData };
 
   if (!brief || !templateId) {
     return NextResponse.json({ error: "Missing brief or templateId" }, { status: 400 });
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   const isResponsesAPI = model.startsWith("gpt-5");
 
   const systemPrompt = buildSystemPrompt(template.html, template.css, template.js);
-  const userPrompt = buildUserPrompt(brief);
+  const userPrompt = buildUserPrompt(brief, scrapedData);
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream({

@@ -89,7 +89,7 @@ export default function DashboardPage() {
     router.push("/editor?upload=1");
   }
 
-  const handleBriefSubmit = useCallback(async (data: { audioBlob?: Blob; textBrief: string; templateId: string }) => {
+  const handleBriefSubmit = useCallback(async (data: { audioBlob?: Blob; textBrief: string; templateId: string; scrapedData?: { title: string; description: string; headings: string[]; paragraphs: string[]; contacts: string[] } }) => {
     setView("generating");
     setGenStage("transcribing");
     setGenError("");
@@ -113,7 +113,7 @@ export default function DashboardPage() {
       const res = await fetch("/api/ai/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ brief, templateId: data.templateId }),
+        body: JSON.stringify({ brief, templateId: data.templateId, scrapedData: data.scrapedData }),
       });
       if (!res.ok || !res.body) { setGenStage("error"); setGenError("Ошибка подключения к AI"); return; }
 

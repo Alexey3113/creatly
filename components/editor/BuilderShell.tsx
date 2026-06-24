@@ -19,6 +19,7 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { GlobalStyles } from "./GlobalStyles";
 import { AICopilot } from "./AICopilot";
 import { PublishModal } from "./PublishModal";
+import { TransferModal } from "./TransferModal";
 import { ZoomControl } from "./ZoomControl";
 import { useToast } from "./Toast";
 import type { OnboardingResult } from "@/components/onboarding/OnboardingWizard";
@@ -71,6 +72,7 @@ export function BuilderShell({ initialTemplateId, uploadMode, generatedSite, onb
   const [zoom, setZoom] = useState(100);
   const toast = useToast();
   const [publishOpen, setPublishOpen] = useState(false);
+  const [transferOpen, setTransferOpen] = useState(false);
 
   const selected = state.elements.find((i) => i.id === state.selectedId) ?? null;
   const activeBlockId = selected?.type === "block" ? selected.id : selected?.blockId ?? null;
@@ -672,6 +674,7 @@ export function BuilderShell({ initialTemplateId, uploadMode, generatedSite, onb
           onUndo={undo}
           onRedo={redo}
           onBack={onBackToGallery}
+          onTransfer={dbProjectId ? () => setTransferOpen(true) : undefined}
           onRename={(name) => dispatch({ type: "rename-project", name })}
           onReloadPreview={() => {
             const iframe = iframeRef.current;
@@ -688,6 +691,14 @@ export function BuilderShell({ initialTemplateId, uploadMode, generatedSite, onb
         {!projectLoading && <PreviewStage viewport={state.viewport} iframeRef={iframeRef} frameRef={frameRef} srcdocHtml={currentSrcdoc} zoom={zoom} containerRef={previewContainerRef} />}
         <ZoomControl onZoomChange={setZoom} initialZoom={zoom} viewport={state.viewport} onViewportChange={setViewport} containerRef={previewContainerRef} />
       </main>
+      {transferOpen && dbProjectId && (
+        <TransferModal
+          projectId={dbProjectId}
+          projectName={state.project.name}
+          onClose={() => setTransferOpen(false)}
+          onSuccess={() => toast.show("Запрос на передачу отправлен", { type: "success", duration: 3000 })}
+        />
+      )}
       {publishOpen && (
         <PublishModal
           projectName={state.project.name}

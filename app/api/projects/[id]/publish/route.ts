@@ -53,6 +53,13 @@ function sftpWrite(conn: InstanceType<typeof Client>, remotePath: string, conten
 const DOMAIN = process.env.VDS_DOMAIN || "creatly.ru";
 const SITES_ROOT = process.env.VDS_SITES_ROOT || "/var/www/creatly";
 
+const CREATLY_BADGE = `<div style="position:fixed;bottom:16px;right:16px;z-index:9999;pointer-events:auto">
+<a href="https://creatly.ru?ref=badge" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(10,10,20,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:10px;color:#a0aec0;font:500 12px/1 -apple-system,BlinkMacSystemFont,sans-serif;text-decoration:none;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.2)" onmouseover="this.style.color='#e2e8f0';this.style.borderColor='rgba(99,102,241,.3)';this.style.boxShadow='0 4px 20px rgba(99,102,241,.15)'" onmouseout="this.style.color='#a0aec0';this.style.borderColor='rgba(255,255,255,.08)';this.style.boxShadow='0 4px 16px rgba(0,0,0,.2)'">
+<svg width="14" height="14" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#6366f1"/><path d="M12 20l6-8h4l-6 8 6 8h-4l-6-8zm10 0l6-8h4l-6 8 6 8h-4l-6-8z" fill="#fff" fill-opacity=".9"/></svg>
+Made on Creatly
+</a>
+</div>`;
+
 function buildFullHtml(html: string, css: string): string {
   if (html.includes("<!doctype") || html.includes("<!DOCTYPE")) {
     return html.replace(
@@ -60,7 +67,7 @@ function buildFullHtml(html: string, css: string): string {
       `<link rel="stylesheet" href="styles.css"></head>`,
     ).replace(
       /<\/body>/i,
-      `<script src="script.js" defer></script></body>`,
+      `${CREATLY_BADGE}\n<script src="script.js" defer></script></body>`,
     );
   }
   return `<!doctype html>
@@ -72,6 +79,7 @@ function buildFullHtml(html: string, css: string): string {
 </head>
 <body>
 ${html}
+${CREATLY_BADGE}
 <script src="script.js" defer></script>
 </body>
 </html>`;

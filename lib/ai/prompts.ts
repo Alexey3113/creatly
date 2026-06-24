@@ -279,22 +279,45 @@ ${templateJs.slice(0, 3000)}
 \`\`\``;
 }
 
-export function buildUserPrompt(brief: string): string {
+export interface ScrapedSiteData {
+  title: string;
+  description: string;
+  headings: string[];
+  paragraphs: string[];
+  contacts: string[];
+}
+
+export function buildUserPrompt(brief: string, scrapedData?: ScrapedSiteData): string {
+  let scrapedContext = "";
+  if (scrapedData) {
+    const parts: string[] = [];
+    if (scrapedData.title) parts.push(`Название: ${scrapedData.title}`);
+    if (scrapedData.description) parts.push(`Описание: ${scrapedData.description}`);
+    if (scrapedData.headings.length > 0) parts.push(`Заголовки со старого сайта:\n${scrapedData.headings.slice(0, 15).map((h) => `- ${h}`).join("\n")}`);
+    if (scrapedData.paragraphs.length > 0) parts.push(`Тексты со старого сайта:\n${scrapedData.paragraphs.slice(0, 15).map((p) => `- ${p}`).join("\n")}`);
+    if (scrapedData.contacts.length > 0) parts.push(`Контакты: ${scrapedData.contacts.join(", ")}`);
+
+    scrapedContext = `\n\n## Информация со старого сайта клиента
+Клиент предоставил ссылку на свой текущий сайт. Используй эту информацию как ОСНОВУ для контента нового сайта — извлеки суть бизнеса, услуги, тон коммуникации, контактные данные. Переработай и улучши тексты, но сохрани реальные факты и контакты.
+
+${parts.join("\n\n")}`;
+  }
+
   return `## Задание
 Создай потрясающий, профессиональный landing page по брифу ниже. Сайт должен выглядеть как работа премиум веб-студии.
 
 ## Бриф клиента
-${brief}
+${brief}${scrapedContext}
 
 ## Инструкции
-1. Внимательно проанализируй бриф — определи тип бизнеса, целевую аудиторию, тон коммуникации
+1. Внимательно проанализируй бриф${scrapedData ? " и данные со старого сайта" : ""} — определи тип бизнеса, целевую аудиторию, тон коммуникации
 2. Подбери цветовую палитру и шрифты, которые ИДЕАЛЬНО подходят этому бизнесу
-3. Напиши РЕАЛЬНЫЙ, продающий контент (заголовки, описания, CTA) — никакого placeholder текста
+3. Напиши РЕАЛЬНЫЙ, продающий контент (заголовки, описания, CTA) — никакого placeholder текста${scrapedData ? ". Используй реальную информацию со старого сайта" : ""}
 4. Подбери Unsplash фотографии, релевантные именно этому бизнесу
 5. Создай минимум 8 полноценных секций с уникальным дизайном каждой
 6. Убедись, что ВСЕ секции имеют data-block, ВСЕ текстовые элементы имеют data-field
 7. Секции с карточками ДОЛЖНЫ использовать data-collection, data-collection-grid, data-collection-item
-8. Сайт должен быть полностью адаптивным и красивым на всех устройствах
+8. Сайт должен быть полностью адаптивным и красивым на всех устройствах${scrapedData?.contacts.length ? "\n9. Используй РЕАЛЬНЫЕ контактные данные клиента: " + scrapedData.contacts.join(", ") : ""}
 
 Сгенерируй код прямо сейчас — три блока: html, css, js.`;
 }

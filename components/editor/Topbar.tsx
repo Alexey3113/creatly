@@ -21,11 +21,12 @@ interface TopbarProps {
   onBack?: () => void;
   onRename?: (name: string) => void;
   onReloadPreview?: () => void;
+  onTransfer?: () => void;
 }
 
 export function Topbar({
   status, saveStatus, project, canUndo, canRedo,
-  onSave, onExport, onPublish, onUndo, onRedo, onBack, onRename, onReloadPreview,
+  onSave, onExport, onPublish, onUndo, onRedo, onBack, onRename, onReloadPreview, onTransfer,
 }: TopbarProps) {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(project.name);
@@ -91,6 +92,11 @@ export function Topbar({
           <button className="tb2-btn" type="button" onClick={onExport} title="Скачать ZIP">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><path d="M7 10l5 5 5-5" /><path d="M12 15V3" /></svg>
           </button>
+          {onTransfer && (
+            <button className="tb2-btn" type="button" onClick={onTransfer} title="Передать проект">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v-2" /><path d="M16 3h5v5" /><path d="M21 3l-9 9" /></svg>
+            </button>
+          )}
           <button className="tb2-publish" type="button" onClick={onPublish}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 2L11 13" /><path d="M22 2l-7 20-4-9-9-4 20-7z" /></svg>
             Опубликовать
