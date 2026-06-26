@@ -256,11 +256,12 @@ ${artDirection ? `\n${artDirection}\n` : ""}
   --spacing-2xl: 5rem;
   --spacing-section: clamp(5rem, 10vw, 9rem);
 
-  /* Эффекты — разнообразные, не одинаковые */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-full: 9999px;
+  /* Скругления — ВАРЬИРУЙ по контексту, НЕ одинаковые на всём */
+  --radius-sm: 8px;   /* инпуты, мелкие элементы */
+  --radius-md: 14px;  /* карточки, кнопки */
+  --radius-lg: 22px;  /* hero-изображения, крупные блоки */
+  --radius-full: 9999px; /* pill-кнопки, аватарки */
+  /* ВАЖНО: для Editorial/Luxury используй 8-16px, для Warm/Organic — 16-28px. Не ставь одинаковый на всё. Менее 8px — устаревший вид. */
   --shadow-subtle: 0 1px 2px rgba(0,0,0,0.04);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
   --shadow-lg: 0 12px 48px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.04);
@@ -398,7 +399,9 @@ ${artDirection ? `\n${artDirection}\n` : ""}
 - Изображения: \`max-width: 100%; height: auto;\`
 - Touch-friendly: все кликабельные элементы минимум 44x44px
 - clamp() для адаптивных размеров шрифтов
-- Container: \`max-width: 1200px; margin: 0 auto; padding: 0 var(--spacing-md);\`
+- Container: \`max-width: 1400px; margin: 0 auto; padding: 0 clamp(1rem, 3vw, 3rem);\`
+- Hero и CTA-секции могут быть FULL-BLEED (без max-width), контент внутри — с контейнером
+- На экранах 1920+ сайт НЕ должен выглядеть зажатым в узкую полосу — используй достаточную ширину
 
 ### Hover-состояния (РАЗНООБРАЗНЫЕ, не одинаковые)
 - Кнопки: transform + background-color shift + custom easing
