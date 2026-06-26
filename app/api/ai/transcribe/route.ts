@@ -22,22 +22,34 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No audio file provided" }, { status: 400 });
   }
 
-  const whisperForm = new FormData();
-  whisperForm.append("file", audio, "recording.webm");
-  whisperForm.append("model", "whisper-1");
-  whisperForm.append("language", "ru");
+  try {
+    const whisperForm = new FormData();
+    whisperForm.append("file", audio, "recording.webm");
+    whisperForm.append("model", "whisper-1");
+    whisperForm.append("language", "ru");
 
-  const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}` },
-    body: whisperForm,
-  });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 60000);
 
-  if (!response.ok) {
-    const err = await response.text();
-    return NextResponse.json({ error: `Whisper error: ${err}` }, { status: 502 });
+    const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}` },
+      body: whisperForm,
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      const err = await response.text();
+      return NextResponse.json({ error: `Whisper error: ${err}` }, { status: 502 });
+    }
+
+    const data = await response.json();
+    return NextResponse.json({ text: data.text });
+  } catch (err) {
+    const message = err instanceof Error && err.name === "AbortError"
+      ? "Таймаут: OpenAI не ответил за 60 секунд"
+      : `Ошибка транскрипции: ${err}`;
+    return NextResponse.json({ error: message }, { status: 502 });
   }
-
-  const data = await response.json();
-  return NextResponse.json({ text: data.text });
 }
