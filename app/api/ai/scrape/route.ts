@@ -40,15 +40,19 @@ function extractProfile(html: string, base: URL): SiteProfile {
   const title = titleMatch ? strip(titleMatch[1]) : "";
 
   const metaContent = (name: string): string => {
-    const re = new RegExp(
-      `<meta[^>]*(?:name|property)=["']${name}["'][^>]*content=["']([^"']*)["']`,
-      "i",
+    // Pattern 1: name/property before content
+    const re1 = new RegExp(
+      `<meta[^>]*(?:name|property)=["']${name}["'][^>]*content=["']([^"']*)["']`, "i",
     );
+    // Pattern 2: content before name/property
     const re2 = new RegExp(
-      `<meta[^>]*content=["']([^"']*)["'][^>]*(?:name|property)=["']${name}["']`,
-      "i",
+      `<meta[^>]*content=["']([^"']*)["'][^>]*(?:name|property)=["']${name}["']`, "i",
     );
-    const m = html.match(re) || html.match(re2);
+    // Pattern 3: Tilda/некоторые CMS ставят атрибуты без кавычек или с пробелами
+    const re3 = new RegExp(
+      `<meta[^>]*property\\s*=\\s*["']${name}["'][^>]*content\\s*=\\s*["']([^"']*)["']`, "i",
+    );
+    const m = html.match(re1) || html.match(re2) || html.match(re3);
     return m ? m[1].trim() : "";
   };
 
@@ -61,10 +65,19 @@ function extractProfile(html: string, base: URL): SiteProfile {
   const ogImage = ogImageRaw ? abs(base, ogImageRaw) : "";
 
   let logo = "";
+  // Standard: img with logo in class/alt/id
   const logoImg = html.match(/<img[^>]*(?:class|alt|id)=["'][^"']*log(?:o|otype)[^"']*["'][^>]*>/i);
   if (logoImg) {
-    const src = logoImg[0].match(/src=["']([^"']+)["']/i);
-    if (src) logo = abs(base, src[1]);
+    const src = logoImg[0].match(/(?:data-original|data-src|src)=["']([^"']+)["']/i);
+    if (src && !src[1].startsWith("data:")) logo = abs(base, src[1]);
+  }
+  // Tilda: .t-logo__img
+  if (!logo) {
+    const tildaLogo = html.match(/<img[^>]*class=["'][^"']*t-logo[^"']*["'][^>]*>/i);
+    if (tildaLogo) {
+      const src = tildaLogo[0].match(/(?:data-original|data-src|src)=["']([^"']+)["']/i);
+      if (src && !src[1].startsWith("data:")) logo = abs(base, src[1]);
+    }
   }
   if (!logo) {
     const iconLink = html.match(/<link[^>]*rel=["'][^"']*(?:apple-touch-icon|icon)[^"']*["'][^>]*>/i);
@@ -105,7 +118,7 @@ function extractProfile(html: string, base: URL): SiteProfile {
   }
   for (const m of colorPool.matchAll(/font-family\s*:\s*["']?([^;"'}<]+)/gi)) {
     const first = m[1].split(",")[0].replace(/["']/g, "").trim();
-    if (first && !/^(inherit|initial|sans-serif|serif|monospace|system-ui|-apple-system)$/i.test(first)) {
+    if (first && !/^(inherit|initial|sans-serif|serif|monospace|system-ui|-apple-system|var\()$/i.test(first) && !first.startsWith("var(")) {
       fonts.add(first);
     }
   }
@@ -120,11 +133,30 @@ function extractProfile(html: string, base: URL): SiteProfile {
   }
 
   // --- заголовки ---
+  // Стандартные h1-h6 + конструкторы (Tilda: div.t-title, .t-heading;
+  // Wix: h2[data-testid]; Webflow: [class*="heading"]; универсальные role="heading")
   const headings: string[] = [];
-  for (const m of html.matchAll(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi)) {
-    const t = strip(m[1]);
+  const pushHeading = (t: string) => {
     if (t.length > 2 && t.length < 300 && !headings.includes(t)) headings.push(t);
+  };
+  // Семантичные h1-h6
+  for (const m of html.matchAll(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/gi)) {
+    pushHeading(strip(m[1]));
     if (headings.length >= 30) break;
+  }
+  // Tilda: .t-title, .t-heading, .t396__title, div[data-field-title]
+  if (headings.length < 5) {
+    for (const m of html.matchAll(/<div[^>]*class=["'][^"']*(?:t-title|t-heading|t396__title|t-card__title|tn-atom__heading)[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)) {
+      pushHeading(strip(m[1]));
+      if (headings.length >= 30) break;
+    }
+  }
+  // Fallback: любой элемент с role="heading" или крупный шрифт-класс
+  if (headings.length < 5) {
+    for (const m of html.matchAll(/<[^>]*(?:role=["']heading["']|class=["'][^"']*(?:heading|title|headline)[^"']*["'])[^>]*>([\s\S]*?)<\/[a-z]+>/gi)) {
+      pushHeading(strip(m[1]));
+      if (headings.length >= 30) break;
+    }
   }
 
   // --- очищенный контент для абзацев ---
@@ -135,28 +167,56 @@ function extractProfile(html: string, base: URL): SiteProfile {
     .replace(/<footer[\s\S]*?<\/footer>/gi, "");
 
   const paragraphs: string[] = [];
-  for (const m of cleaned.matchAll(/<(?:p|li|td|dd|blockquote)[^>]*>([\s\S]*?)<\/(?:p|li|td|dd|blockquote)>/gi)) {
-    const t = strip(m[1]);
+  const pushPara = (t: string) => {
     if (t.length > 20 && t.length < 1000 && !paragraphs.includes(t)) paragraphs.push(t);
+  };
+  // Стандартные p/li/td/dd/blockquote
+  for (const m of cleaned.matchAll(/<(?:p|li|td|dd|blockquote)[^>]*>([\s\S]*?)<\/(?:p|li|td|dd|blockquote)>/gi)) {
+    pushPara(strip(m[1]));
     if (paragraphs.length >= 40) break;
+  }
+  // Tilda: .t-text, .t-descr, .t396__descr, div[data-field-descr], .tn-atom (текстовые блоки)
+  if (paragraphs.length < 10) {
+    for (const m of cleaned.matchAll(/<div[^>]*class=["'][^"']*(?:t-text|t-descr|t396__descr|t-card__descr|tn-atom)[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)) {
+      pushPara(strip(m[1]));
+      if (paragraphs.length >= 40) break;
+    }
+  }
+  // Webflow/general: span/div with substantial text
+  if (paragraphs.length < 10) {
+    for (const m of cleaned.matchAll(/<(?:span|div)[^>]*class=["'][^"']*(?:paragraph|description|text-block|subtitle|body-text)[^"']*["'][^>]*>([\s\S]*?)<\/(?:span|div)>/gi)) {
+      pushPara(strip(m[1]));
+      if (paragraphs.length >= 40) break;
+    }
   }
 
   // --- CTA (кнопки и заметные ссылки) ---
+  const ctaJunkRe = /^(close|закрыть|×|✕|←|→|назад|back|menu|ещ[её]|more|toggle|show|hide)$/i;
   const ctas: { text: string; href: string }[] = [];
   const seenCta = new Set<string>();
   const pushCta = (text: string, href: string) => {
     const t = strip(text);
-    if (t.length < 2 || t.length > 40) return;
+    if (t.length < 2 || t.length > 50) return;
+    if (ctaJunkRe.test(t)) return;
+    // Skip FAQ-accordion patterns (questions ending with ?)
+    if (t.endsWith("?") && t.length > 15) return;
     const key = t.toLowerCase();
     if (seenCta.has(key)) return;
     seenCta.add(key);
     ctas.push({ text: t, href: href ? abs(base, href) : "" });
   };
-  for (const m of html.matchAll(/<a[^>]*class=["'][^"']*(?:btn|button|cta)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi)) {
+  // Standard: a.btn, a.button, a.cta + Tilda: .t-btn, .t-submit, .t-btntext
+  for (const m of html.matchAll(/<a[^>]*class=["'][^"']*(?:btn|button|cta|t-btn)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi)) {
     const href = m[0].match(/href=["']([^"']+)["']/i);
     pushCta(m[1], href ? href[1] : "");
     if (ctas.length >= 8) break;
   }
+  // Tilda-specific submit buttons
+  for (const m of html.matchAll(/<div[^>]*class=["'][^"']*(?:t-submit|t-btntext|t-btn__text)[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)) {
+    pushCta(m[1], "");
+    if (ctas.length >= 8) break;
+  }
+  // Standard buttons (filter junk)
   for (const m of html.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/gi)) {
     pushCta(m[1], "");
     if (ctas.length >= 8) break;
@@ -165,18 +225,36 @@ function extractProfile(html: string, base: URL): SiteProfile {
   // --- изображения ---
   const images: { src: string; alt: string }[] = [];
   const seenImg = new Set<string>();
+  // Filter: no tracking pixels, no tiny placeholders, no data: URIs
+  const imgJunkRe = /(?:mc\.yandex|pixel|spacer|blank|loading|placeholder|1x1|resize\/\d{1,2}x\/)/i;
   for (const m of html.matchAll(/<img[^>]*>/gi)) {
     const tag = m[0];
-    const srcM = tag.match(/(?:data-src|src)=["']([^"']+)["']/i);
+    // Prefer data-original (Tilda lazy) > data-src > src
+    const srcM = tag.match(/data-original=["']([^"']+)["']/i)
+      || tag.match(/data-src=["']([^"']+)["']/i)
+      || tag.match(/src=["']([^"']+)["']/i);
     if (!srcM) continue;
     let src = srcM[1];
     if (src.startsWith("data:")) continue;
+    if (imgJunkRe.test(src)) continue;
     src = abs(base, src);
     if (seenImg.has(src)) continue;
     seenImg.add(src);
     const altM = tag.match(/alt=["']([^"']*)["']/i);
     images.push({ src, alt: altM ? altM[1].trim() : "" });
     if (images.length >= 12) break;
+  }
+  // Tilda: background-image in data-original on divs
+  if (images.length < 6) {
+    for (const m of html.matchAll(/<div[^>]*data-original=["']([^"']+)["'][^>]*>/gi)) {
+      let src = m[1];
+      if (src.startsWith("data:") || imgJunkRe.test(src)) continue;
+      src = abs(base, src);
+      if (seenImg.has(src)) continue;
+      seenImg.add(src);
+      images.push({ src, alt: "" });
+      if (images.length >= 12) break;
+    }
   }
 
   // --- соцсети ---
