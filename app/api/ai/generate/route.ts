@@ -100,6 +100,12 @@ export async function POST(request: Request) {
     async start(controller) {
       const send = (obj: Record<string, unknown>) =>
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
+
+      // Keep-alive пинг каждые 15с — не даёт nginx/proxy обрезать SSE-стрим по таймауту.
+      const keepAlive = setInterval(() => {
+        try { controller.enqueue(encoder.encode(": keep-alive\n\n")); } catch {}
+      }, 15000);
+
       try {
         // ===== STAGE A: Арт-дирекшн =====
         // Модель сначала принимает дизайн-решения (концепция, палитра, типопара,
@@ -268,6 +274,7 @@ export async function POST(request: Request) {
         send({ stage: "error", error: String(err) });
       }
 
+      clearInterval(keepAlive);
       controller.close();
     },
   });
