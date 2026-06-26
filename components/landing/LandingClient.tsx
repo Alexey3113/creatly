@@ -154,7 +154,7 @@ export function LandingClient() {
                 <span>creatly.ru</span>
                 <b>AI Mode</b>
               </div>
-              <video className="L-browser__video" src="/sites/demo.mp4" poster="/sites/demo-poster.webp" autoPlay muted loop playsInline preload="auto" />
+              <video className="L-browser__video" src="/sites/demo-optimized.mp4" poster="/sites/demo-poster.webp" autoPlay muted loop playsInline preload="auto" />
             </div>
           </div>
 

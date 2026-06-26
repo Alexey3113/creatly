@@ -4,6 +4,7 @@ import { buildArtDirectionPrompt, parseArtDirection, renderArtDirectionForCodege
 import { loadTemplateCode, loadTemplateFrames } from "@/lib/ai/template-context";
 import { getSession } from "@/lib/auth/session";
 import { aiLimiter, getClientId, LIMITS, rateLimitResponse } from "@/lib/rate-limit";
+import { prisma } from "@/lib/db";
 
 const OPENAI_BASE = "https://api.openai.com/v1";
 
@@ -268,7 +269,22 @@ export async function POST(request: Request) {
         if (!result.html) {
           send({ stage: "error", error: "Не удалось распарсить ответ AI" });
         } else {
-          send({ stage: "done", result });
+          // Сохраняем в БД на сервере — даже если клиент уже ушёл, результат не потеряется.
+          let projectId: number | null = null;
+          try {
+            const name = brief.slice(0, 60).replace(/[^a-zA-Zа-яёА-ЯЁ0-9 ]/g, "").trim() || "AI-сайт";
+            const slug = name.toLowerCase()
+              .replace(/[а-яё]/g, (c) => {
+                const map: Record<string, string> = { а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"yo",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"ts",ч:"ch",ш:"sh",щ:"sch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya" };
+                return map[c] || c;
+              })
+              .replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 48) || "ai-site";
+            const project = await prisma.project.create({
+              data: { userId: session.userId!, name, slug, html: result.html, css: result.css, js: result.js, edits: [], tokens: {} },
+            });
+            projectId = project.id;
+          } catch {}
+          send({ stage: "done", result, projectId });
         }
       } catch (err) {
         send({ stage: "error", error: String(err) });

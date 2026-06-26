@@ -58,6 +58,14 @@ export default function DashboardPage() {
       .catch(() => router.replace("/auth"));
   }, [router]);
 
+  // Предупреждение при попытке уйти во время генерации
+  useEffect(() => {
+    if (view !== "generating") return;
+    const handler = (e: BeforeUnloadEvent) => { e.preventDefault(); };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [view]);
+
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
     router.replace("/auth");
@@ -150,6 +158,12 @@ export default function DashboardPage() {
             }
             if (msg.error) setGenError(msg.error);
             if (msg.stage === "done" && msg.result) {
+              // Сервер уже сохранил проект в БД — используем projectId если есть.
+              if (msg.projectId) {
+                router.push(`/editor?project=${msg.projectId}`);
+                return;
+              }
+              // Fallback: если сервер не смог сохранить
               const generated = msg.result as GeneratedSite;
               sessionStorage.setItem("sb_generated", JSON.stringify(generated));
               setTimeout(() => router.push("/editor?generated=1"), 1000);
