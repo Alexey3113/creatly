@@ -22,25 +22,25 @@ export const siteTypes = [
 ];
 
 export const colorPalettes: ColorPalette[] = [
-  { id: "midnight", name: "Midnight", colors: { primary: "#6366f1", secondary: "#818cf8", accent: "#c084fc", bg: "#0f172a", text: "#e2e8f0" } },
-  { id: "ocean", name: "Ocean", colors: { primary: "#0ea5e9", secondary: "#38bdf8", accent: "#06b6d4", bg: "#0c4a6e", text: "#e0f2fe" } },
-  { id: "forest", name: "Forest", colors: { primary: "#10b981", secondary: "#34d399", accent: "#a3e635", bg: "#064e3b", text: "#d1fae5" } },
-  { id: "sunset", name: "Sunset", colors: { primary: "#f97316", secondary: "#fb923c", accent: "#fbbf24", bg: "#431407", text: "#fed7aa" } },
-  { id: "rose", name: "Rose", colors: { primary: "#f43f5e", secondary: "#fb7185", accent: "#e879f9", bg: "#4c0519", text: "#fecdd3" } },
-  { id: "clean", name: "Clean", colors: { primary: "#2563eb", secondary: "#3b82f6", accent: "#6366f1", bg: "#ffffff", text: "#1e293b" } },
-  { id: "warm", name: "Warm", colors: { primary: "#d97706", secondary: "#f59e0b", accent: "#ef4444", bg: "#fffbeb", text: "#451a03" } },
-  { id: "mono", name: "Mono", colors: { primary: "#18181b", secondary: "#3f3f46", accent: "#a1a1aa", bg: "#fafafa", text: "#18181b" } },
-  { id: "neon", name: "Neon", colors: { primary: "#22d3ee", secondary: "#a855f7", accent: "#f0abfc", bg: "#020617", text: "#f8fafc" } },
-  { id: "earth", name: "Earth", colors: { primary: "#92400e", secondary: "#a16207", accent: "#65a30d", bg: "#fef3c7", text: "#422006" } },
+  { id: "obsidian", name: "Obsidian", colors: { primary: "#1a1f36", secondary: "#2d3452", accent: "#d4a853", bg: "#0d0f18", text: "#e8e6e1" } },
+  { id: "terracotta", name: "Terracotta", colors: { primary: "#c4613a", secondary: "#a84e2e", accent: "#2c1810", bg: "#f5f0e8", text: "#2c1810" } },
+  { id: "sage", name: "Sage", colors: { primary: "#2d4a3e", secondary: "#3d6454", accent: "#e8a598", bg: "#e8ede5", text: "#1a2e24" } },
+  { id: "charcoal", name: "Charcoal", colors: { primary: "#1c1c1e", secondary: "#2c2c2e", accent: "#b4f461", bg: "#f2f2f7", text: "#1c1c1e" } },
+  { id: "ink", name: "Ink", colors: { primary: "#0a0a0a", secondary: "#1a1a1a", accent: "#ff4d00", bg: "#faf9f7", text: "#1a1a1a" } },
+  { id: "dusk", name: "Dusk", colors: { primary: "#334155", secondary: "#475569", accent: "#e11d48", bg: "#fff8f0", text: "#1e293b" } },
+  { id: "studio", name: "Studio", colors: { primary: "#000000", secondary: "#171717", accent: "#ffffff", bg: "#000000", text: "#ffffff" } },
+  { id: "clay", name: "Clay", colors: { primary: "#8b5e3c", secondary: "#6b4226", accent: "#c9a87c", bg: "#f7f3ee", text: "#2d1f14" } },
+  { id: "arctic", name: "Arctic", colors: { primary: "#0f2e4a", secondary: "#1a4268", accent: "#3ecf8e", bg: "#f8f9fb", text: "#0f2e4a" } },
+  { id: "warmth", name: "Warmth", colors: { primary: "#b45309", secondary: "#d97706", accent: "#1e3a5f", bg: "#fffbf5", text: "#3d1f00" } },
 ];
 
 export const fontPairs: FontPair[] = [
-  { id: "inter", name: "Современный", heading: "Inter", body: "Inter", preview: "Aa" },
-  { id: "space", name: "Технологичный", heading: "Space Grotesk", body: "DM Sans", preview: "Aa" },
-  { id: "playfair", name: "Элегантный", heading: "Playfair Display", body: "Lora", preview: "Aa" },
-  { id: "montserrat", name: "Чёткий", heading: "Montserrat", body: "Open Sans", preview: "Aa" },
-  { id: "bebas", name: "Смелый", heading: "Bebas Neue", body: "Roboto", preview: "Aa" },
-  { id: "poppins", name: "Дружелюбный", heading: "Poppins", body: "Nunito", preview: "Aa" },
-  { id: "cormorant", name: "Премиум", heading: "Cormorant Garamond", body: "Raleway", preview: "Aa" },
-  { id: "unbounded", name: "Экспрессивный", heading: "Unbounded", body: "Manrope", preview: "Aa" },
+  { id: "editorial", name: "Редакционный", heading: "Playfair Display", body: "Source Sans 3", preview: "Aa" },
+  { id: "refined", name: "Утончённый", heading: "Cormorant Garamond", body: "Outfit", preview: "Aa" },
+  { id: "warm", name: "Тёплый", heading: "Fraunces", body: "Commissioner", preview: "Aa" },
+  { id: "contrast", name: "Контрастный", heading: "DM Serif Display", body: "DM Sans", preview: "Aa" },
+  { id: "bold", name: "Дерзкий", heading: "Bebas Neue", body: "Barlow", preview: "Aa" },
+  { id: "classic", name: "Классический", heading: "Lora", body: "Karla", preview: "Aa" },
+  { id: "tech", name: "Технологичный", heading: "Sora", body: "Libre Baskerville", preview: "Aa" },
+  { id: "expressive", name: "Экспрессивный", heading: "Unbounded", body: "Manrope", preview: "Aa" },
 ];

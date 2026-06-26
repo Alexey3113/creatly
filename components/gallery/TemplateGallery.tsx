@@ -80,6 +80,9 @@ export function TemplateGallery({ onSelect, onUpload, onAIGenerate }: TemplateGa
       <div className="gallery__hero">
         <h1>Создайте сайт за минуты</h1>
         <p>Выберите шаблон, настройте под себя, экспортируйте чистый код.</p>
+        <button className="button button--primary gallery__scratch" type="button" onClick={() => onAIGenerate("none")}>
+          ✨ Создать с AI с нуля — без шаблона
+        </button>
       </div>
 
       <nav className="gallery__categories">

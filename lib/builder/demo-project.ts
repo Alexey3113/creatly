@@ -8,6 +8,9 @@ export const demoProject: BuilderProject = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo landing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Commissioner:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
     <main>
@@ -42,17 +45,19 @@ export const demoProject: BuilderProject = {
   </body>
 </html>`,
   css: `:root {
-  --ink: #111827;
-  --muted: #5f6878;
-  --accent: #2563eb;
-  --soft: #f0f5ff;
+  --ink: #1a1a1a;
+  --muted: #6b6b6b;
+  --accent: #c4613a;
+  --soft: #f2f0ea;
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'Commissioner', system-ui, sans-serif;
 }
 * { box-sizing: border-box; }
 body {
   margin: 0;
   color: var(--ink);
-  font-family: Inter, system-ui, sans-serif;
-  background: #ffffff;
+  font-family: var(--font-body);
+  background: #faf9f7;
 }
 .hero {
   display: grid;
@@ -61,11 +66,13 @@ body {
   align-items: center;
   min-height: 720px;
   padding: 72px;
-  background: linear-gradient(135deg, #f7f9ff, #ffffff 58%, #eaf1ff);
+  background: #faf9f7;
 }
 .hero h1 {
   max-width: 780px;
   margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 600;
   font-size: clamp(42px, 7vw, 92px);
   line-height: .95;
 }
@@ -77,27 +84,27 @@ body {
 }
 .eyebrow {
   color: var(--accent);
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: .08em;
+  letter-spacing: .12em;
+  font-size: 13px;
 }
 .button {
   display: inline-flex;
   min-height: 48px;
   align-items: center;
-  padding: 0 20px;
-  border-radius: 8px;
-  color: white;
-  background: var(--accent);
+  padding: 0 22px;
+  border-radius: 4px;
+  color: #faf9f7;
+  background: var(--ink);
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 600;
 }
 .hero img {
   width: 100%;
   aspect-ratio: 4 / 5;
-  border-radius: 22px;
+  border-radius: 4px;
   object-fit: cover;
-  box-shadow: 0 28px 80px rgba(37,99,235,.2);
 }
 .features {
   display: grid;
@@ -106,11 +113,12 @@ body {
   padding: 42px 72px;
 }
 .features article, .cta {
-  border: 1px solid #dce5f5;
-  border-radius: 12px;
+  border: 1px solid #e6e3dd;
+  border-radius: 4px;
   background: #fff;
   padding: 28px;
 }
+.features h2, .cta h2 { font-family: var(--font-heading); font-weight: 600; }
 .features p, .cta p { color: var(--muted); line-height: 1.6; }
 .cta {
   margin: 0 72px 72px;

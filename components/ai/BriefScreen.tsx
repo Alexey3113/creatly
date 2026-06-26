@@ -11,10 +11,21 @@ interface ScrapedData {
   headings: string[];
   paragraphs: string[];
   contacts: string[];
+  lang?: string;
+  ogImage?: string;
+  logo?: string;
+  brandColors?: string[];
+  fonts?: string[];
+  nav?: string[];
+  ctas?: { text: string; href: string }[];
+  images?: { src: string; alt: string }[];
+  socials?: string[];
+  jsonLd?: string;
+  looksLikeSPA?: boolean;
 }
 
 interface BriefScreenProps {
-  template: TemplateInfo;
+  template: TemplateInfo | null;
   onSubmit: (data: { audioBlob?: Blob; textBrief: string; templateId: string; scrapedData?: ScrapedData }) => void;
   onBack: () => void;
 }
@@ -63,7 +74,7 @@ export function BriefScreen({ template, onSubmit, onBack }: BriefScreenProps) {
     onSubmit({
       audioBlob: mode === "voice" ? audioBlobRef.current ?? undefined : undefined,
       textBrief: mode === "text" ? textBrief : "",
-      templateId: template.id,
+      templateId: template ? template.id : "none",
       scrapedData: scrapedData ?? undefined,
     });
   }
@@ -76,7 +87,7 @@ export function BriefScreen({ template, onSubmit, onBack }: BriefScreenProps) {
         <button className="brief-back" type="button" onClick={onBack}>&larr; Назад</button>
         <div>
           <h1>Расскажите о вашем сайте</h1>
-          <p>Шаблон: <strong>{template.title}</strong></p>
+          <p>{template ? <>Шаблон: <strong>{template.title}</strong></> : <>Дизайн <strong>с нуля</strong> — без шаблона</>}</p>
         </div>
       </header>
 
@@ -120,13 +131,28 @@ export function BriefScreen({ template, onSubmit, onBack }: BriefScreenProps) {
             {scrapeError && <p className="brief-url-error">{scrapeError}</p>}
             {scrapedData && (
               <div className="brief-url-result">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round"><path d="M20 6L9 17l-5-5" /></svg>
-                <span>
-                  Извлечено: {scrapedData.title ? `«${scrapedData.title}»` : "без названия"}
-                  {scrapedData.headings.length > 0 && `, ${scrapedData.headings.length} заголовков`}
-                  {scrapedData.paragraphs.length > 0 && `, ${scrapedData.paragraphs.length} текстов`}
-                  {scrapedData.contacts.length > 0 && `, ${scrapedData.contacts.length} контактов`}
-                </span>
+                <div className="brief-url-result__head">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round"><path d="M20 6L9 17l-5-5" /></svg>
+                  <span>Извлечено: {scrapedData.title ? `«${scrapedData.title}»` : "без названия"}</span>
+                </div>
+                <div className="brief-url-result__stats">
+                  {scrapedData.headings.length > 0 && <span>{scrapedData.headings.length} заголовков</span>}
+                  {scrapedData.paragraphs.length > 0 && <span>{scrapedData.paragraphs.length} текстов</span>}
+                  {scrapedData.nav && scrapedData.nav.length > 0 && <span>{scrapedData.nav.length} пунктов меню</span>}
+                  {scrapedData.images && scrapedData.images.length > 0 && <span>{scrapedData.images.length} картинок</span>}
+                  {scrapedData.contacts.length > 0 && <span>{scrapedData.contacts.length} контактов</span>}
+                  {scrapedData.socials && scrapedData.socials.length > 0 && <span>{scrapedData.socials.length} соцсетей</span>}
+                </div>
+                {scrapedData.brandColors && scrapedData.brandColors.length > 0 && (
+                  <div className="brief-url-result__colors">
+                    {scrapedData.brandColors.slice(0, 6).map((c) => (
+                      <span key={c} title={c} style={{ background: c }} />
+                    ))}
+                  </div>
+                )}
+                {scrapedData.looksLikeSPA && (
+                  <p className="brief-url-warn">⚠ Сайт на JS — извлечено мало. Опишите бизнес в брифе подробнее.</p>
+                )}
               </div>
             )}
           </div>

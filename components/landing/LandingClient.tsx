@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./landing.css";
 
 const IMAGES = {
@@ -21,6 +21,45 @@ const VIDEOS = [
   { name: "Aeris", niche: "Архитектура домов", video: "/sites/site4.mp4", poster: "/sites/site4-poster.webp" },
   { name: "BA-climate", niche: "Магазин кондиционеров", video: "/sites/site7.mp4", poster: "/sites/site7-poster.webp" },
   { name: "Alexend sites", niche: "Портфолио", video: "/sites/site1.mp4", poster: "/sites/site1-poster.webp" },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "Creatly превращает голосовой бриф в сайт быстрее, чем мы раньше собирали один экран в конструкторе. Самое сильное — потом всё можно поправить прямо на странице.",
+    name: "Алина Морозова",
+    role: "Founder, wellness studio",
+    avatar: "/landing/avatar-am.webp",
+  },
+  {
+    quote: "Мы перестали прыгать между дизайнером, копирайтером и верстальщиком. AI даёт основу, а визуальный редактор позволяет довести лендинг до нужного уровня без хаоса.",
+    name: "Илья Воронцов",
+    role: "Marketing Lead, SaaS",
+    avatar: "/landing/avatar-iv.webp",
+  },
+  {
+    quote: "Мне важно быстро тестировать гипотезы. Здесь я могу собрать оффер, поменять блоки, адаптив и CTA за один вечер, не ломая дизайн.",
+    name: "Мария Лебедева",
+    role: "Product manager",
+    avatar: "/landing/avatar-ml.webp",
+  },
+  {
+    quote: "Для агентства это выглядит как новый производственный контур: шаблон, AI-бриф, редактор, публикация. Клиент видит результат почти сразу.",
+    name: "Денис Романов",
+    role: "Creative agency owner",
+    avatar: "/landing/avatar-dr.webp",
+  },
+  {
+    quote: "В Tilda мы часто упирались в однотипные блоки. Тут ощущение, что можно двигать продукт глубже: свои файлы, свои секции, свои сценарии.",
+    name: "Кира Соколова",
+    role: "No-code consultant",
+    avatar: "/landing/avatar-ks.webp",
+  },
+  {
+    quote: "Главное отличие — скорость без ощущения дешёвого шаблона. Можно сделать аккуратный, живой сайт и не потерять контроль над деталями.",
+    name: "Никита Павлов",
+    role: "E-commerce founder",
+    avatar: "/landing/avatar-np.webp",
+  },
 ];
 
 export function LandingClient() {
@@ -44,50 +83,12 @@ export function LandingClient() {
     return () => obs.current?.disconnect();
   }, []);
 
-  const testimonials = [
-    {
-      quote: "Creatly превращает голосовой бриф в сайт быстрее, чем мы раньше собирали один экран в конструкторе. Самое сильное — потом всё можно поправить прямо на странице.",
-      name: "Алина Морозова",
-      role: "Founder, wellness studio",
-      avatar: "/landing/avatar-am.webp",
-    },
-    {
-      quote: "Мы перестали прыгать между дизайнером, копирайтером и верстальщиком. AI даёт основу, а визуальный редактор позволяет довести лендинг до нужного уровня без хаоса.",
-      name: "Илья Воронцов",
-      role: "Marketing Lead, SaaS",
-      avatar: "/landing/avatar-iv.webp",
-    },
-    {
-      quote: "Мне важно быстро тестировать гипотезы. Здесь я могу собрать оффер, поменять блоки, адаптив и CTA за один вечер, не ломая дизайн.",
-      name: "Мария Лебедева",
-      role: "Product manager",
-      avatar: "/landing/avatar-ml.webp",
-    },
-    {
-      quote: "Для агентства это выглядит как новый производственный контур: шаблон, AI-бриф, редактор, публикация. Клиент видит результат почти сразу.",
-      name: "Денис Романов",
-      role: "Creative agency owner",
-      avatar: "/landing/avatar-dr.webp",
-    },
-    {
-      quote: "В Tilda мы часто упирались в однотипные блоки. Тут ощущение, что можно двигать продукт глубже: свои файлы, свои секции, свои сценарии.",
-      name: "Кира Соколова",
-      role: "No-code consultant",
-      avatar: "/landing/avatar-ks.webp",
-    },
-    {
-      quote: "Главное отличие — скорость без ощущения дешёвого шаблона. Можно сделать аккуратный, живой сайт и не потерять контроль над деталями.",
-      name: "Никита Павлов",
-      role: "E-commerce founder",
-      avatar: "/landing/avatar-np.webp",
-    },
-  ];
-  const activeTestimonial = testimonials[testimonialIndex];
-  const prevTestimonial = testimonials[(testimonialIndex - 1 + testimonials.length) % testimonials.length];
-  const nextTestimonial = testimonials[(testimonialIndex + 1) % testimonials.length];
-  const shiftTestimonial = (direction: number) => {
-    setTestimonialIndex((current) => (current + direction + testimonials.length) % testimonials.length);
-  };
+  const activeTestimonial = TESTIMONIALS[testimonialIndex];
+  const prevTestimonial = TESTIMONIALS[(testimonialIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length];
+  const nextTestimonial = TESTIMONIALS[(testimonialIndex + 1) % TESTIMONIALS.length];
+  const shiftTestimonial = useCallback((direction: number) => {
+    setTestimonialIndex((current) => (current + direction + TESTIMONIALS.length) % TESTIMONIALS.length);
+  }, []);
 
   return (
     <>
@@ -335,7 +336,7 @@ export function LandingClient() {
 
           <div className="L-testimonials__controls">
             <button type="button" onClick={() => shiftTestimonial(-1)} aria-label="Предыдущий отзыв">←</button>
-            <span>{testimonialIndex + 1} / {testimonials.length}</span>
+            <span>{testimonialIndex + 1} / {TESTIMONIALS.length}</span>
             <button type="button" onClick={() => shiftTestimonial(1)} aria-label="Следующий отзыв">→</button>
           </div>
         </section>

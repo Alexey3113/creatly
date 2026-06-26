@@ -25,8 +25,9 @@ export default function DashboardPage() {
   const [view, setView] = useState<View>("loading");
   const [user, setUser] = useState<UserData | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateInfo | null>(null);
-  const [genStage, setGenStage] = useState<"transcribing" | "analyzing" | "generating" | "finalizing" | "done" | "error">("transcribing");
+  const [genStage, setGenStage] = useState<"transcribing" | "analyzing" | "art-direction" | "generating" | "finalizing" | "done" | "error">("transcribing");
   const [genError, setGenError] = useState("");
+  const [genConcept, setGenConcept] = useState("");
   const [, setOnboardingResult] = useState<OnboardingResult | null>(null);
 
   useEffect(() => {
@@ -81,7 +82,8 @@ export default function DashboardPage() {
   }
 
   function handleAIGenerate(id: string) {
-    setSelectedTemplate(templates.find((t) => t.id === id) || null);
+    // id === "none" → генерация без шаблона (дизайн с нуля)
+    setSelectedTemplate(id === "none" ? null : templates.find((t) => t.id === id) || null);
     setView("brief");
   }
 
@@ -101,8 +103,9 @@ export default function DashboardPage() {
         const formData = new FormData();
         formData.append("audio", data.audioBlob, "recording.webm");
         const res = await fetch("/api/ai/transcribe", { method: "POST", body: formData });
+        if (!res.ok) { setGenStage("error"); setGenError("Ошибка транскрипции (сервер вернул " + res.status + ")"); return; }
         const json = await res.json();
-        if (!res.ok || !json.text) { setGenStage("error"); setGenError(json.error || "Ошибка транскрипции"); return; }
+        if (!json.text) { setGenStage("error"); setGenError(json.error || "Ошибка транскрипции"); return; }
         brief = json.text;
       } catch (err) { setGenStage("error"); setGenError(`Ошибка: ${err}`); return; }
     }
@@ -115,7 +118,13 @@ export default function DashboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ brief, templateId: data.templateId, scrapedData: data.scrapedData }),
       });
-      if (!res.ok || !res.body) { setGenStage("error"); setGenError("Ошибка подключения к AI"); return; }
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        setGenStage("error");
+        setGenError(`Ошибка подключения к AI (${res.status}): ${text.slice(0, 200)}`);
+        return;
+      }
+      if (!res.body) { setGenStage("error"); setGenError("Ошибка подключения к AI: пустой ответ"); return; }
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -131,7 +140,14 @@ export default function DashboardPage() {
           if (!line.startsWith("data: ")) continue;
           try {
             const msg = JSON.parse(line.slice(6));
-            if (msg.stage) setGenStage(msg.stage);
+            // "art-direction-done" несёт концепцию, но не двигает прогресс —
+            // подсветку оставляем на этапе art-direction до прихода "generating".
+            if (msg.stage === "art-direction-done") {
+              if (msg.concept) setGenConcept(msg.concept);
+            } else if (msg.stage) {
+              setGenStage(msg.stage);
+              if (msg.concept) setGenConcept(msg.concept);
+            }
             if (msg.error) setGenError(msg.error);
             if (msg.stage === "done" && msg.result) {
               const generated = msg.result as GeneratedSite;
@@ -172,12 +188,12 @@ export default function DashboardPage() {
     return <TemplateGallery onSelect={handleSelectTemplate} onUpload={handleUpload} onAIGenerate={handleAIGenerate} />;
   }
 
-  if (view === "brief" && selectedTemplate) {
+  if (view === "brief") {
     return <BriefScreen template={selectedTemplate} onSubmit={handleBriefSubmit} onBack={() => setView("gallery")} />;
   }
 
   if (view === "generating") {
-    return <GenerationProgress stage={genStage} error={genError} />;
+    return <GenerationProgress stage={genStage} error={genError} concept={genConcept} />;
   }
 
   return null;
