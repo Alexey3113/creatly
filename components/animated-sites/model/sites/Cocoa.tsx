@@ -12,7 +12,7 @@ import "./cocoa.css";
 
 const A = "/uploads/1/animated/cocoa";
 /* актёр-ара: спрайт Higs (actor-macaw.webp) или DOM-фолбэк — SVG-силуэт в полёте вправо со взмахом крыла */
-const MACAW_SPRITE: string | null = null;
+const MACAW_SPRITE: string | null = "/uploads/1/animated/cocoa/actor-macaw.webp";
 function MacawDom() {
   return (
     <svg className="cc-macaw" viewBox="0 0 200 120" aria-hidden>
