@@ -54,7 +54,7 @@
 /* ЗАСТЫВАНИЕ: камера встала, кадр слегка обесцвечен, выходит титр (контент — сайта, позиция по умолчанию) */
 .rl-scene[data-frozen] .rl-world{ filter:saturate(.55) contrast(1.06) brightness(.93); }
 .rl-freeze{ position:absolute; z-index:11; right:6vw; bottom:12vh; opacity:0; transform:scale(1.18) rotate(-2deg);
-  transition:opacity .45s ease, transform .6s cubic-bezier(.2,.9,.25,1.15); pointer-events:none; }
+  transition:opacity .45s ease, transform .6s cubic-bezier(.22,1,.36,1); pointer-events:none; }
 .rl-scene[data-frozen] .rl-freeze{ opacity:1; transform:scale(1) rotate(-2deg); }
 
 /* ЭФФЕКТЫ ШВА — над всеми сценами */
