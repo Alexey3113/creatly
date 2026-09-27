@@ -530,24 +530,24 @@
   "id": "vision",
   "url": "story/vision",
   "mode": "deck",
-  "deckSel": ".deck",
-  "sceneSel": ".deck-scene"
+  "deckSel": ".stage",
+  "sceneSel": ".stage-scene"
  },
  {
   "fam": "story",
   "id": "shadows",
   "url": "story/shadows",
   "mode": "deck",
-  "deckSel": ".deck",
-  "sceneSel": ".deck-scene"
+  "deckSel": ".stage",
+  "sceneSel": ".stage-scene"
  },
  {
   "fam": "story",
   "id": "solitude",
   "url": "story/solitude",
   "mode": "deck",
-  "deckSel": ".deck",
-  "sceneSel": ".deck-scene"
+  "deckSel": ".stage",
+  "sceneSel": ".stage-scene"
  },
  {
   "fam": "concept",

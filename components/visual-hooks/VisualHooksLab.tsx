@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ShaderReveal } from "./ShaderReveal";
 import { ShaderImage } from "./ShaderImage";
 import { DepthParallax } from "./DepthParallax";
 import { BackgroundsShowcase } from "./BackgroundsShowcase";
