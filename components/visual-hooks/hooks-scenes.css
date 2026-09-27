@@ -239,7 +239,7 @@
 .bot-shadow-w{position:absolute;z-index:2;width:var(--bw);aspect-ratio:1;left:calc(var(--bx) - var(--bw) * .497);top:calc(var(--by) - var(--bw) * .806);transform-origin:49.7% 80.6%;transform:scaleY(.3);pointer-events:none}
 .bot-shadow{position:absolute;inset:0;width:100%;height:100%;transform-origin:49.7% 80.6%;transform:rotate(var(--az,-72deg)) scaleY(var(--len,1.5));filter:brightness(0) blur(calc(4px + var(--len,1.5) * 1.6px));opacity:calc(.34 - var(--warm,0) * .06 + var(--dusk,0) * .3)}
 .bot-light{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(100deg,rgba(255,170,90,0),rgba(255,150,60,.4));mix-blend-mode:multiply;opacity:var(--warm,0)}
-.bot-duskfall{position:absolute;inset:0;z-index:6;pointer-events:none;background:linear-gradient(90deg,#2b2233 0%,#3b2d3a 60%,rgba(59,45,58,.65));opacity:calc(var(--dusk,0) * .92)}
+.bot-duskfall{position:absolute;inset:0;z-index:6;pointer-events:none;background:linear-gradient(90deg,#241c2b 0%,#2f2430 60%,#3a2c38);opacity:var(--dusk,0)}
 .bot-room{position:absolute;inset:0;z-index:7;width:100%;height:100%;object-fit:cover;opacity:var(--room,0);transform:scale(calc(1.08 - var(--room,0) * .08))}
 .bot-list{opacity:calc(1 - var(--dusk,0))}
 .bot-clock{position:absolute;z-index:8;right:3vw;bottom:8vh;text-align:right;color:#26331c;opacity:calc(1 - var(--dusk,0) * 1.3)}
@@ -254,11 +254,11 @@
 
 /* ========== neon-forge: раскал → закалка → хром → Carry в карточку сплава ========== */
 .nf-grid{opacity:.85}
-.nf-canvas{--nx:calc(12vw + var(--carry,0) * 12vw)}
+.nf-canvas{--nx:calc(16vw + var(--carry,0) * 8vw)}
 .nf-bg{mix-blend-mode:screen;transform:translate(var(--nx),calc(var(--carry,0) * 2vh)) scale(calc(1 - var(--carry,0) * .45));filter:sepia(var(--heat,0)) saturate(calc(1 + var(--heat,0) * 5)) hue-rotate(calc(var(--heat,0) * -14deg)) brightness(calc(1 + var(--heat,0) * .35 + var(--edge,0) * .12));-webkit-mask-image:radial-gradient(ellipse 58% 64% at 50% 50%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 58% 64% at 50% 50%,#000 58%,transparent 100%)}
 .nf-heatglow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(26% 40% at 50% 52%,rgba(255,140,40,.55),rgba(255,70,20,.18) 45%,transparent 70%);mix-blend-mode:screen;opacity:var(--heat,0);transform:translateX(var(--nx))}
 .nf-steam{position:absolute;inset:-10%;z-index:3;pointer-events:none;background:radial-gradient(22% 30% at 46% 60%,rgba(255,255,255,.8),transparent 70%),radial-gradient(18% 26% at 56% 44%,rgba(230,250,255,.7),transparent 70%),radial-gradient(30% 20% at 50% 30%,rgba(255,255,255,.5),transparent 70%);filter:blur(22px);opacity:calc(var(--steam,0) * .9);transform:translateX(var(--nx)) translateY(calc(var(--steam,0) * -6vh)) scale(calc(1 + var(--steam,0) * .3))}
-.nf-h1{left:3vw;right:auto;top:auto;bottom:15vh;text-align:left;mix-blend-mode:normal;text-shadow:0 0 30px rgba(5,6,10,.95);font-size:clamp(50px,7.4vw,128px);opacity:calc(1 - var(--carry,0) * 2)}
+.nf-h1{left:3vw;right:auto;top:auto;bottom:15vh;text-align:left;mix-blend-mode:normal;text-shadow:0 0 30px rgba(5,6,10,.95);font-size:clamp(46px,6.4vw,116px);opacity:calc(1 - var(--carry,0) * 2)}
 .nf-metrics{opacity:calc(1 - var(--end,0))}
 .nf-end{position:absolute;z-index:6;left:3vw;top:50%;max-width:440px;color:#eafdff;opacity:var(--end,0);transform:translateY(calc(-50% + (1 - var(--end,0)) * 3vh))}
 .nf-end-k{font:600 11px var(--vh-mono);text-transform:uppercase;letter-spacing:.1em;color:#3df0ff}
@@ -279,7 +279,7 @@
 @media(max-width:800px){.mo-glasses{width:92vw;top:40%}.mo-end{left:18px;right:18px;bottom:6vh}}
 
 /* ========== liquid-word: вращение по чистым кадрам → плавление в жидкий фон → работы ========== */
-.lw-bg{transform:perspective(1200px) rotateY(calc(var(--turn,0) * -16deg)) translateY(calc(var(--melt,0) * 8vh)) scaleY(calc(1 + var(--melt,0) * .22));filter:blur(calc(var(--melt,0) * 10px));opacity:calc(1 - var(--melt,0) * .9);-webkit-mask-image:radial-gradient(ellipse 74% 82% at 50% 50%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 74% 82% at 50% 50%,#000 60%,transparent 100%)}
+.lw-bg{transform:perspective(1200px) rotateY(calc(var(--turn,0) * -12deg)) translateY(calc(var(--melt,0) * 8vh)) scaleY(calc(1 + var(--melt,0) * .22));filter:blur(calc(var(--melt,0) * 10px));opacity:calc(1 - var(--melt,0) * .9);-webkit-mask-image:radial-gradient(ellipse 74% 82% at 50% 50%,#000 60%,transparent 100%);mask-image:radial-gradient(ellipse 74% 82% at 50% 50%,#000 60%,transparent 100%)}
 .lw-pool{position:absolute;z-index:3;left:-5vw;right:-5vw;bottom:-5vh;height:118vh;pointer-events:none;background:linear-gradient(180deg,#d9d2f2 0%,#bab1e3 30%,#948bcb 100%);transform:translateY(calc(100% - var(--melt,0) * 100%))}
 .lw-pool:before{content:"";position:absolute;left:0;right:0;top:-38px;height:40px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='40' viewBox='0 0 480 40'%3E%3Cpath d='M0 22 Q60 2 120 22 T240 22 T360 22 T480 22 V40 H0Z' fill='%23d9d2f2'/%3E%3C/svg%3E") repeat-x 0 0/480px 40px;animation:lw-wave 5s linear infinite}
 .lw-pool:after{content:"";position:absolute;left:0;right:0;top:-2px;height:3px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);filter:blur(1px)}
@@ -308,6 +308,7 @@
 .od-white{position:absolute;inset:0;z-index:4;background:#f4f8ff;opacity:calc(var(--wo,0) * .95);pointer-events:none}
 .od-hero{z-index:5}
 .od-stop span{display:block;max-width:380px;margin-top:10px}
+.od-hero:before{content:"";position:absolute;z-index:-1;inset:-12vh -10vw -10vh -8vw;background:radial-gradient(closest-side,rgba(244,248,255,.92),rgba(244,248,255,0));pointer-events:none}
 .od-stop0{opacity:calc(1 - var(--s1,0))}
 .od-stop1{opacity:calc(var(--s1,0) - var(--s2,0))}
 .od-stop2{opacity:calc(var(--s2,0) - var(--s3,0))}
@@ -319,13 +320,13 @@
 @media(max-width:800px){.od-end{left:18px;right:18px;flex-direction:column;align-items:flex-start}.od-pin{left:60%}.od-city span{left:calc(60% - 60px);top:calc(52% + 28px)}}
 
 /* ========== atelier-hand: к флакону → склейка в макро → янтарь → ателье ========== */
-.ah-bg{transform-origin:var(--fx,39%) var(--fy,55%);transform:scale(calc(1.02 + var(--push,0) * var(--push,0) * 1));filter:blur(calc(var(--cut,0) * 4px));opacity:calc(1 - var(--cut,0))}
-.ah-macro{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;transform-origin:var(--lqx,48%) var(--lqy,42%);transform:scale(calc(1.5 + var(--macro,0) * var(--macro,0) * 2.6));opacity:var(--cut,0);filter:blur(calc(var(--amb,0) * 10px)) saturate(calc(1 + var(--amb,0) * .4))}
+.ah-bg{transform-origin:var(--fx,39%) var(--fy,62%);transform:scale(calc(1.02 + var(--push,0) * .3));filter:blur(calc(var(--cut,0) * 16px));opacity:calc(1 - var(--cut,0))}
+.ah-macro{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;transform-origin:var(--lqx,48%) var(--lqy,42%);transform:scale(calc(1.25 + var(--macro,0) * var(--macro,0) * 2.8));opacity:var(--cut,0);filter:blur(calc((1 - var(--cut,0)) * 16px + var(--amb,0) * 10px)) saturate(calc(1 + var(--amb,0) * .4))}
 .ah-amber{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60% 70% at 50% 50%,rgba(255,196,110,.55),rgba(170,96,30,.85));mix-blend-mode:multiply;opacity:var(--amb,0)}
 .ah-h1{top:15vh;font-size:clamp(48px,6.2vw,112px);opacity:calc(1 - var(--h,0));transform:translateX(calc(var(--h,0) * -4vw))}
 .ah-tag{color:#faf3ea;text-shadow:0 1px 14px rgba(40,25,10,.6);opacity:calc(1 - var(--h,0))}
 .ah-num,.ah-date{opacity:calc(.8 - var(--push,0) * 2)}
-.ah-line{position:absolute;z-index:5;left:4vw;bottom:14vh;margin:0;max-width:560px;color:#fff6ea;font:400 clamp(26px,3vw,46px)/1.15 var(--vh-serif);text-shadow:0 2px 30px rgba(60,30,0,.55);opacity:calc(var(--t1,0) - var(--end,0) * 2)}
+.ah-line{position:absolute;z-index:5;left:4vw;bottom:14vh;margin:0;max-width:560px;color:#fff6ea;font:400 clamp(26px,3vw,46px)/1.15 var(--vh-serif);text-shadow:0 2px 30px rgba(60,30,0,.55);opacity:calc(var(--t1,0) - var(--amb,0) * 2.5)}
 .ah-line em{font-style:italic}
 .ah-end{position:absolute;z-index:5;left:4vw;bottom:12vh;max-width:480px;color:#fff6ea;opacity:var(--end,0);transform:translateY(calc((1 - var(--end,0)) * 3vh))}
 .ah-end-k{font:600 11px var(--vh-mono);text-transform:uppercase;letter-spacing:.1em}

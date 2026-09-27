@@ -56,25 +56,25 @@ const scenes: Scene[] = [
   { slug: "monolith", number: "★", title: "Monolith", family: "Interactive story", note: "Mist parts and the dusk ignites behind the stone.", preview: "/uploads/1/hooks/scenes/monolith-poster.jpg", accent: "#ff9d5c" },
   { slug: "planet-vigil", number: "★", title: "Planet Vigil", family: "Interactive story", note: "A world turns while she keeps her quiet watch.", preview: "/uploads/1/hooks/scenes/planet-vig-poster.jpg", accent: "#f0a6c8" },
   { slug: "ascension", number: "★", title: "Ascension", family: "Interactive story", note: "A figure surfaces from the light and returns.", preview: "/uploads/1/hooks/scenes/ascension-poster.jpg", accent: "#e6dcff" },
-  { slug: "rev-neura", number: "R1", title: "Neura", family: "Cursor reveal", note: "Move across the face to reveal the machine beneath.", preview: "/uploads/1/hooks/casts/rev-neura.mp4", accent: "#4defff" },
-  { slug: "rev-mythic", number: "R2", title: "Mythic", family: "Cursor reveal", note: "A daylit valley that glows alive under your cursor.", preview: "/uploads/1/hooks/casts/rev-mythic.mp4", accent: "#43e0c0" },
-  { slug: "rev-imperial", number: "R3", title: "Imperial", family: "Cursor reveal", note: "Trace the globe to light its hidden network.", preview: "/uploads/1/hooks/casts/rev-imperial.mp4", accent: "#3df0ff" },
-  { slug: "track-portfolio", number: "S1", title: "Studio X", family: "Scroll gaze", note: "A face that turns to follow you as you scroll.", preview: "/uploads/1/hooks/scenes/gaze-face-poster.jpg", accent: "#38bdf8" },
-  { slug: "track-sentry", number: "S2", title: "Sentry", family: "Scroll gaze", note: "A watcher that tracks your descent down the page.", preview: "/uploads/1/hooks/scenes/gaze-char-poster.jpg", accent: "#39d0ff" },
-  { slug: "track-neon", number: "S3", title: "Neon Logic", family: "Scroll gaze", note: "A neon emblem that turns as the page moves.", preview: "/uploads/1/hooks/scenes/neon-obj-poster.jpg", accent: "#41e6ff" },
-  { slug: "living-object", number: "00", title: "Living Object", family: "Cinematic scrub", note: "Scroll wakes a sealed object until light breaks through the seam.", preview: "/uploads/1/hooks/ovoid-hero-poster.jpg", accent: "#f4b968" },
-  { slug: "cloud-step", number: "02", title: "Cloud Step", family: "Cutout parallax", note: "A sculpted sneaker floats on a sky that isn't its own.", preview: "/uploads/1/hooks/casts/cloud-step.mp4", accent: "#ff9ec4" },
-  { slug: "strata", number: "03", title: "Strata", family: "Layered editorial", note: "A living ridge of stone drifts across a clean sky.", preview: "/uploads/1/hooks/scenes/s2-strata.png", accent: "#c8ff5a" },
-  { slug: "reverie", number: "04", title: "Reverie", family: "Portal object", note: "A ring of light opens into another climate.", preview: "/uploads/1/hooks/scenes/s3-forest.png", accent: "#f6b23a" },
-  { slug: "vanguard", number: "05", title: "Vanguard", family: "Kinetic typography", note: "Three commands and a crew that stands behind them.", preview: "/uploads/1/hooks/scenes/s4-figures-cut.png", accent: "#ff3b2f" },
-  { slug: "aether", number: "06", title: "Aether", family: "Atmospheric", note: "A monolith breathes through lavender fog.", preview: "/uploads/1/hooks/casts/aether.mp4", accent: "#b9a6e6" },
-  { slug: "botanica", number: "07", title: "Botanica", family: "Material shadow", note: "An object and its shadow follow your hand.", preview: "/uploads/1/hooks/scenes/s6-object-cut.png", accent: "#9ec48a" },
-  { slug: "neon-forge", number: "08", title: "Neon Forge", family: "Techno grid", note: "A chrome shard hovers over a charged grid.", preview: "/uploads/1/hooks/scenes/s7-chrome-cut.png", accent: "#3df0ff" },
-  { slug: "macro-optics", number: "09", title: "Macro Optics", family: "Product macro", note: "A lens crops the frame and light sweeps across it.", preview: "/uploads/1/hooks/casts/macro-optics.mp4", accent: "#e8a24a" },
-  { slug: "liquid-word", number: "10", title: "Liquid Word", family: "3D typography", note: "The brand is the object, poured in chrome.", preview: "/uploads/1/hooks/casts/liquid-word.mp4", accent: "#c7d0ff" },
-  { slug: "orbit-data", number: "11", title: "Orbit Data", family: "Data theatre", note: "A quiet planet anchors a wall of numbers.", preview: "/uploads/1/hooks/scenes/s10-globe-cut.png", accent: "#4a90ff" },
-  { slug: "atelier-hand", number: "12", title: "Atelier", family: "Editorial fashion", note: "A hand offers the object before the model.", preview: "/uploads/1/hooks/casts/atelier-hand.mp4", accent: "#d8b48a" },
-  { slug: "fold-horizon", number: "13", title: "Fold Horizon", family: "Parallax narrative", note: "The landscape folds around a human scale.", preview: "/uploads/1/hooks/casts/fold-horizon.mp4", accent: "#9cc3e0" },
+  { slug: "rev-neura", number: "R1", title: "Neura", family: "Cursor reveal", note: "A soft lens finds the machine under the skin; scroll opens it fully.", preview: "/uploads/1/hooks/casts/rev-neura.mp4", accent: "#4defff" },
+  { slug: "rev-mythic", number: "R2", title: "Mythic", family: "Cursor reveal", note: "Scroll sets the sun; at nightfall the valley glows alive.", preview: "/uploads/1/hooks/casts/rev-mythic.mp4", accent: "#43e0c0" },
+  { slug: "rev-imperial", number: "R3", title: "Imperial", family: "Cursor reveal", note: "Trace the globe, then scroll along its routes into the brightest node.", preview: "/uploads/1/hooks/casts/rev-imperial.mp4", accent: "#3df0ff" },
+  { slug: "track-portfolio", number: "S1", title: "Studio X", family: "Scroll gaze", note: "A face follows your cursor, then your scroll — and hands you the work.", preview: "/uploads/1/hooks/scenes/gaze-face-poster.jpg", accent: "#38bdf8" },
+  { slug: "track-sentry", number: "S2", title: "Sentry", family: "Scroll gaze", note: "A watcher turns to you, locks on, and shows what it sees.", preview: "/uploads/1/hooks/scenes/gaze-char-poster.jpg", accent: "#39d0ff" },
+  { slug: "track-neon", number: "S3", title: "Neon Logic", family: "Scroll gaze", note: "A neon emblem turns with your scroll; one face opens into the product.", preview: "/uploads/1/hooks/scenes/neon-obj-poster.jpg", accent: "#41e6ff" },
+  { slug: "living-object", number: "00", title: "Living Object", family: "Cinematic scrub", note: "Scroll wakes a sealed object; the camera passes through its seam of light.", preview: "/uploads/1/hooks/ovoid-hero-poster.jpg", accent: "#f4b968" },
+  { slug: "cloud-step", number: "02", title: "Cloud Step", family: "Cutout parallax", note: "A sneaker falls through the clouds with you and lands in the drop.", preview: "/uploads/1/hooks/casts/cloud-step.mp4", accent: "#ff9ec4" },
+  { slug: "strata", number: "03", title: "Strata", family: "Layered editorial", note: "A scan cuts a ridge of stone into strata, one layer per feature.", preview: "/uploads/1/hooks/scenes/s2-strata.png", accent: "#c8ff5a" },
+  { slug: "reverie", number: "04", title: "Reverie", family: "Portal object", note: "A ring of light opens; the camera flies on to the next portal.", preview: "/uploads/1/hooks/scenes/s3-forest.png", accent: "#f6b23a" },
+  { slug: "vanguard", number: "05", title: "Vanguard", family: "Kinetic typography", note: "Three commands, one per scroll beat, with the crew standing behind them.", preview: "/uploads/1/hooks/scenes/s4-figures-cut.png", accent: "#ff3b2f" },
+  { slug: "aether", number: "06", title: "Aether", family: "Atmospheric", note: "Rise through lavender fog to a monolith house that breathes light.", preview: "/uploads/1/hooks/casts/aether.mp4", accent: "#b9a6e6" },
+  { slug: "botanica", number: "07", title: "Botanica", family: "Material shadow", note: "Scroll moves the sun: the shadow turns with it — and with your hand.", preview: "/uploads/1/hooks/scenes/s6-object-cut.png", accent: "#9ec48a" },
+  { slug: "neon-forge", number: "08", title: "Neon Forge", family: "Techno grid", note: "Scroll forges a chrome shard: molten, quenched, finished.", preview: "/uploads/1/hooks/scenes/s7-chrome-cut.png", accent: "#3df0ff" },
+  { slug: "macro-optics", number: "09", title: "Macro Optics", family: "Product macro", note: "Light sweeps the frame, then scroll steps into her amber lens.", preview: "/uploads/1/hooks/casts/macro-optics.mp4", accent: "#e8a24a" },
+  { slug: "liquid-word", number: "10", title: "Liquid Word", family: "3D typography", note: "Chrome FLUX turns with your scroll, then melts into the work.", preview: "/uploads/1/hooks/casts/liquid-word.mp4", accent: "#c7d0ff" },
+  { slug: "orbit-data", number: "11", title: "Orbit Data", family: "Data theatre", note: "Zoom from the planet to your street, one number per stop.", preview: "/uploads/1/hooks/scenes/s10-globe-cut.png", accent: "#4a90ff" },
+  { slug: "atelier-hand", number: "12", title: "Atelier", family: "Editorial fashion", note: "From the model’s hand into the glass, then on to the atelier.", preview: "/uploads/1/hooks/casts/atelier-hand.mp4", accent: "#d8b48a" },
+  { slug: "fold-horizon", number: "13", title: "Fold Horizon", family: "Parallax narrative", note: "The frame freezes and the horizon folds into the next chapter.", preview: "/uploads/1/hooks/casts/fold-horizon.mp4", accent: "#9cc3e0" },
 ];
 
 function Media({ src, className = "", scrubRef, poster, preload }: { src: string; className?: string; scrubRef?: React.RefObject<HTMLVideoElement | null>; poster?: string; preload?: "auto" | "metadata" | "none" }) {
@@ -1035,14 +1035,14 @@ function Aether() {
 
 /* botanica: вернули слои объект + тень (вырезка). Скролл ведёт солнце через день — тень вращается и удлиняется,
    свет теплеет; на десктопе тень ещё и тянется за рукой. В сумерках тень накрывает кадр → комната с растением. */
-const BOT_BEATS: readonly Beat[] = [["--day", 0.06, 0.7, true], ["--warm", 0.36, 0.7], ["--dusk", 0.66, 0.82], ["--room", 0.8, 0.9], ["--end", 0.86, 0.96]];
+const BOT_BEATS: readonly Beat[] = [["--day", 0.06, 0.66, true], ["--warm", 0.34, 0.66], ["--dusk", 0.64, 0.78], ["--room", 0.79, 0.9], ["--end", 0.86, 0.96]];
 function Botanica() {
   const ref = useRef<HTMLDivElement>(null);
   useHookClock(ref, BOT_BEATS, ({ q, touch, ptr, set, text }) => {
-    const day = win(q, 0.06, 0.7);
+    const day = win(q, 0.06, 0.66);
     const hand = !touch && ptr.on ? (ptr.x - 0.5) * 44 : 0; // тень тянется за рукой: ±22°
     set("--az", `${(-72 + 144 * day + hand).toFixed(2)}deg`);
-    set("--len", 1.5 - 1.05 * Math.sin(Math.PI * day) + 0.45 * day + 2.4 * smooth(win(q, 0.66, 0.84)));
+    set("--len", 1.5 - 1.05 * Math.sin(Math.PI * day) + 0.45 * day + 2.6 * smooth(win(q, 0.62, 0.8)));
     const m = Math.round(400 + day * 830);
     text(".bot-clock b", `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`);
   });
@@ -1143,14 +1143,14 @@ function MacroOptics() {
 
 /* liquid-word: FLUX вращается скрабом по скроллу — только по чистым кадрам (0–3.3 с; «RLUX» и ребро вырезаны),
    затем плавится в жидкий фон, в котором всплывают работы студии. */
-const LW_BEATS: readonly Beat[] = [["--turn", 0.04, 0.5], ["--melt", 0.5, 0.78], ["--work", 0.72, 0.88], ["--end", 0.84, 0.95]];
+const LW_BEATS: readonly Beat[] = [["--turn", 0.04, 0.48], ["--melt", 0.46, 0.7], ["--work", 0.6, 0.78], ["--end", 0.8, 0.94]];
 function LiquidWord() {
   const ref = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
   useHookClock(ref, LW_BEATS, ({ q, f }) => {
     const turn = smooth(win(q, 0.04, 0.5));
     const idle = f.reduced ? 0 : 0.3 * (1 + Math.sin(f.t / 1700)) * (1 - turn);
-    seek(vid.current, idle + turn * 3.25);
+    seek(vid.current, idle + turn * 2.85); // после 2.9 с в фоне ролика появляются панели, дальше — ребро и «RLUX»
   });
   return (
     <div ref={ref} className="vh-canvas lw-canvas">
@@ -1210,11 +1210,11 @@ function OrbitData() {
 
 /* atelier-hand: скролл подводит камеру к флакону → склейка в макро руки (флакон без этикетки) → внутрь стекла
    и жидкости → янтарь → ателье по записи. */
-const AH_BEATS: readonly Beat[] = [["--h", 0.1, 0.2], ["--push", 0.1, 0.44], ["--cut", 0.38, 0.47], ["--macro", 0.44, 0.74], ["--amb", 0.62, 0.78], ["--t1", 0.5, 0.58], ["--end", 0.8, 0.94]];
+const AH_BEATS: readonly Beat[] = [["--h", 0.08, 0.18], ["--push", 0.06, 0.32], ["--cut", 0.24, 0.36], ["--macro", 0.3, 0.74], ["--amb", 0.6, 0.78], ["--t1", 0.4, 0.5], ["--end", 0.8, 0.94]];
 function AtelierHand() {
   const ref = useRef<HTMLDivElement>(null);
   useHookClock(ref, AH_BEATS, ({ f, set }) => {
-    const fl = coverPt(0.42, 0.55, f.vw, f.vh, 16 / 9, 0.72);
+    const fl = coverPt(0.43, 0.62, f.vw, f.vh, 16 / 9, 0.72); // низ флакона с жидкостью — не этикетка
     set("--fx", pct(fl.x));
     set("--fy", pct(fl.y));
     const lq = coverPt(0.48, 0.42, f.vw, f.vh);

@@ -20,8 +20,8 @@ export function Member03() {
     <ScrollStage className="mb">
       <Follow stops={[
         { at: ".mb-cover", vars: { "--open": 0, "--dim": 0.2 } },
-        { at: ".mb-reveal", anchor: pin(0.5), vars: { "--open": 0, "--dim": 0.2 } },
-        { at: ".mb-reveal", anchor: pin(0.9), vars: { "--open": 1, "--dim": 0.25 } },
+        { at: ".mb-reveal", anchor: pin(0.58), vars: { "--open": 0, "--dim": 0.2 } },
+        { at: ".mb-reveal", anchor: pin(0.92), vars: { "--open": 1, "--dim": 0.25 } },
         { at: ".mb-scale", vars: { "--open": 1, "--dim": 0.45 } },
         { at: ".mb-final", vars: { "--open": 1, "--dim": 0.8 } },
       ]} />
