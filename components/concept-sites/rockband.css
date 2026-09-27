@@ -117,8 +117,8 @@
 .b4-head h2 em{font-style:normal;color:var(--accent)}
 /* стена флаеров: рваные афиши «прихлопываются» на стену по очереди (scale-slap + rotate по --lp) */
 .b4-wallL{justify-items:center;align-content:center;padding-top:3vh}
-.b4-wall{display:flex;justify-content:center;align-items:center;gap:.7vw;width:min(1060px,95vw)}
-.b4-flyer{position:relative;width:17.4vw;min-width:150px;margin:0;background:#efe9e0;color:#161010;padding:18px 14px 24px;
+.b4-wall{display:flex;justify-content:center;align-items:center;gap:.7vw;width:min(900px,70vw)}
+.b4-flyer{position:relative;width:13vw;min-width:150px;margin:0;background:#efe9e0;color:#161010;padding:18px 14px 24px;
   transform:rotate(var(--rot,0deg)) scale(calc(1.14 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1) * 0.14));
   opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1));
   box-shadow:0 22px 44px rgba(0,0,0,.55);
@@ -150,7 +150,7 @@
 /* S6 GET TICKETS — рваный билет + CTA */
 .b6-scene .ps-sticky{background:#0c0a0a}
 .b6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 62% 42%,#1a1010,#080606)}
-.b6-obj{justify-items:end;align-content:center;padding-right:8vw}
+.b6-obj{justify-items:end;align-content:center;padding-right:25vw}
 .b6-obj .ps-media{width:26vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(229,35,27,.24))}
 .b6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
 .b6-copy .rb-eyebrow{color:var(--accent)}
@@ -161,3 +161,46 @@
 @media(max-width:900px){.b2-copy,.b6-cta{max-width:88vw}.b3-frame{width:42vw;min-width:0}
   .b4-wall{flex-wrap:wrap;gap:3vw 4vw;width:92vw}.b4-flyer{width:40vw;min-width:0;margin:0}
   .b5-clip>div{width:78vw}.b6-obj{display:none}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
+/* фронтмен-актёр: глитч в покое; в толпе растворяется снизу (--sink), строб в S3 (--stb × --flash), силуэт с красным контуром в S4 (--sil) */
+@property --flash{syntax:"<number>";inherits:false;initial-value:0}
+.sk-actor.rb-front img{
+  filter:brightness(calc((1 + var(--flash) * var(--stb,0) * 1.5) * (1 - var(--sil,0) * .96))) contrast(1.08) drop-shadow(0 30px 50px rgba(0,0,0,.7)) drop-shadow(0 0 calc(22px + var(--sil,0) * 14px) rgba(229,35,27,calc(.22 + var(--sil,0) * .7)));
+  -webkit-mask:linear-gradient(180deg,#000 calc(100% - var(--sink,0) * 100%),transparent calc(100% - var(--sink,0) * 100% + 16%));
+  mask:linear-gradient(180deg,#000 calc(100% - var(--sink,0) * 100%),transparent calc(100% - var(--sink,0) * 100% + 16%));
+  animation:rb-glitch 3.4s steps(1) infinite,rb-flash .96s steps(1) infinite}
+@keyframes rb-glitch{0%,100%{transform:none}61%{transform:translate(5px,-2px) skewX(6deg)}62%{transform:translate(-4px,1px) skewX(-3deg)}63%{transform:none}88%{transform:translate(-3px,0) scaleY(1.02)}89%{transform:none}}
+@keyframes rb-flash{0%,100%{--flash:0}12%{--flash:1}20%{--flash:0}47%{--flash:.8}53%{--flash:0}}
+/* руки толпы: только нижняя полоса кадра, screen */
+.sk-actor.rb-hands{mix-blend-mode:screen}
+.sk-actor.rb-hands img{filter:none;opacity:.62;-webkit-mask:linear-gradient(180deg,transparent 66%,#000 86%);mask:linear-gradient(180deg,transparent 66%,#000 86%)}
+/* hero в покое: мигает HUD, эквалайзер ADSR */
+.rp-hud,.rp-table,.rp-top{animation:rb-hud 2.8s steps(1) infinite}
+.rp-hud.rp-r{animation-delay:-1.1s}.rp-table{animation-delay:-.6s}
+@keyframes rb-hud{0%,100%{opacity:1}37%{opacity:.35}39%{opacity:1}71%{opacity:.6}72%{opacity:1}}
+.rp-adsr em{transform-origin:bottom;animation:rb-eq .7s ease-in-out infinite alternate}
+.rp-adsr em:nth-child(2){animation-delay:-.2s;animation-duration:.55s}.rp-adsr em:nth-child(3){animation-delay:-.4s;animation-duration:.8s}.rp-adsr em:nth-child(4){animation-delay:-.1s;animation-duration:.6s}
+@keyframes rb-eq{from{transform:scaleY(.35)}to{transform:scaleY(1.15)}}
+.rp-bar b{animation:rb-bar 1.6s steps(6) infinite alternate}
+@keyframes rb-bar{from{width:18%}to{width:92%}}
+
+/* стык «строб»: 2–3 вспышки и жёсткий переход — новая сцена сразу на пике */
+.rb-site .b2-scene[data-ov]>.ps-sticky,.rb-site .b3-scene[data-ov]>.ps-sticky,.rb-site .b5-scene[data-ov]>.ps-sticky,.rb-site .b6-scene[data-ov]>.ps-sticky{opacity:clamp(0,var(--ovp,0) * 1000,1)}
+.rb-strobe{position:absolute;inset:0;z-index:40;pointer-events:none;background:#fff;
+  --f1:clamp(0,min(1 + (var(--ovp,1) - .04) / .05,1 - (var(--ovp,1) - .04) / .05),1);
+  --f2:clamp(0,min(1 + (var(--ovp,1) - .22) / .04,1 - (var(--ovp,1) - .22) / .04),1);
+  --f3:clamp(0,min(1 + (var(--ovp,1) - .4) / .03,1 - (var(--ovp,1) - .4) / .03),1);
+  opacity:max(var(--f1),calc(var(--f2) * .85),calc(var(--f3) * .6))}
+.rb-strobe::after{content:"";position:absolute;inset:0;background:#e5231b;mix-blend-mode:multiply;opacity:calc(var(--f2) * .7)}
+/* S3→S4: рваный край флаера — новая сцена отрывается слева направо */
+.rb-site .b4-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * 110% - 5%);
+  clip-path:polygon(0 0,calc(var(--e) + 2%) 0,calc(var(--e) - 1%) 8%,calc(var(--e) + 3%) 16%,var(--e) 25%,calc(var(--e) + 4%) 33%,calc(var(--e) - 2%) 42%,calc(var(--e) + 2%) 50%,calc(var(--e) - 1%) 58%,calc(var(--e) + 3%) 67%,var(--e) 75%,calc(var(--e) + 4%) 83%,calc(var(--e) - 2%) 92%,calc(var(--e) + 1%) 100%,0 100%)}
+/* текст уходящей сцены гаснет до перекрытия — один заголовок на экране */
+.b2-copy>*,.b3-copy>*,.b4-head>*,.b5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .64) / .08,1))}
+@media(max-width:900px){.sk-actor.rb-hands{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .b2-copy>*,.b3-copy>*,.b4-head>*,.b5-eyebrow{opacity:1}
+  .sk-actor.rb-front img,.rp-hud,.rp-table,.rp-top,.rp-adsr em,.rp-bar b{animation:none}
+  .rb-strobe{display:none}
+}

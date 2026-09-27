@@ -65,10 +65,8 @@
 
 /* S2 THE CLOTH — мужчина + crimson + topo */
 .rd2-scene .ps-sticky{background:#5e0f1a}
-.rd2-bg .ps-media{filter:contrast(1.05) saturate(1.06) brightness(.82)}
+.rd2-bg .ps-media{filter:contrast(1.05) saturate(1.08) brightness(.7)}
 .rd2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 44%,rgba(207,51,65,.12),transparent 60%),linear-gradient(90deg,rgba(42,8,16,.6),transparent 46%),linear-gradient(0deg,rgba(42,8,16,.55),transparent 40%)}
-.rd2-man{place-items:center;align-content:end}
-.rd2-man .ps-media{width:28vw;height:auto;max-width:none;filter:contrast(1.04) drop-shadow(0 26px 46px rgba(0,0,0,.6))}
 .rd2-quote{position:absolute;z-index:12;right:var(--pad);top:30vh;max-width:20ch;text-align:right;font:400 clamp(18px,2vw,28px)/1.32 "Pirata One",serif;color:#e8b8b8}
 .rd2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
 .rd2-copy .rd-eyebrow{color:#e8a0a0}
@@ -96,7 +94,8 @@
 
 /* S4 THE CUT — 3 шага */
 .rd4-scene .ps-sticky{background:#5e0f1a}
-.rd4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#6e1220,#3a0a12)}
+.rd4-photo .ps-media{filter:brightness(.42) saturate(1.1)}
+.rd4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 46%,rgba(110,18,32,.55),rgba(58,10,18,.9))}
 .rd4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
 .rd4-head .rd-eyebrow{color:#e8a0a0}
 .rd4-head h2{margin:0;font:400 clamp(32px,4.8vw,64px)/1.02 "Playfair Display",serif;color:#f4e6e2}
@@ -111,6 +110,8 @@
 /* S5 WORN IN THE ROOM — отзывы */
 .rd5-scene .ps-sticky{background:#5e0f1a}
 .rd5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#6e1220,#380911)}
+.rd5-cloth{opacity:.3;mix-blend-mode:luminosity;pointer-events:none}
+.rd5-cloth .ps-media{-webkit-mask:linear-gradient(90deg,#000 10%,transparent 60%);mask:linear-gradient(90deg,#000 10%,transparent 60%)}
 /* золотая двойная маргинальная линия леджера */
 .rd5-margin{position:absolute;z-index:3;left:22vw;top:13vh;bottom:12vh;width:0;border-left:2px double rgba(232,160,160,.45);pointer-events:none}
 .rd5-eyebrow{position:absolute;z-index:16;top:96px;left:24vw;font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#e8a0a0}
@@ -135,4 +136,39 @@
 .rd6-copy h2 em{font-style:italic;color:#e8676f}
 .rd6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
 .rd6-cta p{margin:0 0 22px;font:400 15px/1.75 "Manrope",sans-serif;color:#cf9494}
-@media(max-width:900px){.rd2-copy,.rd6-cta{max-width:88vw}.rd2-man .ps-media,.rd6-man .ps-media{width:60vw}.rd2-quote,.rd6-man{display:none}.rd3-plate{width:40vw}.rd4-step{grid-template-columns:34px 1fr}.rd5-entry{padding-left:var(--pad)}.rd5-entry>div{max-width:90vw}.rd5-margin{display:none}.rd5-eyebrow{left:var(--pad)}}
+@media(max-width:900px){.rd2-copy,.rd6-cta{max-width:88vw}.rd6-man .ps-media{width:60vw}.rd2-quote,.rd6-man,.rd-thread,.rd-needle{display:none}.rd3-plate{width:40vw}.rd4-step{grid-template-columns:34px 1fr}.rd5-entry{padding-left:var(--pad)}.rd5-entry>div{max-width:90vw}.rd5-margin{display:none}.rd5-eyebrow{left:var(--pad)}}
+
+/* ===== v2 · одна нить через весь сайт, стыки «ножницы» и «шов» (аудит 2026-09) ===== */
+/* НИТЬ — закреплённый SVG 160×100 (16:10), видимое окно (хвост .085 длины пути) тянется за иглой по общему --draw (Follow) */
+.rd-thread{position:fixed;inset:0;width:100vw;height:100vh;z-index:29;pointer-events:none;overflow:visible}
+.rd-thread path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.085 2;stroke-dashoffset:calc(.085 - var(--draw,0))}
+.rd-thread-shadow{stroke:rgba(20,2,6,.5);stroke-width:.95;filter:blur(1.2px)}
+.rd-thread-line{stroke:#d92a3c;stroke-width:.46}
+.rd-thread-sheen{stroke:rgba(255,196,196,.55);stroke-width:.12}
+.rd-needle svg{display:block;width:100%;height:auto;filter:drop-shadow(0 2px 5px rgba(0,0,0,.55))}
+/* hero в покое: ткань медленно «дышит», звёзды мерцают, фигура стоит */
+.rd-bg .ps-media{animation:rd-cloth 16s ease-in-out infinite alternate}
+@keyframes rd-cloth{from{transform:scale(1.02) translate(-.6%,-.4%)}to{transform:scale(1.05) translate(.6%,.4%)}}
+.rd-star{animation:rd-twinkle 3.4s ease-in-out infinite}.rd-s2{animation-delay:1.2s}
+@keyframes rd-twinkle{0%,100%{opacity:.35;transform:scale(.9)}50%{opacity:.95;transform:scale(1.15)}}
+.rd-man .ps-media{transform-origin:50% 100%;animation:rd-breath 5.5s ease-in-out infinite}
+@keyframes rd-breath{0%,100%{transform:scale(1)}50%{transform:scale(1.006,1.01)}}
+
+/* СТЫК «ножницы» (S2→S3): кадр разрезается по диагонали, разрез раскрывается — в нём уже рейка с образами */
+.rd-site .rd3-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));--w:calc(var(--e) * 95%);
+  clip-path:polygon(0 calc(60% - var(--w)),100% calc(40% - var(--w)),100% calc(40% + var(--w)),0 calc(60% + var(--w)))}
+.rd3-cut{position:absolute;inset:0;z-index:40;pointer-events:none;opacity:calc(1 - var(--e,1));
+  background:linear-gradient(-7.1deg,transparent calc(50% - 2px),rgba(255,214,214,.75) 50%,transparent calc(50% + 2px)),linear-gradient(-7.1deg,transparent 30%,rgba(20,2,6,.35) 50%,transparent 70%)}
+/* СТЫК «распоротый шов» (S4→S5): книга клиентов открывается щелью по линии нити (x 22%), по кромкам — стежки */
+.rd-site .rd5-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));clip-path:inset(0 calc((1 - var(--e)) * 78%) 0 calc((1 - var(--e)) * 22%))}
+.rd5-seam{position:absolute;top:0;bottom:0;width:3px;z-index:40;pointer-events:none;opacity:calc(1 - clamp(0, (var(--e,1) - .72) * 4, 1));
+  background:repeating-linear-gradient(180deg,#e8a2a2 0 1.1vh,transparent 1.1vh 2.2vh)}
+.rd5-seam-l{left:calc((1 - var(--e,1)) * 22% + 3px)}
+.rd5-seam-r{right:calc((1 - var(--e,1)) * 78% + 3px)}
+
+@media(prefers-reduced-motion:reduce){
+  .rd-site *,.rd-site *::before,.rd-site *::after{animation:none!important}
+  .rd-site .rd-exit{opacity:1!important}
+  .rd-site .ps-scene[data-ov]>.ps-sticky{clip-path:none;opacity:1}
+  .rd3-cut,.rd5-seam{display:none}
+}

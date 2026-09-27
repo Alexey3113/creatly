@@ -1,92 +1,90 @@
-/* VIGIL — spotlight scroll-reveal на ScrollStage. Палитра ИЗ КАДРА vigil-hero:
-   тёплый near-black, глазурь блюда, свеча слева. Один акцент — candle-amber.
-   Свеча: near-black веуль с дырой-радиалом, центр `at var(--lx) var(--ly)` едет за
-   курсором (--px/--py с корня .reel) — гость «ищет» блюдо в темноте. Всё визуальное — в CSS.
-   Шрифты подключаем тут (страница try-vigil не тянет animated-lab.css). */
+/* VIGIL — одна свеча ведёт по ужину. Кадр fixed под всеми главами; near-black вуаль с дырой-пятном,
+   центр и радиус которого (--lx/--ly/--lr) и общую темноту (--dim) пишет scene-kit <Follow> по скроллу.
+   Пламя — DOM-актёр. Блюда меню ярче, когда свеча рядом (--lit). Палитра ИЗ КАДРА: тёплый near-black +
+   candle-amber. Шрифты: Fraunces + Archivo. */
 
-.vg{ --ink:#efe4d3; --mute:#9a8974; --red:#e0a24a; --deep:#a8641f; background:#080604; color:var(--ink);
-  font-family:"Archivo",system-ui,sans-serif; }
-.vg .vg-line{ display:block; overflow:hidden; }
+.vg{ --ink:#efe4d3; --mute:#9a8974; --red:#e0a24a; --deep:#a8641f;
+  --lx:53; --ly:54; --lr:30; --dim:0; --lit:-1;
+  background:#080604; color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }
+.vg .scene{ z-index:2; background:transparent; }
+.vg .vg-line{ display:block; overflow:hidden; padding-bottom:.08em; }
 .vg .vg-line > i{ display:block; font-style:inherit;
-  --p:clamp(0, calc((var(--t,0) - 0.06 - var(--d,0)*0.05) * 3.2), 1);
+  --p:clamp(0, calc((var(--t,0) - 0.1 - var(--d,0)*0.05) * 3.2), 1);
   transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
 .vg .vg-red i, .vg .vg-red{ color:var(--red); }
 
-/* 0 · ФОНАРИК ------------------------------------------------------------- */
-.vg-hero{ background:#060402; }
-.vg-stage{ position:absolute; inset:0;
-  /* по умолчанию (coarse pointer): свеча статична по блюду — оно просто читается */
-  --lx:53%; --ly:52%; --r:30vmax; }
-@media (pointer:fine){
-  .vg-stage{ --lx:calc(50% + var(--px,0) * 47%); --ly:calc(50% + var(--py,0) * 47%); --r:21vmax;
-    /* по мере скролла-погружения свет сужается — «ищешь пристальнее» */
-    --r:calc(23vmax - var(--t,0) * 6vmax); }
-}
-.vg-img{ object-position:54% 52%; filter:contrast(1.06) saturate(1.06) brightness(1.0); }
-
-/* тёплое янтарное свечение вокруг пятна — эхо пламени свечи из кадра */
-.vg-torch{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen;
-  background:radial-gradient(circle var(--r) at var(--lx) var(--ly),
-    rgba(224,162,74,.30) 0%, rgba(168,100,31,.16) 34%, rgba(90,52,16,.05) 55%, transparent 66%); }
-
-/* near-black веуль с дырой-свечой (alpha-маска: transparent=видно кадр, чёрный=мрак) */
+/* МИР ------------------------------------------------------------------ */
+.vg-world{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; background:#060402; }
+.vg-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:54% 52%;
+  filter:contrast(1.06) saturate(1.06) brightness(calc(1 - var(--dim) * .45));
+  transform:translate(calc(var(--px,0) * -6px), calc(var(--py,0) * -4px)) scale(1.04); }
+.vg-torch{ position:absolute; inset:0; mix-blend-mode:screen;
+  background:radial-gradient(circle calc(var(--lr) * 1vmax) at calc(var(--lx) * 1%) calc(var(--ly) * 1%),
+    rgba(224,162,74,.3) 0%, rgba(168,100,31,.14) 34%, rgba(90,52,16,.05) 55%, transparent 66%); }
 .vg-veil{ position:absolute; inset:0; background:#060402;
-  -webkit-mask-image:radial-gradient(circle var(--r) at var(--lx) var(--ly),
-    transparent 0%, transparent 26%, rgba(0,0,0,.6) 48%, #000 74%);
-          mask-image:radial-gradient(circle var(--r) at var(--lx) var(--ly),
-    transparent 0%, transparent 26%, rgba(0,0,0,.6) 48%, #000 74%);
-  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; }
-.vg-noise{ position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+  -webkit-mask-image:radial-gradient(circle calc(var(--lr) * 1vmax) at calc(var(--lx) * 1%) calc(var(--ly) * 1%),
+    transparent 0%, transparent 26%, rgba(0,0,0,.6) 50%, #000 76%);
+          mask-image:radial-gradient(circle calc(var(--lr) * 1vmax) at calc(var(--lx) * 1%) calc(var(--ly) * 1%),
+    transparent 0%, transparent 26%, rgba(0,0,0,.6) 50%, #000 76%); }
+.vg-noise{ position:absolute; inset:0; opacity:.05; mix-blend-mode:overlay;
   background-image:radial-gradient(rgba(255,255,255,.7) .5px, transparent .6px); background-size:3px 3px; }
 
+/* ПЛАМЯ (актёр) --------------------------------------------------------- */
+.vg-flame{ position:relative; display:block; width:100%; aspect-ratio:1/1.9; }
+.vg-flame::before{ content:""; position:absolute; left:50%; top:62%; width:560%; aspect-ratio:1; transform:translate(-50%,-50%);
+  border-radius:50%; background:radial-gradient(closest-side, rgba(255,190,110,.32), rgba(224,130,50,.1) 50%, transparent);
+  mix-blend-mode:screen; }
+.vg-flame i{ position:absolute; inset:0; border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
+  background:radial-gradient(50% 42% at 50% 72%, #fff6e0 0%, #ffd27a 32%, #f29a3a 62%, rgba(200,90,20,0) 100%);
+  filter:blur(.4px); transform-origin:50% 90%; animation:vg-flicker 2.4s ease-in-out infinite; }
+@keyframes vg-flicker{ 0%,100%{ transform:scale(1,1) rotate(0deg); } 30%{ transform:scale(.94,1.06) rotate(-2deg); } 60%{ transform:scale(1.04,.96) rotate(1.5deg); } }
+
+/* 0 · ОБЛОЖКА ---------------------------------------------------------- */
+.vg-hero{ min-height:100vh; }
 .vg-kick{ position:absolute; top:5vh; left:6vw; right:6vw; z-index:4; display:flex; justify-content:space-between;
   font:700 11px "Archivo"; letter-spacing:.28em; color:#9a8974; }
 .vg-kick span:first-child{ color:var(--red); letter-spacing:.42em; }
-.vg-sign{ position:absolute; z-index:4; left:6vw; bottom:16vh; max-width:80vw; }
-.vg-word{ margin:0; font:300 clamp(64px,15vw,220px)/.86 "Fraunces",serif; letter-spacing:.02em; }
-.vg-word i{ font-style:normal; }
-.vg-tag{ margin:1.6vh 0 0; max-width:22ch; font:italic 300 clamp(18px,2.4vw,30px)/1.25 "Fraunces",serif; color:#d9cab4; }
-.vg-tag i{ font-style:italic; }
-.vg-sign .vg-line > i{ --p:clamp(0, calc((var(--t,0) + 0.34 - var(--d,0)*0.10) * 2.1), 1); }
-.vg-cue{ position:absolute; z-index:4; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.2em; color:#84745f; }
+.vg-sign{ position:absolute; z-index:4; left:6vw; bottom:14vh; max-width:80vw; }
+.vg-word{ margin:0; font:300 clamp(64px,14vw,210px)/.86 "Fraunces",serif; letter-spacing:.02em; color:#f3e8d6;
+  text-shadow:0 8px 50px rgba(6,4,2,.8); }
+.vg-tag{ margin:1.6vh 0 0; max-width:22ch; font:italic 300 clamp(18px,2.2vw,28px)/1.25 "Fraunces",serif; color:#d9cab4; }
+.vg-cue{ position:absolute; z-index:4; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.2em; color:#8c7b65; }
 
-/* 1 · STATEMENT ---------------------------------------------------------- */
-.vg-say{ display:flex; align-items:center; padding:0 8vw; background:#080604; }
-.vg-body{ margin:0; max-width:16ch; font:300 clamp(34px,6vw,96px)/1.02 "Fraunces",serif; }
+/* 1 · STATEMENT --------------------------------------------------------- */
+.vg-say{ display:flex; align-items:center; padding:0 8vw 0 12vw; min-height:120vh;
+  background:linear-gradient(90deg, rgba(8,6,4,.7), rgba(8,6,4,.25) 60%, transparent); }
+.vg-body{ margin:0; max-width:16ch; font:300 clamp(34px,5.6vw,90px)/1.04 "Fraunces",serif; }
 .vg-body i{ font-style:normal; }
 
-/* 2 · MENU --------------------------------------------------------------- */
-.vg-ledger{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw; background:#0a0704; }
-.vg-ledger-head{ display:flex; justify-content:space-between; padding-bottom:3vh; margin-bottom:2vh;
-  border-bottom:1px solid rgba(224,162,74,.24); font:700 11px "Archivo"; letter-spacing:.26em; color:#9a8974; }
+/* 2 · MENU — ярче то блюдо, у которого свеча ------------------------------ */
+.vg-ledger{ display:flex; flex-direction:column; justify-content:center; padding:18vh 6vw 18vh 10vw; min-height:170vh; }
+.vg-ledger-head{ display:flex; justify-content:space-between; padding-bottom:3vh; margin-bottom:6vh;
+  border-bottom:1px solid rgba(224,162,74,.26); font:700 11px "Archivo"; letter-spacing:.26em; color:#a8977f; }
 .vg-ledger-head span:first-child{ color:var(--red); }
-.vg-lots{ list-style:none; margin:0; padding:0; }
+.vg-lots{ list-style:none; margin:0; padding:0; display:grid; gap:14vh; }
 .vg-lot{ display:grid; grid-template-columns:3ch 1.4fr 1.2fr auto; gap:2vw; align-items:baseline;
-  padding:2.4vh 0; border-bottom:1px solid rgba(239,228,211,.08);
-  --p:clamp(0, calc((var(--t,0) - 0.12 - var(--d,0)*0.06) * 3), 1);
-  transform:translateY(calc((1 - var(--p)) * 26px)); opacity:var(--p); will-change:transform; }
+  padding:2.4vh 0; border-bottom:1px solid rgba(239,228,211,.1);
+  --near:clamp(0, calc(1 - max(var(--lit) - var(--d,0), var(--d,0) - var(--lit)) * .8), 1);
+  opacity:calc(.28 + var(--near) * .72); }
 .vg-lot-n{ font:300 clamp(20px,2.6vw,34px) "Fraunces",serif; color:var(--red); }
-.vg-lot-name{ font:400 clamp(18px,2.2vw,30px)/1.1 "Fraunces",serif; color:var(--ink); }
+.vg-lot-name{ font:400 clamp(20px,2.6vw,38px)/1.1 "Fraunces",serif; color:var(--ink);
+  text-shadow:0 0 calc(var(--near) * 28px) rgba(224,162,74,calc(var(--near) * .45)); }
 .vg-lot-prov{ font:500 12px "Archivo"; letter-spacing:.04em; color:var(--mute); }
 .vg-lot-st{ font:700 10px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:#9a8974; justify-self:end; }
 
 /* 3 · CLOSER ------------------------------------------------------------- */
-.vg-end{ display:grid; place-items:center; background:#060402; text-align:center; overflow:hidden; }
-.vg-end-glow{ position:absolute; width:60vw; height:60vw; border-radius:50%;
-  background:radial-gradient(circle, rgba(224,162,74,.20), transparent 62%);
-  opacity:calc(clamp(0, (var(--t,0) - 0.1) * 2.4, 1)); filter:blur(10px); }
+.vg-end{ display:flex; flex-direction:column; justify-content:flex-end; align-items:center; text-align:center; padding-bottom:10vh; min-height:100vh;
+  background:linear-gradient(180deg, transparent 30%, rgba(6,4,2,.75) 80%); }
 .vg-end-block{ position:relative; z-index:2; padding:0 7vw; }
-.vg-end-block h2{ margin:0 0 5vh; font:300 clamp(38px,7.5vw,118px)/1 "Fraunces",serif; }
+.vg-end-block h2{ margin:0 0 5vh; font:300 clamp(38px,7vw,112px)/1 "Fraunces",serif; }
 .vg-end-block h2 i{ font-style:italic; }
-.vg-btn{ display:inline-block; padding:16px 34px; border:1px solid var(--red); border-radius:999px;
-  color:var(--red); text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
-  opacity:calc(clamp(0, (var(--t,0) - 0.28) * 3, 1)); transition:background .3s, color .3s, box-shadow .3s; }
-.vg-btn:hover{ background:var(--red); color:#080604; box-shadow:0 0 40px rgba(224,162,74,.4); }
+.vg-btn{ display:inline-block; padding:16px 34px; background:var(--red); border-radius:999px;
+  color:#140c06; text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
+  box-shadow:0 0 40px rgba(224,162,74,.35); transition:background .3s; }
+.vg-btn:hover{ background:#f0b860; }
 
 @media (prefers-reduced-motion:reduce){
-  .vg .vg-line > i, .vg-sign .vg-line > i{ transform:none; opacity:1; }
-  .vg-lot{ transform:none; opacity:1; }
-  .vg-veil{ -webkit-mask-image:radial-gradient(circle 40vmax at 53% 52%, transparent 0%, transparent 40%, #000 80%);
-            mask-image:radial-gradient(circle 40vmax at 53% 52%, transparent 0%, transparent 40%, #000 80%); }
-  .vg-end-glow, .vg-btn{ opacity:1; }
+  .vg .vg-line > i{ transform:none; opacity:1; }
+  .vg-lot{ opacity:1; }
+  .vg-flame i{ animation:none; }
 }

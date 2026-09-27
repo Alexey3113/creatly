@@ -186,7 +186,8 @@
 
 /* уход текста старой сцены до проявления следующей (перекрытия S2→S3, S3→S4) */
 .e2-copy>*{opacity:clamp(0,(.8 - var(--sp,0))*9,1)}
-.e3-head>*,.e3-frame{opacity:clamp(0,(.78 - var(--sp,0))*9,1)}
+.e3-head>*{opacity:clamp(0,(.78 - var(--sp,0))*9,1)}
+.e3-frame{opacity:clamp(0,(.95 - var(--sp,0))*8,1)}
 
 @media(prefers-reduced-motion:reduce){
   .ep-bg .ps-media,.ep-breath,.es-site .es-invite img{animation:none}

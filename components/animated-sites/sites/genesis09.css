@@ -32,7 +32,7 @@
 
 /* 0 · CORE — текст слева, сфера в центре кадра (particle) */
 .gn-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw; }
-.gn-cover-in{ max-width:min(680px, 92vw); }
+.gn-cover-in{ max-width:min(600px, 44vw); }
 .gn-eyebrow{ margin:0 0 24px; font:500 12px "IBM Plex Mono"; letter-spacing:.22em; text-transform:uppercase; color:#9aa0c8; }
 .gn-hero{ margin:0; font:400 clamp(46px,7.4vw,124px)/.96 "Fraunces"; letter-spacing:-.025em;
   text-shadow:0 8px 60px rgba(0,0,10,.7); }

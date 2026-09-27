@@ -22,11 +22,11 @@ export function RockBandSite() {
     <div className="rb-site rb-poster">
       {/* руки толпы — один передний план через стыки S2→S3→S4 */}
       <Actor className="rb-hands" width="100vw" zIndex={28} bob={5} tilt={0.02} stops={[
-        { at: ".b2-scene", anchor: a2(0.06), pose: { x: 50, y: 112, s: 1.05, o: 0 } },
-        { at: ".b2-scene", anchor: a2(0.3), pose: { x: 50, y: 96, s: 1.05, o: 1 } },
-        { at: ".b3-scene", anchor: a3(0.4), pose: { x: 47, y: 104, s: 1.1, o: 0.8 } },
-        { at: ".b4-scene", anchor: a4(0.4), pose: { x: 53, y: 108, s: 1.12, o: 0.7 } },
-        { at: ".b5-scene", anchor: a5(0.2), pose: { x: 50, y: 124, s: 1.12, o: 0 } },
+        { at: ".b2-scene", anchor: a2(0.06), pose: { x: 50, y: 90, s: 1.05, o: 0 } },
+        { at: ".b2-scene", anchor: a2(0.3), pose: { x: 50, y: 63, s: 1.05, o: 1 } },
+        { at: ".b3-scene", anchor: a3(0.4), pose: { x: 47, y: 66, s: 1.1, o: 0.8 } },
+        { at: ".b4-scene", anchor: a4(0.4), pose: { x: 53, y: 68, s: 1.12, o: 0.7 } },
+        { at: ".b5-scene", anchor: a5(0.2), pose: { x: 50, y: 92, s: 1.12, o: 0 } },
       ]}><img src={`${A}/handsfg.jpg`} alt="" draggable={false} /></Actor>
       <Actor src={`${A}/wrapfig-cut.png`} className="rb-front" width="34vw" zIndex={30} bob={3} tilt={0.06} stops={[
         { at: ".rb-hero", anchor: a1(0.2), pose: { x: 50, y: 61, s: 1.03 } },
@@ -98,7 +98,7 @@ export function RockBandSite() {
         </Layer>
         <div className="b2-veil" aria-hidden />
         <div className="b2-grain" aria-hidden />
-        <Layer z={12} depth={0.24} phase={[0.16, 0.36]} from={{ x: "-3vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="b2-copy">
+        <Layer z={12} depth={0.24} phase={[0.08, 0.24]} from={{ x: "-3vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="b2-copy">
           <span className="rb-eyebrow">01 — the pit</span>
           <h2>Live or<br /><em>not at all.</em></h2>
           <p>No click, no laptop, no safety net. A crowd close enough to grab the mic and a room small enough to feel it.</p>
@@ -111,19 +111,19 @@ export function RockBandSite() {
         <div className="b3-bg" aria-hidden />
         <div className="b3-strip" aria-hidden />
         {/* контакт-плёнка live-сета: кадры «жёстко склеиваются» на месте · hard-cut */}
-        <Layer z={5} depth={0.4} phase={[0.08, 0.2]} from={{ x: "-30vw", scale: 1.08, opacity: 0 }} to={{ x: "-30vw", scale: 1, opacity: 1 }} cursor={{ x: 12, y: 7 }}>
+        <Layer z={5} depth={0.4} phase={[0, 0.12]} from={{ x: "-30vw", scale: 1.08, opacity: 1 }} to={{ x: "-30vw", scale: 1, opacity: 1 }} cursor={{ x: 12, y: 7 }}>
           <div className="b3-frame b3-f1"><SceneMedia src={`${A}/g1.jpg`} /><b>the room · sold out</b></div>
         </Layer>
-        <Layer z={6} depth={0.5} phase={[0.14, 0.26]} from={{ x: "-10vw", scale: 1.08, opacity: 0 }} to={{ x: "-10vw", scale: 1, opacity: 1 }} cursor={{ x: -12, y: -7 }}>
+        <Layer z={6} depth={0.5} phase={[0.02, 0.14]} from={{ x: "-10vw", scale: 1.08, opacity: 1 }} to={{ x: "-10vw", scale: 1, opacity: 1 }} cursor={{ x: -12, y: -7 }}>
           <div className="b3-frame b3-f2"><SceneMedia src={`${A}/g2.jpg`} /><b>the solo</b></div>
         </Layer>
-        <Layer z={7} depth={0.6} phase={[0.2, 0.32]} from={{ x: "10vw", scale: 1.08, opacity: 0 }} to={{ x: "10vw", scale: 1, opacity: 1 }} cursor={{ x: 12, y: 7 }}>
+        <Layer z={7} depth={0.6} phase={[0.04, 0.16]} from={{ x: "10vw", scale: 1.08, opacity: 1 }} to={{ x: "10vw", scale: 1, opacity: 1 }} cursor={{ x: 12, y: 7 }}>
           <div className="b3-frame b3-f3"><SceneMedia src={`${A}/g5.jpg`} /><b>crowd surf</b></div>
         </Layer>
-        <Layer z={8} depth={0.68} phase={[0.26, 0.38]} from={{ x: "30vw", scale: 1.08, opacity: 0 }} to={{ x: "30vw", scale: 1, opacity: 1 }} cursor={{ x: -12, y: -7 }}>
+        <Layer z={8} depth={0.68} phase={[0.06, 0.18]} from={{ x: "30vw", scale: 1.08, opacity: 1 }} to={{ x: "30vw", scale: 1, opacity: 1 }} cursor={{ x: -12, y: -7 }}>
           <div className="b3-frame b3-f4"><SceneMedia src={`${A}/g4.jpg`} /><b>encore</b></div>
         </Layer>
-        <Layer z={12} depth={0.26} phase={[0.16, 0.34]} from={{ y: "2vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="b3-copy">
+        <Layer z={12} depth={0.26} phase={[0.1, 0.24]} from={{ y: "2vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="b3-copy">
           <span className="rb-eyebrow">02 — the live</span>
           <h2>What it <em>looks like</em> loud.</h2>
           <p>Shot on the floor, no filters, no reshoots.</p>
@@ -156,13 +156,13 @@ export function RockBandSite() {
         <div className="b5-bg" aria-hidden />
         <div className="b5-eyebrow">the noise back · press</div>
         {/* пресс-вырезки: рваный newsprint с мастхедами, приклеены под углом · pin-snap */}
-        <Layer z={5} depth={0.28} phase={[0.12, 0.28]} from={{ x: "-26vw", y: "-4vh", rotate: "-6deg", scale: 1.04, opacity: 0 }} to={{ x: "-26vw", y: "0vh", rotate: "-3deg", scale: 1, opacity: 1 }} className="b5-clip b5-c1">
+        <Layer z={5} depth={0.28} phase={[0, 0.14]} from={{ x: "-26vw", y: "-4vh", rotate: "-6deg", scale: 1.06, opacity: 1 }} to={{ x: "-26vw", y: "0vh", rotate: "-3deg", scale: 1, opacity: 1 }} className="b5-clip b5-c1">
           <div><i>KERRANG!</i><p>Loudest 200-cap room I've ever stood in. Worth every ringing hour.</p><b>live review</b></div>
         </Layer>
-        <Layer z={7} depth={0.4} phase={[0.18, 0.34]} from={{ x: "24vw", y: "-4vh", rotate: "5deg", scale: 1.04, opacity: 0 }} to={{ x: "24vw", y: "0vh", rotate: "2deg", scale: 1, opacity: 1 }} className="b5-clip b5-c2">
+        <Layer z={7} depth={0.4} phase={[0.03, 0.17]} from={{ x: "24vw", y: "-4vh", rotate: "5deg", scale: 1.06, opacity: 1 }} to={{ x: "24vw", y: "0vh", rotate: "2deg", scale: 1, opacity: 1 }} className="b5-clip b5-c2">
           <div><i>THE FAN PIT</i><p>No laptop, no tricks — four people and a wall of sound.</p><b>Dan H.</b></div>
         </Layer>
-        <Layer z={6} depth={0.52} phase={[0.24, 0.4]} from={{ x: "-4vw", y: "-4vh", rotate: "-4deg", scale: 1.04, opacity: 0 }} to={{ x: "-4vw", y: "0vh", rotate: "-1.5deg", scale: 1, opacity: 1 }} className="b5-clip b5-c3">
+        <Layer z={6} depth={0.52} phase={[0.06, 0.2]} from={{ x: "-4vw", y: "-4vh", rotate: "-4deg", scale: 1.06, opacity: 1 }} to={{ x: "-4vw", y: "0vh", rotate: "-1.5deg", scale: 1, opacity: 1 }} className="b5-clip b5-c3">
           <div><i>LINE OF BEST FIT</i><p>Held the last note until the room screamed. Then held it longer.</p><b>live</b></div>
         </Layer>
         <div className="rb-strobe" aria-hidden />
@@ -174,7 +174,7 @@ export function RockBandSite() {
         <Layer z={4} depth={0.4} phase={[0.14, 0.44]} from={{ y: "7vh", scale: 0.94, rotate: "10deg", opacity: 0 }} to={{ y: "0vh", scale: 1.02, rotate: "5deg", opacity: 1 }} cursor={{ x: 20, y: 12 }} className="b6-obj">
           <SceneMedia src={`${A}/stubobj-cut.png`} alt="Torn concert ticket stub" />
         </Layer>
-        <Layer z={12} depth={0.24} phase={[0.1, 0.3]} from={{ scale: 1.4, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="b6-copy">
+        <Layer z={12} depth={0.24} phase={[0, 0.16]} from={{ scale: 1.4, opacity: 1 }} to={{ scale: 1, opacity: 1 }} className="b6-copy">
           <span className="rb-eyebrow">on tour</span>
           <h2>Get in<br /><em>the pit.</em></h2>
         </Layer>

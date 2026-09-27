@@ -230,7 +230,8 @@
 
 /* уход текста старой сцены ДО проявления следующей (по --sp своей сцены) — никогда два заголовка сразу */
 .pv-script,.pv-col{opacity:clamp(0,(.8 - var(--sp,0))*7,1);transform:translateY(calc(clamp(0,(var(--sp,0) - .66)*7,1)*-4vh))}
-.p4-head>*,.p4-index,.p4-strip{opacity:clamp(0,(.84 - var(--sp,0))*9,1)}
+.p4-head>*,.p4-index{opacity:clamp(0,(.84 - var(--sp,0))*9,1)}
+.p4-strip{opacity:clamp(0,(.97 - var(--sp,0))*9,1)}
 .p5-shot figure,.p5-eyebrow{opacity:clamp(0,(.8 - var(--sp,0))*9,1)}
 
 @media(prefers-reduced-motion:reduce){

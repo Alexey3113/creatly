@@ -239,7 +239,7 @@
 .jr4-scene .ps-viewport{--ko:clamp(0,(var(--sp,0) - .6111)/.3889,1);transform:translateX(calc(var(--ko)*var(--ko)*(3 - 2*var(--ko))*-34vw))}
 
 /* S2 — руки итамаэ крупно + карточка «сегодня» */
-.jr2-bg .ps-media{object-position:50% 70%;filter:contrast(1.04) saturate(1.04) brightness(.8)}
+.jr2-bg .ps-media{object-position:46% 60%;filter:contrast(1.04) saturate(1.04) brightness(.8)}
 .jr2-cardL{justify-items:end;align-content:start;padding:15vh 9vw 0 0}
 /* S6 — пустое место гостя у стойки */
 .jr6-seat .ps-media{object-position:50% 62%;filter:brightness(.6) saturate(1.02)}

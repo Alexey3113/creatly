@@ -200,17 +200,11 @@ const TP_BEATS: readonly Beat[] = [["--copy", 0.46, 0.6], ["--pan", 0.5, 0.72], 
 function TrackPortfolio(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
   const ref = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
-  const reel = useRef<HTMLVideoElement>(null);
   useHookClock(ref, TP_BEATS, ({ q, touch, ptr }) => {
     // курсор X → поворот головы (десктоп); скролл: взгляд в камеру (4.5 с) → вправо, на шоурил (9.8 с)
     const tp = touch || !ptr.on ? 0 : ptr.x * 9.8;
     const u1 = smooth(win(q, 0.04, 0.4)), u2 = smooth(win(q, 0.5, 0.74));
     seek(vid.current, u2 > 0 ? 4.5 + 5.3 * u2 : tp + (4.5 - tp) * u1);
-    const r = reel.current;
-    if (r) {
-      if (q > 0.42 && r.paused) r.play().catch(() => {});
-      else if (q < 0.36 && !r.paused) r.pause();
-    }
   });
   return (
     <div ref={ref} className="vh-canvas tp-canvas">
@@ -218,9 +212,9 @@ function TrackPortfolio(_: { scrub: React.RefObject<HTMLVideoElement | null> }) 
       <ScrubVideo vref={vid} src="/uploads/1/hooks/scenes/gaze-face-vid.mp4" poster="/uploads/1/hooks/scenes/gaze-face-poster.jpg" className="tp-film" />
       <div className="tp-wash" />
       <div className="tp-reel">
-        <video ref={reel} src="/uploads/1/hooks/casts/held-world.mp4" poster="/uploads/1/hooks/scenes/held-world-poster.jpg" muted loop playsInline preload="none" />
+        {["held-world", "monolith", "planet-vig", "bloom"].map((k) => <img key={k} src={`/uploads/1/hooks/scenes/${k}-poster.jpg`} alt="" />)}
       </div>
-      <div className="tp-reel-cap"><span>Selected work</span><b>Showreel 2026 — 02:14</b></div>
+      <div className="tp-reel-cap"><span>Selected work</span><b>Four worlds, 2026</b></div>
       <header className="tp-head">
         <Link href="/visual-hooks" className="tp-brand">✳ STUDIO X</Link>
         <nav className="tp-nav"><a href="#" onClick={stop}>Work</a><a href="#" onClick={stop}>Studio</a><a href="#" onClick={stop}>Contact</a></nav>
@@ -231,7 +225,7 @@ function TrackPortfolio(_: { scrub: React.RefObject<HTMLVideoElement | null> }) 
       </div>
       <div className="tp-scroll"><span className="hk-desk">Move your cursor, then scroll — it follows</span><span className="hk-touch">Scroll — it turns to follow</span></div>
       <div className="tp-end">
-        <span>Showreel 2026 · Held World, Bloom, Monolith and 21 more</span>
+        <span>Selected work · Held World, Monolith, Planet Vigil, Bloom</span>
         <a href="#" onClick={stop} className="tp-cta">Start a project <span>↗</span></a>
       </div>
     </div>
@@ -278,7 +272,7 @@ function TrackSentry(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
 }
 
 /* track-neon: вращение — правда от скролла; одна грань икосаэдра открывается порталом в продукт. */
-const TN_BEATS: readonly Beat[] = [["--glow", 0.3, 0.46], ["--tri", 0.44, 0.8], ["--end", 0.78, 0.94]];
+const TN_BEATS: readonly Beat[] = [["--glow", 0.3, 0.46], ["--tri", 0.44, 0.76], ["--end", 0.62, 0.8]];
 function TrackNeon(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
   const ref = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
@@ -480,7 +474,7 @@ const STORY_TL: Record<string, StoryTL> = {
   "held-world": { v1: [0, .40, 0, .985], v2: [.40, .70, 0, .985], cut: [.40, .54], acts: [[.12, .20], [.18, .40], [.54, .68], [.66, .78]], kind: "circle", a: [.45, .56, .19], b: [.46, .5], z1: 1.5, s0: .6, z2: .1, kb: .05, pull: true },
   monolith: { v1: [0, .46, 0, .985], v2: [.46, .74, 0, .985], cut: [.46, .60], acts: [[.14, .22], [.22, .47], [.60, .70], [.69, .80]], kind: "rect", a: [.5025, .39, 0], b: [.5, .47], box: [.295, 0, .71, .78], z1: 1.25, s0: .85, z2: .06, kb: .04 },
   "planet-vigil": { v1: [0, .42, 0, .985], v2: [.42, .80, 0, .985], cut: [.42, .56], acts: [[.10, .17], [.15, .42], [.58, .78], [.76, .82]], kind: "circle", a: [.52, .30, .03], b: [.6, .44], z1: 2.6, s0: .4, z2: .137, kb: .05 },
-  ascension: { v1: [0, .40, 0, .58], v2: [.38, .80, 0, .62], cut: [.38, .54], acts: [[.07, .13], [.12, .38], [.56, .78], [.76, .82]], kind: "rise", a: [.46, -.1, 0], b: [.46, -.1], z1: .16, s0: 1, z2: .137, kb: .04 },
+  ascension: { v1: [0, .40, 0, .58], v2: [.38, .80, 0, .62], cut: [.38, .54], acts: [[.07, .13], [.12, .38], [.56, .78], [.76, .82]], kind: "rise", a: [.46, -.1, 0], b: [.46, -.1], z1: 1.25, s0: 1, z2: .137, kb: .04 },
 };
 
 // Часы истории: один подписчик общего rAF scene-kit. Пишет --p (сглаженный), акты, геометрию склейки; ведёт оба клипа.
@@ -564,8 +558,8 @@ function useStoryClock(root: React.RefObject<HTMLElement | null>, slug: string, 
       let o2x = g.W / 2;
       let o2y = g.H / 2;
       if (tl.kind === "rise") {
-        // подъём: мир кадра 1 уходит вниз, кадр 2 спускается сверху — камера идёт вверх сквозь туман к свету
-        ty1 = ci * g.H * 0.42;
+        // подъём к свету: кадр 1 растёт от верхней кромки (источник света) — туман и фигура уходят вниз за кадр,
+        // кадр 2 спускается сверху на место; обе части движутся вниз — камера идёт вверх
         ty2 = -(1 - co) * g.H * 0.3;
         s2 = 1 + tl.z2 * smooth(post);
       } else if (cut < 1) {
@@ -611,9 +605,14 @@ function useStoryClock(root: React.RefObject<HTMLElement | null>, slug: string, 
       if (tl.pull) {
         const w = tl.acts[3];
         const e = smooth(clamp01((p - w[0]) / (w[1] - w[0])));
-        const pS = 1 - e * (1 - (g.D * 1.12) / g.H);
+        // фаза A: диафрагма закрывается до вписанного круга (углы гаснут); фаза B: круг вместе с миром уезжает в сферу Ø D
+        const eA = clamp01(e / 0.3);
+        const eB = clamp01((e - 0.3) / 0.7);
+        const inner = g.H / 2; // коробка .hs-cut (масштаб pS) обрезает кадр по высоте
+        const pS = 1 - eB * (1 - (g.D * 1.12) / g.H);
+        const vis = eB > 0 ? inner + (g.D / 2 - inner) * eB : g.diag * 0.55 + (inner - g.diag * 0.55) * eA;
         set("--pS", pS);
-        set("--pR", px((g.diag * 0.55 * (1 - e) + (g.D / 2) * e) / pS));
+        set("--pR", px(vis / pS));
         set("--D", px(g.D));
       }
       const ph = cut <= 0 ? "pre" : cut >= 1 ? "post" : "on";
@@ -1533,6 +1532,7 @@ function OrbeLand() {
       <i className="hs-from" aria-hidden />
       <i className="hs-mk or-c0" aria-hidden />
       <i className="hs-mk or-c1" aria-hidden />
+      <i className="hs-mk or-c2" aria-hidden />
       <Backdrop from=".l2-orbe > .hs-from" dim={0.74} blur={16} plates={[
         { at: ".or2-object", src: `${SL}/orbe-world-end.jpg` },
         { at: ".or2-loop", src: `${SL}/orbe-interior.jpg` },
@@ -1543,6 +1543,7 @@ function OrbeLand() {
       <Actor width={ORB_D} zIndex={5} bob={3} tilt={0.03} stops={[
         { at: ".l2-orbe > .or-c0", pose: { x: 50, y: 50, s: 1, o: 0 } },
         { at: ".l2-orbe > .or-c1", pose: { x: 50, y: 50, s: 1, o: 1 } },
+        { at: ".l2-orbe > .or-c2", pose: { x: 50, y: 50, s: 1, o: 1 } }, // держит место, пока Backdrop не закрыл hero
         { at: ".or2-stage", pose: { x: 50, y: 48.2, s: 1, o: 1, dock: true } },
         { at: ".or2-loop > .hs-pin-a", pose: { x: 50, y: 52, s: 0.78, o: 1 } },
         { at: ".or2-loop > .hs-pin-b", pose: { x: 50, y: 52, s: 0.78, o: 1 } },

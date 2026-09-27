@@ -8,6 +8,7 @@
    по историям энергосети. Палитра: документальный deep-green + смелые blue / red / green / amber.
    Бренд ATLAS GRID — распределённая энергосеть и сенсорный мониторинг. Фолбэк: reduced-motion → главы
    разворачиваются в статичный читаемый стек (см. @media reduce в atlas15.css). */
+import { Follow } from "@/components/scene-kit";
 import { ScrollStage } from "../engine/ScrollStage";
 import { Scene } from "../engine/Track";
 import "../engine/scrollstage.css";
@@ -32,7 +33,7 @@ const CH: Chapter[] = [
   { i: 2, cx: 45, cy: 27, target: 9, unit: " regions", tag: "03 — MESH",
     title: ["Nine regions,", "one nervous system."],
     body: "Independent grids stop behaving like islands. Pressure in the north is answered in the south — one fabric, continentally aware.",
-    acc: "#1f7a4d", acc2: "#052a1a", ink: "#e6fff2" },
+    acc: "#2fb57a", acc2: "#063a24", ink: "#f0fff6" },
   { i: 3, cx: 80, cy: 67, target: 99, unit: " %", tag: "04 — HEAL",
     title: ["It heals", "before you notice."],
     body: "Ninety-nine percent of faults are isolated and routed around autonomously. The operators read the story afterward, not during.",
@@ -40,26 +41,19 @@ const CH: Chapter[] = [
 ];
 
 const N = CH.length;
+/* якорь пин-сцены 540vh по её прогрессу t */
+const pin = (t: number, V = 5.4) => (t * (V - 1) + 0.5) / V;
 
 export function Atlas15() {
   return (
     <ScrollStage className="at scroll-reveal">
-      {/* 0 · COVER */}
-      <Scene className="at-cover">
-        <div className="at-kick"><span>ATLAS GRID / DISTRIBUTED ENERGY</span><span>Nº15 · MAP-HUB</span></div>
-        <div className="at-cover-in">
-          <p className="at-eyebrow">a map that tells its own story</p>
-          <h1 className="at-hero">
-            <span className="at-mask" style={{ ["--d" as string]: 0 }}><i>The grid,</i></span>
-            <span className="at-mask at-hero-em" style={{ ["--d" as string]: 1 }}><i>read like a chart.</i></span>
-          </h1>
-          <p className="at-sub">Four regions. Four chapters. Scroll and each node on the network opens into the moment it mattered.</p>
-        </div>
-        <div className="at-cue" aria-hidden>scroll — open a node ↓</div>
-      </Scene>
-
-      {/* 1 · ATLAS — pinned карта-хаб; пины раскрываются в главы */}
-      <Scene className="at-atlas" pinned vh={540} style={{ ["--n" as string]: N, ["--lead" as string]: 0.13 }}>
+      {/* ПРОГРЕСС КАРТЫ НА ВСЮ СТРАНИЦУ: маршрут дорисовывается через все главы, --tt — время карты */}
+      <Follow stops={[
+        { at: ".at-cover", vars: { "--tt": 0, "--mapdim": 0.55, "--route": 0 } },
+        ...Array.from({ length: 9 }, (_, k) => ({ at: ".at-atlas", anchor: pin(k / 8), vars: { "--tt": k / 8, "--mapdim": 0, "--route": 0.1 + (k / 8) * 0.8 } })),
+        { at: ".at-end", vars: { "--tt": 1, "--mapdim": 0.42, "--route": 1 } },
+      ]} />
+      <div className="at-world" aria-hidden>
         {/* карта-сеть (декор, inline-SVG, абстрактная) */}
         <svg className="at-map" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden>
           <defs>
@@ -112,7 +106,24 @@ export function Atlas15() {
           <span className="at-hud-idx">NODE {`{`}<i className="at-hud-live" />{`}`} / {String(N).padStart(2, "0")}</span>
           <span className="at-hud-cap">ATLAS · live network dossier</span>
         </div>
+      </div>
 
+      {/* 0 · COVER */}
+      <Scene className="at-cover">
+        <div className="at-kick"><span>ATLAS GRID / DISTRIBUTED ENERGY</span><span>Nº15 · MAP-HUB</span></div>
+        <div className="at-cover-in">
+          <p className="at-eyebrow">a map that tells its own story</p>
+          <h1 className="at-hero">
+            <span className="at-mask" style={{ ["--d" as string]: 0 }}><i>The grid,</i></span>
+            <span className="at-mask at-hero-em" style={{ ["--d" as string]: 1 }}><i>read like a chart.</i></span>
+          </h1>
+          <p className="at-sub">Four regions. Four chapters. Scroll and each node on the network opens into the moment it mattered.</p>
+        </div>
+        <div className="at-cue" aria-hidden>scroll — open a node ↓</div>
+      </Scene>
+
+      {/* 1 · ATLAS — главы раскрываются из точек карты (карта — в fixed-мире под всей страницей) */}
+      <Scene className="at-atlas" pinned vh={540} style={{ ["--n" as string]: N, ["--lead" as string]: 0.13 }}>
         {/* главы: раскрываются круговым клипом от своего пина */}
         {CH.map((c) => (
           <article

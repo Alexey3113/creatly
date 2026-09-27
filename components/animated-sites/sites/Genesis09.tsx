@@ -1,5 +1,7 @@
 "use client";
 /* ANIMATED · Nº09 — «GENESIS» (класс particle/fluid, приём морф объект→объект→CTA-текст).
+   Сквозной объект — одно облако частиц на всю страницу. Формы уведены из-под копи (ядро справа, орбита слева),
+   «небо» — наклонный млечный путь с мягкими краями вместо прямоугольника шума; финал — слово BEGIN. и CTA.
    Один WebGL2-контекст/страница (useParticleHero). Единый GPU point-cloud (~52k) проходит по 4 экранам:
    СФЕРА (ядро) → ТОР (орбита) → ЗВЁЗДНОЕ ПОЛЕ (рассеяние) → сгущение в CTA-текст «BEGIN.».
    Морф — mix между 4 позициями-таргетами по page-scroll (u_progress). Аддитивный blend, мягкие точки,
@@ -11,20 +13,49 @@ import {
   useParticleHero,
   sphereTarget,
   torusTarget,
-  starfieldTarget,
   textTarget,
 } from "../engine/useParticleHero";
 import "./genesis09.css";
+
+/* детерминированный PRNG (mulberry32) — таргеты стабильны от запуска к запуску */
+function prng(seed: number) {
+  return () => {
+    seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+/* сдвиг формы в сторону от копи (design-space: x до ±aspect, y ∈ [-1,1]) */
+const shift = (a: Float32Array, dx: number, dy = 0) => { for (let i = 0; i < a.length; i += 3) { a[i] += dx; a[i + 1] += dy; } return a; };
+/* «небо»: не прямоугольник шума, а наклонный млечный путь с мягким краем + редкое гало (края уходят за кадр) */
+function skyTarget(N: number): Float32Array {
+  const out = new Float32Array(N * 3);
+  const r = prng(9);
+  const g = () => { const u = Math.max(1e-6, r()); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); };
+  for (let i = 0; i < N; i++) {
+    if (i % 5 === 0) {
+      out[i * 3] = g() * 1.1; out[i * 3 + 1] = g() * 0.62 + 0.1; out[i * 3 + 2] = (r() - 0.5) * 1.2;
+    } else {
+      const u = r() * 2 - 1;
+      const w = 0.2 * (1 - 0.45 * Math.abs(u)) * (0.7 + 0.3 * Math.sin(u * 7.0));
+      out[i * 3] = u * 2.0 + g() * 0.05;
+      out[i * 3 + 1] = 0.16 + u * 0.36 + g() * w;
+      out[i * 3 + 2] = (r() - 0.5) * 0.9;
+    }
+  }
+  return out;
+}
 
 export function Genesis09() {
   const canvas = useParticleHero({
     count: 52000,
     mobileCount: 11000,
     targets: [
-      (n) => sphereTarget(n, 0.72),
-      (n) => torusTarget(n, 0.54, 0.2),
-      (n) => starfieldTarget(n, 1.4, 1.05),
-      (n) => textTarget(n, "BEGIN.", { designH: 0.44, aspect: 4.2 }),
+      (n) => shift(sphereTarget(n, 0.6), 0.62, 0.02),
+      (n) => shift(torusTarget(n, 0.5, 0.18), -0.62, 0.04),
+      (n) => skyTarget(n),
+      (n) => shift(textTarget(n, "BEGIN.", { designH: 0.4, aspect: 4.2 }), 0, 0.16),
     ],
     colorA: [0.16, 0.42, 1.0],   // электрик-синяя пыль
     colorB: [1.0, 0.82, 0.42],   // золото

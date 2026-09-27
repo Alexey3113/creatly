@@ -123,7 +123,13 @@ export function useSceneProgress<T extends HTMLElement>(pointer = true, opts: { 
       const travel = Math.max(1, el.offsetHeight - vh);
       const raw = Math.max(0, Math.min(1, -r.top / travel));
       el.style.setProperty("--sp", (floor + (1 - floor) * raw).toFixed(4));
-      if (overlapVh) el.style.setProperty("--ovp", Math.max(0, Math.min(1, -r.top / (vh * overlapVh / 100))).toFixed(4));
+      if (overlapVh) {
+        const ovp = Math.max(0, Math.min(1, -r.top / (vh * overlapVh / 100))).toFixed(4);
+        el.style.setProperty("--ovp", ovp);
+        // уходящей (предыдущей) сцене — прогресс перекрытия следующей: разрыв/уход текста считаются от него
+        const prev = el.previousElementSibling as HTMLElement | null;
+        if (prev?.classList.contains("ps-scene")) prev.style.setProperty("--ovn", ovp);
+      }
     };
     const onScroll = () => { if (!raf && active) raf = requestAnimationFrame(compute); };
     const io = new IntersectionObserver((es) => { active = es[0].isIntersecting; el.classList.toggle("is-active", active); if (active) onScroll(); }, { threshold: 0 });
