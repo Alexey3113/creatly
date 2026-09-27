@@ -57,7 +57,7 @@ async function hist(prompt: string, since: number): Promise<string | null> {
 }
 
 async function vid(file: string, start: string, prompt: string) {
-  const name = file.replace(/\.\w+$/, "");
+  const name = file.replace(/\.\w+$/, "") + "-mp4"; // свой маркер: у постера canto-hero.jpg и видео canto-hero.mp4 одно базовое имя
   if (fs.existsSync(marker(S, name))) { console.log(`SKIP ${file}`); return; }
   backup(S, file);
   const since = Date.now() - 20000;

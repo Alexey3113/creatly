@@ -5,8 +5,8 @@ import sharp from "/Users/leo/programming/creatly/node_modules/sharp/lib/index.j
 import fs from "node:fs";
 import path from "node:path";
 
-const ROOT = "/private/tmp/claude-501/-Users-leo-programming-creatly/e9fdafa6-590e-4b44-b54f-f89568bf43ee/scratchpad/audit";
-const FR = path.join(ROOT, "frames");
+const ROOT = new URL("..", import.meta.url).pathname.replace(/\/$/, "");
+const FR = process.env.FR || path.join(ROOT, "frames");
 const W = 144, H = 90, B = 6;
 
 async function coverage(file) {
@@ -38,7 +38,7 @@ for (const fam of fs.readdirSync(FR)) {
     out[`${fam}/${id}`] = { fam, id, n, cov, emptyPct: +(empty / n).toFixed(2), cinePct: +(cine / n).toFixed(2), filmEndsAt: +(end / Math.max(1, n - 1)).toFixed(2), screens: m.stats?.screens, errs: m.errs.length, failed: m.failed.length, broken: m.stats?.brokenCount ?? 0, failedFonts: m.stats?.failedFonts ?? [] };
   }
 }
-fs.writeFileSync(path.join(ROOT, "metrics.json"), JSON.stringify(out, null, 1));
+fs.writeFileSync(process.env.MOUT || path.join(ROOT, "metrics.json"), JSON.stringify(out, null, 1));
 const fams = {};
 for (const r of Object.values(out)) (fams[r.fam] ||= []).push(r);
 const avg = (a, k) => (a.reduce((s, r) => s + r[k], 0) / a.length).toFixed(2);

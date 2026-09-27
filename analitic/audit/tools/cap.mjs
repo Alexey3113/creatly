@@ -4,7 +4,7 @@ import { chromium } from "/Users/leo/programming/creatly/node_modules/playwright
 import fs from "node:fs";
 import path from "node:path";
 
-const OUT = process.env.OUT || "/private/tmp/claude-501/-Users-leo-programming-creatly/e9fdafa6-590e-4b44-b54f-f89568bf43ee/scratchpad/audit/frames";
+const OUT = process.env.OUT || new URL("../frames", import.meta.url).pathname;
 const CONC = +(process.env.CONC || 3);
 const VW = 1440, VH = 900;
 const jobs = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));

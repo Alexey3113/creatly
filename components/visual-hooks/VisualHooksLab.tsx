@@ -32,6 +32,7 @@ import { EscortSite } from "@/components/concept-sites/EscortSite";
 import { CarDealerSite } from "@/components/concept-sites/CarDealerSite";
 import { JpRestaurantSite } from "@/components/concept-sites/JpRestaurantSite";
 import { FreestyleSite } from "@/components/concept-sites/FreestyleSite";
+import { Backdrop } from "@/components/scene-kit";
 
 type Scene = {
   slug: string;
@@ -1737,17 +1738,29 @@ function PortalHero({ data, hero }: { data: Pro; hero: Extract<ProHero, { archet
     </div>
   );
 }
+// кадр блока для плиты мира под лендингом (Backdrop): мир сайта перетекает под текстовыми блоками
+function blockImage(b: ProBlock): string | undefined {
+  switch (b.t) {
+    case "cinematicBand": case "bigNumber": return b.media;
+    case "split": case "editorial": return b.img;
+    case "diptych": return b.primary;
+    case "gallery": return b.items[0]?.img;
+    default: return undefined;
+  }
+}
 function ProSite({ data }: { data: Pro }) {
   const hero = resolveHero(data);
+  const plates = data.blocks.map((b, i) => ({ at: `[data-pb="${i}"]`, src: blockImage(b) })).filter((p): p is { at: string; src: string } => !!p.src);
   return (
-    <div className={`vh-site pro pro-${data.theme}`} data-hero={hero.archetype} data-type={data.typography ?? "editorial"}>
+    <div className={`vh-site pro pro-${data.theme}`} data-hero={hero.archetype} data-type={data.typography ?? "editorial"} style={{ isolation: "isolate" }}>
       <ProHeroView hero={hero} data={data} />
+      {plates.length > 1 && <Backdrop from={'[data-pb="0"]'} dim={0.86} blur={2} tint="var(--bg)" plates={plates} />}
       {data.blocks.map((b, i) => {
-        if (b.t === "cinematicBand" || b.t === "cine") return <ProBlockView key={i} b={b} />;
-        // Color-wipe только на границах актов (Codex): вход в доказательство (bigNumber после кино-сцены) и финал (cta).
+        if (b.t === "cinematicBand" || b.t === "cine") return <div key={i} data-pb={i}><ProBlockView b={b} /></div>;
+        // граница акта: вход в доказательство (bigNumber после кино-сцены) и финал (cta) — полоса света
         const prev = data.blocks[i - 1]?.t;
         const seam = (b.t === "bigNumber" && prev === "cinematicBand") || b.t === "cta" ? "color" : "shadow";
-        return <BlockSeam key={i} i={i} seam={seam}><ProBlockView b={b} /></BlockSeam>;
+        return <div key={i} data-pb={i}><BlockSeam i={i} seam={seam}><ProBlockView b={b} /></BlockSeam></div>;
       })}
       <footer className="pb-foot"><div className="pb-foot-top"><b>{data.brand}</b><p>{data.tagline}</p></div><div className="pb-foot-legal"><span>{data.legal}</span><span>A Visual Hooks concept</span></div></footer>
     </div>

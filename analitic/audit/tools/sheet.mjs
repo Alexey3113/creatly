@@ -3,8 +3,8 @@ import { chromium } from "/Users/leo/programming/creatly/node_modules/playwright
 import fs from "node:fs";
 import path from "node:path";
 
-const ROOT = "/private/tmp/claude-501/-Users-leo-programming-creatly/e9fdafa6-590e-4b44-b54f-f89568bf43ee/scratchpad/audit";
-const FR = path.join(ROOT, "frames");
+const ROOT = new URL("..", import.meta.url).pathname.replace(/\/$/, "");
+const FR = process.env.FR || path.join(ROOT, "frames");
 const only = process.argv.slice(2);
 const b = await chromium.launch({ channel: "chrome" });
 const pg = await b.newPage({ viewport: { width: 1960, height: 400 }, deviceScaleFactor: 1 });

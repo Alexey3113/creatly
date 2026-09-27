@@ -50,7 +50,7 @@ export function Tidewell() {
         { at: ".tw-manifest", color: "#0b3a44" }, { at: ".tw-depths", color: "#052831" }, { at: ".tw-stats", color: "#0a3640" },
         { at: ".tw-quote", color: "#15434b" }, { at: ".tw-deal", color: "#1f5058" }, { at: ".tw-climax", color: "#2d6068" },
       ]} />
-      <Backdrop from=".tw-manifest" dim={0.58} plates={[
+      <Backdrop from=".tw-manifest" dim={0.42} plates={[
         { at: ".tw-manifest", src: `${A}/s3-bg.webp` }, { at: ".tw-depths", src: `${A}/s3-bg.webp` },
         { at: ".tw-quote", src: `${A}/s4-bg.webp`, pos: "50% 30%" }, { at: ".tw-deal", src: `${A}/s4-bg.webp`, pos: "50% 30%" },
       ]} />
@@ -71,10 +71,10 @@ export function Tidewell() {
         { at: reelMark("s2"), pose: { x: 63, y: 52, s: 0.95, r: 2, o: 1, blur: 0 } },
         { at: reelMark("t2"), pose: { x: 60, y: 92, s: 1.1, r: 0, o: 0, blur: 3 } },
         { at: ".tw-manifest", pose: { x: 12, y: -20, s: 0.5, o: 0 } },
-        { at: ".tw-gauge-row:nth-child(1)", anchor: 0.5, pose: { x: -2, y: 40, s: 0.42, r: 4, o: 1, dock: true } },
-        { at: ".tw-gauge-row:nth-child(2)", anchor: 0.5, pose: { x: -2, y: 40, s: 0.42, r: 2, o: 1, dock: true } },
-        { at: ".tw-gauge-row:nth-child(3)", anchor: 0.5, pose: { x: -2, y: 40, s: 0.42, r: 0, o: 1, dock: true } },
-        { at: ".tw-gauge-row:nth-child(4)", anchor: 0.5, pose: { x: -2, y: 40, s: 0.42, r: -2, o: 1, dock: true } },
+        { at: ".tw-gauge-row:nth-child(1)", anchor: 0.5, pose: { x: -9, y: 42, s: 0.42, r: 4, o: 1, dock: true } },
+        { at: ".tw-gauge-row:nth-child(2)", anchor: 0.5, pose: { x: -9, y: 42, s: 0.42, r: 2, o: 1, dock: true } },
+        { at: ".tw-gauge-row:nth-child(3)", anchor: 0.5, pose: { x: -9, y: 42, s: 0.42, r: 0, o: 1, dock: true } },
+        { at: ".tw-gauge-row:nth-child(4)", anchor: 0.5, pose: { x: -9, y: 42, s: 0.42, r: -2, o: 1, dock: true } },
         { at: ".tw-split", pose: { x: 14, y: 120, s: 0.42, o: 0 } },
       ]} />
       <Actor src={`${A}/actor-diver-up.webp`} width="10vw" zIndex={32} stops={[

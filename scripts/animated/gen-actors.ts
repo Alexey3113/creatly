@@ -13,6 +13,15 @@ export type ActorSpec = { slug: string; name: string; subject: string; aspect?: 
 export const ACTORS: ActorSpec[] = [
   { slug: "tidewell", name: "diver-down", subject: "a lone freediver in a dark wetsuit with long fins, diving head-first straight down, arms stretched forward, seen from the side, a thin trail of small bubbles above the fins, small and elegant", aspect: "3:4" },
   { slug: "tidewell", name: "diver-up", subject: "a lone freediver in a dark wetsuit with long fins, rising upward toward the light, arms along the body, seen from the side, a few bubbles rising above the head", aspect: "3:4" },
+  { slug: "cocoa", name: "macaw", subject: "a single scarlet macaw in flight seen from the side, wings spread wide, long red tail feathers, vivid red with yellow and blue wing tips", aspect: "4:3" },
+  { slug: "emberfall", name: "leaf", subject: "a single bright red-orange maple leaf with its stem, flat and whole, seen from above, veins visible, slightly curled edges", aspect: "1:1" },
+  { slug: "emberroad", name: "caravan", subject: "a small silhouette caravan of four camels with riders walking in a line to the right, one lantern swinging on the first camel, long shadows, seen from the side", aspect: "16:9" },
+  { slug: "fjord", name: "boat", subject: "a small red wooden rowing boat with one oar resting, seen from the side at water level, simple and clean, a thin line of reflection under the hull", aspect: "16:9" },
+  { slug: "koi", name: "carp", subject: "a single red-and-white koi carp swimming to the right, seen from above, long flowing fins and tail", aspect: "16:9" },
+  { slug: "nomad", name: "herd", subject: "a running herd of six wild horses in silhouette galloping to the right in a loose line, manes flying, dust at the hooves, seen from the side", aspect: "16:9" },
+  { slug: "willow", name: "boat", subject: "a long flat-bottomed wooden boat with a glowing paper lantern hanging from a pole at the bow and a standing figure with a pushing pole, seen from the side facing right", aspect: "16:9" },
+  { slug: "canopy", name: "wanderer", subject: "a hooded wanderer in a long cloak walking to the right with a walking staff, seen from the side, small backpack", aspect: "3:4" },
+  { slug: "bazaar", name: "merchant", subject: "a desert merchant in flowing robes leading a single camel loaded with rolled carpets and a hanging brass lantern, walking to the right, seen from the side", aspect: "16:9" },
   { slug: "voyage", name: "aurelia", subject: "a small brass steampunk airship named Aurelia, seen exactly from the side facing right: a cream patched balloon envelope with brass ribs, a wooden gondola with warm glowing lantern windows, one triangular canvas sail, little brass propeller at the stern", aspect: "16:9" },
 ];
 
