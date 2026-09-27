@@ -136,6 +136,8 @@
   .sl-glance-txt{top:auto;bottom:7vh;right:6vw;max-width:none}
   .sl-glance-type{top:13vh;font-size:21vw}
   .sl-salt-cap p,.sl-glance-cap p{max-width:none;padding-right:6vw}
+  .sl-glance-cap p{color:var(--bone);text-shadow:0 1px 12px rgba(26,20,16,.95)}.sl-glance-cap .sl-folio{color:var(--bone)}
+  .sl-cover-hi p{text-shadow:0 1px 12px rgba(26,20,16,.95)}
   .sl-relic-cap{max-width:none;padding-right:5vw}
   .sl-relic-band{height:38vh}
   .sl-plate{width:44%;height:40%}

@@ -148,7 +148,7 @@
   .dt-wordmark span{top:10vh;font-size:15vw;line-height:.95}
   .dt-wm-self{right:auto;left:0;width:100%;text-align:center}
   .dt-wm-app{left:0;width:100%;text-align:center;top:calc(10vh + 15vw)!important}
-  .dt-orn-jp{font-size:56px;top:auto;bottom:24vh}.dt-orn-tag,.dt-orn-lm,.dt-orn-bar{display:none}
+  .dt-orn-jp{font-size:56px;top:auto;bottom:24vh}.dt-orn-tag,.dt-orn-lm,.dt-orn-bar,.dt-orn-script{display:none}
   .dt-cover-hi{align-items:flex-start;padding:0 0 6vh 5vw}.dt-cover-hi-in{max-width:80vw}
   .dt-cover-hi h1{font-size:13vw}
   .dt-bust{--W2:118vw}

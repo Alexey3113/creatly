@@ -56,7 +56,8 @@ export function StageDeck({ children, duration = 1000, cooldown = 300 }: { child
     /* SHARED ELEMENTS: [data-share="key"] в соседних сценах — призрак перелетает из A в B по прогрессу */
     const copyProps = ["font-family", "font-size", "font-weight", "font-style", "letter-spacing", "line-height", "color", "text-transform",
       "-webkit-text-stroke", "text-shadow", "white-space", "text-align", "object-fit", "object-position", "border-radius", "filter", "opacity",
-      "background-color", "background-image", "background-size", "background-position", "box-shadow", "border", "outline", "padding", "box-sizing"];
+      "background-color", "background-image", "background-size", "background-position", "box-shadow", "border", "outline", "padding", "box-sizing",
+      "mask-image", "-webkit-mask-image", "mask-size", "-webkit-mask-size", "clip-path", "mix-blend-mode"];
     const makeGhost = (a: HTMLElement, r: DOMRect) => {
       const g = a.cloneNode(true) as HTMLElement;
       const cs = getComputedStyle(a);

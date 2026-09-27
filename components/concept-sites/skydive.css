@@ -11,8 +11,6 @@
 /* портал-круг с перевёрнутым горным миром */
 .sd-disc{width:min(46vw,600px);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 140px rgba(0,0,0,.5),inset 0 0 90px rgba(6,14,12,.6)}
 .sd-disc img{width:100%;height:100%;object-fit:cover;transform:scaleY(-1) scale(1.12);filter:brightness(.82) contrast(1.06) saturate(.9)}
-/* падающая фигура */
-.sd-figure .ps-media{filter:drop-shadow(0 12px 26px rgba(0,0,0,.55)) drop-shadow(0 0 18px rgba(210,228,222,.35))}
 /* пики-foreground (нижняя полоса, растворяется вверху) */
 .sd-peaks{inset:auto 0 0 0;height:62vh;place-items:stretch}
 .sd-peaks .ps-media{object-position:center 42%;-webkit-mask:linear-gradient(180deg,transparent,#000 42%);mask:linear-gradient(180deg,transparent,#000 42%)}
@@ -23,7 +21,7 @@
 .sd-title h1{margin:0;font:300 clamp(58px,13vw,224px)/1 "Space Grotesk",sans-serif;letter-spacing:.3em;text-indent:.3em;color:#eef5f1;text-shadow:0 6px 40px rgba(0,0,0,.4)}
 .sd-sub{display:block;margin-top:18px;font:500 12px "DM Mono",monospace;letter-spacing:.32em;text-transform:uppercase;color:#a6c0b7}
 .sd-label{position:absolute;z-index:14;font:500 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#8fa89f;line-height:1.5}
-.sd-tl{top:96px;left:var(--pad)}.sd-tr{top:96px;right:var(--pad);text-align:right}
+.sd-tr{top:96px;right:var(--pad);text-align:right}
 .sd-bl{bottom:40px;left:var(--pad)}
 .sd-bl b{display:block;font:300 42px "Space Grotesk",sans-serif;color:#dfeae6;line-height:.9}
 .sd-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
@@ -54,7 +52,7 @@
 
 
 @media(max-width:1100px){.sd-grid{columns:2}}
-@media(max-width:900px){.sd-nav{display:none}.sd-disc{width:72vw}
+@media(max-width:900px){.sd-nav{display:none}.sd-disc{width:72vw}.sd4-levels{width:100%}
   .sd-grid{columns:1}.sd-lsteps,.sd-qgrid{grid-template-columns:1fr}.sd-workhead{flex-direction:column;align-items:flex-start}.sd-workhead p{text-align:left}}
 
 /* ============ SCENES S2–S6 (loop) ============ */
@@ -62,23 +60,18 @@
 .sd-scene h2 em{font-style:normal;font-weight:500;color:var(--accent)}
 .sd-scene p{color:#b6ccc3;font-size:clamp(14px,1.15vw,18px);line-height:1.72;max-width:34ch;margin:20px 0 0}
 
-/* S2 — sixty seconds (portal + falling figure) */
+/* S2 — sixty seconds: формация в облаках, облака проносятся вверх мимо камеры */
 .sd2-scene{background:#0d1513}
-.sd2-bg .ps-media{object-fit:cover;filter:brightness(.72) saturate(.7) contrast(1.02)}
-.sd2-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(13,21,19,.5),rgba(13,21,19,.2)45%,rgba(13,21,19,.86)),radial-gradient(120% 80% at 66% 24%,transparent 40%,rgba(13,21,19,.7))}
-.sd2-portal{justify-items:center;align-content:start;padding-top:6vh}
-.sd2-portal .ps-media{width:38vw;height:38vw;max-width:none;object-fit:cover;border-radius:50%;
-  -webkit-mask:radial-gradient(circle at 50% 50%,#000 60%,rgba(0,0,0,.35)72%,transparent 78%);
-  mask:radial-gradient(circle at 50% 50%,#000 60%,rgba(0,0,0,.35)72%,transparent 78%);
-  transform:scaleY(-1);filter:brightness(.9) saturate(.8) contrast(1.05);box-shadow:0 0 120px 40px rgba(13,21,19,.6)}
-.sd2-figure{align-content:start;justify-items:center;padding-top:30vh}
-.sd2-figure .ps-media{width:auto;height:20vh;max-width:none;object-fit:contain;filter:brightness(.85) drop-shadow(0 20px 40px rgba(0,0,0,.5))}
-.sd2-fog{position:absolute;inset:0;z-index:10;background:linear-gradient(180deg,transparent 52%,rgba(206,224,216,.14)70%,rgba(13,21,19,.5)90%,var(--bg));mix-blend-mode:screen;opacity:.5;pointer-events:none}
+.sd2-bg .ps-media{object-fit:cover;filter:brightness(.78) saturate(.72) contrast(1.04)}
+.sd2-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(13,21,19,.72),rgba(13,21,19,.18) 46%,transparent 70%),linear-gradient(0deg,rgba(13,21,19,.7),transparent 42%)}
+.sd2-rush{mix-blend-mode:screen;opacity:.42;pointer-events:none}
+.sd2-rush .ps-media{object-position:50% 90%;filter:brightness(1.2) contrast(1.3) saturate(.4);-webkit-mask:linear-gradient(180deg,transparent,#000 30%,#000 60%,transparent);mask:linear-gradient(180deg,transparent,#000 30%,#000 60%,transparent)}
 .sd2-copy{align-content:end;justify-items:start;text-align:left;padding:0 0 12vh var(--pad)}
 
-/* S3 — the fall (альтиметр · маркер падает по ленте высот на --lp, стадии загораются) */
+/* S3 — the fall (лента высот: след и стадии ведёт общий --alt, маркер — сам парашютист-актёр) */
 .sd3-scene{background:#0d1513}
-.sd3-bg{position:absolute;inset:0;background:radial-gradient(130% 90% at 50% 28%,#1a2a26,#0d1513 68%)}
+.sd3-photo .ps-media{filter:brightness(.62) saturate(.8) contrast(1.05)}
+.sd3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(130% 90% at 50% 34%,rgba(26,42,38,.5),rgba(13,21,19,.9) 70%)}
 .sd3-word{align-content:center;justify-items:center}
 .sd3-word span{font:300 26vw/1 "Manrope",sans-serif;letter-spacing:.06em;color:#16241f;opacity:.6}
 .sd3-copy2{align-content:start;justify-items:center;text-align:center;padding-top:5vh}
@@ -90,23 +83,21 @@
 .sd3-tape::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:rgba(188,216,205,.22)}
 .sd3-tick{position:absolute;right:52%;transform:translateY(-50%);padding-right:12px;font:600 10px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#7fa89b;white-space:nowrap}
 .sd3-tick::after{content:"";position:absolute;right:-6px;top:50%;width:10px;height:1px;background:rgba(188,216,205,.4)}
-.sd3-trail{position:absolute;left:50%;top:0;width:2px;transform:translateX(-50%);height:calc(var(--lp,0) * 100%);background:linear-gradient(#bcd8cd,rgba(188,216,205,.2));box-shadow:0 0 8px rgba(188,216,205,.5)}
-.sd3-marker{position:absolute;left:50%;top:calc(var(--lp,0) * 100%);transform:translate(-50%,-50%);width:18px;height:18px;display:grid;place-items:center}
-.sd3-marker i{width:12px;height:12px;background:#bcd8cd;border-radius:50%;box-shadow:0 0 0 4px rgba(188,216,205,.2),0 0 16px rgba(188,216,205,.8)}
+.sd3-trail{position:absolute;left:50%;top:0;width:2px;transform:translateX(-50%);height:calc((1 - var(--alt,4000) / 4000) * 100%);background:linear-gradient(#bcd8cd,rgba(188,216,205,.2));box-shadow:0 0 8px rgba(188,216,205,.5)}
 .sd3-stages{display:flex;flex-direction:column;justify-content:space-between;gap:12px}
-.sd3-stage{display:flex;align-items:center;gap:14px;opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1));transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * 14px))}
+.sd3-stage{--on:clamp(0, (var(--thr,0) + 150 - var(--alt,4000)) / 150, 1);display:flex;align-items:center;gap:14px;opacity:calc(.3 + .7 * var(--on));transform:translateX(calc((1 - var(--on)) * 14px))}
 .sd3-stage .ps-media{width:74px;height:56px;max-width:none;object-fit:cover;border-radius:3px;filter:saturate(.82) brightness(.94);border:1px solid rgba(188,216,205,.16)}
 .sd3-stage b{display:block;font:400 clamp(18px,2vw,26px) "Space Grotesk",sans-serif;color:#e6f0eb}
 .sd3-stage s{display:block;margin-top:3px;font:600 10px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#7fa89b;text-decoration:none}
 
-/* S4 — how you jump (data list) */
+/* S4 — how you jump: под куполом — побережье */
 .sd4-scene{background:#0d1513}
-.sd4-bg{position:absolute;inset:0;background:linear-gradient(180deg,#0d1513,#101d19 60%,#0d1513);
-  background-image:repeating-linear-gradient(90deg,rgba(188,216,205,.05)0 1px,transparent 1px 8vw)}
+.sd4-photo .ps-media{filter:brightness(.62) saturate(.78)}
+.sd4-bg{position:absolute;inset:0;z-index:1;background:repeating-linear-gradient(90deg,rgba(188,216,205,.05)0 1px,transparent 1px 8vw),linear-gradient(90deg,rgba(13,21,19,.9),rgba(13,21,19,.72) 48%,rgba(13,21,19,.2) 78%,rgba(13,21,19,.1))}
 .sd4-head{align-content:start;justify-items:start;text-align:left;padding:14vh 0 0 var(--pad)}
 /* уровни падают сверху и встают на место (по --lp, последовательно) */
-.sd4-levelsL{align-content:center;justify-items:stretch;padding:0 var(--pad)}
-.sd4-levels{width:100%}
+.sd4-levelsL{align-content:center;justify-items:start;padding:0 var(--pad)}
+.sd4-levels{width:min(64vw,980px)}
 .sd4-level{display:grid;grid-template-columns:16ch 20ch 1fr;gap:2vw;align-items:baseline;padding:30px 0;border-top:1px solid rgba(188,216,205,.16);
   opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 10, 1));
   transform:translateY(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * -42px))}
@@ -115,9 +106,10 @@
 .sd4-level b{font:300 clamp(26px,3.4vw,48px)/1 "Manrope",sans-serif;color:#e2ece8}
 .sd4-level s{text-decoration:none;color:#9fb8af;font-size:15px;line-height:1.6}
 
-/* S5 — from the door (бортовой jump-log · каждый отзыв = записанный прыжок) */
+/* S5 — from the door (бортовой jump-log · каждый отзыв = записанный прыжок) · под ним — дропзона ближе */
 .sd5-scene{background:#0d1513}
-.sd5-bg{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 20%,#132420,#0b1210 70%)}
+.sd5-photo .ps-media{filter:brightness(.5) saturate(.75)}
+.sd5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(120% 90% at 30% 20%,rgba(19,36,32,.62),rgba(11,18,16,.86) 70%)}
 .sd5-loghdr{position:absolute;z-index:6;top:17vh;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:5ch 12ch 7ch 7ch 1fr;column-gap:1.5vw;width:min(940px,90vw);padding:0 22px 8px;border-bottom:1px solid rgba(188,216,205,.28)}
 .sd5-loghdr span{font:600 9px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#6f8b82}
 .sd5-log{align-content:start;justify-items:center}
@@ -152,3 +144,44 @@
   .sd5-row{grid-template-columns:5ch 1fr;column-gap:12px;width:92vw;padding:13px 14px}
   .sd5-dt,.sd5-alt,.sd5-ff{grid-column:2;font-size:10px}.sd5-rem{grid-column:1 / -1}
   .sd5-lg1{padding-top:22vh}.sd5-lg2{padding-top:40vh}.sd5-lg3{padding-top:58vh}}
+
+/* ===== v2 · одно падение (аудит 2026-09) ===== */
+/* ЗАКРЕПЛЁННЫЙ АЛЬТИМЕТР: число из общего --alt (Follow, целое) */
+.sd-alt{position:fixed;z-index:45;top:96px;left:var(--pad);display:flex;align-items:baseline;gap:10px;pointer-events:none;
+  font:500 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#8fa89f;text-shadow:0 1px 10px rgba(0,0,0,.35)}
+.sd-alt-num{font:300 30px/1 "Space Grotesk",sans-serif;letter-spacing:.02em;color:#eef5f1;font-variant-numeric:tabular-nums;min-width:4.2ch;text-align:right}
+.sd-alt-num::after{counter-reset:alt var(--alt,4000);content:counter(alt)}
+/* АКТЁР-парашютист: кроп центра канвы 2048² (фигура ≈4%), купол по --canopy */
+.sd-diver{position:relative;animation:sd-wobble 5.5s ease-in-out infinite alternate}
+.sd-actor .sd-diver-img{position:relative;width:100%;aspect-ratio:1;overflow:hidden;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+.sd-actor .sd-diver-img img{position:absolute;width:2200%;max-width:none;height:auto;left:-1050%;top:-1050%;filter:none}
+.sd-canopy{position:absolute;left:50%;bottom:52%;width:190%;height:auto;transform-origin:50% 100%;overflow:visible;
+  transform:translateX(-50%) scale(calc(.2 + .8 * var(--canopy,0)),var(--canopy,0));opacity:var(--canopy,0);filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+@keyframes sd-wobble{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+/* hero в покое: небо дрейфует, портал медленно вращается, туман плывёт */
+.sd-sky .ps-media{animation:sd-drift 26s ease-in-out infinite alternate}
+@keyframes sd-drift{from{transform:translateX(-1.5%) scale(1.03)}to{transform:translateX(1.5%) scale(1.05)}}
+.sd-disc img{animation:sd-spin 120s linear infinite}
+@keyframes sd-spin{from{transform:scaleY(-1) scale(1.12) rotate(0)}to{transform:scaleY(-1) scale(1.12) rotate(360deg)}}
+.sd-fog{animation:sd-fog 14s ease-in-out infinite alternate}
+@keyframes sd-fog{from{transform:translateX(-3vw);opacity:.85}to{transform:translateX(3vw);opacity:1}}
+
+/* СТЫК «сквозь облако» (hero→S2, S2→S3): белая вата заполняет кадр и рассеивается уже в следующей сцене */
+.sd-site .sd2-scene[data-ov]>.ps-sticky,.sd-site .sd3-scene[data-ov]>.ps-sticky{opacity:min(1, var(--ovp,0) * 2.6)}
+.sd-cloud{position:absolute;inset:-25% -15%;z-index:30;pointer-events:none;
+  background:radial-gradient(40% 34% at 30% 40%,rgba(255,255,255,.5),transparent 70%),radial-gradient(36% 30% at 70% 62%,rgba(255,255,255,.45),transparent 70%),url(/uploads/1/hooks/sites/anim/skydive/sky.jpg) 50% 94%/cover;
+  filter:brightness(1.3) contrast(1.4) saturate(.5);
+  opacity:calc(1 - clamp(0, (var(--ovp,1) - .45) * 2.5, 1));
+  transform:translateY(calc((.45 - var(--ovp,1)) * 60%)) scale(1.3)}
+.sd-cloud-2{background-position:50% 50%,50% 50%,30% 100%;filter:brightness(1.05) contrast(1.5) saturate(.5)}
+/* СТЫК «портал»: финал раскрывается кругом из точки портала, по кромке — светлый обод */
+.sd-site .sd6-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));clip-path:circle(calc(var(--e) * 105vmax) at 50% 46%)}
+.sd6-rim{position:absolute;inset:0;z-index:40;pointer-events:none;
+  background:radial-gradient(circle at 50% 46%,transparent calc(var(--e,1) * 105vmax - 4vmax),rgba(214,236,228,.5) calc(var(--e,1) * 105vmax - .5vmax),transparent calc(var(--e,1) * 105vmax))}
+
+@media(prefers-reduced-motion:reduce){
+  .sd-site *,.sd-site *::before,.sd-site *::after{animation:none!important}
+  .sd-site .sd-exit{opacity:1!important}
+  .sd-site .ps-scene[data-ov]>.ps-sticky{clip-path:none;opacity:1}
+  .sd-cloud,.sd6-rim{display:none}
+}

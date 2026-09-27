@@ -31,8 +31,8 @@ export function ClothingSite() {
       ]} />
       {/* АКТЁР — стеклянная молния: одна и та же вещь проходит весь сайт */}
       <Actor src={`${A}/shard-cut.png`} width="62vw" zIndex={30} bob={7} className="cl-actor" stops={[
-        { ...at(".cl-hero", H.hero, 0), pose: { x: 42, y: 60, s: 1, r: 7 } },
-        { ...at(".cl-hero", H.hero, 0.55), pose: { x: 46, y: 48, s: 1, r: -3 } },
+        { ...at(".cl-hero", H.hero, 0), pose: { x: 35, y: 63, s: 1, r: 9 } },
+        { ...at(".cl-hero", H.hero, 0.55), pose: { x: 42, y: 52, s: 1, r: -2 } },
         { ...at(".cl2-scene", H.s2, 0.07), pose: { x: 50, y: 50, s: 0.78, r: 0 } },
         { ...at(".cl2-scene", H.s2, 0.36), pose: { x: 61, y: 37, s: 0.24, r: 16 } },
         { ...at(".cl2-scene", H.s2, 0.64), pose: { x: 60, y: 39, s: 0.24, r: 10 } },
@@ -93,7 +93,7 @@ export function ClothingSite() {
         <Layer z={5} depth={0.5} phase={[0, 1]} from={{ x: "3vw", y: "3vh", scale: 1.06 }} to={{ x: "-1vw", y: "-2vh", scale: 1 }} cursor={{ x: 12, y: 8 }} className="cl2-model">
           <SceneMedia src={`${A}/model-cut.png`} alt="Model in a tailored look, close up" />
         </Layer>
-        <Layer z={12} phase={[0.6, 0.68]} from={{ opacity: 1 }} to={{ opacity: 0 }} className="cl-exit">
+        <Layer z={12} phase={[0.6, 0.68]} from={{ opacity: 1 }} to={{ opacity: 0 }} depth={0} className="cl-exit">
           <Layer depth={0.24} phase={[0.08, 0.3]} from={{ x: "-3vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="cl2-copy">
             <span className="cl-eyebrow">01 — a wardrobe of one</span>
             <h2>Clothing that<br /><em>moves like you do.</em></h2>
@@ -132,7 +132,7 @@ export function ClothingSite() {
           <SceneMedia src={`${A}/atelier.jpg`} />
         </Layer>
         <div className="cl4-veil" aria-hidden />
-        <Layer z={12} phase={[0.6, 0.68]} from={{ opacity: 1 }} to={{ opacity: 0 }} className="cl-exit">
+        <Layer z={12} phase={[0.6, 0.68]} from={{ opacity: 1 }} to={{ opacity: 0 }} depth={0} className="cl-exit">
         <Layer depth={0.22} phase={[0, 0.2]} from={{ y: "2vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="cl4-head">
           <span className="cl-eyebrow">03 — the atelier</span><h2>One room, <em>one pair of hands.</em></h2>
         </Layer>

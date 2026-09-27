@@ -130,7 +130,9 @@
 @media(max-width:900px){
   .ae-cover{--fh:76vh}
   .ae-wordmark span{font-size:22vw}
-  .ae-orn-l,.ae-orn-r{max-width:40vw;font-size:10px;top:30vh}
+  .ae-orn-l,.ae-orn-r,.ae-orn-eye{display:none}
+  .ae-guillo-type{z-index:4;text-shadow:0 2px 18px rgba(0,0,0,.7)}
+  .ae-cover-hi p{text-shadow:0 1px 12px rgba(0,0,0,.95)}
   .ae-g-l,.ae-g-r{top:9vh;font-size:13vh}
   .ae-guillo-cap{padding:auto;display:flex;flex-direction:column;justify-content:flex-end;padding:0 5vw 6vh}
   .ae-guillo-cap p{max-width:none;text-shadow:0 1px 12px rgba(0,0,0,.9)}

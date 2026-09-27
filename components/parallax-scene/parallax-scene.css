@@ -54,3 +54,7 @@
   .ps-trans{display:none}
   .ps-scene[data-ov]>.ps-sticky{opacity:1}
 }
+
+/* opt-in: слой с определённым треком грида — у детей height:100% резолвится от слоя
+   (по умолчанию трек auto и картинка получает свою пропорцию; многие композиции на это уже опираются) */
+.ps-layer.ps-fill{grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
