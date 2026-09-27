@@ -1492,7 +1492,7 @@ type ProBlock =
   | { t: "quote"; text: string; cite: string }
   | { t: "steps"; head: React.ReactNode; items: { h: string; p: string }[] }
   | { t: "editorial"; img: string; title: React.ReactNode; body?: string }
-  | { t: "cinematicBand"; media: string; motif?: "none" | "halftone" | "grain"; chapters: { index?: string; title: React.ReactNode; body?: string; align?: "left" | "right" | "center" }[] }
+  | { t: "cinematicBand"; media: string; motif?: "none" | "halftone" | "grain"; chapters: { index?: string; title: React.ReactNode; body?: string; align?: "left" | "right" | "center"; media?: string }[] }
   | { t: "bigNumber"; value: string; label: React.ReactNode; media?: string; note?: string }
   | { t: "diptych"; primary: string; secondary: string; index?: string; title: React.ReactNode; body?: string; overlap?: "object" | "type" | "panel" }
   | { t: "cta"; title: React.ReactNode; body: string; label: string };
@@ -1542,7 +1542,7 @@ function ProBlockView({ b }: { b: ProBlock }) {
     case "steps": return <section className="pb-steps"><Reveal className="pb-steps-head vh-rv--up"><h3>{b.head}</h3></Reveal><div className={`pb-steps-row n${b.items.length}`}>{b.items.map((x, i) => <Reveal key={x.h} className="pb-step vh-rv--up"><span>{String(i + 1).padStart(2, "0")}</span><b>{x.h}</b><p>{x.p}</p></Reveal>)}</div></section>;
     case "editorial": return <section className="pb-edit"><Reveal className="pb-edit-media vh-rv--mask"><img loading="lazy" src={b.img} alt="" /></Reveal><Reveal className="pb-edit-copy vh-rv--up"><h3>{b.title}</h3>{b.body && <p>{b.body}</p>}</Reveal></section>;
     case "cinematicBand": return <CinematicBand b={b} />;
-    case "bigNumber": return <section className="pb-bignum">{b.media && <div className="pb-bignum-media"><Reveal className="vh-rv--mask"><img loading="lazy" src={b.media} alt="" /></Reveal></div>}<Reveal className="pb-bignum-copy vh-rv--up"><b className="pb-bignum-v">{b.value}</b><span className="pb-bignum-l">{b.label}</span>{b.note && <em>{b.note}</em>}</Reveal></section>;
+    case "bigNumber": return <section className="pb-bignum">{b.media && <div className="pb-bignum-media"><Reveal className="vh-rv--mask"><img loading="lazy" src={b.media} alt="" /></Reveal></div>}<Reveal className="pb-bignum-copy vh-rv--up"><CountUp value={b.value} /><span className="pb-bignum-l">{b.label}</span>{b.note && <em>{b.note}</em>}</Reveal></section>;
     case "diptych": return <section className={`pb-dip ov-${b.overlap ?? "object"}`}><Reveal className="pb-dip-primary vh-rv--mask"><img loading="lazy" src={b.primary} alt="" /></Reveal>{b.index && <span className="pb-dip-ix">{b.index}</span>}<Reveal className="pb-dip-copy vh-rv--up"><h3>{b.title}</h3>{b.body && <p>{b.body}</p>}</Reveal><Reveal className="pb-dip-secondary vh-rv--zoom"><img loading="lazy" src={b.secondary} alt="" /></Reveal></section>;
     case "cta": return <section className="pb-cta"><Reveal className="vh-rv--up"><h2>{b.title}</h2><p>{b.body}</p><a href="#" onClick={stop} className="pb-btn">{b.label} <i>↗</i></a></Reveal></section>;
   }
@@ -1595,10 +1595,20 @@ function useSectionProgress<T extends HTMLElement>(variable = "--sp") {
 function CinematicBand({ b }: { b: Extract<ProBlock, { t: "cinematicBand" }> }) {
   const ref = useSectionProgress<HTMLDivElement>();
   const n = b.chapters.length;
+  // процесс в одном закреплённом плане: у главы может быть свой кадр — кадры сменяются кроссфейдом по главам
+  const frames = b.chapters.map((c) => c.media ?? b.media);
+  const multi = new Set(frames).size > 1;
+  const motif = b.motif && b.motif !== "none" ? ` m-${b.motif}` : "";
   return (
     <div ref={ref} className="pb-cband" style={{ height: `${130 + n * 45}vh` } as React.CSSProperties}>
       <div className="pb-cband-sticky">
-        <div className={`pb-cband-media${b.motif && b.motif !== "none" ? ` m-${b.motif}` : ""}`}><img src={b.media} alt="" /></div>
+        {multi ? (
+          frames.map((src, i) => (
+            <div key={i} className={`pb-cband-media pb-cband-frame${i === 0 ? " is-first" : ""}${i === n - 1 ? " is-last" : ""}${motif}`} style={{ ["--c" as string]: ((i + 0.5) / n).toFixed(3), ["--n" as string]: n } as React.CSSProperties}><img src={src} alt="" /></div>
+          ))
+        ) : (
+          <div className={`pb-cband-media${motif}`}><img src={b.media} alt="" /></div>
+        )}
         <div className="pb-cband-wash" />
         {b.chapters.map((c, i) => (
           <div key={i} className={`pb-cband-chap ${c.align ?? "left"}`} style={{ ["--c" as string]: (i === 0 ? 0.25 / n : i === n - 1 ? 1 - 0.25 / n : (i + 0.5) / n).toFixed(3), ["--n" as string]: n } as React.CSSProperties}>
@@ -1609,6 +1619,31 @@ function CinematicBand({ b }: { b: Extract<ProBlock, { t: "cinematicBand" }> }) 
       </div>
     </div>
   );
+}
+// цифра как функция скролла: считает от нуля до значения, пока блок проходит экран (одометр)
+function CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLElement>(null);
+  const m = value.match(/^([^0-9]*)([0-9][0-9,.]*)(.*)$/);
+  useEffect(() => {
+    const el = ref.current; if (!el || !m) return;
+    const target = parseFloat(m[2].replace(/,/g, ""));
+    const dec = (m[2].split(".")[1] || "").length;
+    const comma = m[2].includes(",");
+    const fmt = (v: number) => { const s = v.toFixed(dec); return comma ? Number(s).toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec }) : s; };
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = m[1] + m[2] + m[3]; return; }
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect(), vh = innerHeight;
+      const k = Math.max(0, Math.min(1, (vh * 0.95 - r.top) / (vh * 0.55)));
+      const e = 1 - Math.pow(1 - k, 3);
+      el.textContent = m[1] + fmt(target * e) + m[3];
+    };
+    const on = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    tick(); addEventListener("scroll", on, { passive: true }); addEventListener("resize", on);
+    return () => { cancelAnimationFrame(raf); removeEventListener("scroll", on); removeEventListener("resize", on); };
+  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
+  return <b className="pb-bignum-v" ref={ref}>{value}</b>;
 }
 function ProHeroView({ hero, data }: { hero: ProHero; data: Pro }) {
   const brand = <Link href="/visual-hooks/sites" className="pb-brand">{data.brand}</Link>;

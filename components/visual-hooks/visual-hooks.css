@@ -1571,3 +1571,9 @@
 .pro[data-type="grotesk"] :is(.pb-idea,.pb-cine-copy,.pb-split-copy,.pb-edit-copy,.pb-cta,.pb-dip-copy) em{font-style:normal;color:var(--a)}
 .pro[data-type="signal"] :is(.pb-idea h2,.pb-cine-copy h2,.pb-split-copy h3,.pb-edit-copy h3,.pb-cta h2,.pb-dip-copy h3){font-weight:600;letter-spacing:-.03em}
 .pro[data-type="signal"] :is(.pb-idea,.pb-cine-copy,.pb-split-copy,.pb-edit-copy,.pb-cta,.pb-dip-copy) em{font-style:normal;color:var(--a)}
+
+/* cinematicBand «процесс в одном плане»: кадры глав сменяются кроссфейдом по прогрессу пина */
+.pb-cband-frame{opacity:clamp(0,calc(1.6 - abs(var(--sp) - var(--c))*2.2*var(--n,2)),1)}
+.pb-cband-frame.is-first{opacity:clamp(0,calc(1.6 - max(var(--sp) - var(--c),0)*2.2*var(--n,2)),1)}
+.pb-cband-frame.is-last{opacity:clamp(0,calc(1.6 - max(var(--c) - var(--sp),0)*2.2*var(--n,2)),1)}
+.pb-cband-frame img{transform:scale(calc(1.04 + var(--sp)*.22))}
