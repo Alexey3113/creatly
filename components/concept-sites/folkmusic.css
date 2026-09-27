@@ -1,0 +1,239 @@
+/* Концепт 15 — FOLKMUSIC «ЗОРЯ». Русь-фолк: кларет + золото + лён, kokoshnik-арка (портал), хохлома-завитки в углах. */
+.fk-site{--pad:3.6vw;--bg:#170a0b;--ink:#efe4cf;--mut:#a98f6b;--accent:#d9a441;--claret:#7a1220;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.fk-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.fk-brand{font:700 22px "Playfair Display",serif;letter-spacing:.14em;color:#f2e6c9}
+.fk-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#c8b38a}
+.fk-nav a{opacity:.85}.fk-nav a:hover{opacity:1}
+.fk-tickets{border:1px solid rgba(217,164,65,.55);border-radius:2px;padding:8px 15px;color:#f0d69a;opacity:1!important}
+.fk-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.fk-hero .ps-sticky{background:#170a0b}
+
+/* kokoshnik-арка (портал) */
+.fk-arch{place-items:center}
+.fk-arch svg{width:min(52vw,620px);height:auto;overflow:visible;filter:drop-shadow(0 0 24px rgba(217,164,65,.35))}
+.fk-arch path,.fk-arch line{fill:none;stroke:var(--accent);stroke-width:2;vector-effect:non-scaling-stroke}
+.fk-arch .fk-arch-fill{fill:rgba(122,18,32,.28);stroke:none}
+
+/* хохлома-завитки в углах */
+
+/* титул за фигурой */
+
+/* manifest */
+
+/* CTA */
+
+.fk-cta-in .fk-eyebrow{text-align:center}
+
+.fk-site a.fk-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 32px;border-radius:2px;background:var(--accent);color:#2a0f04;font:600 13px "Manrope",sans-serif}
+.fk-btn i{font-style:normal}
+
+/* footer */
+.fk-foot{position:relative;z-index:1;background:#0f0708;color:#a98f6b;padding:64px var(--pad) 40px}
+.fk-foot-top b{font:700 24px "Playfair Display",serif;letter-spacing:.12em;color:#f2e6c9}
+.fk-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#7c6547}
+.fk-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(217,164,65,.22);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#6d5838}
+
+/* ФАЗА 2 — секции */
+/* Живые концерты — галерея */
+
+/* Афиша — концерты */
+
+.fk-bill .fk-eyebrow{margin-bottom:34px}
+
+.fk-brow em.on{color:var(--accent)}
+
+@media(max-width:1100px){.fk-grid{columns:2}}
+@media(max-width:900px){.fk-nav{display:none}.fk-orn,.fk-tr,.fk-arch{display:none}.fk-title span{font-size:44vw}.fk-singer .ps-media{width:70vw}
+  .fk-grid{columns:1}.fk-qgrid{grid-template-columns:1fr}.fk-workhead{flex-direction:column;align-items:flex-start}.fk-workhead p{text-align:left}.fk-brow{grid-template-columns:1fr}}
+
+/* ===== POSTER HERO — один-в-один с пином «ВЕСНА» (холодный editorial-постер) ===== */
+.fk-poster .fk-head{background:transparent}
+.fk-poster .fk-brand{color:#151410}
+.fk-poster .fk-nav{color:#3a382f}
+.fk-poster .fk-tickets{border:1px solid rgba(21,20,16,.5);border-radius:0;color:#151410}
+.fp-hero{--paper:#d8d6cf;--ink:#151410;--red:#b32e1e;--mut:#7f7d75}
+.fp-hero .ps-sticky{background:var(--paper)}
+.fp-bg .ps-media{filter:grayscale(1) contrast(1.02) brightness(1.04)}
+.fp-wash{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(216,214,207,.2),transparent 30% 70%,rgba(216,214,207,.35))}
+/* красный диск (восход) */
+.fp-disc{place-items:center;align-content:start;padding-top:8vh}
+.fp-disc i{display:block;width:46vh;height:46vh;border-radius:50%;background:var(--red);box-shadow:inset 0 0 60px rgba(0,0,0,.15)}
+/* гигантский битый титул */
+.fp-title{place-items:center;align-content:start;padding-top:12vh}
+.fp-title span{font:900 clamp(150px,30vw,460px)/.78 "Playfair Display",serif;color:#141310;letter-spacing:-.01em;filter:url(#fp-erode);-webkit-text-stroke:0}
+.fp-defs{position:absolute;width:0;height:0}
+/* фигура-вырезка (безликая, венок) */
+.fp-figure .ps-media{width:33vw;height:auto;max-width:none;filter:grayscale(1) contrast(1.05) drop-shadow(0 24px 44px rgba(20,18,12,.35))}
+/* плотная маргинальная вёрстка */
+.fp-frame{position:absolute;z-index:16;inset:22px;border:1px solid rgba(21,20,16,.28);pointer-events:none}
+.fp-frame:before,.fp-frame:after{content:"+";position:absolute;font:400 16px "DM Mono",monospace;color:rgba(21,20,16,.5)}
+.fp-frame:before{top:-9px;left:-5px}.fp-frame:after{bottom:-12px;right:-5px}
+.fp-top{position:absolute;z-index:17;top:34px;left:0;right:0;display:flex;justify-content:center;gap:14px;align-items:center;font:700 14px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#151410}
+.fp-top b{font-family:"Playfair Display",serif;font-weight:900;letter-spacing:.2em}
+.fp-top s{width:34px;height:1px;background:rgba(21,20,16,.5);text-decoration:none}
+.fp-col{position:absolute;z-index:17;top:53vh;font:700 15px/1.55 "DM Mono",monospace;letter-spacing:.03em;text-transform:uppercase;color:#151410}
+.fp-col.l{left:44px}.fp-col.r{right:44px;text-align:right}
+.fp-col .d{color:var(--red)}
+.fp-glyph{position:absolute;z-index:17;font:400 26px "DM Mono",monospace;color:rgba(21,20,16,.6)}
+.fp-g1{left:46px;top:30vh}.fp-g2{right:46px;top:30vh}
+
+.fp-cue{position:absolute;z-index:17;right:44px;bottom:16vh;font:700 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--red)}
+/* нижний повторяющийся стрип */
+.fp-strip{position:absolute;z-index:16;left:0;right:0;bottom:26px;overflow:hidden;white-space:nowrap;opacity:.32;font:700 12px "DM Mono",monospace;letter-spacing:.1em;color:#151410;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.fp-grain{position:absolute;inset:0;z-index:15;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+@media(max-width:900px){.fp-col,.fp-glyph,.fp-side,.fp-cue{display:none}.fp-title span{font-size:44vw}.fp-figure .ps-media{width:70vw}}
+
+/* --- POSTER v2: плотность + чистота (по замечанию codex) --- */
+.fp-wash{background:linear-gradient(180deg,rgba(216,214,207,.25),transparent 22%)!important}
+.fp-title span{font-size:clamp(170px,33vw,540px);letter-spacing:-.03em}
+.fp-top{gap:12px}
+.fp-top em{font-family:"DM Mono",monospace;font-style:normal;color:var(--red);font-weight:700}
+.fp-col{top:52vh;font-size:14px;line-height:1.5;color:#141310;font-weight:800}
+.fp-col i{display:block;font:700 10px "DM Mono",monospace;font-style:normal;letter-spacing:.2em;color:var(--red);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(21,20,16,.35)}
+.fp-col.r i{border-color:rgba(21,20,16,.35)}
+/* круглая печать-штамп */
+.fp-seal{position:absolute;z-index:17;left:44px;bottom:12vh;width:118px;height:118px;border:1.5px solid var(--red);border-radius:50%;display:grid;place-content:center;text-align:center;color:var(--red);transform:rotate(-7deg)}
+.fp-seal b{font:900 20px "Playfair Display",serif;letter-spacing:.06em;line-height:1}
+.fp-seal span{display:block;margin-top:4px;font:700 7px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase}
+.fp-seal i{display:block;margin-top:5px;font:700 9px "DM Mono",monospace;font-style:normal;color:#141310}
+/* штрихкод */
+.fp-barcode{position:absolute;z-index:17;right:44px;bottom:13vh;width:150px;height:40px;background:repeating-linear-gradient(90deg,#141310 0 2px,transparent 2px 4px,#141310 4px 7px,transparent 7px 9px,#141310 9px 10px,transparent 10px 14px)}
+/* плотный нижний стрип */
+.fp-strip{bottom:30px;opacity:.5;font-size:12px;letter-spacing:.06em;border-top:1px solid rgba(21,20,16,.3);padding-top:8px}
+.fp-strip span{display:inline-block}
+@media(max-width:900px){.fp-seal,.fp-barcode{display:none}}
+
+/* --- POSTER v3: доминантная фигура + меньше «филлера» --- */
+.fp-figure .ps-media{width:43vw!important;filter:grayscale(1) contrast(1.12) brightness(1.02) drop-shadow(0 26px 46px rgba(20,18,12,.4))}
+.fp-glyph{font-size:20px;color:rgba(21,20,16,.75)}
+.fp-g1{left:30px;top:30px}.fp-g2{right:30px;top:30px}
+.fp-col{top:50vh}
+.fp-seal{bottom:14vh}
+
+/* ===== POSTER SECTIONS — ретон под холодный paper/ink/red постер ===== */
+.fk-poster{--accent:#b32e1e;background:#d8d6cf}
+.fk-poster .fk-manifest{background:#d8d6cf}
+.fk-poster .fk-manifest h2{color:#151410}
+.fk-poster .fk-manifest p{color:#6a685f}
+.fk-poster .fk-work{background:#cfcdc5;color:#151410}
+.fk-poster .fk-workhead h2{color:#151410}
+.fk-poster .fk-workhead h2 em{color:#b32e1e}
+.fk-poster .fk-workhead span{color:#b32e1e}
+.fk-poster .fk-workhead p{color:#6a685f}
+.fk-poster .fk-gcard{background:#e7e5de;border-color:rgba(21,20,16,.25);box-shadow:0 20px 42px rgba(20,18,12,.14)}
+.fk-poster .fk-gcard img{filter:grayscale(1) contrast(1.05)}
+.fk-poster .fk-gcard b{color:#b32e1e}
+.fk-poster .fk-quotes{background:#151410;color:#e9e7df}
+.fk-poster .fk-quotes .fk-eyebrow{color:#d98a7e}
+.fk-poster .fk-quote{border-top-color:rgba(179,46,30,.6)}
+.fk-poster .fk-quote p{color:#efeee7}
+.fk-poster .fk-quote cite{color:#8f8d84}
+.fk-poster .fk-quote cite b{color:#e0a79b}
+.fk-poster .fk-bill{background:#d8d6cf}
+.fk-poster .fk-bill .fk-eyebrow{color:#b32e1e}
+.fk-poster .fk-brow{border-top-color:rgba(21,20,16,.2)}
+.fk-poster .fk-brow time{color:#b32e1e}
+.fk-poster .fk-brow h4{color:#151410}
+.fk-poster .fk-brow h4 span{color:#6a685f}
+.fk-poster .fk-brow em{color:#6a685f}
+.fk-poster .fk-brow em.on{color:#b32e1e}
+.fk-poster .fk-cta{background:radial-gradient(80% 80% at 50% 42%,#1c1a15,#0e0d0a)}
+.fk-poster .fk-cta-in h2{color:#e9e7df}
+.fk-poster .fk-cta-in h2 span{color:#b32e1e}
+.fk-poster .fk-cta-in p{color:#9a988f}
+.fk-poster a.fk-btn{background:#b32e1e;color:#f2efe6}
+.fk-poster .fk-foot{background:#100f0c;color:#8f8d84}
+.fk-poster .fk-foot-top b{color:#e9e7df}
+.fk-poster .fk-foot-legal{border-top-color:rgba(179,46,30,.4)}
+
+/* ===== SCENES S2–S6 — перетекающие cold-editorial сцены (paper/ink/red) ===== */
+.fk-scene .ps-sticky{background:#151410}
+.fk-scene .fk-eyebrow{margin-bottom:16px}
+
+/* S2 ОБРЯД — свечи + хор в дыму */
+.k2-scene .ps-sticky{background:#12130f}
+.k2-bg .ps-media{filter:contrast(1.06) brightness(.95) saturate(.9)}
+.k2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 44%,rgba(70,80,90,.1),transparent 60%),linear-gradient(180deg,rgba(12,14,16,.4),transparent 30% 55%,rgba(12,14,16,.82))}
+.k2-fg{justify-items:center;align-content:end}
+.k2-fg .ps-media{width:100vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.62;-webkit-mask:linear-gradient(180deg,transparent 80%,#000 92%);mask:linear-gradient(180deg,transparent 80%,#000 92%)}
+.k2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.k2-copy .fk-eyebrow{color:#e0a79b}
+.k2-copy h2{margin:0;font:700 clamp(40px,6vw,92px)/.98 "Playfair Display",serif;color:#eae7de;letter-spacing:-.01em}
+.k2-copy h2 em{font-style:italic;color:#d98a7e}
+.k2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#9a978d}
+.k2-lyric{position:absolute;z-index:16;top:15vh;right:var(--pad);max-width:22ch;text-align:right;font:italic 400 clamp(20px,2.4vw,36px)/1.3 "Playfair Display",serif;color:#c9c5b8;opacity:.85}
+.k2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.84' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 ЖИВЬЁМ — grayscale-вырезки на холодной бумаге */
+.k3-scene .ps-sticky{background:#d1cfc7}
+.k3-bg{position:absolute;inset:0;z-index:1;background:#cfcdc5}
+.k3-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.k3-word{place-items:center}
+.k3-word span{font:900 clamp(100px,20vw,320px)/.9 "Playfair Display",serif;color:rgba(21,20,16,.05);letter-spacing:-.01em}
+/* фото на уголках-фотокорнерах, ч/б, рукописная подпись */
+.k3-photo{position:relative;width:15vw;min-width:150px;background:#f2efe6;padding:9px 9px 30px;box-shadow:0 20px 40px rgba(20,18,12,.22)}
+.k3-photo .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/5;object-fit:cover;display:block;filter:grayscale(1) contrast(1.06)}
+.k3-photo::before,.k3-photo::after{content:"";position:absolute;width:0;height:0;border:9px solid transparent;z-index:2}
+.k3-photo::before{top:4px;left:4px;border-top-color:rgba(21,20,16,.72);border-left-color:rgba(21,20,16,.72)}
+.k3-photo::after{bottom:25px;right:4px;border-bottom-color:rgba(21,20,16,.72);border-right-color:rgba(21,20,16,.72)}
+.k3-photo b{position:absolute;left:0;right:0;bottom:6px;text-align:center;font:italic 600 15px "Playfair Display",serif;color:#3a2a1a}
+.k3-copy{justify-items:center;align-content:end;text-align:center;padding-bottom:5vh}
+.k3-copy .fk-eyebrow{color:var(--red)}
+.k3-copy h2{margin:0;font:700 clamp(32px,5vw,72px)/1 "Playfair Display",serif;color:#151410}
+.k3-copy h2 em{font-style:italic;color:var(--red)}
+.k3-copy p{margin:16px auto 0;max-width:46ch;font:400 15px/1.7 "Manrope",sans-serif;color:#6a685f}
+
+/* S4 АФИША — плотная типографская афиша (ink) */
+.k4-scene .ps-sticky{background:#151410}
+.k4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c1a15,#0e0d0a)}
+.k4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.28;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.k4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.k4-head .fk-eyebrow{color:#e0a79b}
+.k4-head h2{margin:0;font:700 clamp(30px,4.6vw,64px)/1 "Playfair Display",serif;color:#eae7de}
+.k4-head h2 em{font-style:italic;color:#d98a7e}
+/* афиша-плакат: концерты впечатываются по очереди (ink-press scale+fade по --lp) */
+.k4-billL{justify-items:center;align-content:center;padding-top:3vh}
+.k4-bill{position:relative;width:min(720px,90vw);padding:34px 42px 30px;background:linear-gradient(#1f1613,#160f0d);border:2px solid var(--accent);box-shadow:0 30px 70px rgba(0,0,0,.55),inset 0 0 0 6px rgba(217,164,65,.1)}
+.k4-bill::before,.k4-bill::after{content:"❧";position:absolute;top:9px;font:400 22px "Playfair Display",serif;color:var(--accent);opacity:.85}
+.k4-bill::before{left:16px}.k4-bill::after{right:16px;transform:scaleX(-1)}
+.k4-billhd{text-align:center;font:700 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+.k4-line{display:grid;grid-template-columns:88px 1fr auto;gap:5px 20px;align-items:baseline;padding:14px 0;border-top:1px solid rgba(217,164,65,.22);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1));transform:scale(calc(1.05 - clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1) * 0.05));transform-origin:left center}
+.k4-line:first-of-type{border-top:none}
+.k4-line time{font:700 13px "DM Mono",monospace;color:#d98a7e;letter-spacing:.03em}
+.k4-line b{font:600 clamp(17px,2.2vw,27px) "Playfair Display",serif;color:#eae7de}
+.k4-line s{grid-column:2;font:400 12px "Manrope",sans-serif;color:#a08d78;text-decoration:none}
+.k4-line em{font:700 10px "DM Mono",monospace;font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:#6a685f;text-align:right;white-space:nowrap}
+.k4-line em.on{color:var(--accent)}
+
+/* S5 ГОЛОСА ЗАЛА — отзывы как рукопись */
+.k5-scene .ps-sticky{background:#0e0d0a}
+.k5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1a1813,#080806)}
+/* пергамент-свиток */
+.k5-scroll{position:absolute;z-index:2;left:50%;top:4vh;bottom:4vh;width:min(62ch,64vw);transform:translateX(-50%);background:linear-gradient(180deg,#efe7ce,#e0d3b2);box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 70px rgba(120,90,40,.28);border-radius:2px}
+.k5-glow{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(48vw 30vh at 50% 90%,rgba(217,164,65,.2),transparent 60%);mix-blend-mode:screen}
+.k5-stz{justify-items:center;text-align:center}
+.k5-stz>div{width:min(48ch,54vw)}
+.k5-orn{display:block;margin:0 0 10px;font-size:14px;color:#b32e1e;letter-spacing:.3em}
+.k5-stz p{margin:0;font:italic 500 clamp(16px,1.9vw,28px)/1.4 "Playfair Display",serif;color:#2a1c12}
+.k5-stz cite{display:block;margin-top:11px;font:600 10px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#7a1220}
+.k5-s1{align-content:start;padding-top:13vh}
+.k5-s2{align-content:center}
+.k5-s3{align-content:end;padding-bottom:7vh}
+.k5-eyebrow{position:absolute;z-index:16;top:6vh;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#7a1220}
+
+/* S6 ПРИХОДИТЕ НА ЗАРЮ — красный диск-восход + CTA */
+.k6-scene .ps-sticky{background:#0e0d0a}
+.k6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 82% at 50% 62%,#1a120f,#0a0908)}
+.k6-disc{justify-items:center;align-content:center}
+.k6-disc i{display:block;width:52vh;height:52vh;border-radius:50%;background:radial-gradient(circle at 50% 40%,#c9382a,#8f1d14);box-shadow:0 0 130px rgba(179,46,30,.4),inset 0 0 60px rgba(0,0,0,.2)}
+.k6-copy{justify-items:center;align-content:center;text-align:center}
+.k6-copy .fk-eyebrow{color:#e6cf98}
+.k6-copy h2{margin:0;font:700 clamp(48px,9vw,150px)/.94 "Playfair Display",serif;color:#f5efe4;letter-spacing:-.01em;text-shadow:0 4px 40px rgba(0,0,0,.4)}
+.k6-copy h2 em{font-style:italic;color:#fbe1d8}
+.k6-cta{position:absolute;z-index:16;left:50%;bottom:12vh;transform:translateX(-50%);text-align:center;max-width:44ch}
+.k6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#a99a8a}
+@media(max-width:900px){.k2-copy,.k6-cta{max-width:88vw}.k2-lyric{display:none}.k3-photo{width:42vw;min-width:0}
+  .k4-bill{width:92vw;padding:26px 20px 22px}.k4-line{grid-template-columns:64px 1fr;gap:4px 10px}.k4-line em{grid-column:2}
+  .k5-scroll{width:88vw}.k5-stz>div{width:80vw}.k6-disc i{width:60vw;height:60vw}}

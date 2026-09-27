@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { LandingClient } from "@/components/landing/LandingClient";
+// v3 — лендинг на движках продукта (сцена/story/text-runtime);
+// v1 остаётся в components/landing как запасной вариант.
+import { LandingClient } from "@/components/landing-3/LandingClient";
 
 export const metadata: Metadata = {
   title: "Creatly — Создание сайтов с AI | Конструктор сайтов под ключ",

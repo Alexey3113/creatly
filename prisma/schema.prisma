@@ -29,8 +29,10 @@ model Project {
   id          Int       @id @default(autoincrement())
   slug        String    @unique
   name        String
-  html        String    @db.Text
-  css         String    @db.Text
+  /// SiteDocument v3 — единственный источник правды (lib/site/types.ts)
+  document    Json?
+  html        String    @db.Text @default("")
+  css         String    @db.Text @default("")
   js          String    @db.Text @default("")
   edits       Json      @default("[]")
   tokens      Json      @default("{}")

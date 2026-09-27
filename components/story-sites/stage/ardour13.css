@@ -1,0 +1,158 @@
+/* STORY v2 · САЙТ 20 «ARDOUR» — bone/grey halftone-зин, красный blackletter, монахиня+терн-нимб (pin13).
+   ЕДИНСТВЕННЫЙ светлый сайт. Шрифты: Metal Mania (blackletter вордмарк) · Chivo (гротеск body) · Chivo Mono (метки). */
+@import url('https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,700;0,900;1,400&family=Chivo+Mono:wght@400;600&display=swap');
+/* Metal Mania — самохостинг: внешний @import у последних сайтов срезается конкатенацией Turbopack
+   (правило @import становится невалидным по позиции), а @font-face — обычное правило и переживает бандл. */
+@font-face{font-family:"Metal Mania";font-style:normal;font-weight:400;font-display:swap;
+  src:url("/fonts/metal-mania.ttf") format("truetype")}
+
+.ar-site{--paper:#d9d3c7;--paper-hi:#e7e2d8;--ink:#141210;--red:#c81e1e;--red-deep:#9c1414;--mut:#6f6a60;--line:#b7b0a2;
+  position:fixed;inset:0;background:var(--paper);color:var(--ink);font-family:"Chivo",system-ui,sans-serif;overflow:hidden}
+
+.ar-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;pointer-events:none;mix-blend-mode:multiply}
+.ar-head a{pointer-events:auto}
+.ar-brand{font:600 15px/1 "Chivo Mono",monospace;letter-spacing:.16em;color:var(--ink);text-decoration:none;text-transform:uppercase}
+.ar-nav{display:flex;gap:20px;align-items:center;font:400 11px "Chivo Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
+.ar-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.ar-nav a:hover{color:var(--red)}
+.ar-nav .ar-cta{padding:6px 12px;border:1.5px solid var(--ink);color:var(--ink)}
+@media(max-width:900px){.ar-nav a:not(.ar-cta){display:none}}
+
+/* общий halftone/print-grain поверх (тёмные точки на светлой бумаге) */
+.ar-halftone{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:multiply;opacity:.5;
+  background-image:radial-gradient(rgba(20,18,16,.4) .8px,transparent .9px);background-size:4px 4px}
+.ar-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:400 11px "Chivo Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.ar-folio{font:400 11px "Chivo Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.ar-meta{font:400 12px "Chivo Mono",monospace;letter-spacing:.06em;color:var(--mut)}
+
+/* 0 · POSTER IDOL */
+.ar-cover-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(90% 90% at 50% 30%,var(--paper-hi),var(--paper) 78%)}
+.ar-frame{position:absolute;inset:2.4vh 2.4vw;z-index:1;border:2px solid var(--ink);pointer-events:none}
+.ar-corner{position:absolute;z-index:12;font:600 12px/1.3 "Chivo Mono",monospace;letter-spacing:.1em;color:var(--ink);text-transform:uppercase;mix-blend-mode:multiply}
+.ar-corner-tl{top:5vh;left:4.4vw;text-align:left}
+.ar-corner-tl b{display:block;font:400 26px/1 "Chivo",serif;letter-spacing:.05em}
+.ar-corner-tl span{font-size:9px;letter-spacing:.3em;color:var(--red)}
+.ar-corner-tr{top:5vh;right:4.4vw;text-align:right;font-size:11px}
+.ar-wordmark{display:grid;place-items:center;pointer-events:none;z-index:2}
+.ar-wordmark span{font:400 clamp(90px,26vw,440px)/.8 "Metal Mania",cursive;color:var(--red);opacity:.94;
+  text-shadow:2px 2px 0 rgba(156,20,20,.25)}
+.ar-cover-fig{display:grid;place-items:end center;pointer-events:none;z-index:3}
+.ar-cover-fig .ps-media{width:auto;height:96vh;max-width:none;object-fit:contain;object-position:bottom;filter:contrast(1.05)}
+.ar-beams{position:absolute;inset:0;z-index:4;display:flex;justify-content:center;gap:12px;pointer-events:none;opacity:.8}
+.ar-beams i{width:10px;height:34vh;margin-top:6vh;background:linear-gradient(180deg,var(--red),transparent);filter:blur(1px)}
+.ar-beams i:nth-child(2){height:40vh;margin-top:4vh}
+.ar-cover-hi{position:relative;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 8vh 4.4vw;max-width:34vw}
+.ar-blurb{margin:0;font:400 13px/1.7 "Chivo Mono",monospace;letter-spacing:.02em;color:var(--ink)}
+.ar-rating{position:absolute;left:4.4vw;bottom:3vh;z-index:12;display:flex;align-items:center;gap:8px;mix-blend-mode:multiply}
+.ar-rating b{display:grid;place-items:center;width:26px;height:26px;border:2px solid var(--ink);font:900 15px "Chivo",sans-serif}
+.ar-rating span{font:400 9px "Chivo Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);max-width:22ch}
+.ar-globe{position:absolute;right:4.4vw;bottom:3vh;z-index:12;font-size:22px;color:var(--ink);mix-blend-mode:multiply}
+
+/* 1 · TUNNEL ZOOM */
+.ar-tunnel-bg{position:absolute;inset:0;z-index:0;background:var(--paper-hi)}
+.ar-tunnel-fig{z-index:1}
+.ar-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 24%;filter:contrast(1.06)}
+.ar-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:400 44vh "Metal Mania",cursive;color:rgba(200,30,30,.16);pointer-events:none}
+.ar-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 10vh}
+.ar-tunnel-cap p{margin:8px 0;max-width:40ch;font:400 15px/1.6 "Chivo",sans-serif;color:var(--ink);background:rgba(217,211,199,.72);padding:6px 12px}
+
+/* 2 · PROOF — печатный пруф: кроп-марки + CMYK-полоса + штамп (ось иная) */
+.ar-proof-bg{position:absolute;inset:0;z-index:0;background:var(--paper-hi)}
+.ar-proof-huge{position:absolute;z-index:1;right:4vw;top:8vh;font:400 60vh "Metal Mania",cursive;color:rgba(200,30,30,.1);pointer-events:none}
+.ar-proof-plate{position:absolute;top:50%;left:64%;transform:translate(-50%,-50%);z-index:2;width:min(40vh,44vw);height:min(52vh,60vw)}
+.ar-proof-plate .ps-media{width:100%;height:100%;object-fit:cover;filter:contrast(1.06)}
+.ar-crop{position:absolute;width:22px;height:22px;pointer-events:none}
+.ar-crop-tl{top:-11px;left:-11px;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+.ar-crop-tr{top:-11px;right:-11px;border-top:1px solid var(--ink);border-right:1px solid var(--ink)}
+.ar-crop-bl{bottom:-11px;left:-11px;border-bottom:1px solid var(--ink);border-left:1px solid var(--ink)}
+.ar-crop-br{bottom:-11px;right:-11px;border-bottom:1px solid var(--ink);border-right:1px solid var(--ink)}
+.ar-proof-bar{position:absolute;top:calc(50% + 30vh);left:64%;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:8px;font:400 10px "Chivo Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.ar-proof-bar i{width:22px;height:12px;border:1px solid var(--ink)}
+.ar-proof-bar i:nth-child(1){background:#20c0d0}.ar-proof-bar i:nth-child(2){background:#e030a0}.ar-proof-bar i:nth-child(3){background:#f0d020}.ar-proof-bar i:nth-child(4){background:#141210}.ar-proof-bar i:nth-child(5){background:var(--red)}
+.ar-proof-stamp{position:absolute;top:22vh;left:56%;transform:rotate(-8deg);z-index:4;border:2px solid var(--red);color:var(--red);font:600 12px "Chivo Mono",monospace;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;opacity:.85}
+.ar-proof-cap{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:38vw}
+.ar-proof-cap h3{margin:6px 0 12px;font:400 clamp(48px,8vw,120px)/.82 "Metal Mania",cursive;color:var(--ink)}
+.ar-proof-cap p{margin:0;max-width:32ch;font:400 15px/1.6 "Chivo",sans-serif;color:var(--ink)}
+
+/* 4 · PASTE-UP — расклеенные рваные флаеры (не сетка) */
+.ar-paste-bg{position:absolute;inset:0;z-index:0;background:
+  repeating-linear-gradient(90deg,#cfc8ba 0 2px,transparent 2px 60px),var(--paper-hi)}
+.ar-paste-head{position:absolute;top:7vh;left:5vw;z-index:6}
+.ar-paste-head b{display:block;font:400 clamp(38px,6vw,88px)/.85 "Metal Mania",cursive;color:var(--red)}
+.ar-paste-head span{font:400 11px "Chivo Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.ar-flyer{position:absolute;margin:0;overflow:hidden;background:#fff;border:1px solid rgba(20,18,16,.2);box-shadow:5px 8px 0 rgba(20,18,16,.14);
+  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r)}
+.ar-flyer img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.08) grayscale(.15)}
+.ar-flyer figcaption{position:absolute;left:0;bottom:0;padding:5px 8px;font:400 10px "Chivo Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:var(--ink)}
+.ar-flyer::before{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(-4deg);width:64px;height:20px;background:rgba(200,30,30,.28);z-index:2}
+.ar-flyer-1{--d:0;left:5vw;top:24vh;width:24vw;height:52vh;transform:rotate(-3deg)}
+.ar-flyer-2{--d:.1;left:27vw;top:20vh;width:26vw;height:46vh;transform:rotate(2deg);z-index:2}
+.ar-flyer-3{--d:.2;left:52vw;top:26vh;width:22vw;height:50vh;transform:rotate(-2deg)}
+.ar-flyer-4{--d:.3;left:70vw;top:19vh;width:24vw;height:56vh;transform:rotate(3deg);z-index:2}
+.ar-paste-code{position:absolute;left:5vw;bottom:3vh;z-index:6;font:400 11px "Chivo Mono",monospace;letter-spacing:.05em;color:var(--mut)}
+
+/* 5 · COLOPHON — задняя обложка зина (не центр-слоган) */
+.ar-colophon-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 40% 40%,var(--paper-hi),var(--paper) 78%)}
+.ar-colophon-jp{position:absolute;right:-2vw;bottom:-6vh;z-index:1;font:700 88vh "Chivo",serif;color:rgba(20,18,16,.05);pointer-events:none}
+.ar-colophon-block{position:absolute;top:50%;left:8vw;transform:translateY(-50%);z-index:6;width:min(52ch,84vw)}
+.ar-col-label{font:400 11px "Chivo Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.ar-colophon-block h4{margin:6px 0 20px;font:400 clamp(56px,14vw,220px)/.82 "Metal Mania",cursive;color:var(--red);text-shadow:3px 3px 0 rgba(156,20,20,.2)}
+.ar-col-credits{margin:0 0 20px}
+.ar-col-credits>div{display:grid;grid-template-columns:8em 1fr;gap:12px;padding:7px 0;border-top:1px solid var(--line)}
+.ar-col-credits dt{font:400 11px "Chivo Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.ar-col-credits dd{margin:0;font:400 14px "Chivo",sans-serif;color:var(--ink)}
+.ar-col-bar{display:flex;align-items:center;gap:12px;margin-bottom:22px;font:400 10px "Chivo Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.ar-bars{width:120px;height:34px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 9px)}
+.ar-col-cta{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.ar-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--ink);color:var(--paper);font:600 13px "Chivo Mono",monospace;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
+.ar-btn:hover{background:var(--red);transform:translateY(-2px)}
+.ar-links{display:flex;gap:22px;font:400 12px "Chivo Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
+.ar-links a{color:var(--mut);text-decoration:none}.ar-links a:hover{color:var(--red)}
+
+/* 3 · TYPE GUILLOTINE */
+.ar-guillo{background:var(--paper)}
+.ar-guillo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(75% 75% at 50% 45%,var(--paper-hi),var(--paper) 82%)}
+.ar-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
+.ar-guillo-type .kt{font:400 clamp(70px,20vw,340px)/.78 "Metal Mania",cursive;letter-spacing:.01em;color:var(--ink)}
+.ar-guillo-red{display:block}.ar-guillo-red .kt,.ar-guillo-red .kt-l{color:var(--red)}
+.ar-guillo-row{position:absolute;left:0;right:0;bottom:12vh;z-index:6;display:flex;gap:14px;justify-content:center;font:400 12px "Chivo Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1)-.4)*3,1))}
+
+/* 4 · CONTACT WALL */
+.ar-wall-bg{position:absolute;inset:0;z-index:0;background:var(--paper-hi)}
+.ar-wall-head{position:absolute;top:9vh;left:5vw;z-index:4}
+.ar-wall-head b{display:block;font:400 clamp(38px,6vw,88px)/.85 "Metal Mania",cursive;color:var(--red)}
+.ar-wall-head span{font:400 11px "Chivo Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.ar-wall-grid{position:absolute;inset:24vh 5vw 10vh;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ar-card{position:relative;margin:0;overflow:hidden;border:2.5px solid var(--ink);
+  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-24px))}
+.ar-card-1{--d:0}.ar-card-2{--d:.08}.ar-card-3{--d:.16}.ar-card-4{--d:.24}
+.ar-card img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.06)}
+.ar-card figcaption{position:absolute;left:0;bottom:0;padding:6px 9px;font:400 10px "Chivo Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:var(--ink)}
+.ar-wall-code{position:absolute;left:5vw;bottom:3vh;z-index:4;font:400 11px "Chivo Mono",monospace;letter-spacing:.05em;color:var(--mut)}
+
+/* 5 · FINAL (drop) */
+.ar-final-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 40%,var(--paper-hi),var(--paper) 76%)}
+.ar-final-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-bottom:12vh}
+.ar-final-small{font:400 clamp(16px,2.2vw,26px) "Chivo Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
+.ar-final-word{font:400 clamp(80px,20vw,360px)/.82 "Metal Mania",cursive;color:var(--red);text-shadow:3px 3px 0 rgba(156,20,20,.25)}
+.ar-final-cta{position:absolute;left:0;right:0;bottom:9vh;z-index:6;display:flex;flex-direction:column;align-items:center;gap:16px}
+.ar-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--ink);color:var(--paper);font:600 13px "Chivo Mono",monospace;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
+.ar-btn:hover{background:var(--red);transform:translateY(-2px)}
+.ar-links{display:flex;gap:22px;font:400 12px "Chivo Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
+.ar-links a{color:var(--mut);text-decoration:none}.ar-links a:hover{color:var(--red)}
+.ar-sign{font:400 11px "Chivo Mono",monospace;letter-spacing:.08em;color:var(--line)}
+
+/* мобилка */
+@media(max-width:900px){
+  .ar-cover-fig .ps-media,.ar-tunnel-fig .ps-media{height:78vh}
+  .ar-wordmark span{font-size:42vw}
+  .ar-cover-hi{max-width:none;padding:0 4.4vw 8vh}
+  .ar-corner-tr{font-size:9px}
+  .ar-proof-plate{left:50%;top:26vh;transform:translate(-50%,0);width:60vw;height:40vh}
+  .ar-proof-bar{left:50%;top:68vh}
+  .ar-proof-cap{max-width:none;left:5vw;right:5vw;top:auto;bottom:5vh;transform:none}
+  .ar-flyer-1{left:2vw;top:22vh;width:44vw;height:34vh}.ar-flyer-2{left:50vw;top:22vh;width:46vw;height:34vh}
+  .ar-flyer-3{left:2vw;top:58vh;width:44vw;height:34vh}.ar-flyer-4{left:50vw;top:58vh;width:46vw;height:34vh}
+  .ar-colophon-block{left:5vw;right:5vw;width:auto}
+  .ar-colophon-block h4{font-size:72px}
+}

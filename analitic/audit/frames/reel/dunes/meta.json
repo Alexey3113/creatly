@@ -1,0 +1,123 @@
+{
+ "fam": "reel",
+ "id": "dunes",
+ "url": "animated/w-dunes",
+ "mode": "scroll",
+ "ms": 19602,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 503
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1006
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1508
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 2011
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2514
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3017
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3519
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4022
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4525
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.6vh",
+   "y": 5028
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.1vh",
+   "y": 5531
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.7vh",
+   "y": 6033
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.3vh",
+   "y": 6536
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.8vh",
+   "y": 7039
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.4vh",
+   "y": 7542
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.9vh",
+   "y": 8044
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.5vh",
+   "y": 8547
+  },
+  {
+   "f": "f18.jpg",
+   "label": "10.1vh",
+   "y": 9050
+  }
+ ],
+ "stats": {
+  "title": "Creatly — AI-конструктор сайтов",
+  "screens": 11.1,
+  "sections": 12,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 7,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Anton",
+   "Work Sans"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

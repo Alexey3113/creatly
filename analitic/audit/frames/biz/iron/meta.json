@@ -1,0 +1,110 @@
+{
+ "fam": "biz",
+ "id": "iron",
+ "url": "visual-hooks/iron",
+ "mode": "scroll",
+ "ms": 17695,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 509
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1018
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1527
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.3vh",
+   "y": 2037
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2546
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3055
+  },
+  {
+   "f": "f07.jpg",
+   "label": "4.0vh",
+   "y": 3564
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4073
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.1vh",
+   "y": 4582
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.7vh",
+   "y": 5091
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.2vh",
+   "y": 5600
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.8vh",
+   "y": 6110
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.4vh",
+   "y": 6619
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.9vh",
+   "y": 7128
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.5vh",
+   "y": 7637
+  },
+  {
+   "f": "f16.jpg",
+   "label": "9.1vh",
+   "y": 8146
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 10.1,
+  "sections": 9,
+  "videos": 1,
+  "canvases": 4,
+  "imgs": 7,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

@@ -1,0 +1,52 @@
+/* KINETIC — velocity-skew marquee. Светлая палитра (контраст к тёмному Manifesto): бумага + чёрный
+   гротеск + электрический акцент. --scroll/--vel — с корня .reel; --t — со сцены. Ассетов нет. */
+.kn{ background:#eceae4; color:#0b0b0d; font-family:"Archivo",system-ui,sans-serif; }
+.kn .kn-accent{ color:#1a34ff; }
+.kn-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#8a857d; z-index:3; }
+.kn-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.16em; color:#8a857d; }
+
+/* 0 · COVER — вордмарк наклоняется на скорости */
+.kn-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 5vw; }
+.kn-hero{ display:flex; flex-direction:column; line-height:.84; }
+.kn-hero-l{ font:900 clamp(70px,20vw,340px)/.84 "Archivo",sans-serif; letter-spacing:-.04em;
+  transform:skewX(calc(var(--vel,0) * -2.2deg)); transform-origin:left center; will-change:transform; }
+.kn-hero-l:nth-child(2){ margin-left:12vw; }
+.kn-hero-l:nth-child(3){ margin-left:4vw; }
+
+/* 1 · MARQUEE BAND — ряды едут по --t и наклоняются по --vel */
+.kn-band{ display:flex; flex-direction:column; justify-content:center; gap:.4vh; background:#0b0b0d; color:#eceae4; overflow:hidden; }
+.kn-row{ white-space:nowrap; font:900 13vw/1 "Archivo",sans-serif; letter-spacing:-.03em;
+  transform:translateX(calc((var(--t,0) - .5) * 90vw)) skewX(calc(var(--vel,0) * -3.5deg));
+  will-change:transform; }
+.kn-row-rev{ transform:translateX(calc((.5 - var(--t,0)) * 90vw)) skewX(calc(var(--vel,0) * 3.5deg)); color:#1a34ff; }
+.kn-row span{ display:inline-block; }
+
+/* 2 · SPLIT PORTAL — половины слова разъезжаются, между ними растёт овал */
+.kn-split{ display:grid; place-items:center; background:#eceae4; }
+.kn-split-word{ display:flex; align-items:center; justify-content:center; font:900 clamp(60px,16vw,260px)/1 "Archivo",sans-serif; letter-spacing:-.04em; }
+.kn-half-l{ transform:translateX(calc(var(--t,0) * -14vw)); }
+.kn-half-r{ transform:translateX(calc(var(--t,0) * 14vw)); }
+.kn-portal{ position:relative; width:calc(var(--t,0) * 34vw); height:calc(var(--t,0) * 34vw); max-width:34vw;
+  border-radius:50%; overflow:hidden; margin:0 -2vw; }
+.kn-portal-fill{ position:absolute; inset:0; background:radial-gradient(circle at 40% 35%,#4a63ff,#1a34ff 55%,#08103f);
+  transform:scale(calc(.8 + var(--t,0)*.4)); }
+.kn-split-cap{ position:absolute; bottom:12vh; text-align:center; width:100%;
+  font:300 clamp(18px,2.4vw,32px) "Fraunces",serif; font-style:italic; color:#3a362f; }
+.kn-split-cap .kn-line{ display:block; overflow:hidden; }
+.kn-split-cap i{ display:block; --p:clamp(0, calc((var(--t,0)-.4)*3), 1);
+  transform:translateY(calc((1 - var(--p))*120%)); opacity:var(--p); }
+
+/* 3 · CLOSER */
+.kn-end{ display:grid; place-items:center; background:#0b0b0d; color:#eceae4; text-align:center; }
+.kn-end-h{ margin:0; font:900 clamp(64px,15vw,240px)/.84 "Archivo",sans-serif; letter-spacing:-.04em;
+  transform:skewX(calc(var(--vel,0) * -2deg)); }
+.kn-btn{ position:absolute; bottom:12vh; padding:16px 34px; border:1px solid #1a34ff; border-radius:999px;
+  color:#1a34ff; text-decoration:none; font:700 14px "Archivo"; letter-spacing:.04em; transition:background .3s,color .3s; }
+.kn-btn:hover{ background:#1a34ff; color:#fff; }
+
+@media (prefers-reduced-motion:reduce){
+  .kn-hero-l,.kn-row,.kn-row-rev,.kn-end-h{ transform:none; }
+  .kn-half-l,.kn-half-r{ transform:none; }
+  .kn-split-cap i{ transform:none; opacity:1; }
+}

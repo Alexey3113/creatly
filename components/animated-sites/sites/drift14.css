@@ -1,0 +1,74 @@
+/* DRIFT — webgl-hero, iridescent silk-ленты. Один WebGL2-контекст на фоне (fixed); под canvas —
+   CSS navy→violet фолбэк (reduced/no-webgl). Палитра: navy → cobalt → violet, алая хром-кромка.
+   Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.dr{
+  --navy:#060a1e; --navy-2:#0a1030; --cobalt:#2a4bf0; --violet:#7a2ee0; --scarlet:#ff2a3d;
+  --bone:#eef0fb; --dim:#8890c0;
+  background:var(--navy); color:var(--bone);
+  font-family:"Fraunces",Georgia,serif;
+}
+
+/* фон fixed + navy→violet фолбэк прямо на .dr-bg (виден если canvas display:none) */
+.dr-bg{ position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 22% 26%, rgba(42,75,240,.5), transparent 55%),
+    radial-gradient(110% 100% at 80% 74%, rgba(122,46,224,.48), transparent 55%),
+    radial-gradient(60% 50% at 62% 40%, rgba(255,42,61,.14), transparent 60%),
+    linear-gradient(160deg, #050818 0%, #0a1030 60%, #100a26 100%); }
+.dr-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+.dr .scene{ position:relative; z-index:1; }
+
+/* строки-маски */
+.dr .dr-line{ display:block; overflow:hidden; }
+.dr .dr-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.06 - var(--d,0)*0.07) * 3.0), 1);
+  transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
+.dr-accent > i, .dr-accent{ color:#ff8f9c; } /* solid алый-хром акцент (anti-slop: no gradient-text) */
+
+.dr-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
+  font:500 11px "IBM Plex Mono"; letter-spacing:.24em; color:var(--dim); z-index:6; }
+.dr-cue{ position:absolute; bottom:5vh; left:6vw; font:500 11px "IBM Plex Mono"; letter-spacing:.14em; color:var(--dim); z-index:6; }
+
+/* 0 · COVER */
+.dr-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw; min-height:100vh; }
+.dr-cover-in{ max-width:min(1100px,92vw); }
+.dr-eyebrow{ margin:0 0 26px; font:500 12px "IBM Plex Mono"; letter-spacing:.22em; text-transform:uppercase; color:#aeb6e6; }
+.dr-hero{ margin:0; font:400 clamp(58px,12vw,196px)/.9 "Fraunces"; letter-spacing:-.025em;
+  text-shadow:0 8px 60px rgba(0,0,10,.6); }
+.dr-hero i{ font-style:normal; }
+.dr-sub{ margin:34px 0 0; max-width:52ch; font:400 clamp(16px,1.5vw,21px)/1.55 "Fraunces"; color:#ccd2ee; text-wrap:balance;
+  text-shadow:0 4px 30px rgba(0,0,10,.5); }
+
+/* 1 · CRAFT — pin-манифест (overflow:visible чинит sticky, клип на .scene-sticky) */
+.dr-flow{ overflow:visible; }
+.dr-flow .scene-sticky{ display:flex; align-items:center; padding:0 6vw; }
+.dr-flow-copy{ width:min(760px,88vw); }
+.dr-manifest{ margin:0; font:400 clamp(30px,5.4vw,88px)/1.06 "Fraunces"; letter-spacing:-.02em;
+  text-shadow:0 6px 60px rgba(0,0,10,.55); }
+
+/* 2 · SIGNATURE — гигантское слово + подпись */
+.dr-mass{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw; min-height:100vh; }
+.dr-mass-word{ font:500 clamp(96px,26vw,440px)/.82 "Fraunces"; letter-spacing:-.04em; color:#ff8f9c;
+  transform:translateX(calc((0.5 - var(--t,0)) * -6vw)); opacity:calc(0.32 + var(--t,0)*0.68); mix-blend-mode:screen; }
+.dr-mass-cap{ max-width:34ch; margin-top:2vh; font:400 clamp(20px,2.4vw,38px)/1.2 "Fraunces"; }
+
+/* 3 · CTA */
+.dr-end{ display:grid; place-items:center; text-align:center; min-height:100vh; }
+.dr-end-block{ padding:0 6vw; }
+.dr-end-block h2{ margin:0 0 40px; font:400 clamp(52px,12vw,220px)/.9 "Fraunces"; letter-spacing:-.03em; }
+.dr-btn{ display:inline-block; padding:16px 34px; text-decoration:none; color:#0a0c1e;
+  background:linear-gradient(96deg, #7fa0ff, #b98cff);
+  font:500 14px "IBM Plex Mono"; letter-spacing:.04em; border-radius:2px; transition:transform .25s, box-shadow .25s; }
+.dr-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 44px rgba(122,46,224,.45); }
+
+@media (max-width:820px){
+  .dr-mass-word{ font-size:30vw; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .dr .dr-line > i{ transform:none; opacity:1; }
+  .dr-mass-word{ transform:none; opacity:1; }
+}

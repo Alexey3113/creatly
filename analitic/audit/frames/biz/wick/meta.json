@@ -1,0 +1,100 @@
+{
+ "fam": "biz",
+ "id": "wick",
+ "url": "visual-hooks/wick",
+ "mode": "scroll",
+ "ms": 16058,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 507
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1015
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1522
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.3vh",
+   "y": 2030
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2537
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3045
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3552
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4059
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.1vh",
+   "y": 4567
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.6vh",
+   "y": 5074
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.2vh",
+   "y": 5582
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.8vh",
+   "y": 6089
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.3vh",
+   "y": 6597
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.9vh",
+   "y": 7104
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 8.9,
+  "sections": 8,
+  "videos": 0,
+  "canvases": 2,
+  "imgs": 8,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

@@ -1,0 +1,21 @@
+/* ScrollStage база. Контракт корня .reel: --scroll --vel --px --py; сцены получают --t. */
+.reel{ --scroll:0; --vel:0; --px:0; --py:0; position:relative; width:100%; }
+.reel *{ box-sizing:border-box; }
+
+/* Обычная сцена — полноэкранный блок в нативном потоке скролла. */
+.scene{ position:relative; width:100%; min-height:100vh; overflow:hidden; --t:0; }
+
+/* Pin-сцена: высокая (vh задаёт длину скраба), внутренний sticky-вьюпорт держит кадр.
+   ВАЖНО: overflow:visible обязателен — .scene по умолчанию overflow:hidden, а это делает секцию
+   scroll-контейнером и ЛОМАЕТ position:sticky (pin-сцена рендерится пустой). Клип берёт .scene-sticky. */
+.scene-pin{ height:calc(var(--vh,300) * 1vh); min-height:0; overflow:visible; }
+.scene-pin .scene-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; }
+
+/* Медиа-слой на весь экран. */
+.cine-media{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.cine-media--video{ pointer-events:none; }
+
+@media (prefers-reduced-motion: reduce){
+  .scene, .scene-pin{ min-height:100vh; height:auto; }
+  .scene-pin .scene-sticky{ position:relative; height:auto; }
+}

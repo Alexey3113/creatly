@@ -1,0 +1,113 @@
+/* STORY v2 · САЙТ 16 «NOCTURNE / ТЬМА» — near-black/blood-red хоррор-журнал (pin19). ТЁМНЫЙ.
+   Шрифты: Alumni Sans (heavy Cyrillic вордмарк) · Spline Sans Mono (mono labels). */
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,600;0,800;0,900;1,600&family=Spline+Sans+Mono:wght@400;600&display=swap');
+
+.nc-site{--bg:#080506;--panel:#140a0c;--blood:#7a0e16;--red-hi:#c01e26;--smoke:#2e1c20;--bone:#cbc0bc;--mut:#6e595c;
+  position:fixed;inset:0;background:var(--bg);color:var(--bone);font-family:"Spline Sans Mono","Alumni Sans",system-ui,sans-serif;overflow:hidden}
+
+
+.nc-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
+.nc-head a{pointer-events:auto}
+.nc-brand{font:900 24px/1 "Alumni Sans",sans-serif;letter-spacing:.04em;color:var(--bone);text-decoration:none}
+.nc-brand i{font:400 12px "Spline Sans Mono",monospace;font-style:normal;color:var(--red-hi);margin-left:.4em;letter-spacing:.1em}
+.nc-nav{display:flex;gap:22px;align-items:center;font:400 12px "Spline Sans Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
+.nc-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.nc-nav a:hover{color:var(--red-hi)}
+.nc-nav .nc-cta{padding:7px 14px;border:1px solid var(--blood);color:var(--red-hi)}
+@media(max-width:900px){.nc-nav a:not(.nc-cta){display:none}}
+
+.nc-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>")}
+.nc-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:400 12px "Spline Sans Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.nc-eyebrow{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--red-hi)}
+.nc-folio{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.nc-meta{font:400 12px "Spline Sans Mono",monospace;letter-spacing:.06em;color:var(--red-hi)}
+
+/* 0 · OCCLUDED IDOL */
+.nc-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 40%,#1a0a0c,#050303 82%)}
+.nc-cover-fig{z-index:3}
+.nc-cover-fig .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 44%;filter:contrast(1.1) saturate(1.05)}
+.nc-cover-veil{position:absolute;inset:0;z-index:4;background:radial-gradient(55% 55% at 50% 34%,transparent,rgba(5,3,3,.7) 92%),linear-gradient(0deg,rgba(5,3,3,.9),transparent 46%)}
+/* ФОНАРИК (пилот): курсор «ищет» в темноте — луч раскрывает лицо/красные глаза, остальное тонет во мраке.
+   Центр радиуса едет за --px/--py (пишет StageDeck). Слой над кадром (z5), но под текстом (z6) → HUD читаем.
+   Только десктоп-мышь; на входе (курсор в центре) луч на лице. */
+.nc-cover-flash{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .6s ease;
+  background:radial-gradient(circle 23vw at calc(50% + var(--px,0)*50%) calc(50% + var(--py,0)*50%),
+    transparent 0%,rgba(6,3,4,.12) 40%,rgba(6,3,4,.66) 82%)}
+@media (hover:hover) and (pointer:fine){ .nc-site .nc-cover.scene-body .nc-cover-flash{opacity:1} }
+.nc-wordmark{display:grid;place-items:start center;padding-top:8vh;pointer-events:none}
+.nc-wordmark span{font:900 clamp(90px,26vw,440px)/.8 "Alumni Sans",sans-serif;letter-spacing:.02em;color:#3a1418;opacity:.9}
+.nc-orn{position:absolute;inset:0;z-index:6;pointer-events:none;--lp:var(--sp,1)}
+.nc-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9)}
+.nc-orn-issue{top:4vh;right:4vw;font:900 18px "Alumni Sans",sans-serif;letter-spacing:.1em;color:var(--bone)}
+.nc-orn-no{top:4vh;left:4vw;font:400 11px "Spline Sans Mono",monospace;letter-spacing:.1em;color:var(--mut)}
+.nc-orn-l{top:34vh;left:4vw;font:400 12px/1.6 "Spline Sans Mono",monospace;color:var(--mut)}
+.nc-orn-r{top:22vh;right:4vw;text-align:right;font:400 12px/1.6 "Spline Sans Mono",monospace;color:var(--red-hi)}
+.nc-orn-script{bottom:22vh;left:50%;transform:translateX(-50%);font:italic 600 clamp(24px,4vw,52px) "Alumni Sans",sans-serif;color:var(--bone)}
+.nc-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 8vw 8vh}
+.nc-cover-hi p{margin:6px 0 0;max-width:52ch;font:400 14px/1.7 "Spline Sans Mono",monospace;color:#b09a96}
+
+/* 1 · TUNNEL ZOOM */
+.nc-tunnel{background:var(--bg)}
+.nc-tunnel-fig{z-index:1}
+.nc-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:contrast(1.12) saturate(1.05)}
+.nc-tunnel-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(58% 58% at 50% 42%,transparent,rgba(5,3,3,.75) 92%),linear-gradient(0deg,rgba(5,3,3,.88),transparent 46%)}
+.nc-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:900 40vh "Alumni Sans",sans-serif;color:rgba(192,30,38,.1);pointer-events:none}
+.nc-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
+.nc-tunnel-cap p{margin:8px 0;max-width:44ch;font:400 14px/1.7 "Spline Sans Mono",monospace;color:#cbb8b4}
+
+/* 2 · TYPE GUILLOTINE */
+.nc-guillo{background:#0a0405}
+.nc-guillo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 70% at 50% 45%,#1a0a0c,#060303 82%)}
+.nc-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
+.nc-guillo-type .kt{font:900 clamp(60px,17vw,300px)/.82 "Alumni Sans",sans-serif;letter-spacing:.02em;color:var(--bone)}
+.nc-guillo-red{display:block}.nc-guillo-red .kt,.nc-guillo-red .kt-l{color:var(--red-hi)}
+.nc-guillo-row{position:absolute;left:0;right:0;bottom:12vh;z-index:6;display:flex;gap:14px;justify-content:center;font:400 12px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1)-.4)*3,1))}
+
+/* 3 · SPOTLIGHT — круг света в темноте, подпись слева (ось иная) */
+.nc-spot-fig{z-index:1}
+.nc-spot-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:64% 45%;filter:contrast(1.12)}
+.nc-spot-mask{position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(circle at 68% 50%,transparent 0 14vw,rgba(8,5,6,.9) 30vw,#050303 46vw),linear-gradient(90deg,#050303 20%,transparent 52%)}
+.nc-spot-cap{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:38vw}
+.nc-spot-cap h3{margin:6px 0 12px;font:900 clamp(44px,7vw,110px)/.85 "Alumni Sans",sans-serif;color:var(--bone)}
+.nc-spot-cap p{margin:0;max-width:34ch;font:400 14px/1.6 "Spline Sans Mono",monospace;color:#b09a96}
+.nc-spot-mark{margin-top:18px;font:400 11px "Spline Sans Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--red-hi)}
+
+/* 4 · REEL — вертикальная киноплёнка (не сетка) */
+.nc-reel-bg{position:absolute;inset:0;z-index:0;background:#070405}
+.nc-reel-head{position:absolute;top:7vh;left:5vw;z-index:6}
+.nc-reel-head b{display:block;font:900 clamp(34px,5.4vw,80px)/.85 "Alumni Sans",sans-serif;color:var(--bone)}
+.nc-reel-head span{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--red-hi)}
+.nc-reel-strip{position:absolute;left:50%;transform:translateX(-50%);top:20vh;bottom:8vh;width:min(62vw,760px);z-index:2;
+  padding:0 26px;background:#100a0b;
+  border-left:2px solid #2a1518;border-right:2px solid #2a1518;
+  display:flex;flex-direction:column;gap:8px;
+  -webkit-mask:none}
+.nc-reel-strip::before,.nc-reel-strip::after{content:"";position:absolute;top:0;bottom:0;width:12px;
+  background-image:radial-gradient(circle,#050303 42%,transparent 46%);background-size:12px 22px;background-repeat:repeat-y}
+.nc-reel-strip::before{left:6px}.nc-reel-strip::after{right:6px}
+.nc-frame{position:relative;margin:0;flex:1;overflow:hidden;border:1px solid rgba(122,14,22,.3);
+  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-20px))}
+.nc-frame-1{--d:0}.nc-frame-2{--d:.1}.nc-frame-3{--d:.2}.nc-frame-4{--d:.3}
+.nc-frame img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.08)}
+.nc-frame figcaption{position:absolute;left:0;bottom:0;padding:5px 9px;font:400 10px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(5,3,3,.92),transparent)}
+.nc-reel-code{position:absolute;left:5vw;bottom:3vh;z-index:6;font:400 11px "Spline Sans Mono",monospace;letter-spacing:.06em;color:var(--mut)}
+
+/* 5 · END CARD — конец выпуска, растворяется в чёрную пустоту (не центр-слоган) */
+.nc-end-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 55% at 50% 40%,#1a070a,#040202 78%)}
+.nc-end-block{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-bottom:16vh}
+.nc-end-label{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.32em;text-transform:uppercase;color:var(--red-hi)}
+.nc-end-block h4{margin:16px 0 24px;font:900 clamp(44px,9vw,150px)/.9 "Alumni Sans",sans-serif;text-transform:uppercase;color:var(--bone)}
+.nc-end-link{font:400 13px "Spline Sans Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--red-hi);text-decoration:none;border-bottom:1px solid rgba(122,14,22,.6);padding-bottom:6px;transition:color .2s}
+.nc-end-link:hover{color:var(--bone)}
+.nc-end-meta{position:absolute;bottom:6vh;left:0;right:0;text-align:center;font:400 10px "Spline Sans Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#4e3c3e}
+.nc-end-fade{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(0deg,#040202 6%,transparent 34%)}
+
+/* мобилка */
+@media(max-width:900px){
+  .nc-wordmark span{font-size:40vw}
+  .nc-orn-l,.nc-orn-r{font-size:10px}.nc-orn-r{top:16vh}
+  .nc-spot-cap{max-width:none;right:5vw;background:rgba(5,3,3,.5)}
+  .nc-reel-strip{width:88vw;top:22vh}
+  .nc-end-block h4{font-size:40px}
+}

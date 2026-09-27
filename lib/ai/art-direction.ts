@@ -3,6 +3,8 @@
 // направление, а не регрессировать к медиане обучающих данных (= AI-слоп).
 
 import { renderScrapedContext, type ScrapedSiteData } from "./prompts";
+import { stockThemesPrompt } from "@/lib/site/stock";
+import { blueprintsPrompt } from "./blueprints";
 
 export interface StylePack {
   id: string;
@@ -34,7 +36,7 @@ export const stylePacks: StylePack[] = [
     bestFor: "медиа, консалтинг, бренды с историей, премиум-услуги, агентства",
     mood: "интеллигентный, выверенный, как разворот качественного журнала",
     palette: "монохромная база (off-white #faf9f7 + почти-чёрный #1a1a1a) + ОДИН сдержанный акцент",
-    typography: "крупный serif заголовок (Playfair Display / Fraunces / DM Serif Display) + чистый sans body (Source Sans 3 / Outfit)",
+    typography: "крупный serif заголовок (Playfair Display / Prata / Literata) + чистый sans body (Source Sans 3 / Inter Tight)",
     forms: "минимум скруглений (0–6px), тонкие 1px разделители вместо теней, много воздуха",
     motion: "медленные fade + slide-up, текст появляется по строкам, переходы через color-flow между секциями",
     imagery: "крупные full-bleed фото, иногда ч/б или с лёгким зерном, единый тон",
@@ -46,7 +48,7 @@ export const stylePacks: StylePack[] = [
     bestFor: "стартапы, креативные студии, IT, события, дерзкие бренды",
     mood: "сырой, уверенный, инженерный, без украшательства",
     palette: "высокий контраст: чистый чёрный/белый + 1 кислотный акцент (lime #b4f461, electric orange #ff4d00)",
-    typography: "массивный grotesk/display заголовок (Space Grotesk / Unbounded / Bebas Neue), моноширинный для меты",
+    typography: "массивный grotesk/display заголовок (Unbounded / Bebas Neue / Russo One), моноширинный для меты (JetBrains Mono)",
     forms: "0px радиус, жирные 2px solid границы, видимая сетка, hard shadows (смещённые блоки без блюра)",
     motion: "резкие мгновенные переходы, marquee-бегущая строка, hover со сдвигом блока, sticky-stacking секции",
     imagery: "контрастные фото, дуотон, заметная сетка/рамки вокруг изображений",
@@ -58,7 +60,7 @@ export const stylePacks: StylePack[] = [
     bestFor: "еда, wellness, бьюти, локальный бизнес, hand-made, детские бренды",
     mood: "тёплый, человечный, тактильный, уютный",
     palette: "землистые тёплые тона (cream #f5f0e8, terracotta #c4613a, sage #2d4a3e, clay #8b5e3c)",
-    typography: "вариативный serif с характером (Fraunces / Vollkorn) + гуманистический sans (Commissioner / Work Sans)",
+    typography: "вариативный serif с характером (Vollkorn / Bitter / Lora) + гуманистический sans (Commissioner / Golos Text)",
     forms: "органические скругления (большие, неравномерные), мягкие натуральные тени, clip-path волны/арки",
     motion: "плавные мягкие reveal, параллакс-глубина, cross-boundary элементы заезжают между секциями",
     imagery: "тёплая натуральная фотография, естественный свет, фактуры (дерево, ткань, еда крупно)",
@@ -70,7 +72,7 @@ export const stylePacks: StylePack[] = [
     bestFor: "SaaS, b2b, финтех, инфраструктура, dev-tools, аналитика",
     mood: "точный, спокойный, надёжный, data-driven",
     palette: "нейтральная база (charcoal #1c1c1e / light gray #f2f2f7) + сдержанный функциональный акцент (не indigo!)",
-    typography: "геометрический sans заголовок (Sora / General Sans) + читаемый body, моноширинный для цифр/метрик",
+    typography: "геометрический sans заголовок (Manrope / Onest / IBM Plex Sans) + читаемый body, моноширинный для цифр (JetBrains Mono)",
     forms: "сдержанные радиусы 8–12px, тонкие границы, минимальные тени, bento-grid",
     motion: "точные короткие transitions, sticky-stacking для процесса, scroll-progress, stagger reveal карточек",
     imagery: "продуктовые скриншоты в рамках, абстрактные структурные паттерны (НЕ 3D-блобы), схемы",
@@ -94,7 +96,7 @@ export const stylePacks: StylePack[] = [
     bestFor: "ивенты, музыка, спорт, молодёжные бренды, диджитал-продукты, fashion-tech",
     mood: "энергичный, громкий, дофаминовый, запоминающийся",
     palette: "насыщенные высококонтрастные цвета (богатый коралл, electric, vivid) на тёмной или чистой базе — но НЕ фиолетовый дефолт",
-    typography: "огромный display заголовок во весь экран (Unbounded / Clash Display / Bebas), кинетическая типографика",
+    typography: "огромный display заголовок во весь экран (Unbounded / Bebas Neue / Oswald), кинетическая типографика",
     forms: "смелые формы, oversized нумерация, перекрытие элементов, разнообразные радиусы по контексту",
     motion: "кинетический текст, horizontal scroll секции, marquee, активные hover, scroll-driven сценарии",
     imagery: "яркие динамичные фото, дуотон с акцентным цветом, full-bleed, элементы выходят за края",
@@ -111,7 +113,7 @@ export function stylePackById(id: string): StylePack | undefined {
  * ВЫБИРАЕТ одно из направлений (или гибрид) и превращает его в конкретный
  * арт-дирекшн-бриф в JSON. Это коммит к решению ДО написания кода.
  */
-export function buildArtDirectionPrompt(brief: string, scrapedData?: ScrapedSiteData): string {
+export function buildArtDirectionPrompt(brief: string, scrapedData?: ScrapedSiteData, mode: "classic" | "story" = "classic"): string {
   const packsList = stylePacks
     .map(
       (p) =>
@@ -120,14 +122,21 @@ export function buildArtDirectionPrompt(brief: string, scrapedData?: ScrapedSite
     .join("\n\n");
 
   const scrapedContext = scrapedData ? `\n\n${renderScrapedContext(scrapedData, true)}` : "";
+  const storyNote = mode === "story"
+    ? `\n\n## Формат: САЙТ-ИСТОРИЯ\nКлиент выбрал иммерсивный формат: сайт как кино — полноэкранный постерный hero, драматургия секций (завязка → погружение → манифест → доказательства → развязка-CTA), живой фон-сцена ОБЯЗАТЕЛЕН (scene не может быть "none"), смелый язык движения. Выбирай более выразительное направление, чем для обычного лендинга.`
+    : "";
 
   return `Ты — арт-директор премиум веб-студии. Твоя задача — НЕ писать код, а принять дизайнерские решения для конкретного клиента, как делает живой арт-директор перед стартом проекта.
 
 ## Бриф клиента
-${brief}${scrapedContext}
+${brief}${scrapedContext}${storyNote}
 
 ## Доступные дизайн-направления
 ${packsList}
+
+## Форматы сайта (архетипы структуры и движения)
+Выбери ОДИН формат, который раскроет бизнес — НЕ всегда «кино-путешествие»: продукту нужен фокус на объекте, агентству — кинетический текст, портфолио — сетка. Формат задаёт структуру и тип движения всего сайта.
+${blueprintsPrompt()}
 
 ## Твоя задача
 1. Проанализируй бизнес, аудиторию и характер бренда из брифа
@@ -135,6 +144,7 @@ ${packsList}
 3. Преврати его в КОНКРЕТНЫЙ арт-дирекшн-бриф: точные хексы палитры, конкретные шрифты, порядок секций по логике воронки, приёмы переходов между секциями
 4. Палитра — выводи ИЗ бизнеса клиента, НЕ из дефолтов. Запрещены: indigo #6366f1, фиолетовые градиенты, cyan-on-dark
 5. Шрифты — обязательно контрастная пара. Запрещены как основные: Inter, Roboto, Poppins, Montserrat, Geist
+6. КРИТИЧНО: сайт на русском — шрифты ТОЛЬКО с полной кириллицей. Разрешённый список: Playfair Display, Prata, Literata, Lora, Vollkorn, Bitter, Cormorant Garamond, Unbounded, Bebas Neue, Russo One, Oswald, Manrope, Onest, IBM Plex Sans, Golos Text, Commissioner, Source Sans 3, Inter Tight, Rubik, Jost, PT Serif, Tenor Sans, Alegreya, Spectral. Никаких других имён
 
 ## Формат ответа — СТРОГО валидный JSON, без текста вокруг:
 \`\`\`json
@@ -161,10 +171,16 @@ ${packsList}
   "transitions": ["2-3 конкретных приёма перехода между секциями: overlap / diagonal / color-flow / sticky-stack / cross-boundary / scroll-snap / parallax"],
   "motionLanguage": "описание характера анимаций (темп, easing, чем уникален)",
   "imageryTreatment": "как обрабатывать фото: тон, кроп, фильтр",
+  "imageTheme": "id темы стоковых фото из списка ниже — по тематике бизнеса",
+  "scene": "живой фон сайта: none | aurora (дышащие пятна света — премиум/спокойное) | mesh (переливающийся градиент — диджитал/бренды) | field (точечное поле со связями — tech/data) | liquid (плывущие мягкие пятна — смелое/креатив). Для editorial/минимализма — none",
   "signatureElement": "одна запоминающаяся деталь, которая сделает сайт неузнаваемо НЕ-шаблонным (напр. oversized нумерация, кинетический заголовок, золотые линии-разделители)",
+  "blueprintId": "id формата сайта из списка форматов выше — по типу бизнеса",
   "copyTone": "тон текстов: язык, характер, примеры формулировок"
 }
 \`\`\`
+
+## Темы стоковых фото (для imageTheme)
+${stockThemesPrompt()}
 
 Отвечай только JSON.`;
 }
@@ -190,7 +206,32 @@ export interface ArtDirectionBrief {
   imageryTreatment: string;
   signatureElement: string;
   copyTone: string;
+  /** id темы стоковых фото (lib/site/stock.ts); невалидный -> abstract. */
+  imageTheme?: string;
+  /** Живой фон сайта: none|aurora|mesh|field|liquid. */
+  scene?: string;
+  /** id структурного архетипа (blueprints.ts); невалидный -> cinematic-journey. */
+  blueprintId?: string;
 }
+
+/** Google-шрифты с полной кириллицей — всё вне списка ломает русские сайты. */
+export const CYRILLIC_FONTS = new Set([
+  "Playfair Display", "Prata", "Literata", "Lora", "Vollkorn", "Bitter",
+  "Cormorant Garamond", "Unbounded", "Bebas Neue", "Russo One", "Oswald",
+  "Manrope", "Onest", "IBM Plex Sans", "Golos Text", "Commissioner",
+  "Source Sans 3", "Inter Tight", "Rubik", "Jost", "PT Serif", "Tenor Sans",
+  "Alegreya", "Spectral", "Inter", "JetBrains Mono", "Noto Sans", "Noto Serif",
+]);
+
+/** Фолбэк-пары по направлениям — если модель выбрала шрифт без кириллицы. */
+const PACK_FONT_FALLBACK: Record<string, { heading: string; body: string }> = {
+  editorial: { heading: "Playfair Display", body: "Source Sans 3" },
+  brutalist: { heading: "Unbounded", body: "IBM Plex Sans" },
+  "warm-organic": { heading: "Vollkorn", body: "Commissioner" },
+  "tech-minimal": { heading: "Manrope", body: "Onest" },
+  "luxury-serif": { heading: "Cormorant Garamond", body: "Jost" },
+  "bold-expressive": { heading: "Unbounded", body: "Rubik" },
+};
 
 export function parseArtDirection(response: string): ArtDirectionBrief | null {
   // Достаём JSON из ```json блока или из первого {...}
@@ -202,7 +243,12 @@ export function parseArtDirection(response: string): ArtDirectionBrief | null {
   try {
     const parsed = JSON.parse(raw.slice(start, end + 1));
     if (!parsed.palette || !parsed.typography) return null;
-    return parsed as ArtDirectionBrief;
+    const ad = parsed as ArtDirectionBrief;
+    // Страховка кириллицы: шрифт вне списка -> пара из направления
+    const fallback = PACK_FONT_FALLBACK[ad.stylePackId] || PACK_FONT_FALLBACK["tech-minimal"];
+    if (!CYRILLIC_FONTS.has(ad.typography.heading)) ad.typography.heading = fallback.heading;
+    if (!CYRILLIC_FONTS.has(ad.typography.body)) ad.typography.body = fallback.body;
+    return ad;
   } catch {
     return null;
   }

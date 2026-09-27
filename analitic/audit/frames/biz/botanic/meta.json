@@ -1,0 +1,100 @@
+{
+ "fam": "biz",
+ "id": "botanic",
+ "url": "visual-hooks/botanic",
+ "mode": "scroll",
+ "ms": 15876,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 500
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 999
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1499
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1999
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2498
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 2998
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3498
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.4vh",
+   "y": 3997
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4497
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.6vh",
+   "y": 4996
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.1vh",
+   "y": 5496
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.7vh",
+   "y": 5996
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.2vh",
+   "y": 6495
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.8vh",
+   "y": 6995
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 8.8,
+  "sections": 8,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 11,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

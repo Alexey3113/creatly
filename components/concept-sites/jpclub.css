@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap");
+/* Концепт 19 — JPCLUB «YORU 夜». Розово-чёрный duotone-манга, плотная japanese zine-рамка. */
+.jc-site{--pad:3.4vw;--bg:#0e0308;--ink:#ffcfe0;--mut:#c77a97;--accent:#ff3d7f;--pink:#ff77aa;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.jc-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.jc-brand{font:900 17px "Bricolage Grotesque",sans-serif;letter-spacing:.1em;color:#ffd6e6}
+.jc-nav{display:flex;gap:20px;align-items:center;font:500 12px "Manrope",sans-serif;color:#d78fac}
+.jc-nav a{opacity:.85}.jc-nav a:hover{opacity:1}
+.jc-list{background:var(--accent);color:#180208;border-radius:100px;padding:8px 15px;opacity:1!important;font-weight:600}
+.jc-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+.jc-jp{font-family:"Noto Sans JP",sans-serif}
+
+.jc-hero .ps-sticky{background:#0e0308}
+.jc-bg .ps-media{filter:contrast(1.12) saturate(1.1) brightness(.9)}
+.jc-half{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.16;mix-blend-mode:screen;background-image:radial-gradient(circle,#ff3d7f 32%,transparent 33%);background-size:5px 5px}
+.jc-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.4;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+.jc-kanji{place-items:center;justify-items:end;padding-right:5vw}
+.jc-kanji span{font:900 clamp(180px,40vw,640px)/.8 "Noto Sans JP",sans-serif;color:var(--accent);opacity:.9;text-shadow:0 0 90px rgba(255,61,127,.4)}
+.jc-figure .ps-media{filter:drop-shadow(0 28px 56px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(255,61,127,.3))}
+.jc-petals .ps-media{object-fit:contain}
+.jc-petals{left:auto;right:-6vw;top:-8vh;width:40vw;height:54vh;place-items:start end}
+
+/* editorial-боксы */
+.jc-left{justify-items:start;align-content:start;padding:13vh 0 0 var(--pad);row-gap:12px}
+.jc-box{border:1.5px solid rgba(255,61,127,.6);padding:8px 12px;max-width:32ch}
+.jc-vbox{writing-mode:vertical-rl;padding:14px 8px}
+.jc-vbox .jc-jp{font:700 clamp(22px,3vw,40px) "Noto Sans JP";color:#ffd6e6;letter-spacing:.1em}
+.jc-box b{display:block;font:900 15px "Bricolage Grotesque",sans-serif;color:#ffd6e6}
+.jc-box span{display:block;margin-top:3px;font:600 10px "DM Mono",monospace;letter-spacing:.14em;color:var(--pink)}
+.jc-hz{display:block;margin-top:6px;height:4px;background:repeating-linear-gradient(115deg,var(--accent) 0 7px,transparent 7px 12px)}
+.jc-motto{margin:6px 0 0;font:600 11px/1.5 "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--pink)}
+.jc-motto .jc-jp{display:block;font-size:15px;color:#ffd6e6;text-transform:none;margin-bottom:6px;letter-spacing:normal}
+
+.jc-tr-block{position:absolute;z-index:13;top:92px;right:var(--pad);text-align:right}
+.jc-tr-block .jc-big2{font:900 clamp(60px,9vw,150px)/.8 "Noto Sans JP";color:var(--accent);display:block}
+.jc-tr-block b{display:block;margin-top:6px;font:900 15px "Bricolage Grotesque",sans-serif;color:#ffd6e6;letter-spacing:.06em}
+.jc-small{display:block;margin-top:4px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;color:var(--pink)}
+.jc-br-block{position:absolute;z-index:13;bottom:40px;right:var(--pad);text-align:right}
+.jc-br-block b{display:block;font:600 10px "DM Mono",monospace;letter-spacing:.16em;color:var(--pink)}
+.jc-yujin{display:block;font:900 30px "Bricolage Grotesque",sans-serif;color:#ffd6e6;line-height:1}
+.jc-br-block .jc-jp{display:block;font:700 14px "Noto Sans JP";color:var(--pink)}
+.jc-barcode{display:flex;justify-content:flex-end;align-items:flex-end;gap:2px;height:26px;margin:8px 0 4px}
+.jc-barcode i{width:3px;height:100%;background:#ffd6e6}.jc-barcode i:nth-child(2){width:2px;height:70%}.jc-barcode i:nth-child(4){width:5px}.jc-barcode i:nth-child(6){width:2px}
+.jc-bl-block{position:absolute;z-index:13;bottom:40px;left:var(--pad)}
+.jc-bl-block b{display:block;font:900 15px "Bricolage Grotesque",sans-serif;color:#ffd6e6}
+.jc-bl-block .jc-jp{display:block;margin-top:4px;font:700 16px "Noto Sans JP";color:var(--accent)}
+.jc-cue{position:absolute;z-index:14;left:50%;bottom:22px;transform:translateX(-50%);font:600 10px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+
+/* manifest */
+
+/* CTA */
+
+
+.jc-site a.jc-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:var(--accent);color:#180208;font:600 13px "Manrope",sans-serif}
+.jc-btn i{font-style:normal}
+
+/* footer */
+.jc-foot{position:relative;z-index:1;background:#0a0206;color:#c77a97;padding:64px var(--pad) 40px}
+.jc-foot-top b{font:900 22px "Bricolage Grotesque",sans-serif;letter-spacing:.08em;color:#ffd6e6}
+.jc-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#a5637f}
+.jc-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,61,127,.2);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#8f556e}
+
+/* ФАЗА 2 — секции */
+/* The floor — галерея */
+
+/* The nights — афиша */
+
+.jc-nights .jc-eyebrow{margin-bottom:34px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.jc-grid{columns:2}}
+@media(max-width:900px){.jc-nav{display:none}.jc-left,.jc-tr-block,.jc-petals{display:none}.jc-kanji span{font-size:60vw}
+  .jc-grid{columns:1}.jc-rgrid{grid-template-columns:1fr}.jc-workhead{flex-direction:column;align-items:flex-start}.jc-workhead p{text-align:left}.jc-nrow{grid-template-columns:1fr;gap:8px}}
+
+/* ===== SCENES S2–S6 — pink-black duotone манга (Noto Sans JP, halftone) ===== */
+.jc-scene .ps-sticky{background:#0e0308}
+.jc-scene .jc-eyebrow{margin-bottom:16px}
+.j2-half,.j4-half,.j5-half,.j6-half{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.28;mix-blend-mode:screen;background-image:radial-gradient(circle,rgba(255,61,127,.5) 1px,transparent 1.4px);background-size:5px 5px}
+
+/* S2 THE NIGHT — торий + фигура + лепестки */
+.j2-scene .ps-sticky{background:#0e0308}
+.j2-bg .ps-media{filter:contrast(1.08) saturate(1.1) brightness(.92)}
+.j2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 42%,rgba(255,61,127,.14),transparent 62%),linear-gradient(180deg,rgba(14,3,8,.42),transparent 28% 56%,rgba(14,3,8,.8))}
+.j2-kanji{position:absolute;z-index:4;right:3vw;top:50%;transform:translateY(-50%);font:900 72vh/1 "Noto Sans JP",sans-serif;color:rgba(255,61,127,.12);pointer-events:none}
+.j2-figure{justify-items:center;align-content:end}
+.j2-figure .ps-media{width:30vw;height:auto;max-width:none;filter:contrast(1.05) drop-shadow(0 26px 46px rgba(0,0,0,.6))}
+.j2-fg{justify-items:end;align-content:start}
+.j2-fg .ps-media{width:38vw;height:auto;max-width:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.4))}
+.j2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.j2-copy .jc-eyebrow{color:var(--accent)}
+.j2-copy h2{margin:0;font:900 clamp(40px,6.4vw,100px)/.88 "Noto Sans JP",sans-serif;color:#ffe0ec;letter-spacing:-.01em}
+.j2-copy h2 em{font-style:normal;color:var(--accent)}
+.j2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#c77a97}
+.j2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.24;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE FLOOR — манга-панели */
+.j3-scene .ps-sticky{background:#0e0308}
+.j3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c0813,#0a0206)}
+.j3-word{place-items:center}
+.j3-word span{font:900 62vh/1 "Noto Sans JP",sans-serif;color:rgba(255,61,127,.08)}
+/* манга-панели: фикс. комикс-сетка с белыми рамками, чёрные гаттеры */
+.j3-panel{position:absolute;overflow:hidden;border:3px solid #ffe0ec;box-shadow:0 20px 44px rgba(0,0,0,.6)}
+.j3-panel .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;display:block;filter:saturate(1.12) contrast(1.08)}
+.j3-panel b{position:absolute;left:8px;bottom:8px;z-index:2;display:flex;align-items:center;gap:6px;font:800 10px "Manrope",sans-serif;text-transform:uppercase;color:#fff;text-shadow:0 1px 4px #000}
+.j3-panel b span{font:900 15px "Noto Sans JP",sans-serif;color:var(--accent)}
+.j3-p1{top:15%;left:6%;width:30%;height:36%}
+.j3-p2{top:15%;left:38%;width:24%;height:52%}
+.j3-p3{top:53%;left:6%;width:30%;height:31%}
+.j3-p4{top:69%;left:38%;width:24%;height:16%}
+.j3-copy{justify-items:end;align-content:center;text-align:right;padding-right:var(--pad)}
+.j3-copy .jc-eyebrow{color:var(--accent);max-width:24ch;margin-left:auto}
+.j3-copy h2{margin:0;max-width:13ch;margin-left:auto;font:900 clamp(26px,2.8vw,46px)/.98 "Noto Sans JP",sans-serif;color:#ffe0ec}
+.j3-copy h2 em{font-style:normal;color:var(--accent)}
+.j3-copy p{margin:16px 0 0 auto;max-width:24ch;font:400 14px/1.6 "Manrope",sans-serif;color:#c77a97}
+
+/* S4 THE NIGHTS — лайн-ап */
+.j4-scene .ps-sticky{background:#0e0308}
+.j4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c0813,#0a0206)}
+.j4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.j4-head .jc-eyebrow{color:var(--accent)}
+.j4-head h2{margin:0;font:900 clamp(32px,4.8vw,68px)/1 "Noto Sans JP",sans-serif;color:#ffe0ec}
+.j4-head h2 em{font-style:normal;color:var(--accent)}
+/* дек: каждый вечер — трек, неоновый уровень-бар заполняется по --lp (последовательно) */
+.j4-deckL{justify-items:center;align-content:center;padding-top:2vh}
+.j4-deck{width:min(880px,90vw)}
+.j4-night{display:grid;grid-template-columns:82px minmax(0,1fr) minmax(110px,1.3fr) auto auto;gap:20px;align-items:center;padding:15px 0;border-top:1px solid rgba(255,61,127,.24);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1));transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * 14px))}
+.j4-night time{font:700 14px "DM Mono",monospace;color:var(--accent);letter-spacing:.04em}
+.j4-night b{display:flex;align-items:baseline;gap:10px;font:900 clamp(17px,2.2vw,28px) "Noto Sans JP",sans-serif;color:#ffe0ec;white-space:nowrap}
+.j4-night b span{font-size:.7em;color:var(--accent)}
+.j4-meter{position:relative;height:11px;background:rgba(255,61,127,.12);border-radius:6px;overflow:hidden;border:1px solid rgba(255,61,127,.22)}
+.j4-fill{position:absolute;inset:0;transform-origin:left;transform:scaleX(calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)));
+  background:repeating-linear-gradient(90deg,var(--accent) 0 4px,rgba(255,119,170,.55) 4px 8px);box-shadow:0 0 12px rgba(255,61,127,.7)}
+.j4-bpm{font:700 12px "DM Mono",monospace;font-style:normal;letter-spacing:.05em;color:var(--accent);white-space:nowrap}
+.j4-night em.on,.j4-night em:not(.j4-bpm){font:700 11px "DM Mono",monospace;font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:#c77a97;text-align:right}
+.j4-night em.on{color:var(--accent)}
+
+/* S5 ON THE FLOOR — отзывы на ночном городе */
+.j5-scene .ps-sticky{background:#0e0308}
+.j5-bg .ps-media{filter:contrast(1.08) saturate(1.1) brightness(.58)}
+.j5-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(82% 82% at 50% 50%,rgba(255,61,127,.06),rgba(14,3,8,.92))}
+.j5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)}
+/* неоновые вывески с фликером */
+.j5-neon>div{position:relative;width:min(30ch,32vw)}
+.j5-jp{position:absolute;left:-1.1em;top:-.15em;font:900 clamp(30px,3.6vw,58px)/.8 "Noto Sans JP",sans-serif;color:#ff77aa;text-shadow:0 0 8px #ff3d7f,0 0 22px #ff3d7f;opacity:.8}
+.j5-neon p{margin:0;font:900 clamp(17px,2.1vw,31px)/1.2 "Noto Sans JP",sans-serif;color:#fff;text-shadow:0 0 4px #ff9ec1,0 0 12px #ff3d7f,0 0 26px #ff3d7f;animation:jc-buzz 3.4s infinite}
+.j5-neon cite{display:block;margin-top:12px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:var(--pink)}
+.j5-n1{justify-items:start;align-content:start;padding:12vh 0 0 calc(var(--pad) + 1.1em)}
+.j5-n2{justify-items:end;align-content:start;text-align:right;padding:12vh var(--pad) 0 0}
+.j5-n3{justify-items:center;align-content:end;text-align:center;padding:0 0 11vh}
+.j5-n2 p{animation-delay:.7s}.j5-n3 p{animation-delay:1.3s}
+@keyframes jc-buzz{0%,100%{opacity:1}46%{opacity:.82}47%{opacity:1}72%{opacity:.9}73%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.j5-neon p{animation:none}}
+
+/* S6 THE LIST — гигант-кандзи 入 + CTA */
+.j6-scene .ps-sticky{background:#0e0308}
+.j6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 50% 42%,#1c0813,#0a0206)}
+.j6-kanji{place-items:center}
+.j6-kanji span{font:900 66vh/1 "Noto Sans JP",sans-serif;color:transparent;-webkit-text-stroke:2px rgba(255,61,127,.45)}
+.j6-copy{justify-items:center;align-content:center;text-align:center}
+.j6-copy .jc-eyebrow{color:var(--accent)}
+.j6-copy h2{margin:0;font:900 clamp(52px,9vw,150px)/.88 "Noto Sans JP",sans-serif;color:#ffe0ec}
+.j6-copy h2 em{font-style:normal;color:var(--accent)}
+.j6-cta{position:absolute;z-index:16;left:50%;bottom:12vh;transform:translateX(-50%);text-align:center;max-width:44ch}
+.j6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#c77a97}
+@media(max-width:900px){.j2-copy,.j6-cta{max-width:88vw}.j2-figure .ps-media{width:64vw}.j2-fg{display:none}.j3-copy>*{max-width:90vw}
+  .j4-deck{width:92vw}.j4-night{grid-template-columns:60px 1fr auto;gap:6px 10px}.j4-meter{grid-column:1 / -1;order:5}.j4-bpm{font-size:10px}
+  .j5-neon>div{width:82vw}}

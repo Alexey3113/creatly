@@ -1,0 +1,93 @@
+/* VIGIL — spotlight scroll-reveal на ScrollStage. Палитра ИЗ КАДРА vigil-hero:
+   тёплый near-black, глазурь блюда, свеча слева. Один акцент — candle-amber.
+   Свеча: near-black веуль с дырой-радиалом, центр `at var(--lx) var(--ly)` едет за
+   курсором (--px/--py с корня .reel) — гость «ищет» блюдо в темноте. Всё визуальное — в CSS.
+   Шрифты подключаем тут (страница try-vigil не тянет animated-lab.css). */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Archivo:wght@500;700;900&display=swap');
+
+.vg{ --ink:#efe4d3; --mute:#9a8974; --red:#e0a24a; --deep:#a8641f; background:#080604; color:var(--ink);
+  font-family:"Archivo",system-ui,sans-serif; }
+.vg .vg-line{ display:block; overflow:hidden; }
+.vg .vg-line > i{ display:block; font-style:inherit;
+  --p:clamp(0, calc((var(--t,0) - 0.06 - var(--d,0)*0.05) * 3.2), 1);
+  transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
+.vg .vg-red i, .vg .vg-red{ color:var(--red); }
+
+/* 0 · ФОНАРИК ------------------------------------------------------------- */
+.vg-hero{ background:#060402; }
+.vg-stage{ position:absolute; inset:0;
+  /* по умолчанию (coarse pointer): свеча статична по блюду — оно просто читается */
+  --lx:53%; --ly:52%; --r:30vmax; }
+@media (pointer:fine){
+  .vg-stage{ --lx:calc(50% + var(--px,0) * 47%); --ly:calc(50% + var(--py,0) * 47%); --r:21vmax;
+    /* по мере скролла-погружения свет сужается — «ищешь пристальнее» */
+    --r:calc(23vmax - var(--t,0) * 6vmax); }
+}
+.vg-img{ object-position:54% 52%; filter:contrast(1.06) saturate(1.06) brightness(1.0); }
+
+/* тёплое янтарное свечение вокруг пятна — эхо пламени свечи из кадра */
+.vg-torch{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen;
+  background:radial-gradient(circle var(--r) at var(--lx) var(--ly),
+    rgba(224,162,74,.30) 0%, rgba(168,100,31,.16) 34%, rgba(90,52,16,.05) 55%, transparent 66%); }
+
+/* near-black веуль с дырой-свечой (alpha-маска: transparent=видно кадр, чёрный=мрак) */
+.vg-veil{ position:absolute; inset:0; background:#060402;
+  -webkit-mask-image:radial-gradient(circle var(--r) at var(--lx) var(--ly),
+    transparent 0%, transparent 26%, rgba(0,0,0,.6) 48%, #000 74%);
+          mask-image:radial-gradient(circle var(--r) at var(--lx) var(--ly),
+    transparent 0%, transparent 26%, rgba(0,0,0,.6) 48%, #000 74%);
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; }
+.vg-noise{ position:absolute; inset:0; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+  background-image:radial-gradient(rgba(255,255,255,.7) .5px, transparent .6px); background-size:3px 3px; }
+
+.vg-kick{ position:absolute; top:5vh; left:6vw; right:6vw; z-index:4; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#9a8974; }
+.vg-kick span:first-child{ color:var(--red); letter-spacing:.42em; }
+.vg-sign{ position:absolute; z-index:4; left:6vw; bottom:16vh; max-width:80vw; }
+.vg-word{ margin:0; font:300 clamp(64px,15vw,220px)/.86 "Fraunces",serif; letter-spacing:.02em; }
+.vg-word i{ font-style:normal; }
+.vg-tag{ margin:1.6vh 0 0; max-width:22ch; font:italic 300 clamp(18px,2.4vw,30px)/1.25 "Fraunces",serif; color:#d9cab4; }
+.vg-tag i{ font-style:italic; }
+.vg-sign .vg-line > i{ --p:clamp(0, calc((var(--t,0) + 0.34 - var(--d,0)*0.10) * 2.1), 1); }
+.vg-cue{ position:absolute; z-index:4; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.2em; color:#84745f; }
+
+/* 1 · STATEMENT ---------------------------------------------------------- */
+.vg-say{ display:flex; align-items:center; padding:0 8vw; background:#080604; }
+.vg-body{ margin:0; max-width:16ch; font:300 clamp(34px,6vw,96px)/1.02 "Fraunces",serif; }
+.vg-body i{ font-style:normal; }
+
+/* 2 · MENU --------------------------------------------------------------- */
+.vg-ledger{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw; background:#0a0704; }
+.vg-ledger-head{ display:flex; justify-content:space-between; padding-bottom:3vh; margin-bottom:2vh;
+  border-bottom:1px solid rgba(224,162,74,.24); font:700 11px "Archivo"; letter-spacing:.26em; color:#9a8974; }
+.vg-ledger-head span:first-child{ color:var(--red); }
+.vg-lots{ list-style:none; margin:0; padding:0; }
+.vg-lot{ display:grid; grid-template-columns:3ch 1.4fr 1.2fr auto; gap:2vw; align-items:baseline;
+  padding:2.4vh 0; border-bottom:1px solid rgba(239,228,211,.08);
+  --p:clamp(0, calc((var(--t,0) - 0.12 - var(--d,0)*0.06) * 3), 1);
+  transform:translateY(calc((1 - var(--p)) * 26px)); opacity:var(--p); will-change:transform; }
+.vg-lot-n{ font:300 clamp(20px,2.6vw,34px) "Fraunces",serif; color:var(--red); }
+.vg-lot-name{ font:400 clamp(18px,2.2vw,30px)/1.1 "Fraunces",serif; color:var(--ink); }
+.vg-lot-prov{ font:500 12px "Archivo"; letter-spacing:.04em; color:var(--mute); }
+.vg-lot-st{ font:700 10px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:#9a8974; justify-self:end; }
+
+/* 3 · CLOSER ------------------------------------------------------------- */
+.vg-end{ display:grid; place-items:center; background:#060402; text-align:center; overflow:hidden; }
+.vg-end-glow{ position:absolute; width:60vw; height:60vw; border-radius:50%;
+  background:radial-gradient(circle, rgba(224,162,74,.20), transparent 62%);
+  opacity:calc(clamp(0, (var(--t,0) - 0.1) * 2.4, 1)); filter:blur(10px); }
+.vg-end-block{ position:relative; z-index:2; padding:0 7vw; }
+.vg-end-block h2{ margin:0 0 5vh; font:300 clamp(38px,7.5vw,118px)/1 "Fraunces",serif; }
+.vg-end-block h2 i{ font-style:italic; }
+.vg-btn{ display:inline-block; padding:16px 34px; border:1px solid var(--red); border-radius:999px;
+  color:var(--red); text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
+  opacity:calc(clamp(0, (var(--t,0) - 0.28) * 3, 1)); transition:background .3s, color .3s, box-shadow .3s; }
+.vg-btn:hover{ background:var(--red); color:#080604; box-shadow:0 0 40px rgba(224,162,74,.4); }
+
+@media (prefers-reduced-motion:reduce){
+  .vg .vg-line > i, .vg-sign .vg-line > i{ transform:none; opacity:1; }
+  .vg-lot{ transform:none; opacity:1; }
+  .vg-veil{ -webkit-mask-image:radial-gradient(circle 40vmax at 53% 52%, transparent 0%, transparent 40%, #000 80%);
+            mask-image:radial-gradient(circle 40vmax at 53% 52%, transparent 0%, transparent 40%, #000 80%); }
+  .vg-end-glow, .vg-btn{ opacity:1; }
+}

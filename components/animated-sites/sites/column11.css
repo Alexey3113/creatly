@@ -1,0 +1,111 @@
+/* COLUMN — full-height аккордеон-колонны на ScrollStage. Палитра ИЗ КАДРОВ column-*-hero:
+   sage-стены (#8f9585) · bone-бук­ле (#e8e1d3) · тёплый дуб (#a67c52) · джут (#c9b592) · дневной свет.
+   Активная колонка растёт flex-grow (не width): --near = близость --t к слоту колонки --c;
+   --grow = near*12 → активная забирает свободное место, соседи остаются на flex-basis (корешок).
+   Шрифты — тут (try-column не тянет lab-css). Один акцент — sage. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Archivo:wght@500;600;700&display=swap');
+
+.cl{ --bone:#e8e1d3; --paper:#efe9dc; --sage:#7f8674; --sage-deep:#5f6656; --timber:#a67c52;
+  --ink:#2f2c25; --mute:#8b8877;
+  background:var(--paper); color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }
+
+.cl .cl-line{ display:block; overflow:hidden; }
+.cl .cl-line > i{ display:block; font-style:inherit;
+  --p:clamp(0, calc((var(--t,0) - 0.08 - var(--d,0)*0.05) * 3.2), 1);
+  transform:translateY(calc((1 - var(--p)) * 118%)); opacity:var(--p); will-change:transform; }
+.cl .cl-sage i, .cl .cl-sage{ color:var(--sage-deep); font-style:italic; }
+
+/* 0 · COVER -------------------------------------------------------------- */
+.cl-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 7vw;
+  background:radial-gradient(120% 90% at 82% 20%, #dfe0d3 0%, var(--paper) 55%); }
+.cl-kick{ position:absolute; top:5vh; left:7vw; right:7vw; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.28em; color:var(--mute); }
+.cl-hero{ margin:0; font:300 clamp(52px,11vw,176px)/.96 "Fraunces",serif; letter-spacing:-.02em; }
+.cl-hero i{ font-style:normal; }
+.cl-cue{ position:absolute; bottom:5vh; left:7vw; font:700 11px "Archivo"; letter-spacing:.22em; color:var(--mute); }
+
+/* 1 · ACCORDION RACK ----------------------------------------------------- */
+.cl-rack{ background:var(--bone); }
+.cl-cols{ position:absolute; inset:0; display:flex; gap:10px; padding:10px; }
+.cl-col{
+  position:relative; overflow:hidden; border-radius:3px; background:#d7d1c3;
+  /* близость активного окна к слоту колонки */
+  --dist:max(calc(var(--t,0) - var(--c,0)), calc(var(--c,0) - var(--t,0)));
+  --near:clamp(0, calc(1 - var(--dist) / 0.30), 1);
+  /* аккордеон: базовый корешок = flex-basis, активная забирает место через grow */
+  flex:calc(var(--near) * 12) 0 clamp(58px, 6.5vw, 104px);
+  will-change:flex-grow;
+}
+.cl-frame{ position:absolute; inset:0; overflow:hidden; }
+.cl-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  object-position:center;
+  /* ken-burns: медленный зум активной + дрейф по проходу сцены */
+  transform:scale(calc(1.10 + var(--near)*0.06)) translate(calc(var(--t,0)*var(--flip,-1)*1.6%), calc(var(--t,0)*-1.4%));
+  transform-origin:center; will-change:transform; }
+/* тёплая дневная вуаль, гуще на сжатых колонках → они читаются как приглушённые корешки */
+.cl-veil{ position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(58,53,44,.04) 0%, rgba(58,53,44,.34) 100%);
+  opacity:calc(1 - var(--near)*0.72); }
+
+/* корешок — вертикальный лейбл, виден когда колонка сжата */
+.cl-spine{ position:absolute; left:50%; bottom:24px; transform:translateX(-50%) rotate(180deg);
+  writing-mode:vertical-rl; font:700 12px "Archivo"; letter-spacing:.24em; text-transform:uppercase;
+  color:#f2ede2; white-space:nowrap; text-shadow:0 1px 12px rgba(30,26,20,.55);
+  opacity:calc(1 - var(--near)*1.15); }
+
+/* маркер-глиф у активной колонки */
+.cl-mark{ position:absolute; top:22px; left:50%; transform:translateX(-50%) scale(calc(.5 + var(--near)*.5));
+  font-size:16px; color:#f4efe4; opacity:calc(var(--near)*var(--near)); text-shadow:0 1px 10px rgba(30,26,20,.5); }
+
+/* подпись активной колонки */
+.cl-plate{ position:absolute; left:28px; bottom:28px; right:28px; z-index:2;
+  opacity:calc(clamp(0, (var(--near) - 0.45)*3, 1));
+  transform:translateY(calc((1 - var(--near))*20px)); will-change:transform, opacity; }
+.cl-plate-n{ display:block; font:700 12px "Archivo"; letter-spacing:.3em; color:#e6cfa8; }
+.cl-plate-name{ display:block; margin:6px 0 3px; font:300 clamp(30px,3.6vw,60px)/.98 "Fraunces",serif;
+  color:#f7f2e7; text-shadow:0 4px 30px rgba(28,24,18,.5); }
+.cl-plate-note{ display:block; font:600 12px "Archivo"; letter-spacing:.16em; text-transform:uppercase; color:#dcd6c6; }
+
+.cl-rack-head{ position:absolute; top:5vh; left:6vw; right:6vw; z-index:5; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#4a463b; mix-blend-mode:multiply; pointer-events:none; }
+.cl-rack-head span:first-child{ color:var(--sage-deep); letter-spacing:.4em; }
+.cl-cue-rack{ z-index:5; color:#4a463b; mix-blend-mode:multiply; }
+
+/* 2 · INDEX -------------------------------------------------------------- */
+.cl-index{ display:flex; flex-direction:column; justify-content:center; padding:0 7vw;
+  background:linear-gradient(170deg,#e7e6d8,#dcd8c8); }
+.cl-index-head{ display:flex; justify-content:space-between; padding-bottom:3vh; margin-bottom:2vh;
+  border-bottom:1px solid rgba(95,102,86,.32); font:700 11px "Archivo"; letter-spacing:.26em; color:var(--mute); }
+.cl-index-head span:first-child{ color:var(--sage-deep); }
+.cl-list{ list-style:none; margin:0; padding:0; }
+.cl-item{ display:grid; grid-template-columns:3ch 1.7fr .9fr auto; gap:2vw; align-items:baseline;
+  padding:2.6vh 0; border-bottom:1px solid rgba(47,44,37,.12);
+  --p:clamp(0, calc((var(--t,0) - 0.12 - var(--d,0)*0.07) * 3), 1);
+  transform:translateY(calc((1 - var(--p)) * 24px)); opacity:var(--p); will-change:transform; }
+.cl-item-n{ font:700 12px "Archivo"; letter-spacing:.2em; color:var(--sage-deep); }
+.cl-item-name{ font:400 clamp(22px,3vw,46px)/1 "Fraunces",serif; color:var(--ink); }
+.cl-item-mat{ font:600 12px "Archivo"; letter-spacing:.14em; text-transform:uppercase; color:var(--mute); }
+.cl-item-price{ font:700 13px "Archivo"; letter-spacing:.04em; color:var(--timber); justify-self:end; }
+
+/* 3 · CLOSER ------------------------------------------------------------- */
+.cl-end{ display:grid; place-items:center; text-align:center;
+  background:linear-gradient(180deg,#8f9585 0%,#c9b592 62%,#e8e1d3 100%); color:#20241b; }
+.cl-end-block{ position:relative; z-index:2; padding:0 7vw; }
+.cl-end-block h2{ margin:0 0 5vh; font:300 clamp(40px,8vw,132px)/1 "Fraunces",serif; color:#20241b; }
+.cl-end-block h2 i{ font-style:normal; }
+.cl-end .cl-sage i{ color:#f4efe1; }
+.cl-btn{ display:inline-block; padding:16px 34px; border:1px solid #2f2c25; border-radius:999px;
+  color:#2f2c25; text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
+  opacity:calc(clamp(0, (var(--t,0) - 0.28) * 3, 1)); transition:background .3s, color .3s; }
+.cl-btn:hover{ background:#2f2c25; color:#e8e1d3; }
+
+@media (prefers-reduced-motion:reduce){
+  .cl .cl-line > i{ transform:none; opacity:1; }
+  .cl-item{ transform:none; opacity:1; }
+  .cl-col{ flex:1 1 0; }
+  .cl-img{ transform:scale(1.06); }
+  .cl-veil{ opacity:.3; }
+  .cl-spine{ opacity:0; }
+  .cl-mark{ opacity:1; transform:translateX(-50%); }
+  .cl-plate{ opacity:1; transform:none; }
+}

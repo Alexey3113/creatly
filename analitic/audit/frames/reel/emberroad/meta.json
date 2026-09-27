@@ -1,0 +1,123 @@
+{
+ "fam": "reel",
+ "id": "emberroad",
+ "url": "animated/w-emberroad",
+ "mode": "scroll",
+ "ms": 19821,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 501
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1002
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1504
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 2005
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2506
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 3007
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3508
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4009
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4511
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.6vh",
+   "y": 5012
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.1vh",
+   "y": 5513
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.7vh",
+   "y": 6014
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.2vh",
+   "y": 6515
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.8vh",
+   "y": 7016
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.4vh",
+   "y": 7518
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.9vh",
+   "y": 8019
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.5vh",
+   "y": 8520
+  },
+  {
+   "f": "f18.jpg",
+   "label": "10.0vh",
+   "y": 9021
+  }
+ ],
+ "stats": {
+  "title": "Creatly — AI-конструктор сайтов",
+  "screens": 11,
+  "sections": 13,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 8,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "IBM Plex Sans",
+   "Libre Caslon Display"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

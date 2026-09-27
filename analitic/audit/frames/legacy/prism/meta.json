@@ -1,0 +1,67 @@
+{
+ "fam": "legacy",
+ "id": "prism",
+ "url": "animated/prism",
+ "mode": "scroll",
+ "ms": 10790,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.5vh",
+   "y": 411
+  },
+  {
+   "f": "f02.jpg",
+   "label": "0.9vh",
+   "y": 823
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.4vh",
+   "y": 1234
+  },
+  {
+   "f": "f04.jpg",
+   "label": "1.8vh",
+   "y": 1646
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.3vh",
+   "y": 2057
+  },
+  {
+   "f": "f06.jpg",
+   "label": "2.7vh",
+   "y": 2469
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.2vh",
+   "y": 2880
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 4.2,
+  "sections": 3,
+  "videos": 0,
+  "canvases": 1,
+  "imgs": 1,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "IBM Plex Mono"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

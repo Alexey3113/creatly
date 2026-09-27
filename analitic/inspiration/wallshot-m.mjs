@@ -1,0 +1,15 @@
+import { chromium } from "playwright";
+const OUT="/private/tmp/claude-501/-Users-leo-programming-creatly/bdd54b0f-9e8c-49ef-b597-ab49ed07efbb/scratchpad";
+const slug=process.argv[2]||"vision";
+const b=await chromium.launch();
+const pg=await (await b.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true})).newPage();
+await pg.goto(`http://127.0.0.1:3011/story/${slug}`,{waitUntil:"networkidle"});
+await pg.waitForTimeout(800);
+await pg.locator(".deck").focus();
+await pg.keyboard.press("End");
+await pg.waitForTimeout(1400);
+await pg.keyboard.press("ArrowUp");
+await pg.waitForTimeout(1700);
+await pg.screenshot({path:`${OUT}/wall-m-${slug}.jpg`,quality:82,type:"jpeg"});
+console.log("shot wall-m", slug);
+await b.close();

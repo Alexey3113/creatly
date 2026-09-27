@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap");
+/* Концепт 17 — PHOTOGRAPHER «NORTHLIGHT». Выездной фотограф. Bone+graphite+burnt-orange, film contact-sheet (летящие кадры-полароиды) + viewfinder-скобки, фотограф-вырезка. */
+.pg-site{--pad:3.6vw;--bg:#ece6da;--ink:#22190f;--mut:#7c6f5c;--accent:#d9611f;--card:#fbf9f3;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.pg-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.pg-brand{font:500 19px "Space Grotesk",sans-serif;letter-spacing:.14em;color:#20170d;text-transform:uppercase}
+.pg-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#4d4234}
+.pg-nav a{opacity:.85}.pg-nav a:hover{opacity:1}
+.pg-book{background:var(--ink);color:#f4efe4;border-radius:2px;padding:8px 16px;opacity:1!important;font-weight:600}
+.pg-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.pg-hero .ps-sticky{background:#d8cdb9}
+
+/* заголовок слева */
+
+/* фотограф */
+
+/* летящие кадры (contact-sheet / полароид) */
+
+/* viewfinder-скобки */
+
+/* manifest */
+
+/* CTA */
+
+
+.pg-site a.pg-btn{display:inline-flex;align-items:center;gap:10px;margin-top:34px;padding:16px 32px;border-radius:2px;background:var(--accent);color:#1a1207;font:600 13px "Manrope",sans-serif}
+.pg-btn i{font-style:normal}
+
+/* footer */
+.pg-foot{position:relative;z-index:1;background:#1a1308;color:#a89a80;padding:64px var(--pad) 40px}
+.pg-foot-top b{font:500 22px "Space Grotesk",sans-serif;letter-spacing:.1em;color:#f4efe4;text-transform:uppercase}
+.pg-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#7c6d53}
+.pg-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(217,97,31,.28);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#6a5c44}
+
+/* ФАЗА 2 — секции */
+/* Selected work — editorial стаггер-грид полароидов */
+
+/* Testimonials */
+
+
+/* Sessions / услуги */
+
+.pg-serv .pg-eyebrow{margin-bottom:34px}
+
+@media(max-width:1100px){.pg-grid{columns:2}}
+@media(max-width:900px){.pg-nav{display:none}.pg-card,.pg-photog,.pg-exif{display:none}.pg-title{max-width:92vw}.pg-title h1{font-size:11vw}
+  .pg-qgrid,.pg-slist{grid-template-columns:1fr}.pg-grid{columns:1}.pg-workhead{flex-direction:column;align-items:flex-start}.pg-workhead p{text-align:left}}
+
+/* ===== POSTER HERO — fashion-cover уровень (портрет + гигант-аутлайн-имя + каллиграфия + полароиды) ===== */
+.pv-hero .ps-sticky{background:#e9dfce}
+.pv-paper{position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("/uploads/1/hooks/sites/anim/photographer/paper.jpg");background-size:cover;background-position:center;filter:brightness(1.02) saturate(.96)}
+.pv-portrait{justify-items:end;align-content:start}
+.pv-portrait .ps-media{width:56vw;height:auto;max-width:none;filter:contrast(1.03) saturate(1.06)}
+.pv-fade{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(90deg,#e9dfce 18%,rgba(233,223,206,.55) 37%,transparent 55%),linear-gradient(0deg,rgba(233,223,206,.5),transparent 24%)}
+.pv-name{justify-items:start;align-content:center;padding-left:45vw}
+.pv-name span{display:block;font:700 15.5vh/.86 "Space Grotesk",sans-serif;color:transparent;-webkit-text-stroke:2.5px rgba(34,25,15,.52);letter-spacing:-.02em;text-shadow:0 1px 0 rgba(255,252,245,.55)}
+.pv-script{position:absolute;z-index:16;top:11vh;left:var(--pad);font:400 clamp(52px,7.4vw,110px)/.86 "Pinyon Script",cursive;color:#22190f}
+.pv-script em{display:block;margin:-.06em 0 0 1.5em;font-style:normal;color:var(--accent)}
+.pv-col{position:absolute;z-index:16;left:var(--pad);top:41vh;max-width:25ch;display:flex;flex-direction:column;gap:13px}
+.pv-col p{margin:0;font:400 13px/1.55 "Manrope",sans-serif;color:#4d4234}
+.pv-col p b{color:#22190f;font-weight:600}
+.pv-vert{position:absolute;z-index:16;top:94px;right:var(--pad);writing-mode:vertical-rl;text-orientation:mixed;font:700 22px "Space Grotesk",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#22190f;display:flex;gap:14px;align-items:baseline}
+.pv-vert i{font:600 10px "DM Mono",monospace;font-style:normal;letter-spacing:.16em;color:var(--accent)}
+.pv-no{position:absolute;z-index:16;right:var(--pad);bottom:15vh;font:500 32px "Space Grotesk",sans-serif;color:#22190f;letter-spacing:.02em}
+.pv-no em{font-style:italic;font-size:.55em;color:var(--accent)}
+.pv-pola{align-content:end;justify-items:start}
+.pv-pola .pv-shot{background:#fbf9f3;padding:8px 8px 26px;box-shadow:0 22px 46px rgba(20,14,7,.34);border-radius:2px}
+.pv-p1{padding:0 0 9vh var(--pad)}
+.pv-p1 .pv-shot .ps-media{width:15vw;height:auto;display:block}
+.pv-p2{padding:0 0 3vh calc(var(--pad) + 12vw)}
+.pv-p2 .pv-shot .ps-media{width:12vw;height:auto;display:block}
+.pv-exif{position:absolute;z-index:16;left:50%;transform:translateX(-50%);bottom:38px;font:600 10px "DM Mono",monospace;letter-spacing:.14em;color:#7c6f5c;white-space:nowrap}
+.pv-cue{position:absolute;z-index:16;right:var(--pad);bottom:36px;font:600 10px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.pv-grain{position:absolute;inset:0;z-index:14;pointer-events:none;opacity:.24;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+@media(max-width:900px){.pv-col,.pv-vert,.pv-no,.pv-pola{display:none}.pv-portrait .ps-media{width:110vw}.pv-name{padding-left:8vw}.pv-name span{font-size:13vh}}
+
+/* ===== SCENES S2–S6 — перетекающие fashion-editorial сцены (warm cream + coral) ===== */
+.pg-scene .ps-sticky{background:#ece6da}
+.pg-scene .pg-eyebrow{margin-bottom:16px}
+
+/* S2 SELECTED WORK — разбросанные полароиды */
+.p2-scene .ps-sticky{background:#e9dfce}
+.p2-bg{position:absolute;inset:0;z-index:1;pointer-events:none;background-image:url("/uploads/1/hooks/sites/anim/photographer/paper.jpg");background-size:cover;background-position:center;filter:brightness(1.02) saturate(.96)}
+.p2-head{position:absolute;z-index:16;top:12vh;left:var(--pad);max-width:42vw}
+.p2-head .pg-eyebrow{color:var(--accent)}
+.p2-head h2{margin:0;font:500 clamp(34px,5vw,72px)/1 "Space Grotesk",sans-serif;color:#22190f;letter-spacing:-.01em}
+.p2-head h2 em{font-style:italic;color:var(--accent)}
+.p2-card{background:#fbf9f3;padding:10px 10px 30px;box-shadow:0 24px 50px rgba(20,14,7,.28);border-radius:2px}
+.p2-card .ps-media{width:100%;height:auto;max-width:none;object-fit:cover;display:block}
+.p2-card b{position:absolute;left:12px;bottom:9px;font:600 9px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#8a7d6c}
+.p2-a{width:17vw}.p2-b{width:20vw}.p2-c{width:15vw}.p2-d{width:14vw}.p2-e{width:13vw}
+
+/* S3 THE APPROACH — золотой час + текст */
+.p3-scene .ps-sticky{background:#2a1d0c}
+.p3-bg .ps-media{filter:saturate(1.06) contrast(1.02)}
+.p3-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(26,18,8,.7),rgba(26,18,8,.3) 44%,transparent 66%),linear-gradient(0deg,rgba(26,18,8,.5),transparent 40%)}
+.p3-copy{justify-items:start;align-content:center;padding-left:var(--pad)}
+.p3-copy .pg-eyebrow{color:#f0d9b8}
+.p3-copy h2{margin:0;font:500 clamp(36px,5.6vw,92px)/1.02 "Space Grotesk",sans-serif;color:#fbe7cf;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(20,14,7,.5)}
+.p3-copy h2 em{font-style:italic;color:#f0a24a}
+.p3-copy p{margin:22px 0 0;max-width:44ch;font:400 15px/1.75 "Manrope",sans-serif;color:#eaddc6}
+/* viewfinder-оверлей: сетка третей + углы-скобки + фокус-бокс + EXIF */
+.p3-vf{position:absolute;inset:6vh 5vw;z-index:10;pointer-events:none;opacity:.22;background:linear-gradient(#f0d9b8,#f0d9b8) 0 33.33%/100% 1px no-repeat,linear-gradient(#f0d9b8,#f0d9b8) 0 66.66%/100% 1px no-repeat,linear-gradient(#f0d9b8,#f0d9b8) 33.33% 0/1px 100% no-repeat,linear-gradient(#f0d9b8,#f0d9b8) 66.66% 0/1px 100% no-repeat}
+.p3-vf::before,.p3-vf::after{content:"";position:absolute;width:34px;height:34px;border:2px solid #f0a24a}
+.p3-vf::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.p3-vf::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.p3-exif{position:absolute;z-index:11;top:8vh;right:6vw;font:600 10px "DM Mono",monospace;letter-spacing:.14em;color:#f0a24a;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.p3-focus{place-items:center;padding-left:22vw}
+.p3-focus span{display:block;width:10vw;height:10vw;position:relative;box-shadow:inset 0 0 0 1px rgba(240,162,74,.5)}
+.p3-focus span::before,.p3-focus span::after{content:"";position:absolute;width:16px;height:16px;border:2px solid #f0a24a}
+.p3-focus span::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.p3-focus span::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.p3-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.2;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S4 WHAT I SHOOT — редакционный индекс */
+.p4-scene .ps-sticky{background:#ece6da}
+.p4-bg{position:absolute;inset:0;z-index:1;background:#eae4d8}
+.p4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.p4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.p4-head .pg-eyebrow{color:var(--accent)}
+.p4-head h2{margin:0;font:500 clamp(30px,4.6vw,64px)/1 "Space Grotesk",sans-serif;color:#22190f}
+.p4-head h2 em{font-style:italic;color:var(--accent)}
+/* индекс «наводится на резкость»: каждый ряд racks blur→sharp (по --lp, последовательно) */
+.p4-indexL{justify-items:center;align-content:center}
+.p4-index{width:min(780px,86vw)}
+.p4-line{display:grid;grid-template-columns:38px 1fr auto;gap:22px;align-items:baseline;padding:15px 0;border-top:1px solid rgba(34,25,15,.18);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 12, 1));
+  filter:blur(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 4.5, 1)) * 6px))}
+.p4-line:first-child{border-top:none}
+.p4-line i{font:italic 500 20px "Space Grotesk",sans-serif;color:var(--accent)}
+.p4-line b{font:500 clamp(19px,2.3vw,28px) "Space Grotesk",sans-serif;color:#22190f}
+.p4-line s{font:400 12px "Manrope",sans-serif;letter-spacing:.02em;color:#7c6f5c;text-decoration:none;text-align:right}
+
+/* S5 WORDS — голоса клиентов на золотом часе */
+.p5-scene .ps-sticky{background:#1a1308}
+.p5-bg .ps-media{filter:brightness(.5) saturate(1.05) contrast(1.03)}
+.p5-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(74% 74% at 50% 48%,rgba(40,28,12,.3),rgba(18,12,5,.74))}
+.p5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)}
+/* кадр с EXIF-подписью и отзывом */
+.p5-shot figure{position:relative;margin:0;width:min(25vw,330px);background:#0f0b06;padding:8px;border:1px solid rgba(217,97,31,.32);box-shadow:0 26px 52px rgba(0,0,0,.6)}
+.p5-shot .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/3;object-fit:cover;display:block;filter:contrast(1.05) saturate(1.06)}
+.p5-shot figcaption{padding:10px 4px 2px}
+.p5-shot i{display:block;font:600 9px "DM Mono",monospace;letter-spacing:.1em;color:#f0a24a;font-style:normal}
+.p5-shot p{margin:8px 0 0;font:500 clamp(14px,1.4vw,19px)/1.32 "Space Grotesk",sans-serif;color:#f6efe1;letter-spacing:-.01em}
+.p5-shot cite{display:block;margin-top:8px;font:600 9px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:#a58a6c}
+.p5-s1{align-content:center;justify-items:start;padding-left:7vw}
+.p5-s2{align-content:center;justify-items:center}
+.p5-s3{align-content:center;justify-items:end;padding-right:7vw}
+
+/* S6 CHASE THE LIGHT — камера-объект + CTA */
+.p6-scene .ps-sticky{background:#1a1308}
+.p6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 62% 42%,#3a2a12,#120c05)}
+.p6-cam{justify-items:end;align-content:center;padding-right:7vw}
+.p6-cam .ps-media{width:30vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.55)) drop-shadow(0 0 42px rgba(217,97,31,.22))}
+.p6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad);clip-path:circle(calc(clamp(0, var(--lp,0) * 1.5, 1) * 96%) at 24% 46%)}
+.p6-copy .pg-eyebrow{color:#f0d9b8}
+.p6-copy h2{margin:0;font:500 clamp(48px,9vw,140px)/.98 "Space Grotesk",sans-serif;color:#f6f0e2;letter-spacing:-.02em}
+.p6-copy h2 em{font-style:italic;color:var(--accent)}
+.p6-cta{position:absolute;z-index:16;left:var(--pad);bottom:15vh;max-width:38ch}
+.p6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#b6a88f}
+@media(max-width:900px){.p2-head,.p3-copy,.p6-cta{max-width:88vw}.p2-a,.p2-b,.p2-c,.p2-d,.p2-e{width:42vw}.p6-cam{display:none}.p5-shot figure{width:78vw}.p5-s1{padding-left:0}.p5-s3{padding-right:0}.p3-focus{display:none}.p4-index{width:90vw}.p4-line{grid-template-columns:28px 1fr}.p4-line s{grid-column:2;text-align:left}.p4-line b{font-size:18px}}

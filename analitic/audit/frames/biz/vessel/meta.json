@@ -1,0 +1,65 @@
+{
+ "fam": "biz",
+ "id": "vessel",
+ "url": "visual-hooks/vessel",
+ "mode": "scroll",
+ "ms": 10084,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.3vh",
+   "y": 283
+  },
+  {
+   "f": "f02.jpg",
+   "label": "0.6vh",
+   "y": 566
+  },
+  {
+   "f": "f03.jpg",
+   "label": "0.9vh",
+   "y": 849
+  },
+  {
+   "f": "f04.jpg",
+   "label": "1.3vh",
+   "y": 1132
+  },
+  {
+   "f": "f05.jpg",
+   "label": "1.6vh",
+   "y": 1415
+  },
+  {
+   "f": "f06.jpg",
+   "label": "1.9vh",
+   "y": 1698
+  },
+  {
+   "f": "f07.jpg",
+   "label": "2.2vh",
+   "y": 1981
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 3.2,
+  "sections": 4,
+  "videos": 1,
+  "canvases": 0,
+  "imgs": 2,
+  "sticky": 0,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

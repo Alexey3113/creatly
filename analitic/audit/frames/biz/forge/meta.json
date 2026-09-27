@@ -1,0 +1,125 @@
+{
+ "fam": "biz",
+ "id": "forge",
+ "url": "visual-hooks/forge",
+ "mode": "scroll",
+ "ms": 20093,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 496
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 991
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1487
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1982
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2478
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 2973
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3469
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.4vh",
+   "y": 3964
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4460
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.5vh",
+   "y": 4955
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.1vh",
+   "y": 5451
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.6vh",
+   "y": 5946
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.2vh",
+   "y": 6442
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.7vh",
+   "y": 6937
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.3vh",
+   "y": 7433
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.8vh",
+   "y": 7928
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.4vh",
+   "y": 8424
+  },
+  {
+   "f": "f18.jpg",
+   "label": "9.9vh",
+   "y": 8919
+  },
+  {
+   "f": "f19.jpg",
+   "label": "10.5vh",
+   "y": 9415
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 11.5,
+  "sections": 6,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 7,
+  "sticky": 4,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

@@ -32,11 +32,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     where: { id: Number(id) },
     data: {
       name: body.name ?? project.name,
-      html: body.html ?? project.html,
-      css: body.css ?? project.css,
-      js: body.js ?? project.js,
-      edits: body.edits ?? project.edits,
-      tokens: body.tokens ?? project.tokens,
+      document: body.document ?? project.document ?? undefined,
     },
   });
 

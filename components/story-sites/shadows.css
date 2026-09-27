@@ -1,0 +1,205 @@
+/* STORY 02 — SHADOWS. Красный грандж-оккульт-зин, развороты «чернильным заливом». */
+.sh-site{--bg:#2a0806;--ink:#ece5da;--mut:#b08a80;--accent:#c8302f;--bone:#efe7dd;
+  position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.sh-scene .ps-sticky{background:var(--bg)}
+
+/* зерно поверх всего */
+.sh-grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  background-image:repeating-radial-gradient(circle at 17% 23%,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
+                   repeating-radial-gradient(circle at 71% 62%,rgba(0,0,0,.06) 0 1px,transparent 1px 4px)}
+
+/* header */
+.sh-head{position:fixed;z-index:50;top:0;left:0;right:0;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;
+  background:linear-gradient(180deg,rgba(42,8,6,.8),transparent)}
+.sh-brand{font:400 24px "Pirata One","Playfair Display",serif;letter-spacing:.06em;color:var(--bone);text-decoration:none}
+.sh-nav{display:flex;align-items:center;gap:24px}
+.sh-nav a{font:600 12px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);text-decoration:none}
+.sh-nav a:hover{color:var(--bone)}
+.sh-nav .sh-cta{padding:8px 16px;border:1px solid var(--accent);color:var(--bone)}
+
+.sh-eyebrow{font:600 12px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+
+/* ---------- обложка ---------- */
+.sh-cover-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(120% 100% at 50% 30%,#3a0b08,#210605 74%)}
+.sh-cover-fig{z-index:2}
+.sh-cover-fig .ps-media{width:auto;height:98vh;max-width:none;object-fit:contain;filter:contrast(1.06) drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+.sh-cover-hi{justify-items:start;align-content:end;padding:0 0 9vh 5vw}
+.sh-cover-hi h1{margin:14px 0 16px;font:400 clamp(44px,7.4vw,110px)/.9 "Pirata One","Playfair Display",serif;letter-spacing:.01em;color:var(--bone);text-shadow:0 4px 24px rgba(0,0,0,.7)}
+.sh-cover-hi h1 em{font-style:normal;color:var(--accent)}
+.sh-cover-hi p{margin:0;max-width:40ch;font:400 15px/1.6 "Manrope",sans-serif;color:#d8c3bb;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.sh-barcode{position:absolute;z-index:6;left:5vw;top:12vh;font:600 11px "DM Mono",monospace;letter-spacing:.1em;color:var(--mut)}
+.sh-barcode span{display:block;font-size:22px;letter-spacing:-1px;color:var(--bone);line-height:.7}
+.sh-scrollcue{position:absolute;z-index:6;right:5vw;bottom:5vh;font:600 12px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.sh-scrollcue i{font-style:normal;display:inline-block;animation:sh-bob 1.6s ease-in-out infinite}
+@keyframes sh-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+.sh-xrow{font:600 14px "DM Mono",monospace;letter-spacing:.5em;color:var(--accent);opacity:.8}
+.sh-xbig{position:absolute;z-index:5;top:16vh;left:0;right:0;text-align:center;font-size:20px}
+
+/* ---------- разворот: чернильный залив ---------- */
+.sh-paper{position:absolute;inset:0;z-index:1;background:radial-gradient(90% 80% at 50% 40%,#320a07,#1f0504)}
+.sh-flood{clip-path:circle(calc(clamp(0,var(--lp)*1.55,1)*150%) at 38% 34%)}
+
+/* манифест */
+.sh-flood-a{justify-items:start;align-content:center;padding:0 8vw;max-width:min(1100px,90vw);margin:0 auto}
+.sh-flood-a .sh-xrow{opacity:calc(clamp(0,var(--lp)*5,1))}
+.sh-flood-a .sh-folio{display:block;margin-top:14px;font:600 12px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);
+  opacity:calc(clamp(0,(var(--lp) - .04)*5,1))}
+.sh-flood-a h2{margin:12px 0 20px;font:400 clamp(42px,7vw,108px)/.9 "Pirata One","Playfair Display",serif;letter-spacing:.01em;color:var(--bone);
+  opacity:calc(clamp(0,(var(--lp) - .1)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .1)*4,1))*24px))}
+.sh-flood-a h2 em{font-style:normal;color:var(--accent)}
+.sh-flood-a>p{margin:0;max-width:46ch;font:400 16px/1.7 "Manrope",sans-serif;color:#d2bdb5;
+  opacity:calc(clamp(0,(var(--lp) - .2)*5,1))}
+.sh-facts{list-style:none;display:flex;gap:44px;margin:32px 0 0;padding:0}
+.sh-facts li{opacity:calc(clamp(0,(var(--lp) - .3)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .3)*4,1))*14px))}
+.sh-facts b{display:block;font:400 clamp(30px,4vw,56px)/1 "Pirata One","Playfair Display",serif;color:var(--bone)}
+.sh-facts span{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+
+/* ---------- финал ---------- */
+.sh-final-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(100% 90% at 50% 30%,#3c0c08,#1c0504 72%)}
+.sh-final-copy{justify-items:start;align-content:center;padding:0 0 0 6vw}
+.sh-final-copy h2{margin:14px 0 16px;font:400 clamp(46px,7.6vw,116px)/.9 "Pirata One","Playfair Display",serif;color:var(--bone)}
+.sh-final-copy h2 em{font-style:normal;color:var(--accent)}
+.sh-final-copy p{margin:0;max-width:40ch;font:400 16px/1.7 "Manrope",sans-serif;color:#d2bdb5}
+.sh-final-cta{position:absolute;z-index:16;left:6vw;bottom:12vh}
+.sh-btn{display:inline-flex;align-items:center;gap:12px;padding:16px 32px;background:var(--accent);color:#1a0503;
+  font:700 13px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.sh-btn i{font-style:normal}
+.sh-links{display:flex;gap:22px;margin-top:22px}
+.sh-links a{font:600 12px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);text-decoration:none}
+.sh-links a:hover{color:var(--bone)}
+
+
+@media(max-width:900px){
+  .sh-nav a:not(.sh-cta){display:none}
+  .sh-cover-fig .ps-media{height:auto;width:120vw}
+  .sh-cover-hi{padding:14vh 6vw 12vh;background:linear-gradient(0deg,#2a0806 8%,rgba(42,8,6,.74) 44%,transparent 68%)}
+  .sh-barcode{display:none}
+  .sh-flood-a{padding:0 6vw}
+  .sh-facts{gap:24px}
+}
+
+.sh-sign{margin-top:26px;font:500 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+
+/* ===== АРХЕТИПЫ УНИКАЛЬНЫХ СТРАНИЦ (SHADOWS) ===== */
+.sh-mono{background:#1f0504}
+.sh-mono-fig{z-index:1}
+.sh-mono-fig .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 46%;filter:contrast(1.05)}
+.sh-mono-veil{position:absolute;inset:0;z-index:3;background:
+  linear-gradient(90deg,rgba(31,5,4,.92) 0,rgba(31,5,4,.5) 34%,transparent 58%),
+  linear-gradient(0deg,rgba(31,5,4,.8),transparent 42%)}
+.sh-mono-x{position:absolute;z-index:4;left:6vw;top:12vh;font:600 16px "DM Mono",monospace;letter-spacing:.5em;color:var(--accent);opacity:.8}
+.sh-mono-idx{position:absolute;z-index:4;right:3vw;top:11vh;transform:translateX(calc((1 - clamp(0,var(--lp)*3,1))*60px));opacity:calc(clamp(0,var(--lp)*3,1));font:400 clamp(90px,17vw,260px)/.8 "Pirata One","Playfair Display",serif;color:rgba(200,48,47,.2)}
+.sh-mono-cap{justify-items:start;align-content:end;transform:translateX(calc((1 - clamp(0,var(--lp)*3,1))*-50px));padding:0 0 12vh 6vw;z-index:6;text-align:left}
+.sh-mono-cap .sh-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
+.sh-mono-cap h3{margin:12px 0 14px;font:400 clamp(42px,6.4vw,96px)/.9 "Pirata One","Playfair Display",serif;color:var(--bone);
+  opacity:calc(clamp(0,(var(--lp) - .08)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .08)*4,1))*22px))}
+.sh-mono-cap h3 em{display:block;font-style:normal;font-size:.32em;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-top:8px;font-family:"DM Mono",monospace}
+.sh-mono-cap p{margin:0 0 12px;max-width:34ch;font:400 15px/1.66 "Manrope",sans-serif;color:#d9c3bb;
+  opacity:calc(clamp(0,(var(--lp) - .2)*5,1))}
+.sh-mono-cap .sh-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+
+.sh-macro{background:#1f0504}
+.sh-macro-fig{z-index:1}
+.sh-macro-fig .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 42%;filter:contrast(1.06)}
+.sh-macro-scan{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(31,5,4,.82),transparent 30%,transparent 72%,rgba(31,5,4,.55))}
+.sh-macro-huge{position:absolute;z-index:4;left:3vw;bottom:12vh;transform:translateX(calc((1 - clamp(0,var(--lp)*2.6,1))*-70px));opacity:calc(clamp(0,var(--lp)*4,1));font:400 clamp(64px,15vw,220px)/.78 "Pirata One","Playfair Display",serif;
+  color:transparent;-webkit-text-stroke:1px rgba(239,231,221,.4);letter-spacing:.02em}
+.sh-macro-cap{justify-items:end;align-content:end;text-align:right;padding:0 6vw 9vh 0;z-index:6}
+.sh-macro-cap .sh-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
+.sh-macro-cap p{margin:10px 0 12px;max-width:30ch;font:400 15px/1.6 "Manrope",sans-serif;color:#e7d3cb;
+  opacity:calc(clamp(0,(var(--lp) - .12)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .12)*4,1))*18px))}
+.sh-macro-cap .sh-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+
+.sh-collage{background:radial-gradient(90% 80% at 50% 40%,#320a07,#1f0504)}
+/* РАЗВОРОТ во всю ширину — кинематографичная landscape-полоса (формат-контраст к 9:16) */
+.sh-pano{background:#1f0504}
+.sh-pano-fig{z-index:1}
+.sh-pano-fig .ps-media{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);width:100%;height:58vh;max-width:none;object-fit:cover;object-position:50% 42%;filter:contrast(1.06)}
+.sh-pano-bars{position:absolute;left:0;right:0;top:50%;height:58vh;transform:translateY(-50%);z-index:3;pointer-events:none;
+  border-top:1px solid rgba(200,48,47,.5);border-bottom:1px solid rgba(200,48,47,.5);
+  box-shadow:inset 0 46px 60px -26px #1f0504,inset 0 -46px 60px -26px #1f0504}
+.sh-pano-word{position:absolute;z-index:4;left:4vw;top:8vh;--lp:var(--sp,1);pointer-events:none;
+  transform:translateX(calc((1 - clamp(0,var(--lp)*2.6,1))*-84px));opacity:calc(clamp(0,var(--lp)*4,1));
+  font:400 clamp(44px,9vw,150px)/.82 "Pirata One","Playfair Display",serif;color:var(--bone);letter-spacing:0}
+.sh-pano-word em{font-style:normal;color:var(--accent);font-size:.32em;margin-left:.4em;letter-spacing:.14em;text-transform:uppercase;font-family:"DM Mono",monospace}
+.sh-pano-cap{justify-items:center;align-content:end;text-align:center;padding:0 6vw 8vh;z-index:6}
+.sh-pano-cap .sh-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
+.sh-pano-cap p{margin:10px auto 12px;max-width:52ch;font:400 15px/1.66 "Manrope",sans-serif;color:#e7d3cb;transform:translateY(calc((1 - clamp(0,var(--lp)*3,1))*20px))}
+.sh-pano-cap .sh-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+/* АРХИВ — бенто-стена работ (мозаика разнокалиберных кадров, каскадное проявление плиток) */
+.sh-wall{background:#1f0504}
+.sh-wall-grid{position:absolute;inset:9vh 4vw 7vh;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(6,1fr);gap:9px}
+.sh-tile{position:relative;overflow:hidden;border:1px solid rgba(200,48,47,.22);border-radius:2px;
+  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);
+  transform:translateY(calc((1 - var(--r))*24px)) scale(calc(.94 + var(--r)*.06))}
+.sh-tile img{width:100%;height:100%;max-width:none;object-fit:cover;display:block;filter:contrast(1.05)}
+.sh-tile figcaption{position:absolute;left:0;right:0;bottom:0;padding:6px 8px;font:600 9px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#efe7dd;background:linear-gradient(0deg,rgba(31,5,4,.85),transparent);opacity:0;transition:opacity .3s}
+.sh-tile:hover figcaption{opacity:1}
+.sh-tile-a{grid-column:1/3;grid-row:1/4;--d:0}
+.sh-tile-b{grid-column:3/5;grid-row:1/2;--d:.06}
+.sh-tile-c{grid-column:3/4;grid-row:2/4;--d:.1}
+.sh-tile-d{grid-column:4/5;grid-row:2/4;--d:.14}
+.sh-tile-e{grid-column:1/2;grid-row:4/7;--d:.2}
+.sh-tile-f{grid-column:2/4;grid-row:4/7;--d:.26}
+.sh-tile-g{grid-column:4/5;grid-row:4/6;--d:.32}
+.sh-tile-h{grid-column:4/5;grid-row:6/7;--d:.38}
+.sh-wall-cap{position:absolute;left:4vw;bottom:2.4vh;z-index:4;--lp:var(--sp,1);opacity:calc(clamp(0,var(--lp)*4,1));
+  font:600 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.sh-wall-cap b{color:var(--accent)}
+.sh-col-grid{z-index:3}
+.sh-col{position:absolute;overflow:hidden;margin:0;border:1px solid rgba(200,48,47,.3);box-shadow:0 30px 60px rgba(0,0,0,.65);
+  transform-origin:center;--p:clamp(0,(var(--lp,0) - var(--thr,0))*2.4,1);
+  opacity:calc(clamp(0,(var(--lp,0) - var(--thr,0))*4,1));
+  transform-origin:bottom center;
+  transform:translateX(calc((1 - var(--p))*var(--fly,0px))) translateY(calc((1 - var(--p))*var(--flyY,26px))) rotate(calc(var(--rot0,0deg) + (var(--rot,0deg) - var(--rot0,0deg))*var(--p))) scale(calc(.88 + var(--p)*.12))}
+.sh-col .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;display:block;filter:contrast(1.05)}
+.sh-col figcaption{position:absolute;left:0;bottom:0;right:0;padding:8px 10px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(31,5,4,.85),transparent)}
+.sh-col-1{left:7vw;top:15vh;width:31vw;height:64vh;--rot:-4deg;--flyY:56px;z-index:5}
+.sh-col-2{right:10vw;top:12vh;width:17vw;height:25vh;--rot:6deg;--flyY:-70px;z-index:4}
+.sh-col-3{right:16vw;bottom:10vh;width:18vw;height:27vh;--rot:-3deg;--flyY:86px;z-index:3}
+.sh-col-copy{justify-items:start;align-content:start;padding:14vh 0 0 6vw;z-index:6}
+.sh-col-copy .sh-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
+.sh-col-copy h3{margin:10px 0 12px;font:400 clamp(42px,6.4vw,96px)/.9 "Pirata One","Playfair Display",serif;color:var(--bone);
+  opacity:calc(clamp(0,(var(--lp) - .1)*5,1))}
+.sh-col-copy h3 em{display:block;font-style:normal;font-size:.32em;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-top:8px;font-family:"DM Mono",monospace}
+.sh-col-copy .sh-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.sh-col-code{margin-top:20px;font:600 11px "DM Mono",monospace;letter-spacing:.1em;color:var(--mut)}
+.sh-col-code span{display:block;font-size:20px;letter-spacing:-1px;color:var(--bone);line-height:.7}
+
+@media(max-width:900px){
+  .sh-mono-veil{background:linear-gradient(0deg,rgba(31,5,4,.93),rgba(31,5,4,.4) 46%,transparent 70%)}
+  .sh-mono-cap{padding:0 6vw 12vh}
+  .sh-macro-cap{justify-items:start;text-align:left;padding:0 6vw 9vh}
+  .sh-col-1{left:4vw;right:auto;top:12vh;width:62vw;height:46vh;--rot:-2deg}
+  .sh-col-2{right:4vw;top:9vh;width:34vw;height:24vh;--rot:5deg}
+  .sh-col-3{right:7vw;top:39vh;width:30vw;height:20vh;--rot:-4deg}
+  .sh-pano-fig .ps-media,.sh-pano-bars{height:44vh}
+  .sh-pano-word{font-size:clamp(40px,13vw,74px);top:13vh}
+  .sh-pano-cap{padding-bottom:11vh}
+  .sh-wall-grid{inset:8vh 4vw 5vh;grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:19vh;grid-auto-flow:row dense;gap:7px}
+  .sh-tile{grid-column:auto;grid-row:auto}
+  .sh-tile-a,.sh-tile-e,.sh-tile-f{grid-row:span 2}
+  .sh-tile-b{grid-column:span 2}
+  .sh-col-copy{padding-top:62vh}
+}
+
+/* ===== ОБЛОЖКА-ПОСТЕР v2 (SHADOWS) ===== */
+.sh-wordmark{place-items:center;align-content:center;z-index:1;pointer-events:none}
+.sh-wordmark span{font:400 clamp(120px,23vw,400px)/.82 "Pirata One","Playfair Display",serif;letter-spacing:.01em;text-transform:uppercase;
+  color:#efe7dd;text-shadow:0 0 40px rgba(200,48,47,.5),0 10px 50px rgba(0,0,0,.6);transform:translateY(-3vh)}
+.sh-cover-fig{z-index:3}
+.sh-cover-fig .ps-media{width:auto;height:100vh;max-width:none;object-fit:contain;object-position:bottom;filter:contrast(1.06) drop-shadow(0 30px 60px rgba(0,0,0,.7))}
+.sh-orn{position:absolute;inset:0;z-index:4;pointer-events:none;--lp:var(--sp,1);color:var(--mut);
+  font:600 11px/1.5 "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase}
+.sh-orn span{position:absolute;opacity:calc(clamp(0,(var(--lp,0) - .1)*5,1))}
+.sh-orn-tl{left:4vw;top:12vh;color:var(--accent);transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .1)*5,1))*-30px))}
+.sh-orn-tr{right:4vw;top:12vh;text-align:right;transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .1)*5,1))*30px))}
+.sh-orn-lm{left:4vw;top:46vh;transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .2)*5,1))*-30px))}
+.sh-orn-rm{right:4vw;top:44vh;text-align:right;color:var(--accent);transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .2)*5,1))*30px))}
+.sh-orn-bar{left:50%;bottom:3vh;transform:translateX(-50%);color:var(--mut)}
+.sh-orn-bar b{display:block;font-size:20px;letter-spacing:-1px;color:var(--bone);line-height:.7;font-weight:400}
+.sh-orn-no{right:4vw;bottom:12vh;font:400 40px "Pirata One","Playfair Display",serif;color:var(--accent)}
+
+.sh-collage::before{content:"✕ ✕ ✕";position:absolute;left:7vw;bottom:9vh;z-index:5;font:600 16px "DM Mono",monospace;letter-spacing:.4em;color:var(--accent);opacity:calc(clamp(0,(var(--sp,1) - .3)*4,1)*.6);pointer-events:none}
+.sh-collage::after{content:"reliquary · no. 666";position:absolute;right:7vw;top:14vh;z-index:5;font:600 10px "DM Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1) - .3)*4,1)*.5);pointer-events:none}

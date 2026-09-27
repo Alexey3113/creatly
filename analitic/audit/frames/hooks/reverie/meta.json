@@ -1,0 +1,65 @@
+{
+ "fam": "hooks",
+ "id": "reverie",
+ "url": "visual-hooks/reverie",
+ "mode": "scroll",
+ "ms": 9839,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.2vh",
+   "y": 180
+  },
+  {
+   "f": "f02.jpg",
+   "label": "0.4vh",
+   "y": 360
+  },
+  {
+   "f": "f03.jpg",
+   "label": "0.6vh",
+   "y": 540
+  },
+  {
+   "f": "f04.jpg",
+   "label": "0.8vh",
+   "y": 720
+  },
+  {
+   "f": "f05.jpg",
+   "label": "1.0vh",
+   "y": 900
+  },
+  {
+   "f": "f06.jpg",
+   "label": "1.2vh",
+   "y": 1080
+  },
+  {
+   "f": "f07.jpg",
+   "label": "1.4vh",
+   "y": 1260
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 2.4,
+  "sections": 1,
+  "videos": 1,
+  "canvases": 0,
+  "imgs": 1,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

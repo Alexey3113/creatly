@@ -1,0 +1,85 @@
+{
+ "fam": "hooks",
+ "id": "ascension",
+ "url": "visual-hooks/ascension",
+ "mode": "scroll",
+ "ms": 13262,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 503
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1006
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1509
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 2012
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2515
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3018
+  },
+  {
+   "f": "f07.jpg",
+   "label": "5.0vh",
+   "y": 4544
+  },
+  {
+   "f": "f08.jpg",
+   "label": "5.8vh",
+   "y": 5193
+  },
+  {
+   "f": "f09.jpg",
+   "label": "6.5vh",
+   "y": 5842
+  },
+  {
+   "f": "f10.jpg",
+   "label": "7.2vh",
+   "y": 6491
+  },
+  {
+   "f": "f11.jpg",
+   "label": "7.9vh",
+   "y": 7140
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 8.9,
+  "sections": 6,
+  "videos": 2,
+  "canvases": 1,
+  "imgs": 4,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

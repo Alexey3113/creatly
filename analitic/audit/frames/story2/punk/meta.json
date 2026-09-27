@@ -1,0 +1,75 @@
+{
+ "fam": "story2",
+ "id": "punk",
+ "url": "story2/punk",
+ "mode": "deck",
+ "deckSel": ".stage",
+ "sceneSel": ".stage-scene",
+ "ms": 12868,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "S1"
+  },
+  {
+   "f": "f01.jpg",
+   "label": "S1→2 mid"
+  },
+  {
+   "f": "f02.jpg",
+   "label": "S2"
+  },
+  {
+   "f": "f03.jpg",
+   "label": "S2→3 mid"
+  },
+  {
+   "f": "f04.jpg",
+   "label": "S3"
+  },
+  {
+   "f": "f05.jpg",
+   "label": "S3→4 mid"
+  },
+  {
+   "f": "f06.jpg",
+   "label": "S4"
+  },
+  {
+   "f": "f07.jpg",
+   "label": "S4→5 mid"
+  },
+  {
+   "f": "f08.jpg",
+   "label": "S5"
+  },
+  {
+   "f": "f09.jpg",
+   "label": "S5→6 mid"
+  },
+  {
+   "f": "f10.jpg",
+   "label": "S6"
+  }
+ ],
+ "stats": {
+  "title": "Story v2 — кино-истории · Creatly | Creatly",
+  "screens": 1,
+  "sections": 6,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 4,
+  "sticky": 0,
+  "fixed": 6,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Archivo Black",
+   "Manrope",
+   "Permanent Marker"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

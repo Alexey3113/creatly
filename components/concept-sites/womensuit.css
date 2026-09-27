@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap");
+/* Концепт 18 — WOMENSUIT «SÉVERINE». Премиум женский тейлоринг. Plum/aubergine + blush + ivory, вертикальный Cormorant-wordmark, fabric-swatch flying cards, модель на световом шафте. */
+.ws-site{--pad:3.6vw;--bg:#22121f;--ink:#f1e8de;--mut:#a5899a;--accent:#c98a92;--plum:#3a1f33;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.ws-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.ws-brand{font:600 20px "Cormorant Garamond",serif;letter-spacing:.26em;color:#f4ece2;text-transform:uppercase}
+.ws-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#d6c6cf}
+.ws-nav a{opacity:.82}.ws-nav a:hover{opacity:1}
+.ws-book{border:1px solid rgba(201,138,146,.6);border-radius:2px;padding:8px 16px;color:#f0d3d7;opacity:1!important}
+.ws-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.ws-hero .ps-sticky{background:#2a1626}
+
+/* вертикальный wordmark */
+
+/* fabric-swatch карточки */
+
+/* editorial-детали */
+
+/* manifest */
+
+/* CTA */
+
+
+.ws-site a.ws-btn{display:inline-flex;align-items:center;gap:10px;margin-top:34px;padding:16px 32px;border-radius:2px;background:var(--accent);color:#2a0f18;font:600 13px "Manrope",sans-serif}
+.ws-btn i{font-style:normal}
+
+/* footer */
+.ws-foot{position:relative;z-index:1;background:#180b14;color:#a5899a;padding:64px var(--pad) 40px}
+.ws-foot-top b{font:600 24px "Cormorant Garamond",serif;letter-spacing:.22em;color:#f4ece2;text-transform:uppercase}
+.ws-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#7c5f6c}
+.ws-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(201,138,146,.24);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#6d5361}
+
+/* ФАЗА 2 — секции */
+/* Lookbook — галерея */
+
+/* Bespoke — процесс */
+
+.ws-proc .ws-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.ws-grid{columns:2}}
+@media(max-width:900px){.ws-nav{display:none}.ws-card,.ws-tr,.ws-line,.ws-lead{display:none}.ws-word span{font-size:30vw}.ws-model .ps-media{width:58vw}
+  .ws-grid{columns:1}.ws-psteps,.ws-qgrid{grid-template-columns:1fr}.ws-workhead{flex-direction:column;align-items:flex-start}.ws-workhead p{text-align:left}}
+
+/* ===== POSTER HERO — торн-VOGUE-обложка (один-в-один с пином) ===== */
+.ws-poster .ws-head{background:transparent}
+.ws-poster .ws-brand{color:#f4f0e8}
+.ws-poster .ws-nav{color:#efe0d6}
+.ws-poster .ws-book{border:1px solid rgba(244,240,232,.6);border-radius:0;color:#f4f0e8}
+.wv-hero{--red:#a3111e;--ink:#110d0c;--paper:#efece5;--grey:#8d8b86}
+.wv-hero .ps-sticky{background:var(--red)}
+.wv-bg .ps-media{filter:saturate(1.05) contrast(1.02)}
+.wv-red{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(120% 90% at 50% 42%,rgba(163,17,30,.15),rgba(120,10,22,.5));mix-blend-mode:multiply}
+/* masthead (Vogue-дидон) */
+.wv-mast{place-items:center;align-content:start;padding-top:2.5vh}
+.wv-mast span{display:block;font:500 clamp(90px,17.5vw,300px)/.9 "Cormorant Garamond",serif;color:#0e0c0b;letter-spacing:.02em;text-transform:uppercase}
+.wv-mast em{display:block;margin-top:-.4em;font:italic 500 clamp(14px,1.5vw,22px) "Cormorant Garamond",serif;letter-spacing:.4em;color:#0e0c0b;text-transform:lowercase}
+/* фигура */
+.wv-figure .ps-media{width:46vw;height:auto;max-width:none;filter:contrast(1.06) drop-shadow(0 26px 46px rgba(20,6,8,.5))}
+/* торн-бумажный бэнд поверх верхней трети */
+.wv-band{position:absolute;z-index:9;left:-3%;right:-3%;top:16%;height:25%;display:grid;place-items:center;background:var(--grey);
+  clip-path:polygon(0% 22%,5% 8%,10% 26%,16% 10%,22% 30%,28% 12%,34% 26%,40% 14%,46% 30%,52% 12%,58% 26%,64% 10%,70% 28%,76% 12%,82% 26%,88% 9%,94% 24%,100% 13%,100% 84%,94% 96%,88% 78%,82% 95%,76% 80%,70% 96%,64% 82%,58% 95%,52% 80%,46% 96%,40% 82%,34% 95%,28% 80%,22% 96%,16% 82%,10% 95%,5% 84%,0% 92%);
+  filter:drop-shadow(0 -5px 0 var(--paper)) drop-shadow(0 5px 0 var(--paper)) drop-shadow(0 0 1px rgba(0,0,0,.3))}
+.wv-band span{font:500 clamp(80px,17vw,290px)/.9 "Cormorant Garamond",serif;color:#5f5d59;letter-spacing:.02em;text-transform:uppercase;transform:translateX(-2.5%)}
+/* маргиналии */
+.wv-tl{position:absolute;z-index:16;top:96px;left:var(--pad);font:600 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#f4ece2}
+.wv-no{position:absolute;z-index:16;top:96px;right:var(--pad);font:500 26px "Cormorant Garamond",serif;color:#f4ece2}
+.wv-no em{font-style:italic;font-size:.6em}
+.wv-lyric{position:absolute;z-index:16;right:var(--pad);bottom:15vh;text-align:right;font:italic 600 clamp(18px,2.1vw,32px)/1.25 "Cormorant Garamond",serif;color:#1a0708}
+.wv-cue{position:absolute;z-index:16;left:var(--pad);bottom:15vh;font:600 11px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:#f4ece2}
+.wv-grain{position:absolute;inset:0;z-index:14;pointer-events:none;opacity:.4;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+@media(max-width:900px){.wv-lyric,.wv-tl,.wv-no{display:none}.wv-mast span{font-size:22vw}.wv-figure .ps-media{width:80vw}}
+
+/* --- POSTER v2: живой рваный край + не резать заголовок + якорь вёрстки --- */
+.wv-mast{padding-top:6.5vh}
+.wv-mast span{font-size:clamp(80px,15vw,250px)}
+.wv-band{top:19%;height:26%;background:#8f8d88;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.5'/%3E%3C/svg%3E");background-size:180px;
+  clip-path:polygon(0% 18%,3% 9%,6% 23%,8% 6%,12% 28%,15% 11%,17% 24%,21% 8%,24% 31%,26% 13%,30% 22%,33% 7%,36% 27%,39% 12%,43% 30%,46% 9%,49% 23%,52% 15%,56% 28%,59% 8%,63% 26%,66% 12%,70% 30%,73% 10%,77% 24%,80% 7%,84% 28%,87% 13%,91% 25%,94% 9%,97% 23%,100% 13%,100% 86%,97% 97%,94% 80%,91% 96%,87% 82%,84% 97%,80% 79%,77% 95%,73% 84%,70% 97%,66% 81%,63% 96%,59% 85%,56% 97%,52% 80%,49% 95%,46% 84%,43% 97%,39% 81%,36% 96%,33% 85%,30% 97%,26% 80%,24% 96%,21% 84%,17% 97%,15% 81%,12% 95%,8% 85%,6% 97%,3% 82%,0% 94%)}
+/* хайрлайн-рамка + нижний бар — якорь */
+.wv-frame{position:absolute;z-index:16;inset:20px;border:1px solid rgba(244,236,226,.35);pointer-events:none}
+.wv-bar{position:absolute;z-index:16;left:20px;right:20px;bottom:20px;height:34px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-top:1px solid rgba(244,236,226,.35);font:600 10px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#f0e2d8}
+.wv-bar b{font-family:"Cormorant Garamond",serif;font-weight:600;letter-spacing:.3em;font-size:13px}
+.wv-cue{bottom:calc(15vh);left:var(--pad)}
+.wv-lyric{bottom:calc(15vh)}
+
+/* --- POSTER v3: органический рваный край + eye-level + асимметрия --- */
+.wv-defs{position:absolute;width:0;height:0}
+.wv-band{top:25%;height:25%;filter:url(#wv-tear) drop-shadow(0 -4px 0 var(--paper)) drop-shadow(0 4px 0 var(--paper))}
+.wv-figure .ps-media{filter:contrast(1.08) saturate(1.02) drop-shadow(0 20px 30px rgba(20,6,8,.45))}
+/* асимметричные ковер-строки слева */
+.wv-cover{position:absolute;z-index:16;left:var(--pad);top:40vh;max-width:23ch;display:flex;flex-direction:column;gap:16px}
+.wv-cover p{margin:0;font:400 12px/1.4 "Manrope",sans-serif;color:#f0e2d8}
+.wv-cover p b{display:block;font:600 13px "Cormorant Garamond",serif;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:2px}
+.wv-cover p.d b{color:#f6c9c0;font-style:italic;text-transform:none}
+.wv-barcode{position:absolute;z-index:16;right:var(--pad);bottom:calc(15vh + 90px);width:120px;height:34px;background:repeating-linear-gradient(90deg,#f2ece2 0 2px,transparent 2px 4px,#f2ece2 4px 7px,transparent 7px 9px,#f2ece2 9px 10px,transparent 10px 14px);opacity:.85}
+
+/* fix: barcode вверх, чтобы не пересекал лирику */
+.wv-barcode{top:150px;right:var(--pad);bottom:auto}
+.wv-band{filter:url(#wv-tear) drop-shadow(0 -4px 0 var(--paper)) drop-shadow(0 4px 0 var(--paper));--tearscale:20}
+
+/* ===== POSTER SECTIONS — ретон под красный/paper/чёрный VOGUE ===== */
+.ws-poster{--accent:#a3111e;background:#efece5}
+.ws-poster .ws-manifest{background:#efece5}
+.ws-poster .ws-manifest h2{color:#17110f}
+.ws-poster .ws-manifest p{color:#6f665f}
+.ws-poster .ws-work{background:#e7e3da;color:#17110f}
+.ws-poster .ws-workhead h2{color:#17110f}
+.ws-poster .ws-workhead span{color:#a3111e}
+.ws-poster .ws-workhead p{color:#6f665f}
+.ws-poster .ws-gcard{background:#faf8f3}
+.ws-poster .ws-gcard b{color:#a3111e}
+.ws-poster .ws-proc{background:#17110f}
+.ws-poster .ws-proc .ws-eyebrow{color:#e0868f}
+.ws-poster .ws-step h4{color:#f1ece4}
+.ws-poster .ws-step i{color:#e0868f;border-bottom-color:rgba(163,17,30,.5)}
+.ws-poster .ws-step p{color:#b3aaa2}
+.ws-poster .ws-quotes{background:#efece5}
+.ws-poster .ws-quotes .ws-eyebrow{color:#a3111e}
+.ws-poster .ws-quote{border-top-color:rgba(163,17,30,.5)}
+.ws-poster .ws-quote p{color:#17110f}
+.ws-poster .ws-quote cite{color:#6f665f}
+.ws-poster .ws-cta{background:#a3111e}
+.ws-poster .ws-cta-in .ws-eyebrow{color:#f2d0d3}
+.ws-poster .ws-cta-in h2{color:#f4f0e8}
+.ws-poster .ws-cta-in h2 span{color:#17110f}
+.ws-poster .ws-cta-in p{color:rgba(244,240,232,.82)}
+.ws-poster a.ws-btn{background:#17110f;color:#f4f0e8}
+.ws-poster .ws-foot{background:#17110f}
+.ws-poster .ws-foot-legal{border-top-color:rgba(163,17,30,.4)}
+
+/* ===== SCENES S2–S6 — перетекающие VOGUE-editorial сцены (red/paper/black) ===== */
+.ws-scene .ps-sticky{background:#17110f}
+.ws-scene .ws-eyebrow{margin-bottom:16px}
+
+/* S2 THE CUT — ателье + фигура + булавки передний план */
+.w2-scene .ps-sticky{background:#1c0f14}
+.w2-bg .ps-media{filter:contrast(1.04) saturate(1.04) brightness(.98)}
+.w2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(20,8,12,.58),transparent 46%),linear-gradient(0deg,rgba(20,8,12,.42),transparent 40%)}
+.w2-figure{justify-items:end;align-content:end;padding:0 6vw 0 0}
+.w2-figure .ps-media{width:22vw;height:auto;max-width:none;filter:contrast(1.05) drop-shadow(0 30px 50px rgba(20,6,8,.5))}
+.w2-fg{justify-items:center;align-content:end}
+.w2-fg .ps-media{width:100vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.5;-webkit-mask:linear-gradient(180deg,transparent 78%,#000 92%);mask:linear-gradient(180deg,transparent 78%,#000 92%)}
+.w2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.w2-copy .ws-eyebrow{color:#e0a5ad}
+.w2-copy h2{margin:0;font:500 clamp(40px,6vw,92px)/1 "Cormorant Garamond",serif;color:#f4ece2}
+.w2-copy h2 em{font-style:italic;color:#e0868f}
+.w2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#c7b3bf}
+.w2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.2;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE LOOKBOOK — swatch-карточки на бумаге */
+.w3-scene .ps-sticky{background:#e7e3da}
+.w3-bg{position:absolute;inset:0;z-index:1;background:#e7e3da}
+.w3-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.38;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.w3-word{place-items:center}
+.w3-word span{font:500 clamp(90px,18vw,290px)/.9 "Cormorant Garamond",serif;color:rgba(23,17,15,.06);letter-spacing:.02em;text-transform:uppercase}
+/* фигура + мерки-callout */
+.w3-fig{place-items:center;align-content:center}
+.w3-fig .ps-media{width:auto;height:72vh;max-width:none;object-fit:contain;display:block;filter:contrast(1.03)}
+.w3-cal .w3-dash{width:30px;height:1px;background:#a3111e;margin:0 auto 6px}
+.w3-cal i{font:italic 500 clamp(17px,1.8vw,27px)/1.1 "Cormorant Garamond",serif;color:#3a1f33;text-transform:capitalize}
+.w3-cal b{margin-top:2px;font:600 11px "DM Mono",monospace;letter-spacing:.1em;color:#a3111e}
+.w3-m1{justify-items:start;align-content:start;padding:23vh 0 0 21vw}
+.w3-m2{justify-items:start;align-content:center;padding-left:19vw}
+.w3-m3{justify-items:end;align-content:center;text-align:right;padding-right:19vw}
+.w3-m4{justify-items:end;align-content:end;text-align:right;padding:0 21vw 22vh 0}
+.w3-swatches{grid-auto-flow:column;gap:1vw;align-content:end;justify-content:center;padding-bottom:5vh}
+.w3-swatch{width:8vw;min-width:92px;background:#faf8f3;padding:6px 6px 4px;box-shadow:0 14px 30px rgba(30,12,24,.16)}
+.w3-swatch .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:1/1;object-fit:cover;display:block}
+.w3-swatch b{display:block;margin-top:5px;font:600 8px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#a05a66}
+.w3-copy{justify-items:start;align-content:start;text-align:left;padding:12vh 0 0 var(--pad)}
+.w3-copy .ws-eyebrow{color:#a3111e}
+.w3-copy h2{margin:0;max-width:9ch;font:500 clamp(30px,4vw,60px)/1 "Cormorant Garamond",serif;color:#17110f}
+.w3-copy h2 em{font-style:italic;color:#a3111e}
+
+/* S4 BESPOKE — 3 шага + рулетка (ink) */
+.w4-scene .ps-sticky{background:#17110f}
+.w4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1f1512,#0e0908)}
+.w4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.w4-head .ws-eyebrow{color:#e0868f}
+.w4-head h2{margin:0;font:500 clamp(30px,4.6vw,64px)/1 "Cormorant Garamond",serif;color:#f4ece2}
+.w4-head h2 em{font-style:italic;color:#e0868f}
+/* веер образцов ткани: карточки раскрываются вокруг нижней оси (по --lp) */
+.w4-fanL{justify-items:center;align-content:center}
+.w4-fan{position:relative;width:min(760px,90vw);height:56vh;display:flex;justify-content:center;align-items:flex-end}
+.w4-swatch{position:absolute;bottom:2vh;width:clamp(190px,20vw,238px);background:#efe6dd;color:#22121f;padding-bottom:18px;border:1px solid rgba(58,31,51,.25);box-shadow:0 26px 54px rgba(0,0,0,.55);
+  transform-origin:bottom center;transform:translateX(calc(var(--tx,0vw) * clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1))) rotate(calc(var(--rot,0deg) * clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)));
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1))}
+.w4-sw2{z-index:2}
+.w4-cloth{display:block;height:20vh;background:var(--fab,#c98a92);background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.07) 0 2px,transparent 2px 5px)}
+.w4-swatch i{display:block;margin:14px 16px 0;font:italic 500 26px "Cormorant Garamond",serif;color:#a83f57}
+.w4-swatch b{display:block;margin:2px 16px 0;font:500 clamp(19px,2vw,24px) "Cormorant Garamond",serif;color:#22121f}
+.w4-swatch s{display:block;margin:8px 16px 0;font:400 12px/1.45 "Manrope",sans-serif;color:#6a5560;text-decoration:none}
+
+/* S5 IN THEIR WORDS — красный разворот */
+.w5-scene .ps-sticky{background:#a3111e}
+.w5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(92% 100% at 50% 42%,#b3161f,#7c0d16)}
+/* maison care-label: тканый ярлык со стежкой */
+.w5-label>div{position:relative;width:min(30ch,25vw);background:#f4efe6;padding:16px 18px;border:1.5px dashed rgba(58,31,51,.4);box-shadow:0 20px 44px rgba(60,10,20,.3)}
+.w5-label b{display:block;text-align:center;font:500 15px "Cormorant Garamond",serif;letter-spacing:.22em;text-transform:uppercase;color:#3a1f33}
+.w5-label s{display:block;text-align:center;margin-top:3px;text-decoration:none;font:600 8px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#a05a66}
+.w5-label p{margin:12px 0 0;font:italic 500 clamp(15px,1.6vw,22px)/1.34 "Cormorant Garamond",serif;color:#2a1720}
+.w5-label cite{display:block;margin-top:10px;font:600 9px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:#a3111e}
+.w5-la1{align-content:start;justify-items:start;padding:15vh 0 0 10vw}
+.w5-la2{align-content:center;justify-items:center}
+.w5-la3{align-content:end;justify-items:end;padding:0 10vw 13vh 0}
+.w5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#f2d0d3}
+
+/* S6 TO YOUR MEASURE — ножницы-объект + CTA */
+.w6-scene .ps-sticky{background:#180b14}
+.w6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 62% 42%,#3a1f33,#12070f)}
+.w6-obj{justify-items:end;align-content:center;padding-right:7vw}
+.w6-obj .ps-media{width:30vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(163,17,30,.24))}
+.w6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
+.w6-copy .ws-eyebrow{color:#e0a5ad}
+.w6-copy h2{margin:0;font:500 clamp(48px,9vw,140px)/.98 "Cormorant Garamond",serif;color:#f4f0e8}
+.w6-copy h2 em{font-style:italic;color:#e0868f}
+.w6-cta{position:absolute;z-index:16;left:var(--pad);bottom:15vh;max-width:38ch}
+.w6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#c7b3bf}
+@media(max-width:900px){.w2-copy,.w6-cta{max-width:88vw}.w2-figure{display:none}.w3-fig .ps-media{height:50vh}.w3-m1,.w3-m2{padding-left:4vw}.w3-m3,.w3-m4{padding-right:4vw}.w4-head{display:none}.w4-fanL{align-content:center}.w4-fan{flex-direction:column;align-items:center;height:auto;gap:2vh;padding:2vh 0}.w4-swatch{position:relative;bottom:auto;width:74vw;transform:none!important}.w4-cloth{height:12vh}.w5-label>div{width:82vw}.w5-la1,.w5-la3{padding-left:var(--pad);padding-right:var(--pad)}.w6-obj{display:none}}
+
+.w2-figure{display:none}

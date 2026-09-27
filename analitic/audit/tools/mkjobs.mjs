@@ -1,0 +1,14 @@
+import fs from "node:fs";
+const J = [];
+const add = (fam, ids, url, extra = {}) => ids.split(/\s+/).filter(Boolean).forEach((id) => J.push({ fam, id, url: url(id), mode: "scroll", ...extra }));
+add("reel", "tidewell abyss aster bazaar bloomhouse cinders cocoa dunes emberfall emberroad fjord frost halcyon highland hollow koi lantern lumen marrow meridian nomad pilgrim quill reef serein solstice terrazzo voyage wilds willow", (s) => `animated/w-${s}`);
+J.push({ fam: "reel", id: "canopy", url: "animated/m-canopy", mode: "scroll" });
+add("legacy", "manifesto kinetic ledger cipher forge signal flux aurora genesis ovation archive current vigil strata ascend relic column echo pulse drift bloom member prism splash terra orbit atlas helix vertex monolith", (s) => `animated/${s}`);
+add("story2", "portfolio punk scarlet forlorn lilith rosaline seraph salt deity corrosive handover aesthetic lover alexander nocturne ostpuck chivalry chrome justice ardour", (s) => `story2/${s}`, { mode: "deck", deckSel: ".stage", sceneSel: ".stage-scene" });
+add("story", "vision shadows solitude", (s) => `story/${s}`, { mode: "deck", deckSel: ".deck", sceneSel: ".deck-scene" });
+add("concept", "clothing skydive vinyl porsche anime ecology dj redsuit notredame jpclub skisnow jptattoo bmw dance folkmusic rockband photographer womensuit hoodie escort cardealer jprestaurant freestyle", (s) => `visual-hooks/${s}`);
+add("biz", "forge vessel phantom horologe lume mono haven tide canto atlas noct roast steep loaf plat sol dew balm stem clay form velo thread barb ledger iron swell nib wick fern fetch cacao hide comb spice lens wax spine cask pour grove curd stride botanic ink selvedge mane deck lather malt", (s) => `visual-hooks/${s}`);
+add("hooks", "bloom held-world monolith planet-vigil ascension rev-neura rev-mythic rev-imperial track-portfolio track-sentry track-neon living-object cloud-step strata reverie vanguard aether botanica neon-forge macro-optics liquid-word orbit-data atelier-hand fold-horizon", (s) => `visual-hooks/${s}`);
+J.push({ fam: "main", id: "landing", url: "", mode: "scroll" });
+fs.writeFileSync(process.argv[2], JSON.stringify(J, null, 1));
+const c = {}; J.forEach((j) => (c[j.fam] = (c[j.fam] || 0) + 1)); console.log(J.length, c);

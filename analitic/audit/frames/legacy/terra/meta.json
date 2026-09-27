@@ -1,0 +1,78 @@
+{
+ "fam": "legacy",
+ "id": "terra",
+ "url": "animated/terra",
+ "mode": "scroll",
+ "ms": 11749,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 520
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.2vh",
+   "y": 1040
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1560
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.3vh",
+   "y": 2080
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.9vh",
+   "y": 2600
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.5vh",
+   "y": 3120
+  },
+  {
+   "f": "f07.jpg",
+   "label": "4.0vh",
+   "y": 3640
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.6vh",
+   "y": 4160
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.2vh",
+   "y": 4680
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 6.2,
+  "sections": 4,
+  "videos": 0,
+  "canvases": 1,
+  "imgs": 0,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Sora",
+   "Space Mono"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

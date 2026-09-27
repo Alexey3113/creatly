@@ -1,0 +1,74 @@
+/* BLOOM — webgl-hero, органические тендрилы обрамляют вьюпорт. Один WebGL2-контекст на фоне (fixed);
+   под canvas — CSS near-black+изумруд фолбэк (reduced/no-webgl). Палитра: near-black + изумруд/золото.
+   Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.bl{
+  --ink:#040705; --ink-2:#08110c; --emerald:#0d9a63; --deep:#0a3a28; --gold:#e6bd52;
+  --bone:#eef4ee; --dim:#6f8f7e;
+  background:var(--ink); color:var(--bone);
+  font-family:"Fraunces",Georgia,serif;
+}
+
+/* фон fixed + near-black+изумруд рамка-фолбэк прямо на .bl-bg (виден если canvas display:none) */
+.bl-bg{ position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(140% 120% at 0% 0%, rgba(13,154,99,.32), transparent 42%),
+    radial-gradient(140% 120% at 100% 100%, rgba(13,154,99,.3), transparent 42%),
+    radial-gradient(120% 120% at 50% 50%, transparent 40%, rgba(4,7,5,.9) 82%),
+    linear-gradient(160deg, #05100a 0%, #040705 60%, #030604 100%); }
+.bl-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+.bl .scene{ position:relative; z-index:1; }
+
+/* строки-маски */
+.bl .bl-line{ display:block; overflow:hidden; }
+.bl .bl-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.06 - var(--d,0)*0.07) * 3.0), 1);
+  transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
+.bl-accent > i, .bl-accent{ color:var(--gold); } /* золотой акцент (anti-slop: no gradient-text) */
+
+.bl-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
+  font:500 11px "IBM Plex Mono"; letter-spacing:.24em; color:var(--dim); z-index:6; }
+.bl-cue{ position:absolute; bottom:5vh; left:6vw; font:500 11px "IBM Plex Mono"; letter-spacing:.14em; color:var(--dim); z-index:6; }
+
+/* 0 · COVER — центрирован (жгуты обрамляют, текст в центре-воздухе) */
+.bl-cover{ display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:0 10vw; min-height:100vh; }
+.bl-cover-in{ max-width:min(880px,84vw); }
+.bl-eyebrow{ margin:0 0 26px; font:500 12px "IBM Plex Mono"; letter-spacing:.22em; text-transform:uppercase; color:#8fc9ac; }
+.bl-hero{ margin:0; font:400 clamp(56px,11vw,180px)/.92 "Fraunces"; letter-spacing:-.025em;
+  text-shadow:0 8px 60px rgba(0,6,3,.7); }
+.bl-hero i{ font-style:normal; }
+.bl-sub{ margin:32px auto 0; max-width:48ch; font:400 clamp(16px,1.5vw,21px)/1.55 "Fraunces"; color:#cfe0d6; text-wrap:balance;
+  text-shadow:0 4px 30px rgba(0,6,3,.6); }
+
+/* 1 · GROW — pin-манифест (overflow:visible чинит sticky, клип на .scene-sticky) */
+.bl-flow{ overflow:visible; }
+.bl-flow .scene-sticky{ display:flex; align-items:center; justify-content:center; padding:0 8vw; }
+.bl-flow-copy{ width:min(720px,84vw); text-align:center; }
+.bl-manifest{ margin:0; font:400 clamp(30px,5.4vw,84px)/1.08 "Fraunces"; letter-spacing:-.02em;
+  text-shadow:0 6px 60px rgba(0,6,3,.6); }
+
+/* 2 · SIGNATURE — имя аромата + подпись */
+.bl-mass{ display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:0 6vw; min-height:100vh; }
+.bl-mass-word{ font:500 clamp(96px,26vw,420px)/.82 "Fraunces"; letter-spacing:.02em; color:var(--gold);
+  transform:scale(calc(0.94 + var(--t,0)*0.1)); opacity:calc(0.4 + var(--t,0)*0.6); mix-blend-mode:screen; }
+.bl-mass-cap{ max-width:36ch; margin-top:2vh; font:400 clamp(20px,2.4vw,38px)/1.2 "Fraunces"; }
+
+/* 3 · CTA */
+.bl-end{ display:grid; place-items:center; text-align:center; min-height:100vh; }
+.bl-end-block{ padding:0 6vw; }
+.bl-end-block h2{ margin:0 0 40px; font:400 clamp(52px,12vw,220px)/.9 "Fraunces"; letter-spacing:-.03em; }
+.bl-btn{ display:inline-block; padding:16px 34px; text-decoration:none; color:#06120b;
+  background:linear-gradient(96deg, #14b072, var(--gold));
+  font:500 14px "IBM Plex Mono"; letter-spacing:.04em; border-radius:2px; transition:transform .25s, box-shadow .25s; }
+.bl-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 44px rgba(13,154,99,.42); }
+
+@media (max-width:820px){
+  .bl-mass-word{ font-size:32vw; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .bl .bl-line > i{ transform:none; opacity:1; }
+  .bl-mass-word{ transform:none; opacity:1; }
+}

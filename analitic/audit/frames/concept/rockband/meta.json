@@ -1,0 +1,172 @@
+{
+ "fam": "concept",
+ "id": "rockband",
+ "url": "visual-hooks/rockband",
+ "mode": "scroll",
+ "ms": 28072,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 501
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1002
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1503
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 2003
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2504
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 3005
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3506
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4007
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4508
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.6vh",
+   "y": 5009
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.1vh",
+   "y": 5509
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.7vh",
+   "y": 6010
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.2vh",
+   "y": 6511
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.8vh",
+   "y": 7012
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.3vh",
+   "y": 7513
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.9vh",
+   "y": 8014
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.5vh",
+   "y": 8515
+  },
+  {
+   "f": "f18.jpg",
+   "label": "10.0vh",
+   "y": 9015
+  },
+  {
+   "f": "f19.jpg",
+   "label": "10.6vh",
+   "y": 9516
+  },
+  {
+   "f": "f20.jpg",
+   "label": "11.1vh",
+   "y": 10017
+  },
+  {
+   "f": "f21.jpg",
+   "label": "11.7vh",
+   "y": 10518
+  },
+  {
+   "f": "f22.jpg",
+   "label": "12.2vh",
+   "y": 11019
+  },
+  {
+   "f": "f23.jpg",
+   "label": "12.8vh",
+   "y": 11520
+  },
+  {
+   "f": "f24.jpg",
+   "label": "13.4vh",
+   "y": 12021
+  },
+  {
+   "f": "f25.jpg",
+   "label": "13.9vh",
+   "y": 12521
+  },
+  {
+   "f": "f26.jpg",
+   "label": "14.5vh",
+   "y": 13022
+  },
+  {
+   "f": "f27.jpg",
+   "label": "15.0vh",
+   "y": 13523
+  },
+  {
+   "f": "f28.jpg",
+   "label": "15.6vh",
+   "y": 14024
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 16.6,
+  "sections": 6,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 9,
+  "sticky": 6,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Anton"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

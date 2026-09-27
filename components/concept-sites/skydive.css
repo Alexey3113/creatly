@@ -1,0 +1,154 @@
+/* Концепт 02 — SKYDIVE «SKYFALL». Сюрреал teal-grey, портал + падение. */
+.sd-site{--pad:4vw;--bg:#0d1513;--ink:#e2ece8;--mut:#8fa8a0;--accent:#bcd8cd;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.sd-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.sd-brand{font:300 18px "Space Grotesk",sans-serif;letter-spacing:.42em;color:#eaf3ef}
+.sd-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#a9c1b9}
+.sd-nav a{opacity:.85}.sd-nav a:hover{opacity:1}
+.sd-book{border:1px solid rgba(188,216,205,.4);border-radius:100px;padding:8px 16px;opacity:1!important}
+.sd-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:#7fa89b;margin-bottom:22px}
+
+.sd-hero .ps-sticky{background:#0d1513}
+/* портал-круг с перевёрнутым горным миром */
+.sd-disc{width:min(46vw,600px);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 140px rgba(0,0,0,.5),inset 0 0 90px rgba(6,14,12,.6)}
+.sd-disc img{width:100%;height:100%;object-fit:cover;transform:scaleY(-1) scale(1.12);filter:brightness(.82) contrast(1.06) saturate(.9)}
+/* падающая фигура */
+.sd-figure .ps-media{filter:drop-shadow(0 12px 26px rgba(0,0,0,.55)) drop-shadow(0 0 18px rgba(210,228,222,.35))}
+/* пики-foreground (нижняя полоса, растворяется вверху) */
+.sd-peaks{inset:auto 0 0 0;height:62vh;place-items:stretch}
+.sd-peaks .ps-media{object-position:center 42%;-webkit-mask:linear-gradient(180deg,transparent,#000 42%);mask:linear-gradient(180deg,transparent,#000 42%)}
+.sd-fog{position:absolute;inset:0;z-index:8;pointer-events:none;background:linear-gradient(0deg,rgba(140,166,158,.5) 0,transparent 32%),radial-gradient(120% 60% at 50% 108%,rgba(180,200,192,.4),transparent 60%)}
+
+.sd-title{position:absolute;z-index:12;left:0;right:0;bottom:13vh;text-align:center}
+.sd-title::before{content:"";position:absolute;inset:-8vh -20vw;z-index:-1;background:radial-gradient(60% 70% at 50% 55%,rgba(10,18,16,.55),transparent 72%)}
+.sd-title h1{margin:0;font:300 clamp(58px,13vw,224px)/1 "Space Grotesk",sans-serif;letter-spacing:.3em;text-indent:.3em;color:#eef5f1;text-shadow:0 6px 40px rgba(0,0,0,.4)}
+.sd-sub{display:block;margin-top:18px;font:500 12px "DM Mono",monospace;letter-spacing:.32em;text-transform:uppercase;color:#a6c0b7}
+.sd-label{position:absolute;z-index:14;font:500 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#8fa89f;line-height:1.5}
+.sd-tl{top:96px;left:var(--pad)}.sd-tr{top:96px;right:var(--pad);text-align:right}
+.sd-bl{bottom:40px;left:var(--pad)}
+.sd-bl b{display:block;font:300 42px "Space Grotesk",sans-serif;color:#dfeae6;line-height:.9}
+.sd-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.sd-cue{position:absolute;z-index:14;left:50%;bottom:26px;transform:translateX(-50%);font:500 10px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:#7fa89b}
+
+/* манифест */
+
+/* CTA */
+
+
+.sd-site a.sd-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:#bcd8cd;color:#0d1513;font:600 13px "Manrope",sans-serif}
+.sd-btn i{font-style:normal}
+
+/* footer */
+.sd-foot{position:relative;z-index:1;background:#0a1210;color:#9fb6ae;padding:64px var(--pad) 40px}
+.sd-foot-top b{font:300 22px "Space Grotesk",sans-serif;letter-spacing:.3em;color:#eaf3ef}
+.sd-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#7f978e}
+.sd-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(160,182,174,.16);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#6f877e}
+
+/* ФАЗА 2 — секции */
+/* The jump — галерея */
+
+/* Experience — уровни */
+
+.sd-levels .sd-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.sd-grid{columns:2}}
+@media(max-width:900px){.sd-nav{display:none}.sd-disc{width:72vw}
+  .sd-grid{columns:1}.sd-lsteps,.sd-qgrid{grid-template-columns:1fr}.sd-workhead{flex-direction:column;align-items:flex-start}.sd-workhead p{text-align:left}}
+
+/* ============ SCENES S2–S6 (loop) ============ */
+.sd-scene h2{font:300 clamp(40px,6.4vw,92px)/1.02 "Manrope",sans-serif;letter-spacing:-.01em;margin:0}
+.sd-scene h2 em{font-style:normal;font-weight:500;color:var(--accent)}
+.sd-scene p{color:#b6ccc3;font-size:clamp(14px,1.15vw,18px);line-height:1.72;max-width:34ch;margin:20px 0 0}
+
+/* S2 — sixty seconds (portal + falling figure) */
+.sd2-scene{background:#0d1513}
+.sd2-bg .ps-media{object-fit:cover;filter:brightness(.72) saturate(.7) contrast(1.02)}
+.sd2-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(13,21,19,.5),rgba(13,21,19,.2)45%,rgba(13,21,19,.86)),radial-gradient(120% 80% at 66% 24%,transparent 40%,rgba(13,21,19,.7))}
+.sd2-portal{justify-items:center;align-content:start;padding-top:6vh}
+.sd2-portal .ps-media{width:38vw;height:38vw;max-width:none;object-fit:cover;border-radius:50%;
+  -webkit-mask:radial-gradient(circle at 50% 50%,#000 60%,rgba(0,0,0,.35)72%,transparent 78%);
+  mask:radial-gradient(circle at 50% 50%,#000 60%,rgba(0,0,0,.35)72%,transparent 78%);
+  transform:scaleY(-1);filter:brightness(.9) saturate(.8) contrast(1.05);box-shadow:0 0 120px 40px rgba(13,21,19,.6)}
+.sd2-figure{align-content:start;justify-items:center;padding-top:30vh}
+.sd2-figure .ps-media{width:auto;height:20vh;max-width:none;object-fit:contain;filter:brightness(.85) drop-shadow(0 20px 40px rgba(0,0,0,.5))}
+.sd2-fog{position:absolute;inset:0;z-index:10;background:linear-gradient(180deg,transparent 52%,rgba(206,224,216,.14)70%,rgba(13,21,19,.5)90%,var(--bg));mix-blend-mode:screen;opacity:.5;pointer-events:none}
+.sd2-copy{align-content:end;justify-items:start;text-align:left;padding:0 0 12vh var(--pad)}
+
+/* S3 — the fall (альтиметр · маркер падает по ленте высот на --lp, стадии загораются) */
+.sd3-scene{background:#0d1513}
+.sd3-bg{position:absolute;inset:0;background:radial-gradient(130% 90% at 50% 28%,#1a2a26,#0d1513 68%)}
+.sd3-word{align-content:center;justify-items:center}
+.sd3-word span{font:300 26vw/1 "Manrope",sans-serif;letter-spacing:.06em;color:#16241f;opacity:.6}
+.sd3-copy2{align-content:start;justify-items:center;text-align:center;padding-top:5vh}
+.sd3-copy2 h2{max-width:18ch}
+/* dive-timeline */
+.sd3-diveL{align-content:center;justify-items:center;padding-top:12vh}
+.sd3-dive{display:grid;grid-template-columns:auto minmax(0,440px);gap:3vw;align-items:stretch;width:min(760px,90vw)}
+.sd3-tape{position:relative;width:96px;height:58vh}
+.sd3-tape::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:rgba(188,216,205,.22)}
+.sd3-tick{position:absolute;right:52%;transform:translateY(-50%);padding-right:12px;font:600 10px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#7fa89b;white-space:nowrap}
+.sd3-tick::after{content:"";position:absolute;right:-6px;top:50%;width:10px;height:1px;background:rgba(188,216,205,.4)}
+.sd3-trail{position:absolute;left:50%;top:0;width:2px;transform:translateX(-50%);height:calc(var(--lp,0) * 100%);background:linear-gradient(#bcd8cd,rgba(188,216,205,.2));box-shadow:0 0 8px rgba(188,216,205,.5)}
+.sd3-marker{position:absolute;left:50%;top:calc(var(--lp,0) * 100%);transform:translate(-50%,-50%);width:18px;height:18px;display:grid;place-items:center}
+.sd3-marker i{width:12px;height:12px;background:#bcd8cd;border-radius:50%;box-shadow:0 0 0 4px rgba(188,216,205,.2),0 0 16px rgba(188,216,205,.8)}
+.sd3-stages{display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.sd3-stage{display:flex;align-items:center;gap:14px;opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1));transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * 14px))}
+.sd3-stage .ps-media{width:74px;height:56px;max-width:none;object-fit:cover;border-radius:3px;filter:saturate(.82) brightness(.94);border:1px solid rgba(188,216,205,.16)}
+.sd3-stage b{display:block;font:400 clamp(18px,2vw,26px) "Space Grotesk",sans-serif;color:#e6f0eb}
+.sd3-stage s{display:block;margin-top:3px;font:600 10px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#7fa89b;text-decoration:none}
+
+/* S4 — how you jump (data list) */
+.sd4-scene{background:#0d1513}
+.sd4-bg{position:absolute;inset:0;background:linear-gradient(180deg,#0d1513,#101d19 60%,#0d1513);
+  background-image:repeating-linear-gradient(90deg,rgba(188,216,205,.05)0 1px,transparent 1px 8vw)}
+.sd4-head{align-content:start;justify-items:start;text-align:left;padding:14vh 0 0 var(--pad)}
+/* уровни падают сверху и встают на место (по --lp, последовательно) */
+.sd4-levelsL{align-content:center;justify-items:stretch;padding:0 var(--pad)}
+.sd4-levels{width:100%}
+.sd4-level{display:grid;grid-template-columns:16ch 20ch 1fr;gap:2vw;align-items:baseline;padding:30px 0;border-top:1px solid rgba(188,216,205,.16);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 10, 1));
+  transform:translateY(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * -42px))}
+.sd4-level:last-child{border-bottom:1px solid rgba(188,216,205,.16)}
+.sd4-level i{font:600 11px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:#7fa89b;font-style:normal}
+.sd4-level b{font:300 clamp(26px,3.4vw,48px)/1 "Manrope",sans-serif;color:#e2ece8}
+.sd4-level s{text-decoration:none;color:#9fb8af;font-size:15px;line-height:1.6}
+
+/* S5 — from the door (бортовой jump-log · каждый отзыв = записанный прыжок) */
+.sd5-scene{background:#0d1513}
+.sd5-bg{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 20%,#132420,#0b1210 70%)}
+.sd5-loghdr{position:absolute;z-index:6;top:17vh;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:5ch 12ch 7ch 7ch 1fr;column-gap:1.5vw;width:min(940px,90vw);padding:0 22px 8px;border-bottom:1px solid rgba(188,216,205,.28)}
+.sd5-loghdr span{font:600 9px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#6f8b82}
+.sd5-log{align-content:start;justify-items:center}
+.sd5-lg1{padding-top:22vh}.sd5-lg2{padding-top:44vh}.sd5-lg3{padding-top:66vh}
+.sd5-row{display:grid;grid-template-columns:5ch 12ch 7ch 7ch 1fr;column-gap:1.5vw;row-gap:8px;align-items:baseline;width:min(940px,90vw);padding:15px 22px;border-bottom:1px solid rgba(188,216,205,.14)}
+.sd5-no{font:500 clamp(18px,2vw,26px) "Space Grotesk",sans-serif;color:#bcd8cd}
+.sd5-dt{font:600 11px "DM Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#9fb8af}
+.sd5-alt{font:600 12px "DM Mono",monospace;color:#e2ece8;font-variant-numeric:tabular-nums}
+.sd5-ff{font:600 12px "DM Mono",monospace;color:#bcd8cd;font-variant-numeric:tabular-nums}
+.sd5-rem{grid-column:2 / -1;margin:0;font:300 clamp(14px,1.4vw,19px)/1.45 "Manrope",sans-serif;color:#cfe0d9}
+.sd5-eyebrow{position:absolute;top:5vh;left:50%;transform:translateX(-50%);z-index:8;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:#7fa89b}
+
+/* S6 — the first fall (portal + CTA · object) */
+.sd6-scene{background:#0d1513}
+.sd6-bg .ps-media{object-fit:cover;filter:brightness(.6) saturate(.68)}
+.sd6-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(120% 90% at 50% 46%,transparent 30%,rgba(13,21,19,.82))}
+.sd6-portal{justify-items:center;align-content:center}
+.sd6-portal .ps-media{width:44vw;height:44vw;max-width:none;object-fit:cover;border-radius:50%;transform:scaleY(-1);
+  -webkit-mask:radial-gradient(circle at 50% 50%,#000 58%,rgba(0,0,0,.3)72%,transparent 80%);
+  mask:radial-gradient(circle at 50% 50%,#000 58%,rgba(0,0,0,.3)72%,transparent 80%);
+  filter:brightness(.86) saturate(.8);box-shadow:0 0 140px 50px rgba(13,21,19,.7)}
+.sd6-copy{align-content:center;justify-items:center;text-align:center}
+.sd6-copy h2{font-size:clamp(48px,7.5vw,110px)}
+.sd6-cta{position:absolute;left:0;right:0;bottom:12vh;z-index:14;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;pointer-events:none}
+.sd6-cta p{color:#b6ccc3;font-size:15px;max-width:40ch;margin:0}
+.sd6-cta a{pointer-events:auto}
+
+@media(max-width:900px){
+  .sd4-level{grid-template-columns:1fr;gap:4px;padding:20px 0}.sd4-level i{order:-1}
+  .sd3-dive{grid-template-columns:auto 1fr;width:92vw;gap:5vw}.sd3-tape{width:72px;height:52vh}.sd3-stage .ps-media{width:56px;height:42px}
+  .sd5-loghdr{display:none}
+  .sd5-row{grid-template-columns:5ch 1fr;column-gap:12px;width:92vw;padding:13px 14px}
+  .sd5-dt,.sd5-alt,.sd5-ff{grid-column:2;font-size:10px}.sd5-rem{grid-column:1 / -1}
+  .sd5-lg1{padding-top:22vh}.sd5-lg2{padding-top:40vh}.sd5-lg3{padding-top:58vh}}

@@ -1,0 +1,11 @@
+import { chromium } from "playwright";
+const b=await chromium.launch({args:["--use-gl=angle","--use-angle=swiftshader","--ignore-gpu-blocklist"]});
+const pg=await b.newPage({viewport:{width:1512,height:945}});
+const errs=[];
+pg.on("console",m=>{if(m.type()==="error")errs.push("CONSOLE: "+m.text().slice(0,200));});
+pg.on("pageerror",e=>errs.push("PAGEERROR: "+String(e).slice(0,240)));
+await pg.goto("http://127.0.0.1:3011/visual-hooks/forge",{waitUntil:"networkidle",timeout:45000});
+await pg.waitForTimeout(1500);
+console.log("errors count:",errs.length);
+errs.slice(0,8).forEach(e=>console.log(e));
+await b.close();

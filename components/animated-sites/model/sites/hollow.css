@@ -1,0 +1,141 @@
+/* HOLLOW — lantern-led night-walk world. Шрифты DM Serif Display (display, есть italic под <em>)
+   × Space Grotesk (sans/body) — не занятая пара (эталон tidewell = Cormorant × Manrope).
+   Палитра: deep-moss / bio-teal / glow / violet + mint CTA. Стили только .hl-* + копи в .rl-copy. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+.hl{
+  --void:#0e2019; --void2:#0a1712; --void3:#152d23; --card:#112a20;
+  --teal:#1f8a6a; --glow:#7ad0c0; --violet:#6a4aa8; --mint:#8affd8;
+  --ink:#eaf6f0; --sub:#a2c9ba; --sub2:#6f9686; --line:#1e4536;
+  --rl-void:#0a1712; --rl-spark:#8affd8;
+  background:var(--void); color:var(--ink); font-family:"Space Grotesk",system-ui,sans-serif;
+}
+
+/* NAV — скрим для контраста + тень на бренде, иначе лого гаснет на светлой сцене dawnwood */
+.hl-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
+.hl-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(4,14,10,.5), transparent); }
+.hl-brand{ font:400 21px "DM Serif Display",serif; letter-spacing:.22em; color:var(--mint); text-shadow:0 1px 14px rgba(0,0,0,.55), 0 0 22px rgba(138,255,216,.25); }
+.hl-nav nav{ display:flex; gap:28px; align-items:center; font:500 13px "Space Grotesk"; letter-spacing:.03em; }
+.hl-nav a{ color:rgba(234,246,240,.86); text-decoration:none; text-shadow:0 1px 10px rgba(0,0,0,.45); }
+.hl-nav-cta{ padding:10px 20px; border-radius:999px; background:var(--mint); color:#082017!important; font-weight:600; text-shadow:none!important; }
+
+/* HERO / SCENE COPY (внутри .rl-copy движка) */
+.hl-eyebrow,.hl-idx{ font:600 12px "Space Grotesk"; letter-spacing:.24em; text-transform:uppercase; color:var(--glow); }
+.hl-idx{ letter-spacing:.16em; }
+.hl-light{ color:var(--glow); }
+.rl-copy h1{ margin:16px 0 20px; font:400 clamp(52px,8.6vw,124px)/.98 "DM Serif Display",serif; letter-spacing:-.01em; color:var(--ink); text-shadow:0 2px 30px rgba(0,0,0,.4); }
+.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; color:var(--mint); }
+.rl-copy h2{ margin:10px 0 16px; font:400 clamp(40px,6.6vw,92px)/1 "DM Serif Display",serif; color:var(--ink); }
+.rl-copy .hl-hl{ color:var(--mint); text-shadow:0 0 34px rgba(138,255,216,.3); }
+.rl-copy p{ margin:0 0 26px; max-width:40ch; font:400 16px/1.7 "Space Grotesk"; color:var(--sub); text-shadow:0 1px 16px rgba(0,0,0,.4); }
+.rl-copy .hl-pl{ color:#cfe8de; }
+.hl-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.hl-btn{ padding:15px 30px; border-radius:999px; background:var(--mint); color:#082017; text-decoration:none; font:600 15px "Space Grotesk"; box-shadow:0 16px 38px rgba(138,255,216,.22); transition:transform .15s ease; }
+.hl-btn:active{ transform:translateY(2px) scale(.98); }
+.hl-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:500 15px "Space Grotesk"; border-bottom:1px solid rgba(234,246,240,.32); }
+
+.hl-kick{ display:block; font:600 12px "Space Grotesk"; letter-spacing:.22em; text-transform:uppercase; color:var(--glow); }
+
+/* BIG-TYPE — oversized single statement (свой блок, не тождественен манифесто-цитате) */
+.hl-big{ padding:22vh 6vw; background:radial-gradient(120% 100% at 50% 0%, rgba(31,138,106,.16), transparent 60%), var(--void2); text-align:center; }
+.hl-big p{ margin:0 auto; max-width:19ch; font:400 clamp(34px,6.4vw,96px)/1.04 "DM Serif Display",serif; color:var(--ink); }
+.hl-big em{ font-style:italic; color:var(--mint); text-shadow:0 0 40px rgba(138,255,216,.35); }
+
+/* STEPS / PROCESS — горизонтальная арка похода */
+.hl-steps{ padding:16vh 6vw 14vh; background:var(--void); border-top:1px solid var(--line); }
+.hl-steps-head h2{ margin:12px 0 0; font:400 clamp(30px,4.4vw,60px)/1.06 "DM Serif Display",serif; color:var(--ink); }
+.hl-steps-row{ list-style:none; margin:8vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:4vw; }
+.hl-steps-row li{ border-top:1px solid var(--line); padding-top:22px; }
+.hl-steps-n{ display:block; font:400 15px "DM Serif Display",serif; color:var(--teal); margin-bottom:14px; }
+.hl-steps-row h3{ margin:0 0 10px; font:500 19px "Space Grotesk"; color:var(--mint); }
+.hl-steps-row p{ margin:0; font:400 14px/1.7 "Space Grotesk"; color:var(--sub2); }
+
+/* FEATURE CARDS — три формата похода */
+.hl-features{ padding:16vh 6vw; background:var(--void2); }
+.hl-features-head h2{ margin:12px 0 0; font:400 clamp(30px,4.4vw,60px)/1.06 "DM Serif Display",serif; color:var(--ink); }
+.hl-features-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(3,1fr); gap:2vw; }
+.hl-feature{ padding:38px 30px; background:var(--card); border:1px solid var(--line); border-radius:14px; transition:border-color .2s ease, transform .2s ease; }
+.hl-feature:hover{ border-color:var(--teal); transform:translateY(-4px); }
+.hl-feature-meta{ display:block; font:600 11px "Space Grotesk"; letter-spacing:.14em; text-transform:uppercase; color:var(--glow); margin-bottom:14px; }
+.hl-feature h3{ margin:0 0 14px; font:400 clamp(22px,2vw,28px) "DM Serif Display",serif; color:var(--mint); }
+.hl-feature p{ margin:0 0 20px; font:400 14.5px/1.75 "Space Grotesk"; color:var(--sub); }
+.hl-feature-link{ font:600 13px "Space Grotesk"; color:var(--ink); text-decoration:none; border-bottom:1px solid rgba(234,246,240,.3); }
+
+/* GALLERY — 4 плиты-обложки из своих bg */
+.hl-gallery{ padding:16vh 6vw; background:var(--void); }
+.hl-gallery-head h2{ margin:12px 0 0; font:400 clamp(30px,4.4vw,60px)/1.06 "DM Serif Display",serif; color:var(--ink); }
+.hl-gallery-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw; }
+.hl-gallery-tile{ position:relative; aspect-ratio:3/4; border-radius:12px; overflow:hidden; background-size:cover; background-position:50% 40%; display:flex; flex-direction:column; justify-content:flex-end; padding:20px; }
+.hl-gallery-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,23,18,.05) 30%, rgba(8,18,14,.92) 100%); }
+.hl-gallery-kick{ position:relative; z-index:1; font:600 10px "Space Grotesk"; letter-spacing:.14em; text-transform:uppercase; color:var(--glow); }
+.hl-gallery-tile h3{ position:relative; z-index:1; margin:8px 0 0; font:400 22px "DM Serif Display",serif; color:var(--ink); }
+
+/* SIGNATURE — ACCORDION «The Rules of the Wood» */
+.hl-rules{ padding:16vh 6vw; background:linear-gradient(180deg, var(--void2), var(--void3)); }
+.hl-rules-head{ max-width:52ch; }
+.hl-rules-head h2{ margin:12px 0 14px; font:400 clamp(32px,4.8vw,64px)/1.05 "DM Serif Display",serif; color:var(--mint); }
+.hl-rules-head p{ margin:0; font:400 15.5px/1.75 "Space Grotesk"; color:var(--sub); }
+.hl-rules-list{ list-style:none; margin:7vh 0 0; padding:0; border-top:1px solid var(--line); }
+.hl-rule{ border-bottom:1px solid var(--line); }
+.hl-rule-q{ width:100%; display:grid; grid-template-columns:3.4rem 1fr 1.6rem; align-items:center; gap:1.4vw; padding:28px 4px; background:none; border:0; cursor:pointer; text-align:left; font:400 clamp(19px,2.2vw,27px) "DM Serif Display",serif; color:var(--ink); }
+.hl-rule-n{ font:400 15px "Space Grotesk"; color:var(--teal); }
+.hl-rule-mark{ font:400 26px "Space Grotesk"; color:var(--mint); justify-self:end; }
+.hl-rule-a{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s ease; }
+.hl-rule-a p{ overflow:hidden; margin:0; padding:0 4px 0 5rem; max-width:58ch; font:400 15px/1.75 "Space Grotesk"; color:var(--sub2); }
+.hl-rule-open .hl-rule-a{ grid-template-rows:1fr; }
+.hl-rule-open .hl-rule-a p{ padding-bottom:26px; }
+.hl-rule-open .hl-rule-q{ color:var(--mint); }
+
+/* STATS */
+.hl-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--void2); border-top:1px solid var(--line); }
+.hl-stat{ padding:56px 30px; border-left:1px solid var(--line); }
+.hl-stat:first-child{ border-left:0; }
+.hl-stat b{ display:block; font:400 clamp(44px,5.2vw,80px)/1 "DM Serif Display",serif; color:var(--glow); }
+.hl-stat span{ display:block; margin-top:10px; font:500 12.5px "Space Grotesk"; letter-spacing:.03em; color:var(--sub2); }
+
+/* QUOTE */
+.hl-quote{ padding:19vh 10vw; text-align:center; background:radial-gradient(90% 140% at 50% 30%, rgba(106,74,168,.16), transparent 60%), var(--void); }
+.hl-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(26px,3.6vw,48px)/1.22 "DM Serif Display",serif; color:var(--ink); }
+.hl-quote em{ font-style:italic; color:var(--mint); }
+.hl-quote cite{ display:block; margin-top:32px; font:500 13px "Space Grotesk"; letter-spacing:.06em; font-style:normal; color:var(--sub2); }
+
+/* MARQUEE — бегущая строка мотива */
+.hl-marquee{ overflow:hidden; background:var(--teal); padding:16px 0; }
+.hl-marquee-track{ display:flex; width:max-content; animation:hl-scroll 24s linear infinite; }
+.hl-marquee-track span{ white-space:nowrap; font:600 15px "Space Grotesk"; letter-spacing:.1em; text-transform:uppercase; color:#06140f; padding-right:2px; }
+@keyframes hl-scroll{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+
+/* DEAL */
+.hl-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--void); }
+.hl-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid var(--line); border-radius:16px; background:var(--void3); }
+.hl-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.hl-price b{ font:400 clamp(50px,6.6vw,88px) "DM Serif Display",serif; color:var(--mint); }
+.hl-price span{ font:500 14px "Space Grotesk"; color:var(--sub2); }
+.hl-deal-card p{ margin:0 auto 28px; max-width:42ch; font:400 15px/1.75 "Space Grotesk"; color:var(--sub); }
+.hl-note{ display:block; margin-top:18px; font:500 12px "Space Grotesk"; letter-spacing:.03em; color:var(--sub2); }
+
+/* CLIMAX */
+.hl-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
+.hl-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(6,20,15,.35), rgba(4,14,10,.92) 80%); }
+.hl-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
+.hl-climax-copy h2{ margin:0 0 34px; font:400 clamp(38px,5.6vw,88px)/1.06 "DM Serif Display",serif; color:var(--ink); }
+.hl-climax-copy em{ font-style:italic; color:var(--mint); text-shadow:0 0 34px rgba(138,255,216,.32); }
+
+/* FOOT */
+.hl-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:var(--void2); color:var(--sub2); font:500 13px "Space Grotesk"; }
+.hl-foot .hl-brand{ color:var(--sub); text-shadow:none; }
+
+@media (max-width:820px){
+  .hl-nav nav a:not(.hl-nav-cta){ display:none; }
+  .hl-steps-row{ grid-template-columns:1fr 1fr; row-gap:5vh; }
+  .hl-features-grid{ grid-template-columns:1fr; }
+  .hl-gallery-grid{ grid-template-columns:1fr 1fr; row-gap:1.4vw; }
+  .hl-stats{ grid-template-columns:1fr 1fr; }
+  .hl-rule-q{ grid-template-columns:2.4rem 1fr 1.4rem; }
+  .hl-rule-a p{ padding-left:2.4rem; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hl-marquee-track{ animation:none; }
+}

@@ -1,0 +1,154 @@
+/* Концепт 01 — CLOTHING «your style». Перивинкл-glass editorial fashion. */
+.cl-site{--pad:4vw;--bg:#e9ebfa;--ink:#2b2e5c;--accent:#6d72d6;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.cl-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.cl-brand{font:600 18px "Playfair Display",serif;letter-spacing:.24em;color:#3a3f8f}
+.cl-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#4b4f9a}
+.cl-nav a{opacity:.85}.cl-nav a:hover{opacity:1}
+.cl-book{border:1px solid #6d72d6;border-radius:100px;padding:8px 16px;opacity:1!important}
+
+.cl-hero .ps-sticky{background:#dfe2f6}
+/* зеркальная типографика your/style */
+.cl-word{display:inline-flex;flex-direction:column;line-height:.78}
+.cl-your{font:900 clamp(68px,13vw,220px)/.78 "Playfair Display",serif;color:#5054c4;letter-spacing:-.012em}
+.cl-style{font:italic 400 clamp(34px,6vw,96px)/1 "Playfair Display",serif;color:#9a9ee6;margin:-.06em 0 0 .5em}
+.cl-word-tl{place-items:start;justify-items:start;align-content:start;padding:13vh 0 0 var(--pad)}
+.cl-word-br{place-items:end;justify-items:end;align-content:end;padding:0 var(--pad) 15vh 0;text-align:right}
+.cl-word-br .cl-style{margin:-.06em .5em 0 0}
+
+.cl-model .ps-media{filter:drop-shadow(0 26px 60px rgba(44,48,124,.32))}
+.cl-shard{opacity:.9}
+.cl-shard .ps-media{filter:saturate(1.1) brightness(1.05)}
+
+/* декор-блобы по углам (свечение) */
+.cl-blobs{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(42vw 42vw at 10% 16%,rgba(150,160,245,.55),transparent 62%),radial-gradient(38vw 38vw at 90% 84%,rgba(190,168,246,.42),transparent 62%)}
+.cl-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.35;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:140px}
+
+/* угловые mono-лейблы */
+.cl-label{position:absolute;z-index:12;font:500 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#4b4f9a;line-height:1.5}
+.cl-tl{top:96px;left:var(--pad)}
+.cl-tr{top:96px;right:var(--pad);text-align:right}
+.cl-bl{bottom:40px;left:var(--pad)}
+.cl-bl b{display:block;font:900 42px "Playfair Display",serif;color:#5054c4;line-height:.9}
+.cl-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.cl-cue{position:absolute;z-index:12;left:50%;bottom:26px;transform:translateX(-50%);font:500 10px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:#6b6fae}
+
+/* манифест-секция */
+
+.cl-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:#6d72d6;margin-bottom:26px}
+
+@media(max-width:900px){.cl-nav{display:none}.cl-word-br{display:none}}
+
+/* ── коллекция (вылетающие карточки) ── */
+
+/* ── lookbook ── */
+
+.cl-lb-copy .cl-eyebrow{color:#c4c8ff}
+
+/* ── about ── */
+
+/* ── CTA ── */
+
+
+.cl-site a.cl-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:#5054c4;color:#eef0ff;font:600 13px "Manrope",sans-serif;letter-spacing:.02em}
+.cl-btn i{font-style:normal}
+
+/* ── footer ── */
+.cl-foot{position:relative;z-index:1;background:#23264f;color:#c9cdf2;padding:66px var(--pad) 40px}
+.cl-foot-top b{font:600 22px "Playfair Display",serif;letter-spacing:.22em;color:#fff}
+.cl-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#9a9ed6}
+.cl-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(200,205,250,.18);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#8286c0}
+
+@media(max-width:900px){.cl-about{grid-template-columns:1fr;gap:36px}.cl-lb-detail{display:none}.cl-sec-head{top:7vh}}
+
+/* ===== SCENES S2–S6 — periwinkle-glass editorial (Playfair Display) ===== */
+.cl-scene .ps-sticky{background:#e9ebfa}
+.cl-scene .cl-eyebrow{margin-bottom:16px}
+
+/* S2 A WARDROBE OF ONE — модель + стеклянный shard */
+.cl2-scene .ps-sticky{background:#e9ebfa}
+.cl2-bg .ps-media{filter:saturate(1.02) brightness(1.02)}
+.cl2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(233,235,250,.62),transparent 44%),linear-gradient(0deg,rgba(233,235,250,.42),transparent 36%)}
+.cl2-model{place-items:center;align-content:end}
+.cl2-model .ps-media{width:28vw;height:auto;max-width:none;filter:contrast(1.02) drop-shadow(0 24px 44px rgba(43,46,92,.24))}
+.cl2-shard{justify-items:end;align-content:center}
+.cl2-shard .ps-media{width:34vw;height:auto;max-width:none;opacity:.8;mix-blend-mode:screen}
+.cl2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.cl2-copy .cl-eyebrow{color:#6d72d6}
+.cl2-copy h2{margin:0;font:900 clamp(38px,5.6vw,88px)/.94 "Playfair Display",serif;color:#2b2e5c}
+.cl2-copy h2 em{font-style:italic;font-weight:400;color:#6d72d6}
+.cl2-copy p{margin:18px 0 0;max-width:42ch;font:400 15px/1.7 "Manrope",sans-serif;color:#5a5e8c}
+
+/* S3 THE COLLECTION — look-карточки */
+.cl3-scene .ps-sticky{background:#e9ebfa}
+.cl3-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#eceefb,#e2e5f6)}
+.cl3-word{place-items:center}
+.cl3-word span{font:900 clamp(140px,28vw,480px)/.9 "Playfair Display",serif;color:rgba(109,114,214,.08)}
+/* editorial-плиты: журнальный разворот */
+.cl3-plate{position:absolute;overflow:hidden;background:#fff;box-shadow:0 20px 44px rgba(43,46,92,.16);border:1px solid rgba(109,114,214,.14)}
+.cl3-plate .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;display:block}
+.cl3-plate figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;background:linear-gradient(transparent,rgba(255,255,255,.94))}
+.cl3-plate b{display:block;font:600 12px "Playfair Display",serif;color:#2b2e5c}
+.cl3-plate span{display:block;margin-top:2px;font:600 9px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#8f92bc}
+.cl3-hero{top:12%;left:5%;width:29%;height:76%}
+.cl3-pa{top:12%;left:38%;width:26%;height:47%}
+.cl3-pb{top:12%;left:68%;width:26%;height:47%}
+.cl3-pc{top:63%;left:38%;width:26%;height:25%}
+.cl3-copy{justify-items:end;align-content:end;text-align:right;padding:0 5vw 7vh 0}
+.cl3-copy .cl-eyebrow{color:#6d72d6}
+.cl3-copy h2{margin:0;max-width:13ch;margin-left:auto;font:900 clamp(24px,3vw,46px)/1 "Playfair Display",serif;color:#2b2e5c}
+.cl3-copy h2 em{font-style:italic;font-weight:400;color:#6d72d6}
+.cl3-copy p{margin:12px 0 0 auto;max-width:26ch;font:400 14px/1.55 "Manrope",sans-serif;color:#5a5e8c}
+
+/* S4 THE ATELIER — процесс */
+.cl4-scene .ps-sticky{background:#e9ebfa}
+.cl4-bg .ps-media{filter:saturate(1.02) brightness(.98)}
+.cl4-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(72% 82% at 50% 50%,rgba(233,235,250,.52),rgba(233,235,250,.78))}
+.cl4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.cl4-head .cl-eyebrow{color:#6d72d6}
+.cl4-head h2{margin:0;font:900 clamp(30px,4.6vw,64px)/.98 "Playfair Display",serif;color:#2b2e5c}
+.cl4-head h2 em{font-style:italic;font-weight:400;color:#6d72d6}
+/* шов: пунктирная нить прострачивается вниз, этапы проявляются на стежках (по --lp) */
+.cl4-seamL{justify-items:center;align-content:center}
+.cl4-seam{position:relative;width:min(680px,84vw);padding-left:44px}
+.cl4-thread{position:absolute;left:11px;top:5%;width:2px;height:calc(var(--lp,0) * 86%);
+  background:repeating-linear-gradient(#6d72d6 0 6px,transparent 6px 12px)}
+.cl4-stitch{position:relative;display:grid;grid-template-columns:40px 1fr;gap:6px 22px;align-items:baseline;padding:18px 0;border-top:1px solid rgba(43,46,92,.18);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1));transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1)) * 14px))}
+.cl4-stitch:first-child{border-top:none}
+.cl4-knot{position:absolute;left:-44px;top:24px;width:11px;height:11px;border-radius:50%;background:#e9ebfa;border:2px solid #6d72d6;
+  box-shadow:0 0 0 calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1) * 4px) rgba(109,114,214,.16)}
+.cl4-stitch i{grid-row:span 2;font:italic 400 28px "Playfair Display",serif;color:#6d72d6}
+.cl4-stitch b{font:600 clamp(19px,2.2vw,28px) "Playfair Display",serif;color:#2b2e5c}
+.cl4-stitch s{font:400 13px/1.5 "Manrope",sans-serif;color:#6a6e98;text-decoration:none}
+
+/* S5 CLIENTS — тихие отзывы */
+.cl5-scene .ps-sticky{background:#e9ebfa}
+.cl5-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,#eceefb,#e0e3f5)}
+/* swing-tags: бирки на нитках */
+.cl5-swing{position:relative;width:min(26ch,25vw);background:#fbfbff;border:1px solid rgba(109,114,214,.3);padding:28px 20px 20px;box-shadow:0 22px 46px rgba(43,46,92,.16)}
+.cl5-swing::before{content:"";position:absolute;left:50%;top:-46vh;width:1px;height:46vh;background:rgba(109,114,214,.4)}
+.cl5-hole{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:12px;height:12px;border:2px solid #6d72d6;border-radius:50%}
+.cl5-swing b{display:block;text-align:center;font:600 9px "DM Mono",monospace;letter-spacing:.3em;color:#8f92bc}
+.cl5-swing p{margin:14px 0 0;font:italic 400 clamp(16px,1.8vw,26px)/1.36 "Playfair Display",serif;color:#2b2e5c}
+.cl5-swing cite{display:block;margin-top:12px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:#6d72d6}
+.cl5-t1{align-content:start;justify-items:start;padding:16vh 0 0 12vw}
+.cl5-t2{align-content:center;justify-items:center}
+.cl5-t3{align-content:end;justify-items:end;padding:0 12vw 12vh 0}
+.cl5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#6d72d6}
+
+/* S6 YOUR STYLE — стекло + CTA + зеркальный титул */
+.cl6-scene .ps-sticky{background:#e9ebfa}
+.cl6-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#e6e8f8,#dcdff3)}
+.cl6-shard{justify-items:end;align-content:center}
+.cl6-shard .ps-media{width:40vw;height:auto;max-width:none;opacity:.8;mix-blend-mode:screen}
+.cl6-mirror{position:absolute;z-index:3;right:var(--pad);bottom:7vh;text-align:right;font:900 clamp(48px,9vw,140px)/.84 "Playfair Display",serif;color:rgba(109,114,214,.16);pointer-events:none}
+.cl6-mirror em{font-style:italic;font-weight:400;display:block}
+.cl6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad)}
+.cl6-copy .cl-eyebrow{color:#6d72d6}
+.cl6-copy h2{margin:0;font:900 clamp(48px,9vw,142px)/.9 "Playfair Display",serif;color:#2b2e5c}
+.cl6-copy h2 em{font-style:italic;font-weight:400;color:#6d72d6}
+.cl6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.cl6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#5a5e8c}
+@media(max-width:900px){.cl2-copy,.cl6-cta{max-width:88vw}.cl2-model .ps-media{width:58vw}.cl2-shard,.cl6-shard{display:none}.cl3-plate{position:relative;top:auto;left:auto;width:44vw;height:auto;aspect-ratio:3/4}.cl3-copy{padding:2vh var(--pad)}.cl4-seam{width:88vw;padding-left:34px}.cl4-stitch{grid-template-columns:30px 1fr}.cl4-knot{left:-34px}.cl5-swing{width:80vw}.cl5-t1,.cl5-t3{padding-left:var(--pad);padding-right:var(--pad)}.cl6-mirror{display:none}}

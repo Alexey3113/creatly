@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+/* Концепт 16 — ROCKBAND «FERAL». Панк-постер: чёрное + кость + электрик-ред, ультра-конденс Anton, halftone, летящая гитара, рваный стаб-билет. */
+.rb-site{--pad:3.4vw;--bg:#0c0a0a;--ink:#ece7dd;--mut:#8a807a;--accent:#e5231b;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.rb-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.rb-brand{font:400 26px "Anton",sans-serif;letter-spacing:.06em;color:#f2ece2;text-transform:uppercase}
+.rb-nav{display:flex;gap:20px;align-items:center;font:600 12px "Manrope",sans-serif;color:#b7ada4;text-transform:uppercase;letter-spacing:.04em}
+.rb-nav a{opacity:.85}.rb-nav a:hover{opacity:1}
+.rb-tix{background:var(--accent);color:#fff;border-radius:0;padding:8px 16px;opacity:1!important;font-weight:800;letter-spacing:.08em}
+.rb-eyebrow{display:block;font:700 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.rb-hero .ps-sticky{background:#0c0a0a}
+
+/* рваный стаб-билет */
+
+/* manifest */
+
+/* CTA */
+
+
+.rb-site a.rb-btn{display:inline-flex;align-items:center;gap:10px;margin-top:34px;padding:16px 32px;border-radius:0;background:var(--accent);color:#fff;font:800 13px "Manrope",sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.rb-btn i{font-style:normal}
+
+/* footer */
+.rb-foot{position:relative;z-index:1;background:#080606;color:#8a807a;padding:64px var(--pad) 40px}
+.rb-foot-top b{font:400 28px "Anton",sans-serif;letter-spacing:.05em;color:#f2ece2;text-transform:uppercase}
+.rb-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#6a615a}
+.rb-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(229,35,27,.28);font:700 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#5f574f}
+
+/* ФАЗА 2 — секции */
+/* The live — галерея */
+
+/* The tour — даты */
+
+.rb-tour .rb-eyebrow{margin-bottom:34px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.rb-grid{columns:2}}
+@media(max-width:900px){.rb-nav{display:none}.rb-guitar,.rb-stub,.rb-tr{display:none}.rb-title span{font-size:52vw}.rb-singer .ps-media{width:64vw}
+  .rb-grid{columns:1}.rb-qgrid{grid-template-columns:1fr}.rb-workhead{flex-direction:column;align-items:flex-start}.rb-workhead p{text-align:left}.rb-trow{grid-template-columns:1fr;gap:8px}}
+
+/* ===== POSTER HERO — industrial-HUD «DEMON/SYSTEM» уровень ===== */
+.rp-hero .ps-sticky{background:#0c0a0a}
+.rp-bg .ps-media{filter:contrast(1.1) saturate(1.05) brightness(.8)}
+.rp-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 40%,rgba(229,35,27,.16),transparent 62%),linear-gradient(180deg,rgba(10,8,8,.55),transparent 30% 58%,rgba(10,8,8,.8))}
+.rp-title{place-items:center;align-content:center}
+.rp-title span{font:400 clamp(140px,30vw,520px)/.82 "Anton",sans-serif;color:#efe9e0;letter-spacing:.01em;text-transform:uppercase;text-shadow:6px 0 rgba(229,35,27,.5),0 6px 40px rgba(0,0,0,.6)}
+.rp-figure{place-items:center;align-content:end}
+.rp-figure .ps-media{width:34vw;height:auto;max-width:none;filter:contrast(1.08) drop-shadow(0 30px 50px rgba(0,0,0,.7)) drop-shadow(0 0 42px rgba(229,35,27,.22))}
+.rp-half{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.18;mix-blend-mode:overlay;background-image:radial-gradient(circle,#000 1px,transparent 1.4px);background-size:4px 4px}
+.rp-grain{position:absolute;inset:0;z-index:8;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.rp-frame{position:absolute;z-index:16;inset:18px;border:1px solid rgba(229,35,27,.4);pointer-events:none}
+.rp-top{position:absolute;z-index:17;top:30px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:12px;font:700 12px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#efe9e0}
+.rp-top s{width:40px;height:1px;background:var(--accent);text-decoration:none}
+.rp-hud{position:absolute;z-index:17;font:700 11px/1.7 "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#b7ada4}
+.rp-hud i{display:block;font-style:normal}
+.rp-l{top:40vh;left:calc(var(--pad) - 6px)}.rp-r{top:40vh;right:calc(var(--pad) - 6px);text-align:right}
+.rp-bar{display:inline-block;width:80px;height:10px;border:1px solid var(--accent);margin:4px 0;position:relative}
+.rp-bar b{position:absolute;left:1px;top:1px;bottom:1px;width:44%;background:var(--accent)}
+.rp-table{position:absolute;z-index:17;left:calc(var(--pad) - 6px);top:56vh;font:700 10px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#efe9e0}
+.rp-trow{display:grid;grid-template-columns:66px 66px 110px;gap:8px;padding:5px 0;border-top:1px solid rgba(229,35,27,.3)}
+.rp-th i{color:var(--accent);font-style:normal;font-weight:700}
+.rp-adsr{position:absolute;z-index:17;left:calc(var(--pad) - 6px);bottom:16vh;display:flex;align-items:flex-end;gap:4px}
+.rp-adsr em{width:10px;background:var(--accent);display:block}
+.rp-adsr em:nth-child(1){height:22px}.rp-adsr em:nth-child(2){height:36px}.rp-adsr em:nth-child(3){height:14px}.rp-adsr em:nth-child(4){height:28px}
+.rp-adsr i{margin-left:8px;font:700 9px "DM Mono",monospace;letter-spacing:.2em;color:#b7ada4;font-style:normal;align-self:center}
+.rp-sys{position:absolute;z-index:17;left:calc(var(--pad) - 6px);bottom:7vh;font:400 clamp(30px,4vw,60px) "Anton",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1.5px rgba(239,233,224,.7)}
+.rp-barcode{position:absolute;z-index:17;right:var(--pad);bottom:8vh;width:150px;height:40px;background:repeating-linear-gradient(90deg,#efe9e0 0 2px,transparent 2px 4px,#efe9e0 4px 7px,transparent 7px 9px,#efe9e0 9px 10px,transparent 10px 14px)}
+.rp-glyph{position:absolute;z-index:17;font:400 20px "DM Mono",monospace;color:var(--accent)}
+.rp-g1{right:var(--pad);top:33vh}.rp-g2{right:calc(var(--pad) + 40px);top:33vh}
+.rp-cue{position:absolute;z-index:17;right:var(--pad);bottom:16vh;font:700 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.rp-strip{position:absolute;z-index:16;left:0;right:0;bottom:26px;overflow:hidden;white-space:nowrap;opacity:.5;font:700 12px "DM Mono",monospace;letter-spacing:.06em;color:#efe9e0;border-top:1px solid rgba(229,35,27,.4);padding-top:8px;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+@media(max-width:900px){.rp-table,.rp-adsr,.rp-sys,.rp-hud,.rp-barcode,.rp-glyph{display:none}.rp-title span{font-size:44vw}.rp-figure .ps-media{width:70vw}}
+
+/* ===== SCENES S2–S6 — industrial-HUD (black/bone/red, Anton) ===== */
+.rb-scene .ps-sticky{background:#0c0a0a}
+.rb-scene .rb-eyebrow{margin-bottom:16px}
+
+/* S2 THE PIT — толпа + руки передний план */
+.b2-scene .ps-sticky{background:#0a0808}
+.b2-bg .ps-media{filter:contrast(1.1) brightness(.72) saturate(1.1)}
+.b2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 54vh at 50% 46%,rgba(229,35,27,.16),transparent 62%),linear-gradient(180deg,rgba(10,8,8,.5),transparent 28% 56%,rgba(10,8,8,.82))}
+.b2-fg{justify-items:center;align-content:end}
+.b2-fg .ps-media{width:100vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.55;-webkit-mask:linear-gradient(180deg,transparent 74%,#000 92%);mask:linear-gradient(180deg,transparent 74%,#000 92%)}
+.b2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.b2-copy .rb-eyebrow{color:var(--accent)}
+.b2-copy h2{margin:0;font:400 clamp(48px,8vw,120px)/.84 "Anton",sans-serif;color:#efe9e0;text-transform:uppercase;letter-spacing:.005em}
+.b2-copy h2 em{font-style:normal;color:var(--accent)}
+.b2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#b7ada4}
+.b2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE RECORD — гигант-слово + гиг-кадры */
+.b3-scene .ps-sticky{background:#0c0a0a}
+.b3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#161010,#080606)}
+/* контакт-плёнка со сквозными перфорациями */
+.b3-strip{position:absolute;left:0;right:0;top:calc(44% - 16vh);height:32vh;z-index:2;background:#0a0808;border-top:2px solid rgba(229,35,27,.34);border-bottom:2px solid rgba(229,35,27,.34)}
+.b3-strip::before,.b3-strip::after{content:"";position:absolute;left:0;right:0;height:9px;background:repeating-linear-gradient(90deg,transparent 0 15px,rgba(236,231,221,.5) 15px 23px)}
+.b3-strip::before{top:6px}.b3-strip::after{bottom:6px}
+.b3-frame{position:relative;width:15vw;min-width:150px;background:#0a0808;padding:6px;border:1px solid rgba(229,35,27,.34);box-shadow:0 24px 48px rgba(0,0,0,.6)}
+.b3-frame .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(.35) contrast(1.12)}
+.b3-frame b{position:absolute;left:9px;bottom:8px;font:700 10px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.b3-copy{justify-items:center;align-content:end;text-align:center;padding-bottom:6vh}
+.b3-copy .rb-eyebrow{color:var(--accent)}
+.b3-copy h2{margin:0;font:400 clamp(40px,6vw,90px)/.92 "Anton",sans-serif;color:#efe9e0;text-transform:uppercase}
+.b3-copy h2 em{font-style:normal;color:var(--accent)}
+.b3-copy p{margin:16px auto 0;max-width:46ch;font:400 15px/1.7 "Manrope",sans-serif;color:#b7ada4}
+.b3-rec{position:absolute;z-index:16;top:96px;left:var(--pad);display:flex;align-items:center;gap:8px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;color:#efe9e0}
+.b3-rec i{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(229,35,27,.8)}
+
+/* S4 THE TOUR — HUD-список дат */
+.b4-scene .ps-sticky{background:#0c0a0a}
+.b4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#141010,#080606)}
+.b4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.16;background-image:radial-gradient(circle,#000 1px,transparent 1.4px);background-size:4px 4px}
+.b4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.b4-head .rb-eyebrow{color:var(--accent)}
+.b4-head h2{margin:0;font:400 clamp(34px,5vw,74px)/1 "Anton",sans-serif;color:#efe9e0;text-transform:uppercase}
+.b4-head h2 em{font-style:normal;color:var(--accent)}
+/* стена флаеров: рваные афиши «прихлопываются» на стену по очереди (scale-slap + rotate по --lp) */
+.b4-wallL{justify-items:center;align-content:center;padding-top:3vh}
+.b4-wall{display:flex;justify-content:center;align-items:center;gap:.7vw;width:min(1060px,95vw)}
+.b4-flyer{position:relative;width:17.4vw;min-width:150px;margin:0;background:#efe9e0;color:#161010;padding:18px 14px 24px;
+  transform:rotate(var(--rot,0deg)) scale(calc(1.14 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1) * 0.14));
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1));
+  box-shadow:0 22px 44px rgba(0,0,0,.55);
+  background-image:radial-gradient(circle,rgba(0,0,0,.12) 1px,transparent 1.3px);background-size:4px 4px;
+  clip-path:polygon(0 0,100% 0,100% 93%,86% 100%,70% 94%,52% 100%,36% 93%,18% 100%,5% 95%,0 99%)}
+.b4-f3{z-index:3}.b4-f2,.b4-f4{z-index:2}
+.b4-staple{position:absolute;top:8px;left:50%;transform:translateX(-50%) rotate(14deg);width:15px;height:5px;background:linear-gradient(#cbc4ba,#78726a);box-shadow:0 1px 2px rgba(0,0,0,.5)}
+.b4-flyer time{display:block;margin-top:6px;font:700 12px "DM Mono",monospace;color:var(--accent);letter-spacing:.08em}
+.b4-flyer b{display:block;margin-top:7px;font:400 clamp(18px,1.9vw,26px)/.94 "Anton",sans-serif;text-transform:uppercase;color:#161010}
+.b4-flyer s{display:block;margin-top:7px;font:600 9px "DM Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#5a504a;text-decoration:none}
+.b4-flyer em{display:inline-block;margin-top:11px;font:700 9px "DM Mono",monospace;font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:#5a504a}
+.b4-flyer em.on{color:#fff;background:var(--accent);padding:3px 7px}
+
+/* S5 THE NOISE — отзывы */
+.b5-scene .ps-sticky{background:#0c0a0a}
+.b5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#161010,#080606)}
+.b5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)}
+/* пресс-вырезка: рваный newsprint + красный скотч + мастхед Anton */
+.b5-clip{justify-items:center}
+.b5-clip>div{position:relative;width:min(30ch,26vw);background:#e7e3d8;color:#141010;padding:16px 18px 20px;box-shadow:0 24px 50px rgba(0,0,0,.6);clip-path:polygon(0 0,100% 0,100% 90%,90% 100%,58% 93%,28% 100%,0 92%)}
+.b5-clip>div::before{content:"";position:absolute;top:-9px;left:24%;width:66px;height:19px;background:rgba(229,35,27,.72);transform:rotate(-4deg);box-shadow:0 3px 8px rgba(0,0,0,.4)}
+.b5-clip i{display:block;font:400 clamp(18px,2vw,30px)/1 "Anton",sans-serif;text-transform:uppercase;letter-spacing:.01em;color:#141010}
+.b5-clip p{margin:10px 0 0;font:600 clamp(13px,1.3vw,17px)/1.42 "Manrope",sans-serif;color:#2a2320}
+.b5-clip b{display:block;margin-top:10px;font:700 9px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#b5231b}
+.b5-c1{align-content:start;padding-top:13vh}
+.b5-c2{align-content:center}
+.b5-c3{align-content:end;padding-bottom:12vh}
+
+/* S6 GET TICKETS — рваный билет + CTA */
+.b6-scene .ps-sticky{background:#0c0a0a}
+.b6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 62% 42%,#1a1010,#080606)}
+.b6-obj{justify-items:end;align-content:center;padding-right:8vw}
+.b6-obj .ps-media{width:26vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(229,35,27,.24))}
+.b6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
+.b6-copy .rb-eyebrow{color:var(--accent)}
+.b6-copy h2{margin:0;font:400 clamp(56px,10vw,160px)/.84 "Anton",sans-serif;color:#efe9e0;text-transform:uppercase;letter-spacing:.005em}
+.b6-copy h2 em{font-style:normal;color:var(--accent)}
+.b6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.b6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#b7ada4}
+@media(max-width:900px){.b2-copy,.b6-cta{max-width:88vw}.b3-frame{width:42vw;min-width:0}
+  .b4-wall{flex-wrap:wrap;gap:3vw 4vw;width:92vw}.b4-flyer{width:40vw;min-width:0;margin:0}
+  .b5-clip>div{width:78vw}.b6-obj{display:none}}

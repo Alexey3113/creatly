@@ -1,0 +1,53 @@
+/* Движок parallax-сцен. Вся хореография — через CSS-переменные (--sp/--px/--py от сцены; --start/--inv/--fx.. от слоя). */
+.ps-scene{position:relative}
+.ps-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--bg,#0a0d12)}
+.ps-site-bg{position:absolute;inset:0;z-index:0}
+.ps-viewport{position:absolute;inset:0;z-index:1}
+
+/* Слой: локальный прогресс --lp, интерполяция from→to + курсор×depth */
+.ps-layer{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
+  --lp:clamp(0,calc((var(--sp,0) - var(--start,0)) * var(--inv,1)),1);
+  transform:
+    translate3d(
+      calc(var(--fx,0px) + (var(--tx,0px) - var(--fx,0px))*var(--lp) + var(--px,0)*var(--cx,0px)*var(--depth,0)),
+      calc(var(--fy,0px) + (var(--ty,0px) - var(--fy,0px))*var(--lp) + var(--py,0)*var(--cy,0px)*var(--depth,0)),
+      0)
+    rotate(calc(var(--frot,0deg) + (var(--trot,0deg) - var(--frot,0deg))*var(--lp)))
+    scale(calc(var(--fsc,1) + (var(--tsc,1) - var(--fsc,1))*var(--lp)));
+  opacity:calc(var(--fop,1) + (var(--top,1) - var(--fop,1))*var(--lp));
+  will-change:transform,opacity}
+.ps-media{width:100%;height:100%;object-fit:var(--fit,cover);object-position:var(--pos,center);display:block;-webkit-user-drag:none}
+
+/* маски слоя (бесшовность/растворение краёв) */
+.ps-mask-soft .ps-media,.ps-mask-soft{-webkit-mask:radial-gradient(ellipse 84% 88% at 50% 48%,#000 62%,transparent 96%);mask:radial-gradient(ellipse 84% 88% at 50% 48%,#000 62%,transparent 96%)}
+.ps-mask-radial .ps-media,.ps-mask-radial{-webkit-mask:radial-gradient(circle at 50% 50%,#000 55%,transparent 82%);mask:radial-gradient(circle at 50% 50%,#000 55%,transparent 82%)}
+.ps-mask-diag-in{-webkit-mask:linear-gradient(120deg,#000 60%,transparent 92%);mask:linear-gradient(120deg,#000 60%,transparent 92%)}
+.ps-mask-diag-out{-webkit-mask:linear-gradient(-60deg,#000 60%,transparent 92%);mask:linear-gradient(-60deg,#000 60%,transparent 92%)}
+.ps-mask-curtain{-webkit-mask:linear-gradient(#000 70%,transparent);mask:linear-gradient(#000 70%,transparent)}
+
+/* reveal строк текста (клип снизу + подлёт по --lnp) */
+.ps-line{display:block;overflow:hidden;--lnp:clamp(0,calc((var(--sp,0) - var(--ls,0)) * var(--linv,1)),1)}
+.ps-line>span{display:block;
+  transform:translate3d(calc((1 - var(--lnp)) * var(--lfx,0px)),calc((1 - var(--lnp)) * 1.05em),0) rotate(calc((1 - var(--lnp)) * 2.5deg));
+  clip-path:inset(calc((1 - var(--lnp)) * 100%) 0 0);opacity:calc(.2 + var(--lnp)*.8);will-change:transform,clip-path}
+
+/* титул type-occlusion */
+.ps-title-back,.ps-title-front{position:absolute;inset:0;margin:0;display:grid;align-content:center;pointer-events:none}
+
+/* переход сцена→сцена (диагональ/штора закрывают стык в конце прогресса) */
+.ps-trans{position:absolute;inset:0;z-index:15;pointer-events:none;background:var(--tr-color,#0a0d12);
+  --trp:clamp(0,calc((var(--sp,0) - var(--tr-start,.8)) / (1 - var(--tr-start,.8))),1)}
+/* угловая развёртка вуали: направление реально задаётся --tr-angle */
+.ps-trans-diagonal{opacity:1;--tr-edge:calc(var(--trp)*128%);
+  -webkit-mask:linear-gradient(var(--tr-angle,-12deg),#000 0,#000 var(--tr-edge),transparent calc(var(--tr-edge) + 13%));
+  mask:linear-gradient(var(--tr-angle,-12deg),#000 0,#000 var(--tr-edge),transparent calc(var(--tr-edge) + 13%))}
+.ps-trans-curtain{transform:translateY(calc((1 - var(--trp))*100%))}
+.ps-trans-crossfade{opacity:var(--trp)}
+
+@media(prefers-reduced-motion:reduce){
+  .ps-layer,.ps-line>span{will-change:auto}
+  /* честный resting-state: каждый слой в полном «to», без цветной вуали перехода */
+  .ps-layer{--lp:1}
+  .ps-line>span{--lnp:1}
+  .ps-trans{display:none}
+}

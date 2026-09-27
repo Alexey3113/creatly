@@ -1,0 +1,70 @@
+{
+ "fam": "legacy",
+ "id": "orbit",
+ "url": "animated/orbit",
+ "mode": "scroll",
+ "ms": 10166,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.5vh",
+   "y": 473
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 945
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.6vh",
+   "y": 1418
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.1vh",
+   "y": 1890
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.6vh",
+   "y": 2363
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.1vh",
+   "y": 2835
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.7vh",
+   "y": 3308
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.2vh",
+   "y": 3780
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 5.2,
+  "sections": 3,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 0,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

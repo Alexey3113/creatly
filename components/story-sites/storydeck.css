@@ -1,0 +1,31 @@
+/* StoryDeck — снап-дек layout. Сцены absolute-стеком, нативного скролла нет. */
+.deck{position:fixed;inset:0;height:100vh;height:100svh;height:100dvh;width:100%;overflow:hidden;overscroll-behavior:none;touch-action:none;background:#000}
+.deck-scene{position:absolute;inset:0;visibility:hidden;opacity:0;z-index:1;--sp:0}
+.deck-slide{display:contents}
+.deck-scene.is-active{visibility:visible;opacity:1;z-index:2;--sp:1}
+.deck-scene.is-entering{visibility:visible;opacity:1;z-index:3}
+/* уходящая сцена — плавно вверх+фейд (по таймеру дека совпадает с длительностью входа) */
+.deck-scene.is-leaving{visibility:visible;z-index:2;opacity:0;transform:translateY(-4%) scale(.986);
+  transition:opacity .82s cubic-bezier(.4,0,.1,1),transform .82s cubic-bezier(.4,0,.1,1)}
+.deck[data-dir="back"] .deck-scene.is-leaving{transform:translateY(4%) scale(.986)}
+
+/* точки-индикатор */
+.deck-dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:11px;z-index:45;pointer-events:none}
+.deck-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.26);transition:transform .4s,background .4s}
+.deck-dots span.on{background:#fff;transform:scale(1.6)}
+
+/* подсказка «листай» гасится после первого перехода — управляется классом на .deck (опц.) */
+@media(max-width:900px){.deck-dots{right:12px;gap:8px}}
+@media(prefers-reduced-motion:reduce){.deck-scene.is-leaving{transition:none}}
+
+/* a11y: статус-регион (визуально скрыт) */
+.deck-live{position:fixed;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:-1px;padding:0;border:0}
+/* кнопки листания (клавиатура/SR + мышь) */
+.deck-ctrl{position:fixed;right:calc(14px + env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));z-index:46;display:flex;flex-direction:column;gap:8px}
+.deck-ctrl button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(0,0,0,.4);
+  color:#fff;font:600 15px/1 system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(4px);transition:.3s;display:grid;place-items:center}
+.deck-ctrl button:hover:not(:disabled){background:rgba(255,255,255,.16);transform:translateY(-2px)}
+.deck-ctrl button:disabled{opacity:.28;cursor:default}
+.deck:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:-4px}
+@media(max-width:900px){.deck-ctrl{right:10px;bottom:14px}.deck-ctrl button{width:34px;height:34px}}
+@media(prefers-reduced-motion:reduce){.deck-ctrl button{transition:none}}

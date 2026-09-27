@@ -1,0 +1,46 @@
+/* STORY — общие примитивы ветки: индекс-галерея + закладки-табы. */
+
+/* ---------- индекс ---------- */
+.st-index{min-height:100vh;background:#0b0b0d;color:#eee;font-family:"Manrope",sans-serif;padding:8vh 6vw 12vh}
+.st-index-head .st-kicker{font:600 12px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:#8a8a92}
+.st-index-head h1{margin:12px 0 8px;font:400 clamp(38px,6vw,88px)/1 "Playfair Display",serif;letter-spacing:-.01em}
+.st-index-head p{margin:0 0 6vh;font:400 16px/1.6 "Manrope",sans-serif;color:#9a9aa2;max-width:52ch}
+.st-index-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw}
+.st-card{position:relative;display:block;border-radius:14px;overflow:hidden;background:var(--b,#111);border:1px solid rgba(255,255,255,.08);text-decoration:none;color:#fff;transition:transform .5s cubic-bezier(.2,.7,0,1),border-color .5s}
+.st-card img{display:block;width:100%;height:56vh;object-fit:cover;filter:grayscale(.1) contrast(1.03);transition:transform .7s cubic-bezier(.2,.7,0,1)}
+.st-card:hover{transform:translateY(-6px);border-color:var(--c,#e0609a)}
+.st-card:hover img{transform:scale(1.05)}
+.st-card-body{position:absolute;left:0;right:0;bottom:0;padding:22px;background:linear-gradient(0deg,rgba(0,0,0,.86),transparent)}
+.st-card-body b{display:block;font:400 clamp(24px,2.4vw,38px)/1 "Playfair Display",serif;color:var(--c,#fff)}
+.st-card-body span{display:block;margin:6px 0 4px;font:600 12px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#d8d8de}
+.st-card-body em{font-style:normal;font-size:13px;color:#9a9aa2}
+
+/* ---------- закладка-таб ---------- */
+.st-mark{position:absolute;z-index:30;top:var(--top,28vh);display:flex;align-items:center;gap:12px;
+  padding:12px 16px;text-decoration:none;pointer-events:auto;
+  font:700 12px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;
+  box-shadow:-8px 10px 26px rgba(0,0,0,.4);transition:transform .5s cubic-bezier(.2,.7,0,1)}
+.st-mark-right{right:0;border-radius:10px 0 0 10px;flex-direction:row}
+.st-mark-left{left:0;border-radius:0 10px 10px 0;flex-direction:row-reverse}
+.st-mark-ink{background:#141018;color:#f3e7ee;border:1px solid rgba(224,96,154,.4);border-right:none}
+.st-mark-paper{background:#efe7dd;color:#241820;border:1px solid rgba(36,24,32,.18)}
+.st-mark-right:hover{transform:translateX(-8px)}
+.st-mark-left:hover{transform:translateX(8px)}
+.st-mark-obj{width:34px;height:34px;flex:0 0 auto;color:var(--accent,#e0609a);animation:st-wiggle 3.4s ease-in-out infinite}
+.st-mark-obj svg{width:100%;height:100%}
+.st-mark-txt{white-space:nowrap}
+@keyframes st-wiggle{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(8deg)}}
+
+@media(max-width:900px){
+  .st-index-grid{grid-template-columns:1fr;gap:5vh}
+  .st-card img{height:64vh}
+  .st-mark{padding:9px 11px;gap:8px;font-size:10px}
+  .st-mark-obj{width:26px;height:26px}
+  .st-mark-txt{display:none}
+  .st-mark-left .st-mark-txt,.st-mark-right .st-mark-txt{display:none}
+}
+@media(prefers-reduced-motion:reduce){.st-mark-obj{animation:none}}
+
+@media(prefers-reduced-motion:reduce){
+  .vs-scrollcue i,.sh-scrollcue i,.so-scrollcue i,.st-mark-obj{animation:none!important}
+}

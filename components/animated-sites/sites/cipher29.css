@@ -1,0 +1,97 @@
+/* CIPHER — kinetic-typography (typewriter + редкий glitch) на ScrollStage. Терминал-эстетика.
+   Палитра: terminal-black + phosphor-green; красный ровно для одной alert-строки. Шрифт JetBrains Mono. */
+.cp{
+  --bg:#05090b; --panel:#0a1013; --phos:#5cf58a; --phos-dim:#2f6f49; --phos-deep:#123a25;
+  --ink:#c6e8d4; --dim:#5c7368; --alert:#ff5d54; --cyan:#38e6ff; --mag:#ff3ea5;
+  background:var(--bg); color:var(--ink);
+  font-family:"JetBrains Mono","SF Mono",ui-monospace,monospace; -webkit-font-smoothing:antialiased;
+}
+/* тонкие сканлайны на весь reel */
+.cp-scanlines{ position:fixed; inset:0; pointer-events:none; z-index:9;
+  background:repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.16) 2px 3px);
+  mix-blend-mode:multiply; opacity:.5; }
+
+.cp .cp-caret{ display:inline-block; width:.62ch; height:1em; margin-left:2px; background:var(--phos);
+  vertical-align:-.12em; animation:cp-blink 1.05s steps(1) infinite; }
+.cp .cp-caret-lg{ width:.5ch; height:.82em; }
+@keyframes cp-blink{ 0%,50%{opacity:1} 50.01%,100%{opacity:0} }
+
+.cp .cp-line{ display:block; overflow:hidden; }
+.cp .cp-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.10 - var(--d,0)*0.07) * 3.4), 1);
+  transform:translateY(calc((1 - var(--p)) * 118%)); opacity:var(--p); will-change:transform; }
+
+.cp-kick{ position:absolute; top:4.5vh; left:5vw; right:5vw; display:flex; justify-content:space-between; z-index:5;
+  font:700 11px "JetBrains Mono"; letter-spacing:.22em; color:var(--phos-dim); text-transform:uppercase; }
+.cp-cue{ position:absolute; bottom:3.5vh; left:5vw; font:500 11px "JetBrains Mono"; letter-spacing:.2em; color:var(--dim); text-transform:uppercase; }
+.cp-prompt{ color:var(--phos); font-weight:700; }
+
+/* 0 · HERO */
+.cp-hero{ display:flex; flex-direction:column; justify-content:center; padding:12vh 5vw 8vh; gap:34px;
+  background:radial-gradient(120% 80% at 50% 0%, rgba(92,245,138,.06), transparent 55%), var(--bg); }
+.cp-term{ width:min(720px,92vw); border:1px solid rgba(92,245,138,.22); border-radius:10px; overflow:hidden;
+  background:var(--panel); box-shadow:0 30px 80px -50px rgba(92,245,138,.35); }
+.cp-term-bar{ display:flex; align-items:center; gap:7px; padding:9px 14px; background:#0d1518; border-bottom:1px solid rgba(92,245,138,.14); }
+.cp-term-bar i{ width:11px; height:11px; border-radius:50%; background:#2a3a34; }
+.cp-term-bar i:first-child{ background:#e0605a; } .cp-term-bar i:nth-child(2){ background:#e0b24a; } .cp-term-bar i:nth-child(3){ background:var(--phos); }
+.cp-term-bar span{ margin-left:auto; font:500 11px "JetBrains Mono"; color:var(--dim); letter-spacing:.04em; }
+.cp-term-body{ padding:18px 18px 20px; font:500 clamp(12px,1.15vw,15px)/1.75 "JetBrains Mono"; }
+.cp-ln{ white-space:pre-wrap; }
+.cp-cmd{ color:var(--ink); }
+.cp-dim{ color:var(--dim); }
+.cp-ok{ color:var(--phos); }
+
+.cp-h1{ position:relative; margin:0; font:800 clamp(40px,9.2vw,150px)/.94 "JetBrains Mono"; letter-spacing:-.03em;
+  color:var(--phos); text-shadow:0 0 28px rgba(92,245,138,.28); min-height:1.1em; }
+.cp-tag{ margin:0; max-width:52ch; font:500 clamp(14px,1.3vw,18px)/1.55 "JetBrains Mono"; color:var(--ink); opacity:.82; }
+
+/* GLITCH — редкий, разовый. 3 ghost-слоя со сдвигом+clip, chromatic split; НЕ постоянная дрожь. */
+.cp-h1.is-glitch::before, .cp-h1.is-glitch::after{
+  content:attr(data-text); position:absolute; inset:0; margin:0;
+  font:inherit; letter-spacing:inherit; }
+.cp-h1.is-glitch::before{ color:var(--cyan); left:3px; text-shadow:none; clip-path:inset(0 0 62% 0); animation:cp-gl-a .56s steps(2) 1; }
+.cp-h1.is-glitch::after{ color:var(--mag); left:-3px; text-shadow:none; clip-path:inset(58% 0 0 0); animation:cp-gl-b .56s steps(2) 1; }
+.cp-h1.is-glitch{ animation:cp-gl-main .56s steps(2) 1; }
+@keyframes cp-gl-main{ 0%{transform:translateX(0)} 20%{transform:translateX(-4px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
+@keyframes cp-gl-a{ 0%{clip-path:inset(10% 0 62% 0); transform:translateX(-6px)} 50%{clip-path:inset(40% 0 30% 0); transform:translateX(4px)} 100%{clip-path:inset(0 0 100% 0); transform:translateX(0)} }
+@keyframes cp-gl-b{ 0%{clip-path:inset(70% 0 8% 0); transform:translateX(6px)} 50%{clip-path:inset(30% 0 44% 0); transform:translateX(-5px)} 100%{clip-path:inset(100% 0 0 0); transform:translateX(0)} }
+
+/* 1 · SCAN LOG */
+.cp-log{ display:grid; place-items:center; padding:0 5vw; background:var(--bg); }
+.cp-log-inner{ width:min(880px,92vw); border-left:2px solid var(--phos-deep); padding-left:clamp(18px,3vw,40px); }
+.cp-log-head{ font:700 clamp(13px,1.4vw,18px) "JetBrains Mono"; color:var(--phos); letter-spacing:.02em; margin-bottom:34px; }
+.cp-log-ln{ display:flex; gap:14px; align-items:baseline; padding:14px 0; border-bottom:1px solid rgba(92,245,138,.08);
+  font:500 clamp(14px,1.7vw,24px) "JetBrains Mono"; letter-spacing:-.01em;
+  --p:clamp(0, calc((var(--t,0) - 0.06 - var(--d,0)*0.08) * 4), 1);
+  opacity:calc(.12 + var(--p)*.88); transform:translateX(calc((1 - var(--p)) * -18px)); will-change:transform; }
+.cp-mark{ font-weight:800; }
+.cp-log-ok .cp-mark{ color:var(--phos); }
+.cp-log-ok .cp-log-txt{ color:var(--ink); }
+.cp-log-alert{ color:var(--alert); }
+.cp-log-alert .cp-mark{ color:var(--alert); }
+.cp-log-alert .cp-log-txt{ color:var(--alert); text-shadow:0 0 18px rgba(255,93,84,.35); }
+
+/* 2 · MANIFEST */
+.cp-manifest{ display:grid; place-items:center; padding:0 5vw; background:
+  radial-gradient(80% 60% at 50% 50%, rgba(92,245,138,.05), transparent 60%), var(--bg); }
+.cp-mf{ margin:0; font:800 clamp(34px,8vw,130px)/1.0 "JetBrains Mono"; letter-spacing:-.03em; color:var(--ink); }
+.cp-mf .cp-green > i{ color:var(--phos); text-shadow:0 0 24px rgba(92,245,138,.22); }
+
+/* 3 · CLOSER */
+.cp-end{ display:grid; place-items:center; padding:0 5vw; text-align:center; background:var(--bg); }
+.cp-end-block{ position:relative; z-index:2; }
+.cp-install{ display:inline-block; padding:14px 22px; border:1px solid rgba(92,245,138,.28); border-radius:8px;
+  background:var(--panel); font:500 clamp(13px,1.5vw,20px) "JetBrains Mono"; color:var(--ink); margin-bottom:40px; letter-spacing:.01em; }
+.cp-end-h{ margin:0 0 38px; font:800 clamp(44px,11vw,170px)/.92 "JetBrains Mono"; letter-spacing:-.03em; color:var(--phos); text-shadow:0 0 34px rgba(92,245,138,.3); }
+.cp-btn{ display:inline-block; padding:16px 34px; border-radius:8px; background:var(--phos); color:#04120a;
+  text-decoration:none; font:700 15px "JetBrains Mono"; letter-spacing:.02em; border:1px solid var(--phos);
+  opacity:calc(clamp(0, (var(--t,0)-0.2)*3, 1)); transition:transform .18s, box-shadow .18s; box-shadow:0 0 0 rgba(92,245,138,0); }
+.cp-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 40px -10px rgba(92,245,138,.6); }
+
+@media (prefers-reduced-motion:reduce){
+  .cp .cp-caret{ animation:none; }
+  .cp .cp-line > i{ transform:none; opacity:1; }
+  .cp-log-ln{ opacity:1; transform:none; }
+  .cp-h1.is-glitch::before, .cp-h1.is-glitch::after, .cp-h1.is-glitch{ animation:none; }
+  .cp-h1.is-glitch::before, .cp-h1.is-glitch::after{ display:none; }
+}

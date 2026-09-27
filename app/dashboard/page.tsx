@@ -2,14 +2,11 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { TemplateGallery } from "@/components/gallery/TemplateGallery";
 import { BriefScreen } from "@/components/ai/BriefScreen";
 import { GenerationProgress } from "@/components/ai/GenerationProgress";
-import { OnboardingWizard, type OnboardingResult } from "@/components/onboarding/OnboardingWizard";
 import { Dashboard } from "@/components/dashboard/Dashboard";
-import { templates, type TemplateInfo } from "@/lib/builder/templates";
 
-type View = "loading" | "dashboard" | "onboarding" | "gallery" | "brief" | "generating";
+type View = "loading" | "dashboard" | "brief" | "generating";
 
 interface UserData {
   id: number;
@@ -18,17 +15,13 @@ interface UserData {
   photoUrl?: string;
 }
 
-interface GeneratedSite { html: string; css: string; js: string; }
-
 export default function DashboardPage() {
   const router = useRouter();
   const [view, setView] = useState<View>("loading");
   const [user, setUser] = useState<UserData | null>(null);
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateInfo | null>(null);
   const [genStage, setGenStage] = useState<"transcribing" | "analyzing" | "art-direction" | "generating" | "finalizing" | "done" | "error">("transcribing");
   const [genError, setGenError] = useState("");
   const [genConcept, setGenConcept] = useState("");
-  const [, setOnboardingResult] = useState<OnboardingResult | null>(null);
 
   useEffect(() => {
     const tg = (window as unknown as Record<string, unknown>).Telegram as Record<string, unknown> | undefined;
@@ -72,34 +65,14 @@ export default function DashboardPage() {
   }
 
   function handleNewProject() {
-    setView("onboarding");
+    setView("brief");
   }
 
   function handleEditProject(id: number) {
     router.push(`/editor?project=${id}`);
   }
 
-  function handleOnboardingComplete(result: OnboardingResult) {
-    setOnboardingResult(result);
-    setView("gallery");
-  }
-
-  function handleSelectTemplate(id: string) {
-    setSelectedTemplate(templates.find((t) => t.id === id) || null);
-    router.push(`/editor?template=${id}`);
-  }
-
-  function handleAIGenerate(id: string) {
-    // id === "none" → генерация без шаблона (дизайн с нуля)
-    setSelectedTemplate(id === "none" ? null : templates.find((t) => t.id === id) || null);
-    setView("brief");
-  }
-
-  function handleUpload() {
-    router.push("/editor?upload=1");
-  }
-
-  const handleBriefSubmit = useCallback(async (data: { audioBlob?: Blob; textBrief: string; templateId: string; scrapedData?: { title: string; description: string; headings: string[]; paragraphs: string[]; contacts: string[] } }) => {
+  const handleBriefSubmit = useCallback(async (data: { audioBlob?: Blob; textBrief: string; scrapedData?: { title: string; description: string; headings: string[]; paragraphs: string[]; contacts: string[] }; siteMode?: "classic" | "story"; mediaMode?: "stock" | "higgsfield" }) => {
     setView("generating");
     setGenStage("transcribing");
     setGenError("");
@@ -124,7 +97,7 @@ export default function DashboardPage() {
       const res = await fetch("/api/ai/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ brief, templateId: data.templateId, scrapedData: data.scrapedData }),
+        body: JSON.stringify({ brief, scrapedData: data.scrapedData, mode: data.siteMode || "classic", media: data.mediaMode || "stock" }),
       });
       if (!res.ok) {
         const text = await res.text().catch(() => "");
@@ -153,20 +126,24 @@ export default function DashboardPage() {
             if (msg.stage === "art-direction-done") {
               if (msg.concept) setGenConcept(msg.concept);
             } else if (msg.stage) {
-              setGenStage(msg.stage);
+              // Внутренние стадии выбора блоков/контента/медиа показываем как "generating"
+              const internal = ["selecting-blocks", "blocks-selected", "writing-content", "generating-media", "media-done", "bespoke", "reviewing"];
+              const stage = internal.includes(msg.stage) ? "generating" : msg.stage;
+              setGenStage(stage);
               if (msg.concept) setGenConcept(msg.concept);
             }
             if (msg.error) setGenError(msg.error);
-            if (msg.stage === "done" && msg.result) {
+            if (msg.stage === "done") {
               // Сервер уже сохранил проект в БД — используем projectId если есть.
               if (msg.projectId) {
                 router.push(`/editor?project=${msg.projectId}`);
                 return;
               }
-              // Fallback: если сервер не смог сохранить
-              const generated = msg.result as GeneratedSite;
-              sessionStorage.setItem("sb_generated", JSON.stringify(generated));
-              setTimeout(() => router.push("/editor?generated=1"), 1000);
+              // Fallback: если сервер не смог сохранить — передаём документ через sessionStorage
+              if (msg.document) {
+                sessionStorage.setItem("sb_generated_doc", JSON.stringify(msg.document));
+                setTimeout(() => router.push("/editor?generated=1"), 500);
+              }
             }
           } catch {}
         }
@@ -194,16 +171,8 @@ export default function DashboardPage() {
     return <Dashboard user={user} onNewProject={handleNewProject} onEditProject={handleEditProject} onLogout={handleLogout} />;
   }
 
-  if (view === "onboarding") {
-    return <OnboardingWizard onComplete={handleOnboardingComplete} onSkip={() => setView("gallery")} />;
-  }
-
-  if (view === "gallery") {
-    return <TemplateGallery onSelect={handleSelectTemplate} onUpload={handleUpload} onAIGenerate={handleAIGenerate} />;
-  }
-
   if (view === "brief") {
-    return <BriefScreen template={selectedTemplate} onSubmit={handleBriefSubmit} onBack={() => setView("gallery")} />;
+    return <BriefScreen onSubmit={handleBriefSubmit} onBack={() => setView("dashboard")} />;
   }
 
   if (view === "generating") {

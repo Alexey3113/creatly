@@ -1,0 +1,82 @@
+/* ASCEND — depth-slice alpine dive-in на ScrollStage. Один кадр (peach dawn / alpine blue) режется
+   на 4 слоя по глубине; каждый слой — тот же кадр в clip-path-полосе, translateY+scale по --t*--dz
+   (ближние сильнее) → нырок камеры. Pointer-parallax по --px/--py. --t со сцены, --px/--py с корня.
+   Шрифт: Instrument Serif (дисплей, воздушный контраст) + Archivo (лейблы). */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@500;700&display=swap');
+
+.as{
+  --ink:#0e1a24; --paper:#eef1f4; --peach:#f4b98d; --peach-2:#f7cfa6; --rose:#e0a487;
+  --slate:#7d8aa0; --deep:#16232e;
+  background:var(--deep); color:var(--paper); font-family:"Archivo",system-ui,sans-serif;
+}
+.as .as-line{ display:block; overflow:hidden; }
+.as .as-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.10 - var(--d,0)*0.06) * 3.2), 1);
+  transform:translateY(calc((1 - var(--p)) * 118%)); opacity:var(--p); will-change:transform; }
+.as-warm > i, .as-warm{ color:var(--peach); }
+.as-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.26em; color:#c8d2de; z-index:6; mix-blend-mode:screen; }
+.as-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.18em; color:#c8d2de; z-index:6; }
+
+/* 0 · COVER — собранный кадр + медленный ken-burns по --t */
+.as-cover{ display:flex; flex-direction:column; justify-content:center; padding:8vh 0 0; }
+.as-cover-img{ position:absolute; inset:-4% ; background-size:cover; background-position:center 42%;
+  transform:scale(calc(1.02 + var(--t,0)*0.10)) translateY(calc(var(--t,0)*-2%));
+  transform-origin:50% 40%; will-change:transform; }
+.as-cover-grade{ position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(11,20,28,.72) 0%, rgba(14,24,34,.28) 30%, rgba(14,24,34,0) 58%),
+             linear-gradient(180deg, rgba(20,32,44,.15) 0%, rgba(18,30,42,0) 34%, rgba(14,24,34,.5) 82%, rgba(11,20,28,.82) 100%); }
+.as-cover-copy{ position:relative; z-index:4; padding:0 6vw; width:min(90vw,54rem); }
+.as-eyebrow{ margin:0 0 20px; font:700 12px "Archivo"; letter-spacing:.2em; text-transform:uppercase; color:var(--peach-2); }
+.as-hero{ margin:0; font:400 clamp(48px,9.2vw,158px)/.94 "Instrument Serif",serif; letter-spacing:-.01em;
+  text-shadow:0 8px 60px rgba(8,16,24,.55); }
+.as-hero i{ font-style:normal; }
+
+/* 1 · DIVE — depth-slice. .scene-pin{overflow:visible} чинит sticky; клип — на .scene-sticky. */
+.as-dive .scene-sticky{ background:var(--deep); }
+.as-stage{ position:absolute; inset:0; }
+.as-slice{ position:absolute; inset:0; background-size:cover; background-position:center 42%;
+  transform-origin:50% 45%;
+  transform:
+    translate3d( calc(var(--px,0) * var(--dz,0) * 26px),
+                 calc(var(--t,0) * var(--dz,0) * 22% + var(--py,0) * var(--dz,0) * 16px), 0)
+    scale( calc(1 + var(--t,0) * var(--dz,0) * 0.72) );
+  will-change:transform; }
+/* пернатые mask-полосы вместо жёстких clip — швы не видны; ближние слои выше по z */
+.as-sky { z-index:1; -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 34%,transparent 47%); mask-image:linear-gradient(180deg,#000 0%,#000 34%,transparent 47%); }
+.as-far { z-index:2; -webkit-mask-image:linear-gradient(180deg,transparent 21%,#000 33%,#000 55%,transparent 67%); mask-image:linear-gradient(180deg,transparent 21%,#000 33%,#000 55%,transparent 67%); }
+.as-mid { z-index:3; filter:saturate(1.02); -webkit-mask-image:linear-gradient(180deg,transparent 45%,#000 58%,#000 79%,transparent 89%); mask-image:linear-gradient(180deg,transparent 45%,#000 58%,#000 79%,transparent 89%); }
+.as-near{ z-index:4; filter:brightness(.94) saturate(1.05); -webkit-mask-image:linear-gradient(180deg,transparent 61%,#000 75%,#000 100%); mask-image:linear-gradient(180deg,transparent 61%,#000 75%,#000 100%); }
+.as-dive-vignette{ position:absolute; inset:0; z-index:5; pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 50% 34%, transparent 52%, rgba(12,22,30,.5) 100%),
+    linear-gradient(180deg, rgba(14,24,34,.28) 0%, transparent 22%, transparent 72%, rgba(11,20,28,.72) 100%); }
+.as-dive-copy{ position:absolute; z-index:6; left:6vw; bottom:12vh; width:min(88vw,40rem); }
+.as-tag{ display:inline-block; margin-bottom:16px; font:700 11px "Archivo"; letter-spacing:.22em;
+  color:#12202c; background:var(--peach-2); padding:5px 11px; }
+.as-dive-copy h2{ margin:0; font:400 clamp(38px,7.4vw,120px)/.96 "Instrument Serif",serif;
+  text-shadow:0 6px 50px rgba(8,16,24,.6); }
+.as-dive-copy h2 i{ font-style:normal; }
+
+/* 2 · OUTRO — кадр садится в предгорья */
+.as-end{ display:grid; place-items:center; text-align:center; }
+.as-end-img{ position:absolute; inset:0; background-size:cover; background-position:center 30%;
+  transform:scale(calc(1.08 - var(--t,0)*0.06)); will-change:transform; filter:brightness(.8); }
+.as-end-veil{ position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(11,20,28,.55), rgba(11,20,28,.82));
+  opacity:calc(.5 + min(.4, var(--t,0)*.6)); }
+.as-end-block{ position:relative; z-index:2; padding:0 6vw; }
+.as-end-block h2{ margin:0 0 40px; font:400 clamp(42px,9vw,150px)/.95 "Instrument Serif",serif;
+  text-shadow:0 8px 60px rgba(8,16,24,.6); }
+.as-end-block h2 i{ font-style:normal; }
+.as-btn{ display:inline-block; padding:15px 34px; border:1px solid var(--peach); border-radius:999px;
+  color:var(--peach); text-decoration:none; font:700 13px "Archivo"; letter-spacing:.06em;
+  opacity:calc(clamp(0, (var(--t,0)-0.2)*3, 1)); transition:background .3s,color .3s; }
+.as-btn:hover{ background:var(--peach); color:#12202c; }
+
+@media (prefers-reduced-motion:reduce){
+  .as .as-line > i{ transform:none; opacity:1; }
+  .as-cover-img,.as-end-img{ transform:none; }
+  .as-slice{ transform:none; }
+  .as-btn{ opacity:1; }
+}

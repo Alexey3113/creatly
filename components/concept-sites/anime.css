@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap");
+/* Концепт 07 — ANIME «BLOOM+». Collectible cover, cream-pink. */
+.am-site{--pad:4vw;--bg:#f4e9ec;--ink:#2a1520;--mut:#9a6b80;--accent:#e0326e;--pink:#f6b8ce;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.am-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.am-brand{font:800 20px "Bricolage Grotesque",sans-serif;letter-spacing:.02em;color:#e0326e}
+.am-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#8a5670}
+.am-nav a{opacity:.85}.am-nav a:hover{opacity:1}
+.am-join{background:#e0326e;color:#fff;border-radius:100px;padding:8px 16px;opacity:1!important}
+.am-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.am-hero .ps-sticky{background:#f4e9ec}
+.am-bg .ps-media{filter:saturate(1.02)}
+.am-blobs{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:multiply;background:radial-gradient(46vw 46vw at 50% 40%,rgba(246,184,206,.5),transparent 62%),radial-gradient(30vw 30vw at 88% 86%,rgba(224,50,110,.14),transparent 64%)}
+.am-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.28;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+.am-title{place-items:center}
+.am-title span{font:800 clamp(110px,25vw,430px)/.72 "Bricolage Grotesque",sans-serif;color:#e0326e;letter-spacing:-.045em;transform:scaleY(1.18);text-shadow:0 6px 30px rgba(224,50,110,.22)}
+.am-hero-char .ps-media{filter:drop-shadow(0 28px 52px rgba(120,40,80,.28))}
+.am-petals{left:auto;right:-6vw;top:-8vh;width:42vw;height:56vh;place-items:start end}
+.am-petals .ps-media{object-fit:contain}
+
+.am-col{pointer-events:none}
+.am-col-l{justify-items:start;align-content:center;padding-left:var(--pad)}
+.am-col-r{justify-items:end;align-content:center;padding-right:var(--pad);text-align:right}
+.am-colbox{max-width:26ch;background:rgba(246,236,239,.66);backdrop-filter:blur(3px);padding:16px 18px;border-radius:8px}
+.am-colbox-r{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.am-colbox b{display:block;font:800 15px "Bricolage Grotesque",sans-serif;letter-spacing:.02em;color:#2a1520;margin-bottom:10px}
+.am-colbox p{margin:0;font:400 13px/1.5 "Manrope",sans-serif;color:#7a4b60}
+.am-colbox blockquote{margin:14px 0;font:italic 400 clamp(16px,1.7vw,24px)/1.25 "Playfair Display",serif;color:#e0326e}
+.am-tags{display:flex;gap:8px;list-style:none;margin:14px 0 0;padding:0}
+.am-tags li{border:1px solid rgba(224,50,110,.4);border-radius:100px;padding:5px 10px;font:600 10px "DM Mono",monospace;letter-spacing:.08em;color:#9a6b80}
+.am-jp{writing-mode:vertical-rl;font:700 clamp(24px,3.2vw,44px) "Noto Sans JP",sans-serif;color:#e0326e;letter-spacing:.12em}
+.am-mark{font-size:26px;color:#e0326e}
+
+.am-tl,.am-tr{position:absolute;z-index:14;top:96px;font:600 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#8a5670}
+.am-tl{left:var(--pad)}.am-tr{right:var(--pad)}
+.am-barcode{position:absolute;z-index:14;left:var(--pad);bottom:36px;display:flex;align-items:flex-end;gap:2px}
+.am-barcode i{width:3px;height:34px;background:#2a1520}
+.am-barcode i:nth-child(2){width:2px;height:28px}.am-barcode i:nth-child(4){width:5px}.am-barcode i:nth-child(6){width:2px;height:30px}.am-barcode i:nth-child(7){width:4px}
+.am-barcode span{margin-left:8px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;color:#8a5670;align-self:center}
+.am-cue{position:absolute;z-index:14;left:50%;bottom:26px;transform:translateX(-50%);font:600 10px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+
+/* manifest */
+
+/* CTA */
+
+
+.am-site a.am-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:#e0326e;color:#fff;font:600 13px "Manrope",sans-serif}
+.am-btn i{font-style:normal}
+
+/* footer */
+.am-foot{position:relative;z-index:1;background:#2a1520;color:#d9a9bd;padding:64px var(--pad) 40px}
+.am-foot-top b{font:800 22px "Bricolage Grotesque",sans-serif;color:#f6b8ce}
+.am-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#b98aa0}
+.am-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(224,50,110,.22);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#a5708a}
+
+/* ФАЗА 2 — секции */
+/* Featured — галерея */
+
+/* In this issue — оглавление */
+
+.am-toc .am-eyebrow{margin-bottom:34px;color:#ff7aa8}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.am-grid{columns:2}}
+@media(max-width:900px){.am-nav{display:none}.am-col,.am-petals{display:none}.am-title span{font-size:40vw}
+  .am-grid{columns:1}.am-rgrid{grid-template-columns:1fr}.am-workhead{flex-direction:column;align-items:flex-start}.am-workhead p{text-align:left}.am-trow{grid-template-columns:1fr}}
+
+/* ===== SCENES S2–S6 — collectible cover (cream-pink + hot-pink, halftone) ===== */
+.am-scene .ps-sticky{background:#f4e9ec}
+.am-scene .am-eyebrow{margin-bottom:16px}
+.am2-half,.am3-half,.am4-half,.am5-half{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.13;mix-blend-mode:multiply;background-image:radial-gradient(circle,#e0326e 1px,transparent 1.4px);background-size:5px 5px}
+.am6-half{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.14;mix-blend-mode:screen;background-image:radial-gradient(circle,#fff 1px,transparent 1.4px);background-size:5px 5px}
+
+/* S2 WATCH & COLLECT — персонаж на сакура-небе */
+.am2-scene .ps-sticky{background:#f4e9ec}
+.am2-bg .ps-media{filter:contrast(1.02) saturate(1.05) brightness(1.02)}
+.am2-kanji{position:absolute;z-index:4;right:2vw;top:50%;transform:translateY(-50%);font:700 74vh/1 "Noto Sans JP",sans-serif;color:rgba(224,50,110,.1);pointer-events:none}
+.am2-figure{place-items:center;align-content:end}
+.am2-figure .ps-media{width:32vw;height:auto;max-width:none;filter:contrast(1.02) drop-shadow(0 20px 40px rgba(42,21,32,.28))}
+.am2-fg{justify-items:end;align-content:start}
+.am2-fg .ps-media{width:38vw;height:auto;max-width:none;filter:drop-shadow(0 8px 16px rgba(42,21,32,.2))}
+.am2-copy{justify-items:start;align-content:end;padding:0 0 13vh var(--pad)}
+.am2-copy .am-eyebrow{color:#e0326e}
+.am2-copy h2{margin:0;font:800 clamp(38px,5.8vw,92px)/.9 "Bricolage Grotesque",sans-serif;color:#2a1520;text-transform:uppercase;letter-spacing:-.02em;text-shadow:0 2px 16px rgba(244,233,236,.6)}
+.am2-copy h2 em{font-style:normal;color:#e0326e}
+.am2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#7a4a5e}
+.am2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.16;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THIS SEASON — impact-cut montage · кадры «влетают» с 集中線 speed-lines */
+.am3-scene .ps-sticky{background:#f4e9ec}
+.am3-bg{position:absolute;inset:0;z-index:1;background:#efe0e6}
+.am3-word{place-items:center}
+.am3-word span{font:800 clamp(120px,24vw,420px)/.9 "Bricolage Grotesque",sans-serif;text-transform:uppercase;color:rgba(224,50,110,.08);letter-spacing:-.03em}
+.am3-copy{justify-items:center;align-content:start;text-align:center;padding-top:5vh}
+.am3-copy .am-eyebrow{color:#e0326e}
+.am3-copy h2{margin:0;font:800 clamp(30px,4.8vw,66px)/.94 "Bricolage Grotesque",sans-serif;color:#2a1520;text-transform:uppercase}
+.am3-copy h2 em{font-style:normal;color:#e0326e}
+/* impact-кадры */
+.am3-u1{justify-items:start;align-content:end;padding:0 0 13vh 7vw}
+.am3-u2{justify-items:center;align-content:center;padding-top:4vh}
+.am3-u3{justify-items:end;align-content:start;padding:13vh 8vw 0 0}
+.am3-cel{position:relative;margin:0;background:#fff;padding:8px;border:3px solid #16121a;box-shadow:0 22px 46px rgba(42,21,32,.32)}
+.am3-u1 .am3-cel{width:clamp(200px,22vw,320px)}
+.am3-u2 .am3-cel{width:clamp(190px,20vw,300px)}
+.am3-u3 .am3-cel{width:clamp(170px,18vw,270px)}
+.am3-cel .ps-media{width:100%;height:auto;max-width:none;object-fit:cover;display:block;filter:saturate(1.08) contrast(1.04)}
+.am3-cel::before{content:"";position:absolute;inset:-46%;z-index:-1;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(224,50,110,.6) 0deg .55deg,transparent .55deg 2.5deg);
+  -webkit-mask:radial-gradient(closest-side,transparent 45%,#000 60%,transparent 100%);mask:radial-gradient(closest-side,transparent 45%,#000 60%,transparent 100%);
+  opacity:calc(.32 + (1 - var(--lp,0)) * .5)}
+.am3-cel b{position:absolute;left:12px;bottom:11px;display:flex;align-items:center;gap:6px;padding:4px 8px;background:rgba(255,255,255,.92);font:800 10px "Bricolage Grotesque",sans-serif;text-transform:uppercase;color:#2a1520}
+.am3-cel b span{font:700 15px "Noto Sans JP",sans-serif;color:#e0326e}
+.am3-fx{position:absolute;top:-5%;right:-6%;font:700 clamp(28px,3.6vw,54px)/1 "Noto Sans JP",sans-serif;color:#fff;-webkit-text-stroke:2.5px #16121a;paint-order:stroke fill;transform:rotate(-9deg);text-shadow:0 4px 10px rgba(224,50,110,.4)}
+
+/* S4 IN THIS ISSUE — оглавление */
+.am4-scene .ps-sticky{background:#f4e9ec}
+.am4-bg{position:absolute;inset:0;z-index:1;background:#efe0e6}
+.am4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.am4-head .am-eyebrow{color:#e0326e}
+.am4-head h2{margin:0;font:800 clamp(32px,4.8vw,68px)/1 "Bricolage Grotesque",sans-serif;color:#2a1520;text-transform:uppercase}
+.am4-head h2 em{font-style:normal;color:#e0326e}
+/* contents влетают манга-свушем с разных сторон + спид-стрик (по --lp, последовательно) */
+.am4-tocL{justify-items:center;align-content:center}
+.am4-toc{width:min(800px,88vw)}
+.am4-item{position:relative;display:grid;grid-template-columns:50px 1fr auto auto;gap:22px;align-items:baseline;padding:16px 0;border-top:1px solid rgba(224,50,110,.28);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 10, 1));
+  transform:translateX(calc(var(--dir,1) * (1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1)) * 46px))}
+.am4-item:first-child{border-top:none}
+.am4-streak{position:absolute;top:50%;bottom:auto;height:44%;width:60%;transform:translateY(-50%);z-index:-1;pointer-events:none;
+  left:calc(var(--dir,1) * -1 * 30%);
+  background:repeating-linear-gradient(90deg,rgba(224,50,110,.5) 0 2px,transparent 2px 7px);
+  -webkit-mask:linear-gradient(90deg,transparent,#000 60%);mask:linear-gradient(90deg,transparent,#000 60%);
+  opacity:calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 6, 1)) * 0.9)}
+.am4-item i{font:800 clamp(18px,2vw,26px) "Bricolage Grotesque",sans-serif;color:#e0326e}
+.am4-item b{font:800 clamp(18px,2.2vw,28px) "Bricolage Grotesque",sans-serif;color:#2a1520;text-transform:uppercase}
+.am4-item s{font:500 12px "DM Mono",monospace;letter-spacing:.04em;text-transform:uppercase;color:#9a6b80;text-decoration:none}
+.am4-item em{font:700 12px "DM Mono",monospace;font-style:normal;color:#e0326e;text-align:right}
+
+/* S5 READER MAIL — манга-баблы «вылетают» над экшн-кадром */
+.am5-scene .ps-sticky{background:#f4e9ec}
+.am5-bg .ps-media{filter:contrast(1.03) saturate(1.08) brightness(.82)}
+.am5-bub{transform-origin:center}
+.am5-b1{justify-items:start;align-content:start;padding:15vh 0 0 8vw}
+.am5-b2{justify-items:end;align-content:center;padding:0 8vw 0 0}
+.am5-b3{justify-items:start;align-content:end;padding:0 0 15vh 15vw}
+.am5-bubble{position:relative;width:min(34ch,36vw);background:#fff;border:3px solid #16121a;border-radius:30px;padding:20px 24px;box-shadow:0 20px 42px rgba(42,21,32,.4)}
+.am5-bubble p{margin:0;font:700 clamp(16px,1.7vw,23px)/1.32 "Bricolage Grotesque",sans-serif;color:#2a1520}
+.am5-bubble cite{display:block;margin-top:11px;font:700 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:#e0326e}
+.am5-bubble::after{content:"";position:absolute;left:40px;bottom:-14px;width:26px;height:26px;background:#fff;border-right:3px solid #16121a;border-bottom:3px solid #16121a;transform:rotate(45deg)}
+.am5-b2 .am5-bubble::after{left:auto;right:40px}
+.am5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#2a1520}
+
+/* S6 START WATCHING — hot-pink CTA + play */
+.am6-scene .ps-sticky{background:#e0326e}
+.am6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(92% 100% at 50% 42%,#e84a80,#c81e5c)}
+.am6-kanji{place-items:center}
+.am6-kanji span{font:700 64vh/1 "Noto Sans JP",sans-serif;color:rgba(255,255,255,.14)}
+.am6-play{position:absolute;z-index:5;left:64%;top:50%;transform:translate(-50%,-50%);width:110px;height:110px;border:3px solid #fff;border-radius:50%;display:grid;place-content:center}
+.am6-play i{width:0;height:0;border-left:30px solid #fff;border-top:19px solid transparent;border-bottom:19px solid transparent;margin-left:8px}
+.am6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad)}
+.am6-copy .am-eyebrow{color:#fff}
+.am6-copy h2{margin:0;font:800 clamp(52px,10vw,168px)/.86 "Bricolage Grotesque",sans-serif;color:#fff;text-transform:uppercase;letter-spacing:-.02em}
+.am6-copy h2 em{font-style:normal;color:#2a1520}
+.am6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
+.am6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:rgba(255,255,255,.9)}
+.am6-scene a.am-btn{background:#2a1520;color:#fff}
+@media(max-width:900px){.am2-copy,.am6-cta{max-width:88vw}.am2-figure .ps-media{width:64vw}.am2-fg{display:none}
+  .am3-u1 .am3-cel,.am3-u2 .am3-cel,.am3-u3 .am3-cel{width:50vw}.am3-u1{padding:0 0 8vh 5vw}.am3-u2{padding-top:2vh}.am3-u3{padding:8vh 5vw 0 0}
+  .am4-item{grid-template-columns:40px 1fr auto;gap:6px 12px}.am4-item s{display:none}.am4-streak{display:none}
+  .am5-bubble{width:78vw}.am5-b1{padding:12vh 0 0 4vw}.am5-b2{padding:0 4vw 0 0}.am5-b3{padding:0 0 12vh 4vw}.am6-play{display:none}}

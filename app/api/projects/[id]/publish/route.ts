@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth/session";
 import { Client } from "ssh2";
 import { getFormHandlerScript } from "@/lib/builder/form-handler";
+import { isSiteDocument } from "@/lib/site/create";
+import { renderPublishHtml } from "@/lib/site/render";
 
 function getSSHConfig() {
   const host = process.env.VDS_HOST;
@@ -50,6 +52,17 @@ function sftpWrite(conn: InstanceType<typeof Client>, remotePath: string, conten
   });
 }
 
+function buildNginxConf(domain: string, siteDir: string): string {
+  return `server {
+    listen 80;
+    server_name ${domain};
+    root ${siteDir};
+    index index.html;
+    location / { try_files $uri $uri/ /index.html; }
+    location ~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff2?)$ { expires 30d; add_header Cache-Control "public"; }
+}`;
+}
+
 const DOMAIN = process.env.VDS_DOMAIN || "creatly.ru";
 const SITES_ROOT = process.env.VDS_SITES_ROOT || "/var/www/creatly";
 
@@ -60,30 +73,17 @@ Made on Creatly
 </a>
 </div>`;
 
-function buildFullHtml(html: string, css: string): string {
-  if (html.includes("<!doctype") || html.includes("<!DOCTYPE")) {
-    return html.replace(
-      /<\/head>/i,
-      `<link rel="stylesheet" href="styles.css"></head>`,
-    ).replace(
-      /<\/body>/i,
-      `${CREATLY_BADGE}\n<script src="script.js" defer></script></body>`,
-    );
-  }
-  return `<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-${html}
-${CREATLY_BADGE}
-<script src="script.js" defer></script>
-</body>
-</html>`;
-}
+const COOKIE_BANNER_SCRIPT = `<script>
+(function(){
+  var KEY="creatly_cookie_ok";
+  if(localStorage.getItem(KEY))return;
+  var b=document.createElement("div");
+  b.id="cb-cookie";
+  b.style.cssText="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9998;background:rgba(10,10,15,.92);backdrop-filter:blur(12px);color:#e2e8f0;font:500 13px/1.5 -apple-system,BlinkMacSystemFont,sans-serif;padding:14px 20px;border-radius:12px;display:flex;align-items:center;gap:16px;max-width:520px;width:calc(100vw - 40px);box-sizing:border-box;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.3)";
+  b.innerHTML='<span style="flex:1">Мы используем файлы cookie для улучшения работы сайта.</span><button onclick="document.getElementById(\'cb-cookie\').remove();localStorage.setItem(\'creatly_cookie_ok\',\'1\')" style="background:#fff;color:#111;border:0;border-radius:8px;padding:8px 16px;font:600 13px/1 inherit;cursor:pointer;white-space:nowrap;flex-shrink:0">Принять</button>';
+  document.body.appendChild(b);
+})();
+</script>`;
 
 // ═══ PUBLISH ═══
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -100,25 +100,61 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const sshConfig = getSSHConfig();
   if (!sshConfig) return NextResponse.json({ error: "VDS не настроен" }, { status: 500 });
 
-  const body = await request.json();
-  const { html, css, js } = body;
+  // Источник правды — document в БД; клиент ничего не присылает.
+  await request.json().catch(() => ({}));
+  const doc = project.document;
+  if (!isSiteDocument(doc)) {
+    return NextResponse.json({ error: "Проект пуст — нечего публиковать" }, { status: 400 });
+  }
 
+  const settings = doc.settings || {};
   const subdomain = project.slug;
   const siteDir = `${SITES_ROOT}/${subdomain}`;
-  const publishUrl = `https://${subdomain}.${DOMAIN}/`;
+  const primaryDomain = settings.customDomain && settings.customDomain.trim()
+    ? settings.customDomain.trim()
+    : `${subdomain}.${DOMAIN}`;
+  const publishUrl = `https://${primaryDomain}/`;
   const apiBase = process.env.NEXT_PUBLIC_APP_URL || `https://${DOMAIN}`;
 
   const formScript = getFormHandlerScript(project.id, apiBase);
-  const fullJs = [js, formScript].filter(Boolean).join("\n\n");
-  const fullHtml = buildFullHtml(html, css);
+  const runtimeScript = formScript;
 
   let conn: InstanceType<typeof Client> | null = null;
   try {
     conn = await connectSSH(sshConfig);
     await sshExec(conn, `mkdir -p "${siteDir}"`);
-    await sftpWrite(conn, `${siteDir}/index.html`, fullHtml);
-    await sftpWrite(conn, `${siteDir}/styles.css`, css || "");
-    await sftpWrite(conn, `${siteDir}/script.js`, fullJs);
+
+    for (const page of doc.pages) {
+      // cinematic-runtime теперь включается самим рендерером (renderPage, publish-режим)
+      const rendered = renderPublishHtml(doc, page.id, {
+        extraHead: settings.analyticsCode || "",
+        extraBody: [
+          settings.cookieBannerEnabled ? COOKIE_BANNER_SCRIPT : "",
+          CREATLY_BADGE,
+        ].filter(Boolean).join("\n"),
+      });
+      const dir = page.isHome ? "" : page.slug.replace(/^\/+|\/+$/g, "");
+      const targetDir = dir ? `${siteDir}/${dir}` : siteDir;
+      await sshExec(conn, `mkdir -p "${targetDir}"`);
+      // Загруженные картинки живут на app-сервере — абсолютизируем URL
+      // Медиа живут на app-сервере — абсолютизируем все локальные ссылки
+      const html = rendered.html.replace(/(["'(])\/(uploads|assets)\//g, `$1${apiBase}/$2/`);
+      await sftpWrite(conn, `${targetDir}/index.html`, html);
+      await sftpWrite(conn, `${targetDir}/styles.css`, rendered.css);
+      await sftpWrite(conn, `${targetDir}/script.js`, [rendered.js, runtimeScript].filter(Boolean).join("\n\n"));
+    }
+
+    // Custom domain: setup nginx vhost if domain provided and different from default
+    if (settings.customDomain && settings.customDomain.trim() && sshConfig) {
+      const domain = settings.customDomain.trim();
+      const nginxConf = buildNginxConf(domain, siteDir);
+      const confPath = `/etc/nginx/sites-available/${domain}`;
+      const enabledPath = `/etc/nginx/sites-enabled/${domain}`;
+      await sftpWrite(conn, confPath, nginxConf);
+      await sshExec(conn, `ln -sf "${confPath}" "${enabledPath}" && nginx -t && systemctl reload nginx`).catch(() => {});
+      // Issue Let's Encrypt cert (non-blocking, best-effort)
+      sshExec(conn, `certbot --nginx -d ${domain} --non-interactive --agree-tos -m admin@creatly.ru --redirect 2>&1 || true`).catch(() => {});
+    }
     conn.end();
 
     await prisma.project.update({

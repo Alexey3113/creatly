@@ -1,0 +1,55 @@
+/* MANIFESTO — editorial line-reveal на ScrollStage. --t наследуется от .scene; --d — индекс строки.
+   Строка проявляется маской (translateY 118→0 в overflow:hidden) по своему окну прогресса --p. */
+.mf{ background:#0b0b0d; color:#ecebe7; font-family:"Archivo",system-ui,sans-serif; }
+.mf .mf-line{ display:block; overflow:hidden; }
+.mf .mf-line > i{
+  display:block; font-style:inherit;
+  --p:clamp(0, calc((var(--t,0) - 0.10 - var(--d,0)*0.05) * 3.4), 1);
+  transform:translateY(calc((1 - var(--p)) * 118%));
+  opacity:var(--p);
+  will-change:transform;
+}
+
+/* 0 · COVER */
+.mf-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 7vw; }
+.mf-kick{ position:absolute; top:5vh; left:7vw; right:7vw; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#78736d; }
+.mf-hero{ margin:0; font:300 clamp(52px,10.5vw,168px)/.98 "Fraunces",serif; letter-spacing:-.02em; }
+.mf-hero i{ font-style:italic; }
+.mf-gold i, .mf-gold{ color:#c9a24a; }
+.mf-cue{ position:absolute; bottom:5vh; left:7vw; font:700 11px "Archivo"; letter-spacing:.24em; color:#78736d; }
+
+/* 1 · MANIFESTO LINES */
+.mf-lines{ display:flex; align-items:center; padding:0 7vw; }
+.mf-body{ margin:0; max-width:20ch; font:300 clamp(30px,5.4vw,84px)/1.06 "Fraunces",serif; }
+.mf-body i{ font-style:normal; }
+.mf-body .mf-line:nth-child(even) i{ color:#b9b2a8; }
+
+/* 2 · SCALE — слово растёт по --t (through-сцена, пик у центра вьюпорта ~0.5) */
+.mf-scale{ display:grid; place-items:center; background:#0b0b0d; }
+.mf-scale-word{
+  font:900 22vw/1 "Archivo",sans-serif; letter-spacing:-.03em;
+  color:transparent; -webkit-text-stroke:1.5px #46464f;
+  transform:scale(calc(.7 + var(--t,0)*.6)); opacity:calc(.3 + var(--t,0)*.9);
+  will-change:transform;
+}
+.mf-scale-cap{ position:absolute; bottom:12vh; left:0; right:0; text-align:center;
+  font:300 clamp(20px,3vw,40px) "Fraunces",serif; font-style:italic; color:#ecebe7; }
+.mf-scale-cap .mf-line > i{ --p:clamp(0, calc((var(--t,0) - 0.25)*4), 1); }
+
+/* 3 · FINAL day→night (through) */
+.mf-final{ display:grid; place-items:center; background:linear-gradient(160deg,#2b261d,#0b0b0d); }
+.mf-final-veil{ position:absolute; inset:0; background:#050506; opacity:calc(min(1, var(--t,0)*1.3)); }
+.mf-final-block{ position:relative; z-index:2; text-align:center; padding:0 7vw; }
+.mf-final-block h2{ margin:0 0 40px; font:300 clamp(40px,8vw,128px)/1 "Fraunces",serif; }
+.mf-final-block h2 i{ font-style:italic; }
+.mf-btn{ display:inline-block; padding:16px 34px; border:1px solid #c9a24a; border-radius:999px;
+  color:#c9a24a; text-decoration:none; font:700 14px "Archivo"; letter-spacing:.04em;
+  opacity:calc(clamp(0, (var(--t,0)-0.3)*3, 1)); transition:background .3s,color .3s; }
+.mf-btn:hover{ background:#c9a24a; color:#0b0b0d; }
+
+@media (prefers-reduced-motion:reduce){
+  .mf .mf-line > i{ transform:none; opacity:1; }
+  .mf-scale-word{ transform:none; opacity:1; }
+  .mf-final-veil{ opacity:.5; }
+}

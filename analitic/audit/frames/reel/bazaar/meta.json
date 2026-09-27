@@ -1,0 +1,133 @@
+{
+ "fam": "reel",
+ "id": "bazaar",
+ "url": "animated/w-bazaar",
+ "mode": "scroll",
+ "ms": 21859,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 505
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1009
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1514
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 2018
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2523
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3027
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3532
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4036
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4541
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.6vh",
+   "y": 5045
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.2vh",
+   "y": 5550
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.7vh",
+   "y": 6054
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.3vh",
+   "y": 6559
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.8vh",
+   "y": 7063
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.4vh",
+   "y": 7568
+  },
+  {
+   "f": "f16.jpg",
+   "label": "9.0vh",
+   "y": 8072
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.5vh",
+   "y": 8577
+  },
+  {
+   "f": "f18.jpg",
+   "label": "10.1vh",
+   "y": 9081
+  },
+  {
+   "f": "f19.jpg",
+   "label": "10.7vh",
+   "y": 9586
+  },
+  {
+   "f": "f20.jpg",
+   "label": "11.2vh",
+   "y": 10090
+  }
+ ],
+ "stats": {
+  "title": "Creatly — AI-конструктор сайтов",
+  "screens": 12.2,
+  "sections": 14,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 8,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Cinzel",
+   "Work Sans"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

@@ -1,0 +1,67 @@
+{
+ "fam": "legacy",
+ "id": "helix",
+ "url": "animated/helix",
+ "mode": "scroll",
+ "ms": 9632,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.4vh",
+   "y": 386
+  },
+  {
+   "f": "f02.jpg",
+   "label": "0.9vh",
+   "y": 771
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.3vh",
+   "y": 1157
+  },
+  {
+   "f": "f04.jpg",
+   "label": "1.7vh",
+   "y": 1543
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.1vh",
+   "y": 1929
+  },
+  {
+   "f": "f06.jpg",
+   "label": "2.6vh",
+   "y": 2314
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.0vh",
+   "y": 2700
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 4,
+  "sections": 4,
+  "videos": 0,
+  "canvases": 1,
+  "imgs": 0,
+  "sticky": 0,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "IBM Plex Mono"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

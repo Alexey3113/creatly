@@ -1,0 +1,123 @@
+/* STORY v2 · ПИЛОТ 3 «SCARLET» — Tokyo cyber-zine (pin 5): oxblood-red нуар, гранж, кандзи.
+   Шрифты: Oswald (condensed) · Share Tech Mono (mono) · Shippori Mincho (кандзи/serif). */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Share+Tech+Mono&family=Shippori+Mincho:wght@600;800&display=swap');
+
+.sc-site{--bg:#0b0808;--red:#a01e28;--red-hi:#d8323f;--bone:#d8cfc4;--steel:#5f7178;--mut:#a89690;
+  position:fixed;inset:0;background:var(--bg);color:var(--bone);font-family:"Oswald",system-ui,sans-serif;overflow:hidden}
+.sc-jp{font-family:"Shippori Mincho","Noto Serif JP",serif}
+
+.sc-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
+.sc-head a{pointer-events:auto}
+.sc-brand{font:800 22px/1 "Shippori Mincho",serif;letter-spacing:.06em;color:var(--bone);text-decoration:none}
+.sc-nav{display:flex;gap:22px;align-items:center;font:600 12px "Share Tech Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
+.sc-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.sc-nav a:hover{color:var(--red-hi)}
+.sc-nav .sc-cta{padding:8px 14px;border:1px solid var(--red);color:var(--bone);font-family:"Shippori Mincho",serif}
+@media(max-width:900px){.sc-nav a:not(.sc-cta){display:none}}
+
+.sc-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>")}
+.sc-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:600 12px "Share Tech Mono",monospace;letter-spacing:.2em;color:var(--mut)}
+.sc-eyebrow{font:600 11px "Share Tech Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--red-hi)}
+.sc-folio{font:600 11px "Share Tech Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.sc-meta{font:600 11px "Share Tech Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--red-hi)}
+
+/* ===== 0 · OCCLUDED IDOL ===== */
+.sc-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 44% 34%,#26100f,#0b0808 72%)}
+.sc-wordmark{display:flex;align-items:center;justify-content:flex-start;padding-left:3vw;pointer-events:none}
+.sc-wordmark span{font:800 clamp(120px,30vh,340px)/.82 "Shippori Mincho",serif;color:#7a1820;letter-spacing:0;text-shadow:0 0 40px rgba(160,30,40,.4)}
+.sc-cover-fig{display:grid;place-items:end center;pointer-events:none}
+.sc-cover-fig .ps-media{width:auto;height:99vh;max-width:none;object-fit:contain;object-position:bottom;filter:contrast(1.05)}
+.sc-orn{position:absolute;inset:0;z-index:8;pointer-events:none;--lp:var(--sp,1)}
+.sc-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9)}
+.sc-orn-issue{top:13vh;left:4vw;font:600 11px/1.5 "Share Tech Mono",monospace;letter-spacing:.14em;color:var(--mut)}
+.sc-orn-jp{top:14vh;right:4vw;text-align:right;font:600 15px/1.7 "Shippori Mincho",serif;color:var(--bone)}
+.sc-orn-zone{top:44%;right:5vw;text-align:right;font:600 11px/1.5 "Share Tech Mono",monospace;letter-spacing:.14em;color:var(--red-hi)}
+.sc-orn-bar{bottom:10vh;right:4vw;font:600 11px "Share Tech Mono",monospace;letter-spacing:.1em;color:var(--mut)}
+.sc-orn-bar b{display:block;font-size:15px;letter-spacing:-1px;color:var(--bone)}
+.sc-orn-seal{top:24vh;left:33vw;font:800 46px "Shippori Mincho",serif;color:transparent;-webkit-text-stroke:1.5px var(--red);opacity:.55}
+.sc-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 12vh 4vw}
+.sc-cover-hi h1{margin:8px 0 12px}
+.sc-cover-hi h1 .kt{font:700 clamp(52px,9vw,140px)/.9 "Oswald",sans-serif;letter-spacing:.02em;text-transform:uppercase;color:var(--bone)}
+.sc-cover-hi h1 .kt-l{color:var(--bone)}
+.sc-cover-hi p{margin:0;max-width:32ch;font:400 15px/1.6 "Oswald",sans-serif;color:#c3b3ad}
+
+/* ===== 1 · VERTICAL TABLET ===== */
+.sc-tablet-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#1a0a0b,#0b0808)}
+.sc-tablet-kanji{display:grid;pointer-events:none}
+.sc-tablet-kanji span{font:800 46vh/.8 "Shippori Mincho",serif;color:#5a1218;opacity:.5}
+.sc-tk-1{place-items:start start;padding:6vh 0 0 6vw}
+.sc-tk-2{place-items:center center}
+.sc-tk-3{place-items:end end;padding:0 8vw 8vh 0}
+.sc-tablet-cap{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 0 0 6vw;max-width:46vw}
+.sc-tablet-cap h2{margin:8px 0 12px;font:700 clamp(42px,7vw,104px)/.9 "Oswald",sans-serif;text-transform:uppercase;color:var(--bone)}
+.sc-tablet-cap h2 em{font:800 clamp(38px,6vw,92px) "Shippori Mincho",serif;font-style:normal;color:var(--red-hi)}
+.sc-tablet-cap p{margin:0 0 18px;max-width:38ch;font:400 15px/1.6 "Oswald",sans-serif;color:#c3b3ad}
+.sc-facts{list-style:none;display:flex;gap:26px;margin:0;padding:0}
+.sc-facts b{display:block;font:800 30px "Shippori Mincho",serif;color:var(--red-hi)}
+.sc-facts span{font:600 10px "Share Tech Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+
+/* ===== 2 · TUNNEL ZOOM ===== */
+.sc-tunnel{background:var(--bg)}
+.sc-tunnel-fig{z-index:1}
+.sc-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 32%;filter:contrast(1.08) saturate(1.05)}
+.sc-tunnel-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(60% 60% at 50% 45%,transparent,rgba(11,8,8,.7) 90%),linear-gradient(0deg,rgba(11,8,8,.8),transparent 50%)}
+.sc-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:800 44vh "Shippori Mincho",serif;color:rgba(216,50,63,.16);pointer-events:none}
+.sc-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
+.sc-tunnel-cap p{margin:8px 0;max-width:40ch;font:400 15px/1.6 "Oswald",sans-serif;color:#d8cfc4}
+
+/* общий: сканлайны наблюдения */
+.sc-scan{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.35;
+  background:repeating-linear-gradient(0deg,rgba(160,30,40,.14) 0 1px,transparent 1px 4px)}
+
+/* ===== 3 · SURVEILLANCE — full-bleed + HUD-скобки (ось иная) ===== */
+.sc-surv-fig{z-index:1}
+.sc-surv-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.1) saturate(1.05)}
+.sc-surv-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(60% 60% at 50% 45%,transparent,rgba(11,8,8,.78) 96%),linear-gradient(0deg,rgba(11,8,8,.9),transparent 44%)}
+.sc-surv-hud{position:absolute;inset:5vh 5vw;z-index:6;pointer-events:none;color:var(--red-hi);font:600 12px "Share Tech Mono",monospace;letter-spacing:.1em}
+.sc-hud-c{position:absolute}.sc-hud-tl{top:0;left:0}.sc-hud-tr{top:0;right:0}.sc-hud-bl{bottom:0;left:0}.sc-hud-br{bottom:0;right:0}
+.sc-hud-cross{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;color:rgba(216,203,196,.5)}
+.sc-surv-cap{position:absolute;left:5vw;right:5vw;top:auto;bottom:9vh;z-index:8;display:flex;flex-direction:column;align-items:flex-start}
+.sc-surv-cap h3{margin:6px 0 10px;font:700 clamp(38px,6vw,96px)/.9 "Oswald",sans-serif;text-transform:uppercase;color:var(--bone)}
+.sc-surv-cap p{margin:0;max-width:44ch;font:400 15px/1.6 "Oswald",sans-serif;color:#c3b3ad}
+
+/* ===== 4 · ZINE — рваная masonry-сетка (не равная) ===== */
+.sc-zine-bg{position:absolute;inset:0;z-index:0;background:#0e0909}
+.sc-zine-head{position:absolute;top:7vh;left:5vw;z-index:6}
+.sc-zine-head b{display:block;font:700 clamp(26px,4.4vw,64px)/.9 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.04em;color:var(--bone)}
+.sc-zine-head span{font:600 11px "Share Tech Mono",monospace;letter-spacing:.14em;color:var(--red-hi)}
+.sc-zine-grid{position:absolute;inset:22vh 5vw 8vh;z-index:2;display:grid;gap:10px;
+  grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);
+  grid-template-areas:"a a a b b b" "a a a b b b" "a a a c c c" "a a a c c c" "d d d k k k" "d d d k k k"}
+.sc-z{position:relative;margin:0;overflow:hidden;border:1px solid rgba(160,30,40,.3);
+  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-24px))}
+.sc-z-a{grid-area:a;--d:0}.sc-z-b{grid-area:b;--d:.08}.sc-z-c{grid-area:c;--d:.16}.sc-z-d{grid-area:d;--d:.24}
+.sc-z img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) sepia(.14) saturate(1.1)}
+.sc-z figcaption{position:absolute;left:0;bottom:0;padding:5px 8px;font:600 9px "Share Tech Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(11,8,8,.9),transparent)}
+.sc-z-kanji{grid-area:k;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--red);color:var(--bone);font:800 clamp(24px,3vw,48px)/.9 "Shippori Mincho",serif}
+.sc-zine-code{position:absolute;left:5vw;bottom:3vh;z-index:6;font:600 11px "Share Tech Mono",monospace;letter-spacing:.08em;color:var(--mut)}
+
+/* ===== 5 · TERMINAL — boot-лог, левая ось (не центр-слоган) ===== */
+.sc-term-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 90% at 25% 40%,#2a0e10,#0b0808 74%)}
+.sc-term-jp{position:absolute;right:-2vw;top:50%;transform:translateY(-50%);z-index:1;font:800 90vh "Shippori Mincho",serif;color:rgba(160,30,40,.1);pointer-events:none}
+.sc-term-panel{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;width:min(60ch,86vw)}
+.sc-term-log{display:flex;flex-direction:column;gap:5px;margin-bottom:22px;font:600 13px "Share Tech Mono",monospace;letter-spacing:.04em;color:var(--red-hi)}
+.sc-term-panel h4{margin:0 0 14px;font:700 clamp(44px,9vw,150px)/.88 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.02em;color:var(--bone)}
+.sc-term-red{color:var(--red-hi)}
+.sc-term-sub{margin:0 0 26px;max-width:40ch;font:400 15px/1.6 "Oswald",sans-serif;color:#c3b3ad}
+.sc-term-cta{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.sc-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--red);color:var(--bone);font:600 15px "Shippori Mincho",serif;letter-spacing:.04em;text-decoration:none;transition:background .2s,transform .2s}
+.sc-btn:hover{background:var(--red-hi);transform:translateY(-2px)}
+.sc-links{display:flex;gap:20px;font:600 12px "Share Tech Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
+.sc-links a{color:var(--mut);text-decoration:none}.sc-links a:hover{color:var(--red-hi)}
+
+/* ===== мобилка ===== */
+@media(max-width:900px){
+  .sc-cover-fig .ps-media{height:82vh}
+  .sc-wordmark span{font-size:34vh}
+  .sc-orn-jp{font-size:12px}.sc-orn-zone{top:38%}
+  .sc-tablet-cap{max-width:none;padding:0 5vw}
+  .sc-surv-cap h3{font-size:34px}
+  .sc-zine-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(5,1fr);
+    grid-template-areas:"a a" "a a" "b k" "c c" "d d"}
+  .sc-term-panel{width:88vw}
+}

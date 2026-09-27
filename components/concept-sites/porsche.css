@@ -1,0 +1,163 @@
+/* Концепт 04 — PORSCHE 911. Тёмный кино-магента, «911» за машиной, сакура-foreground. */
+.pr-site{--pad:4vw;--bg:#120611;--ink:#f2e8ef;--mut:#b892a8;--accent:#e85a9c;--violet:#8a5cd8;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.pr-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.pr-brand{font:800 18px "Bricolage Grotesque",sans-serif;letter-spacing:.14em;color:#f6ecf1}
+.pr-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#cba7bd}
+.pr-nav a{opacity:.85}.pr-nav a:hover{opacity:1}
+.pr-cta-nav{border:1px solid rgba(232,90,156,.5);border-radius:100px;padding:8px 16px;color:#f2b8d4;opacity:1!important}
+.pr-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.pr-hero .ps-sticky{background:#120611}
+.pr-bg .ps-media{filter:brightness(.82) saturate(1.12)}
+.pr-blobs{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(46vw 46vw at 50% 44%,rgba(232,90,156,.34),transparent 60%),radial-gradient(34vw 34vw at 84% 82%,rgba(138,92,216,.34),transparent 62%)}
+.pr-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.4;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+.pr-numeral{place-items:center}
+.pr-numeral span{font:800 clamp(150px,36vw,600px)/.78 "Bricolage Grotesque",sans-serif;color:#e85a9c;letter-spacing:-.05em;text-shadow:0 0 120px rgba(232,90,156,.45)}
+.pr-car .ps-media{filter:drop-shadow(0 30px 46px rgba(0,0,0,.5))}
+/* контактная тень на «уровне земли», сажает машину в лаванду */
+.pr-carshadow{position:absolute;z-index:4;left:50%;top:70%;width:56vw;height:15vh;transform:translateX(-50%);background:radial-gradient(ellipse 50% 50% at 50% 42%,rgba(9,2,10,.62),rgba(9,2,10,.3)46%,transparent 72%);filter:blur(16px);pointer-events:none}
+.pr-blossom .ps-media{object-fit:contain}
+.pr-blossom-l{left:-9vw;right:auto;top:-12vh;width:46vw;height:62vh;place-items:start}
+.pr-blossom-r{left:auto;right:-9vw;top:-9vh;width:42vw;height:56vh;place-items:start end}
+.pr-blossom-r .ps-media{transform:scaleX(-1)}
+
+.pr-tagline{position:absolute;z-index:12;left:0;right:0;bottom:11vh;text-align:center;font:400 clamp(20px,3.2vw,46px)/1 "Playfair Display",serif;color:#f2e8ef;letter-spacing:.02em}
+.pr-tagline em{font-style:italic;color:#f2b8d4}
+.pr-label{position:absolute;z-index:14;font:600 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#e9d4e2;line-height:1.5;text-shadow:0 1px 10px rgba(9,2,10,.7)}
+.pr-tl{top:96px;left:var(--pad)}.pr-tr{top:96px;right:var(--pad);text-align:right}
+.pr-bl{bottom:40px;left:var(--pad)}
+.pr-bl b{display:block;font:800 42px "Bricolage Grotesque",sans-serif;color:#f2b8d4;line-height:.9}
+.pr-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.pr-cue{position:absolute;z-index:14;left:50%;bottom:26px;transform:translateX(-50%);font:500 10px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+
+/* specs */
+
+/* manifest */
+
+/* CTA */
+.pr-cta{position:relative;min-height:88vh;display:grid;place-items:center;text-align:center;overflow:hidden;background:radial-gradient(80% 80% at 50% 42%,#2a0f2a,#0f0510)}
+
+
+.pr-site a.pr-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:var(--accent);color:#1a0512;font:600 13px "Manrope",sans-serif}
+.pr-btn i{font-style:normal}
+
+/* footer */
+.pr-foot{position:relative;z-index:1;background:#0d040c;color:#b892a8;padding:64px var(--pad) 40px}
+.pr-foot-top b{font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:.08em;color:#f6ecf1}
+.pr-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#9a7089}
+.pr-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(232,90,156,.16);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#8a6079}
+
+/* ФАЗА 2 — секции */
+/* The machine — галерея */
+
+/* Heritage — история */
+
+.pr-story .pr-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.pr-grid{columns:2}}
+@media(max-width:900px){.pr-nav{display:none}.pr-specs-row{grid-template-columns:1fr 1fr;gap:24px}.pr-blossom-r{display:none}.pr-numeral span{font-size:44vw}
+  .pr-grid{columns:1}.pr-hsteps,.pr-rgrid{grid-template-columns:1fr}.pr-workhead{flex-direction:column;align-items:flex-start}.pr-workhead p{text-align:left}}
+
+/* ===== SCENES S2–S6 — cinematic magenta/violet/silver (Bricolage heavy) ===== */
+.pr-scene .ps-sticky{background:#120611}
+.pr-scene .pr-eyebrow{margin-bottom:16px}
+
+/* S2 THE DRIVE — машина в поле + сакура */
+.pr2-scene .ps-sticky{background:#120611}
+.pr2-bg .ps-media{filter:contrast(1.05) saturate(1.1) brightness(.8)}
+.pr2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 46%,rgba(232,90,156,.14),transparent 62%),linear-gradient(180deg,rgba(18,6,17,.5),transparent 28% 56%,rgba(18,6,17,.82))}
+.pr2-num{position:absolute;z-index:3;left:50%;top:44%;transform:translate(-50%,-50%);font:800 66vh/1 "Bricolage Grotesque",sans-serif;color:rgba(232,90,156,.14);pointer-events:none}
+.pr2-car{place-items:center;align-content:center}
+.pr2-car .ps-media{width:52vw;height:auto;max-width:none;filter:contrast(1.05) brightness(1.03) drop-shadow(0 30px 52px rgba(0,0,0,.62)) drop-shadow(0 0 46px rgba(232,90,156,.22))}
+.pr2-fg{justify-items:end;align-content:start}
+.pr2-fg .ps-media{width:30vw;height:auto;max-width:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.4))}
+.pr2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.pr2-copy .pr-eyebrow{color:#e85a9c}
+.pr2-copy h2{margin:0;font:800 clamp(40px,6vw,96px)/.9 "Bricolage Grotesque",sans-serif;color:#f2e8ef;text-transform:uppercase;letter-spacing:-.02em}
+.pr2-copy h2 em{font-style:normal;color:#e85a9c}
+.pr2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#b892a8}
+.pr2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.24;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE MACHINE — приборный кластер · стрелки разворачиваются по --lp */
+.pr3-scene .ps-sticky{background:#120611}
+.pr3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c0a1a,#0c040b)}
+.pr3-word{place-items:center}
+.pr3-word span{font:800 clamp(160px,32vw,540px)/.9 "Bricolage Grotesque",sans-serif;color:transparent;-webkit-text-stroke:2px rgba(232,90,156,.14);letter-spacing:-.03em}
+.pr3-copy{justify-items:center;align-content:start;text-align:center;padding-top:5vh}
+.pr3-copy .pr-eyebrow{color:#e85a9c}
+.pr3-copy h2{margin:0;font:800 clamp(30px,4.8vw,64px)/.94 "Bricolage Grotesque",sans-serif;color:#f2e8ef;text-transform:uppercase}
+.pr3-copy h2 em{font-style:normal;color:#e85a9c}
+/* приборы */
+.pr3-clusterL{place-items:center;align-content:center;padding-top:7vh}
+.pr3-cluster{display:flex;align-items:center;justify-content:center;gap:4vw}
+.prg{position:relative;width:20vh;aspect-ratio:1;display:grid;place-items:center}
+.prg-big{width:27vh}
+.prg-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.prg-track{fill:none;stroke:rgba(232,90,156,.16);stroke-width:5;stroke-linecap:round}
+.prg-fill{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:calc(100 - var(--lp,0) * var(--af,100));filter:drop-shadow(0 0 6px rgba(232,90,156,.6))}
+.prg-tick{stroke:rgba(242,232,239,.5);stroke-width:2}
+.prg-red{stroke:#ff477e;stroke-width:3}
+.prg-needle{position:absolute;left:50%;bottom:50%;width:3px;height:33%;margin-left:-1.5px;border-radius:2px;background:linear-gradient(#fff,var(--accent));transform-origin:50% 100%;transform:rotate(calc(-120deg + var(--lp,0) * var(--sw,0) * 1deg));box-shadow:0 0 8px rgba(232,90,156,.7)}
+.prg-hub{position:absolute;width:12px;height:12px;border-radius:50%;background:#f2e8ef;box-shadow:0 0 0 3px #180a16,0 0 10px rgba(232,90,156,.6)}
+.prg-read{position:absolute;top:59%;text-align:center;pointer-events:none}
+.prg-read b{display:block;font:800 clamp(18px,2vw,28px)/1 "Bricolage Grotesque",sans-serif;color:#f2e8ef}
+.prg-big .prg-read b{font-size:clamp(24px,3vw,40px)}
+.prg-read i{font:600 8px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:#e85a9c}
+.prg-label{position:absolute;bottom:-3.6vh;font:600 10px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#b892a8;white-space:nowrap}
+
+/* S4 THE NUMBERS — спеки */
+.pr4-scene .ps-sticky{background:#120611}
+.pr4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1a0c22,#0c040b)}
+.pr4-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
+.pr4-head .pr-eyebrow{color:#e85a9c}
+/* rev-sweep: магента-полоса проходит по спекам, они загораются слева-направо (по --lp) */
+.pr4-statsL{place-items:center}
+.pr4-specs{position:relative;display:flex;gap:5vw;justify-content:center;align-items:center;padding:0 var(--pad)}
+.pr4-sweep{position:absolute;z-index:2;top:-10%;bottom:-10%;width:11vw;pointer-events:none;
+  left:calc(var(--lp,0) * 100% - 5.5vw);
+  background:radial-gradient(closest-side,rgba(232,90,156,.55),transparent 78%);mix-blend-mode:screen;filter:blur(6px)}
+.pr4-spec{text-align:center;position:relative;
+  opacity:calc(0.22 + clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1) * 0.78);
+  transform:translateY(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1)) * 8px))}
+.pr4-spec b{display:block;font:800 clamp(50px,8vw,132px)/.86 "Bricolage Grotesque",sans-serif;color:#f2e8ef;letter-spacing:-.03em}
+.pr4-spec b i{font-style:normal;font-size:.38em;color:#e85a9c}
+.pr4-spec span{display:block;margin-top:8px;font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#b892a8}
+.pr4-sub{position:absolute;z-index:14;left:50%;bottom:14vh;transform:translateX(-50%);text-align:center;max-width:58ch;font:400 15px/1.7 "Manrope",sans-serif;color:#b892a8}
+
+/* S5 FROM THE ROAD — timing board · сессии владельцев как круги, P1 = фиолетовый */
+.pr5-scene .ps-sticky{background:#120611}
+.pr5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1c0a1a,#0a030a)}
+.pr5-lap{justify-items:center;align-content:start}
+.pr5-l1{padding-top:25vh}.pr5-l2{padding-top:41vh}.pr5-l3{padding-top:57vh}
+.pr5-row{position:relative;display:grid;grid-template-columns:56px 1fr auto auto;column-gap:22px;row-gap:6px;align-items:center;width:min(840px,88vw);padding:15px 22px;background:rgba(24,10,22,.62);border:1px solid rgba(232,90,156,.22);border-radius:5px;backdrop-filter:blur(4px)}
+.pr5-p1{border-color:rgba(138,92,216,.7);box-shadow:0 0 34px rgba(138,92,216,.28)}
+.pr5-pos{font:800 22px "Bricolage Grotesque",sans-serif;color:#e85a9c;line-height:1}
+.pr5-p1 .pr5-pos{color:#a97cf0}
+.pr5-drv{font:700 12px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#f2e8ef}
+.pr5-time{font:800 clamp(20px,2.4vw,32px) "Bricolage Grotesque",sans-serif;color:#f2e8ef;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.pr5-p1 .pr5-time{color:#c7a8f5}
+.pr5-tag{font:700 9px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#0f0510;background:#a97cf0;padding:4px 8px;border-radius:2px;white-space:nowrap}
+.pr5-gap{background:none;color:#b892a8;padding:0}
+.pr5-note{grid-column:2 / -1;margin:0;font:400 13px/1.5 "Manrope",sans-serif;color:#b892a8}
+.pr5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#e85a9c}
+
+/* S6 TAKE THE 911 — машина + CTA */
+.pr6-scene .ps-sticky{background:#120611}
+.pr6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 55% 42%,#1c0a1a,#0c040b)}
+.pr6-num{position:absolute;z-index:2;left:54%;top:46%;transform:translate(-50%,-50%);font:800 66vh/1 "Bricolage Grotesque",sans-serif;color:rgba(232,90,156,.1)}
+.pr6-car{justify-items:end;align-content:center;padding-right:2vw}
+.pr6-car .ps-media{width:46vw;height:auto;max-width:none;filter:contrast(1.05) brightness(1.03) drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 44px rgba(232,90,156,.24))}
+.pr6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad);filter:blur(calc((1 - clamp(0, var(--lp,0) * 1.7, 1)) * 9px))}
+.pr6-copy .pr-eyebrow{color:#e85a9c}
+.pr6-copy h2{margin:0;font:800 clamp(52px,10vw,160px)/.86 "Bricolage Grotesque",sans-serif;color:#f2e8ef;text-transform:uppercase;letter-spacing:-.02em}
+.pr6-copy h2 em{font-style:normal;color:#e85a9c}
+.pr6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
+.pr6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#b892a8}
+@media(max-width:900px){.pr2-copy,.pr6-cta{max-width:88vw}.pr2-car .ps-media,.pr6-car .ps-media{width:92vw}.pr2-fg{display:none}
+  .pr3-cluster{gap:5vw}.prg{width:23vw}.prg-big{width:31vw}.prg-label{font-size:8px}
+  .pr4-specs{flex-wrap:wrap;gap:6vw 10vw}.pr4-sweep{display:none}
+  .pr5-row{width:92vw;grid-template-columns:44px 1fr auto;column-gap:12px}.pr5-tag{display:none}.pr5-note{grid-column:1 / -1}.pr5-l1{padding-top:20vh}.pr5-l2{padding-top:38vh}.pr5-l3{padding-top:56vh}}

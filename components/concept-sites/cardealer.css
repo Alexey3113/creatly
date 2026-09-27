@@ -1,0 +1,187 @@
+/* Концепт 21 — CARDEALER «CONCOURS». Heritage classic-car дилер. Navy+chrome+amber, mirror-floor reflection, chrome-nameplate. */
+.cd-site{--pad:3.6vw;--bg:#0a0f16;--ink:#dee6ef;--mut:#7c8798;--accent:#e2ac54;--chrome:#c6d0dc;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.cd-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.cd-brand{font:600 19px "Space Grotesk",sans-serif;letter-spacing:.24em;color:#eef3f8;text-transform:uppercase}
+.cd-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#9aa6b6}
+.cd-nav a{opacity:.84}.cd-nav a:hover{opacity:1}
+.cd-enq{border:1px solid rgba(226,172,84,.55);border-radius:2px;padding:8px 16px;color:#eecb8a;opacity:1!important}
+.cd-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.cd-hero .ps-sticky{background:#0a0f16}
+
+/* chrome-nameplate */
+
+/* manifest */
+
+/* CTA */
+.cd-cta{position:relative;min-height:88vh;display:grid;place-items:center;text-align:center;overflow:hidden;background:radial-gradient(80% 80% at 50% 42%,#1a2331,#070b11)}
+.cd-cta-in{position:relative;z-index:3;padding:0 var(--pad)}
+.cd-cta-in .cd-eyebrow{text-align:center}
+.cd-cta-in h2{margin:0;font:700 clamp(48px,9vw,150px)/.94 "Space Grotesk",sans-serif;color:#eef3f8;letter-spacing:-.01em}
+.cd-cta-in h2 span{color:var(--accent)}
+.cd-cta-in p{margin:22px auto 0;max-width:46ch;font:400 16px "Manrope",sans-serif;color:#7c8798}
+.cd-site a.cd-btn{display:inline-flex;align-items:center;gap:10px;margin-top:34px;padding:16px 32px;border-radius:2px;background:var(--accent);color:#1a1204;font:600 13px "Manrope",sans-serif}
+.cd-btn i{font-style:normal}
+
+/* footer */
+.cd-foot{position:relative;z-index:1;background:#070b11;color:#7c8798;padding:64px var(--pad) 40px}
+.cd-foot-top b{font:600 22px "Space Grotesk",sans-serif;letter-spacing:.2em;color:#eef3f8;text-transform:uppercase}
+.cd-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#5f6b7b}
+.cd-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(226,172,84,.24);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#556173}
+
+/* ФАЗА 2 — секции */
+/* The detail — галерея */
+
+/* Service — что делаем */
+
+.cd-serv .cd-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.cd-wgrid{columns:2}}
+@media(max-width:900px){.cd-nav{display:none}.cd-spec,.cd-tr{display:none}.cd-plate span{font-size:26vw}.cd-car .ps-media,.cd-reflect .ps-media{width:88vw}
+  .cd-wgrid{columns:1}.cd-ssteps,.cd-rgrid{grid-template-columns:1fr}.cd-workhead{flex-direction:column;align-items:flex-start}.cd-workhead p{text-align:left}}
+
+/* ===== POSTER HERO — blossom-dusk уровень (гигант-вордмарк за машиной + сумеречный сад + эмблема) ===== */
+.cd-poster{--accent:#e0609a;background:#150b18}
+.cd-poster .cd-brand{color:#f4e6ee}
+.cd-poster .cd-enq{border-color:rgba(224,96,154,.55);color:#f0a9c8}
+.cp-hero .ps-sticky{background:#140b17}
+.cp-bg .ps-media{filter:brightness(.9) saturate(1.1) contrast(1.03)}
+.cp-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 52vh at 50% 52%,rgba(224,96,154,.16),transparent 62%),linear-gradient(180deg,rgba(16,7,18,.5),transparent 26% 58%,rgba(16,7,18,.82))}
+.cp-crest{position:absolute;z-index:16;top:58px;left:50%;transform:translateX(-50%);text-align:center}
+.cp-crest b{display:grid;place-content:center;width:56px;height:64px;margin:0 auto;clip-path:polygon(50% 0,100% 24%,100% 76%,50% 100%,0 76%,0 24%);background:linear-gradient(180deg,#f2d6e3,#cf8fac 48%,#84556e);color:#2a1522;font:800 28px "Space Grotesk",sans-serif}
+.cp-crest i{display:block;margin-top:9px;font:600 9px "DM Mono",monospace;letter-spacing:.32em;text-transform:uppercase;color:#e7c3d4}
+.cp-word{place-items:center;align-content:center;padding-top:3vh}
+.cp-word span{position:relative;font:700 clamp(74px,15vw,244px)/.9 "Space Grotesk",sans-serif;letter-spacing:.005em;text-transform:uppercase;background:linear-gradient(180deg,#f4cfe0,#e0609a 56%,#a94a76);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 26px rgba(0,0,0,.4))}
+.cp-word em{position:absolute;top:.02em;right:-1.4em;font:700 .2em "Space Grotesk",sans-serif;font-style:normal;-webkit-text-fill-color:#f0a9c8;color:#f0a9c8;letter-spacing:0}
+.cp-car .ps-media{width:55vw;height:auto;max-width:none;filter:contrast(1.06) brightness(1.03) drop-shadow(0 30px 52px rgba(0,0,0,.62)) drop-shadow(0 0 48px rgba(224,96,154,.3))}
+.cp-floor{position:absolute;z-index:4;left:50%;top:60%;transform:translateX(-50%);width:46vw;height:11vh;background:radial-gradient(ellipse at center,rgba(0,0,0,.7),rgba(0,0,0,.35) 45%,transparent 72%);filter:blur(9px);pointer-events:none}
+.cp-headline{position:absolute;z-index:16;left:0;right:0;bottom:20vh;text-align:center;font:600 clamp(15px,1.9vw,24px)/1.35 "Space Grotesk",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#f0dbe6}
+.cp-headline b{color:#e0609a;font-weight:700}
+.cp-body{position:absolute;z-index:16;left:50%;transform:translateX(-50%);bottom:7vh;width:min(720px,82vw);display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.cp-body p{margin:0;font:600 10px/1.7 "DM Mono",monospace;letter-spacing:.03em;text-transform:uppercase;color:#b892a6}
+.cp-tag{position:absolute;z-index:16;font:600 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#c7a9ba;line-height:1.5}
+.cp-tl{top:96px;left:var(--pad)}.cp-tr{top:96px;right:var(--pad);text-align:right}
+.cp-cue{position:absolute;z-index:16;right:var(--pad);bottom:34px;font:600 10px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:#e0609a}
+.cp-grain{position:absolute;inset:0;z-index:14;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* секции: navy → aubergine, amber → розовый */
+.cd-poster .cd-manifest{background:#150b18}
+.cd-poster .cd-work{background:#160c1a}
+.cd-poster .cd-serv{background:#110913}
+.cd-poster .cd-reviews{background:#170d1b}
+.cd-poster .cd-cta{background:radial-gradient(80% 80% at 50% 42%,#2a1530,#0e0712)}
+.cd-poster .cd-foot{background:#0c0710}
+.cd-poster .cd-gcard{border-color:rgba(224,96,154,.3);background:#0c0710}
+.cd-poster .cd-gcard b i{color:var(--accent)}
+.cd-poster .cd-sstep i{border-bottom-color:rgba(224,96,154,.3)}
+.cd-poster .cd-reviews .cd-eyebrow{color:#f0a9c8}
+.cd-poster .cd-review{border-top-color:rgba(224,96,154,.5)}
+.cd-poster a.cd-btn{background:var(--accent);color:#2a0f1c}
+.cd-poster .cd-foot-legal{border-top-color:rgba(224,96,154,.24)}
+@media(max-width:900px){.cp-body,.cp-tr{display:none}.cp-word span{font-size:24vw}.cp-car .ps-media{width:92vw}}
+
+/* ===== SCENES S2–S6 — перетекающие сцены (blossom-dusk палитра) ===== */
+.cd-scene .ps-sticky{background:#160c1a}
+.cd-scene .cd-eyebrow{margin-bottom:16px}
+
+/* S2 THE HUNT — barn find + передний план сакуры */
+.c2-scene .ps-sticky{background:#140b17}
+.c2-bg .ps-media{filter:brightness(.92) saturate(1.06) contrast(1.03)}
+.c2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(58vw 58vh at 60% 55%,rgba(224,96,154,.13),transparent 60%),linear-gradient(180deg,rgba(16,7,18,.55),transparent 30% 58%,rgba(16,7,18,.82))}
+.c2-sheet{place-items:center}
+.c2-sheet .ps-media{width:50vw;height:auto;max-width:none;filter:contrast(1.05) brightness(1.02) drop-shadow(0 42px 64px rgba(0,0,0,.62))}
+.c2-fg{justify-items:end;align-content:start}
+.c2-fg .ps-media{width:56vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.85;filter:saturate(1.14) brightness(1.05);-webkit-mask:radial-gradient(ellipse 60% 68% at 76% 20%,#000 32%,transparent 70%);mask:radial-gradient(ellipse 60% 68% at 76% 20%,#000 32%,transparent 70%)}
+.c2-copy{justify-items:start;align-content:end;padding:0 0 15vh var(--pad)}
+.c2-copy .cd-eyebrow{color:#f0a9c8}
+.c2-copy h2{margin:0;font:600 clamp(40px,6vw,92px)/1 "Space Grotesk",sans-serif;color:#f4e6ee;letter-spacing:-.02em}
+.c2-copy h2 em{font-style:normal;color:var(--accent)}
+.c2-copy p{margin:20px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#c19cae}
+.c2-tag{position:absolute;z-index:16;top:96px;right:var(--pad);font:600 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#c7a9ba}
+.c2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 TO THE LAST BOLT — inspection-file · одометр прокручивается по --lp */
+.c3-scene .ps-sticky{background:#160c1a}
+.c3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 90% at 50% 40%,#1e0f22,#0f0712)}
+.c3-word{place-items:center}
+.c3-word span{font:700 clamp(90px,17vw,270px)/.9 "Space Grotesk",sans-serif;letter-spacing:.01em;text-transform:uppercase;background:linear-gradient(180deg,#3a1f3f,#28152c);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.9}
+.c3-copy{justify-items:center;align-content:start;text-align:center;padding-top:5vh}
+.c3-copy .cd-eyebrow{color:#f0a9c8}
+.c3-copy h2{margin:0;font:600 clamp(30px,4.6vw,64px)/1.02 "Space Grotesk",sans-serif;color:#f4e6ee;letter-spacing:-.02em}
+.c3-copy h2 em{font-style:normal;color:var(--accent)}
+/* досье-файл */
+.c3-fileL{place-items:center;align-content:center;padding-top:6vh}
+.c3-file{width:min(860px,88vw);background:linear-gradient(158deg,#ece4d3,#ddd3bd);color:#2a1c2c;border-radius:3px;border-top:4px solid var(--accent);padding:22px 26px 20px;box-shadow:0 44px 90px rgba(0,0,0,.62)}
+.c3-fhead{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:12px;border-bottom:1px solid rgba(42,28,44,.28)}
+.c3-fno{font:600 12px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#3a2536}
+.c3-fmn{font:600 10px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#a35a82}
+.c3-odo{display:flex;align-items:center;gap:22px;margin:16px 0 18px}
+.c3-odlabel{flex:none;width:12ch;font:600 10px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#7a6a55;line-height:1.4}
+.c3-digits{display:flex;align-items:center;gap:3px;font:700 clamp(30px,4.4vw,52px)/1 "Space Grotesk",sans-serif}
+.c3-dwin{display:inline-block;width:.78em;height:1em;overflow:hidden;background:#161019;border:1px solid rgba(224,96,154,.3);border-radius:3px;box-shadow:inset 0 2px 6px rgba(0,0,0,.6)}
+.c3-strip{display:block;transform:translateY(calc(var(--lp,0) * var(--to,0) * -1em));will-change:transform}
+.c3-strip i{display:flex;align-items:center;justify-content:center;height:1em;font-style:normal;color:#f0c98a;text-shadow:0 0 10px rgba(224,96,154,.4)}
+.c3-odunit{margin-left:8px;font:600 12px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#7a6a55;align-self:flex-end;padding-bottom:.18em}
+.c3-exhibits{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.c3-exhibits figure{margin:0}
+.c3-exhibits .ps-media{width:100%;height:12vh;max-width:none;object-fit:cover;display:block;border-radius:2px;filter:contrast(1.04) saturate(.98)}
+.c3-exhibits figcaption{margin-top:6px;font:600 8.5px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#6d5c48}
+.c3-passed{display:flex;align-items:baseline;gap:12px;border-top:1px solid rgba(42,28,44,.24);padding-top:12px}
+.c3-passed b{font:700 15px "Space Grotesk",sans-serif;letter-spacing:.2em;color:#a35a82;border:2px solid #a35a82;padding:3px 10px;border-radius:2px;transform:rotate(-2deg)}
+.c3-passed span{font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#7a6a55}
+
+/* S4 THE COLLECTION — шоурум + 3 машины + дата-каллауты */
+.c4-scene .ps-sticky{background:#0f0713}
+.c4-bg .ps-media{filter:brightness(.95) saturate(1.05) contrast(1.04)}
+.c4-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(15,7,18,.5),transparent 24% 60%,rgba(15,7,18,.78))}
+.c4-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
+.c4-head .cd-eyebrow{color:#f0a9c8}
+.c4-head h2{margin:0;font:600 clamp(34px,5vw,72px)/1 "Space Grotesk",sans-serif;color:#f4e6ee;letter-spacing:-.02em}
+.c4-head h2 em{font-style:normal;color:var(--accent)}
+.c4-car{place-items:center}
+.c4-hero .ps-media{width:42vw;height:auto;max-width:none;filter:contrast(1.06) brightness(1.04) drop-shadow(0 26px 46px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(224,96,154,.24))}
+.c4-side .ps-media{width:30vw;height:auto;max-width:none;filter:contrast(1.02) brightness(.72) saturate(.9) drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+.c4-floor{position:absolute;z-index:3;left:50%;top:62%;transform:translateX(-50%);width:52vw;height:12vh;background:radial-gradient(ellipse at center,rgba(0,0,0,.66),transparent 72%);filter:blur(10px);pointer-events:none}
+.c4-spec{position:absolute;font:600 11px/1.5 "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#c7a9ba}
+.c4-spec b{color:#f0dbe6;font-weight:600}
+.c4-spec i{display:block;width:8px;height:8px;border:1.5px solid var(--accent);border-radius:50%;margin-bottom:8px;box-shadow:0 0 10px rgba(224,96,154,.6)}
+.c4-s1{left:8vw;bottom:16vh}.c4-s2{left:50%;transform:translateX(-50%);bottom:9vh;text-align:center}.c4-s2 i{margin:0 auto 8px}.c4-s3{right:8vw;bottom:16vh;text-align:right}.c4-s3 i{margin-left:auto}
+
+/* S5 THE DRIVE — дорога + машина + размытый передний план */
+.c5-scene .ps-sticky{background:#170d1b}
+.c5-bg .ps-media{filter:brightness(.9) saturate(1.08) contrast(1.03)}
+.c5-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 54vh at 46% 52%,rgba(224,96,154,.12),transparent 62%),linear-gradient(180deg,rgba(18,8,20,.5),transparent 28% 60%,rgba(18,8,20,.8))}
+.c5-car{place-items:center}
+.c5-car .ps-media{width:50vw;height:auto;max-width:none;filter:contrast(1.06) brightness(1.03) drop-shadow(0 30px 52px rgba(0,0,0,.62)) drop-shadow(0 0 44px rgba(224,96,154,.26))}
+.c5-fg{justify-items:start;align-content:end}
+.c5-fg .ps-media{width:60vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.7;filter:blur(3px) saturate(1.1)}
+.c5-copy{justify-items:end;align-content:start;text-align:right;padding:12vh var(--pad) 0 0}
+.c5-copy .cd-eyebrow{color:#f0a9c8}
+.c5-copy h2{margin:0;font:600 clamp(38px,5.6vw,86px)/1 "Space Grotesk",sans-serif;color:#f4e6ee;letter-spacing:-.02em}
+.c5-copy h2 em{font-style:normal;color:var(--accent)}
+
+/* S6 THE OWNERS — сервисная книжка · записи владельцев, штампы дилера впечатываются */
+.c6-scene .ps-sticky{background:#0c0710}
+.c6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 80% at 50% 42%,#1a0f1f,#080510)}
+.c6-entry p{margin:8px 0 0;max-width:38ch;font:500 clamp(19px,2.3vw,32px)/1.3 "Space Grotesk",sans-serif;color:#f0dbe6;letter-spacing:-.01em}
+.c6-entry .c6-date{font:600 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#c98fac}
+.c6-entry cite{display:block;margin-top:12px;font:600 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;font-style:normal;color:var(--accent)}
+.c6-r1{justify-items:start;align-content:start;padding:16vh 0 0 var(--pad);max-width:56vw}
+.c6-r2{justify-items:start;align-content:center;padding:0 0 0 calc(var(--pad) + 10vw);max-width:56vw}
+.c6-r3{justify-items:start;align-content:end;padding:0 0 15vh var(--pad);max-width:56vw}
+/* резиновые сервис-штампы */
+.c6-stamp{width:clamp(104px,10.5vw,148px);aspect-ratio:1;border-radius:50%;border:2.5px solid #e0609a;box-shadow:inset 0 0 0 4px rgba(224,96,154,.16);color:#ef97bf;display:grid;place-content:center;text-align:center;gap:2px;transform:rotate(-6deg);opacity:.9}
+.c6-stamp b{font:700 13px "Space Grotesk",sans-serif;letter-spacing:.12em}
+.c6-stamp span{font:600 8px "DM Mono",monospace;letter-spacing:.24em}
+.c6-stamp em{margin-top:2px;font:700 10px "DM Mono",monospace;font-style:normal;letter-spacing:.08em;text-transform:uppercase}
+.c6-stamp i{font:600 12px "DM Mono",monospace;font-style:normal;letter-spacing:.14em}
+.c6-k1{justify-items:end;align-content:start;padding:12vh 14vw 0 0}
+.c6-k2{justify-items:end;align-content:center;padding:0 19vw 0 0}
+.c6-k3{justify-items:end;align-content:end;padding:0 13vw 16vh 0}
+.c6-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#f0a9c8}
+@media(max-width:900px){.c2-copy,.c5-copy{max-width:88vw}.c4-side{display:none}.c4-hero .ps-media{width:86vw}.c2-sheet .ps-media{width:88vw}.c5-car .ps-media{width:88vw}
+  .c3-file{width:92vw;padding:16px 16px 14px}.c3-exhibits{grid-template-columns:repeat(2,1fr)}.c3-exhibits .ps-media{height:14vh}.c3-digits{font-size:34px}
+  .c6-r1,.c6-r2,.c6-r3{max-width:60vw;padding-left:var(--pad)}.c6-r2{padding-left:var(--pad)}.c6-stamp{width:76px}.c6-k1{padding:8vh 4vw 0 0}.c6-k2{padding:0 4vw 0 0}.c6-k3{padding:0 4vw 10vh 0}}

@@ -1,0 +1,146 @@
+/* REEF — CRATERLINE, volcanic-island expedition world. Шрифты Syne (display, bold geometric,
+   adventure-poster energy) × Work Sans (body). Палитра: turquoise / jungle-green / sand-gold /
+   magma + magma-ember CTA — vivid saturated, НЕ приглушённая как tidewell. Стили только .rf-* + копи в .rl-copy. */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+.rf{ --void:#0e2a1a; --jungle:#1f6a3a; --jungle-deep:#123822; --turquoise:#1fb0b0; --sand:#e8c86a;
+  --magma:#c8402a; --ember:#ff5a3a; --cream:#fdf4dd; --paper:#fffaee; --ink:#152c1c; --ink-soft:#3a5240;
+  --rl-void:#0e2a1a; --rl-spark:#ff8a3a;
+  background:var(--cream); color:var(--ink); font-family:"Work Sans",system-ui,sans-serif; }
+
+/* NAV — скрим сверху для контраста лого/ссылок и на светлом герое, и на тёмных сценах */
+.rf-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
+.rf-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(10,26,16,.46), rgba(10,26,16,0)); }
+.rf-brand{ font:700 19px "Syne",sans-serif; letter-spacing:.06em; color:#fff8e6; text-shadow:0 2px 12px rgba(0,0,0,.45); }
+.rf-nav nav{ display:flex; gap:24px; align-items:center; font:600 13px "Work Sans",sans-serif; letter-spacing:.02em; }
+.rf-nav a{ color:rgba(255,248,230,.92); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.rf-nav-cta{ padding:10px 20px; border-radius:999px; background:var(--ember); color:#fff!important; text-shadow:none!important; font-weight:700; }
+.rf-nav-cta:active{ transform:translateY(1px); }
+
+/* HERO / SCENE COPY (внутри .rl-copy движка) — frosted-панель на всех сценах: держит контраст
+   и на бирюзовом пляже, и на зелёных джунглях, и на закатном гребне. */
+.rl-copy{ padding:26px 30px; border-radius:22px; background:linear-gradient(165deg, rgba(255,250,236,.66), rgba(255,250,236,.42));
+  backdrop-filter:blur(14px) saturate(1.15); -webkit-backdrop-filter:blur(14px) saturate(1.15);
+  border:1px solid rgba(255,255,255,.55); box-shadow:0 24px 60px rgba(14,42,26,.18); }
+.rf-eyebrow,.rf-idx{ font:700 12px "Work Sans",sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--magma); }
+.rf-idx{ letter-spacing:.14em; }
+.rl-copy h1{ margin:14px 0 18px; font:700 clamp(40px,6.6vw,92px)/1.03 "Syne",sans-serif; letter-spacing:-.01em; color:var(--ink); }
+.rl-copy h1 em,.rl-copy h2 em{ font-style:normal; color:var(--jungle); }
+.rl-copy h2{ margin:8px 0 14px; font:700 clamp(32px,4.6vw,60px)/1.05 "Syne",sans-serif; color:var(--ink); }
+.rl-copy p{ margin:0 0 24px; max-width:38ch; font:500 16px/1.65 "Work Sans",sans-serif; color:var(--ink-soft); }
+.rf-cta{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+.rf-btn{ padding:15px 28px; border-radius:999px; background:var(--ember); color:#fff; text-decoration:none; font:700 15px "Work Sans",sans-serif; box-shadow:0 16px 34px rgba(255,90,58,.34); transition:transform .15s ease; }
+.rf-btn:active{ transform:translateY(2px); }
+.rf-ghost{ padding:15px 18px; color:var(--ink); text-decoration:none; font:700 15px "Work Sans",sans-serif; border-bottom:2px solid var(--jungle); }
+.rf-ghost:active{ transform:translateY(2px); }
+
+/* общий kicker */
+.rf-kick{ display:block; font:700 12px "Work Sans",sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--magma); }
+.rf-link{ color:var(--magma); text-decoration:none; font:700 15px "Work Sans",sans-serif; }
+
+/* MANIFESTO */
+.rf-manifest{ padding:18vh 8vw; background:linear-gradient(180deg,var(--jungle-deep),#0c2318); }
+.rf-manifest p{ margin:0 auto; max-width:22ch; text-align:center; font:700 clamp(28px,4.2vw,58px)/1.14 "Syne",sans-serif; color:var(--paper); }
+.rf-manifest em{ font-style:normal; color:var(--sand); }
+
+/* STEPS — горизонтальный маршрут с тропой (соединительная линия), уникальный блок */
+.rf-steps{ padding:16vh 8vw 14vh; background:var(--cream); }
+.rf-steps-head h2{ margin:12px 0 0; max-width:22ch; font:700 clamp(30px,4.2vw,54px)/1.08 "Syne",sans-serif; color:var(--ink); }
+.rf-steps-row{ list-style:none; margin:9vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; position:relative; counter-reset:step; }
+.rf-steps-row::before{ content:""; position:absolute; left:2%; right:2%; top:1.05rem; height:3px; z-index:0;
+  background:repeating-linear-gradient(90deg, var(--jungle) 0 14px, transparent 14px 24px); opacity:.55; }
+.rf-step{ position:relative; z-index:1; padding-top:0; }
+.rf-step-n{ display:flex; align-items:center; justify-content:center; width:2.2rem; height:2.2rem; margin-bottom:20px;
+  border-radius:50%; background:var(--jungle); color:var(--paper); font:700 13px "Work Sans",sans-serif; }
+.rf-step h3{ margin:0 0 10px; font:700 clamp(20px,2vw,26px) "Syne",sans-serif; color:var(--ink); }
+.rf-step p{ margin:0; max-width:26ch; font:500 14.5px/1.6 "Work Sans",sans-serif; color:var(--ink-soft); }
+
+/* GALLERY — SIGNATURE: офсетная masonry-сетка (не ровный ряд): большая левая плитка, две малые
+   сверху-справа, широкая нижняя-справа */
+.rf-gallery{ padding:14vh 8vw 16vh; background:var(--jungle-deep); }
+.rf-gallery-head h2{ margin:12px 0 0; max-width:20ch; font:700 clamp(30px,4.4vw,56px)/1.08 "Syne",sans-serif; color:var(--paper); }
+.rf-gallery-grid{ margin-top:8vh; display:grid; grid-template-columns:1.25fr 1fr 1fr; grid-template-rows:1fr 1fr; gap:1.4vw; min-height:64vh; }
+.rf-tile{ position:relative; display:flex; flex-direction:column; border-radius:18px; overflow:hidden;
+  background-size:cover; background-position:50% 42%; text-decoration:none; box-shadow:0 20px 44px rgba(0,0,0,.28); }
+.rf-tile-shore{ grid-column:1/2; grid-row:1/3; transform:translateY(-1.4vh); }
+.rf-tile-jungle{ grid-column:2/3; grid-row:1/2; transform:translateY(2vh) rotate(-.4deg); }
+.rf-tile-lagoon{ grid-column:3/4; grid-row:1/2; transform:translateY(-.8vh) rotate(.5deg); }
+.rf-tile-ridge{ grid-column:2/4; grid-row:2/3; transform:translateY(1.2vh); }
+.rf-tile-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(14,42,26,.02) 0%, rgba(10,28,17,.14) 46%, rgba(8,20,13,.86) 100%); }
+.rf-tile-n{ position:relative; margin:22px 0 0 22px; font:700 14px "Syne",sans-serif; color:var(--sand); }
+.rf-tile h3{ position:relative; margin:auto 22px 6px; font:700 24px "Syne",sans-serif; color:var(--paper); }
+.rf-tile p{ position:relative; margin:0 22px 22px; max-width:24ch; font:500 13.5px/1.55 "Work Sans",sans-serif; color:rgba(253,244,221,.86); }
+
+/* SPLIT */
+.rf-split{ display:grid; grid-template-columns:1.05fr 1fr; min-height:76vh; background:var(--cream); }
+.rf-split-media{ background-size:cover; background-position:50% 44%; }
+.rf-split-copy{ align-self:center; padding:10vh 6vw; }
+.rf-split-copy h2{ margin:14px 0 18px; max-width:16ch; font:700 clamp(28px,3.4vw,50px)/1.1 "Syne",sans-serif; color:var(--ink); }
+.rf-split-copy p{ margin:0 0 24px; max-width:44ch; font:500 16px/1.75 "Work Sans",sans-serif; color:var(--ink-soft); }
+
+/* MARQUEE — бегущая строка, уникальный блок */
+.rf-marquee{ overflow:hidden; background:var(--magma); border-top:1px solid rgba(0,0,0,.1); border-bottom:1px solid rgba(0,0,0,.1); padding:20px 0; }
+.rf-marquee-track{ display:flex; width:max-content; gap:20px; animation:rf-marquee 32s linear infinite; }
+.rf-marquee-track span{ font:700 16px "Syne",sans-serif; letter-spacing:.04em; color:var(--sand); white-space:nowrap; }
+.rf-marquee-track span:nth-child(2n){ color:rgba(253,244,221,.55); font-weight:500; font-family:"Work Sans",sans-serif; }
+@keyframes rf-marquee{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+
+/* STATS */
+.rf-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--jungle-deep); }
+.rf-stat{ padding:56px 30px; border-left:1px solid rgba(253,244,221,.14); }
+.rf-stat:first-child{ border-left:0; }
+.rf-stat b{ display:block; font:700 clamp(38px,4.6vw,68px)/1 "Syne",sans-serif; color:var(--sand); }
+.rf-stat span{ display:block; margin-top:10px; font:600 13px "Work Sans",sans-serif; letter-spacing:.02em; color:#9fc7ac; }
+
+/* QUOTE */
+.rf-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,var(--cream),var(--paper)); }
+.rf-quote blockquote{ margin:0 auto; max-width:28ch; font:700 clamp(24px,3.4vw,46px)/1.28 "Syne",sans-serif; color:var(--ink); }
+.rf-quote em{ font-style:normal; color:var(--magma); }
+.rf-quote cite{ display:block; margin-top:30px; font:600 13px "Work Sans",sans-serif; letter-spacing:.04em; font-style:normal; color:var(--ink-soft); }
+
+/* FEATURE CARDS — уникальный блок */
+.rf-features{ padding:15vh 8vw 16vh; background:var(--jungle); }
+.rf-features-head h2{ margin:12px 0 0; max-width:20ch; font:700 clamp(28px,4vw,50px)/1.1 "Syne",sans-serif; color:var(--paper); }
+.rf-features-row{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.6vw; }
+.rf-feature{ padding:30px 24px; border-radius:16px; background:rgba(253,244,221,.08); border:1px solid rgba(253,244,221,.18); }
+.rf-feature-n{ display:block; margin-bottom:18px; font:700 13px "Work Sans",sans-serif; color:var(--sand); }
+.rf-feature h3{ margin:0 0 10px; font:700 19px "Syne",sans-serif; color:var(--paper); }
+.rf-feature p{ margin:0; font:500 14px/1.6 "Work Sans",sans-serif; color:rgba(253,244,221,.78); }
+
+/* DEAL */
+.rf-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--paper); }
+.rf-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(31,106,58,.3); border-radius:20px; background:var(--cream); }
+.rf-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.rf-price b{ font:700 clamp(44px,6vw,80px) "Syne",sans-serif; color:var(--magma); }
+.rf-price span{ font:600 14px "Work Sans",sans-serif; color:var(--ink-soft); }
+.rf-deal-card p{ margin:0 auto 28px; max-width:40ch; font:500 15px/1.7 "Work Sans",sans-serif; color:var(--ink-soft); }
+.rf-note{ display:block; margin-top:18px; font:600 12px "Work Sans",sans-serif; letter-spacing:.03em; color:#6f8a76; }
+
+/* CLIMAX */
+.rf-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 42%; }
+.rf-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 46%, rgba(20,10,6,.35), rgba(12,8,6,.86) 82%); }
+.rf-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
+.rf-climax-copy h2{ margin:0 0 34px; font:700 clamp(38px,5.6vw,84px)/1.05 "Syne",sans-serif; color:var(--paper); }
+.rf-climax-copy em{ font-style:normal; color:var(--sand); }
+
+/* FOOT */
+.rf-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#0a2016; color:#7fa78c; font:500 13px "Work Sans",sans-serif; }
+.rf-foot .rf-brand{ color:#c9dfcd; text-shadow:none; }
+
+@media (max-width:820px){
+  .rf-nav nav a:not(.rf-nav-cta){ display:none; }
+  .rf-steps-row{ grid-template-columns:1fr 1fr; row-gap:6vh; } .rf-steps-row::before{ display:none; }
+  .rf-gallery-grid{ grid-template-columns:1fr 1fr; grid-template-rows:auto auto auto; min-height:0; }
+  .rf-tile-shore{ grid-column:1/3; grid-row:1/2; aspect-ratio:16/10; transform:none; }
+  .rf-tile-jungle{ grid-column:1/2; grid-row:2/3; aspect-ratio:1/1; transform:none; }
+  .rf-tile-lagoon{ grid-column:2/3; grid-row:2/3; aspect-ratio:1/1; transform:none; }
+  .rf-tile-ridge{ grid-column:1/3; grid-row:3/4; aspect-ratio:16/10; transform:none; }
+  .rf-split{ grid-template-columns:1fr; } .rf-split-media{ min-height:50vh; }
+  .rf-stats{ grid-template-columns:1fr 1fr; }
+  .rf-features-row{ grid-template-columns:1fr 1fr; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rf-marquee-track{ animation:none; }
+}

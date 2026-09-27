@@ -1,0 +1,117 @@
+/* ORBIT — 3d-product-theatre на ScrollStage (честная image-scrub подача облёта, БЕЗ realtime-3D).
+   Матовый глиняный артефакт изолирован радиальной mask-image из кадра и масштабируется/паном входит
+   по --t; под ним живёт мягкая студийная ТЕНЬ (radial ellipse, multiply) по --t; лёгкий soft-light
+   следует за --px; музейные плашки сменяются clip-path wipe.
+   --scroll/--px/--py — с корня; --t — со сцены. Палитра ИЗ КАДРА: HIGH-KEY bone/off-white + ink
+   + один тёплый серо-песочный акцент. Шрифт: Fraunces (high-contrast display serif) + Jost (лейбл). */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,400&family=Jost:wght@400;500;600&display=swap');
+
+.or{
+  --bone:#f3f1ec; --bone-2:#eae6dd; --paper:#fbfaf6;
+  --ink:#1a1714; --ink-soft:#3a352f;
+  --sand:#a08d6e; --sand-deep:#8a7550; --sand-soft:#c3b393;
+  --dim:#8f8574;
+  background:var(--bone); color:var(--ink); font-family:"Jost",system-ui,sans-serif;
+}
+.or .or-line{ display:block; overflow:hidden; }
+.or .or-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.10 - var(--d,0)*0.07) * 3.2), 1);
+  transform:translateY(calc((1 - var(--p)) * 122%)); opacity:var(--p); will-change:transform; }
+.or-gold > i, .or-gold{ color:var(--sand-deep); font-style:italic; }
+.or-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
+  font:500 11px "Jost"; letter-spacing:.3em; color:var(--dim); z-index:6; }
+.or-cue{ position:absolute; bottom:5vh; left:6vw; font:500 11px "Jost"; letter-spacing:.2em; color:var(--dim); z-index:6; }
+
+/* 0 · COVER */
+.or-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw; }
+.or-cover-img{ position:absolute; inset:0; background-size:cover; background-position:center;
+  transform:scale(calc(1.04 + var(--t,0)*0.09)); transform-origin:50% 46%; will-change:transform; }
+/* high-key грейд: очень мягкий тёплый bone-подмес слева для читабельности ink-текста, без тёмных наложений */
+.or-cover-grade{ position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(243,241,236,.86) 0%, rgba(243,241,236,.5) 28%, rgba(243,241,236,0) 54%),
+             linear-gradient(180deg, rgba(243,241,236,.5), rgba(243,241,236,0) 24%, rgba(234,230,221,.42)); }
+.or-cover-copy{ position:relative; z-index:4; width:min(90vw,50rem); }
+.or-eyebrow{ margin:0 0 16px; font:500 12px "Jost"; letter-spacing:.28em; text-transform:uppercase; color:var(--sand-deep); }
+.or-hero{ margin:0; font:300 clamp(50px,11vw,182px)/.94 "Fraunces",serif; letter-spacing:-.01em; color:var(--ink); }
+.or-hero i{ font-style:normal; }
+
+/* 1 · THEATRE — pin-scrub. overflow:visible уже на .scene-pin (движок); клип — на .scene-sticky. */
+.or-theatre .scene-sticky{ background:radial-gradient(120% 120% at 50% 42%, var(--paper) 0%, var(--bone) 58%, var(--bone-2) 100%); }
+/* амбиент-студия — мягкий тёплый свет, без тёмных наложений */
+.or-room{ position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(58% 80% at 78% 18%, rgba(195,179,147,calc(.12 + var(--t,0)*.10)), transparent 62%),
+    radial-gradient(60% 74% at 22% 78%, rgba(234,230,221,.6), transparent 64%); }
+/* мягкий студийный подсвет — тёплый песочный градиент из кадра (верх-право), чуть теплее по --t (multiply) */
+.or-beam{ position:absolute; z-index:1; inset:-20%; pointer-events:none; mix-blend-mode:multiply;
+  opacity:calc(.35 + min(.28, var(--t,0)*.5));
+  background:linear-gradient(212deg, transparent 44%,
+    rgba(160,141,110,.04) 56%, rgba(160,141,110,.10) 66%, rgba(138,117,80,.05) 74%, transparent 84%); }
+/* студийная ТЕНЬ под артефактом — мягкая тёмная эллипс-тень, тихо смещается/растёт по --t (иллюзия облёта) */
+.or-turntable{ position:absolute; z-index:2; left:50%; bottom:12vh; width:min(48vh,520px); height:min(14vh,130px);
+  transform:translateX(-50%) rotate(calc(var(--t,0)*36deg)) scaleX(calc(1 + var(--t,0)*.12));
+  transform-origin:50% 50%; will-change:transform; mix-blend-mode:multiply;
+  border-radius:50%; filter:blur(22px); opacity:calc(.34 + var(--t,0)*.14);
+  background:radial-gradient(closest-side ellipse,
+    rgba(60,53,47,.5) 0%, rgba(60,53,47,.24) 48%, rgba(60,53,47,.06) 70%, transparent 84%); }
+/* объект — артефакт, изолирован радиальной маской из кадра; плавный dolly-in + лёгкий pan/parallax */
+.or-object{ position:absolute; z-index:3; inset:0; background-size:cover; background-position:center 46%;
+  transform:scale(calc(1.02 + var(--t,0)*0.5))
+            translate3d(calc(-3vw + var(--t,0)*3vw + var(--px,0)*10px), calc(var(--py,0)*8px), 0);
+  transform-origin:50% 48%; will-change:transform;
+  -webkit-mask-image:radial-gradient(34% 58% at 50% 50%, #000 50%, rgba(0,0,0,.7) 68%, transparent 86%);
+          mask-image:radial-gradient(34% 58% at 50% 50%, #000 50%, rgba(0,0,0,.7) 68%, transparent 86%); }
+/* мягкий soft-light — лёгкая тёплая тень-вуаль, следует за курсором (--px/--py), multiply очень слабо */
+.or-spot{ position:absolute; z-index:4; inset:0; pointer-events:none; mix-blend-mode:multiply; will-change:background;
+  opacity:.5;
+  background:radial-gradient(46% 60% at calc(50% + var(--px,0)*16%) calc(46% + var(--py,0)*12%),
+    transparent 40%, rgba(160,141,110,.04) 62%, rgba(60,53,47,.10) 100%); }
+
+/* левая колонка спец-листа — стаггер по --t */
+.or-specs{ position:absolute; z-index:5; left:6vw; top:50%; transform:translateY(-50%); margin:0; padding:0; list-style:none;
+  display:grid; gap:22px; max-width:24ch; }
+.or-spec{ --pp:clamp(0, calc((var(--t,0) - 0.06 - var(--i,0)*0.05) * 4), 1);
+  display:grid; gap:4px; padding-left:16px; border-left:1px solid rgba(160,141,110,.5);
+  transform:translateX(calc((1 - var(--pp)) * -18px)); opacity:var(--pp); will-change:transform,opacity; }
+.or-spec-k{ font:600 10px "Jost"; letter-spacing:.26em; color:var(--sand-deep); text-transform:uppercase; }
+.or-spec-v{ font:400 clamp(19px,2.1vw,28px) "Fraunces",serif; color:var(--ink); }
+
+/* правые музейные плашки — сменяются clip-path wipe'ом по --t (активна одна) */
+.or-cards{ position:absolute; z-index:5; right:5vw; top:50%; transform:translateY(-50%);
+  width:min(44vw,540px); height:34vh; }
+.or-card{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+  text-align:right; padding-right:2px;
+  --c:calc(0.20 + var(--i,0)*0.28);
+  --in:clamp(0, calc((var(--t,0) - (var(--c) - 0.16)) / 0.12), 1);
+  --out:clamp(0, calc((var(--t,0) - (var(--c) + 0.10)) / 0.12), 1);
+  z-index:calc(var(--i,0) + 1);
+  clip-path:inset(0 calc((1 - var(--in)) * 100%) 0 calc(var(--out) * 100%)); }
+.or-card-idx{ font:600 11px "Jost"; letter-spacing:.24em; color:var(--sand-deep); text-transform:uppercase; }
+.or-card h2{ margin:10px 0 8px; font:300 clamp(40px,6vw,96px)/.92 "Fraunces",serif; letter-spacing:-.01em; color:var(--ink);
+  white-space:nowrap; }
+.or-card-sub{ font:400 italic clamp(17px,1.9vw,26px) "Fraunces",serif; color:var(--sand-deep); }
+
+/* 2 · OUTRO */
+.or-end{ display:grid; place-items:center; text-align:center; overflow:hidden; }
+.or-end-img{ position:absolute; inset:0; background-size:cover; background-position:center 44%;
+  transform:scale(calc(1.14 + var(--t,0)*0.12)); transform-origin:50% 46%; will-change:transform; }
+.or-end-veil{ position:absolute; inset:0;
+  background:radial-gradient(110% 100% at 50% 44%, rgba(243,241,236,.5), rgba(243,241,236,.82) 58%, var(--bone) 86%);
+  opacity:calc(.72 + min(.26, var(--t,0)*.6)); }
+.or-end-block{ position:relative; z-index:2; padding:0 6vw; }
+.or-end-block h2{ margin:0 0 40px; font:300 clamp(46px,9.5vw,162px)/.94 "Fraunces",serif; letter-spacing:-.01em; color:var(--ink); }
+.or-end-block h2 i{ font-style:normal; }
+.or-btn{ display:inline-block; padding:15px 34px; border:1px solid var(--sand); border-radius:1px;
+  color:var(--sand-deep); text-decoration:none; font:500 13px "Jost"; letter-spacing:.14em; text-transform:uppercase;
+  opacity:calc(clamp(0, (var(--t,0)-0.2)*3, 1)); transition:background .3s,color .3s; }
+.or-btn:hover{ background:var(--sand); color:var(--paper); }
+
+@media (prefers-reduced-motion:reduce){
+  .or .or-line > i{ transform:none; opacity:1; }
+  .or-cover-img,.or-end-img{ transform:none; }
+  .or-object{ transform:none; } .or-turntable{ transform:translateX(-50%); }
+  .or-beam{ opacity:.4; } .or-spot{ opacity:.4; }
+  .or-spec{ transform:none; opacity:1; }
+  .or-card:not(:last-child){ display:none; } .or-card{ clip-path:none; }
+  .or-btn{ opacity:1; }
+}

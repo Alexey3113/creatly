@@ -1,0 +1,27 @@
+/* Галерея 30 миров — тёмная витрина-сетка. Нейтральная типографика (не конкурирует с сайтами). */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Inter+Tight:wght@400;500;600&display=swap');
+
+.wg{ min-height:100vh; background:#0c0d10; color:#e8e8ea; font-family:"Inter Tight",system-ui,sans-serif;
+  padding:0 clamp(20px,5vw,72px) 8vh; }
+.wg-head{ padding:16vh 0 8vh; max-width:70rem; }
+.wg-kick{ font:600 12px "Inter Tight"; letter-spacing:.24em; text-transform:uppercase; color:#8a8f98; }
+.wg-head h1{ margin:18px 0 22px; font:300 clamp(44px,7vw,104px)/1.0 "Fraunces",serif; letter-spacing:-.02em; color:#fafafa; }
+.wg-head h1 em{ font-style:italic; color:#c9a26a; }
+.wg-head p{ margin:0; max-width:52ch; font:400 clamp(15px,1.5vw,18px)/1.65 "Inter Tight"; color:#a6abb3; }
+
+.wg-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:clamp(16px,2vw,28px); }
+.wg-card{ display:flex; flex-direction:column; text-decoration:none; color:inherit; border-radius:14px; overflow:hidden;
+  background:#131418; border:1px solid #1e2026; transition:transform .4s ease, border-color .4s ease, box-shadow .4s ease; }
+.wg-card:hover{ transform:translateY(-6px); border-color:#33363f; box-shadow:0 24px 60px rgba(0,0,0,.5); }
+.wg-thumb{ position:relative; aspect-ratio:16/10; background-size:cover; background-position:50% 42%; }
+.wg-thumb::after{ content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(12,13,16,.6), transparent 55%); }
+.wg-num{ position:absolute; top:14px; left:16px; z-index:2; font:300 30px "Fraunces",serif; color:rgba(255,255,255,.9); text-shadow:0 2px 12px rgba(0,0,0,.6); }
+.wg-swatches{ position:absolute; bottom:12px; right:14px; z-index:2; display:flex; gap:6px; }
+.wg-swatches i{ width:16px; height:16px; border-radius:50%; box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 2px 6px rgba(0,0,0,.4); }
+.wg-meta{ padding:20px 22px 24px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.wg-meta h2{ margin:0; font:400 26px "Fraunces",serif; color:#f4f4f5; }
+.wg-meta p{ margin:0; flex:1; font:400 14px/1.55 "Inter Tight"; color:#9aa0a8; }
+.wg-go{ margin-top:6px; font:600 13px "Inter Tight"; letter-spacing:.02em; color:#c9a26a; }
+
+.wg-foot{ margin-top:12vh; padding-top:4vh; border-top:1px solid #1e2026; font:400 13px "Inter Tight"; color:#6b7078; }
+@media (max-width:560px){ .wg-grid{ grid-template-columns:1fr; } }

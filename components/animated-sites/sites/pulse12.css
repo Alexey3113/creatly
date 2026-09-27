@@ -1,0 +1,79 @@
+/* PULSE — particle/fluid, particle-глобус с fresnel-bloom. Один WebGL2-контекст на фоне (fixed);
+   под canvas — near-black + оранжевое ядро фолбэк (reduced/no-webgl). Палитра: near-black + molten-orange.
+   Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.pl{
+  --ink:#050406; --ink-2:#0b0808; --ember:#f5461a; --molten:#ff7a24; --hot:#ffca86;
+  --bone:#f4ece6; --dim:#9a8478;
+  background:var(--ink); color:var(--bone);
+  font-family:"Fraunces",Georgia,serif;
+}
+
+/* фон fixed + фолбэк-ядро прямо на .pl-bg (виден если canvas display:none) */
+.pl-bg{ position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(42% 40% at 50% 48%, rgba(255,122,36,.34), transparent 62%),
+    radial-gradient(26% 24% at 50% 48%, rgba(255,202,134,.28), transparent 66%),
+    radial-gradient(130% 120% at 50% 50%, #0a0708 0%, #050406 58%, #020102 100%); }
+.pl-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+.pl .scene{ position:relative; z-index:1; min-height:100vh; }
+
+/* строки-маски */
+.pl .pl-line{ display:block; overflow:hidden; }
+.pl .pl-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.06 - var(--d,0)*0.09) * 3.0), 1);
+  transform:translateY(calc((1 - var(--p)) * 118%)); opacity:var(--p); will-change:transform; }
+.pl-warm > i, .pl-warm{ color:var(--molten); }
+
+.pl-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
+  font:500 11px "IBM Plex Mono"; letter-spacing:.24em; color:var(--dim); z-index:6; }
+.pl-cue{ position:absolute; bottom:5vh; left:6vw; font:500 11px "IBM Plex Mono"; letter-spacing:.14em; color:var(--dim); z-index:6; }
+
+/* 0 · CORE — текст слева, глобус в центре кадра */
+.pl-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw; }
+.pl-cover-in{ max-width:min(640px, 92vw); }
+.pl-eyebrow{ margin:0 0 24px; font:500 12px "IBM Plex Mono"; letter-spacing:.22em; text-transform:uppercase; color:#d99a6a; }
+.pl-hero{ margin:0; font:400 clamp(46px,7.4vw,124px)/.96 "Fraunces"; letter-spacing:-.025em;
+  text-shadow:0 8px 60px rgba(0,0,0,.72); }
+.pl-hero i{ font-style:normal; }
+.pl-sub{ margin:30px 0 0; max-width:46ch; font:400 clamp(15px,1.4vw,20px)/1.55 "Fraunces"; color:#e3cebf; text-wrap:balance;
+  text-shadow:0 4px 30px rgba(0,0,0,.6); }
+
+/* 1 · ROTATE — копия справа, глобус в кадре */
+.pl-orbit{ display:flex; align-items:center; padding:0 6vw; }
+.pl-side{ max-width:34ch; margin-left:auto; text-align:right;
+  background:radial-gradient(120% 140% at 100% 50%, rgba(5,4,6,.66), transparent 72%); }
+.pl-tag{ display:inline-block; margin-bottom:20px; padding:5px 12px; font:500 11px "IBM Plex Mono";
+  letter-spacing:.2em; text-transform:uppercase; color:#0a0506; background:var(--molten); }
+.pl-side h2{ margin:0; font:400 clamp(32px,4.6vw,74px)/1.0 "Fraunces"; letter-spacing:-.02em; }
+.pl-side em{ font-style:italic; color:var(--molten); }
+.pl-side p{ margin:24px 0 0; margin-left:auto; max-width:40ch; font:400 clamp(15px,1.35vw,19px)/1.55 "Fraunces"; color:#e3cebf; }
+
+/* 2 · LIMB — центрированная подпись */
+.pl-mid{ display:flex; align-items:flex-end; justify-content:center; padding:0 6vw 14vh; text-align:center; }
+.pl-mid-cap{ font:400 clamp(28px,4.4vw,72px)/1.06 "Fraunces"; letter-spacing:-.02em; text-shadow:0 6px 50px rgba(0,0,0,.72); }
+
+/* 3 · PULSE — CTA */
+.pl-end{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center; padding:0 6vw 16vh; }
+.pl-end-block{ display:flex; flex-direction:column; align-items:center; gap:26px; }
+.pl-end-eyebrow{ margin:0; font:500 12px "IBM Plex Mono"; letter-spacing:.2em; text-transform:uppercase; color:#d99a6a;
+  opacity:calc(clamp(0, (var(--t,0) - 0.35) * 3.0, 1)); }
+.pl-btn{ display:inline-block; padding:16px 36px; text-decoration:none; color:#0a0506;
+  background:linear-gradient(96deg, var(--molten), var(--hot));
+  font:500 14px "IBM Plex Mono"; letter-spacing:.04em; border-radius:2px;
+  opacity:calc(clamp(0, (var(--t,0) - 0.45) * 3.2, 1));
+  transform:translateY(calc((1 - clamp(0, (var(--t,0) - 0.45) * 3.2, 1)) * 20px));
+  transition:box-shadow .25s; will-change:transform; }
+.pl-btn:hover{ box-shadow:0 16px 44px rgba(255,122,36,.45); }
+
+@media (max-width:820px){
+  .pl-side{ text-align:left; margin-left:0; }
+  .pl-side p{ margin-left:0; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pl .pl-line > i{ transform:none; opacity:1; }
+  .pl-end-eyebrow, .pl-btn{ opacity:1; transform:none; }
+}

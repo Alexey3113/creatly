@@ -1,0 +1,14 @@
+/* Витрина /animated — тёмная кино-заставка. Заменится по мере наполнения. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Archivo:wght@400;700;900&display=swap');
+.al-home{ min-height:100vh; background:#0a0a0c; color:#eceae6; padding:14vh 6vw 10vh; font-family:"Archivo",system-ui,sans-serif; }
+.al-tag{ font:700 11px/1 "Archivo"; letter-spacing:.32em; color:#7a7570; }
+.al-head h1{ margin:.4em 0 .3em; font:300 clamp(56px,11vw,180px)/.92 "Fraunces",serif; letter-spacing:-.02em; }
+.al-head h1 em{ font-style:italic; color:#c9a24a; }
+.al-head p{ max-width:52ch; font:400 15px/1.7 "Archivo"; color:#9a938c; }
+.al-grid{ list-style:none; margin:8vh 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2px; background:#1a1a1e; border:1px solid #1a1a1e; }
+.al-empty{ grid-column:1/-1; padding:60px; text-align:center; color:#6a655f; font:400 14px "Archivo"; background:#0d0d10; }
+.al-card a{ display:flex; flex-direction:column; gap:6px; padding:34px 28px; min-height:180px; background:#0d0d10; text-decoration:none; color:inherit; justify-content:flex-end; transition:background .3s; }
+.al-card a:hover{ background:#111116; }
+.al-kicker{ font:700 10px "Archivo"; letter-spacing:.2em; text-transform:uppercase; color:#c9a24a; }
+.al-card b{ font:600 26px/1 "Fraunces",serif; }
+.al-tech{ font:400 12px "Archivo"; color:#7a7570; }

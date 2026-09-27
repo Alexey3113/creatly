@@ -1,0 +1,119 @@
+/* STORY v2 · САЙТ 17 «OSTPUCK» — warm brown/amber baroque oil (pin21). ТЁПЛЫЙ.
+   Шрифты: Rozha One (high-contrast display serif) · Outfit (geometric sans). */
+@import url('https://fonts.googleapis.com/css2?family=Rozha+One&family=Outfit:wght@300;400;500;600&display=swap');
+
+.op-site{--bg:#181009;--warm:#2c1c0e;--amber:#c88a38;--gold:#dcac54;--cream:#ecdcbe;--sienna:#8a4a22;--mut:#9a7e56;
+  position:fixed;inset:0;background:var(--bg);color:var(--cream);font-family:"Outfit",system-ui,sans-serif;overflow:hidden}
+
+.op-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
+.op-head a{pointer-events:auto}
+.op-brand{font:400 22px/1 "Rozha One",serif;letter-spacing:.06em;color:var(--cream);text-decoration:none}
+.op-nav{display:flex;gap:22px;align-items:center;font:500 12px "Outfit",sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.op-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.op-nav a:hover{color:var(--gold)}
+.op-nav .op-cta{padding:8px 16px;border:1px solid var(--amber);color:var(--gold)}
+@media(max-width:900px){.op-nav a:not(.op-cta){display:none}}
+
+.op-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.4;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>")}
+.op-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:500 11px "Outfit",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
+.op-eyebrow{font:500 11px "Outfit",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.op-folio{font:500 11px "Outfit",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.op-num{display:block;font:400 clamp(28px,4vw,58px)/.8 "Rozha One",serif;color:var(--gold)}
+
+/* 0 · OCCLUDED IDOL (full-bleed) */
+.op-cover-bg{position:absolute;inset:0;z-index:0;background:#140d07}
+.op-cover-fig{z-index:1}
+.op-cover-fig .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;filter:contrast(1.04) saturate(1.05)}
+.op-cover-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,rgba(20,13,7,.92),rgba(20,13,7,.15) 46%,rgba(20,13,7,.45))}
+.op-wordmark{display:grid;place-items:center;align-content:center;pointer-events:none}
+.op-wordmark span{font:400 clamp(56px,15vw,220px)/.9 "Rozha One",serif;letter-spacing:.03em;color:var(--cream);text-transform:uppercase;text-shadow:0 6px 40px rgba(0,0,0,.6);opacity:.9}
+.op-orn{position:absolute;inset:0;z-index:5;pointer-events:none;--lp:var(--sp,1)}
+.op-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9)}
+.op-orn-sup{top:16vh;left:50%;transform:translateX(-50%);font:500 12px "Outfit",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.op-orn-l{top:40vh;left:4vw;font:500 14px/1.5 "Outfit",sans-serif;letter-spacing:.2em;color:var(--cream)}
+.op-orn-r{top:40vh;right:4vw;text-align:right;font:500 14px/1.5 "Outfit",sans-serif;letter-spacing:.2em;color:var(--gold)}
+.op-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 8vh}
+.op-cover-hi p{margin:6px 0 0;max-width:54ch;font:400 15px/1.6 "Outfit",sans-serif;color:#d6c4a2}
+
+/* 1 · TYPE GUILLOTINE */
+.op-guillo-fig{z-index:1}
+.op-guillo-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 26%;filter:brightness(.72) saturate(1.05)}
+.op-guillo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(20,13,7,.5),rgba(20,13,7,.15) 40%,rgba(20,13,7,.88))}
+.op-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;font:400 clamp(64px,17vw,300px)/.82 "Rozha One",serif;text-transform:uppercase;color:var(--cream);pointer-events:none}
+.op-guillo-it{font-style:italic;color:transparent;-webkit-text-stroke:1.5px var(--amber);text-transform:lowercase}
+.op-guillo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 10vh 4vw}
+.op-guillo-cap p{margin:0;max-width:42ch;font:400 15px/1.6 "Outfit",sans-serif;color:#d6c4a2}
+
+/* 2 · SIDECAR */
+.op-side-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(110deg,#181009 42%,#2c1c0e00)}
+.op-side-fig{z-index:2;display:grid;place-items:center}
+.op-side-fig .ps-media{width:44vw;height:64vh;object-fit:cover;border:1px solid rgba(200,138,56,.35);box-shadow:0 40px 80px rgba(0,0,0,.6);transform:translateX(24vw) rotate(-2deg)}
+.op-side-cap{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 0 0 6vw;max-width:42vw}
+.op-side-cap h2{margin:6px 0 12px;font:400 clamp(40px,6vw,100px)/.9 "Rozha One",serif;color:var(--cream)}
+.op-side-cap h2 em{font-style:italic;color:var(--gold)}
+.op-side-cap p{margin:12px 0 0;max-width:30ch;font:400 15px/1.6 "Outfit",sans-serif;color:#d6c4a2}
+.op-side-orn{position:absolute;left:6vw;bottom:8vh;z-index:6;font:500 11px "Outfit",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1)-.4)*3,1))}
+
+/* 3 · SCORE — нотный стан поверх кадра-полосы (ось иная) */
+.op-score-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 70% at 50% 40%,#2c1c0e,#100a05 82%)}
+.op-score-band{position:absolute;left:0;right:0;top:auto;bottom:36vh;height:34vh;z-index:2;overflow:hidden;border-top:1px solid rgba(200,138,56,.35);border-bottom:1px solid rgba(200,138,56,.35)}
+.op-score-band .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 45%;filter:saturate(1.05)}
+.op-staff{position:absolute;left:0;right:0;bottom:36vh;height:34vh;z-index:4;pointer-events:none;opacity:calc(clamp(0,(var(--sp,1)-.2)*2,1))}
+.op-staff i{position:absolute;left:0;right:0;height:1px;background:rgba(220,172,84,.5)}
+.op-staff i:nth-child(1){top:20%}.op-staff i:nth-child(2){top:35%}.op-staff i:nth-child(3){top:50%}.op-staff i:nth-child(4){top:65%}.op-staff i:nth-child(5){top:80%}
+.op-note{position:absolute;font-size:34px;color:var(--gold)}
+.op-note-1{left:26%;top:28%}.op-note-2{left:48%;top:56%}.op-note-3{left:70%;top:40%}
+.op-clef{position:absolute;left:6vw;top:32%;font-size:64px;color:var(--gold)}
+.op-score-cap{position:absolute;left:6vw;right:6vw;top:auto;bottom:8vh;z-index:6;display:flex;flex-direction:column;align-items:flex-start}
+.op-score-cap h3{margin:6px 0 10px;font:400 clamp(36px,5.4vw,84px)/.9 "Rozha One",serif;color:var(--cream)}
+.op-score-cap p{margin:0;max-width:44ch;font:400 15px/1.6 "Outfit",sans-serif;color:#d6c4a2}
+
+/* 4 · SALON — барочная развеска в золочёных рамах (не сетка) */
+.op-salon-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 80% at 50% 42%,#241708,#0e0904 82%)}
+.op-salon-head{position:absolute;top:7vh;left:6vw;z-index:6}
+.op-salon-head b{display:block;font:400 clamp(30px,5vw,72px)/.9 "Rozha One",serif;color:var(--cream)}
+.op-salon-head span{font:500 11px "Outfit",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.op-salon-wall{position:absolute;inset:22vh 6vw 8vh;z-index:2}
+.op-art{position:absolute;margin:0;overflow:hidden;background:#0e0904;border:6px solid transparent;
+  border-image:linear-gradient(135deg,#8a6a2c,#dcac54,#8a6a2c) 1;box-shadow:0 20px 44px rgba(0,0,0,.55);
+  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-22px))}
+.op-art img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05)}
+.op-art figcaption{position:absolute;left:0;bottom:0;padding:6px 9px;font:500 10px "Outfit",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);background:linear-gradient(0deg,rgba(14,9,4,.9),transparent)}
+.op-art-1{--d:0;left:0;top:8%;width:34%;height:60%}
+.op-art-2{--d:.1;left:37%;top:0;width:34%;height:44%}
+.op-art-3{--d:.2;left:37%;top:48%;width:26%;height:48%}
+.op-art-4{--d:.3;left:66%;top:34%;width:34%;height:58%}
+.op-salon-code{position:absolute;left:6vw;bottom:3vh;z-index:6;font:500 11px "Outfit",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+
+/* 5 · PLAYER — «сейчас играет» медиа-бар (не центр-слоган) */
+.op-player-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 85% at 50% 40%,#3a260f,#0e0904 74%)}
+.op-player-word{position:absolute;top:24vh;left:0;right:0;text-align:center;z-index:2;font:400 clamp(48px,12vw,200px)/.9 "Rozha One",serif;color:rgba(220,172,84,.14);pointer-events:none}
+.op-player-bar{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6;width:min(64ch,86vw);display:flex;align-items:center;gap:18px;background:rgba(20,13,6,.7);border:1px solid rgba(200,138,56,.4);padding:16px 20px}
+.op-play{flex:0 0 auto;width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:var(--amber);color:#181009;font-size:20px;text-decoration:none;transition:transform .2s}
+.op-play:hover{transform:scale(1.06)}
+.op-player-meta{flex:0 0 auto;min-width:0}
+.op-player-meta b{display:block;font:400 17px "Rozha One",serif;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.op-player-meta span{font:500 11px "Outfit",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.op-player-progress{flex:1;height:3px;background:rgba(200,138,56,.25);position:relative}
+.op-player-progress i{position:absolute;left:0;top:0;bottom:0;width:38%;background:var(--gold)}
+.op-player-progress::after{content:"";position:absolute;left:38%;top:50%;width:10px;height:10px;border-radius:50%;background:var(--gold);transform:translate(-50%,-50%)}
+.op-player-time{flex:0 0 auto;font:500 12px "Outfit",sans-serif;color:var(--mut)}
+.op-player-cta{position:absolute;left:0;right:0;bottom:12vh;z-index:6;display:flex;flex-direction:column;align-items:center;gap:14px}
+.op-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--amber);color:#181009;font:600 13px "Outfit",sans-serif;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
+.op-btn:hover{background:var(--gold);transform:translateY(-2px)}
+.op-links{display:flex;gap:22px;font:500 12px "Outfit",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.op-links a{color:var(--mut);text-decoration:none}.op-links a:hover{color:var(--gold)}
+
+/* мобилка */
+@media(max-width:900px){
+  .op-wordmark span{font-size:22vw}
+  .op-orn-l,.op-orn-r{top:32vh;font-size:12px}
+  .op-side-fig .ps-media{width:82vw;height:44vh;transform:translateX(0)}
+  .op-side-cap{max-width:none;padding:0 5vw;justify-content:flex-end;padding-bottom:8vh}
+  .op-score-band,.op-staff{bottom:44vh;height:26vh}
+  .op-clef{left:5vw}
+  .op-art-1{left:0;top:2%;width:48%;height:44%}.op-art-2{left:52%;top:2%;width:48%;height:44%}
+  .op-art-3{left:0;top:52%;width:48%;height:44%}.op-art-4{left:52%;top:52%;width:48%;height:44%}
+  .op-player-bar{width:90vw;flex-wrap:wrap}
+  .op-player-progress{order:5;flex:1 0 100%;margin-top:8px}
+}

@@ -1,0 +1,138 @@
+{
+ "fam": "reel",
+ "id": "aster",
+ "url": "animated/w-aster",
+ "mode": "scroll",
+ "ms": 22735,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.5vh",
+   "y": 492
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 985
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.6vh",
+   "y": 1477
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1969
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.7vh",
+   "y": 2461
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 2954
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.8vh",
+   "y": 3446
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.4vh",
+   "y": 3938
+  },
+  {
+   "f": "f09.jpg",
+   "label": "4.9vh",
+   "y": 4431
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.5vh",
+   "y": 4923
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.0vh",
+   "y": 5415
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.6vh",
+   "y": 5907
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.1vh",
+   "y": 6400
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.7vh",
+   "y": 6892
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.2vh",
+   "y": 7384
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.8vh",
+   "y": 7877
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.3vh",
+   "y": 8369
+  },
+  {
+   "f": "f18.jpg",
+   "label": "9.8vh",
+   "y": 8861
+  },
+  {
+   "f": "f19.jpg",
+   "label": "10.4vh",
+   "y": 9353
+  },
+  {
+   "f": "f20.jpg",
+   "label": "10.9vh",
+   "y": 9846
+  },
+  {
+   "f": "f21.jpg",
+   "label": "11.5vh",
+   "y": 10338
+  }
+ ],
+ "stats": {
+  "title": "Creatly — AI-конструктор сайтов",
+  "screens": 12.5,
+  "sections": 13,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 8,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Instrument Sans",
+   "Outfit"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

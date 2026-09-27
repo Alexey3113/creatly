@@ -54,7 +54,7 @@ export async function POST(request: Request) {
   if (!session.userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await request.json();
-  const { name, html, css, js, edits, tokens } = body;
+  const { name, document } = body;
   let slug = slugify(body.slug || name || "site");
 
   if (RESERVED_SLUGS.has(slug)) {
@@ -68,11 +68,7 @@ export async function POST(request: Request) {
       where: { id: existing.id },
       data: {
         name: name || slug,
-        html: html || "",
-        css: css || "",
-        js: js || "",
-        edits: edits || [],
-        tokens: tokens || {},
+        document: document ?? undefined,
       },
     });
     return NextResponse.json({ project: { id: updated.id, slug: updated.slug, name: updated.name } }, { status: 200 });
@@ -93,11 +89,7 @@ export async function POST(request: Request) {
     data: {
       name: name || slug,
       slug,
-      html: html || "",
-      css: css || "",
-      js: js || "",
-      edits: edits || [],
-      tokens: tokens || {},
+      document: document ?? undefined,
       userId: session.userId,
     },
   });

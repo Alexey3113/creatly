@@ -1,0 +1,15 @@
+МИРЫ: 1 | задач всего: 12 | к генерации: 12 | готово: 0 | pool 5
+✓ tidewell/s1-bg  [1/12]
+✓ tidewell/s1-mid  [2/12]
+✓ tidewell/s2-bg  [3/12]
+✓ tidewell/s1-fg  [4/12]
+✓ tidewell/s2-fg  [5/12]
+✓ tidewell/s3-mid  [6/12]
+✓ tidewell/s3-bg  [7/12]
+✓ tidewell/s3-fg  [8/12]
+✓ tidewell/s2-mid  [9/12]
+✓ tidewell/s4-bg  [10/12]
+✓ tidewell/s4-mid  [11/12]
+✓ tidewell/s4-fg  [12/12]
+
+ИТОГ: done 12, fail 0, всего готово 12/12

@@ -14,3 +14,21 @@ tsconfig.tsbuildinfo
 
 # macos
 .DS_Store
+
+# локальное медиа-хранилище приложения и сгенерированные ассеты сайтов
+# (≈3.8 ГБ, есть файлы >100 МБ — GitHub их не примет; живут на диске)
+public/uploads/
+
+# медиа исследований: скрипты и отчёты analitic/ коммитятся, картинки/видео — нет
+analitic/**/*.mp4
+analitic/**/*.webm
+analitic/**/*.mov
+analitic/**/*.m3u8
+analitic/**/*.jpg
+analitic/**/*.jpeg
+analitic/**/*.png
+analitic/**/*.webp
+analitic/**/*.gif
+
+# личные настройки Claude Code
+.claude/settings.local.json

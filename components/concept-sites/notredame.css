@@ -1,0 +1,148 @@
+/* Концепт 08 — NOTREDAME. Готическая indigo/золото, sliced-strips собора. */
+.nd-site{--pad:4vw;--bg:#141a33;--ink:#ece6d6;--mut:#8f96bd;--gold:#cba24a;--accent:#6c86d8;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.nd-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.nd-brand{font:800 17px "Bricolage Grotesque",sans-serif;letter-spacing:.16em;color:#f2ecdc}
+.nd-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#a7aed0}
+.nd-nav a{opacity:.85}.nd-nav a:hover{opacity:1}
+.nd-book{border:1px solid rgba(203,162,74,.55);border-radius:100px;padding:8px 16px;color:#e6c98a;opacity:1!important}
+.nd-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+
+.nd-hero .ps-sticky{background:#141a33}
+.nd-bg .ps-media{filter:brightness(.85) saturate(1.05)}
+.nd-frame{position:absolute;inset:22px;z-index:13;pointer-events:none;border:1px solid rgba(203,162,74,.35)}
+.nd-blobs{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(44vw 40vw at 50% 44%,rgba(108,134,216,.3),transparent 62%),radial-gradient(30vw 30vw at 50% 8%,rgba(203,162,74,.24),transparent 60%)}
+.nd-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.32;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* нарезка собора вертикальными полосами */
+.nd-strips{inset:auto 0;top:24vh;height:60vh;place-items:stretch;padding:0 var(--pad)}
+.nd-strips .ps-media{object-fit:cover;-webkit-mask:repeating-linear-gradient(90deg,#000 0 11.4%,transparent 11.4% 14.28%);mask:repeating-linear-gradient(90deg,#000 0 11.4%,transparent 11.4% 14.28%);filter:contrast(1.05) saturate(1.08)}
+/* роза-витраж за полосами */
+.nd-rose .ps-media{object-fit:contain;filter:drop-shadow(0 0 60px rgba(108,134,216,.4))}
+
+.nd-title{align-content:start;justify-items:center;padding-top:11vh}
+.nd-title h1{margin:0;font:800 clamp(46px,11vw,184px)/.9 "Bricolage Grotesque",sans-serif;color:#f2ecdc;letter-spacing:.02em;text-align:center;text-shadow:0 6px 34px rgba(0,0,0,.4)}
+.nd-title h1 span{color:var(--gold)}
+
+.nd-sub{position:absolute;z-index:14;left:0;right:0;bottom:15vh;text-align:center;font:600 12px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:#c9c2a8}
+.nd-label{position:absolute;z-index:14;font:500 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#9098bd;line-height:1.5}
+.nd-tl{top:96px;left:var(--pad)}.nd-tr{top:96px;right:var(--pad);text-align:right}
+.nd-bl{bottom:40px;left:var(--pad)}
+.nd-bl b{display:block;font:800 42px "Bricolage Grotesque",sans-serif;color:#e6c98a;line-height:.9}
+.nd-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.nd-cue{position:absolute;z-index:14;left:50%;bottom:26px;transform:translateX(-50%);font:600 10px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+
+/* manifest */
+
+/* CTA */
+
+
+.nd-site a.nd-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:var(--gold);color:#14101a;font:600 13px "Manrope",sans-serif}
+.nd-btn i{font-style:normal}
+
+/* footer */
+.nd-foot{position:relative;z-index:1;background:#0e1226;color:#8f96bd;padding:64px var(--pad) 40px}
+.nd-foot-top b{font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:.14em;color:#f2ecdc}
+.nd-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#6f77a0}
+.nd-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(203,162,74,.18);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#636b93}
+
+/* ФАЗА 2 — секции */
+/* The cathedral — галерея */
+
+/* Visit — план */
+
+.nd-visit .nd-eyebrow{margin-bottom:34px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.nd-grid{columns:2}}
+@media(max-width:900px){.nd-nav{display:none}.nd-title h1{font-size:44vw}
+  .nd-grid{columns:1}.nd-rgrid{grid-template-columns:1fr}.nd-workhead{flex-direction:column;align-items:flex-start}.nd-workhead p{text-align:left}.nd-vrow{grid-template-columns:1fr}}
+
+/* ===== SCENES S2–S6 — gothic indigo/gold (Playfair Display serif) ===== */
+.nd-scene .ps-sticky{background:#141a33}
+.nd-scene .nd-eyebrow{margin-bottom:16px}
+
+/* S2 THE VISIT — собор + роза-витраж */
+.nd2-scene .ps-sticky{background:#141a33}
+.nd2-bg .ps-media{filter:contrast(1.05) saturate(1.04) brightness(.82)}
+.nd2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 44%,rgba(108,134,216,.1),transparent 60%),linear-gradient(90deg,rgba(20,26,51,.6),transparent 46%),linear-gradient(0deg,rgba(20,26,51,.55),transparent 40%)}
+.nd2-rose{justify-items:end;align-content:start}
+.nd2-rose .ps-media{width:30vw;height:auto;max-width:none;opacity:.85;filter:drop-shadow(0 0 40px rgba(203,162,74,.24))}
+.nd2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.nd2-copy .nd-eyebrow{color:#cba24a}
+.nd2-copy h2{margin:0;font:400 clamp(40px,6vw,92px)/1.02 "Playfair Display",serif;color:#ece6d6}
+.nd2-copy h2 em{font-style:italic;color:#cba24a}
+.nd2-copy p{margin:18px 0 0;max-width:44ch;font:400 15px/1.75 "Manrope",sans-serif;color:#a8afd0}
+.nd2-grain{position:absolute;inset:0;z-index:11;pointer-events:none;opacity:.2;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE CATHEDRAL — детали */
+.nd3-scene .ps-sticky{background:#141a33}
+.nd3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1a2242,#0e142a)}
+/* вертикальный луч света нефа */
+.nd3-shaft{position:absolute;z-index:2;top:-6%;bottom:-6%;left:8vw;width:28vw;pointer-events:none;background:linear-gradient(180deg,rgba(203,162,74,.32),rgba(203,162,74,.1) 32%,rgba(108,134,216,.06) 64%,transparent);filter:blur(14px);mix-blend-mode:screen}
+.nd3-rose{justify-items:start;align-content:start;padding:1vh 0 0 8vw}
+.nd3-rose .ps-media{width:24vw;height:auto;max-width:none;object-fit:contain;filter:sepia(.3) brightness(1.06) drop-shadow(0 0 44px rgba(203,162,74,.4))}
+/* элевация: узкие вертикальные пластины восходят вдоль оси */
+.nd3-el{position:relative;width:12vw;min-width:150px;background:#0e1428;padding:7px 7px 24px;box-shadow:0 26px 52px rgba(0,0,0,.55);border:1px solid rgba(203,162,74,.3)}
+.nd3-el .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/5;object-fit:cover;display:block;filter:saturate(1.04) contrast(1.05)}
+.nd3-el b{position:absolute;left:10px;bottom:7px;font:400 11px "Playfair Display",serif;color:#ece6d6;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+.nd3-copy{justify-items:end;align-content:center;text-align:right;padding-right:var(--pad)}
+.nd3-copy .nd-eyebrow{color:#cba24a}
+.nd3-copy h2{margin:0;max-width:15ch;font:400 clamp(32px,5vw,70px)/1.04 "Playfair Display",serif;color:#ece6d6}
+.nd3-copy h2 em{font-style:italic;color:#cba24a}
+.nd3-copy p{margin:16px 0 0 auto;max-width:34ch;font:400 15px/1.7 "Manrope",sans-serif;color:#8f96bd}
+
+/* S4 PLAN YOUR VISIT — расписание */
+.nd4-scene .ps-sticky{background:#141a33}
+.nd4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1a2242,#0e142a)}
+.nd4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.nd4-head .nd-eyebrow{color:#cba24a}
+.nd4-head h2{margin:0;font:400 clamp(32px,4.8vw,64px)/1.02 "Playfair Display",serif;color:#ece6d6}
+.nd4-head h2 em{font-style:italic;color:#cba24a}
+/* визиты «загораются» как витраж: из тьмы в золотой свет (по --lp, последовательно) */
+.nd4-visitsL{justify-items:center;align-content:center}
+.nd4-visits{width:min(840px,88vw)}
+.nd4-visit{position:relative;display:grid;grid-template-columns:160px 1fr auto auto;gap:22px;align-items:baseline;padding:16px 0;border-top:1px solid rgba(203,162,74,.2);
+  opacity:calc(0.1 + clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1) * 0.9);
+  transform:translateY(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * 8px))}
+.nd4-visit:first-child{border-top:none}
+.nd4-visit::after{content:"";position:absolute;inset:-2px -12px;z-index:-1;pointer-events:none;
+  background:radial-gradient(62% 130% at 16% 50%,rgba(203,162,74,.16),transparent 72%);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1))}
+.nd4-visit time{font:600 13px "DM Mono",monospace;color:#cba24a;letter-spacing:.03em}
+.nd4-visit b{font:400 clamp(19px,2.4vw,30px) "Playfair Display",serif;color:#ece6d6}
+.nd4-visit s{font:400 12px "Manrope",sans-serif;color:#8f96bd;text-decoration:none}
+.nd4-visit em{font:600 11px "DM Mono",monospace;font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:#8f96bd;text-align:right}
+.nd4-visit em.on{color:#cba24a}
+
+/* S5 VOICES — отзывы */
+.nd5-scene .ps-sticky{background:#141a33}
+.nd5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1a2242,#0c1226)}
+/* свечное свечение снизу, мягкое мерцание */
+.nd5-glow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(52vw 42vh at 50% 84%,rgba(203,162,74,.22),transparent 66%);mix-blend-mode:screen;animation:nd-flicker 4.5s ease-in-out infinite}
+@keyframes nd-flicker{0%,100%{opacity:.82}42%{opacity:1}68%{opacity:.68}}
+@media(prefers-reduced-motion:reduce){.nd5-glow{animation:none}}
+.nd5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#cba24a}
+/* иллюминированный стих с золотой буквицей */
+.nd5-verse{justify-items:center}
+.nd5-verse>div{width:min(58ch,78vw)}
+.nd5-cap{float:left;margin:6px 16px 0 0;font:400 clamp(48px,6.4vw,90px)/.72 "Playfair Display",serif;color:#cba24a;text-shadow:0 0 30px rgba(203,162,74,.5)}
+.nd5-verse p{margin:0;font:400 clamp(18px,2.2vw,32px)/1.34 "Playfair Display",serif;color:#ece6d6}
+.nd5-verse cite{display:block;clear:both;margin-top:12px;font:600 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#cba24a}
+.nd5-v1{align-content:start;padding-top:15vh}
+.nd5-v2{align-content:center}
+.nd5-v3{align-content:end;padding-bottom:10vh}
+
+/* S6 ENTER THE LIGHT — роза + CTA */
+.nd6-scene .ps-sticky{background:#141a33}
+.nd6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 58% 42%,#1c2446,#0e142a)}
+.nd6-rose{justify-items:end;align-content:center;padding-right:4vw}
+.nd6-rose .ps-media{width:40vw;height:auto;max-width:none;opacity:.9;filter:drop-shadow(0 0 50px rgba(203,162,74,.28))}
+.nd6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad);clip-path:circle(calc(clamp(0, var(--lp,0) * 1.5, 1) * 96%) at 22% 44%)}
+.nd6-copy .nd-eyebrow{color:#cba24a}
+.nd6-copy h2{margin:0;font:400 clamp(48px,9vw,140px)/.98 "Playfair Display",serif;color:#ece6d6}
+.nd6-copy h2 em{font-style:italic;color:#cba24a}
+.nd6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.nd6-cta p{margin:0 0 22px;font:400 15px/1.75 "Manrope",sans-serif;color:#a8afd0}
+@media(max-width:900px){.nd2-copy,.nd6-cta{max-width:88vw}.nd2-rose,.nd6-rose,.nd3-rose{display:none}.nd3-el{width:34vw}.nd4-visits{width:92vw}.nd4-visit{grid-template-columns:1fr auto;gap:4px 12px}.nd4-visit s{display:none}.nd4-visit time{grid-column:1}.nd5-verse>div{max-width:90vw}.nd5-cap{font-size:60px}}

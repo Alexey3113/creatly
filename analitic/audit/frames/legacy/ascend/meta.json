@@ -1,0 +1,68 @@
+{
+ "fam": "legacy",
+ "id": "ascend",
+ "url": "animated/ascend",
+ "mode": "scroll",
+ "ms": 9469,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.5vh",
+   "y": 489
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 977
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.6vh",
+   "y": 1466
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1954
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.7vh",
+   "y": 2443
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 2931
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.8vh",
+   "y": 3420
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 4.8,
+  "sections": 3,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 0,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Archivo",
+   "Instrument Serif"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

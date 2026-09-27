@@ -1,0 +1,137 @@
+/* Концепт 06 — ECOLOGY «VERDA». Held-world капсула-лес, тёмный sage-green, чистый sans. */
+.ec-site{--pad:4vw;--bg:#16211a;--ink:#e4ecdf;--mut:#8aa088;--accent:#7dae62;--fresh:#a6d585;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.ec-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.ec-brand{font:600 18px "Manrope",sans-serif;letter-spacing:.28em;color:#eef4e8}
+.ec-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#a8c496}
+.ec-nav a{opacity:.85}.ec-nav a:hover{opacity:1}
+.ec-plant{border:1px solid rgba(166,213,133,.5);border-radius:100px;padding:8px 16px;color:#c2e0a8;opacity:1!important}
+.ec-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--fresh);margin-bottom:20px}
+
+.ec-hero .ps-sticky{background:#16211a}
+.ec-bg .ps-media{filter:brightness(.9) saturate(1.05)}
+.ec-blobs{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(42vw 42vw at 50% 42%,rgba(124,174,98,.32),transparent 62%),radial-gradient(30vw 30vw at 16% 84%,rgba(90,140,80,.3),transparent 64%)}
+.ec-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.34;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+.ec-capsule .ps-media{filter:drop-shadow(0 44px 80px rgba(0,0,0,.5))}
+.ec-word{place-items:center;align-content:center;padding-top:12vh}
+.ec-word b{display:block;font:500 clamp(40px,6.4vw,116px)/1 "Manrope",sans-serif;color:#f2f7ec;letter-spacing:-.02em;text-align:center;text-shadow:0 4px 26px rgba(0,0,0,.5)}
+.ec-word span{display:block;text-align:center;margin-top:12px;font:600 12px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:#c2e0a8}
+.ec-leaves{left:-4vw;right:auto;top:-8vh;width:42vw;height:56vh;place-items:start}
+.ec-leaves .ps-media{object-fit:contain}
+
+.ec-copy{justify-items:start;align-content:end;padding:0 0 16vh var(--pad)}
+.ec-copy>div{max-width:34ch}
+.ec-copy p{margin:0;font:400 15px/1.65 "Manrope",sans-serif;color:#b6c8ac}
+
+.ec-label{position:absolute;z-index:14;font:500 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#9ab48c;line-height:1.5}
+.ec-tr{top:96px;right:var(--pad);text-align:right}
+.ec-bl{bottom:40px;left:var(--pad)}
+.ec-bl b{display:block;font:300 42px "Manrope",sans-serif;color:#d8e8cc;line-height:.9}
+.ec-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.ec-cue{position:absolute;z-index:14;left:50%;bottom:26px;transform:translateX(-50%);font:600 10px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--fresh)}
+
+/* manifest */
+
+/* CTA */
+
+
+.ec-site a.ec-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:var(--fresh);color:#14201a;font:600 13px "Manrope",sans-serif}
+.ec-btn i{font-style:normal}
+
+/* footer */
+.ec-foot{position:relative;z-index:1;background:#101911;color:#8aa088;padding:64px var(--pad) 40px}
+.ec-foot-top b{font:600 22px "Manrope",sans-serif;letter-spacing:.28em;color:#eef4e8}
+.ec-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#748c6c}
+.ec-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(166,213,133,.16);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#657a5e}
+
+/* ФАЗА 2 — секции */
+/* What we protect — галерея */
+
+/* Impact — метрики */
+
+.ec-impact .ec-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.ec-grid{columns:2}}
+@media(max-width:900px){.ec-nav{display:none}.ec-copy,.ec-leaves{display:none}.ec-capsule{width:auto}
+  .ec-grid{columns:1}.ec-msteps,.ec-rgrid{grid-template-columns:1fr}.ec-workhead{flex-direction:column;align-items:flex-start}.ec-workhead p{text-align:left}}
+
+/* ===== SCENES S2–S6 — held-world refined (dark sage, Manrope-light humanist) ===== */
+.ec-scene .ps-sticky{background:#16211a}
+.ec-scene .ec-eyebrow{margin-bottom:16px}
+
+/* S2 HOW IT GROWS — капсула + листья */
+.ec2-scene .ps-sticky{background:#16211a}
+.ec2-bg .ps-media{filter:saturate(1.02) brightness(.92)}
+.ec2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(22,33,26,.55),transparent 44%),linear-gradient(0deg,rgba(22,33,26,.5),transparent 40%)}
+.ec2-capsule{place-items:center;align-content:center}
+.ec2-capsule .ps-media{width:26vw;height:auto;max-width:none;filter:contrast(1.03) drop-shadow(0 26px 46px rgba(0,0,0,.5))}
+.ec2-fg{justify-items:end;align-content:start}
+.ec2-fg .ps-media{width:32vw;height:auto;max-width:none;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+.ec2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.ec2-copy .ec-eyebrow{color:#a6d585}
+.ec2-copy h2{margin:0;font:300 clamp(40px,6vw,96px)/1.02 "Manrope",sans-serif;color:#e4ecdf;letter-spacing:-.01em}
+.ec2-copy h2 em{font-style:normal;color:#a6d585}
+.ec2-copy p{margin:18px 0 0;max-width:44ch;font:400 15px/1.75 "Manrope",sans-serif;color:#8aa088}
+
+/* S3 WHAT WE PROTECT — лес */
+.ec3-scene .ps-sticky{background:#16211a}
+.ec3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c2a22,#101812)}
+/* базовая линия «земли» */
+.ec3-ground{position:absolute;left:5vw;right:5vw;top:80%;z-index:3;height:1px;background:linear-gradient(90deg,transparent,rgba(166,213,133,.5) 18% 82%,transparent);box-shadow:0 0 26px 3px rgba(166,213,133,.12)}
+.ec3-slot{justify-items:center;align-content:end}
+/* стадия роста — снимок на базовой линии с year-тэгом; ширина растёт Y1→Y30 */
+.ec3-stage{position:relative;background:#101812;padding:7px;border:1px solid rgba(125,174,98,.28);box-shadow:0 24px 48px rgba(0,0,0,.5)}
+.ec3-stage .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:3/4;object-fit:cover;display:block}
+.ec3-stage b{position:absolute;top:6px;left:6px;font:700 10px "DM Mono",monospace;color:#12281a;background:#a6d585;padding:2px 7px;letter-spacing:.06em}
+.ec3-stage span{display:block;margin-top:6px;font:600 9px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#9fbb92}
+.ec3-g1{width:10vw;min-width:118px}.ec3-g2{width:12.5vw;min-width:148px}.ec3-g3{width:15vw;min-width:178px}.ec3-g4{width:17.5vw;min-width:206px}
+.ec3-copy{justify-items:start;align-content:start;text-align:left;padding:12vh 0 0 var(--pad)}
+.ec3-copy .ec-eyebrow{color:#a6d585}
+.ec3-copy h2{margin:0;max-width:16ch;font:300 clamp(32px,5vw,72px)/1.04 "Manrope",sans-serif;color:#e4ecdf;letter-spacing:-.01em}
+.ec3-copy h2 em{font-style:normal;color:#a6d585}
+.ec3-copy p{margin:16px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#8aa088}
+
+/* S4 THE IMPACT — числа */
+.ec4-scene .ps-sticky{background:#16211a}
+.ec4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c2a22,#101812)}
+.ec4-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
+.ec4-head .ec-eyebrow{color:#a6d585}
+.ec4-stats{display:flex!important;gap:5vw;justify-content:center;align-items:flex-end;padding:0 var(--pad)}
+.ec4-stat{position:relative;text-align:center;max-width:26ch;padding-bottom:18px;opacity:calc(clamp(0,(var(--lp,0) - var(--thr,0))*11,1));transform:translateY(calc((1 - clamp(0,(var(--lp,0) - var(--thr,0))*6,1))*16px))}
+.ec4-stat::after{content:"";position:absolute;left:50%;bottom:0;width:44px;height:3px;margin-left:-22px;border-radius:2px;background:linear-gradient(90deg,var(--fresh),var(--accent));transform-origin:center bottom;transform:scaleX(calc(clamp(0,(var(--lp,0) - var(--thr,0))*5,1)))}
+.ec4-stat b{position:relative}
+.ec4-stat b::before{content:"";position:absolute;left:-16px;bottom:2px;width:3px;height:0.72em;border-radius:2px;background:linear-gradient(var(--fresh),var(--accent));transform-origin:bottom;transform:scaleY(calc(clamp(0,(var(--lp,0) - var(--thr,0))*4.5,1)));opacity:.9}
+.ec4-stat b{display:block;font:300 clamp(50px,7vw,118px)/.9 "Manrope",sans-serif;color:#e4ecdf;letter-spacing:-.02em}
+.ec4-stat b i{font-style:normal;font-size:.34em;color:#a6d585}
+.ec4-stat h4{margin:8px 0 6px;font:500 15px "Manrope",sans-serif;color:#e4ecdf}
+.ec4-stat s{font:400 13px/1.5 "Manrope",sans-serif;color:#8aa088;text-decoration:none}
+
+/* S5 FROM THE GROUND — голоса */
+.ec5-scene .ps-sticky{background:#16211a}
+.ec5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1c2a22,#0e150f)}
+/* dotted-графикула карты */
+.ec5-mapbg{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.45;background-image:radial-gradient(rgba(166,213,133,.16) 1px,transparent 1px);background-size:34px 34px;-webkit-mask:radial-gradient(120% 92% at 50% 50%,#000 44%,transparent 92%);mask:radial-gradient(120% 92% at 50% 50%,#000 44%,transparent 92%)}
+.ec5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#a6d585}
+/* geotag-заметка: карточка с координатой и крестом-пином, приземляется сверху */
+.ec5-note{justify-items:center;align-content:center}
+.ec5-card{position:relative;width:26vw;min-width:236px;max-width:360px;background:rgba(16,24,18,.86);border:1px solid rgba(125,174,98,.32);padding:18px 20px}
+.ec5-card::before{content:"⌖";position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:22px;line-height:1;color:#a6d585;text-shadow:0 0 12px rgba(166,213,133,.6)}
+.ec5-card i{font:700 10px "DM Mono",monospace;font-style:normal;letter-spacing:.08em;color:#a6d585}
+.ec5-card p{margin:10px 0 0;font:300 clamp(15px,1.35vw,20px)/1.5 "Manrope",sans-serif;color:#e4ecdf}
+.ec5-card b{display:block;margin-top:13px;padding-top:11px;border-top:1px solid rgba(125,174,98,.24);font:600 10px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#9fbb92}
+
+/* S6 GROW A FOREST — капсула + CTA */
+.ec6-scene .ps-sticky{background:#16211a}
+.ec6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 56% 42%,#1e2c23,#101812)}
+.ec6-capsule{justify-items:end;align-content:center;padding-right:6vw}
+.ec6-capsule .ps-media{width:26vw;height:auto;max-width:none;filter:contrast(1.03) drop-shadow(0 26px 48px rgba(0,0,0,.5))}
+.ec6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad);clip-path:inset(0 calc((1 - clamp(0,var(--lp,0)*1.5,1))*100%) -14% 0)}
+.ec6-copy .ec-eyebrow{color:#a6d585}
+.ec6-copy h2{margin:0;font:300 clamp(52px,9vw,150px)/.98 "Manrope",sans-serif;color:#e4ecdf;letter-spacing:-.02em}
+.ec6-copy h2 em{font-style:normal;color:#a6d585}
+.ec6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.ec6-cta p{margin:0 0 22px;font:400 15px/1.75 "Manrope",sans-serif;color:#8aa088}
+@media(max-width:900px){.ec2-copy,.ec6-cta{max-width:88vw}.ec2-capsule .ps-media{width:56vw}.ec2-fg,.ec6-capsule{display:none}.ec3-g1,.ec3-g2,.ec3-g3,.ec3-g4{width:34vw}.ec4-stats{flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:center;gap:6vh}.ec5-note{padding:0 3vw}.ec5-card{width:80vw}}

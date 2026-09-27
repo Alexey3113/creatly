@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { sendToTelegram, formatLeadMessage } from "@/lib/integrations/telegram";
+import { sendLeadEmail } from "@/lib/integrations/email";
 import { apiLimiter, getClientId, LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
@@ -41,17 +42,23 @@ export async function POST(request: Request) {
       },
     });
 
+    const { telegramBotToken, telegramChatId, email } = project.user;
+
     // Send to Telegram if configured
     let telegramSent = false;
-    const { telegramBotToken, telegramChatId } = project.user;
-
     if (telegramBotToken && telegramChatId) {
       const message = formatLeadMessage(fields, project.name);
       telegramSent = await sendToTelegram(telegramBotToken, telegramChatId, message);
     }
 
+    // Send email notification if user has email and Resend is configured
+    let emailSent = false;
+    if (email) {
+      emailSent = await sendLeadEmail(email, fields, project.name, source);
+    }
+
     return NextResponse.json(
-      { ok: true, leadId: lead.id, telegramSent },
+      { ok: true, leadId: lead.id, telegramSent, emailSent },
       { status: 201 },
     );
   } catch (err) {

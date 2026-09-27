@@ -1,0 +1,104 @@
+/* STORY v2 · САЙТ 9 «SALT» — burnt-orange/grey occult art-poster (pin9), «I turned».
+   Шрифты: UnifrakturCook (blackletter вордмарк) · Barlow Condensed (condensed body) · JetBrains Mono (mono). */
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+
+.sl-site{--bg:#1a1410;--warm:#2a2016;--orange:#d47a1e;--rust:#9a4e18;--grey:#b3aca0;--bone:#e8dfd0;--ink:#241c14;--mut:#8f8172;
+  position:fixed;inset:0;background:var(--bg);color:var(--bone);font-family:"Barlow Condensed",system-ui,sans-serif;overflow:hidden}
+
+.sl-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;pointer-events:none}
+.sl-head a{pointer-events:auto}
+.sl-brand{font:700 26px/1 "UnifrakturCook",cursive;letter-spacing:.02em;color:var(--bone);text-decoration:none}
+.sl-nav{display:flex;gap:22px;align-items:center;font:500 13px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
+.sl-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.sl-nav a:hover{color:var(--orange)}
+.sl-nav .sl-cta{padding:7px 14px;border:1px solid var(--orange);color:var(--orange)}
+@media(max-width:900px){.sl-nav a:not(.sl-cta){display:none}}
+
+.sl-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>")}
+.sl-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:500 12px "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.sl-eyebrow{font:500 12px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+.sl-folio{font:500 12px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.sl-meta{font:500 12px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+
+/* 0 · OCCLUDED IDOL */
+.sl-cover-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#d47a1e 0,#c26a1a 32%,#26201a 33%,#1a1410 76%)}
+.sl-wordmark{display:grid;place-items:start center;padding-top:6vh;pointer-events:none}
+.sl-wordmark span{font:700 clamp(80px,22vw,360px)/.8 "UnifrakturCook",cursive;letter-spacing:.01em;color:#3a2a18;opacity:.85}
+.sl-cover-fig{display:grid;place-items:end center;pointer-events:none}
+.sl-cover-fig .ps-media{width:auto;height:96vh;max-width:none;object-fit:contain;object-position:bottom}
+.sl-orn{position:absolute;inset:0;z-index:8;pointer-events:none;--lp:var(--sp,1)}
+.sl-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9);font:400 12px/1.5 "JetBrains Mono",monospace;letter-spacing:.08em;color:var(--grey)}
+.sl-orn-ref{top:4vh;left:4vw;color:#3a2a18!important;font-weight:700}
+.sl-orn-tr{top:20vh;right:4vw;text-align:right;font-family:"Barlow Condensed",sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:.1em;color:var(--bone)!important}
+.sl-orn-lm{top:46%;left:4vw;font-family:"Barlow Condensed",sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey)!important}
+.sl-orn-sym{top:60%;right:5vw;font-size:22px!important;color:var(--rust)!important;letter-spacing:.3em}
+.sl-orn-bar{bottom:8vh;left:50%;transform:translateX(-50%);white-space:nowrap;color:var(--mut)}
+.sl-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 11vh 4vw}
+.sl-cover-hi h1{margin:6px 0 12px;font:700 clamp(46px,8vw,120px)/.85 "UnifrakturCook",cursive;color:var(--bone)}
+.sl-cover-hi p{margin:0;max-width:40ch;font:400 17px/1.5 "Barlow Condensed",sans-serif;color:#cabfae}
+
+/* 1 · TYPE GUILLOTINE */
+.sl-guillo-fig{z-index:1}
+.sl-guillo-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 26%;filter:sepia(.35) brightness(.72) contrast(1.05)}
+.sl-guillo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(26,20,16,.5),rgba(26,20,16,.15) 40%,rgba(26,20,16,.88))}
+.sl-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;font:600 clamp(56px,15vw,240px)/.82 "Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.02em;color:var(--bone);pointer-events:none}
+.sl-guillo-out{color:transparent;-webkit-text-stroke:2px var(--orange)}
+.sl-guillo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 10vh 4vw}
+.sl-guillo-cap p{margin:0;max-width:44ch;font:400 17px/1.5 "Barlow Condensed",sans-serif;color:#cabfae}
+
+/* 2 · TUNNEL ZOOM */
+.sl-tunnel{background:var(--bg)}
+.sl-tunnel-fig{z-index:1}
+.sl-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:sepia(.3) contrast(1.06)}
+.sl-tunnel-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(60% 60% at 50% 45%,transparent,rgba(26,20,16,.75) 92%),linear-gradient(0deg,rgba(26,20,16,.85),transparent 48%)}
+.sl-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:700 30vh "UnifrakturCook",cursive;color:rgba(212,122,30,.12);pointer-events:none}
+.sl-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
+.sl-tunnel-cap p{margin:8px 0;max-width:44ch;font:400 17px/1.5 "Barlow Condensed",sans-serif;color:#e0d6c6}
+
+/* 3 · RELIC — кадр прижат к низу во всю ширину, подпись сверху-слева (ось иная) */
+.sl-relic-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#2a2016,#160f0b)}
+.sl-relic-huge{position:absolute;right:5vw;top:6vh;z-index:1;font:400 40vh "Barlow Condensed",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(212,122,30,.22);pointer-events:none}
+.sl-relic-cap{position:absolute;left:6vw;top:14vh;z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:46vw}
+.sl-relic-cap h3{margin:6px 0 12px;font:700 clamp(40px,6vw,104px)/.86 "UnifrakturCook",cursive;color:var(--bone)}
+.sl-relic-cap p{margin:0;max-width:40ch;font:400 16px/1.55 "Barlow Condensed",sans-serif;color:#cabfae}
+.sl-relic-band{position:absolute;left:0;right:0;top:auto;bottom:0;height:46vh;z-index:2;overflow:hidden;border-top:1px solid rgba(212,122,30,.4)}
+.sl-relic-band .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:sepia(.15) contrast(1.05)}
+.sl-relic-marks{position:absolute;right:12px;bottom:10px;z-index:3;font:500 11px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:rgba(22,15,11,.7);padding:4px 8px}
+
+/* 4 · CASCADE — диагональный веер снимков (не сетка) */
+.sl-cascade-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 75% at 50% 42%,#2a2016,#120c08 80%)}
+.sl-cascade-head{position:absolute;top:8vh;left:6vw;z-index:6}
+.sl-cascade-head b{display:block;font:700 clamp(30px,5vw,70px)/.85 "UnifrakturCook",cursive;color:var(--bone)}
+.sl-cascade-head span{font:500 12px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
+.sl-cascade-stack{position:absolute;inset:20vh 6vw 8vh;z-index:2}
+.sl-plate{position:absolute;top:0;margin:0;width:30%;height:66%;overflow:hidden;background:#1a1410;border:5px solid #efe6d6;box-shadow:0 22px 46px rgba(0,0,0,.55);
+  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r)}
+.sl-plate img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.2)}
+.sl-plate figcaption{position:absolute;left:0;bottom:0;padding:5px 8px;font:500 10px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#1a1410;background:#efe6d6}
+.sl-plate-1{--d:0;left:2%;transform:rotate(-8deg) translateY(calc((1 - var(--r))*40px))}
+.sl-plate-2{--d:.1;left:24%;top:8%;transform:rotate(-2deg) translateY(calc((1 - var(--r))*40px));z-index:2}
+.sl-plate-3{--d:.2;left:46%;top:2%;transform:rotate(4deg) translateY(calc((1 - var(--r))*40px));z-index:3}
+.sl-plate-4{--d:.3;left:66%;top:10%;transform:rotate(9deg) translateY(calc((1 - var(--r))*40px));z-index:4}
+.sl-cascade-code{position:absolute;left:6vw;bottom:3vh;z-index:6;font:500 12px "JetBrains Mono",monospace;letter-spacing:.08em;color:var(--mut)}
+
+/* 5 · LETTER — исповедь от первого лица с подписью (не центр-слоган) */
+.sl-letter-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(75% 75% at 50% 44%,#2a2016,#120c08 78%)}
+.sl-letter-block{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6;width:min(56ch,84vw);text-align:left;border-left:2px solid var(--orange);padding-left:30px}
+.sl-letter-verse{font:500 12px "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+.sl-letter-body{margin:16px 0 22px;font:400 clamp(19px,2.4vw,30px)/1.55 "Barlow Condensed",sans-serif;color:#e6dcc9}
+.sl-letter-sign{display:block;margin-bottom:26px;font:700 clamp(30px,5vw,64px) "UnifrakturCook",cursive;color:var(--bone)}
+.sl-letter-link{font:500 13px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-decoration:none;border-bottom:1px solid rgba(212,122,30,.5);padding-bottom:5px;transition:color .2s}
+.sl-letter-link:hover{color:#e88a2a}
+.sl-letter-meta{position:absolute;bottom:5vh;left:0;right:0;text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#6e6152}
+
+/* мобилка */
+@media(max-width:900px){
+  .sl-cover-fig .ps-media,.sl-guillo-fig .ps-media,.sl-tunnel-fig .ps-media{height:80vh}
+  .sl-wordmark span{font-size:34vw}
+  .sl-orn-tr,.sl-orn-lm{font-size:13px}
+  .sl-relic-cap{max-width:none;padding-right:5vw}
+  .sl-relic-band{height:38vh}
+  .sl-plate{width:44%;height:40%}
+  .sl-plate-1{left:2%;top:2%}.sl-plate-2{left:40%;top:8%}.sl-plate-3{left:6%;top:48%}.sl-plate-4{left:44%;top:54%}
+  .sl-letter-block{width:88vw}
+}

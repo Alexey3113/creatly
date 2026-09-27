@@ -31,8 +31,9 @@ export function getFormHandlerScript(projectId: number, apiBase: string): string
 
     var btn = form.querySelector("[type=submit], button:not([type])");
     if (btn) {
+      btn._origText = btn.textContent;
       btn.disabled = true;
-      btn.textContent = "Sending...";
+      btn.textContent = "Отправка...";
     }
 
     fetch(API_URL, {
@@ -47,7 +48,7 @@ export function getFormHandlerScript(projectId: number, apiBase: string): string
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.ok) {
-        form.innerHTML = '<div style="padding:20px;text-align:center;color:#16a34a;font-weight:600;">Thank you! Your message has been sent.</div>';
+        form.innerHTML = '<div style="padding:24px 20px;text-align:center;color:#16a34a;font-size:15px;font-weight:600;">Спасибо! Заявка отправлена.</div>';
       } else {
         showError(form, btn);
       }
@@ -60,14 +61,14 @@ export function getFormHandlerScript(projectId: number, apiBase: string): string
   function showError(form, btn) {
     if (btn) {
       btn.disabled = false;
-      btn.textContent = "Send";
+      btn.textContent = btn._origText || "Отправить";
     }
     var existing = form.querySelector(".sb-form-error");
     if (existing) existing.remove();
     var msg = document.createElement("div");
     msg.className = "sb-form-error";
     msg.style.cssText = "padding:8px 12px;margin-top:8px;border-radius:6px;background:#fef2f2;color:#dc2626;font-size:14px;text-align:center;";
-    msg.textContent = "Something went wrong. Please try again.";
+    msg.textContent = "Что-то пошло не так. Попробуйте ещё раз.";
     form.appendChild(msg);
     setTimeout(function() { msg.remove(); }, 5000);
   }

@@ -41,5 +41,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ available: false, reason: "Этот адрес уже занят" });
   }
 
-  return NextResponse.json({ available: true, domain: `${slug}.creatly.ru` });
+  const sitesDomain = process.env.VDS_DOMAIN || "creatly.ru";
+  return NextResponse.json({ available: true, domain: `${slug}.${sitesDomain}` });
 }

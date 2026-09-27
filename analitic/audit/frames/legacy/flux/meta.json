@@ -1,0 +1,67 @@
+{
+ "fam": "legacy",
+ "id": "flux",
+ "url": "animated/flux",
+ "mode": "scroll",
+ "ms": 9824,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.3vh",
+   "y": 283
+  },
+  {
+   "f": "f02.jpg",
+   "label": "0.6vh",
+   "y": 566
+  },
+  {
+   "f": "f03.jpg",
+   "label": "0.9vh",
+   "y": 849
+  },
+  {
+   "f": "f04.jpg",
+   "label": "1.3vh",
+   "y": 1131
+  },
+  {
+   "f": "f05.jpg",
+   "label": "1.6vh",
+   "y": 1414
+  },
+  {
+   "f": "f06.jpg",
+   "label": "1.9vh",
+   "y": 1697
+  },
+  {
+   "f": "f07.jpg",
+   "label": "2.2vh",
+   "y": 1980
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 3.2,
+  "sections": 3,
+  "videos": 0,
+  "canvases": 1,
+  "imgs": 0,
+  "sticky": 0,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "IBM Plex Mono"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

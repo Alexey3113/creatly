@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+const OUT="/private/tmp/claude-501/-Users-leo-programming-creatly/bdd54b0f-9e8c-49ef-b597-ab49ed07efbb/scratchpad";
+const slug=process.argv[2]||"ecology";
+const b=await chromium.launch({args:["--use-gl=angle","--use-angle=swiftshader","--ignore-gpu-blocklist"]});
+const pg=await b.newPage({viewport:{width:1512,height:945},reducedMotion:"reduce"});
+await pg.goto(`http://127.0.0.1:3011/visual-hooks/${slug}`,{waitUntil:"networkidle",timeout:45000});
+await pg.waitForTimeout(1000);
+const y=await pg.evaluate(()=>{const el=document.querySelectorAll('.ps-scene')[3];return el.getBoundingClientRect().top+window.scrollY+200;});
+await pg.evaluate((yy)=>window.scrollTo(0,yy),y);
+await pg.waitForTimeout(500);
+await pg.screenshot({path:`${OUT}/reduce-${slug}.jpg`,quality:82,type:"jpeg"});
+console.log(`reduce ${slug} shot`);
+await b.close();

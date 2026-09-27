@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Pirata+One&display=swap");
+/* Концепт 03 — VINYL «AFTER HOURS». Тёмный sepia-amber, блэклеттер, вращающийся винил. */
+.vn-site{--pad:4vw;--bg:#140d09;--ink:#ecdcc4;--mut:#a58a6c;--accent:#b8452f;--amber:#d99a4a;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.vn-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.vn-brand{font:600 18px "DM Mono",monospace;letter-spacing:.24em;color:#f3e6d0}
+.vn-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#c8ae8c}
+.vn-nav a{opacity:.85}.vn-nav a:hover{opacity:1}
+.vn-join{border:1px solid rgba(216,154,74,.45);border-radius:100px;padding:8px 16px;color:#e6c691;opacity:1!important}
+.vn-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:22px}
+
+.vn-hero .ps-sticky{background:#140d09}
+
+/* манифест */
+
+/* CTA */
+
+
+.vn-site a.vn-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:var(--amber);color:#1a0f06;font:600 13px "Manrope",sans-serif}
+.vn-btn i{font-style:normal}
+
+/* footer */
+.vn-foot{position:relative;z-index:1;background:#0f0906;color:#a58a6c;padding:64px var(--pad) 40px}
+.vn-foot-top b{font:600 22px "DM Mono",monospace;letter-spacing:.24em;color:#f3e6d0}
+.vn-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#8a7157}
+.vn-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(216,154,74,.16);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#7a6248}
+
+/* ФАЗА 2 — секции */
+/* The collection — галерея */
+
+/* The club — членство/вечера */
+
+.vn-club .vn-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.vn-grid{columns:2}}
+@media(max-width:900px){.vn-nav{display:none}.vn-hand{display:none}.vn-record{width:78vw;height:78vw;right:-10vw}
+  .vn-grid{columns:1}.vn-csteps,.vn-qgrid{grid-template-columns:1fr}.vn-workhead{flex-direction:column;align-items:flex-start}.vn-workhead p{text-align:left}}
+
+/* ===== POSTER HERO — sepia-amber album-cover уровень «Vampire» ===== */
+.vp-hero .ps-sticky{background:#140d09}
+.vp-bg .ps-media{filter:contrast(1.05) saturate(1.08) brightness(.86) sepia(.12)}
+.vp-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 42%,rgba(217,154,74,.14),transparent 62%),linear-gradient(180deg,rgba(20,13,9,.5),transparent 28% 58%,rgba(20,13,9,.78))}
+.vp-title{place-items:center;align-content:center}
+.vp-title span{font:400 clamp(120px,22vw,360px)/.9 "Pirata One",serif;color:#9b2a1e;letter-spacing:.01em;text-shadow:0 4px 30px rgba(0,0,0,.55),2px 2px 0 rgba(0,0,0,.25)}
+.vp-record{justify-items:end;align-content:center;padding-right:3vw}
+.vp-record .ps-media{width:15vw;height:auto;max-width:none;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}
+.vp-grain{position:absolute;inset:0;z-index:14;pointer-events:none;opacity:.32;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.vp-frame{position:absolute;z-index:16;inset:16px;border:1px solid rgba(217,154,74,.3);pointer-events:none}
+.vp-top{position:absolute;z-index:17;top:28px;left:0;right:0;text-align:center;font:700 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:#e3c79c}
+.vp-kata{position:absolute;z-index:17;left:var(--pad);top:38vh;writing-mode:vertical-rl;font:400 28px "Manrope",sans-serif;letter-spacing:.1em;color:rgba(217,154,74,.7)}
+.vp-globe{position:absolute;z-index:17;left:var(--pad);bottom:16vh;width:40px;height:40px;border:1.5px solid var(--accent);border-radius:50%}
+.vp-globe:before,.vp-globe:after{content:"";position:absolute;background:var(--accent)}
+.vp-globe:before{left:50%;top:-7px;bottom:-7px;width:1.5px;transform:translateX(-50%)}
+.vp-globe:after{top:50%;left:-7px;right:-7px;height:1.5px;transform:translateY(-50%)}
+.vp-badge{position:absolute;z-index:17;right:var(--pad);bottom:8vh;background:#0c0806;border:2px solid #e3c79c;padding:5px 10px 7px;text-align:center;color:#e3c79c}
+.vp-badge b{display:block;font:800 15px "Manrope",sans-serif;letter-spacing:.02em;background:#e3c79c;color:#0c0806;padding:1px 6px}
+.vp-badge span{display:block;font:800 15px "Manrope",sans-serif;letter-spacing:.02em}
+.vp-badge i{display:block;font:700 7px "DM Mono",monospace;letter-spacing:.14em;font-style:normal;margin-top:3px}
+.vp-credit{position:absolute;z-index:17;left:var(--pad);bottom:8vh;font:700 10px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#a58a6c}
+.vp-rpm{position:absolute;z-index:17;right:var(--pad);top:96px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;color:#e3c79c}
+.vp-cue{position:absolute;z-index:17;left:var(--pad);top:96px;font:700 11px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--amber)}
+@media(max-width:900px){.vp-kata,.vp-record,.vp-globe{display:none}.vp-title span{font-size:34vw}}
+
+/* ===== SCENES S2–S6 — sepia-amber after-hours (Pirata blackletter) ===== */
+.vn-scene .ps-sticky{background:#140d09}
+.vn-scene .vn-eyebrow{margin-bottom:16px}
+
+/* S2 THE ROOM — бар + дым передний план */
+.v2-scene .ps-sticky{background:#120b08}
+.v2-bg .ps-media{filter:contrast(1.04) saturate(1.08) brightness(.86)}
+.v2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 56vh at 50% 46%,rgba(217,154,74,.15),transparent 62%),linear-gradient(180deg,rgba(18,11,8,.5),transparent 28% 56%,rgba(18,11,8,.82))}
+.v2-fg{justify-items:center;align-content:start}
+.v2-fg .ps-media{width:82vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.5;-webkit-mask:radial-gradient(ellipse 68% 54% at 50% 4%,#000 32%,transparent 76%);mask:radial-gradient(ellipse 68% 54% at 50% 4%,#000 32%,transparent 76%)}
+.v2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.v2-copy .vn-eyebrow{color:var(--amber)}
+.v2-copy h2{margin:0;font:400 clamp(40px,6vw,88px)/.98 "Pirata One",serif;color:#f0e0c8}
+.v2-copy h2 em{font-style:normal;color:#c8492f}
+.v2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#c8ae8c}
+.v2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE CRATE — конверты пластинок */
+.v3-scene .ps-sticky{background:#140d09}
+.v3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c130c,#0e0906)}
+/* сквозной спиннинг-диск за веером */
+.v3-disc{place-items:center}
+.v3-disc .ps-media{width:46vh;height:46vh;max-width:none;object-fit:contain;filter:sepia(.25) contrast(1.05) brightness(.92) drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+/* конверты крейта — квадратные, веером от центра */
+.v3-sleeve{position:relative;width:15.5vw;min-width:148px;background:#0e0906;padding:8px 8px 26px;box-shadow:0 30px 56px rgba(0,0,0,.6);border:1px solid rgba(217,154,74,.24)}
+.v3-sleeve .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:1/1;object-fit:cover;display:block;filter:sepia(.22) contrast(1.05)}
+.v3-sleeve b{position:absolute;left:11px;bottom:8px;font:700 9px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.v3-copy{justify-items:center;align-content:end;text-align:center;padding-bottom:8vh}
+.v3-copy .vn-eyebrow{color:var(--amber)}
+.v3-copy h2{margin:0;font:400 clamp(34px,5vw,72px)/.98 "Pirata One",serif;color:#f0e0c8}
+.v3-copy h2 em{font-style:normal;color:#c8492f}
+.v3-copy p{margin:16px auto 0;max-width:46ch;font:400 15px/1.7 "Manrope",sans-serif;color:#c8ae8c}
+
+/* S4 THE NIGHTS — расписание */
+.v4-scene .ps-sticky{background:#140d09}
+.v4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c130c,#0e0906)}
+.v4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.14;background-image:radial-gradient(circle,#000 1px,transparent 1.4px);background-size:4px 4px}
+.v4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.v4-head .vn-eyebrow{color:var(--amber)}
+.v4-head h2{margin:0;font:400 clamp(32px,4.8vw,68px)/1 "Pirata One",serif;color:#f0e0c8}
+.v4-head h2 em{font-style:normal;color:#c8492f}
+/* сессии-дорожки: ряд въезжает + амбер-грув прочерчивается под ним (по --lp, последовательно) */
+.v4-nightsL{justify-items:center;align-content:center}
+.v4-nights{width:min(800px,88vw)}
+.v4-night{position:relative;display:grid;grid-template-columns:60px 1fr auto auto;gap:22px;align-items:baseline;padding:16px 0;border-top:1px solid rgba(217,154,74,.14);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 10, 1));
+  transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * -24px))}
+.v4-night:first-child{border-top:none}
+.v4-night::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--amber);transform-origin:left;
+  transform:scaleX(calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 5, 1)));opacity:.5}
+.v4-night time{font:700 14px "DM Mono",monospace;color:var(--amber);letter-spacing:.06em}
+.v4-night b{font:400 clamp(20px,2.6vw,32px) "Pirata One",serif;color:#f0e0c8}
+.v4-night s{font:600 11px "DM Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#a58a6c;text-decoration:none}
+.v4-night em{font:700 11px "DM Mono",monospace;font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:#a58a6c;text-align:right}
+.v4-night em.on{color:var(--amber)}
+
+/* S5 THE REGULARS — отзывы */
+.v5-scene .ps-sticky{background:#140d09}
+.v5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 84% at 64% 46%,#1c130c,#0c0805)}
+/* grooved record edge слева — «пластина под иглой» */
+.v5-disc{position:absolute;z-index:2;left:-27vw;top:50%;width:58vw;height:58vw;transform:translateY(-50%);border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,rgba(184,69,47,.1) 0 1px,transparent 1px 7px);opacity:.6;pointer-events:none;-webkit-mask:radial-gradient(circle at 50% 50%,#000 60%,transparent 74%);mask:radial-gradient(circle at 50% 50%,#000 60%,transparent 74%)}
+.v5-eyebrow{position:absolute;z-index:16;top:96px;left:35vw;font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--amber)}
+/* игла-развёртка идёт сверху вниз по трек-листу */
+.v5-needle{justify-items:start;align-content:start}
+.v5-needle span{position:relative;display:block;margin-left:35vw;width:50vw;height:2px;background:linear-gradient(90deg,var(--amber),transparent);box-shadow:0 0 12px rgba(217,154,74,.45)}
+.v5-needle span::before{content:"";position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px rgba(217,154,74,.8)}
+/* трек-строки справа, раскрываются сверху вниз */
+.v5-trk{justify-items:start;padding-left:35vw;padding-right:var(--pad)}
+.v5-trk>*{max-width:52vw}
+.v5-trk i{font:700 12px "DM Mono",monospace;font-style:normal;letter-spacing:.14em;color:var(--amber)}
+.v5-trk p{margin:8px 0 0;font:400 clamp(22px,3vw,44px)/1.12 "Pirata One",serif;color:#f0e0c8}
+.v5-trk cite{display:block;margin-top:12px;padding-top:12px;border-top:1px solid rgba(184,69,47,.34);font:700 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#c8ae8c}
+.v5-t1{align-content:start;padding-top:20vh}
+.v5-t2{align-content:center}
+.v5-t3{align-content:end;padding-bottom:15vh}
+
+/* S6 SIDE B — винил-объект + CTA */
+.v6-scene .ps-sticky{background:#140d09}
+.v6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 62% 42%,#241811,#0e0906)}
+.v6-obj{justify-items:end;align-content:center;padding-right:8vw}
+.v6-obj .ps-media{width:26vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(217,154,74,.2))}
+.v6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
+.v6-copy .vn-eyebrow{color:var(--amber)}
+.v6-copy h2{margin:0;font:400 clamp(52px,9vw,150px)/.9 "Pirata One",serif;color:#f0e0c8}
+.v6-copy h2 em{font-style:normal;color:#c8492f}
+.v6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.v6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#c8ae8c}
+@media(max-width:900px){.v2-copy,.v6-cta{max-width:88vw}.v3-sleeve{width:38vw}.v3-disc .ps-media{width:70vw;height:70vw}.v4-nights{width:92vw}.v4-night{grid-template-columns:50px 1fr auto;gap:6px 12px}.v4-night s{display:none}.v5-trk{padding-left:var(--pad)}.v5-trk>*{max-width:88vw}.v5-disc,.v5-needle,.v5-eyebrow{display:none}.v6-obj{display:none}}

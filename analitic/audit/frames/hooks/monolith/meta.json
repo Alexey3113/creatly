@@ -1,0 +1,100 @@
+{
+ "fam": "hooks",
+ "id": "monolith",
+ "url": "visual-hooks/monolith",
+ "mode": "scroll",
+ "ms": 16143,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 511
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1021
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1532
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.3vh",
+   "y": 2042
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2553
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3063
+  },
+  {
+   "f": "f07.jpg",
+   "label": "4.0vh",
+   "y": 3574
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4085
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.1vh",
+   "y": 4595
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.7vh",
+   "y": 5106
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.2vh",
+   "y": 5616
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.8vh",
+   "y": 6127
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.4vh",
+   "y": 6637
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.9vh",
+   "y": 7148
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 8.9,
+  "sections": 6,
+  "videos": 2,
+  "canvases": 0,
+  "imgs": 7,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

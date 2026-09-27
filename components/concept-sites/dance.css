@@ -1,0 +1,177 @@
+/* Концепт 17 — DANCE «KINET». Монохром charcoal + lime, motion-trail. */
+.dn-site{--pad:3.6vw;--bg:#0e0f11;--ink:#f0f0ee;--mut:#8a8d92;--accent:#c6f000;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.dn-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.dn-brand{font:800 18px "Bricolage Grotesque",sans-serif;letter-spacing:.22em;color:#f4f4f0}
+.dn-nav{display:flex;gap:20px;align-items:center;font:500 12px "Manrope",sans-serif;color:#a8abaf}
+.dn-nav a{opacity:.85}.dn-nav a:hover{opacity:1}
+.dn-trial{background:var(--accent);color:#141600;border-radius:100px;padding:8px 15px;opacity:1!important;font-weight:700}
+.dn-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.dn-hero .ps-sticky{background:#0e0f11}
+
+/* Вырезка-портрет: контейнерный grid не резолвит height:100%, поэтому задаём размер по ширине — фигура целиком и по центру. */
+
+.dn-tr{top:96px;right:var(--pad);text-align:right}
+
+/* manifest */
+
+/* CTA */
+
+.dn-cta-in .dn-eyebrow{text-align:center}
+
+.dn-site a.dn-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:var(--accent);color:#141600;font:700 13px "Manrope",sans-serif}
+.dn-btn i{font-style:normal}
+
+/* footer */
+.dn-foot{position:relative;z-index:1;background:#08090a;color:#8a8d92;padding:64px var(--pad) 40px}
+.dn-foot-top b{font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:.18em;color:#f0f0ee}
+.dn-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#63666b}
+.dn-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(198,240,0,.2);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#565a5f}
+
+/* ФАЗА 2 — секции */
+/* The studio — галерея */
+
+/* Classes — расписание */
+
+.dn-classes .dn-eyebrow{margin-bottom:34px}
+
+.dn-crow em.on{color:var(--accent)}
+
+@media(max-width:1100px){.dn-wgrid{columns:2}}
+@media(max-width:900px){.dn-nav{display:none}.dn-echo,.dn-tr{display:none}.dn-title span{font-size:40vw}
+  .dn-wgrid{columns:1}.dn-rgrid{grid-template-columns:1fr}.dn-workhead{flex-direction:column;align-items:flex-start}.dn-workhead p{text-align:left}.dn-crow{grid-template-columns:1fr;gap:6px}}
+
+/* ===== POSTER HERO — «DO IT NOW» уровень (белый + hot-pink гигант-тип + фигура) ===== */
+.dn-poster .dn-head{background:transparent}
+.dn-poster .dn-brand{color:#141416}
+.dn-poster .dn-nav{color:#3a3a40}
+.dn-poster .dn-trial{background:#ff2d78;color:#fff;border-radius:0}
+.dp-hero{--white:#f2f1ee;--pink:#ff2d78;--ink:#141416}
+.dp-hero .ps-sticky{background:var(--white)}
+.dp-paper{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 100% at 50% 30%,#fbfaf8,#eceae6)}
+.dp-title{place-items:center;align-content:center}
+.dp-title span{display:block;font:800 clamp(150px,31vw,470px)/.76 "Bricolage Grotesque",sans-serif;color:var(--pink);letter-spacing:-.03em;text-transform:uppercase}
+.dp-title span:last-child{text-indent:.06em}
+.dp-dancer .ps-media{width:40vw;height:auto;max-width:none;filter:contrast(1.06) drop-shadow(0 30px 50px rgba(20,10,20,.28))}
+.dp-tag{position:absolute;z-index:16;font:700 11px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#141416;line-height:1.5}
+.dp-tl{top:96px;left:var(--pad)}.dp-tr{top:96px;right:var(--pad);text-align:right;color:#ff2d78}
+
+.dp-cue{position:absolute;z-index:16;right:var(--pad);bottom:14vh;font:700 11px "DM Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:#ff2d78}
+.dp-grain{position:absolute;inset:0;z-index:14;pointer-events:none;opacity:.25;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+@media(max-width:900px){.dp-tag,.dp-slogan,.dp-cue{font-size:10px}.dp-title span{font-size:38vw}.dp-dancer .ps-media{width:72vw}}
+
+/* ===== POSTER SECTIONS — ретон под белый/hot-pink/чёрный постер ===== */
+.dn-poster{--accent:#ff2d78;background:#f2f1ee}
+.dn-poster .dn-manifest{background:#f2f1ee}
+.dn-poster .dn-manifest h2{color:#141416}
+.dn-poster .dn-manifest p{color:#6b6b70}
+.dn-poster .dn-work{background:#eceae5}
+.dn-poster .dn-workhead h2{color:#141416}
+.dn-poster .dn-workhead p{color:#6b6b70}
+.dn-poster .dn-gcard{border-color:rgba(255,45,120,.5)}
+.dn-poster .dn-gcard img{filter:grayscale(.2) contrast(1.05)}
+.dn-poster .dn-classes{background:#f7f6f3}
+.dn-poster .dn-crow{border-top-color:rgba(20,20,22,.16)}
+.dn-poster .dn-crow h4{color:#141416}
+.dn-poster .dn-crow span{color:#6b6b70}
+.dn-poster .dn-crow em{color:#9a9a9f}
+.dn-poster .dn-reviews{background:#f2f1ee}
+.dn-poster .dn-review{border-top-color:#ff2d78}
+.dn-poster .dn-review p{color:#141416}
+.dn-poster .dn-review cite{color:#6b6b70}
+.dn-poster .dn-cta{background:#ff2d78}
+.dn-poster .dn-glow{display:none}
+.dn-poster .dn-cta-in .dn-eyebrow{color:#fff}
+.dn-poster .dn-cta-in h2{color:#fff}
+.dn-poster .dn-cta-in h2 span{color:#141416}
+.dn-poster .dn-cta-in p{color:rgba(255,255,255,.85)}
+.dn-poster a.dn-btn{background:#141416;color:#fff}
+.dn-poster .dn-foot{background:#141416}
+.dn-poster .dn-foot-legal{border-top-color:rgba(255,45,120,.4)}
+
+/* ===== SCENES S2–S6 — перетекающие «DO IT NOW» сцены (white/hot-pink/black) ===== */
+.dn-scene .ps-sticky{background:#141416}
+.dn-scene .dn-eyebrow{margin-bottom:16px}
+
+/* S2 THE FLOOR — танцор + эхо-трейл */
+.d2-scene .ps-sticky{background:#eceae5}
+.d2-bg .ps-media{filter:contrast(1.02) brightness(1.02)}
+.d2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(20,20,22,.12),transparent 42%),linear-gradient(0deg,rgba(20,20,22,.14),transparent 34%)}
+.d2-dancer{place-items:center;align-content:end;padding-bottom:2vh}
+.d2-dancer .ps-media{width:30vw;height:auto;max-width:none;filter:contrast(1.06) drop-shadow(0 26px 44px rgba(0,0,0,.4))}
+.d2-echo{place-items:center;align-content:end;padding-bottom:2vh}
+.d2-echo .ps-media{width:30vw;height:auto;max-width:none}
+.d2-e1 .ps-media,.d2-e2 .ps-media{filter:brightness(0) opacity(.12)}
+.d2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.d2-copy .dn-eyebrow{color:#ff2d78}
+.d2-copy h2{margin:0;font:800 clamp(40px,6vw,92px)/.9 "Bricolage Grotesque",sans-serif;color:#141416;text-transform:uppercase;letter-spacing:-.02em}
+.d2-copy h2 em{font-style:normal;color:#ff2d78}
+.d2-copy p{margin:18px 0 0;max-width:38ch;font:400 15px/1.7 "Manrope",sans-serif;color:#4a4a50}
+.d2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.18;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE WORK — гигант-слово + летящие motion-кадры (ink) */
+.d3-scene .ps-sticky{background:#141416}
+.d3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1b1b1f,#0c0c0e)}
+.d3-word{place-items:center}
+.d3-word span{font:800 clamp(120px,26vw,420px)/.9 "Bricolage Grotesque",sans-serif;text-transform:uppercase;color:transparent;-webkit-text-stroke:2px rgba(255,45,120,.14);letter-spacing:-.03em}
+/* motion-trail: центральный танцор + розовые эхо-силуэты */
+.d3-echo{place-items:center;align-content:center}
+.d3-echo .ps-media{width:auto;height:62vh;max-width:none;object-fit:contain;display:block;filter:grayscale(1) sepia(1) saturate(6) hue-rotate(300deg) brightness(1.05)}
+.d3-dancer{place-items:center;align-content:center}
+.d3-dancer .ps-media{width:auto;height:64vh;max-width:none;object-fit:contain;display:block;filter:grayscale(1) contrast(1.12) brightness(1.02)}
+/* миниатюры-фазы снизу */
+.d3-thumbs{grid-auto-flow:column;gap:1vw;align-content:end;padding-bottom:4.5vh}
+.d3-thumb{position:relative;width:13vw;min-width:118px;background:#0a0a0c;padding:5px;border:1px solid rgba(255,45,120,.3)}
+.d3-thumb .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/3;object-fit:cover;display:block;filter:grayscale(.4) contrast(1.08)}
+.d3-thumb i{position:absolute;left:7px;bottom:7px;font:800 9px "Bricolage Grotesque",sans-serif;font-style:normal;text-transform:uppercase;color:#ff2d78;text-shadow:0 1px 3px #000}
+.d3-copy{justify-items:end;align-content:start;text-align:right;padding:12vh var(--pad) 0 0}
+.d3-copy .dn-eyebrow{color:#ff2d78}
+.d3-copy h2{margin:0;max-width:11ch;margin-left:auto;font:800 clamp(28px,3.4vw,60px)/.96 "Bricolage Grotesque",sans-serif;color:#f0f0ee;text-transform:uppercase}
+.d3-copy h2 em{font-style:normal;color:#ff2d78}
+
+/* S4 TIMETABLE — табло (light) */
+.d4-scene .ps-sticky{background:#f2f1ee}
+.d4-bg{position:absolute;inset:0;z-index:1;background:#eceae5}
+.d4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.d4-head .dn-eyebrow{color:#ff2d78}
+.d4-head h2{margin:0;font:800 clamp(30px,4.6vw,64px)/1 "Bricolage Grotesque",sans-serif;color:#141416;text-transform:uppercase}
+/* расписание «на счёт»: доля-цифра снапает + строка въезжает (по --lp, последовательно) */
+.d4-schedL{justify-items:center;align-content:center}
+.d4-sched{width:min(840px,90vw)}
+.d4-cls{display:grid;grid-template-columns:58px 140px 1fr auto auto;gap:20px;align-items:center;padding:15px 0;border-top:1px solid rgba(20,20,22,.14);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1));transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1)) * 16px))}
+.d4-cls:first-child{border-top:none}
+.d4-count{font:800 clamp(28px,3.4vw,46px)/1 "Bricolage Grotesque",sans-serif;color:#ff2d78;text-align:center;
+  transform:scale(calc(0.5 + clamp(0, (var(--lp,0) - var(--thr,0)) * 11, 1) * 0.5))}
+.d4-cls time{font:700 14px "DM Mono",monospace;color:#ff2d78}
+.d4-cls b{font:800 clamp(18px,2.4vw,30px) "Bricolage Grotesque",sans-serif;color:#141416;text-transform:uppercase}
+.d4-cls s{font:600 11px "DM Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#7a7a80;text-decoration:none}
+.d4-cls em{font:700 11px "DM Mono",monospace;font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:#a0a0a6;text-align:right}
+.d4-cls em.on{color:#ff2d78}
+
+/* S5 FROM THE BACK ROW — голоса (ink) */
+.d5-scene .ps-sticky{background:#141416}
+.d5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1b1b1f,#0a0a0c)}
+/* кинетик-тайп с розовым эхо-шлейфом (motion-trail на типографике) */
+.d5-line p{margin:0;width:min(30ch,54vw);font:800 clamp(22px,3.2vw,48px)/1.05 "Bricolage Grotesque",sans-serif;color:#f0f0ee;text-transform:uppercase;letter-spacing:-.02em;text-shadow:7px 0 0 rgba(255,45,120,.42),15px 0 0 rgba(255,45,120,.2)}
+.d5-line cite{display:block;margin-top:12px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#ff2d78}
+.d5-l1{justify-items:start;align-content:start;padding:13vh 0 0 var(--pad)}
+.d5-l2{justify-items:start;align-content:center;padding-left:calc(var(--pad) + 12vw)}
+.d5-l3{justify-items:start;align-content:end;padding:0 0 12vh var(--pad)}
+.d5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#ff2d78}
+
+/* S6 FIND YOUR LINE — hot-pink + пуанты */
+.d6-scene .ps-sticky{background:#ff2d78}
+.d6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(92% 100% at 50% 42%,#ff3d84,#e01560)}
+.d6-obj{justify-items:end;align-content:center;padding-right:8vw}
+.d6-obj .ps-media{width:26vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(120,0,40,.42))}
+.d6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad);clip-path:inset(0 calc((1 - var(--lp,0)) * 100%) -20% 0)}
+.d6-copy .dn-eyebrow{color:#fff}
+.d6-copy h2{margin:0;font:800 clamp(52px,10vw,160px)/.88 "Bricolage Grotesque",sans-serif;color:#fff;text-transform:uppercase;letter-spacing:-.03em}
+.d6-copy h2 em{font-style:normal;color:#141416}
+.d6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.d6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:rgba(255,255,255,.88)}
+.d6-scene a.dn-btn{background:#141416;color:#fff}
+@media(max-width:900px){.d2-copy,.d6-cta{max-width:88vw}.d2-dancer .ps-media,.d2-echo .ps-media{width:64vw}.d3-thumb{width:40vw;min-width:0}
+  .d4-sched{width:92vw}.d4-cls{grid-template-columns:40px 1fr auto;gap:4px 12px}.d4-cls time{grid-column:2}.d4-cls s{display:none}
+  .d5-line p{width:86vw}.d5-l2{padding-left:var(--pad)}.d6-obj{display:none}}

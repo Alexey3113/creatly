@@ -1,0 +1,12 @@
+import { chromium } from "playwright";
+const OUT="/private/tmp/claude-501/-Users-leo-programming-creatly/bdd54b0f-9e8c-49ef-b597-ab49ed07efbb/scratchpad";
+const path=process.argv[2]||"animated";
+const b=await chromium.launch();
+const pg=await (await b.newContext({viewport:{width:1512,height:945}})).newPage();
+const errs=[];
+pg.on("pageerror",e=>errs.push(String(e).slice(0,140)));
+const resp=await pg.goto(`http://127.0.0.1:3011/${path}`,{waitUntil:"networkidle"});
+await pg.waitForTimeout(900);
+await pg.screenshot({path:`${OUT}/${path.replace(/\//g,"-")}-home.jpg`,quality:82,type:"jpeg"});
+console.log("status",resp.status(),"| errs:",errs.length?errs.join(" || "):"none");
+await b.close();

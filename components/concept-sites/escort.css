@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Marcellus&display=swap");
+/* Концепт 20 — ESCORT «ÉCLAT». Тактичный premium companionship / plus-one concierge (SFW). Emerald+gold+noir, spotlight-cone на фигуре, gold city-bokeh, Marcellus-каллиграфия. */
+.es-site{--pad:3.6vw;--bg:#0a1310;--ink:#efe9dc;--mut:#8fa093;--accent:#cba75a;--emerald:#123b2e;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.es-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.es-brand{font:400 22px "Marcellus",serif;letter-spacing:.28em;color:#f2ecdd;text-transform:uppercase}
+.es-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#b9c6bc}
+.es-nav a{opacity:.82}.es-nav a:hover{opacity:1}
+.es-enq{border:1px solid rgba(203,167,90,.6);border-radius:2px;padding:8px 16px;color:#e6cf98;opacity:1!important}
+.es-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.es-hero .ps-sticky{background:#0a1310}
+
+/* manifest */
+
+/* CTA */
+
+
+.es-site a.es-btn{display:inline-flex;align-items:center;gap:10px;margin-top:34px;padding:16px 32px;border-radius:2px;background:var(--accent);color:#141000;font:600 13px "Manrope",sans-serif}
+.es-btn i{font-style:normal}
+
+/* footer */
+.es-foot{position:relative;z-index:1;background:#070f0b;color:#8fa093;padding:64px var(--pad) 40px}
+.es-foot-top b{font:400 24px "Marcellus",serif;letter-spacing:.24em;color:#f2ecdd;text-transform:uppercase}
+.es-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#6c7d70}
+.es-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(203,167,90,.24);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#5f6f63}
+
+/* ФАЗА 2 — секции */
+/* The occasions — галерея */
+
+/* Discretion — как это работает */
+
+.es-how .es-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.es-grid{columns:2}}
+@media(max-width:900px){.es-nav{display:none}.es-orb,.es-tr{display:none}.es-title span{font-size:34vw}.es-figure .ps-media{width:52vw}
+  .es-grid{columns:1}.es-hsteps,.es-qgrid{grid-template-columns:1fr}.es-workhead{flex-direction:column;align-items:flex-start}.es-workhead p{text-align:left}}
+
+/* ===== POSTER HERO — Everest-data-poster уровень (гигант-тип + фигура из тумана + margin-данные + монограмма) ===== */
+.es-poster .es-head{background:transparent}
+.es-poster .es-brand{color:#efe9dc}
+.es-poster .es-nav{color:#c9d3cb}
+.es-poster .es-enq{border:1px solid rgba(203,167,90,.6);color:#e6cf98}
+.ep-hero{--gold:#cba75a;--ink:#efe9dc;--mut:#9fb0a3}
+.ep-hero .ps-sticky{background:#0a1310}
+.ep-bg .ps-media{filter:brightness(.82) saturate(1.02) contrast(1.04)}
+.ep-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(6,12,9,.6),transparent 26% 62%,rgba(6,12,9,.8)),radial-gradient(70vw 60vh at 50% 44%,transparent,rgba(6,12,9,.35))}
+.ep-title{place-items:center;align-content:start;padding-top:9vh}
+.ep-title span{font:400 clamp(120px,21vw,360px)/.9 "Marcellus",serif;color:rgba(242,236,221,.9);letter-spacing:.08em;text-transform:uppercase;text-shadow:0 6px 60px rgba(0,0,0,.5)}
+.ep-figure .ps-media{width:23vw;height:auto;max-width:none;filter:brightness(1.1) contrast(1.05) drop-shadow(0 30px 60px rgba(0,0,0,.6)) drop-shadow(0 0 60px rgba(203,167,90,.22))}
+.ep-mono{position:absolute;z-index:6;left:50%;top:70%;transform:translateX(-50%);font:400 clamp(40px,5vw,74px) "Marcellus",serif;color:var(--gold);opacity:.92;text-shadow:0 0 30px rgba(203,167,90,.4)}
+.ep-top{position:absolute;z-index:16;top:34px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:6px;font:600 11px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:#e8e0cf}
+.ep-top s{width:30px;height:1px;background:rgba(203,167,90,.6);text-decoration:none}
+.ep-top span{color:var(--gold)}
+.ep-d{position:absolute;z-index:16;top:42vh;font:600 11px/1.7 "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#c9d3cb}
+.ep-dl{left:var(--pad)}.ep-dr{right:var(--pad);text-align:right}
+.ep-d i{display:block;font-style:normal;font-family:"Marcellus",serif;font-size:15px;letter-spacing:.06em;text-transform:none;color:var(--gold);margin-bottom:8px}
+.ep-cred{position:absolute;z-index:16;left:0;right:0;bottom:12vh;text-align:center;font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#c9d3cb}
+.ep-loc{position:absolute;z-index:16;right:var(--pad);bottom:36px;text-align:right;font:600 10px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#9fb0a3;line-height:1.5}
+.ep-cue{position:absolute;z-index:16;left:var(--pad);bottom:36px;font:600 10px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.ep-grain{position:absolute;inset:0;z-index:14;pointer-events:none;opacity:.28;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+@media(max-width:900px){.ep-d,.ep-loc{display:none}.ep-title span{font-size:30vw}.ep-figure .ps-media{width:52vw}}
+
+/* fix: интеграция фигуры в туман (тёплый грейд + передний туман снизу) */
+.ep-figure .ps-media{filter:brightness(1.08) contrast(1.03) sepia(.26) saturate(1.14) drop-shadow(0 22px 44px rgba(0,0,0,.5)) drop-shadow(0 0 54px rgba(203,167,90,.3))}
+.ep-mistfg{position:absolute;z-index:6;left:0;right:0;bottom:0;height:38%;pointer-events:none;background:linear-gradient(0deg,#0c140f 10%,rgba(24,30,22,.82) 40%,rgba(24,30,22,.35) 68%,transparent)}
+.ep-mono{z-index:8;top:66%}
+
+/* ===== SCENES S2–S6 — перетекающие сцены (emerald-noir + gold) ===== */
+.es-scene .ps-sticky{background:#0a1310}
+.es-scene .es-eyebrow{margin-bottom:16px}
+
+/* S2 THE ROOM — бальный зал + пара + люстры-боке передний план */
+.e2-scene .ps-sticky{background:#0a1310}
+.e2-bg .ps-media{filter:brightness(.92) saturate(1.05) contrast(1.03)}
+.e2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(56vw 56vh at 50% 42%,rgba(203,167,90,.1),transparent 60%),linear-gradient(180deg,rgba(6,12,9,.4),transparent 30% 58%,rgba(6,12,9,.82))}
+.e2-couple{justify-items:center;align-content:end;padding-bottom:11vh}
+.e2-couple .ps-media{width:18vw;height:auto;max-width:none;filter:contrast(1.06) brightness(1.06) drop-shadow(0 26px 44px rgba(0,0,0,.6))}
+.e2-fg{justify-items:center;align-content:start}
+.e2-fg .ps-media{width:64vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.5;-webkit-mask:radial-gradient(ellipse 66% 58% at 50% 2%,#000 36%,transparent 76%);mask:radial-gradient(ellipse 66% 58% at 50% 2%,#000 36%,transparent 76%)}
+.e2-copy{justify-items:start;align-content:end;padding:0 0 13vh var(--pad)}
+.e2-copy .es-eyebrow{color:#e6cf98}
+.e2-copy h2{margin:0;font:400 clamp(40px,6vw,92px)/1 "Marcellus",serif;color:#f2ecdd;letter-spacing:.01em}
+.e2-copy h2 em{font-style:italic;color:var(--accent)}
+.e2-copy p{margin:20px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#9fb0a3}
+.e2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE OCCASIONS — реестр-афиша (Everest-data) */
+.e3-scene .ps-sticky{background:#07100b}
+.e3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 92% at 50% 44%,#0f2419,#060d09)}
+.e3-mono{place-items:center}
+.e3-mono span{font:400 62vh/1 "Marcellus",serif;color:rgba(203,167,90,.06)}
+.e3-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
+.e3-head .es-eyebrow{color:#e6cf98}
+.e3-head h2{margin:0;font:400 clamp(32px,4.6vw,64px)/1.05 "Marcellus",serif;color:#f2ecdd}
+.e3-head h2 em{font-style:italic;color:var(--accent)}
+/* спот-конус + gilded-рамки вечеров */
+.e3-spot{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(46vw 60vh at 50% 62%,rgba(203,167,90,.14),transparent 62%);mix-blend-mode:screen}
+.e3-frame{position:absolute;background:#0c1712;padding:8px;border:1px solid rgba(203,167,90,.5);box-shadow:0 24px 50px rgba(0,0,0,.6)}
+.e3-frame::before{content:"";position:absolute;inset:3px;border:1px solid rgba(203,167,90,.32);pointer-events:none;z-index:2}
+.e3-frame .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:3/4;object-fit:cover;display:block;filter:brightness(.92) saturate(1.05) contrast(1.03)}
+.e3-frame figcaption{margin-top:9px;text-align:center}
+.e3-frame b{display:block;font:400 clamp(16px,1.7vw,24px) "Marcellus",serif;color:#f2ecdd}
+.e3-frame span{display:block;margin-top:3px;font:600 8px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#cba75a}
+.e3-f1{top:38%;left:7%;width:18.5%}.e3-f2{top:38%;left:28.5%;width:18.5%}.e3-f3{top:38%;left:53%;width:18.5%}.e3-f4{top:38%;left:74.5%;width:18.5%}
+
+/* S4 DISCRETION — золотая нить + текст */
+.e4-scene .ps-sticky{background:#0a1310}
+.e4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(70% 82% at 50% 50%,#0d1a13,#060d09)}
+.e4-rule{position:absolute;z-index:2;left:50%;top:13vh;bottom:13vh;width:1px;background:linear-gradient(180deg,transparent,rgba(203,167,90,.55),transparent);pointer-events:none}
+.e4-copy{justify-items:center;align-content:start;text-align:center;padding-top:13vh}
+.e4-copy .es-eyebrow{color:#e6cf98}
+.e4-copy h2{margin:0;font:400 clamp(34px,5vw,72px)/1.05 "Marcellus",serif;color:#f2ecdd}
+.e4-copy h2 em{font-style:italic;color:var(--accent)}
+.e4-points{justify-items:center;align-content:end;padding-bottom:13vh}
+.e4-pt{max-width:52ch;text-align:center;font:400 15px/1.6 "Manrope",sans-serif;color:#cdd6cd;margin:14px 0;
+  clip-path:ellipse(calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1) * 82%) 130% at 50% 50%);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1))}
+.e4-pt i{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;font-style:normal}
+
+/* S5 IN CONFIDENCE — гравированные приглашения на бархате */
+.e5-scene .ps-sticky{background:#08130d}
+.e5-bg .ps-media{filter:brightness(.42) saturate(1.1) contrast(1.04) blur(2px)}
+.e5-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(74% 74% at 50% 48%,rgba(18,59,46,.34),rgba(5,10,8,.82))}
+.e5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)}
+.e5-card{width:21vw;background:#f4efe2;padding:24px 22px;box-shadow:0 32px 62px rgba(0,0,0,.6);border:1px solid rgba(203,167,90,.5);position:relative}
+.e5-card:before{content:"";position:absolute;inset:6px;border:1px solid rgba(203,167,90,.4);pointer-events:none}
+.e5-card p{margin:0;font:italic 400 18px/1.45 "Marcellus",serif;color:#2a2418}
+.e5-card cite{display:block;margin-top:16px;font:600 10px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;font-style:normal;color:#8a7a52}
+.e5-mid{width:22vw}
+
+/* S6 NEVER ARRIVE ALONE — печать-объект + CTA */
+.e6-scene .ps-sticky{background:#070f0b}
+.e6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 84% at 50% 42%,#123b2e,#060d09)}
+.e6-seal{justify-items:end;align-content:center;padding-right:7vw}
+.e6-seal .ps-media{width:28vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(203,167,90,.2))}
+.e6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
+.e6-copy .es-eyebrow{color:#e6cf98}
+.e6-copy h2{margin:0;font:400 clamp(48px,9vw,140px)/.98 "Marcellus",serif;color:#f2ecdd;letter-spacing:.02em}
+.e6-copy h2 em{font-style:italic;color:var(--accent)}
+.e6-cta{position:absolute;z-index:16;left:var(--pad);bottom:15vh;max-width:38ch}
+.e6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#9fb0a3}
+@media(max-width:900px){.e2-couple .ps-media{width:44vw}.e5-card,.e5-mid{width:74vw}.e6-seal{display:none}.e2-copy,.e6-cta{max-width:88vw}.e3-frame{position:relative;top:auto;left:auto;width:42vw}}

@@ -1,0 +1,138 @@
+{
+ "fam": "reel",
+ "id": "voyage",
+ "url": "animated/w-voyage",
+ "mode": "scroll",
+ "ms": 22213,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 499
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 998
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1496
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1995
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2494
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 2993
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3492
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.4vh",
+   "y": 3990
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4489
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.5vh",
+   "y": 4988
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.1vh",
+   "y": 5487
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.7vh",
+   "y": 5986
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.2vh",
+   "y": 6485
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.8vh",
+   "y": 6983
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.3vh",
+   "y": 7482
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.9vh",
+   "y": 7981
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.4vh",
+   "y": 8480
+  },
+  {
+   "f": "f18.jpg",
+   "label": "10.0vh",
+   "y": 8979
+  },
+  {
+   "f": "f19.jpg",
+   "label": "10.5vh",
+   "y": 9477
+  },
+  {
+   "f": "f20.jpg",
+   "label": "11.1vh",
+   "y": 9976
+  },
+  {
+   "f": "f21.jpg",
+   "label": "11.6vh",
+   "y": 10475
+  }
+ ],
+ "stats": {
+  "title": "Creatly — AI-конструктор сайтов",
+  "screens": 12.6,
+  "sections": 14,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 9,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Figtree",
+   "Zilla Slab"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

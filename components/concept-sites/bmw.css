@@ -1,0 +1,165 @@
+/* Концепт 12 — BMW «M·WERK». Техно-точность carbon + электрик-синий, blueprint-сетка. */
+.bm-site{--pad:3.6vw;--bg:#0b0d10;--ink:#eef2f6;--mut:#7d8896;--accent:#2ea6ff;--steel:#aab4c0;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.bm-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.bm-brand{font:800 17px "Bricolage Grotesque",sans-serif;letter-spacing:.14em;color:#f2f6fa}
+.bm-nav{display:flex;gap:20px;align-items:center;font:500 12px "Manrope",sans-serif;color:#9aa6b4}
+.bm-nav a{opacity:.85}.bm-nav a:hover{opacity:1}
+.bm-drive{border:1px solid rgba(46,166,255,.5);border-radius:4px;padding:8px 15px;color:#8fd0ff;opacity:1!important}
+.bm-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+
+.bm-hero .ps-sticky{background:#0b0d10}
+.bm-bg .ps-media{filter:brightness(.9)}
+.bm-grid{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.5;background:linear-gradient(rgba(46,166,255,.09) 1px,transparent 1px) 0 0/100% 46px,linear-gradient(90deg,rgba(46,166,255,.09) 1px,transparent 1px) 0 0/46px 100%;-webkit-mask:radial-gradient(120% 90% at 50% 46%,#000 40%,transparent 90%);mask:radial-gradient(120% 90% at 50% 46%,#000 40%,transparent 90%)}
+.bm-glow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(46vw 34vw at 50% 56%,rgba(46,166,255,.22),transparent 62%)}
+.bm-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+.bm-title{place-items:center;align-content:start;padding-top:12vh}
+.bm-model{font:800 clamp(90px,18vw,300px)/.8 "Bricolage Grotesque",sans-serif;color:#f2f6fa;letter-spacing:-.03em}
+.bm-comp{display:block;margin-top:4px;text-align:center;font:600 clamp(12px,1.6vw,20px) "DM Mono",monospace;letter-spacing:.44em;text-transform:uppercase;color:var(--accent)}
+.bm-car .ps-media{filter:drop-shadow(0 40px 70px rgba(0,0,0,.6)) drop-shadow(0 0 50px rgba(46,166,255,.2))}
+
+.bm-specs{pointer-events:none}
+.bm-spec{position:absolute;font:500 10px "DM Mono",monospace;letter-spacing:.08em;color:var(--steel)}
+.bm-spec b{display:block;font:800 clamp(18px,2vw,30px) "Bricolage Grotesque",sans-serif;color:#f2f6fa;letter-spacing:-.01em}
+.bm-spec span{display:block;margin-top:2px;text-transform:uppercase;color:var(--mut)}
+.bm-spec i{display:block;width:10px;height:10px;border:1.5px solid var(--accent);border-radius:50%;margin-bottom:8px;box-shadow:0 0 12px rgba(46,166,255,.6)}
+.bm-s1{top:30vh;left:8vw}.bm-s2{top:30vh;right:8vw;text-align:right}.bm-s2 i{margin-left:auto}
+.bm-s3{bottom:26vh;left:9vw}.bm-s4{bottom:26vh;right:9vw;text-align:right}.bm-s4 i{margin-left:auto}
+
+.bm-ap{position:absolute;z-index:13;width:20px;height:20px;border:1.5px solid rgba(46,166,255,.55)}
+.bm-tl{top:88px;left:var(--pad);border-right:0;border-bottom:0}.bm-tr{top:88px;right:var(--pad);border-left:0;border-bottom:0}
+.bm-bl{bottom:34px;left:var(--pad);border-right:0;border-top:0}.bm-br{bottom:34px;right:var(--pad);border-left:0;border-top:0}
+.bm-label{position:absolute;z-index:14;font:600 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#9aa6b4;line-height:1.5}
+.bm-lt{top:96px;left:calc(var(--pad) + 32px)}
+.bm-lb{bottom:40px;left:calc(var(--pad) + 32px)}
+.bm-lb b{display:block;font:800 40px "Bricolage Grotesque",sans-serif;color:#8fd0ff;line-height:.9}
+.bm-lb span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.bm-hud{position:absolute;z-index:14;top:96px;right:calc(var(--pad) + 32px);font:600 10px "DM Mono",monospace;letter-spacing:.18em;color:var(--accent)}
+.bm-cue{position:absolute;z-index:14;left:50%;bottom:24px;transform:translateX(-50%);font:600 10px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+
+/* manifest */
+
+/* CTA */
+
+
+.bm-site a.bm-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:4px;background:var(--accent);color:#04121e;font:600 13px "Manrope",sans-serif}
+.bm-btn i{font-style:normal}
+
+/* footer */
+.bm-foot{position:relative;z-index:1;background:#070809;color:#7d8896;padding:64px var(--pad) 40px}
+.bm-foot-top b{font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:.12em;color:#eef2f6}
+.bm-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#5e6773}
+.bm-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(46,166,255,.16);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#525b67}
+
+/* ФАЗА 2 — секции */
+/* Engineering — галерея */
+
+.bm-grid{columns:3;column-gap:20px}
+
+/* Specs — характеристики */
+
+.bm-specsheet .bm-eyebrow{margin-bottom:34px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.bm-grid{columns:2}}
+@media(max-width:900px){.bm-nav{display:none}.bm-specs,.bm-hud{display:none}.bm-model{font-size:34vw}
+  .bm-grid{columns:1}.bm-qgrid{grid-template-columns:1fr}.bm-workhead{flex-direction:column;align-items:flex-start}.bm-workhead p{text-align:left}}
+
+/* ===== SCENES S2–S6 — техно spec-dashboard (carbon + electric-blue, blueprint) ===== */
+.bm-scene .ps-sticky{background:#0b0d10}
+.bm-scene .bm-eyebrow{margin-bottom:16px}
+.bm2-lines,.bm4-lines,.bm6-lines{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.6;background-image:linear-gradient(rgba(46,166,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(46,166,255,.055) 1px,transparent 1px);background-size:56px 56px}
+
+/* S2 THE MACHINE — машина + blueprint + spec-callouts */
+.bm2-scene .ps-sticky{background:#0b0d10}
+.bm2-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 90% at 50% 42%,#12161c,#080a0d)}
+.bm2-num{position:absolute;z-index:3;left:50%;top:44%;transform:translate(-50%,-50%);font:800 76vh/1 "Bricolage Grotesque",sans-serif;color:rgba(46,166,255,.06);pointer-events:none}
+.bm2-car{place-items:center;align-content:center}
+.bm2-car .ps-media{width:56vw;height:auto;max-width:none;filter:contrast(1.05) brightness(1.02) drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 46px rgba(46,166,255,.2))}
+.bm2-spec{position:absolute;font:800 clamp(16px,1.9vw,26px) "Bricolage Grotesque",sans-serif;color:#eef2f6;letter-spacing:.01em}
+.bm2-spec span{display:block;margin-top:4px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#7d8896}
+.bm2-spec i{display:block;width:9px;height:9px;border:1.5px solid #2ea6ff;border-radius:50%;margin-bottom:8px;box-shadow:0 0 10px rgba(46,166,255,.6)}
+.bm2-s1{top:30vh;left:8vw}.bm2-s2{top:30vh;right:8vw;text-align:right}.bm2-s2 i{margin-left:auto}.bm2-s3{bottom:24vh;right:10vw;text-align:right}.bm2-s3 i{margin-left:auto}
+.bm2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.bm2-copy .bm-eyebrow{color:#2ea6ff}
+.bm2-copy h2{margin:0;font:800 clamp(40px,6vw,96px)/.88 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase;letter-spacing:-.02em}
+.bm2-copy h2 em{font-style:normal;color:#2ea6ff}
+.bm2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#8f9aa8}
+.bm2-grain{position:absolute;inset:0;z-index:12;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 ENGINEERING — детали */
+.bm3-scene .ps-sticky{background:#0b0d10}
+.bm3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#12161c,#080a0d)}
+.bm3-lines{position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 6vw,rgba(46,166,255,.05) 6vw 6.1vw);-webkit-mask:linear-gradient(90deg,transparent,#000 18% 82%,transparent);mask:linear-gradient(90deg,transparent,#000 18% 82%,transparent)}
+.bm3-car{place-items:center;align-content:center}
+.bm3-car .ps-media{width:46vw;height:auto;max-width:none;object-fit:contain;filter:contrast(1.06) brightness(1.02) drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+/* HUD-callout: деталь в тех-рамке, разлетается от машины */
+.bm3-call{position:relative;width:15vw;min-width:150px;background:rgba(9,12,16,.74);border:1px solid rgba(46,166,255,.34);padding:8px}
+.bm3-call .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:16/10;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.06)}
+.bm3-call i{position:absolute;top:6px;left:6px;font:700 10px "DM Mono",monospace;font-style:normal;color:#04121e;background:#2ea6ff;padding:2px 6px}
+.bm3-call b{display:block;margin-top:7px;font:800 10px "Bricolage Grotesque",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#dbe4ef}
+.bm3-call::before,.bm3-call::after{content:"";position:absolute;width:10px;height:10px;border:1.5px solid #2ea6ff;pointer-events:none}
+.bm3-call::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.bm3-call::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.bm3-copy{justify-items:center;align-content:end;text-align:center;padding-bottom:7vh}
+.bm3-copy .bm-eyebrow{color:#2ea6ff}
+.bm3-copy h2{margin:0;font:800 clamp(34px,5.4vw,80px)/.94 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase}
+.bm3-copy h2 em{font-style:normal;color:#2ea6ff}
+.bm3-copy p{margin:16px auto 0;max-width:46ch;font:400 15px/1.7 "Manrope",sans-serif;color:#8f9aa8}
+
+/* S4 THE NUMBERS — spec sheet */
+.bm4-scene .ps-sticky{background:#0b0d10}
+.bm4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#12161c,#080a0d)}
+.bm4-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
+.bm4-head .bm-eyebrow{color:#2ea6ff}
+.bm4-head h2{margin:0;font:800 clamp(32px,4.8vw,68px)/1 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase}
+.bm4-head h2 em{font-style:normal;color:#2ea6ff}
+/* спек фиксируется апертур-рамкой + ряд проявляется (по --lp, последовательно) */
+.bm4-specsL{justify-items:center;align-content:center}
+.bm4-specs{width:min(760px,86vw)}
+.bm4-spec{position:relative;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:baseline;padding:15px 18px;border-top:1px solid rgba(46,166,255,.22);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 11, 1))}
+.bm4-spec:first-child{border-top:none}
+.bm4-spec::before{content:"";position:absolute;inset:6px 2px;border:1px solid var(--accent);pointer-events:none;
+  transform:scale(calc(1.16 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1) * 0.16));
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1) * (1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 3, 1) * 0.45))}
+.bm4-spec h4{margin:0;font:600 13px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#7d8896}
+.bm4-spec b{font:800 clamp(28px,4vw,54px) "Bricolage Grotesque",sans-serif;color:#eef2f6;letter-spacing:-.02em}
+.bm4-spec b em{font-style:normal;font-size:.4em;color:#2ea6ff;margin-left:4px}
+
+/* S5 FROM THE DRIVER'S SEAT — отзывы */
+.bm5-scene .ps-sticky{background:#0b0d10}
+.bm5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#12161c,#080a0d)}
+/* blueprint-подложка телеметрии */
+.bm5-scanbg{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.5;background-image:linear-gradient(rgba(46,166,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,166,255,.05) 1px,transparent 1px);background-size:52px 52px;-webkit-mask:radial-gradient(120% 90% at 50% 46%,#000 40%,transparent 92%);mask:radial-gradient(120% 90% at 50% 46%,#000 40%,transparent 92%)}
+/* синяя scan-линия сверху вниз */
+.bm5-scan{justify-items:center;align-content:start}
+.bm5-scan span{display:block;width:64vw;height:2px;background:linear-gradient(90deg,transparent,#2ea6ff,transparent);box-shadow:0 0 16px rgba(46,166,255,.6);opacity:.7}
+.bm5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:#2ea6ff}
+/* HUD data-карточки телеметрии, снап сверху вниз */
+.bm5-row{justify-items:center}
+.bm5-r1{align-content:start;padding-top:17vh}
+.bm5-r2{align-content:center}
+.bm5-r3{align-content:end;padding-bottom:13vh}
+.bm5-card{position:relative;max-width:54vw;padding:22px 34px;border:1px solid rgba(46,166,255,.3);background:rgba(9,12,16,.62);text-align:center}
+.bm5-card::before,.bm5-card::after{content:"";position:absolute;width:11px;height:11px;border:1.5px solid #2ea6ff}
+.bm5-card::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.bm5-card::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.bm5-card i{font:700 10px "DM Mono",monospace;font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:#2ea6ff}
+.bm5-card p{margin:12px 0 0;font:800 clamp(20px,2.6vw,38px)/1.08 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase;letter-spacing:-.01em}
+.bm5-card b{display:block;margin-top:12px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#8fd0ff}
+
+/* S6 FEEL THE REDLINE — машина + CTA */
+.bm6-scene .ps-sticky{background:#0b0d10}
+.bm6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 56% 42%,#12161c,#080a0d)}
+.bm6-car{justify-items:end;align-content:center;padding-right:2vw}
+.bm6-car .ps-media{width:48vw;height:auto;max-width:none;filter:contrast(1.05) brightness(1.02) drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 44px rgba(46,166,255,.22))}
+.bm6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad);clip-path:inset(0 0 calc((1 - clamp(0, var(--lp,0) * 1.5, 1)) * 100%) 0)}
+.bm6-copy .bm-eyebrow{color:#2ea6ff}
+.bm6-copy h2{margin:0;font:800 clamp(52px,10vw,168px)/.86 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase;letter-spacing:-.02em}
+.bm6-copy h2 em{font-style:normal;color:#2ea6ff}
+.bm6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
+.bm6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#8f9aa8}
+@media(max-width:900px){.bm2-copy,.bm6-cta{max-width:88vw}.bm2-car .ps-media,.bm6-car .ps-media{width:92vw}.bm2-spec{display:none}.bm3-call{width:40vw}.bm3-car .ps-media{width:84vw}.bm5-card{max-width:90vw}}

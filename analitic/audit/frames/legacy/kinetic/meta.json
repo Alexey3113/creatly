@@ -1,0 +1,67 @@
+{
+ "fam": "legacy",
+ "id": "kinetic",
+ "url": "animated/kinetic",
+ "mode": "scroll",
+ "ms": 9595,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.4vh",
+   "y": 393
+  },
+  {
+   "f": "f02.jpg",
+   "label": "0.9vh",
+   "y": 786
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.3vh",
+   "y": 1179
+  },
+  {
+   "f": "f04.jpg",
+   "label": "1.7vh",
+   "y": 1571
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.2vh",
+   "y": 1964
+  },
+  {
+   "f": "f06.jpg",
+   "label": "2.6vh",
+   "y": 2357
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.1vh",
+   "y": 2750
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 4.1,
+  "sections": 4,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 0,
+  "sticky": 0,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Archivo"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

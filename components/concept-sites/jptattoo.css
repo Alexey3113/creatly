@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap");
+/* Концепт 16 — JPTATTOO «彫 HORI». Ukiyo-панк mustard/red/sumi. */
+.jt-site{--pad:3.4vw;--bg:#e0be2e;--ink:#191204;--accent:#d42a1e;--cream:#f4ecd2;--mut:#7a6414;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.jt-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.jt-brand{font:900 18px "Noto Sans JP",sans-serif;letter-spacing:.06em;color:#191204}
+.jt-nav{display:flex;gap:20px;align-items:center;font:600 12px "Manrope",sans-serif;color:#3a2e08}
+.jt-nav a{opacity:.85}.jt-nav a:hover{opacity:1}
+.jt-book{background:var(--accent);color:#fff;border-radius:0;padding:8px 15px;opacity:1!important;font-weight:700}
+.jt-eyebrow{display:block;font:700 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+.jt-jp{font-family:"Noto Sans JP",sans-serif}
+
+.jt-hero .ps-sticky{background:#e0be2e}
+.jt-bg .ps-media{filter:contrast(1.04) saturate(1.08)}
+.jt-sun{position:absolute;z-index:2;top:12vh;left:50%;transform:translateX(-32%);width:54vh;height:54vh;border-radius:50%;background:radial-gradient(circle at 45% 42%,#e23320,#b01c12);box-shadow:0 0 90px rgba(212,42,30,.35)}
+.jt-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.32;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+.jt-kanji{place-items:center;justify-items:end;padding-right:6vw}
+.jt-kanji span{font:900 clamp(200px,46vw,720px)/.8 "Noto Sans JP",sans-serif;color:#191204;opacity:.92}
+.jt-figure .ps-media{filter:contrast(1.05) drop-shadow(0 24px 46px rgba(25,18,4,.4))}
+.jt-brush{left:auto;right:6vw;top:8vh;width:34vw;height:44vh;place-items:center}
+.jt-brush .ps-media{object-fit:contain}
+
+.jt-hanko{position:absolute;z-index:13;background:var(--accent);color:#f4ecd2;display:grid;place-content:center;padding:8px;border:2px solid #8a140c}
+.jt-hanko .jt-jp{font:900 clamp(16px,2vw,26px)/1.05 "Noto Sans JP";text-align:center}
+.jt-h1{right:16vw;top:20vh;transform:rotate(-6deg)}
+.jt-h2{right:9vw;top:34vh;transform:rotate(4deg)}
+.jt-side{justify-items:start;align-content:end;padding:0 0 22vh var(--pad);row-gap:14px}
+.jt-box{border:2px solid #191204;padding:9px 13px;max-width:30ch}
+.jt-box b{display:block;font:900 15px "Noto Sans JP",sans-serif;color:#191204}
+.jt-box span{display:block;margin-top:3px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;color:#5a4a10}
+.jt-motto{margin:0;max-width:26ch;font:700 11px/1.5 "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#3a2e08}
+.jt-motto .jt-jp{display:block;font-size:17px;margin-bottom:5px;text-transform:none;color:#191204}
+
+.jt-tl,.jt-tr{position:absolute;z-index:14;top:92px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#3a2e08}
+.jt-tl{left:var(--pad)}.jt-tr{right:var(--pad);text-align:right}
+.jt-bl{position:absolute;z-index:14;left:var(--pad);bottom:38px;font:900 clamp(20px,2.6vw,36px)/1.05 "Bricolage Grotesque",sans-serif;color:#191204}
+.jt-bl span{color:var(--accent)}
+.jt-cue{position:absolute;z-index:14;left:50%;bottom:22px;transform:translateX(-50%);font:700 10px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+
+/* manifest */
+
+/* CTA */
+
+
+.jt-site a.jt-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:0;background:var(--accent);color:#fff;font:700 13px "Manrope",sans-serif}
+.jt-btn i{font-style:normal}
+
+/* footer */
+.jt-foot{position:relative;z-index:1;background:#120d03;color:#a5893a;padding:64px var(--pad) 40px}
+.jt-foot-top b{font:900 22px "Noto Sans JP",sans-serif;letter-spacing:.06em;color:#f4ecd2}
+.jt-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#7a6428}
+.jt-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(212,42,30,.3);font:600 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#6f5a24}
+
+/* ФАЗА 2 — секции */
+/* The work — галерея */
+
+/* The way — процесс */
+
+.jt-proc .jt-eyebrow{margin-bottom:40px;color:var(--accent)}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.jt-grid{columns:2}}
+@media(max-width:900px){.jt-nav{display:none}.jt-side,.jt-brush,.jt-hanko,.jt-tr{display:none}.jt-kanji span{font-size:70vw}
+  .jt-grid{columns:1}.jt-psteps,.jt-rgrid{grid-template-columns:1fr}.jt-workhead{flex-direction:column;align-items:flex-start}.jt-workhead p{text-align:left}}
+
+/* ===== SCENES S2–S6 — ukiyo-punk (mustard/vermillion/sumi, свет/тьма ритм) ===== */
+.jt-scene .ps-sticky{background:#e0be2e}
+.jt-scene .jt-eyebrow{margin-bottom:16px}
+
+/* S2 THE CRAFT — волна + фигура + brush (свет) */
+.jt2-scene .ps-sticky{background:#e0be2e}
+.jt2-bg .ps-media{filter:contrast(1.04) saturate(1.05)}
+.jt2-sun{position:absolute;z-index:2;top:18%;left:50%;transform:translateX(-50%);width:42vh;height:42vh;border-radius:50%;background:#d42a1e;opacity:.85;mix-blend-mode:multiply;pointer-events:none}
+.jt2-veil{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(180deg,transparent 38%,rgba(25,18,4,.52) 78%),linear-gradient(90deg,rgba(25,18,4,.44),transparent 44%)}
+.jt2-kanji{position:absolute;z-index:4;right:2vw;top:50%;transform:translateY(-50%);font:900 76vh/1 "Noto Sans JP",sans-serif;color:rgba(25,18,4,.14);pointer-events:none}
+.jt2-figure{place-items:center;align-content:end}
+.jt2-figure .ps-media{width:30vw;height:auto;max-width:none;filter:contrast(1.04) drop-shadow(0 20px 40px rgba(25,18,4,.4))}
+.jt2-brush{justify-items:end;align-content:start}
+.jt2-brush .ps-media{width:40vw;height:auto;max-width:none;opacity:.85}
+.jt2-copy{justify-items:start;align-content:end;padding:0 0 13vh var(--pad)}
+.jt2-copy .jt-eyebrow{color:#ff5a3d}
+.jt2-copy h2{margin:0;font:900 clamp(38px,5.8vw,92px)/.92 "Bricolage Grotesque",sans-serif;color:#f4ecd2;text-transform:uppercase;letter-spacing:-.02em}
+.jt2-copy h2 em{font-style:normal;color:#ff5a3d}
+.jt2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#e8d9a8}
+.jt2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.22;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE WORK — kakejiku, разворачиваются сверху вниз (тьма) · закон: mask-reveal по --lp */
+.jt3-scene .ps-sticky{background:#141002}
+.jt3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c1506,#0c0a02)}
+.jt3-word{place-items:center}
+.jt3-word span{font:900 66vh/1 "Noto Sans JP",sans-serif;color:rgba(212,42,30,.12)}
+/* хангинг-скроллы */
+.jt3-scroll{align-content:center}
+.jt3-s1{justify-items:start;padding-left:9vw}
+.jt3-s2{justify-items:center;padding-top:8vh}
+.jt3-s3{justify-items:end;padding-right:9vw;padding-top:3vh}
+.jt3-kake{position:relative;width:clamp(150px,16.5vw,240px);filter:drop-shadow(0 30px 52px rgba(0,0,0,.6))}
+.jt3-rod{position:absolute;left:-6%;width:112%;height:15px;border-radius:8px;z-index:5;background:linear-gradient(#4c391a,#241a0b 55%,#3a2b12);box-shadow:0 3px 9px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.14)}
+.jt3-rod::before,.jt3-rod::after{content:"";position:absolute;top:50%;width:13px;height:24px;transform:translateY(-50%);border-radius:3px;background:linear-gradient(#5e481f,#2c2010)}
+.jt3-rod::before{left:-13px}.jt3-rod::after{right:-13px}
+.jt3-top{top:0}
+.jt3-btm{top:calc(15px + var(--lp,0) * 58vh)}
+.jt3-paper{position:relative;margin-top:15px;width:100%;height:58vh;overflow:hidden;background:#f4ecd2;border-left:1px solid rgba(25,18,4,.16);border-right:1px solid rgba(25,18,4,.16);
+  -webkit-mask:linear-gradient(#000 0 0) top/100% calc(var(--lp,0) * 100%) no-repeat;mask:linear-gradient(#000 0 0) top/100% calc(var(--lp,0) * 100%) no-repeat}
+.jt3-paper .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;display:block;filter:contrast(1.05) saturate(1.02)}
+.jt3-paper figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:8px;padding:22px 12px 10px;background:linear-gradient(transparent,rgba(18,13,3,.9));font:900 10px "Bricolage Grotesque",sans-serif;text-transform:uppercase;letter-spacing:.02em;color:#f4ecd2}
+.jt3-paper figcaption span{font:900 21px "Noto Sans JP",sans-serif;color:#ff5a3d}
+.jt3-copy{justify-items:center;align-content:start;text-align:center;padding-top:4.5vh}
+.jt3-copy .jt-eyebrow{color:#e0be2e}
+.jt3-copy h2{margin:0;font:900 clamp(30px,4.6vw,64px)/.94 "Bricolage Grotesque",sans-serif;color:#f4ecd2;text-transform:uppercase}
+.jt3-copy h2 em{font-style:normal;color:#ff5a3d}
+.jt3-copy p{margin:14px auto 0;max-width:44ch;font:400 14px/1.6 "Manrope",sans-serif;color:#c9b98a}
+
+/* S4 THE WAY — 3 шага (свет) */
+.jt4-scene .ps-sticky{background:#e0be2e}
+.jt4-bg{position:absolute;inset:0;z-index:1;background:#dcb928}
+.jt4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.24;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.jt4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.jt4-head .jt-eyebrow{color:#d42a1e}
+.jt4-head h2{margin:0;font:900 clamp(32px,4.8vw,68px)/1 "Bricolage Grotesque",sans-serif;color:#191204;text-transform:uppercase}
+.jt4-head h2 em{font-style:normal;color:#d42a1e}
+/* этапы «прописываются» мазком: мягкая маска слева-направо по --lp (последовательно) */
+.jt4-waysL{justify-items:center;align-content:center}
+.jt4-ways{width:min(760px,86vw)}
+.jt4-way{display:grid;grid-template-columns:56px 1fr;gap:6px 22px;align-items:baseline;padding:18px 0;border-top:2px solid rgba(25,18,4,.3);
+  -webkit-mask:linear-gradient(90deg,#000 0,#000 calc(clamp(0,(var(--lp,0)-var(--thr,0))*7,1)*100%),transparent calc(clamp(0,(var(--lp,0)-var(--thr,0))*7,1)*100% + 9%));
+  mask:linear-gradient(90deg,#000 0,#000 calc(clamp(0,(var(--lp,0)-var(--thr,0))*7,1)*100%),transparent calc(clamp(0,(var(--lp,0)-var(--thr,0))*7,1)*100% + 9%))}
+.jt4-way:first-child{border-top:none}
+.jt4-way i{grid-row:span 2;font:900 40px "Noto Sans JP",sans-serif;color:#d42a1e}
+.jt4-way b{font:900 clamp(20px,2.4vw,30px) "Bricolage Grotesque",sans-serif;color:#191204;text-transform:uppercase}
+.jt4-way s{font:400 13px/1.5 "Manrope",sans-serif;color:#5a4a10;text-decoration:none}
+
+/* S5 ON SKIN — запечатанные отзывы (тьма) · каждый штампуется красной ханко с кандзи работы */
+.jt5-scene .ps-sticky{background:#141002}
+.jt5-bg .ps-media{filter:contrast(1.08) saturate(1.1) brightness(.5)}
+.jt5-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(74% 74% at 50% 48%,rgba(212,42,30,.1),rgba(12,10,2,.86))}
+.jt5-rec p{margin:0;font:900 clamp(22px,3vw,42px)/1.08 "Bricolage Grotesque",sans-serif;color:#f4ecd2;text-transform:uppercase;letter-spacing:-.015em}
+.jt5-rec cite{display:block;margin-top:12px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#e0be2e}
+.jt5-r1{justify-items:start;align-content:start;padding:15vh 0 0 var(--pad);max-width:54vw}
+.jt5-r2{justify-items:end;align-content:center;text-align:right;padding:0 var(--pad) 0 0;max-width:52vw;margin-left:auto}
+.jt5-r3{justify-items:start;align-content:end;padding:0 0 15vh var(--pad);max-width:52vw}
+/* красные ханко-печати */
+.jt5-hanko{width:clamp(84px,8vw,124px);aspect-ratio:1;display:grid;place-content:center;background:var(--accent);color:#f6ead0;border:3px solid #7a120b;box-shadow:0 10px 26px rgba(0,0,0,.55);position:relative}
+.jt5-hanko::after{content:"";position:absolute;inset:5px;border:1.5px solid rgba(246,234,208,.45)}
+.jt5-hanko .jt-jp{font:900 clamp(40px,4.4vw,66px)/1 "Noto Sans JP",sans-serif}
+.jt5-k1{justify-items:end;align-content:start;padding:11vh 15vw 0 0}
+.jt5-k2{justify-items:start;align-content:center;padding:0 0 3vh 13vw}
+.jt5-k3{justify-items:end;align-content:end;padding:0 17vw 15vh 0}
+.jt5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#e0be2e}
+
+/* S6 WEAR THE STORY — кисть + кандзи + CTA (свет) */
+.jt6-scene .ps-sticky{background:#e0be2e}
+.jt6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(92% 100% at 50% 42%,#e6c534,#c99f1e)}
+.jt6-sun{position:absolute;z-index:2;top:50%;left:62%;transform:translate(-50%,-50%);width:46vh;height:46vh;border-radius:50%;background:#d42a1e;opacity:.85;pointer-events:none}
+.jt6-kanji{place-items:center}
+.jt6-kanji span{font:900 66vh/1 "Noto Sans JP",sans-serif;color:rgba(25,18,4,.16)}
+.jt6-brush{justify-items:end;align-content:center}
+.jt6-brush .ps-media{width:44vw;height:auto;max-width:none;opacity:.7}
+.jt6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad)}
+.jt6-copy .jt-eyebrow{color:#191204}
+.jt6-copy h2{margin:0;font:900 clamp(52px,10vw,160px)/.86 "Bricolage Grotesque",sans-serif;color:#191204;text-transform:uppercase;letter-spacing:-.02em}
+.jt6-copy h2 em{font-style:normal;color:#d42a1e}
+.jt6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
+.jt6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#5a4a10}
+@media(max-width:900px){.jt2-copy,.jt6-cta{max-width:88vw}.jt2-figure .ps-media{width:64vw}.jt2-brush,.jt6-brush{display:none}
+  .jt3-s2{display:none}.jt3-s1{padding-left:5vw}.jt3-s3{padding-right:5vw}.jt3-kake{width:42vw}.jt3-paper{height:46vh}.jt3-btm{top:calc(15px + var(--lp,0) * 46vh)}
+  .jt4-ways{width:92vw}.jt4-way{grid-template-columns:40px 1fr}
+  .jt5-r1,.jt5-r2,.jt5-r3{max-width:90vw}.jt5-hanko{width:74px}.jt5-k1{padding:8vh 5vw 0 0}.jt5-k2{padding:0 0 0 5vw}.jt5-k3{padding:0 5vw 11vh 0}}

@@ -1,0 +1,153 @@
+{
+ "fam": "reel",
+ "id": "pilgrim",
+ "url": "animated/w-pilgrim",
+ "mode": "scroll",
+ "ms": 24615,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.5vh",
+   "y": 485
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 971
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.6vh",
+   "y": 1456
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1942
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.7vh",
+   "y": 2427
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.2vh",
+   "y": 2913
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.8vh",
+   "y": 3398
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.3vh",
+   "y": 3884
+  },
+  {
+   "f": "f09.jpg",
+   "label": "4.9vh",
+   "y": 4369
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.4vh",
+   "y": 4855
+  },
+  {
+   "f": "f11.jpg",
+   "label": "5.9vh",
+   "y": 5340
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.5vh",
+   "y": 5826
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.0vh",
+   "y": 6311
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.6vh",
+   "y": 6796
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.1vh",
+   "y": 7282
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.6vh",
+   "y": 7767
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.2vh",
+   "y": 8253
+  },
+  {
+   "f": "f18.jpg",
+   "label": "9.7vh",
+   "y": 8738
+  },
+  {
+   "f": "f19.jpg",
+   "label": "10.2vh",
+   "y": 9224
+  },
+  {
+   "f": "f20.jpg",
+   "label": "10.8vh",
+   "y": 9709
+  },
+  {
+   "f": "f21.jpg",
+   "label": "11.3vh",
+   "y": 10195
+  },
+  {
+   "f": "f22.jpg",
+   "label": "11.9vh",
+   "y": 10680
+  },
+  {
+   "f": "f23.jpg",
+   "label": "12.4vh",
+   "y": 11166
+  },
+  {
+   "f": "f24.jpg",
+   "label": "12.9vh",
+   "y": 11651
+  }
+ ],
+ "stats": {
+  "title": "Creatly — AI-конструктор сайтов",
+  "screens": 13.9,
+  "sections": 16,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 8,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Italiana",
+   "Public Sans"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Pirata+One&display=swap");
+/* Концепт 21 — REDSUIT «SANGUINE». Crimson-luxury, ornate serif + blackletter. */
+.rd-site{--pad:4vw;--bg:#5e0f1a;--ink:#f4e6e2;--mut:#cf9494;--accent:#cf3341;--dark:#2a0810;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.rd-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.rd-brand{font:900 19px "Playfair Display",serif;letter-spacing:.16em;color:#f6ece8}
+.rd-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#dba8a8}
+.rd-nav a{opacity:.85}.rd-nav a:hover{opacity:1}
+.rd-book{border:1px solid rgba(244,230,226,.4);border-radius:100px;padding:8px 16px;color:#f4e6e2;opacity:1!important}
+.rd-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:#e8a2a2;margin-bottom:22px}
+
+.rd-hero .ps-sticky{background:#5e0f1a}
+.rd-bg .ps-media{filter:saturate(1.08) brightness(.92)}
+.rd-topo{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.13;background:repeating-radial-gradient(circle at 90% 26%,transparent 0 9px,rgba(244,230,226,.6) 9px 10px),repeating-radial-gradient(circle at 6% 80%,transparent 0 11px,rgba(244,230,226,.55) 11px 12px)}
+.rd-blobs{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(44vw 44vw at 50% 40%,rgba(207,51,65,.34),transparent 62%)}
+.rd-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.36;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+.rd-title{place-items:center;align-content:start;padding-top:14vh}
+.rd-title span{font:900 clamp(90px,21vw,360px)/.8 "Playfair Display",serif;color:#f4e6e2;letter-spacing:.01em;text-shadow:0 8px 40px rgba(0,0,0,.45)}
+.rd-man .ps-media{filter:drop-shadow(0 40px 74px rgba(0,0,0,.5))}
+
+.rd-quote{justify-items:start;align-content:center;padding-left:var(--pad)}
+.rd-quote p{max-width:22ch;margin:0;font:400 clamp(17px,1.7vw,23px)/1.35 "Pirata One",serif;color:#f0dcd8;opacity:.9}
+
+.rd-mark,.rd-star{position:absolute;z-index:13;color:#f0dcd8}
+.rd-x{left:var(--pad);top:52%;font:500 13px "DM Mono",monospace;letter-spacing:.3em;opacity:.6}
+.rd-star{font-size:14px;opacity:.7}.rd-s1{right:9vw;top:34%}.rd-s2{left:12vw;top:26%}
+.rd-label{position:absolute;z-index:14;font:500 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#cf9494;line-height:1.5}
+.rd-tl{top:96px;left:var(--pad)}.rd-tr{top:96px;right:var(--pad);text-align:right}
+.rd-bl{bottom:40px;left:var(--pad)}
+.rd-bl b{display:block;font:900 44px "Playfair Display",serif;color:#f4e6e2;line-height:.9}
+.rd-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.rd-cue{position:absolute;z-index:14;left:50%;bottom:26px;transform:translateX(-50%);font:600 10px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:#e8a2a2}
+
+/* manifest */
+
+/* CTA */
+
+
+.rd-site a.rd-btn{display:inline-flex;align-items:center;gap:10px;margin-top:36px;padding:16px 30px;border-radius:100px;background:#e8a2a2;color:#2a0810;font:600 13px "Manrope",sans-serif}
+.rd-btn i{font-style:normal}
+
+/* footer */
+.rd-foot{position:relative;z-index:1;background:#2a0810;color:#cf9494;padding:64px var(--pad) 40px}
+.rd-foot-top b{font:900 22px "Playfair Display",serif;letter-spacing:.12em;color:#f6ece8}
+.rd-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#a56e6e}
+.rd-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(244,230,226,.16);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#946060}
+
+/* ФАЗА 2 — секции */
+/* The looks — галерея */
+
+/* The cut — процесс */
+
+.rd-cut .rd-eyebrow{margin-bottom:40px}
+
+/* testimonials (rd-review чтобы не конфликтовать с hero .rd-quote) */
+
+
+@media(max-width:1100px){.rd-grid{columns:2}}
+@media(max-width:900px){.rd-nav{display:none}.rd-quote,.rd-mark,.rd-star{display:none}.rd-title span{font-size:38vw}
+  .rd-grid{columns:1}.rd-csteps,.rd-rgrid{grid-template-columns:1fr}.rd-workhead{flex-direction:column;align-items:flex-start}.rd-workhead p{text-align:left}}
+
+/* ===== SCENES S2–S6 — crimson-luxury (Playfair serif + Pirata blackletter, topo) ===== */
+.rd-scene .ps-sticky{background:#5e0f1a}
+.rd-scene .rd-eyebrow{margin-bottom:16px}
+.rd2-topo,.rd4-topo,.rd6-topo{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.6;background-image:repeating-radial-gradient(circle at 50% 42%,transparent 0 40px,rgba(244,230,226,.045) 40px 41px)}
+
+/* S2 THE CLOTH — мужчина + crimson + topo */
+.rd2-scene .ps-sticky{background:#5e0f1a}
+.rd2-bg .ps-media{filter:contrast(1.05) saturate(1.06) brightness(.82)}
+.rd2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 44%,rgba(207,51,65,.12),transparent 60%),linear-gradient(90deg,rgba(42,8,16,.6),transparent 46%),linear-gradient(0deg,rgba(42,8,16,.55),transparent 40%)}
+.rd2-man{place-items:center;align-content:end}
+.rd2-man .ps-media{width:28vw;height:auto;max-width:none;filter:contrast(1.04) drop-shadow(0 26px 46px rgba(0,0,0,.6))}
+.rd2-quote{position:absolute;z-index:12;right:var(--pad);top:30vh;max-width:20ch;text-align:right;font:400 clamp(18px,2vw,28px)/1.32 "Pirata One",serif;color:#e8b8b8}
+.rd2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.rd2-copy .rd-eyebrow{color:#e8a0a0}
+.rd2-copy h2{margin:0;font:400 clamp(40px,6vw,92px)/1.02 "Playfair Display",serif;color:#f4e6e2}
+.rd2-copy h2 em{font-style:italic;color:#e8676f}
+.rd2-copy p{margin:18px 0 0;max-width:44ch;font:400 15px/1.75 "Manrope",sans-serif;color:#cf9494}
+.rd2-grain{position:absolute;inset:0;z-index:11;pointer-events:none;opacity:.2;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* S3 THE LOOKS — костюмы */
+.rd3-scene .ps-sticky{background:#5e0f1a}
+.rd3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#6e1220,#3a0a12)}
+/* гардеробная рейка */
+.rd3-rail{position:absolute;z-index:3;left:6vw;right:6vw;top:13%;height:2px;background:linear-gradient(90deg,transparent,rgba(232,162,162,.55) 10% 90%,transparent);box-shadow:0 2px 14px rgba(0,0,0,.4)}
+.rd3-slot{justify-items:center;align-content:start;padding-top:14.5%}
+.rd3-plate{position:relative;width:13vw;min-width:150px;background:#3a0a12;padding:7px 7px 22px;box-shadow:0 30px 60px rgba(0,0,0,.55);border:1px solid rgba(244,230,226,.22)}
+.rd3-plate::before{content:"";position:absolute;top:-9px;left:50%;width:2px;height:9px;background:rgba(232,162,162,.6);transform:translateX(-50%)}
+.rd3-plate::after{content:"";position:absolute;top:-13px;left:50%;width:8px;height:8px;border:2px solid rgba(232,162,162,.7);border-radius:50%;transform:translateX(-50%)}
+.rd3-plate .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:3/5;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.05)}
+.rd3-plate b{position:absolute;left:10px;bottom:7px;font:400 11px "Playfair Display",serif;color:#f4e6e2;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+.rd3-copy{justify-items:center;align-content:end;text-align:center;padding-bottom:6vh}
+.rd3-copy .rd-eyebrow{color:#e8a0a0}
+.rd3-copy h2{margin:0;font:400 clamp(32px,5vw,70px)/1.04 "Playfair Display",serif;color:#f4e6e2}
+.rd3-copy h2 em{font-style:italic;color:#e8676f}
+.rd3-copy p{margin:16px auto 0;max-width:46ch;font:400 15px/1.7 "Manrope",sans-serif;color:#cf9494}
+
+/* S4 THE CUT — 3 шага */
+.rd4-scene .ps-sticky{background:#5e0f1a}
+.rd4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#6e1220,#3a0a12)}
+.rd4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.rd4-head .rd-eyebrow{color:#e8a0a0}
+.rd4-head h2{margin:0;font:400 clamp(32px,4.8vw,64px)/1.02 "Playfair Display",serif;color:#f4e6e2}
+.rd4-head h2 em{font-style:italic;color:#e8676f}
+.rd4-steps{justify-items:center;align-content:center}
+.rd4-step{position:relative;display:grid;grid-template-columns:44px 1fr;gap:6px 22px;align-items:baseline;width:min(740px,86vw);padding:18px 0 18px 20px;border-top:1px solid rgba(244,230,226,.18);opacity:calc(clamp(0,(var(--lp,0) - var(--thr,0))*11,1));transform:translateX(calc((1 - clamp(0,(var(--lp,0) - var(--thr,0))*5,1))*-32px))}
+.rd4-step::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#e8676f,rgba(232,103,111,.15));box-shadow:0 0 10px rgba(232,103,111,.55);transform-origin:top;transform:scaleY(calc(clamp(0,(var(--lp,0) - var(--thr,0))*4.5,1)))}
+.rd4-step i{grid-row:span 2;font:400 30px "Playfair Display",serif;font-style:italic;color:#e8676f}
+.rd4-step b{font:400 clamp(20px,2.4vw,30px) "Playfair Display",serif;color:#f4e6e2}
+.rd4-step s{font:400 13px/1.5 "Manrope",sans-serif;color:#cf9494;text-decoration:none}
+
+/* S5 WORN IN THE ROOM — отзывы */
+.rd5-scene .ps-sticky{background:#5e0f1a}
+.rd5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#6e1220,#380911)}
+/* золотая двойная маргинальная линия леджера */
+.rd5-margin{position:absolute;z-index:3;left:22vw;top:13vh;bottom:12vh;width:0;border-left:2px double rgba(232,160,160,.45);pointer-events:none}
+.rd5-eyebrow{position:absolute;z-index:16;top:96px;left:24vw;font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#e8a0a0}
+/* запись клиента, вписывается слева */
+.rd5-entry{justify-items:start;padding-left:24vw;padding-right:var(--pad)}
+.rd5-entry>div{width:min(50ch,56vw)}
+.rd5-entry i{font:700 11px "DM Mono",monospace;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:#e8a0a0}
+.rd5-entry p{margin:7px 0 0;font:italic 400 clamp(18px,2.2vw,32px)/1.32 "Playfair Display",serif;color:#f4e6e2}
+.rd5-entry b{display:block;margin-top:9px;font:italic 400 clamp(15px,1.4vw,20px)/1.2 "Playfair Display",serif;color:#e8a0a0}
+.rd5-e1{align-content:start;padding-top:13vh}
+.rd5-e2{align-content:center}
+.rd5-e3{align-content:end;padding-bottom:11vh}
+
+/* S6 WEAR THE ROOM — мужчина + CTA */
+.rd6-scene .ps-sticky{background:#5e0f1a}
+.rd6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 56% 42%,#701320,#3a0a12)}
+.rd6-man{justify-items:end;align-content:center;padding-right:2vw}
+.rd6-man .ps-media{width:30vw;height:auto;max-width:none;filter:contrast(1.04) drop-shadow(0 30px 50px rgba(0,0,0,.6))}
+.rd6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad);clip-path:inset(calc((1 - clamp(0,var(--lp,0)*1.5,1))*50%) 0 calc((1 - clamp(0,var(--lp,0)*1.5,1))*50%) 0)}
+.rd6-copy .rd-eyebrow{color:#e8a0a0}
+.rd6-copy h2{margin:0;font:400 clamp(48px,9vw,140px)/.98 "Playfair Display",serif;color:#f4e6e2}
+.rd6-copy h2 em{font-style:italic;color:#e8676f}
+.rd6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.rd6-cta p{margin:0 0 22px;font:400 15px/1.75 "Manrope",sans-serif;color:#cf9494}
+@media(max-width:900px){.rd2-copy,.rd6-cta{max-width:88vw}.rd2-man .ps-media,.rd6-man .ps-media{width:60vw}.rd2-quote,.rd6-man{display:none}.rd3-plate{width:40vw}.rd4-step{grid-template-columns:34px 1fr}.rd5-entry{padding-left:var(--pad)}.rd5-entry>div{max-width:90vw}.rd5-margin{display:none}.rd5-eyebrow{left:var(--pad)}}

@@ -1,0 +1,88 @@
+/* StageDeck — кино-переходы. Дек ставит data-trans (тип) + data-dir (fwd/back) на время анимации;
+   CSS красит и входящую (--sp 0→1), и уходящую (--ep 0→1) сцену одним переходом. */
+.stage{position:fixed;inset:0;height:100vh;height:100svh;height:100dvh;width:100%;overflow:hidden;
+  overscroll-behavior:none;touch-action:none;background:#000;perspective:1500px;perspective-origin:50% 42%}
+.stage-scene{position:absolute;inset:0;visibility:hidden;opacity:0;z-index:1;--sp:0;--ep:0;
+  transform-style:preserve-3d;backface-visibility:hidden;will-change:transform,opacity,clip-path,filter}
+.stage-scene.is-active{visibility:visible;opacity:1;z-index:2;--sp:1}
+.stage-scene.is-entering{visibility:visible;opacity:1;z-index:3}
+.stage-scene.is-leaving{visibility:visible;z-index:2}
+.stage-inner{position:absolute;inset:0;transform-style:preserve-3d}
+.scene-body{position:absolute;inset:0}
+
+/* ZOOM — camera-punch: входящая наезжает из мелкого, уходящая пролетает сквозь камеру + blur */
+.stage[data-trans="zoom"] .is-entering{transform:scale(calc(.74 + var(--sp)*.26));opacity:var(--sp);filter:blur(calc((1 - var(--sp))*7px))}
+.stage[data-trans="zoom"] .is-leaving{transform:scale(calc(1 + var(--ep)*.55));opacity:calc(1 - var(--ep));filter:blur(calc(var(--ep)*9px))}
+
+/* WIPE-Y — вертикальная гильотина: входящая раскрывается сверху вниз, уходящая уезжает вверх */
+.stage[data-trans="wipe-y"] .is-entering{clip-path:inset(calc((1 - var(--sp))*100%) 0 0 0)}
+.stage[data-trans="wipe-y"] .is-leaving{transform:translateY(calc(var(--ep)*-11%)) scale(calc(1 - var(--ep)*.04));opacity:calc(1 - var(--ep)*.35)}
+.stage[data-trans="wipe-y"][data-dir="back"] .is-entering{clip-path:inset(0 0 calc((1 - var(--sp))*100%) 0)}
+
+/* WIPE-X — латеральный: входящая вытирается слева, уходящая сдвигается вбок */
+.stage[data-trans="wipe-x"] .is-entering{clip-path:inset(0 0 0 calc((1 - var(--sp))*100%))}
+.stage[data-trans="wipe-x"] .is-leaving{transform:translateX(calc(var(--ep)*-9%));opacity:calc(1 - var(--ep)*.4)}
+.stage[data-trans="wipe-x"][data-dir="back"] .is-entering{clip-path:inset(0 calc((1 - var(--sp))*100%) 0 0)}
+
+/* IRIS — круговая диафрагма */
+.stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*140%) at 50% 44%)}
+.stage[data-trans="iris"] .is-leaving{transform:scale(calc(1 + var(--ep)*.16));opacity:calc(1 - var(--ep))}
+
+/* SMASH — влёт сбоку с оверщутом, вылет в противоход */
+.stage[data-trans="smash"] .is-entering{transform:translateX(calc((1 - var(--sp))*72vw)) rotate(calc((1 - var(--sp))*4deg));opacity:var(--sp)}
+.stage[data-trans="smash"] .is-leaving{transform:translateX(calc(var(--ep)*-58vw)) rotate(calc(var(--ep)*-3deg));opacity:calc(1 - var(--ep))}
+.stage[data-trans="smash"][data-dir="back"] .is-entering{transform:translateX(calc((1 - var(--sp))*-72vw)) rotate(calc((1 - var(--sp))*-4deg));opacity:var(--sp)}
+
+/* DROP — падение сверху (скрижаль/кандзи) */
+.stage[data-trans="drop"] .is-entering{transform:translateY(calc((1 - var(--sp))*-64vh)) scale(calc(.96 + var(--sp)*.04));opacity:var(--sp)}
+.stage[data-trans="drop"] .is-leaving{transform:translateY(calc(var(--ep)*22vh));opacity:calc(1 - var(--ep))}
+
+/* CUT — жёсткий стык (почти мгновенно), уходящая гаснет в первой трети */
+.stage[data-trans="cut"] .is-entering{opacity:clamp(0,calc(var(--sp)*2 - .2),1)}
+.stage[data-trans="cut"] .is-leaving{opacity:calc(1 - var(--ep)*3)}
+
+/* точки-индикатор / кнопки / a11y */
+.stage-dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:11px;z-index:45;pointer-events:none}
+.stage-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.26);transition:transform .4s,background .4s}
+.stage-dots span.on{background:#fff;transform:scale(1.65)}
+.stage-live{position:fixed;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:-1px;padding:0;border:0}
+.stage-ctrl{position:fixed;right:calc(14px + env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));z-index:46;display:flex;flex-direction:column;gap:8px}
+.stage-ctrl button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(0,0,0,.4);
+  color:#fff;font:600 15px/1 system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(4px);transition:.3s;display:grid;place-items:center}
+.stage-ctrl button:hover:not(:disabled){background:rgba(255,255,255,.16);transform:translateY(-2px)}
+.stage-ctrl button:disabled{opacity:.28;cursor:default}
+.stage:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:-4px}
+@media(max-width:900px){.stage-dots{right:12px;gap:8px}.stage-ctrl{right:10px;bottom:14px}.stage-ctrl button{width:34px;height:34px}}
+
+@media(prefers-reduced-motion:reduce){
+  .stage-scene.is-entering,.stage-scene.is-leaving{transform:none!important;clip-path:none!important;filter:none!important}
+  .stage-scene.is-leaving{opacity:0!important}
+  .stage-ctrl button{transition:none}
+}
+
+/* KineticText — кинетика по буквам (прогресс из --sp сцены, задержка по --i) */
+.kt{display:inline-block}
+.kt-l{display:inline-block;white-space:pre;--kr:clamp(0,calc((var(--sp,1) - var(--ks,0) - var(--i,0)*.02)*5),1)}
+[data-kt="slam"] .kt-l{transform:translateY(calc((1 - var(--kr))*.55em)) scale(calc(.72 + var(--kr)*.28));opacity:var(--kr)}
+[data-kt="scatter"] .kt-l{transform:translate(calc((1 - var(--kr))*var(--kx,0)),calc((1 - var(--kr))*var(--ky,0))) rotate(calc((1 - var(--kr))*var(--krot,0)));opacity:var(--kr)}
+[data-kt="vroll"] .kt-l{transform:perspective(600px) rotateX(calc((1 - var(--kr))*-92deg));transform-origin:bottom;opacity:var(--kr)}
+[data-kt="stretch"] .kt-l{transform:scaleY(calc(.36 + var(--kr)*.64));transform-origin:bottom;opacity:var(--kr)}
+@media(prefers-reduced-motion:reduce){.kt-l{transform:none!important;opacity:1!important}}
+
+/* Амбиент-движение: медленный ken-burns на full-bleed кадрах активной сцены (не ещё один вход — постоянная жизнь).
+   scale-свойство композится с transform слоя. Гейт по .is-active чтобы не жечь скрытые сцены. reduced-motion off. */
+@keyframes stage-kb{from{scale:1}to{scale:1.08}}
+.stage-scene.is-active .kb-media .ps-media{animation:stage-kb 22s ease-in-out infinite alternate;will-change:transform}
+@media(prefers-reduced-motion:reduce){.stage-scene.is-active .kb-media .ps-media{animation:none}}
+
+/* POINTER-PARALLAX: слои активной сцены медленно дрейфуют за курсором по глубине — «кадр дышит».
+   StageDeck пишет --px/--py [-1..1] в корень .stage (наследуется). Амплитуда ∝ --depth (ближние слои
+   двигаются сильнее). Свойство translate: композится с transform-матрицей переходов → переходы целы.
+   Гейт (hover:hover)+(pointer:fine): только десктоп-мышь, тач/reduced-motion — без дрейфа.
+   Тюнинг силы — единственное число ниже (30px); убрать эффект — удалить этот блок. */
+@media (hover:hover) and (pointer:fine){
+  .stage-scene.is-active .ps-layer{
+    translate:calc(var(--px,0)*var(--depth,0)*30px) calc(var(--py,0)*var(--depth,0)*30px);
+  }
+}
+@media(prefers-reduced-motion:reduce){.stage-scene .ps-layer{translate:none}}

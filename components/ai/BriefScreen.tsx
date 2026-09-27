@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { briefQuestions } from "@/lib/ai/prompts";
 import { VoiceRecorder } from "./VoiceRecorder";
-import type { TemplateInfo } from "@/lib/builder/templates";
 
 interface ScrapedData {
   title: string;
@@ -25,13 +24,27 @@ interface ScrapedData {
 }
 
 interface BriefScreenProps {
-  template: TemplateInfo | null;
-  onSubmit: (data: { audioBlob?: Blob; textBrief: string; templateId: string; scrapedData?: ScrapedData }) => void;
+  onSubmit: (data: { audioBlob?: Blob; textBrief: string; scrapedData?: ScrapedData; siteMode: "classic" | "story"; mediaMode: "stock" | "higgsfield" }) => void;
   onBack: () => void;
 }
 
-export function BriefScreen({ template, onSubmit, onBack }: BriefScreenProps) {
+const HIGS_URL = process.env.NEXT_PUBLIC_HIGS_BOT_URL || "http://127.0.0.1:3210";
+
+export function BriefScreen({ onSubmit, onBack }: BriefScreenProps) {
   const [mode, setMode] = useState<"voice" | "text">("voice");
+  const [siteMode, setSiteMode] = useState<"classic" | "story">("story");
+  const [mediaMode, setMediaMode] = useState<"stock" | "higgsfield">("stock");
+  const [higsOnline, setHigsOnline] = useState(false);
+
+  // Локальный Higs Bot доступен из браузера напрямую (CORS для localhost)
+  useEffect(() => {
+    fetch(`${HIGS_URL}/api/health`, { signal: AbortSignal.timeout(2500) })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.ok) { setHigsOnline(true); setMediaMode("higgsfield"); }
+      })
+      .catch(() => {});
+  }, []);
   const [textBrief, setTextBrief] = useState("");
   const audioBlobRef = useRef<Blob | null>(null);
   const [hasRecording, setHasRecording] = useState(false);
@@ -74,8 +87,9 @@ export function BriefScreen({ template, onSubmit, onBack }: BriefScreenProps) {
     onSubmit({
       audioBlob: mode === "voice" ? audioBlobRef.current ?? undefined : undefined,
       textBrief: mode === "text" ? textBrief : "",
-      templateId: template ? template.id : "none",
       scrapedData: scrapedData ?? undefined,
+      siteMode,
+      mediaMode,
     });
   }
 
@@ -87,7 +101,7 @@ export function BriefScreen({ template, onSubmit, onBack }: BriefScreenProps) {
         <button className="brief-back" type="button" onClick={onBack}>&larr; Назад</button>
         <div>
           <h1>Расскажите о вашем сайте</h1>
-          <p>{template ? <>Шаблон: <strong>{template.title}</strong></> : <>Дизайн <strong>с нуля</strong> — без шаблона</>}</p>
+          <p>AI соберёт сайт из премиум-блоков под ваш бриф</p>
         </div>
       </header>
 
@@ -155,6 +169,51 @@ export function BriefScreen({ template, onSubmit, onBack }: BriefScreenProps) {
                 )}
               </div>
             )}
+          </div>
+
+          <div className="brief-format">
+            <span className="brief-format__label">Формат сайта</span>
+            <div className="brief-format__cards">
+              <button
+                type="button"
+                className={`brief-format__card ${siteMode === "story" ? "is-active" : ""}`}
+                onClick={() => setSiteMode("story")}
+              >
+                <strong>Полноценная история</strong>
+                <span>Сайт как кино: живой фон, storytelling-сцены, смелые переходы</span>
+              </button>
+              <button
+                type="button"
+                className={`brief-format__card ${siteMode === "classic" ? "is-active" : ""}`}
+                onClick={() => setSiteMode("classic")}
+              >
+                <strong>Классический сайт</strong>
+                <span>Конверсионный лендинг со спокойными анимациями</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="brief-format">
+            <span className="brief-format__label">Медиа для сайта</span>
+            <div className="brief-format__cards">
+              <button
+                type="button"
+                className={`brief-format__card ${mediaMode === "higgsfield" ? "is-active" : ""}`}
+                disabled={!higsOnline}
+                onClick={() => setMediaMode("higgsfield")}
+              >
+                <strong>Генерация Higgsfield {higsOnline ? "· онлайн" : "· недоступно"}</strong>
+                <span>Уникальные кино-кадры и видео под ваш бренд. Дольше: ждём каждую генерацию</span>
+              </button>
+              <button
+                type="button"
+                className={`brief-format__card ${mediaMode === "stock" ? "is-active" : ""}`}
+                onClick={() => setMediaMode("stock")}
+              >
+                <strong>Стоковые фото</strong>
+                <span>Быстро: подобранные живые фото по теме бизнеса</span>
+              </button>
+            </div>
           </div>
 
           <div className="brief-mode-switch">

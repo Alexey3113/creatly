@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Figtree:wght@400;500;600;700&display=swap');
+/* VOYAGE — steampunk sky-cruise мир. Шрифты Zilla Slab (display, sturdy brass-and-rivet slab
+   serif с italic под <em>) × Figtree (body/UI, тёплый скруглённый гротеск). Палитра из worlds.ts:
+   cloud-cream / sky-cerulean / brass / storm-slate + brass CTA. Стили только .vy-* + копи в .rl-copy. */
+
+.vy{ --cream:#efe3cf; --sky:#4a86b8; --brass:#c8963c; --slate:#3a4a6a; --cta:#ffb84a;
+  --deep:#1c2438; --ink:#25314a; --paper:#faf4e6;
+  --rl-void:#1c2438; --rl-spark:#ffb84a;
+  background:var(--deep); color:var(--ink); font-family:"Figtree",system-ui,sans-serif; }
+
+/* NAV — scrim for contrast on any scene + brand shadow */
+.vy-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw; }
+.vy-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(20,24,38,.46), rgba(20,24,38,0)); }
+.vy-brand{ font:600 20px "Figtree",system-ui,sans-serif; letter-spacing:.26em; color:var(--paper); text-shadow:0 1px 10px rgba(0,0,0,.45); }
+.vy-nav nav{ display:flex; gap:26px; align-items:center; font:600 13px "Figtree",system-ui,sans-serif; letter-spacing:.03em; }
+.vy-nav a{ color:rgba(250,244,230,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.vy-nav-cta{ padding:9px 20px; border-radius:999px; background:var(--cta); color:#2a1c04!important; text-shadow:none!important; }
+
+/* PARCHMENT — frosted glass-and-brass card behind copy on light scenes (cloudsea/isles/harbor) */
+.vy-parchment{ background:rgba(239,227,207,.72); backdrop-filter:blur(16px) saturate(1.15); -webkit-backdrop-filter:blur(16px) saturate(1.15);
+  border:1px solid rgba(200,150,60,.4); border-top:3px solid var(--brass); border-radius:4px 16px 16px 4px;
+  padding:38px 42px; box-shadow:0 24px 60px rgba(30,22,8,.22); }
+.vy-parchment-sm{ padding:28px 34px; }
+
+/* HERO / SCENE COPY (внутри .rl-copy движка) */
+.vy-eyebrow,.vy-idx{ font:600 12px "Figtree",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--sky); }
+.vy-idx{ letter-spacing:.15em; }
+.vy-light{ color:var(--cream); }
+.rl-copy h1{ margin:14px 0 26px; font:600 clamp(48px,7.6vw,104px)/1.12 "Zilla Slab",serif; letter-spacing:-.01em; color:var(--ink); }
+.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; font-weight:500; color:var(--brass); }
+.rl-copy h2{ margin:10px 0 28px; font:600 clamp(38px,5.6vw,76px)/1.14 "Zilla Slab",serif; color:var(--ink); }
+.rl-copy .vy-hl{ color:var(--paper); }
+.rl-copy p{ margin:0 0 24px; max-width:38ch; font:400 16px/1.7 "Figtree",system-ui,sans-serif; color:#2f3c58; }
+.rl-copy .vy-pl{ color:#e4ddc9; text-shadow:0 1px 16px rgba(0,0,0,.5); max-width:40ch; }
+.vy-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.vy-btn{ padding:15px 30px; border-radius:8px; background:var(--cta); color:#2a1c04; text-decoration:none; font:600 15px "Figtree",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,184,74,.32); transition:transform .15s ease; white-space:nowrap; }
+.vy-btn:active{ transform:translateY(2px); }
+.vy-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:600 15px "Figtree",system-ui,sans-serif; border-bottom:2px solid rgba(37,49,74,.3); white-space:nowrap; }
+
+/* shared kicker */
+.vy-kick{ display:block; font:600 12px "Figtree",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--brass); }
+.vy-link{ color:var(--brass); text-decoration:none; font:600 15px "Figtree",system-ui,sans-serif; }
+
+/* MARQUEE — the route line, straight off the hero */
+.vy-marquee{ overflow:hidden; padding:20px 0; background:var(--brass); border-top:1px solid rgba(0,0,0,.15); border-bottom:1px solid rgba(0,0,0,.15); }
+.vy-marquee-track{ display:flex; gap:3rem; white-space:nowrap; width:max-content; animation:vy-scroll 30s linear infinite; }
+.vy-marquee span{ font:700 17px "Zilla Slab",serif; letter-spacing:.04em; text-transform:uppercase; color:#2a1c04; }
+.vy-marquee span em{ font-style:normal; opacity:.6; margin:0 .6em; }
+@keyframes vy-scroll{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+
+/* BIG-TYPE — one giant statement */
+.vy-big{ padding:20vh 8vw; background:linear-gradient(180deg,#1c2438,#171e30); }
+.vy-big p{ margin:0 auto; max-width:20ch; text-align:center; font:600 clamp(30px,4.8vw,66px)/1.14 "Zilla Slab",serif; color:var(--paper); }
+.vy-big em{ font-style:italic; font-weight:500; color:var(--cta); }
+
+/* FEATURE-CARDS — the fares */
+.vy-fares{ padding:16vh 6vw; background:#171e30; }
+.vy-fares-head{ max-width:44rem; margin:0 0 7vh; }
+.vy-fares-head h2{ margin:12px 0 0; font:600 clamp(30px,4.6vw,58px)/1.05 "Zilla Slab",serif; color:var(--paper); }
+.vy-fares-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.6vw; }
+.vy-fare{ padding:38px 30px; border:1px solid rgba(200,150,60,.28); border-radius:14px; background:rgba(58,74,106,.24); }
+.vy-fare h3{ margin:0 0 14px; font:600 24px "Zilla Slab",serif; color:var(--cream); }
+.vy-fare p{ margin:0 0 22px; font:400 15px/1.68 "Figtree",system-ui,sans-serif; color:#b9c3d6; }
+.vy-fare-price{ display:block; font:600 13px "Figtree",system-ui,sans-serif; letter-spacing:.06em; text-transform:uppercase; color:var(--cta); }
+
+/* STEPS / PROCESS — how a crossing runs */
+.vy-steps{ padding:16vh 6vw; background:#141a2b; }
+.vy-steps-head{ max-width:44rem; margin:0 0 8vh; }
+.vy-steps-head h2{ margin:12px 0 0; font:600 clamp(30px,4.6vw,58px)/1.05 "Zilla Slab",serif; color:var(--paper); }
+.vy-steps-row{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; }
+.vy-steps-row li{ padding-top:26px; border-top:2px solid var(--brass); }
+.vy-step-n{ display:block; margin-bottom:16px; font:600 15px "Figtree",system-ui,sans-serif; letter-spacing:.1em; color:var(--brass); }
+.vy-steps-row h3{ margin:0 0 10px; font:600 22px "Zilla Slab",serif; color:var(--cream); }
+.vy-steps-row p{ margin:0; font:400 14.5px/1.65 "Figtree",system-ui,sans-serif; color:#a7b2c6; }
+
+/* SIGNATURE — SPLIT, media RIGHT */
+.vy-split{ display:grid; grid-template-columns:1fr 1.05fr; align-items:center; min-height:78vh; background:linear-gradient(155deg,#232c44,#1a2135); gap:2vw; }
+.vy-split-copy{ padding:10vh 5vw 10vh 6vw; }
+.vy-split-copy h2{ margin:14px 0 18px; font:600 clamp(30px,3.6vw,54px)/1.06 "Zilla Slab",serif; color:var(--paper); }
+.vy-split-copy h2 em{ font-style:italic; font-weight:500; color:var(--cta); }
+.vy-split-copy p{ margin:0 0 24px; max-width:42ch; font:400 16px/1.75 "Figtree",system-ui,sans-serif; color:#b9c3d6; }
+.vy-split-media{ position:relative; align-self:stretch; display:flex; align-items:center; justify-content:center; padding:6vh 3vw;
+  background:radial-gradient(120% 90% at 50% 50%, rgba(200,150,60,.16), transparent 68%), #151b2c; border-left:1px solid rgba(200,150,60,.18); min-height:56vh; }
+.vy-split-media img{ width:100%; max-width:34rem; height:auto; filter:drop-shadow(0 30px 50px rgba(0,0,0,.5)); }
+
+/* GALLERY — four chapters as bg tiles */
+.vy-chapters{ padding:16vh 6vw 14vh; background:#141a2b; }
+.vy-chapters-head{ max-width:50rem; margin:0 0 7vh; }
+.vy-chapters-head h2{ margin:12px 0 0; font:600 clamp(30px,4.6vw,58px)/1.05 "Zilla Slab",serif; color:var(--paper); }
+.vy-chapters-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.2vw; }
+.vy-chapter{ position:relative; aspect-ratio:3/4; border-radius:10px; overflow:hidden; background-size:cover; background-position:50% 46%; box-shadow:0 20px 50px rgba(0,0,0,.42); }
+.vy-chapter::before{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,26,43,0) 42%, rgba(14,18,30,.92) 100%); }
+.vy-chapter-copy{ position:absolute; left:0; right:0; bottom:0; padding:20px; z-index:2; }
+.vy-chapter-n{ display:block; margin-bottom:8px; font:600 12px "Figtree",system-ui,sans-serif; letter-spacing:.16em; color:var(--cta); }
+.vy-chapter-copy h3{ margin:0 0 6px; font:600 21px "Zilla Slab",serif; color:var(--paper); }
+.vy-chapter-copy p{ margin:0; font:400 13px/1.5 "Figtree",system-ui,sans-serif; color:#c3cbdb; }
+
+/* STATS */
+.vy-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:#0f1420; border-top:1px solid rgba(200,150,60,.18); }
+.vy-stat{ padding:56px 30px; border-left:1px solid rgba(200,150,60,.18); }
+.vy-stat:first-child{ border-left:0; }
+.vy-stat b{ display:block; font:600 clamp(42px,5.2vw,80px)/1 "Zilla Slab",serif; color:var(--cream); }
+.vy-stat span{ display:block; margin-top:10px; font:500 13px "Figtree",system-ui,sans-serif; letter-spacing:.05em; color:#8c98b3; }
+
+/* QUOTE */
+.vy-quote{ padding:19vh 10vw; text-align:center; background:linear-gradient(180deg,#171e30,#1c2438); }
+.vy-quote blockquote{ margin:0 auto; max-width:26ch; font:600 clamp(26px,3.6vw,48px)/1.22 "Zilla Slab",serif; color:var(--paper); }
+.vy-quote em{ font-style:italic; font-weight:500; color:var(--cta); }
+.vy-quote cite{ display:block; margin-top:32px; font:500 13px "Figtree",system-ui,sans-serif; letter-spacing:.06em; font-style:normal; color:#8c98b3; }
+
+/* FAQ / ACCORDION */
+.vy-faq{ padding:16vh 6vw; background:#1c2438; }
+.vy-faq-head{ max-width:44rem; margin:0 0 7vh; }
+.vy-faq-head h2{ margin:12px 0 0; font:600 clamp(30px,4.6vw,58px)/1.05 "Zilla Slab",serif; color:var(--paper); }
+.vy-faq-list{ list-style:none; margin:0; padding:0; border-top:1px solid rgba(200,150,60,.22); max-width:56rem; }
+.vy-faq-row{ border-bottom:1px solid rgba(200,150,60,.22); }
+.vy-faq-q{ width:100%; display:flex; justify-content:space-between; align-items:center; gap:2vw; padding:26px 4px; background:none; border:0; cursor:pointer; text-align:left; font:600 clamp(17px,1.9vw,22px) "Zilla Slab",serif; color:var(--cream); }
+.vy-faq-mark{ font:400 24px "Figtree",system-ui,sans-serif; color:var(--cta); flex:none; }
+.vy-faq-a{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease; }
+.vy-faq-a p{ overflow:hidden; margin:0; padding:0 4px 0 0; max-width:58ch; font:400 15px/1.72 "Figtree",system-ui,sans-serif; color:#a7b2c6; }
+.vy-faq-open .vy-faq-a{ grid-template-rows:1fr; }
+.vy-faq-open .vy-faq-a p{ padding-bottom:24px; }
+.vy-faq-open .vy-faq-q{ color:var(--cta); }
+
+/* DEAL */
+.vy-deal{ display:grid; place-items:center; padding:18vh 6vw; background:#171e30; }
+.vy-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(200,150,60,.3); border-radius:16px; background:#141a2b; }
+.vy-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.vy-price b{ font:600 clamp(48px,6.6vw,88px) "Zilla Slab",serif; color:var(--paper); }
+.vy-price span{ font:500 14px "Figtree",system-ui,sans-serif; color:#8c98b3; }
+.vy-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Figtree",system-ui,sans-serif; color:#a7b2c6; }
+.vy-note{ display:block; margin-top:18px; font:500 12px "Figtree",system-ui,sans-serif; letter-spacing:.05em; color:#7a869e; }
+
+/* CLIMAX */
+.vy-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
+.vy-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(28,36,56,.44), rgba(15,20,32,.9) 78%); }
+.vy-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
+.vy-climax-copy h2{ margin:0 0 34px; font:600 clamp(38px,5.6vw,88px)/1.04 "Zilla Slab",serif; color:var(--paper); }
+.vy-climax-copy em{ font-style:italic; font-weight:500; color:var(--cta); }
+
+/* FOOT */
+.vy-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#0f1420; color:#7a869e; font:500 13px "Figtree",system-ui,sans-serif; }
+.vy-foot .vy-brand{ color:#a7b2c6; text-shadow:none; }
+
+@media (max-width:820px){
+  .vy-nav nav a:not(.vy-nav-cta){ display:none; }
+  .vy-split{ grid-template-columns:1fr; } .vy-split-media{ min-height:44vh; order:-1; }
+  .vy-fares-grid{ grid-template-columns:1fr; }
+  .vy-steps-row{ grid-template-columns:1fr 1fr; }
+  .vy-chapters-grid{ grid-template-columns:1fr 1fr; }
+  .vy-stats{ grid-template-columns:1fr 1fr; }
+  .vy-parchment{ padding:26px 26px; }
+}

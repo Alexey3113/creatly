@@ -1,0 +1,72 @@
+{
+ "fam": "legacy",
+ "id": "vertex",
+ "url": "animated/vertex",
+ "mode": "scroll",
+ "ms": 10353,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 495
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 990
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.6vh",
+   "y": 1485
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1980
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2475
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 2970
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3465
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.4vh",
+   "y": 3960
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 5.4,
+  "sections": 3,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 0,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Archivo"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

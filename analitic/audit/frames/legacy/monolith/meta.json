@@ -1,0 +1,73 @@
+{
+ "fam": "legacy",
+ "id": "monolith",
+ "url": "animated/monolith",
+ "mode": "scroll",
+ "ms": 10324,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 518
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1035
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1553
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.3vh",
+   "y": 2070
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.9vh",
+   "y": 2588
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.5vh",
+   "y": 3105
+  },
+  {
+   "f": "f07.jpg",
+   "label": "4.0vh",
+   "y": 3623
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.6vh",
+   "y": 4140
+  }
+ ],
+ "stats": {
+  "title": "Animated — how did they do this · Creatly | Creatly",
+  "screens": 5.6,
+  "sections": 3,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 0,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [
+   "Archivo",
+   "Syne"
+  ],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

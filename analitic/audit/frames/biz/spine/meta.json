@@ -1,0 +1,105 @@
+{
+ "fam": "biz",
+ "id": "spine",
+ "url": "visual-hooks/spine",
+ "mode": "scroll",
+ "ms": 17012,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 497
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 995
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1492
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 1989
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2486
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.3vh",
+   "y": 2984
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3481
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.4vh",
+   "y": 3978
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4475
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.5vh",
+   "y": 4973
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.1vh",
+   "y": 5470
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.6vh",
+   "y": 5967
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.2vh",
+   "y": 6464
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.7vh",
+   "y": 6962
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.3vh",
+   "y": 7459
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 9.3,
+  "sections": 8,
+  "videos": 1,
+  "canvases": 2,
+  "imgs": 8,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

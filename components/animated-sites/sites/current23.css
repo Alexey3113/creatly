@@ -1,0 +1,112 @@
+/* CANOPY — scroll-reveal, parallax data-карточки поверх кино-фото на ScrollStage.
+   Кадр ущелья — фон с parallax по --px/--py (курсор, с корня .reel) и наездом scale по --t.
+   Карточки всплывают по окну --t сцены со стаггером --i (translateY+fade+blur). Строки-маски по --d;
+   числа считает rAF в компоненте. Палитра снята с кадра: moss-green + cool cream mist.
+   Шрифт: Bricolage Grotesque (дисплей) + JetBrains Mono (числа/лейблы). */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+.cu{
+  --moss:#7d9142; --moss-2:#9db255; --lichen:#b7d15f; --fern:#4f6a35;
+  --forest:#1c2620; --forest-2:#111813; --stone:#8c968b;
+  --mist:#e7ece1; --mist-2:#cfd8c8; --ink:#141a15;
+  background:var(--forest-2); color:var(--mist); font-family:"Bricolage Grotesque",system-ui,sans-serif;
+}
+.cu .cu-line{ display:block; overflow:hidden; }
+.cu .cu-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.08 - var(--d,0)*0.06) * 3.2), 1);
+  transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
+.cu-moss > i, .cu-moss{ color:var(--lichen); }
+.cu-num{ font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; }
+.cu-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between; z-index:6;
+  font:500 11px "JetBrains Mono"; letter-spacing:.18em; text-transform:uppercase; color:rgba(231,236,225,.62); }
+.cu-cue{ position:absolute; bottom:5vh; left:6vw; z-index:6;
+  font:500 11px "JetBrains Mono"; letter-spacing:.14em; color:rgba(231,236,225,.6); }
+.cu-eyebrow{ margin:0 0 22px; font:500 12px "JetBrains Mono"; letter-spacing:.22em; text-transform:uppercase; color:var(--moss-2); }
+
+/* общий фон-кадр: parallax по курсору + наезд по --t; грейд в mossy-туман */
+.cu-bg{ position:absolute; inset:-6% -4%; overflow:hidden; z-index:0; }
+.cu-bg .cine-media{
+  transform:translate(calc(var(--px,0)*-16px), calc(var(--py,0)*-11px)) scale(calc(1.08 + var(--t,0)*0.14));
+  transform-origin:50% 42%; will-change:transform; filter:saturate(.92) contrast(1.02); }
+.cu-fog{ position:absolute; inset:0;
+  background:
+    radial-gradient(120% 90% at 50% 8%, rgba(206,216,200,.34), transparent 46%),
+    linear-gradient(180deg, rgba(17,24,19,.28) 0%, rgba(17,24,19,.12) 30%, rgba(17,24,19,.72) 100%); }
+
+/* 0 · COVER */
+.cu-cover{ display:flex; flex-direction:column; justify-content:flex-end; padding:0 6vw 16vh; }
+.cu-bg--cover .cine-media{ transform:translate(calc(var(--px,0)*-16px), calc(var(--py,0)*-11px)) scale(1.06); }
+.cu-cover-in{ position:relative; z-index:3; }
+.cu-hero{ margin:0; max-width:14ch; font:400 clamp(48px,10.5vw,172px)/.94 "Bricolage Grotesque"; letter-spacing:-.03em;
+  text-shadow:0 8px 60px rgba(10,16,10,.5); }
+.cu-hero i{ font-style:normal; }
+
+/* 1 · TELEMETRY — карточки всплывают стаггером */
+.cu-reveal{ display:flex; align-items:center; padding:0 6vw; }
+.cu-fog--deep{ background:
+  radial-gradient(130% 100% at 78% 40%, rgba(17,24,19,.72), transparent 58%),
+  linear-gradient(180deg, rgba(17,24,19,.5), rgba(17,24,19,.35)); }
+.cu-reveal-in{ position:relative; z-index:3; width:100%; }
+.cu-lead{ margin:0 0 4vh; max-width:22ch; font:400 clamp(26px,4.6vw,66px)/1.02 "Bricolage Grotesque"; letter-spacing:-.02em; }
+.cu-lead i{ font-style:normal; }
+.cu-cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+@media (max-width:900px){ .cu-cards{ grid-template-columns:repeat(2,1fr); } }
+
+/* полупрозрачная стеклянная карточка датчика */
+.cu-card{ position:relative; padding:22px 20px 20px; border-radius:4px;
+  background:linear-gradient(180deg, rgba(28,38,32,.52), rgba(17,24,19,.42));
+  border:1px solid rgba(183,209,95,.24); backdrop-filter:blur(9px) saturate(1.05);
+  -webkit-backdrop-filter:blur(9px) saturate(1.05);
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.7);
+  /* всплытие: окно по --t + стаггер --i */
+  --p:clamp(0, calc((var(--t,0) - 0.12 - var(--i,0)*0.07) * 3.6), 1);
+  opacity:var(--p);
+  transform:translateY(calc((1 - var(--p)) * 60px));
+  filter:blur(calc((1 - var(--p)) * 5px));
+  will-change:transform, opacity; }
+.cu-card header{ display:flex; align-items:center; gap:8px;
+  font:500 10px "JetBrains Mono"; letter-spacing:.16em; text-transform:uppercase; color:var(--stone); }
+.cu-dot{ width:6px; height:6px; border-radius:50%; background:var(--lichen); box-shadow:0 0 10px var(--lichen);
+  animation:cu-pulse 2.4s ease-in-out infinite; }
+.cu-card-warm .cu-dot{ background:#e0b04a; box-shadow:0 0 10px #e0b04a; }
+@keyframes cu-pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
+.cu-metric{ margin:16px 0 4px; font:500 12px "JetBrains Mono"; letter-spacing:.1em; text-transform:uppercase; color:var(--mist-2); }
+.cu-value{ margin:0; display:flex; align-items:baseline; gap:5px;
+  font:400 clamp(38px,4.2vw,58px)/1 "JetBrains Mono"; letter-spacing:-.03em; color:var(--mist); }
+.cu-card-warm .cu-value{ color:#f0d59a; }
+.cu-unit{ font:500 14px "JetBrains Mono"; letter-spacing:0; color:var(--stone); }
+.cu-note{ margin:14px 0 0; font:400 13px/1.4 "Bricolage Grotesque"; color:rgba(207,216,200,.72); }
+
+/* 2 · NETWORK — тихая полоса статистики на mossy-тёмном */
+.cu-net{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw;
+  background:radial-gradient(120% 100% at 20% 0%, #223022, #131b14 62%, #0e130f 100%); }
+.cu-net-lead{ margin:0 0 7vh; max-width:22ch; font:400 clamp(28px,5vw,74px)/1.02 "Bricolage Grotesque"; letter-spacing:-.02em; }
+.cu-net-lead i{ font-style:normal; }
+.cu-figs{ display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid rgba(183,209,95,.2); }
+.cu-fig{ padding:34px 24px 30px; border-left:1px solid rgba(183,209,95,.2); }
+.cu-fig:first-child{ border-left:0; padding-left:0; }
+.cu-fig .cu-num{ display:block; font:400 clamp(40px,6vw,90px)/1 "JetBrains Mono"; letter-spacing:-.03em; color:var(--mist); }
+.cu-fig span{ display:block; margin-top:12px; max-width:22ch;
+  font:400 13px/1.5 "Bricolage Grotesque"; color:rgba(207,216,200,.7); }
+.cu-fig-moss .cu-num{ color:var(--lichen); }
+
+/* 3 · CTA — закрытие на глубоком тумане */
+.cu-end{ display:grid; place-items:center; text-align:center; }
+.cu-fog--end{ background:
+  radial-gradient(120% 100% at 50% 120%, rgba(59,80,50,.5), transparent 55%),
+  linear-gradient(180deg, rgba(14,19,15,.6), rgba(14,19,15,.82)); }
+.cu-end-block{ position:relative; z-index:3; padding:0 6vw; }
+.cu-end-block h2{ margin:0 0 40px; font:400 clamp(46px,9vw,152px)/.94 "Bricolage Grotesque"; letter-spacing:-.03em;
+  text-shadow:0 8px 60px rgba(10,16,10,.5); }
+.cu-end-block h2 i{ font-style:normal; }
+.cu-btn{ display:inline-block; padding:15px 34px; background:var(--lichen); color:#182010; text-decoration:none;
+  font:500 13px "JetBrains Mono"; letter-spacing:.05em; border-radius:2px;
+  transition:transform .25s, box-shadow .25s; }
+.cu-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 40px rgba(183,209,95,.35); }
+
+@media (prefers-reduced-motion:reduce){
+  .cu .cu-line > i{ transform:none; opacity:1; }
+  .cu-bg .cine-media{ transform:scale(1.06); }
+  .cu-card{ opacity:1; transform:none; filter:none; }
+  .cu-dot{ animation:none; }
+}

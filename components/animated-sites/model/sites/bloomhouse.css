@@ -1,0 +1,114 @@
+/* BLOOMHOUSE — Victorian glasshouse мир. Шрифты Newsreader (display, editorial serif) × Karla (body, sans).
+   Палитра: emerald / blush / glass-white / brass + rose CTA. Стили только .bh-* + копи в .rl-copy. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Karla:wght@400;500;600;700&display=swap');
+
+.bh{ --emerald:#1f5a3a; --emerald-deep:#123c26; --blush:#e8a9b8; --glass:#eef2ea; --brass:#c8963c; --rose:#ff8fae; --ink:#17301f;
+  --rl-void:#123c26; --rl-spark:#f3d3dd;
+  background:var(--glass); color:var(--ink); font-family:"Karla",system-ui,sans-serif; }
+
+/* NAV — скрим сверху для контраста на светлом герое */
+.bh-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw; }
+.bh-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(10,28,18,.40), rgba(10,28,18,0)); }
+.bh-brand{ font:600 20px "Karla"; letter-spacing:.26em; color:var(--glass); text-shadow:0 1px 10px rgba(0,0,0,.4); }
+.bh-nav nav{ display:flex; gap:26px; align-items:center; font:600 13px "Karla"; letter-spacing:.03em; }
+.bh-nav a{ color:rgba(238,242,234,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.35); }
+.bh-nav-cta{ padding:9px 20px; border-radius:999px; background:var(--rose); color:#2b0f18!important; text-shadow:none!important; font-weight:700; }
+
+/* HERO — стеклянная панель (мотив оранжереи) под копи первой сцены: подложка густой листвы иначе съедает текст */
+.bh-hero{ position:relative; padding:30px 34px 32px 30px; margin:-30px 0 0 -30px; border-radius:20px;
+  background:linear-gradient(160deg, rgba(238,242,234,.62), rgba(238,242,234,.26));
+  -webkit-backdrop-filter:blur(16px) saturate(1.08); backdrop-filter:blur(16px) saturate(1.08);
+  border:1px solid rgba(255,255,255,.4); box-shadow:0 30px 70px rgba(18,60,38,.12), inset 0 1px 0 rgba(255,255,255,.55); }
+
+/* HERO / SCENE COPY (внутри .rl-copy движка) */
+.bh-eyebrow,.bh-idx{ font:600 12px "Karla"; letter-spacing:.22em; text-transform:uppercase; color:var(--brass); }
+.bh-idx{ letter-spacing:.15em; }
+.rl-copy h1{ margin:16px 0 20px; font:400 clamp(52px,8.4vw,120px)/.96 "Newsreader",serif; letter-spacing:-.01em; color:var(--emerald-deep);
+  text-shadow:0 2px 30px rgba(238,242,234,.55); }
+.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; color:var(--emerald); }
+.rl-copy h2{ margin:10px 0 16px; font:400 clamp(40px,6.4vw,92px)/1 "Newsreader",serif; color:var(--emerald-deep); text-shadow:0 2px 26px rgba(238,242,234,.5); }
+.rl-copy p{ margin:0 0 26px; max-width:40ch; font:400 16px/1.7 "Karla"; color:#25402c; text-shadow:0 1px 16px rgba(238,242,234,.6); }
+.bh-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.bh-btn{ padding:15px 30px; border-radius:999px; background:var(--rose); color:#2b0f18; text-decoration:none; font:700 15px "Karla"; box-shadow:0 14px 34px rgba(255,143,174,.38); transition:transform .15s ease; }
+.bh-btn:active{ transform:translateY(2px); }
+.bh-ghost{ padding:15px 20px; color:var(--emerald-deep); text-decoration:none; font:600 15px "Karla"; border-bottom:1px solid rgba(18,60,38,.32); }
+
+/* общий kicker */
+.bh-kick{ display:block; font:600 12px "Karla"; letter-spacing:.2em; text-transform:uppercase; color:var(--brass); }
+.bh-link{ color:var(--emerald); text-decoration:none; font:600 15px "Karla"; border-bottom:1px solid rgba(31,90,58,.35); }
+
+/* MANIFESTO */
+.bh-manifest{ padding:19vh 8vw; background:linear-gradient(180deg,var(--glass),#e4ece2); }
+.bh-manifest p{ margin:0 auto; max-width:24ch; text-align:center; font:400 clamp(28px,4.4vw,60px)/1.16 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-manifest em{ font-style:italic; color:var(--emerald); }
+
+/* STEPS — SIGNATURE: горизонтальный ряд */
+.bh-steps{ padding:14vh 8vw 16vh; background:#e4ece2; }
+.bh-steps-head h2{ margin:12px 0 0; max-width:20ch; font:400 clamp(30px,4.4vw,58px)/1.08 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-steps-row{ list-style:none; margin:9vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+.bh-step{ position:relative; padding:0 3vw 0 0; border-left:1px solid rgba(31,90,58,.22); padding-left:2vw; }
+.bh-step:first-child{ border-left:0; padding-left:0; }
+.bh-step-arch{ display:block; height:34px; margin-bottom:22px; border:1px solid var(--brass); border-bottom:0; border-radius:60px 60px 0 0; opacity:.55; }
+.bh-step-n{ display:block; font:400 15px "Newsreader",serif; font-style:italic; color:var(--brass); margin-bottom:10px; }
+.bh-step h3{ margin:0 0 10px; font:500 22px "Newsreader",serif; color:var(--emerald-deep); }
+.bh-step p{ margin:0; max-width:30ch; font:400 14.5px/1.65 "Karla"; color:#3c5747; }
+
+/* GALLERY — четыре залы */
+.bh-gallery{ padding:14vh 8vw 16vh; background:var(--glass); }
+.bh-gallery-head h2{ margin:12px 0 0; max-width:18ch; font:400 clamp(30px,4.4vw,58px)/1.08 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-gallery-row{ margin-top:8vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw; }
+.bh-tile{ position:relative; display:block; aspect-ratio:3/4.2; border-radius:14px; overflow:hidden; background-size:cover; background-position:50% 40%; text-decoration:none; }
+.bh-tile-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(18,60,38,.06) 0%, rgba(12,32,20,.2) 55%, rgba(10,24,15,.82) 100%); }
+.bh-tile-n{ position:relative; display:block; margin:20px 0 0 20px; font:400 15px "Newsreader",serif; font-style:italic; color:var(--blush); }
+.bh-tile h3{ position:relative; margin:0 20px 6px; font:500 22px "Newsreader",serif; color:var(--glass); }
+.bh-tile p{ position:relative; margin:0 20px 20px; max-width:22ch; font:400 13px/1.55 "Karla"; color:rgba(238,242,234,.82); }
+
+/* SPLIT */
+.bh-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:76vh; background:var(--glass); }
+.bh-split-media{ background-size:cover; background-position:50% 42%; order:2; }
+.bh-split-copy{ align-self:center; padding:10vh 6vw; }
+.bh-split-copy h2{ margin:14px 0 18px; max-width:16ch; font:400 clamp(30px,3.6vw,52px)/1.08 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Karla"; color:#33513f; }
+
+/* STATS — тёмная лента для контраста */
+.bh-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--emerald-deep); }
+.bh-stat{ padding:56px 30px; border-left:1px solid rgba(238,242,234,.14); }
+.bh-stat:first-child{ border-left:0; }
+.bh-stat b{ display:block; font:400 clamp(42px,5vw,78px)/1 "Newsreader",serif; color:var(--blush); }
+.bh-stat span{ display:block; margin-top:10px; font:500 12.5px "Karla"; letter-spacing:.03em; color:#9fc0ab; }
+
+/* QUOTE */
+.bh-quote{ padding:19vh 10vw; text-align:center; background:linear-gradient(180deg,var(--glass),#e4ece2); }
+.bh-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(26px,3.6vw,50px)/1.22 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-quote em{ font-style:italic; color:var(--emerald); }
+.bh-quote cite{ display:block; margin-top:32px; font:600 13px "Karla"; letter-spacing:.05em; font-style:normal; color:#5c7b68; }
+
+/* DEAL */
+.bh-deal{ display:grid; place-items:center; padding:16vh 6vw; background:#e4ece2; }
+.bh-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(200,150,60,.4); border-radius:16px; background:var(--glass); }
+.bh-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.bh-price b{ font:400 clamp(48px,6.6vw,86px) "Newsreader",serif; color:var(--emerald-deep); }
+.bh-price span{ font:500 15px "Karla"; color:#4a6857; }
+.bh-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Karla"; color:#4a6857; }
+.bh-note{ display:block; margin-top:18px; font:500 12px "Karla"; letter-spacing:.03em; color:#6f8f7c; }
+
+/* CLIMAX */
+.bh-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 40%; }
+.bh-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 40%, rgba(12,32,20,.32), rgba(9,24,15,.86) 82%); }
+.bh-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
+.bh-climax-copy h2{ margin:0 0 34px; font:400 clamp(38px,5.6vw,86px)/1.06 "Newsreader",serif; color:var(--glass); }
+.bh-climax-copy em{ font-style:italic; color:var(--blush); }
+
+/* FOOT */
+.bh-foot{ display:flex; justify-content:space-between; align-items:center; padding:38px 6vw; background:var(--emerald-deep); color:#8fb09d; font:500 13px "Karla"; }
+.bh-foot .bh-brand{ color:#c9dccd; text-shadow:none; }
+
+@media (max-width:820px){
+  .bh-nav nav a:not(.bh-nav-cta){ display:none; }
+  .bh-split{ grid-template-columns:1fr; } .bh-split-media{ min-height:44vh; order:1; }
+  .bh-stats{ grid-template-columns:1fr 1fr; }
+  .bh-steps-row{ grid-template-columns:1fr 1fr; row-gap:6vh; }
+  .bh-step{ border-left:0; padding-left:0; }
+  .bh-gallery-row{ grid-template-columns:1fr 1fr; }
+}

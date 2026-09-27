@@ -1,0 +1,184 @@
+@import url("https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Noto+Sans+JP:wght@500;700&display=swap");
+/* Концепт 22 — JPRESTAURANT «結 YUI». Рафинированный омакасе. Sumi+washi+vermilion-hanko, negative-space, enso-кисть, вертикальный tategaki-титул, итамаэ за стойкой, hero-dish. */
+.jr-site{--pad:3.8vw;--bg:#14120e;--ink:#ece4d2;--mut:#8f8674;--accent:#c0392b;--washi:#ece4d2;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.jr-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}
+.jr-brand{display:flex;align-items:baseline;gap:10px;font:600 20px "Shippori Mincho",serif;letter-spacing:.14em;color:#f0e9d9}
+.jr-brand i{font:700 20px "Noto Sans JP",sans-serif;font-style:normal;color:var(--accent)}
+.jr-nav{display:flex;gap:22px;align-items:center;font:500 12px "Manrope",sans-serif;color:#b3a992}
+.jr-nav a{opacity:.82}.jr-nav a:hover{opacity:1}
+.jr-book{border:1px solid rgba(192,57,43,.6);border-radius:1px;padding:8px 16px;color:#e8a79d;opacity:1!important}
+.jr-eyebrow{display:block;font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+.jr-jp{font-family:"Noto Sans JP",sans-serif}
+
+.jr-hero .ps-sticky{background:#14120e}
+.jr-bg .ps-media{filter:brightness(.9) saturate(1.02)}
+.jr-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(10,8,5,.42),transparent 30% 58%,rgba(10,8,5,.78))}
+.jr-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+/* enso */
+.jr-enso{place-items:center}
+.jr-enso svg{width:min(50vh,520px);height:auto;overflow:visible;opacity:.16}
+.jr-enso path{fill:none;stroke:#efe7d5;stroke-width:16;stroke-linecap:round}
+
+/* вертикальный титул */
+.jr-title{justify-items:end;align-content:center;padding-right:calc(var(--pad) + .6vw)}
+.jr-title .jr-kanji{writing-mode:vertical-rl;font:600 clamp(80px,15vw,220px)/1 "Shippori Mincho",serif;color:#f0e9d9;letter-spacing:.08em}
+.jr-romaji{position:absolute;z-index:16;right:calc(var(--pad) + min(50vh,220px));top:26vh;writing-mode:vertical-rl;font:600 12px "DM Mono",monospace;letter-spacing:.42em;text-transform:uppercase;color:#b3a992}
+
+.jr-chef .ps-media{width:27vw;height:auto;max-width:none;filter:contrast(1.03) drop-shadow(0 30px 56px rgba(0,0,0,.6))}
+
+/* hero-dish flying card */
+.jr-dish{background:#f2ece0;padding:10px;border-radius:2px;box-shadow:0 26px 54px rgba(0,0,0,.5)}
+.jr-dish img{width:100%;height:auto;display:block;border-radius:1px}
+.jr-dish b{display:block;margin-top:8px;padding:0 2px 2px;font:600 9px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#8f6a55}
+.jr-d1{width:15vw}
+
+/* hanko-печать */
+.jr-hanko{position:absolute;z-index:16;left:var(--pad);bottom:30vh;width:64px;height:64px;background:var(--accent);color:#f2ece0;display:grid;place-content:center;border-radius:3px;transform:rotate(-4deg);box-shadow:0 10px 24px rgba(0,0,0,.4)}
+.jr-hanko span{font:700 22px "Noto Sans JP",sans-serif;line-height:1}
+
+.jr-sub{position:absolute;z-index:16;left:0;right:0;bottom:12vh;text-align:center;font:400 13px "Manrope",sans-serif;letter-spacing:.06em;color:#c9bfa8}
+.jr-sub em{font:600 15px "Shippori Mincho",serif;font-style:normal;color:#e8ddc5}
+.jr-tag{position:absolute;z-index:16;font:600 11px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#a99f88;line-height:1.5}
+.jr-tl{top:96px;left:var(--pad)}
+.jr-bl{bottom:40px;left:var(--pad)}
+.jr-bl b{display:block;font:600 30px "Shippori Mincho",serif;color:var(--accent);line-height:1}
+.jr-bl span{display:block;margin-top:6px;font-size:10px;opacity:.7}
+.jr-cue{position:absolute;z-index:16;left:50%;bottom:24px;transform:translateX(-50%);font:600 10px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+
+/* manifest */
+
+/* CTA */
+
+
+.jr-site a.jr-btn{display:inline-flex;align-items:center;gap:10px;margin-top:34px;padding:16px 32px;border-radius:1px;background:var(--accent);color:#fdf6ea;font:600 13px "Manrope",sans-serif}
+.jr-btn i{font-style:normal}
+
+/* footer */
+.jr-foot{position:relative;z-index:1;background:#0e0b07;color:#8f8674;padding:64px var(--pad) 40px}
+.jr-foot-top b{font:600 24px "Shippori Mincho",serif;letter-spacing:.14em;color:#f0e9d9}
+.jr-foot-top p{margin:12px 0 0;font:400 14px "Manrope",sans-serif;color:#6d6553}
+.jr-foot-legal{display:flex;justify-content:space-between;margin-top:44px;padding-top:22px;border-top:1px solid rgba(192,57,43,.26);font:500 11px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:#615a49}
+
+/* ФАЗА 2 — секции */
+/* お品書き — курсы/галерея */
+
+.jr-workhead h2 .jr-jp{color:var(--accent)}
+
+.jr-gcard b .jr-jp{color:var(--accent);margin-right:6px}
+
+/* 一期一会 — опыт */
+
+.jr-exp .jr-eyebrow{margin-bottom:40px}
+
+/* testimonials */
+
+
+@media(max-width:1100px){.jr-grid{columns:2}}
+@media(max-width:900px){.jr-nav{display:none}.jr-dish,.jr-romaji,.jr-hanko{display:none}.jr-title .jr-kanji{font-size:34vw}.jr-chef .ps-media{width:62vw}
+  .jr-grid{columns:1}.jr-esteps,.jr-qgrid{grid-template-columns:1fr}.jr-workhead{flex-direction:column;align-items:flex-start}.jr-workhead p{text-align:left}}
+
+/* ===== SCENES S2–S6 — refined omakase (sumi/washi/vermilion, negative-space) ===== */
+.jr-scene .ps-sticky{background:#14120e}
+.jr-scene .jr-eyebrow{margin-bottom:16px}
+.jr2-enso,.jr4-enso,.jr5-enso,.jr6-enso{position:absolute;z-index:2;width:58vh;height:58vh;border:2px solid rgba(236,228,210,.1);border-radius:50%;-webkit-mask:conic-gradient(from 35deg,#000 300deg,transparent 340deg);mask:conic-gradient(from 35deg,#000 300deg,transparent 340deg);pointer-events:none}
+
+/* S2 THE COUNTER — шеф + блюдо + enso */
+.jr2-scene .ps-sticky{background:#14120e}
+.jr2-bg .ps-media{filter:contrast(1.04) saturate(1.02) brightness(.84)}
+.jr2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(20,18,14,.55),transparent 46%),linear-gradient(180deg,transparent 38%,rgba(20,18,14,.6))}
+.jr2-enso{left:40%;top:50%;transform:translate(-50%,-50%)}
+.jr2-kanji{position:absolute;z-index:3;right:2.5vw;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font:600 66vh/1 "Shippori Mincho",serif;color:rgba(236,228,210,.06);pointer-events:none}
+.jr2-chef{justify-items:center;align-content:end}
+.jr2-chef .ps-media{width:26vw;height:auto;max-width:none;filter:contrast(1.04) drop-shadow(0 26px 44px rgba(0,0,0,.6))}
+.jr2-card{width:17vw;background:#ece4d2;padding:11px 11px 13px;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.jr2-card .ps-media{width:100%;height:auto;max-width:none;display:block}
+.jr2-card b{display:block;margin-top:8px;font:600 10px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#7a5040}
+.jr2-card b .jr-jp{font-family:"Noto Sans JP",sans-serif;color:#c0392b;margin-right:6px}
+.jr2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.jr2-copy .jr-eyebrow{color:#d0705f}
+.jr2-copy h2{margin:0;font:600 clamp(34px,5vw,80px)/1.06 "Shippori Mincho",serif;color:#ece4d2;letter-spacing:.01em}
+.jr2-copy h2 em{font-style:normal;color:#d0705f}
+.jr2-copy p{margin:18px 0 0;max-width:44ch;font:400 15px/1.75 "Manrope",sans-serif;color:#a89a80}
+
+/* S3 THE COURSES — омакасе по порядку · строки-курсы ставятся со стороны стойки, линии рисуются по --lp */
+.jr3-scene .ps-sticky{background:#14120e}
+.jr3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c1913,#0e0c08)}
+.jr3-kanji{place-items:center}
+.jr3-kanji span{font:600 60vh/1 "Shippori Mincho",serif;color:rgba(192,57,43,.08)}
+.jr3-copy{justify-items:center;align-content:start;text-align:center;padding-top:6vh}
+.jr3-copy .jr-eyebrow{color:#d0705f}
+.jr3-copy h2{margin:0;font:600 clamp(28px,4.2vw,58px)/1.04 "Shippori Mincho",serif;color:#ece4d2}
+.jr3-copy h2 em{font-style:normal;color:#d0705f}
+/* курсы-строки */
+.jr3-course{justify-items:center;align-content:start}
+.jr3-cr1{padding-top:23vh}.jr3-cr2{padding-top:34vh}.jr3-cr3{padding-top:45vh}.jr3-cr4{padding-top:56vh}.jr3-cr5{padding-top:67vh}
+.jr3-row{position:relative;display:grid;grid-template-columns:52px 86px 1fr;gap:0 22px;align-items:center;width:min(720px,86vw);padding:13px 4px}
+.jr3-row::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(236,228,210,.3);transform:scaleX(var(--lp,0));transform-origin:left}
+.jr3-no{font:600 34px "Shippori Mincho",serif;color:var(--accent);text-align:center;line-height:1}
+.jr3-thumb{width:86px;height:60px;overflow:hidden;border-radius:2px;box-shadow:0 8px 18px rgba(0,0,0,.45)}
+.jr3-thumb .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;display:block;filter:saturate(1.04)}
+.jr3-name b{display:block;font:600 clamp(17px,2vw,24px) "Shippori Mincho",serif;color:#ece4d2}
+.jr3-name b .jr-jp{font-family:"Noto Sans JP",sans-serif;color:#d0705f;margin-right:10px}
+.jr3-name s{display:block;margin-top:3px;font:400 12px/1.4 "Manrope",sans-serif;color:#8f8674;text-decoration:none}
+
+/* S4 一期一会 — 3 шага (negative space) */
+.jr4-scene .ps-sticky{background:#14120e}
+.jr4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1a1712,#0e0c08)}
+.jr4-enso{left:50%;top:46%;transform:translate(-50%,-50%);width:64vh;height:64vh}
+.jr4-head{justify-items:center;align-content:start;text-align:center;padding-top:11vh}
+.jr4-head .jr-eyebrow{color:#d0705f}
+.jr4-head h2{margin:0;font:600 clamp(30px,4.4vw,62px)/1.04 "Shippori Mincho",serif;color:#ece4d2}
+.jr4-head h2 em{font-style:normal;color:#d0705f}
+/* энсо прорисовывается кистью (stroke-dashoffset по --lp), пути проявляются внутри */
+.jr4-wayL{place-items:center}
+.jr4-way{position:relative;width:min(720px,86vw);display:grid;place-items:center}
+.jr4-enso2{position:absolute;width:66vh;height:66vh;overflow:visible;transform:rotate(114deg);pointer-events:none}
+.jr4-enso2 circle{fill:none;stroke:#c0392b;stroke-width:12;stroke-linecap:round;opacity:.82;
+  stroke-dasharray:100;stroke-dashoffset:calc(100 - clamp(0, var(--lp,0) * 1.18, 1) * 94);filter:drop-shadow(0 0 8px rgba(192,57,43,.4))}
+.jr4-steps2{position:relative;z-index:2;width:min(560px,74vw)}
+.jr4-step2{display:grid;grid-template-columns:48px 1fr;gap:6px 22px;align-items:baseline;padding:16px 0;border-top:1px solid rgba(236,228,210,.16);
+  opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1));transform:translateY(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1)) * 8px))}
+.jr4-step2:first-child{border-top:none}
+.jr4-step2 i{grid-row:span 2;font:600 34px "Shippori Mincho",serif;color:#c0392b}
+.jr4-step2 b{font:600 clamp(19px,2.2vw,28px) "Shippori Mincho",serif;color:#ece4d2}
+.jr4-step2 s{font:400 13px/1.5 "Manrope",sans-serif;color:#8f8674;text-decoration:none}
+
+/* S5 GUESTS — 木札-таблички гостей, свисают с рейки, падают и качаются */
+.jr5-scene .ps-sticky{background:#14120e}
+.jr5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1a1712,#0c0a07)}
+.jr5-enso{left:6vw;top:50%;transform:translateY(-50%);width:52vh;height:52vh;opacity:.7}
+.jr5-rail{position:absolute;z-index:3;top:17vh;left:5vw;right:5vw;height:4px;background:linear-gradient(#5a4a34,#2e2416 60%,#241b0f);box-shadow:0 3px 8px rgba(0,0,0,.5)}
+.jr5-fuda{justify-items:center;align-content:start}
+.jr5-f1{justify-items:start;padding:18vh 0 0 10vw}
+.jr5-f2{justify-items:center;padding-top:20.5vh}
+.jr5-f3{justify-items:end;padding:19vh 10vw 0 0}
+.jr5-tag{margin:0;display:flex;flex-direction:column;align-items:center;width:min(22vw,300px);transform-origin:top center}
+.jr5-cord{width:2px;height:5vh;background:linear-gradient(#4a3c28,#2a2013);flex:none}
+.jr5-wood{position:relative;width:100%;padding:26px 24px 22px;border-radius:4px;color:#f0e6d2;
+  background:linear-gradient(158deg,#4a3720,#3a2a17 55%,#2c2012);
+  background-image:repeating-linear-gradient(96deg,rgba(0,0,0,.14) 0 2px,transparent 2px 7px),linear-gradient(158deg,#4a3720,#3a2a17 55%,#2c2012);
+  border:1px solid #5c4526;box-shadow:0 22px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,225,180,.14)}
+.jr5-wood::before{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);width:9px;height:9px;border-radius:50%;background:#241a0d;box-shadow:inset 0 1px 2px rgba(0,0,0,.8)}
+.jr5-wood i{display:block;font:700 15px "Noto Sans JP",sans-serif;font-style:normal;color:var(--accent);text-align:center;margin:2px 0 10px}
+.jr5-wood p{margin:0;font:600 clamp(15px,1.5vw,20px)/1.5 "Shippori Mincho",serif;color:#f2ead8;text-align:center}
+.jr5-wood cite{display:block;margin-top:12px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:#c99a6a;text-align:center}
+.jr5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#d0705f}
+
+/* S6 RESERVE — ханко + CTA */
+.jr6-scene .ps-sticky{background:#14120e}
+.jr6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 56% 42%,#1c1712,#0e0c08)}
+.jr6-enso{left:60%;top:50%;transform:translate(-50%,-50%);width:60vh;height:60vh}
+.jr6-hanko{position:absolute;z-index:4;left:62%;top:50%;transform:translate(-50%,-50%) rotate(-4deg);width:20vh;height:20vh;background:#c0392b;display:grid;place-content:center;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.jr6-hanko span{font:600 11vh/1 "Shippori Mincho",serif;color:#ece4d2}
+.jr6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
+.jr6-copy .jr-eyebrow{color:#d0705f}
+.jr6-copy h2{margin:0;font:600 clamp(46px,8vw,132px)/.98 "Shippori Mincho",serif;color:#ece4d2;letter-spacing:.01em}
+.jr6-copy h2 em{font-style:normal;color:#d0705f}
+.jr6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
+.jr6-cta p{margin:0 0 22px;font:400 15px/1.75 "Manrope",sans-serif;color:#a89a80}
+@media(max-width:900px){.jr2-copy,.jr6-cta{max-width:88vw}.jr2-chef .ps-media{width:56vw}.jr2-card{display:none}
+  .jr3-row{grid-template-columns:38px 66px 1fr;gap:0 14px;width:92vw}.jr3-no{font-size:26px}.jr3-thumb{width:66px;height:46px}
+  .jr3-cr1{padding-top:22vh}.jr3-cr2{padding-top:31vh}.jr3-cr3{padding-top:40vh}.jr3-cr4{padding-top:49vh}.jr3-cr5{padding-top:58vh}
+  .jr4-enso2{width:auto;height:auto;inset:-4vh -6vw}.jr4-steps2{width:86vw}.jr4-step2{grid-template-columns:36px 1fr}
+  .jr5-rail{display:none}.jr5-tag{width:74vw}.jr5-cord{display:none}.jr5-fuda{justify-items:center}.jr5-f1{padding:13vh 0 0}.jr5-f2{padding-top:40vh}.jr5-f3{padding:67vh 0 0}.jr6-hanko{display:none}}

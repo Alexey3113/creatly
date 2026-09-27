@@ -1,0 +1,87 @@
+{
+ "fam": "story",
+ "id": "solitude",
+ "url": "story/solitude",
+ "mode": "deck",
+ "deckSel": ".deck",
+ "sceneSel": ".deck-scene",
+ "ms": 16139,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "S1"
+  },
+  {
+   "f": "f01.jpg",
+   "label": "S1→2 mid"
+  },
+  {
+   "f": "f02.jpg",
+   "label": "S2"
+  },
+  {
+   "f": "f03.jpg",
+   "label": "S2→3 mid"
+  },
+  {
+   "f": "f04.jpg",
+   "label": "S3"
+  },
+  {
+   "f": "f05.jpg",
+   "label": "S3→4 mid"
+  },
+  {
+   "f": "f06.jpg",
+   "label": "S4"
+  },
+  {
+   "f": "f07.jpg",
+   "label": "S4→5 mid"
+  },
+  {
+   "f": "f08.jpg",
+   "label": "S5"
+  },
+  {
+   "f": "f09.jpg",
+   "label": "S5→6 mid"
+  },
+  {
+   "f": "f10.jpg",
+   "label": "S6"
+  },
+  {
+   "f": "f11.jpg",
+   "label": "S6→7 mid"
+  },
+  {
+   "f": "f12.jpg",
+   "label": "S7"
+  },
+  {
+   "f": "f13.jpg",
+   "label": "S7→8 mid"
+  },
+  {
+   "f": "f14.jpg",
+   "label": "S8"
+  }
+ ],
+ "stats": {
+  "title": "Story Sites — Creatly | Creatly",
+  "screens": 1,
+  "sections": 8,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 15,
+  "sticky": 0,
+  "fixed": 5,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

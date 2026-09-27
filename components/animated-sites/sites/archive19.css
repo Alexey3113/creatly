@@ -1,0 +1,118 @@
+/* MERIDIAN ARCHIVE — editorial-motion, pinned-photo + cross-fade копи-панелей на ScrollStage.
+   Кадр читального зала закреплён (.scene-sticky клипит), ken-burns scale по --t; три .av-panel
+   сменяются окнами --t (fade+clip). Строки-маски по --d; числа считает rAF в компоненте.
+   --scroll/--px/--py — с корня; --t — со сцены. Палитра снята с кадра.
+   Шрифт: Spectral (serif-герой) + IBM Plex Mono (лейблы/числа). */
+@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+.av{
+  --paper:#efe6d2; --paper-2:#e6d9bd; --ink:#241a10; --ink-soft:#4c3d29;
+  --walnut:#43301d; --walnut-2:#2a1c0f;
+  --brass:#b58a3e; --gold:#caa250; --green:#3f6b47; --dim:#8a7c63;
+  background:var(--paper); color:var(--ink); font-family:"Spectral",Georgia,serif;
+}
+.av .av-line{ display:block; overflow:hidden; }
+.av .av-line > i{ display:block; font-style:normal;
+  --p:clamp(0, calc((var(--t,0) - 0.08 - var(--d,0)*0.06) * 3.2), 1);
+  transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
+.av-gold > i, .av-gold{ color:var(--brass); font-style:italic; }
+.av-num{ font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-weight:500; color:var(--brass); }
+.av-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between; z-index:6;
+  font:500 11px "IBM Plex Mono"; letter-spacing:.2em; color:var(--dim); text-transform:uppercase; }
+.av-cue{ position:absolute; bottom:5vh; left:6vw; z-index:6;
+  font:500 11px "IBM Plex Mono"; letter-spacing:.16em; color:var(--dim); }
+.av-eyebrow{ margin:0 0 24px; font:500 12px "IBM Plex Mono"; letter-spacing:.24em; text-transform:uppercase; color:var(--ink-soft); }
+
+/* 0 · COVER — тёплая бумага, тиснёный засечный герой */
+.av-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw;
+  background:
+    radial-gradient(120% 90% at 82% 12%, rgba(202,162,80,.22), transparent 55%),
+    linear-gradient(160deg,#f3ead7,#e4d5b6); }
+.av-cover-in{ position:relative; z-index:3; }
+.av-hero{ margin:0; max-width:15ch; font:300 clamp(48px,10vw,168px)/.96 "Spectral"; letter-spacing:-.015em; }
+.av-hero i{ font-style:normal; }
+.av-hero .av-gold i{ font-style:italic; }
+/* тонкая штриховка-«текстура бумаги» поверх обложки */
+.av-cover::after{ content:""; position:absolute; inset:0; pointer-events:none; opacity:.5; z-index:1;
+  background:repeating-linear-gradient(180deg, rgba(67,48,29,.03) 0 2px, transparent 2px 4px); }
+
+/* 1 · PINNED READING ROOM — кадр закреплён, панели сменяются. overflow:visible чинит sticky. */
+.av-room{ overflow:visible; }
+.av-room .scene-sticky{ background:#1c130a; }
+.av-photo{ position:absolute; inset:0; overflow:hidden; }
+.av-photo .cine-media{
+  /* ken-burns: наезд + дрейф точки съёмки по прогрессу */
+  transform:scale(calc(1.06 + var(--t,0)*0.16)) translate(calc(var(--t,0)*-2.5%), calc(var(--t,0)*-1.5%));
+  transform-origin:60% 45%; will-change:transform; }
+/* грейд в палитру кадра + читаемость панелей слева */
+.av-grade{ position:absolute; inset:0;
+  background:
+    linear-gradient(90deg, rgba(20,13,6,.82) 0%, rgba(20,13,6,.55) 34%, rgba(20,13,6,.05) 64%, transparent 100%),
+    linear-gradient(0deg, rgba(20,13,6,.5), transparent 40%);
+  mix-blend-mode:multiply; }
+.av-vignette{ position:absolute; inset:0; box-shadow:inset 0 0 220px 60px rgba(15,9,4,.7);
+  background:radial-gradient(120% 80% at 70% 30%, rgba(202,162,80,.12), transparent 55%); }
+
+/* прогресс-корешок (thin brass rule заполняется по --t) */
+.av-spine{ position:absolute; top:22vh; bottom:22vh; right:6vw; width:2px; z-index:5;
+  background:rgba(202,162,80,.22); }
+.av-spine-fill{ position:absolute; top:0; left:0; right:0; height:calc(var(--t,0)*100%);
+  background:linear-gradient(180deg,var(--gold),var(--brass)); box-shadow:0 0 14px rgba(202,162,80,.6); }
+.av-chapter{ position:absolute; bottom:6vh; right:6vw; z-index:5;
+  font:500 11px "IBM Plex Mono"; letter-spacing:.18em; text-transform:uppercase; color:rgba(239,230,210,.6); }
+
+/* копи-панели — все absolute в одной точке, окно --t их гасит/вводит */
+.av-panel{ position:absolute; left:6vw; top:50%; z-index:4; width:min(46vw,560px);
+  --in:clamp(0, calc((var(--t,0) - var(--s)) / 0.09), 1);
+  --out:clamp(0, calc((var(--e) - var(--t,0)) / 0.09), 1);
+  --show:min(var(--in), var(--out));
+  opacity:var(--show);
+  transform:translateY(calc(-50% + (1 - var(--show)) * 26px));
+  clip-path:inset(0 0 calc((1 - var(--show)) * 100%) 0);
+  will-change:transform, opacity, clip-path; pointer-events:none; }
+.av-tag{ display:inline-block; margin-bottom:20px; padding:5px 11px;
+  font:500 11px "IBM Plex Mono"; letter-spacing:.2em; text-transform:uppercase;
+  color:#1c130a; background:var(--gold); }
+.av-tag-green{ background:var(--green); color:#eef3ea; }
+.av-panel h2{ margin:0 0 22px; color:#f4ecd9; font:300 clamp(34px,5.6vw,80px)/.98 "Spectral"; letter-spacing:-.01em; }
+.av-panel h2 em{ font-style:italic; color:var(--gold); }
+.av-panel p{ margin:0; max-width:34ch; color:rgba(240,231,212,.82);
+  font:300 clamp(16px,1.5vw,21px)/1.6 "Spectral"; }
+.av-panel p .av-num{ color:var(--gold); }
+
+/* 2 · LEDGER — редакционная строка + фигуры на бумаге */
+.av-ledger{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw;
+  background:linear-gradient(180deg,#ece0c8,#e3d4b4); }
+.av-ledger-lead{ margin:0 0 7vh; max-width:24ch; font:300 clamp(30px,5vw,78px)/1.04 "Spectral"; letter-spacing:-.01em; }
+.av-ledger-lead i{ font-style:normal; }
+.av-figs{ display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid rgba(67,48,29,.28); }
+.av-fig{ padding:34px 24px 30px; border-left:1px solid rgba(67,48,29,.28); }
+.av-fig:first-child{ border-left:0; padding-left:0; }
+.av-fig .av-num{ display:block; font:500 clamp(40px,6vw,88px)/1 "IBM Plex Mono"; letter-spacing:-.03em; color:var(--ink); }
+.av-fig span{ display:block; margin-top:12px; max-width:22ch;
+  font:400 13px/1.5 "Spectral"; letter-spacing:.01em; color:var(--ink-soft); }
+.av-fig-green .av-num{ color:var(--green); }
+
+/* 3 · COLOPHON — закрытие на тёплой бумаге */
+.av-end{ display:grid; place-items:center; text-align:center;
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(202,162,80,.28), transparent 52%),
+    linear-gradient(180deg,#f2e9d6,#e6d7b8); }
+.av-end-block{ position:relative; z-index:2; padding:0 6vw; }
+.av-end-block h2{ margin:0 0 40px; font:300 clamp(46px,9vw,150px)/.96 "Spectral"; letter-spacing:-.015em; }
+.av-end-block h2 i{ font-style:normal; }
+.av-end-block h2 .av-gold i{ font-style:italic; }
+.av-btn{ display:inline-block; padding:15px 34px; border:1px solid var(--brass); border-radius:999px;
+  color:var(--walnut-2); text-decoration:none; font:500 13px "IBM Plex Mono"; letter-spacing:.06em;
+  transition:background .3s, color .3s; }
+.av-btn:hover{ background:var(--brass); color:#1c130a; }
+
+@media (prefers-reduced-motion:reduce){
+  .av .av-line > i{ transform:none; opacity:1; }
+  .av-photo .cine-media{ transform:scale(1.06); }
+  .av-spine-fill{ height:100%; }
+  /* без скраба показываем панели вертикальным потоком */
+  .av-room .scene-sticky{ height:auto; }
+  .av-panel{ position:relative; left:0; top:0; opacity:1; transform:none; clip-path:none;
+    width:auto; padding:8vh 6vw; }
+}

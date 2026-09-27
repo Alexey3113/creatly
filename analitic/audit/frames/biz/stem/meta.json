@@ -1,0 +1,105 @@
+{
+ "fam": "biz",
+ "id": "stem",
+ "url": "visual-hooks/stem",
+ "mode": "scroll",
+ "ms": 17035,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.5vh",
+   "y": 482
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 964
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.6vh",
+   "y": 1446
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.1vh",
+   "y": 1928
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.7vh",
+   "y": 2410
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.2vh",
+   "y": 2892
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.7vh",
+   "y": 3374
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.3vh",
+   "y": 3856
+  },
+  {
+   "f": "f09.jpg",
+   "label": "4.8vh",
+   "y": 4338
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.4vh",
+   "y": 4820
+  },
+  {
+   "f": "f11.jpg",
+   "label": "5.9vh",
+   "y": 5302
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.4vh",
+   "y": 5784
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.0vh",
+   "y": 6266
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.5vh",
+   "y": 6748
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.0vh",
+   "y": 7230
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 9,
+  "sections": 8,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 11,
+  "sticky": 1,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

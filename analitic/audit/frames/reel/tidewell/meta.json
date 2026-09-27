@@ -1,0 +1,115 @@
+{
+ "fam": "reel",
+ "id": "tidewell",
+ "url": "animated/w-tidewell",
+ "mode": "scroll",
+ "ms": 19603,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 509
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1017
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1526
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.3vh",
+   "y": 2034
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2543
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3051
+  },
+  {
+   "f": "f07.jpg",
+   "label": "4.0vh",
+   "y": 3560
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4068
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.1vh",
+   "y": 4577
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.7vh",
+   "y": 5085
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.2vh",
+   "y": 5594
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.8vh",
+   "y": 6102
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.3vh",
+   "y": 6611
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.9vh",
+   "y": 7119
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.5vh",
+   "y": 7628
+  },
+  {
+   "f": "f16.jpg",
+   "label": "9.0vh",
+   "y": 8136
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.6vh",
+   "y": 8645
+  }
+ ],
+ "stats": {
+  "title": "Creatly — AI-конструктор сайтов",
+  "screens": 10.6,
+  "sections": 11,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 8,
+  "sticky": 1,
+  "fixed": 1,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [],
+ "failed": []
+}

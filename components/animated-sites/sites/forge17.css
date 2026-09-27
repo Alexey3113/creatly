@@ -1,0 +1,88 @@
+/* FORGE — kinetic-typography. Гигант-слово FORGE фиксировано в sticky pin-вьюпорте; карты летят
+   сквозь него по --t. Motion-blur = 2 ghost-силуэта, разъезд по --vel. --scroll/--vel — с корня .reel;
+   --t — со сцены. Палитра: сталь + near-black + красный tab. Шрифт: Archivo (грубый гротеск). */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&display=swap');
+
+.fg{
+  --steel:#8b929c; --steel-dim:#3a3f47; --ink:#0c0e11; --ink-2:#15181d; --bone:#e7e9ec; --red:#e6382c;
+  background:var(--ink); color:var(--bone); font-family:"Archivo",system-ui,sans-serif;
+}
+.fg-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#6b7078; z-index:6; }
+.fg-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.14em; color:#6b7078; z-index:6; }
+
+/* 0 · COVER */
+.fg-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 5vw;
+  background:linear-gradient(180deg,#0c0e11,#15181d 70%,#0c0e11); }
+.fg-hero{ margin:0; display:flex; flex-direction:column; line-height:.82; }
+.fg-hero-l{ font:900 clamp(64px,17.5vw,290px)/.82 "Archivo",sans-serif; letter-spacing:-.045em;
+  color:var(--bone); transform:skewX(calc(var(--vel,0) * -1.6deg)); transform-origin:left center; will-change:transform; }
+.fg-hero-l:nth-child(2){ margin-left:9vw; color:var(--steel); }
+.fg-outline{ color:transparent; -webkit-text-stroke:2px var(--steel-dim); }
+.fg-tab{ position:absolute; top:calc(5vh + 30px); left:6vw; display:inline-flex; align-items:center; gap:9px;
+  background:var(--red); color:#fff; font:700 11px "Archivo"; letter-spacing:.16em; text-transform:uppercase;
+  padding:7px 13px; z-index:6; }
+.fg-tab i{ width:8px; height:8px; background:#fff; display:block; }
+
+/* 1 · FORGE — фикс-слово + летящие карты. overflow:visible чинит sticky (база .scene клипует и ломает pin);
+   клип летящих карт берёт на себя .scene-sticky (у него свой overflow:hidden). */
+.fg-forge{ overflow:visible; background:radial-gradient(120% 90% at 50% 40%,#191d23,#0c0e11 70%); }
+.fg-forge .scene-sticky{ display:grid; place-items:center; }
+.fg-word{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  font:900 30vw/.8 "Archivo",sans-serif; letter-spacing:-.05em; white-space:nowrap; pointer-events:none; }
+.fg-word--back{ color:#1c2027; z-index:1; }
+/* передний слой — только штрих, карты видны сквозь очертания букв (z-сэндвич) */
+.fg-word--front{ color:transparent; -webkit-text-stroke:2px #2b3038; z-index:4;
+  transform:translate(-50%,-50%) skewX(calc(var(--vel,0)*-.6deg)); mix-blend-mode:screen; }
+
+.fg-cards{ position:absolute; inset:0; z-index:3; }
+.fg-card{
+  position:absolute; left:50%; top:calc(14% + var(--i,0) * 19%); width:min(38vw,440px);
+  /* локальный прогресс карты: стартует со сдвигом по индексу, разложен на всю сцену */
+  --cp:clamp(0, calc((var(--t,0) - var(--i,0)*0.18) * 1.5), 1);
+  /* +110vw (справа за кадром) → -110vw (слева за кадром); центр в cp=0.5 */
+  transform:translate(calc(-50% + (0.5 - var(--cp)) * 230vw), -50%);
+  background:linear-gradient(160deg,#20252c,#161a20); border:1px solid #33393f;
+  border-left:3px solid var(--red); padding:22px 24px 24px; box-shadow:0 24px 60px rgba(0,0,0,.55);
+  opacity:clamp(0, calc(var(--cp) * 6), calc((1 - var(--cp)) * 6)); will-change:transform,opacity;
+}
+.fg-card-n{ font:700 12px "Archivo"; letter-spacing:.24em; color:var(--red); }
+.fg-card b{ display:block; margin:6px 0 8px; font:900 clamp(26px,3vw,46px)/.95 "Archivo"; letter-spacing:-.02em; color:var(--bone); }
+.fg-card p{ margin:0; font:400 14px/1.45 "Archivo"; color:#9aa1a9; max-width:26ch; }
+/* motion-blur: 2 ghost-силуэта карты, разъезд по --vel (смаз только на скорости) */
+.fg-card::before,.fg-card::after{ content:""; position:absolute; inset:0; z-index:-1;
+  background:#20252c; border-left:3px solid var(--red); will-change:transform,opacity; }
+.fg-card::before{ transform:translateX(calc(var(--vel,0) * 2.4vw)); opacity:.35; }
+.fg-card::after{ transform:translateX(calc(var(--vel,0) * 5vw)); opacity:.16; }
+
+.fg-forge-meta{ position:absolute; bottom:5vh; left:6vw; right:6vw; z-index:5; display:flex; justify-content:space-between;
+  font:700 11px "Archivo"; letter-spacing:.2em; color:#5c626a; }
+
+/* 2 · SPEC BAND */
+.fg-band{ display:flex; flex-direction:column; justify-content:center; gap:9vh; background:var(--ink-2); }
+.fg-band-row{ white-space:nowrap; font:900 9vw/1 "Archivo"; letter-spacing:-.02em; color:#23282f;
+  transform:translateX(calc((var(--t,0) - .5) * -60vw)) skewX(calc(var(--vel,0) * -2.4deg)); will-change:transform; }
+.fg-spec{ display:grid; grid-template-columns:repeat(4,1fr); padding:0 6vw; border-top:1px solid #2a2f36; }
+.fg-spec > div{ padding:34px 0; border-left:1px solid #2a2f36; padding-left:22px; }
+.fg-spec > div:first-child{ border-left:0; padding-left:0; }
+.fg-spec b{ display:block; font:900 clamp(38px,6vw,88px)/1 "Archivo"; letter-spacing:-.03em; color:var(--bone); }
+.fg-spec span{ font:700 11px "Archivo"; letter-spacing:.2em; text-transform:uppercase; color:#6b7078; }
+.fg-spec-red b{ color:var(--red); }
+
+/* 3 · CLOSER */
+.fg-end{ display:grid; place-items:center; text-align:center;
+  background:radial-gradient(120% 100% at 50% 120%,#2a0f0c,#0c0e11 60%); }
+.fg-end-h{ margin:0; font:900 clamp(60px,14vw,220px)/.82 "Archivo"; letter-spacing:-.045em; color:var(--bone);
+  transform:skewX(calc(var(--vel,0) * -1.6deg)); will-change:transform; }
+.fg-end-red{ color:var(--red); }
+.fg-btn{ position:absolute; bottom:13vh; padding:16px 34px; background:var(--red); color:#fff; text-decoration:none;
+  font:700 14px "Archivo"; letter-spacing:.06em; text-transform:uppercase; transition:transform .25s, box-shadow .25s; }
+.fg-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 34px rgba(230,56,44,.4); }
+
+@media (prefers-reduced-motion:reduce){
+  .fg-hero-l,.fg-end-h,.fg-word--front,.fg-band-row{ transform:none; }
+  .fg-card{ position:relative; left:auto; top:auto; transform:none; opacity:1; width:auto; margin:14px 6vw; }
+  .fg-card::before,.fg-card::after{ display:none; }
+  .fg-cards{ position:relative; inset:auto; display:flex; flex-direction:column; padding:12vh 0; }
+  .fg-word{ opacity:.25; }
+}

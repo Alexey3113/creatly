@@ -1,0 +1,132 @@
+/* EMBERFALL — autumn valley farm-stay мир. Шрифты Zilla Slab (display, heritage slab-serif) ×
+   Figtree (body, warm rounded grotesque). Палитра: amber / rust / gold / pine + amber CTA.
+   Стили только .ef-* + копи в .rl-copy под своим корнем .ef. */
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Figtree:wght@400;500;600;700&display=swap');
+
+.ef{ --amber:#c25a2a; --rust:#8a2f22; --gold:#e0a94a; --pine:#3a5a44; --cta:#ff8a3a;
+  --cream:#f7ecd9; --ink:#2a1810; --bark:#20140d;
+  --rl-void:#20140d; --rl-spark:#ffc978;
+  background:var(--bark); color:var(--ink); font-family:"Figtree",system-ui,sans-serif; }
+
+/* NAV — скрим сверху для контраста поверх светлого героя */
+.ef-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
+.ef-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(28,15,8,.46), rgba(28,15,8,0)); }
+.ef-brand{ font:700 21px "Zilla Slab",serif; letter-spacing:.14em; color:var(--cream); text-shadow:0 1px 10px rgba(0,0,0,.45); }
+.ef-nav nav{ display:flex; gap:28px; align-items:center; font:600 13px "Figtree",system-ui,sans-serif; letter-spacing:.02em; }
+.ef-nav a{ color:rgba(247,236,217,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.ef-nav-cta{ padding:10px 20px; border-radius:8px; background:var(--cta); color:#2a1206!important; text-shadow:none!important; font-weight:700; }
+
+/* HERO / SCENE COPY — все 4 сцены светлые (dark:false), copy сидит в frosted-подложке "linen scrim" */
+.ef-eyebrow,.ef-idx{ font:700 12px "Figtree",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--rust); }
+.rl-copy{ padding:26px 30px 30px; border-radius:14px;
+  background:linear-gradient(165deg, rgba(247,236,217,.82), rgba(240,222,193,.68));
+  -webkit-backdrop-filter:blur(14px) saturate(1.1); backdrop-filter:blur(14px) saturate(1.1);
+  border:1px solid rgba(255,255,255,.5); box-shadow:0 20px 50px rgba(32,17,9,.28); }
+.rl-copy h1{ margin:14px 0 18px; font:700 clamp(44px,7.4vw,102px)/.98 "Zilla Slab",serif; letter-spacing:-.01em; color:var(--bark); }
+.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; font-weight:500; color:var(--rust); }
+.rl-copy h2{ margin:8px 0 14px; font:600 clamp(34px,5.4vw,68px)/1 "Zilla Slab",serif; color:var(--bark); }
+.rl-copy p{ margin:0 0 24px; max-width:40ch; font:400 16px/1.65 "Figtree",system-ui,sans-serif; color:#3a2416; }
+.ef-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+.ef-btn{ padding:15px 30px; border-radius:8px; background:var(--cta); color:#2a1206; text-decoration:none; font:700 15px "Figtree",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,138,58,.34); white-space:nowrap; transition:transform .15s ease; }
+.ef-btn:active{ transform:translateY(2px); }
+.ef-ghost{ padding:15px 6px; color:var(--bark); text-decoration:none; font:600 15px "Figtree",system-ui,sans-serif; border-bottom:2px solid rgba(42,24,16,.35); white-space:nowrap; }
+
+.ef-kick{ display:block; font:700 12px "Figtree",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--rust); }
+.ef-link{ color:var(--rust); text-decoration:none; font:600 15px "Figtree",system-ui,sans-serif; }
+
+/* BIG-TYPE STATEMENT */
+.ef-statement{ padding:22vh 8vw; background:linear-gradient(180deg,#20140d,#1a1009); text-align:center; }
+.ef-statement p{ margin:0 auto; max-width:20ch; font:600 clamp(30px,5vw,68px)/1.14 "Zilla Slab",serif; color:var(--cream); }
+.ef-statement em{ font-style:italic; font-weight:400; color:var(--gold); }
+
+/* FEATURE-CARDS — SIGNATURE, 2x2 rich cards over scene stills */
+.ef-stages{ padding:16vh 6vw 14vh; background:#1a1009; }
+.ef-stages-head{ text-align:center; margin-bottom:7vh; }
+.ef-stages-head h2{ margin:12px 0 0; font:600 clamp(32px,5vw,64px)/1.04 "Zilla Slab",serif; color:var(--cream); }
+.ef-stages-head .ef-kick{ text-align:center; }
+.ef-stages-grid{ display:grid; grid-template-columns:1fr 1fr; gap:2vw; max-width:78rem; margin:0 auto; }
+.ef-stage-card{ position:relative; min-height:340px; border-radius:16px; padding:34px 30px; display:flex; flex-direction:column; justify-content:flex-end;
+  background-size:cover; background-position:50% 42%; overflow:hidden; box-shadow:0 24px 50px rgba(10,4,2,.4); }
+.ef-stage-n{ position:absolute; top:24px; right:28px; font:400 15px "Figtree",system-ui,sans-serif; letter-spacing:.1em; color:rgba(247,236,217,.75); }
+.ef-stage-card h3{ margin:0 0 10px; font:600 clamp(24px,2.6vw,34px) "Zilla Slab",serif; color:var(--cream); text-shadow:0 2px 14px rgba(0,0,0,.5); }
+.ef-stage-card p{ margin:0; max-width:34ch; font:400 14.5px/1.6 "Figtree",system-ui,sans-serif; color:rgba(247,236,217,.9); text-shadow:0 2px 10px rgba(0,0,0,.5); }
+
+/* STEPS / PROCESS — horizontal itinerary */
+.ef-days{ padding:16vh 6vw; background:#1c110a; }
+.ef-days-head{ margin-bottom:7vh; }
+.ef-days-head h2{ margin:12px 0 0; font:600 clamp(30px,4.6vw,58px)/1.04 "Zilla Slab",serif; color:var(--cream); }
+.ef-days-row{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; }
+.ef-day{ padding:26px 0 0; border-top:2px solid rgba(224,169,74,.32); }
+.ef-day-n{ display:block; font:700 12px "Figtree",system-ui,sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; }
+.ef-day h3{ margin:0 0 10px; font:600 clamp(19px,2vw,24px) "Zilla Slab",serif; color:var(--cream); }
+.ef-day p{ margin:0; font:400 14.5px/1.6 "Figtree",system-ui,sans-serif; color:#c9ab8a; max-width:26ch; }
+
+/* SPLIT — method */
+.ef-method{ display:grid; grid-template-columns:1fr 1.05fr; min-height:76vh; background:#20140d; }
+.ef-method-media{ background-size:cover; background-position:50% 48%; order:2; }
+.ef-method-copy{ align-self:center; padding:10vh 6vw; order:1; }
+.ef-method-copy h2{ margin:14px 0 18px; font:600 clamp(28px,3.6vw,50px)/1.08 "Zilla Slab",serif; color:var(--cream); }
+.ef-method-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Figtree",system-ui,sans-serif; color:#c9ab8a; }
+
+/* STATS */
+.ef-numbers{ display:grid; grid-template-columns:repeat(4,1fr); background:#160d07; border-top:1px solid rgba(224,169,74,.2); }
+.ef-number{ padding:56px 28px; border-left:1px solid rgba(224,169,74,.2); }
+.ef-number:first-child{ border-left:0; }
+.ef-number b{ display:block; font:600 clamp(42px,5vw,80px)/1 "Zilla Slab",serif; color:var(--gold); }
+.ef-number span{ display:block; margin-top:10px; font:500 13px "Figtree",system-ui,sans-serif; letter-spacing:.02em; color:#b99a7a; }
+
+/* MARQUEE */
+.ef-marquee{ overflow:hidden; background:var(--rust); padding:20px 0; border-top:1px solid rgba(0,0,0,.15); border-bottom:1px solid rgba(0,0,0,.15); }
+.ef-marquee-track{ display:flex; width:max-content; animation:ef-scroll 26s linear infinite; }
+.ef-marquee-track span{ flex:0 0 auto; font:700 26px "Zilla Slab",serif; letter-spacing:.02em; color:var(--cream); padding-right:0; white-space:nowrap; }
+@keyframes ef-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+/* QUOTE */
+.ef-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,#1a1009,#20140d); }
+.ef-quote blockquote{ margin:0 auto; max-width:26ch; font:500 clamp(26px,3.6vw,50px)/1.24 "Zilla Slab",serif; color:var(--cream); }
+.ef-quote em{ font-style:italic; font-weight:400; color:var(--gold); }
+.ef-quote cite{ display:block; margin-top:32px; font:600 13px "Figtree",system-ui,sans-serif; letter-spacing:.06em; font-style:normal; color:#a3826a; }
+
+/* FAQ / ACCORDION */
+.ef-faq{ padding:16vh 6vw; background:#1c110a; }
+.ef-faq-head{ margin-bottom:6vh; }
+.ef-faq-head h2{ margin:12px 0 0; font:600 clamp(30px,4.6vw,58px)/1.04 "Zilla Slab",serif; color:var(--cream); }
+.ef-faq-list{ max-width:52rem; margin:0 auto; }
+.ef-faq-item{ border-top:1px solid rgba(224,169,74,.24); padding:22px 0; }
+.ef-faq-item:last-child{ border-bottom:1px solid rgba(224,169,74,.24); }
+.ef-faq-item summary{ cursor:pointer; list-style:none; font:600 19px "Zilla Slab",serif; color:var(--cream); display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.ef-faq-item summary::-webkit-details-marker{ display:none; }
+.ef-faq-item summary::after{ content:"+"; font:400 26px "Figtree",system-ui,sans-serif; color:var(--gold); flex:0 0 auto; transition:transform .2s ease; }
+.ef-faq-item[open] summary::after{ transform:rotate(45deg); }
+.ef-faq-item p{ margin:16px 0 0; max-width:56ch; font:400 15px/1.7 "Figtree",system-ui,sans-serif; color:#c9ab8a; }
+
+/* DEAL */
+.ef-stay{ display:grid; place-items:center; padding:18vh 6vw; background:#20140d; }
+.ef-stay-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(224,169,74,.3); border-radius:18px; background:#1a1009; }
+.ef-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.ef-price b{ font:700 clamp(48px,7vw,88px) "Zilla Slab",serif; color:var(--cream); }
+.ef-price span{ font:500 15px "Figtree",system-ui,sans-serif; color:#b99a7a; }
+.ef-stay-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Figtree",system-ui,sans-serif; color:#b99a7a; }
+.ef-note{ display:block; margin-top:18px; font:500 12px "Figtree",system-ui,sans-serif; letter-spacing:.04em; color:#8a6d54; }
+
+/* CLIMAX */
+.ef-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
+.ef-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(28,15,8,.5), rgba(18,9,5,.92) 78%); }
+.ef-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
+.ef-climax-copy h2{ margin:0 0 34px; font:600 clamp(38px,5.6vw,88px)/1.04 "Zilla Slab",serif; color:var(--cream); }
+.ef-climax-copy em{ font-style:italic; font-weight:400; color:var(--gold); }
+
+/* FOOT */
+.ef-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#140b06; color:#8a6d54; font:500 13px "Figtree",system-ui,sans-serif; }
+.ef-foot .ef-brand{ color:#b99a7a; text-shadow:none; }
+
+@media (max-width:820px){
+  .ef-nav nav a:not(.ef-nav-cta){ display:none; }
+  .ef-stages-grid{ grid-template-columns:1fr; }
+  .ef-days-row{ grid-template-columns:1fr 1fr; }
+  .ef-method{ grid-template-columns:1fr; }
+  .ef-method-media{ min-height:44vh; order:1; }
+  .ef-method-copy{ order:2; }
+  .ef-numbers{ grid-template-columns:1fr 1fr; }
+}

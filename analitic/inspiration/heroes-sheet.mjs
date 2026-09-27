@@ -1,0 +1,10 @@
+import { chromium } from "playwright";
+const OUT="/private/tmp/claude-501/-Users-leo-programming-creatly/bdd54b0f-9e8c-49ef-b597-ab49ed07efbb/scratchpad";
+const slugs=["chrome","rosaline","seraph","salt","deity","corrosive","ardour","aesthetic","handover","alexander","lover","justice","nocturne","chivalry","ostpuck"];
+const cells=slugs.map(s=>`<div style="position:relative"><img src="http://127.0.0.1:3011/uploads/1/story2/${s}-hero.jpg" style="width:100%;height:220px;object-fit:cover;display:block;background:#222"/><span style="position:absolute;left:4px;bottom:4px;background:#000;color:#0f0;font:12px monospace;padding:2px 5px">${s}</span></div>`).join("");
+const html=`<body style="margin:0;background:#111;display:grid;grid-template-columns:repeat(5,1fr);gap:4px">${cells}</body>`;
+const b=await chromium.launch();
+const pg=await b.newContext({viewport:{width:1500,height:680}}).then(c=>c.newPage());
+await pg.setContent(html); await pg.waitForTimeout(2500);
+await pg.screenshot({path:`${OUT}/heroes-sheet.jpg`,quality:88,type:"jpeg"});
+await b.close(); console.log("sheet готов");

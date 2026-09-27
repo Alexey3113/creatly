@@ -2,15 +2,8 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { BuilderShell } from "@/components/editor/BuilderShell";
-import { OnboardingTour } from "@/components/editor/OnboardingTour";
-import { ToastProvider } from "@/components/editor/Toast";
-
-interface UserData {
-  id: number;
-  username?: string;
-  firstName?: string;
-}
+import { EditorShell } from "@/components/editor2/EditorShell";
+import type { SiteDocument } from "@/lib/site/types";
 
 export default function EditorPage() {
   return (
@@ -23,14 +16,10 @@ export default function EditorPage() {
 function EditorPageInner() {
   const router = useRouter();
   const params = useSearchParams();
-  const [user, setUser] = useState<UserData | null>(null);
   const [ready, setReady] = useState(false);
-  const [generatedSite, setGeneratedSite] = useState<{ html: string; css: string; js: string } | null>(null);
-  const [showTour, setShowTour] = useState(false);
+  const [generatedDoc, setGeneratedDoc] = useState<SiteDocument | null>(null);
 
   const projectId = params.get("project") ? Number(params.get("project")) : null;
-  const templateId = params.get("template");
-  const uploadMode = params.get("upload") === "1";
   const isGenerated = params.get("generated") === "1";
 
   useEffect(() => {
@@ -38,20 +27,16 @@ function EditorPageInner() {
       .then((r) => r.json())
       .then((data) => {
         if (data.user) {
-          setUser(data.user);
           if (isGenerated) {
             try {
-              const stored = sessionStorage.getItem("sb_generated");
+              const stored = sessionStorage.getItem("sb_generated_doc");
               if (stored) {
-                setGeneratedSite(JSON.parse(stored));
-                sessionStorage.removeItem("sb_generated");
+                setGeneratedDoc(JSON.parse(stored));
+                sessionStorage.removeItem("sb_generated_doc");
               }
             } catch {}
           }
           setReady(true);
-          if (!localStorage.getItem("sb_tour_done")) {
-            setShowTour(true);
-          }
         } else {
           router.replace("/auth");
         }
@@ -59,28 +44,14 @@ function EditorPageInner() {
       .catch(() => router.replace("/auth"));
   }, [router, isGenerated]);
 
-  if (!ready) {
-    return <EditorLoading />;
-  }
-
-  function completeTour() {
-    localStorage.setItem("sb_tour_done", "1");
-    setShowTour(false);
-  }
+  if (!ready) return <EditorLoading />;
 
   return (
-    <ToastProvider>
-      {showTour && <OnboardingTour onComplete={completeTour} />}
-      <BuilderShell
-        initialTemplateId={generatedSite ? null : templateId}
-        uploadMode={uploadMode}
-        generatedSite={generatedSite}
-        editProjectId={projectId}
-        user={user}
-        onBackToGallery={() => router.push("/dashboard")}
-        onBackToDashboard={() => router.push("/dashboard")}
-      />
-    </ToastProvider>
+    <EditorShell
+      editProjectId={projectId}
+      initialDocument={generatedDoc}
+      onBackToDashboard={() => router.push("/dashboard")}
+    />
   );
 }
 

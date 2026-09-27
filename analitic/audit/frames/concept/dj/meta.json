@@ -1,0 +1,172 @@
+{
+ "fam": "concept",
+ "id": "dj",
+ "url": "visual-hooks/dj",
+ "mode": "scroll",
+ "ms": 28620,
+ "frames": [
+  {
+   "f": "f00.jpg",
+   "label": "0.0vh",
+   "y": 0
+  },
+  {
+   "f": "f01.jpg",
+   "label": "0.6vh",
+   "y": 503
+  },
+  {
+   "f": "f02.jpg",
+   "label": "1.1vh",
+   "y": 1007
+  },
+  {
+   "f": "f03.jpg",
+   "label": "1.7vh",
+   "y": 1510
+  },
+  {
+   "f": "f04.jpg",
+   "label": "2.2vh",
+   "y": 2014
+  },
+  {
+   "f": "f05.jpg",
+   "label": "2.8vh",
+   "y": 2517
+  },
+  {
+   "f": "f06.jpg",
+   "label": "3.4vh",
+   "y": 3021
+  },
+  {
+   "f": "f07.jpg",
+   "label": "3.9vh",
+   "y": 3524
+  },
+  {
+   "f": "f08.jpg",
+   "label": "4.5vh",
+   "y": 4028
+  },
+  {
+   "f": "f09.jpg",
+   "label": "5.0vh",
+   "y": 4531
+  },
+  {
+   "f": "f10.jpg",
+   "label": "5.6vh",
+   "y": 5035
+  },
+  {
+   "f": "f11.jpg",
+   "label": "6.2vh",
+   "y": 5538
+  },
+  {
+   "f": "f12.jpg",
+   "label": "6.7vh",
+   "y": 6042
+  },
+  {
+   "f": "f13.jpg",
+   "label": "7.3vh",
+   "y": 6545
+  },
+  {
+   "f": "f14.jpg",
+   "label": "7.8vh",
+   "y": 7049
+  },
+  {
+   "f": "f15.jpg",
+   "label": "8.4vh",
+   "y": 7552
+  },
+  {
+   "f": "f16.jpg",
+   "label": "8.9vh",
+   "y": 8055
+  },
+  {
+   "f": "f17.jpg",
+   "label": "9.5vh",
+   "y": 8559
+  },
+  {
+   "f": "f18.jpg",
+   "label": "10.1vh",
+   "y": 9062
+  },
+  {
+   "f": "f19.jpg",
+   "label": "10.6vh",
+   "y": 9566
+  },
+  {
+   "f": "f20.jpg",
+   "label": "11.2vh",
+   "y": 10069
+  },
+  {
+   "f": "f21.jpg",
+   "label": "11.7vh",
+   "y": 10573
+  },
+  {
+   "f": "f22.jpg",
+   "label": "12.3vh",
+   "y": 11076
+  },
+  {
+   "f": "f23.jpg",
+   "label": "12.9vh",
+   "y": 11580
+  },
+  {
+   "f": "f24.jpg",
+   "label": "13.4vh",
+   "y": 12083
+  },
+  {
+   "f": "f25.jpg",
+   "label": "14.0vh",
+   "y": 12587
+  },
+  {
+   "f": "f26.jpg",
+   "label": "14.5vh",
+   "y": 13090
+  },
+  {
+   "f": "f27.jpg",
+   "label": "15.1vh",
+   "y": 13594
+  },
+  {
+   "f": "f28.jpg",
+   "label": "15.7vh",
+   "y": 14097
+  }
+ ],
+ "stats": {
+  "title": "Visual Hooks Lab | Creatly",
+  "screens": 16.7,
+  "sections": 6,
+  "videos": 0,
+  "canvases": 0,
+  "imgs": 13,
+  "sticky": 6,
+  "fixed": 0,
+  "broken": [],
+  "brokenCount": 0,
+  "fonts": [],
+  "failedFonts": []
+ },
+ "errs": [
+  "console: A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client bran"
+ ],
+ "failed": []
+}
