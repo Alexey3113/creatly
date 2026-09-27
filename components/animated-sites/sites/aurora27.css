@@ -1,7 +1,6 @@
 /* AURORA — webgl-hero, fluid flowmap. Один WebGL2-контекст на фоне (fixed); под canvas —
    CSS-градиент-фолбэк (reduced/no-webgl). Палитра: deep-teal → gold. Строки-маски как эталоны.
    Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .au{
   --abyss:#04110f; --teal:#0b4a45; --aqua:#2a9e8c; --gold:#f0b84b; --amber:#ffd784;

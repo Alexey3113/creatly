@@ -3,7 +3,6 @@
    параллаксят по --px/--py; night-веуль густеет и amber city-lights проступают; главы сменяются clip-path.
    --scroll/--px/--py — с корня; --t — со сцены. Палитра ИЗ КАДРА: space-void + cyan-atmos + amber-lights.
    Шрифт: Sora (геометрический дисплей) + Space Mono (телеметрия/лейблы). */
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 .tr{
   --void:#03040a; --deep:#070b16; --ocean:#0a1e38;

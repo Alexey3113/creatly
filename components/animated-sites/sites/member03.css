@@ -1,7 +1,6 @@
 /* EMBER — editorial-motion. Приём: inline-фото вырастает из строки (width/height 0→N по --t pin).
    Палитра из member-hero.jpg: warm-grey/brown backdrop + ember-rim. Display: Newsreader (editorial
    serif, тёплый) + Archivo (моно-лейблы). --t со сцены; строки-маски translateY 118→0. Ассет один — портрет. */
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Archivo:wght@500;700&display=swap');
 
 .mb{
   --paper:#efe4d5; --ink:#241f1a; --ember:#d9793a; --ember-lo:#b8602a;

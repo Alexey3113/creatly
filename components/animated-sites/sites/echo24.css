@@ -4,7 +4,6 @@
    в него въезжает горизонтальная галерея (ec-rail translateX по --t). Финал — кадр-маска через
    background-clip:text. Кинетика — skewX по --vel на вордмарке. Шрифты тут (try-echo не тянет lab-css).
    Тёплый timber-контраст к sage-зелёному Column — палитры разные. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Archivo:wght@600;700;800;900&display=swap');
 
 .ec{ --bone:#e6dcc4; --paper:#efe7d5; --timber:#b98a52; --umber:#5a3f28; --ink:#2b2016;
   --bronze:#6f7355; --mute:#9a8b72;

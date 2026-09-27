@@ -1,7 +1,6 @@
 /* CANOPY — иллюстрированный кино-скроллителлинг (пилот). Слоёные sticky-сцены; параллакс/dolly по --sp
    (прогресс сцены) и --mx/--my (курсор); silhouette-wipe между сценами (dark-veil-in + pines-out).
    Палитра из bg-плиты: pine/teal/moss + peach dawn + cool moon + ember-CTA. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Archivo:wght@400;500;600;700&display=swap');
 
 .cp{ --pine:#12281f; --teal:#1f4a3d; --moss:#5a8a5e; --peach:#f0b57a; --moon:#9fb8d6; --cream:#eef2ea; --ink:#182a22; --ember:#ef6f38;
   --mx:0; --my:0; background:var(--pine); color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }

@@ -4,6 +4,7 @@
    Собран на общем движке <Reel/>; лендинг и типографика — свои (Newsreader × Karla, emerald/blush/brass). */
 import { Reel, type ReelScene } from "../reel";
 import "./bloomhouse.css";
+import { FontLinks } from "@/components/shared/FontLinks";
 
 const A = "/uploads/1/animated/bloomhouse";
 const scenes: ReelScene[] = [
@@ -46,6 +47,7 @@ const HALLS = [
 export function Bloomhouse() {
   return (
     <div className="bh">
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Karla:wght@400;500;600;700&display=swap"]} />
       <header className="bh-nav">
         <span className="bh-brand">BLOOMHOUSE</span>
         <nav><a href="#halls">The Halls</a><a href="#visit">Visit</a><a href="#membership">Membership</a><a href="#deal" className="bh-nav-cta">Reserve a Visit</a></nav>

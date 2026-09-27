@@ -5,6 +5,7 @@
    свой шрифт-пейринг Bricolage Grotesque × Space Grotesk, палитра brick/night-blue/neon-rose/neon-cyan). */
 import "./meridian.css";
 import { Reel, type ReelScene } from "../reel";
+import { FontLinks } from "@/components/shared/FontLinks";
 
 const A = "/uploads/1/animated/meridian";
 const scenes: ReelScene[] = [
@@ -47,6 +48,7 @@ const STEPS = [
 export function Meridian() {
   return (
     <div className="mr">
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Space+Grotesk:wght@400;500;600;700&display=swap"]} />
       <header className="mr-nav">
         <span className="mr-brand">MERIDIAN<span>.</span></span>
         <nav><a href="#route">The route</a><a href="#moods">The sign</a><a href="#nights">Nights</a><a href="#book" className="mr-nav-cta">Book the crossing</a></nav>

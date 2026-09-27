@@ -5,6 +5,7 @@
    свой шрифт-пейринг Spectral × IBM Plex Sans, палитра jade/vermilion/gold/mist + red CTA). */
 import { Reel, type ReelScene } from "../reel";
 import "./lantern.css";
+import { FontLinks } from "@/components/shared/FontLinks";
 
 const A = "/uploads/1/animated/lantern";
 
@@ -41,6 +42,7 @@ const CHAPTERS = [
 export function Lantern() {
   return (
     <div className="ln">
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"]} />
       <header className="ln-nav">
         <span className="ln-brand">REDTHREAD</span>
         <nav><a href="#ascent">The ascent</a><a href="#included">Included</a><a href="#book" className="ln-nav-cta">Reserve the climb</a></nav>

@@ -1,6 +1,5 @@
 /* TIDEWELL — coastal-descent мир. Шрифты Cormorant Garamond (display) × Manrope (body).
    Палитра: deep-teal / sea-teal / coral-blush / pearl + coral CTA. Стили только .tw-* + копи в .rl-copy. */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700&display=swap');
 
 .tw{ --deep:#0b3a44; --sea:#1f7d86; --coral:#ff7a59; --blush:#e8b7a0; --pearl:#f2ede0; --ink:#0c2a30;
   --rl-void:#0b3a44; --rl-spark:#eaf6ff;

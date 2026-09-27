@@ -2,7 +2,6 @@
    CSS-градиент-фолбэк. СВОЯ палитра: slate → azure → indigo → orchid (спектр призмы). Приём:
    тот же материал втекает в ЭКРАН реального устройства (prism-hero.jpg) — screen-оверлей несёт тот же
    градиент через background-attachment:fixed (locked к вьюпорту = один field) + blend-screen. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .pr{
   --slate:#0a0c14; --slate-2:#0e1120; --azure:#1f9fef; --indigo:#4733db; --orchid:#b83fe8;

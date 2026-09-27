@@ -3,7 +3,6 @@
    сменяются окнами --t (fade+clip). Строки-маски по --d; числа считает rAF в компоненте.
    --scroll/--px/--py — с корня; --t — со сцены. Палитра снята с кадра.
    Шрифт: Spectral (serif-герой) + IBM Plex Mono (лейблы/числа). */
-@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .av{
   --paper:#efe6d2; --paper-2:#e6d9bd; --ink:#241a10; --ink-soft:#4c3d29;

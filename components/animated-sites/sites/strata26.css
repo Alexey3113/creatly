@@ -3,7 +3,6 @@
    4 слоя = один и тот же <img>, каждый в кроп-контейнере с alpha-маской своей полосы;
    плита (.st-plate) внутри двигается/масштабируется по --t с разной силой → мультиплан-нырок.
    Главы сменяются clip-path-масками по окнам --t. Шрифты — тут (try-strata не тянет lab-css). */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Archivo:wght@500;700;900&display=swap');
 
 .st{ --ink:#f4e9d6; --mute:#a48fb0; --amber:#f0a24e; --indigo:#211b40; background:#211b40;
   color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }

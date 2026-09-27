@@ -3,7 +3,6 @@
    размытой подложки → в фокусе только объект по центру; лот-таблички сменяются clip-path-wipe'ом.
    Палитра из кадра: amber lamp #e2b26f · burgundy #8a2f2a · walnut #2a1810 · cream #f1ddb6.
    Шрифт: Fraunces (аукционный дисплей) + Archivo (лейблы). --t со сцены, --px/--py с корня. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Archivo:wght@500;600;700&display=swap');
 
 .vx{
   --ink:#140b06; --ink-2:#1d1108; --walnut:#2a1810; --cream:#f1ddb6; --cream-2:#f7ead0;

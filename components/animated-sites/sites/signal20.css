@@ -2,7 +2,6 @@
    небо night→dawn→day; строки проявляются маской по --d; числа считает rAF в компоненте.
    --scroll/--vel — с корня; --t — со сцены. Палитра: near-black + molten-orange sunrise.
    Шрифт: Space Grotesk (дисплей/гротеск) + IBM Plex Mono (числа/лейблы). */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .sg{
   --night:#08090d; --night-2:#0d0f16; --ash:#171b26; --bone:#e9eaef; --dim:#7b8091;

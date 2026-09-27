@@ -3,7 +3,6 @@
    Карточки всплывают по окну --t сцены со стаггером --i (translateY+fade+blur). Строки-маски по --d;
    числа считает rAF в компоненте. Палитра снята с кадра: moss-green + cool cream mist.
    Шрифт: Bricolage Grotesque (дисплей) + JetBrains Mono (числа/лейблы). */
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 .cu{
   --moss:#7d9142; --moss-2:#9db255; --lichen:#b7d15f; --fern:#4f6a35;

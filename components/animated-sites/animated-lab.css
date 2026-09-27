@@ -1,5 +1,4 @@
 /* Витрина /animated — тёмная кино-заставка. Заменится по мере наполнения. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=Archivo:wght@400;700;900&display=swap');
 .al-home{ min-height:100vh; background:#0a0a0c; color:#eceae6; padding:14vh 6vw 10vh; font-family:"Archivo",system-ui,sans-serif; }
 .al-tag{ font:700 11px/1 "Archivo"; letter-spacing:.32em; color:#7a7570; }
 .al-head h1{ margin:.4em 0 .3em; font:300 clamp(56px,11vw,180px)/.92 "Fraunces",serif; letter-spacing:-.02em; }

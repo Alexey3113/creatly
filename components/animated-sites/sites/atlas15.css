@@ -2,7 +2,6 @@
    клипом в полноэкранную главу. Всё от --t (пин-сцена) на чистом DOM/SVG/CSS, ноль ассетов.
    Count-up — на CSS @property (<integer>) + counter(): число ведётся от --t, без JS.
    Display-пара Space Grotesk + IBM Plex Mono (моно-лейблы/карто-подписи). --scroll/--vel корень, --t сцена. */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @property --at-count { syntax: "<integer>"; inherits: false; initial-value: 0; }
 

@@ -1,7 +1,6 @@
 /* OVATION — particle/fluid, поток самособирается в фирменный знак. Один WebGL2-контекст на фоне (fixed,
    прозрачный) поверх ivory CSS-фолбэка. Палитра: ivory + тёплое золото/бронза (СВЕТЛЫЙ — контраст к Genesis).
    Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .ov{
   --ivory:#f3ece0; --ivory-2:#efe6d6; --ink:#241c12; --gold:#a9781f; --bronze:#8a5a1a; --amber:#c79433;

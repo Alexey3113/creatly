@@ -1,6 +1,5 @@
 /* BLOOMHOUSE — Victorian glasshouse мир. Шрифты Newsreader (display, editorial serif) × Karla (body, sans).
    Палитра: emerald / blush / glass-white / brass + rose CTA. Стили только .bh-* + копи в .rl-copy. */
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Karla:wght@400;500;600;700&display=swap');
 
 .bh{ --emerald:#1f5a3a; --emerald-deep:#123c26; --blush:#e8a9b8; --glass:#eef2ea; --brass:#c8963c; --rose:#ff8fae; --ink:#17301f;
   --rl-void:#123c26; --rl-spark:#f3d3dd;

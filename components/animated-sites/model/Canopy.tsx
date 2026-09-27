@@ -7,6 +7,7 @@
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import "./canopy.css";
+import { FontLinks } from "@/components/shared/FontLinks";
 
 const A = "/uploads/1/animated/model/canopy";
 
@@ -94,6 +95,7 @@ export function Canopy() {
   useReel(ref);
   return (
     <div className="cp" ref={ref}>
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Archivo:wght@400;500;600;700&display=swap"]} />
       <header className="cp-nav">
         <span className="cp-brand">CANOPY<i>°</i></span>
         <nav><a href="#">Field</a><a href="#">Routes</a><a href="#">Journal</a><a href="#" className="cp-nav-cta">Start the journey</a></nav>

@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Marcellus&display=swap");
 /* Концепт 20 — ESCORT «ÉCLAT». Тактичный premium companionship / plus-one concierge (SFW). Emerald+gold+noir, spotlight-cone на фигуре, gold city-bokeh, Marcellus-каллиграфия. */
 .es-site{--pad:3.6vw;--bg:#0a1310;--ink:#efe9dc;--mut:#8fa093;--accent:#cba75a;--emerald:#123b2e;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
 .es-head{position:absolute;z-index:40;top:0;left:0;right:0;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}

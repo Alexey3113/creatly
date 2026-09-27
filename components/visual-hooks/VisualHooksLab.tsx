@@ -100,7 +100,6 @@ function Prototype({ scene }: { scene: Scene }) {
   const root = useRef<HTMLDivElement>(null);
   const scrub = useRef<HTMLVideoElement>(null);
   const scrub2 = useRef<HTMLVideoElement>(null);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const node = root.current;
@@ -113,7 +112,6 @@ function Prototype({ scene }: { scene: Scene }) {
       const rect = node.getBoundingClientRect();
       const travel = Math.max(1, node.offsetHeight - window.innerHeight);
       const value = Math.min(1, Math.max(0, -rect.top / travel));
-      setProgress(value);
       node.style.setProperty("--p", value.toFixed(4));
       // три акта: каждый со своим локальным прогрессом для choreography
       const a1 = seg(value, 0, 0.36), a2 = seg(value, 0.34, 0.68), a3 = seg(value, 0.66, 1);
@@ -1543,7 +1541,7 @@ function ProBlockView({ b }: { b: ProBlock }) {
     case "steps": return <section className="pb-steps"><Reveal className="pb-steps-head vh-rv--up"><h3>{b.head}</h3></Reveal><div className={`pb-steps-row n${b.items.length}`}>{b.items.map((x, i) => <Reveal key={x.h} className="pb-step vh-rv--up"><span>{String(i + 1).padStart(2, "0")}</span><b>{x.h}</b><p>{x.p}</p></Reveal>)}</div></section>;
     case "editorial": return <section className="pb-edit"><Reveal className="pb-edit-media vh-rv--mask"><img loading="lazy" src={b.img} alt="" /></Reveal><Reveal className="pb-edit-copy vh-rv--up"><h3>{b.title}</h3>{b.body && <p>{b.body}</p>}</Reveal></section>;
     case "cinematicBand": return <CinematicBand b={b} />;
-    case "bigNumber": return <section className="pb-bignum">{b.media && <div className="pb-bignum-media vh-rv--mask"><Reveal className="vh-rv--mask"><img loading="lazy" src={b.media} alt="" /></Reveal></div>}<Reveal className="pb-bignum-copy vh-rv--up"><b className="pb-bignum-v">{b.value}</b><span className="pb-bignum-l">{b.label}</span>{b.note && <em>{b.note}</em>}</Reveal></section>;
+    case "bigNumber": return <section className="pb-bignum">{b.media && <div className="pb-bignum-media"><Reveal className="vh-rv--mask"><img loading="lazy" src={b.media} alt="" /></Reveal></div>}<Reveal className="pb-bignum-copy vh-rv--up"><b className="pb-bignum-v">{b.value}</b><span className="pb-bignum-l">{b.label}</span>{b.note && <em>{b.note}</em>}</Reveal></section>;
     case "diptych": return <section className={`pb-dip ov-${b.overlap ?? "object"}`}><Reveal className="pb-dip-primary vh-rv--mask"><img loading="lazy" src={b.primary} alt="" /></Reveal>{b.index && <span className="pb-dip-ix">{b.index}</span>}<Reveal className="pb-dip-copy vh-rv--up"><h3>{b.title}</h3>{b.body && <p>{b.body}</p>}</Reveal><Reveal className="pb-dip-secondary vh-rv--zoom"><img loading="lazy" src={b.secondary} alt="" /></Reveal></section>;
     case "cta": return <section className="pb-cta"><Reveal className="vh-rv--up"><h2>{b.title}</h2><p>{b.body}</p><a href="#" onClick={stop} className="pb-btn">{b.label} <i>↗</i></a></Reveal></section>;
   }
@@ -1602,7 +1600,7 @@ function CinematicBand({ b }: { b: Extract<ProBlock, { t: "cinematicBand" }> }) 
         <div className={`pb-cband-media${b.motif && b.motif !== "none" ? ` m-${b.motif}` : ""}`}><img src={b.media} alt="" /></div>
         <div className="pb-cband-wash" />
         {b.chapters.map((c, i) => (
-          <div key={i} className={`pb-cband-chap ${c.align ?? "left"}`} style={{ ["--c" as string]: ((i + 0.5) / n).toFixed(3) } as React.CSSProperties}>
+          <div key={i} className={`pb-cband-chap ${c.align ?? "left"}`} style={{ ["--c" as string]: (i === 0 ? 0.25 / n : i === n - 1 ? 1 - 0.25 / n : (i + 0.5) / n).toFixed(3), ["--n" as string]: n } as React.CSSProperties}>
             {c.index && <span className="pb-cband-ix">{c.index}</span>}
             <h3>{c.title}</h3>{c.body && <p>{c.body}</p>}
           </div>
@@ -1987,7 +1985,7 @@ const PRO: Record<string, Pro> = {
   grove: { slug: "grove", theme: "grove", brand: "GROVE", typography: "editorial", hero: { archetype: "gallery-horizon", eyebrow: "New-harvest olive oil", title: <>Oil pressed<br /><em>the week it's picked.</em></>, sub: "One grove, one pressing, dated like it should be.", strip: ["/uploads/1/hooks/sites/grove.jpg", "/uploads/1/hooks/sites/g/grove-tree.jpg", "/uploads/1/hooks/sites/g/grove-bottle.jpg", "/uploads/1/hooks/sites/g/grove-pour.jpg", "/uploads/1/hooks/sites/grove.jpg"] }, nav: ["The idea", "The grove", "Order"], tagline: "Single-grove, new-harvest olive oil.", legal: "Grove Oil", blocks: [
     { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/grove-tree.jpg", motif: "none", chapters: [{ index: "I", title: <>One grove,<br />one pressing.</>, body: "Old trees on a single hillside, picked and milled together.", align: "left" }, { index: "II", title: <>Green, sharp,<br />and dated.</>, body: "Milled within hours, sent while it is still peppery.", align: "right" }] },
     { t: "bigNumber", value: "1", label: <>hillside, one pressing — a harvest date, not a best-before</>, media: "/uploads/1/hooks/sites/g/grove-bottle.jpg", note: "Olive oil is a fresh juice, not a pantry fixture that sits a year." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/grove-tree.jpg", secondary: "/uploads/1/hooks/sites/g/grove-pour.jpg", index: "01", title: <>Oil pressed<br /><em>the week it\u2019s picked.</em></>, body: "Single-grove oil, milled the day it is harvested and shipped young.", overlap: "object" },
+    { t: "diptych", primary: "/uploads/1/hooks/sites/g/grove-tree.jpg", secondary: "/uploads/1/hooks/sites/g/grove-pour.jpg", index: "01", title: <>Oil pressed<br /><em>the week it’s picked.</em></>, body: "Single-grove oil, milled the day it is harvested and shipped young.", overlap: "object" },
     { t: "idea", kick: "What Grove is", title: <>A fresh juice,<br /><em>not a pantry fixture.</em></>, body: "Olive oil is at its best the week it is milled, then it fades quietly for a year on a shelf. Ours is pressed within hours of the harvest and sent while it is still green, peppery and sharp — with the date to prove it." },
     { t: "editorial", img: `${g}grove-tree.jpg`, title: <>One grove,<br /><em>one pressing.</em></>, body: "Old trees on a single hillside, picked and milled together, so every tin is one place and one moment — not a tanker of anonymous oil." },
     { t: "split", img: `${g}grove-bottle.jpg`, rev: true, title: <>Green, sharp,<br /><em>and dated.</em></>, list: [{ b: "Milled within hours", s: "Picked and pressed the same day." }, { b: "A harvest date, not a best-before", s: "You drink it young, the way it's meant." }, { b: "Single-grove, unblended", s: "One hillside's flavour, start to finish." }] },
@@ -2035,7 +2033,7 @@ const PRO: Record<string, Pro> = {
     { t: "cta", title: <>Come <em>flick through.</em></>, body: "New arrivals every Friday, and a crate we keep aside for regulars.", label: "See what's in" },
   ] },
   spine: { slug: "spine", theme: "spine", brand: "SPINE", typography: "fashion", hero: { archetype: "edge-arrival", edge: "left", proof: ["0", "algorithms on the shelves"], eyebrow: "A bookshop", title: <>Books chosen by<br /><em>someone who read them.</em></>, sub: "A small shop, no algorithm on the shelves." }, nav: ["The idea", "The shop", "Ask"], tagline: "An independent bookshop.", legal: "Spine Books", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/spine-shelf.jpg", motif: "halftone", chapters: [{ index: "I", title: <>No spreadsheet<br />on the shelves.</>, body: "Every book is here because a person read it and loved it.", align: "left" }, { index: "II", title: <>Read<br />before it\u2019s shelved.</>, body: "Staff picks, with a card that says why.", align: "right" }] },
+    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/spine-shelf.jpg", motif: "halftone", chapters: [{ index: "I", title: <>No spreadsheet<br />on the shelves.</>, body: "Every book is here because a person read it and loved it.", align: "left" }, { index: "II", title: <>Read<br />before it’s shelved.</>, body: "Staff picks, with a card that says why.", align: "right" }] },
     { t: "bigNumber", value: "0", label: <>algorithms — curation is a person’s taste, not a trend</>, media: "/uploads/1/hooks/sites/g/spine-stack.jpg", note: "Describe a book you couldn’t put down; we hand you the next." },
     { t: "diptych", primary: "/uploads/1/hooks/sites/g/spine-shelf.jpg", secondary: "/uploads/1/hooks/sites/g/spine-read.jpg", index: "01", title: <>Books chosen by<br /><em>someone who read them.</em></>, body: "A small shop, a slow browse, and an answer when you ask.", overlap: "object" },
     { t: "idea", kick: "What Spine is", title: <>No spreadsheet<br /><em>on the shelves.</em></>, body: "Every book on our table is there because a person read it and loved it — not because a chart said it would sell. Tell us the last book you couldn't put down, and someone who has actually read the next one will hand it to you." },
@@ -2095,7 +2093,7 @@ const PRO: Record<string, Pro> = {
     { t: "cta", title: <>Wash <em>simply.</em></>, body: "A trio to find your scent, then a refill habit so nothing is wasted.", label: "Shop the bars" },
   ] },
   malt: { slug: "malt", theme: "malt", brand: "MALT", typography: "signal", hero: { archetype: "product-theatre", object: "/uploads/1/hooks/sites/malt.jpg", depth: "/uploads/1/hooks/sites/g/malt-depth.jpg", proof: [["4", "beers, rotating"], ["taproom", "poured fresh"], ["Thu-Sun", "whatever tanked"]], eyebrow: "A small brewery", title: <>Beer worth<br /><em>slowing down for.</em></>, sub: "Brewed in small batches, and best where it's made." }, nav: ["The idea", "The tanks", "Visit"], tagline: "A small-batch taproom brewery.", legal: "Malt Brewing", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/malt-tank.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Brewed<br />out the back.</>, body: "A few tanks and whatever the brewer felt like this month.", align: "left" }, { index: "II", title: <>Poured fresh,<br />where it\u2019s made.</>, body: "We don’t ship far; it is best exactly here.", align: "right" }] },
+    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/malt-tank.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Brewed<br />out the back.</>, body: "A few tanks and whatever the brewer felt like this month.", align: "left" }, { index: "II", title: <>Poured fresh,<br />where it’s made.</>, body: "We don’t ship far; it is best exactly here.", align: "right" }] },
     { t: "bigNumber", value: "4", label: <>beers on, rotating — never the same all year</>, media: "/uploads/1/hooks/sites/g/malt-glass.jpg", note: "Beer shipped nationwide is built to survive the lorry, not to taste." },
     { t: "diptych", primary: "/uploads/1/hooks/sites/g/malt-tank.jpg", secondary: "/uploads/1/hooks/sites/g/malt-grain.jpg", index: "01", title: <>Beer worth<br /><em>slowing down for.</em></>, body: "Small-batch beer, poured fresh in the taproom the week it is ready.", overlap: "object" },
     { t: "idea", kick: "What Malt is", title: <>No core range<br /><em>stretched across a country.</em></>, body: "Beer shipped nationwide is beer built to survive the journey. We don't ship far. A rotating handful of batches, brewed out the back, poured fresh in the taproom the week they're ready — best exactly where it's made." },

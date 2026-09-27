@@ -3,7 +3,6 @@
    Свеча: near-black веуль с дырой-радиалом, центр `at var(--lx) var(--ly)` едет за
    курсором (--px/--py с корня .reel) — гость «ищет» блюдо в темноте. Всё визуальное — в CSS.
    Шрифты подключаем тут (страница try-vigil не тянет animated-lab.css). */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Archivo:wght@500;700;900&display=swap');
 
 .vg{ --ink:#efe4d3; --mute:#9a8974; --red:#e0a24a; --deep:#a8641f; background:#080604; color:var(--ink);
   font-family:"Archivo",system-ui,sans-serif; }

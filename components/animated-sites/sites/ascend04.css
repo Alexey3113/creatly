@@ -2,7 +2,6 @@
    на 4 слоя по глубине; каждый слой — тот же кадр в clip-path-полосе, translateY+scale по --t*--dz
    (ближние сильнее) → нырок камеры. Pointer-parallax по --px/--py. --t со сцены, --px/--py с корня.
    Шрифт: Instrument Serif (дисплей, воздушный контраст) + Archivo (лейблы). */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@500;700&display=swap');
 
 .as{
   --ink:#0e1a24; --paper:#eef1f4; --peach:#f4b98d; --peach-2:#f7cfa6; --rose:#e0a487;

@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Pirata+One&display=swap");
 /* Концепт 03 — VINYL «AFTER HOURS». Тёмный sepia-amber, блэклеттер, вращающийся винил. */
 .vn-site{--pad:4vw;--bg:#140d09;--ink:#ecdcc4;--mut:#a58a6c;--accent:#b8452f;--amber:#d99a4a;position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
 .vn-head{position:absolute;z-index:40;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad)}

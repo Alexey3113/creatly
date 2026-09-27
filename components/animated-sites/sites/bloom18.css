@@ -1,7 +1,6 @@
 /* BLOOM — webgl-hero, органические тендрилы обрамляют вьюпорт. Один WebGL2-контекст на фоне (fixed);
    под canvas — CSS near-black+изумруд фолбэк (reduced/no-webgl). Палитра: near-black + изумруд/золото.
    Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .bl{
   --ink:#040705; --ink-2:#08110c; --emerald:#0d9a63; --deep:#0a3a28; --gold:#e6bd52;

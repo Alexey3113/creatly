@@ -4,7 +4,6 @@
    следует за --px; музейные плашки сменяются clip-path wipe.
    --scroll/--px/--py — с корня; --t — со сцены. Палитра ИЗ КАДРА: HIGH-KEY bone/off-white + ink
    + один тёплый серо-песочный акцент. Шрифт: Fraunces (high-contrast display serif) + Jost (лейбл). */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,400&family=Jost:wght@400;500;600&display=swap');
 
 .or{
   --bone:#f3f1ec; --bone-2:#eae6dd; --paper:#fbfaf6;

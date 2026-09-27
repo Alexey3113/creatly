@@ -2,7 +2,6 @@
    смена candy-цвет-блока по секции; velocity-skew marquee. Палитра candy-block из split-hero.jpg:
    hot-pink / orange / yellow / cream. Display: Anton (плакатный гротеск) + Space Grotesk (лейблы).
    --scroll/--vel с корня; --t со сцены. Ассет один — split-hero.jpg (банка+цитрус). */
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@500;700&display=swap');
 
 .sp{
   --pink:#ff2d7e; --orange:#ff7a2f; --yellow:#ffc61a; --cream:#fff3e2; --ink:#2a1018;

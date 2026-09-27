@@ -1,7 +1,6 @@
 /* GENESIS — particle/fluid, морф объект→объект→CTA-текст. Один WebGL2-контекст на фоне (fixed);
    под canvas — CSS-космос-фолбэк (reduced/no-webgl). Палитра: чёрный космос + золото/электрик-синяя пыль.
    Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .gn{
   --void:#04050c; --void-2:#080a16; --blue:#3b6bff; --gold:#f0c15a; --amber:#ffb267;

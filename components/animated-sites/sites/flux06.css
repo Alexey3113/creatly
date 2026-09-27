@@ -1,7 +1,6 @@
 /* FLUX — webgl-hero, domain-warp simplex-градиент. Один WebGL2-контекст на фоне (fixed);
    под canvas — CSS-градиент-фолбэк (reduced/no-webgl). Палитра: charcoal → cobalt → magenta.
    Серифная display-пара (Fraunces) + моно-лейблы (IBM Plex Mono). --scroll с корня, --t со сцены. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .fx{
   --char:#080a12; --char-2:#0c0f1c; --cobalt:#2a4bff; --magenta:#ff2f99; --violet:#6b23c4;

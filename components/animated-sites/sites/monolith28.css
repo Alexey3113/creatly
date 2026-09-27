@@ -4,7 +4,6 @@
    разгорается, манифест-строки проявляются масками, финал — крупный кадр мира + плашка.
    Палитра из кадра: магента-индиго сумерки #1a0f2e · cold mist #b79fd6 · near-black #0a0713 · ember #ff8a5c.
    Шрифт: Syne (архитектурный дисплей) + Archivo (лейблы). --t со сцены, --px/--py с корня. */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Archivo:wght@500;600;700&display=swap');
 
 .mn{
   --black:#0a0713; --black-2:#160c26; --basalt:#3a2358; --basalt-2:#5a3a86; --steel:#9a7fc0;

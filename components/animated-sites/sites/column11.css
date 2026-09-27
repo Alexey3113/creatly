@@ -3,7 +3,6 @@
    Активная колонка растёт flex-grow (не width): --near = близость --t к слоту колонки --c;
    --grow = near*12 → активная забирает свободное место, соседи остаются на flex-basis (корешок).
    Шрифты — тут (try-column не тянет lab-css). Один акцент — sage. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Archivo:wght@500;600;700&display=swap');
 
 .cl{ --bone:#e8e1d3; --paper:#efe9dc; --sage:#7f8674; --sage-deep:#5f6656; --timber:#a67c52;
   --ink:#2f2c25; --mute:#8b8877;

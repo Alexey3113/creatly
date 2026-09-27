@@ -1,7 +1,6 @@
 /* HELIX — 3d-product-theatre, realtime ДНК-спираль (useHelix, один WebGL2-контекст на fixed-фоне).
    Под canvas — CSS-navy-фолбэк (reduced/no-webgl). Палитра: navy + amber(strand A)/blue(strand B) + bokeh.
    Display-пара Fraunces + IBM Plex Mono. count-up на CSS @property. --scroll/--vel корень, --t сцена. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @property --hx-count { syntax: "<integer>"; inherits: false; initial-value: 0; }
 

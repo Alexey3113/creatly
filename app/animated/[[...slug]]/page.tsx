@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { AnimatedLab } from "@/components/animated-sites";
+import { FontLinks } from "@/components/shared/FontLinks";
+import { FONT_HREFS } from "@/components/animated-sites/fonts";
 
 export const metadata: Metadata = {
   title: "Animated — how did they do this · Creatly",
@@ -8,5 +10,10 @@ export const metadata: Metadata = {
 
 export default async function AnimatedPage({ params }: { params: Promise<{ slug?: string[] }> }) {
   const { slug } = await params;
-  return <AnimatedLab initialSlug={slug?.[0]} />;
+  return (
+    <>
+      <FontLinks hrefs={FONT_HREFS} />
+      <AnimatedLab initialSlug={slug?.[0]} />
+    </>
+  );
 }

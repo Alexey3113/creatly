@@ -1,7 +1,6 @@
 /* DRIFT — webgl-hero, iridescent silk-ленты. Один WebGL2-контекст на фоне (fixed); под canvas —
    CSS navy→violet фолбэк (reduced/no-webgl). Палитра: navy → cobalt → violet, алая хром-кромка.
    Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .dr{
   --navy:#060a1e; --navy-2:#0a1030; --cobalt:#2a4bf0; --violet:#7a2ee0; --scarlet:#ff2a3d;

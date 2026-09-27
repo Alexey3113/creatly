@@ -18,7 +18,15 @@ export function useTrack<T extends HTMLElement>(mode: "through" | "pin" = "throu
       const vh = window.innerHeight;
       let t: number;
       if (mode === "pin") t = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
-      else t = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+      else {
+        // проход: 0 — верх у низа вьюпорта, 1 — низ у верха. Но последняя секция страницы физически не может
+        // уехать выше низа документа → конец диапазона ограничиваем максимальным скроллом, иначе финал
+        // (CTA, «день→ночь») застревал на t≈0.5 и проявлялся наполовину.
+        const doc = document.documentElement;
+        const leftToScroll = Math.max(0, doc.scrollHeight - vh - window.scrollY);
+        const span = Math.max(1, Math.min(vh + r.height, vh - r.top + leftToScroll));
+        t = Math.min(1, Math.max(0, (vh - r.top) / span));
+      }
       el.style.setProperty("--t", t.toFixed(4));
     };
     const unregister = stage.register(compute);

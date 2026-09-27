@@ -1,7 +1,6 @@
 /* FORGE — kinetic-typography. Гигант-слово FORGE фиксировано в sticky pin-вьюпорте; карты летят
    сквозь него по --t. Motion-blur = 2 ghost-силуэта, разъезд по --vel. --scroll/--vel — с корня .reel;
    --t — со сцены. Палитра: сталь + near-black + красный tab. Шрифт: Archivo (грубый гротеск). */
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&display=swap');
 
 .fg{
   --steel:#8b929c; --steel-dim:#3a3f47; --ink:#0c0e11; --ink-2:#15181d; --bone:#e7e9ec; --red:#e6382c;

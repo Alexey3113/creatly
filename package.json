@@ -29,6 +29,7 @@
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "@types/ssh2": "^1.15.5",
+    "@types/three": "^0.185.4",
     "cheerio": "^1.2.0",
     "playwright": "^1.61.1",
     "typescript": "5.8.3"

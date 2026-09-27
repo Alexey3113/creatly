@@ -62,6 +62,7 @@
 
 /* KineticText — кинетика по буквам (прогресс из --sp сцены, задержка по --i) */
 .kt{display:inline-block}
+.kt-w{display:inline-block;white-space:nowrap}
 .kt-l{display:inline-block;white-space:pre;--kr:clamp(0,calc((var(--sp,1) - var(--ks,0) - var(--i,0)*.02)*5),1)}
 [data-kt="slam"] .kt-l{transform:translateY(calc((1 - var(--kr))*.55em)) scale(calc(.72 + var(--kr)*.28));opacity:var(--kr)}
 [data-kt="scatter"] .kt-l{transform:translate(calc((1 - var(--kr))*var(--kx,0)),calc((1 - var(--kr))*var(--ky,0))) rotate(calc((1 - var(--kr))*var(--krot,0)));opacity:var(--kr)}

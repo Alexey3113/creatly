@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { StoryLab } from "@/components/story-sites";
+import { FontLinks } from "@/components/shared/FontLinks";
+import { FONT_HREFS } from "@/components/story-sites/fonts";
 
 export const metadata: Metadata = {
   title: "Story Sites — Creatly",
@@ -12,5 +14,10 @@ export default async function StoryPage({
   params: Promise<{ slug?: string[] }>;
 }) {
   const { slug } = await params;
-  return <StoryLab initialSlug={slug?.[0]} />;
+  return (
+    <>
+      <FontLinks hrefs={FONT_HREFS} />
+      <StoryLab initialSlug={slug?.[0]} />
+    </>
+  );
 }

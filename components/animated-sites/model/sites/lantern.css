@@ -1,6 +1,5 @@
 /* LANTERN — mountain-ascent мир. Шрифты Spectral (display, italic accents) × IBM Plex Sans (body/UI).
    Палитра: jade / vermilion / gold / mist + red CTA. Стили только .ln-* + копи в .rl-copy. */
-@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 .ln{ --jade:#2f5d4a; --jade-deep:#0e2119; --vermilion:#b02a24; --gold:#d9b46a; --mist:#cfd8cf; --cta:#ff5a4a; --ink:#122019;
   --rl-void:#0a1a14; --rl-spark:#f4c76a;

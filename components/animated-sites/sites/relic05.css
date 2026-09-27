@@ -2,7 +2,6 @@
    за ним раздувается electric-blue кольцо (radial-gradient+blur) по --t, под плинтом вращается
    turntable-блик, правые таблички сменяются wipe'ом clip-path:inset(). Палитра из кадра: near-black +
    electric-blue ambient + ivory marble. Шрифт: Cormorant Garamond (галерейный контраст) + Archivo (лейблы). */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Archivo:wght@500;700&display=swap');
 
 .rl{
   --black:#05060b; --black-2:#0a0d16; --navy:#0c1420; --ivory:#e7dcc4; --gold:#cbb890;

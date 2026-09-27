@@ -1,7 +1,6 @@
 /* PULSE — particle/fluid, particle-глобус с fresnel-bloom. Один WebGL2-контекст на фоне (fixed);
    под canvas — near-black + оранжевое ядро фолбэк (reduced/no-webgl). Палитра: near-black + molten-orange.
    Display-пара Fraunces + моно-лейблы IBM Plex Mono. --scroll/--vel с корня, --t со сцены. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 .pl{
   --ink:#050406; --ink-2:#0b0808; --ember:#f5461a; --molten:#ff7a24; --hot:#ffca86;

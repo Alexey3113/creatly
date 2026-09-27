@@ -4,6 +4,7 @@
    свой шрифт-пейринг Cormorant Garamond × Manrope, палитра teal/coral/pearl). */
 import { Reel, type ReelScene } from "../reel";
 import "./tidewell.css";
+import { FontLinks } from "@/components/shared/FontLinks";
 
 const A = "/uploads/1/animated/tidewell";
 const scenes: ReelScene[] = [
@@ -32,6 +33,7 @@ const scenes: ReelScene[] = [
 export function Tidewell() {
   return (
     <div className="tw">
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700&display=swap"]} />
       <header className="tw-nav">
         <span className="tw-brand">TIDEWELL</span>
         <nav><a href="#route">The line</a><a href="#depths">Depths</a><a href="#log">Log</a><a href="#book" className="tw-nav-cta">Book a descent</a></nav>
