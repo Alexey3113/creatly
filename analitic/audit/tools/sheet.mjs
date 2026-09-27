@@ -14,7 +14,9 @@ const css = `body{margin:0;background:#111;color:#ddd;font:13px/1.3 ui-monospace
 .g{display:grid;grid-template-columns:repeat(6,320px);gap:6px;padding:8px}
 .c{position:relative}.c img{width:320px;height:200px;display:block;object-fit:cover}
 .c span{position:absolute;left:4px;top:4px;background:rgba(0,0,0,.72);color:#ffe28a;padding:1px 5px;font-size:12px;border-radius:3px}
-.w{display:grid;grid-template-columns:repeat(5,384px);gap:8px;padding:8px}.w .c img{width:384px;height:240px}`;
+.w{display:grid;grid-template-columns:repeat(5,384px);gap:8px;padding:8px}.w .c img{width:384px;height:240px}`
+  // VP=mobile: портретные кадры телефона 390×844 — 10 колонок без обрезки
+  + (process.env.VP === "mobile" ? `.g{grid-template-columns:repeat(10,188px)}.c img{width:188px;height:407px}.w{grid-template-columns:repeat(8,236px)}.w .c img{width:236px;height:511px}` : "");
 
 async function render(html, out, width) {
   await pg.setViewportSize({ width, height: 400 });

@@ -1,4 +1,4 @@
-// Аудит-съёмка: node cap.mjs jobs.json  (OUT, CONC, FORCE через env)
+// Аудит-съёмка: node cap.mjs jobs.json  (OUT, CONC, FORCE через env; VP=mobile — телефон 390×844, тач, hover:none)
 // scroll-режим: равномерная раскадровка всей страницы; deck-режим: сцена в покое + кадр посреди перехода.
 import { chromium } from "/Users/leo/programming/creatly/node_modules/playwright/index.mjs";
 import fs from "node:fs";
@@ -6,10 +6,12 @@ import path from "node:path";
 
 const OUT = process.env.OUT || new URL("../frames", import.meta.url).pathname;
 const CONC = +(process.env.CONC || 3);
-const VW = 1440, VH = 900;
+const MOBILE = process.env.VP === "mobile";
+const VW = MOBILE ? 390 : 1440, VH = MOBILE ? 844 : 900;
 const jobs = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
 const only = process.argv.slice(3);
-const queue = jobs.filter((j) => !only.length || only.includes(j.id) || only.includes(j.fam));
+// фильтр: id, семья или fam/id (id вроде strata/bloom/monolith есть и в hooks, и в legacy)
+const queue = jobs.filter((j) => !only.length || only.includes(j.id) || only.includes(j.fam) || only.includes(`${j.fam}/${j.id}`));
 
 const browser = await chromium.launch({
   channel: "chrome",
@@ -43,7 +45,10 @@ async function runJob(job) {
   const dir = path.join(OUT, job.fam, job.id);
   if (fs.existsSync(path.join(dir, "meta.json")) && !process.env.FORCE) return "skip";
   fs.mkdirSync(dir, { recursive: true });
-  const ctx = await browser.newContext({ viewport: { width: VW, height: VH }, deviceScaleFactor: 1 });
+  const ctx = await browser.newContext(MOBILE
+    ? { viewport: { width: VW, height: VH }, deviceScaleFactor: 1, isMobile: true, hasTouch: true,
+        userAgent: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36" }
+    : { viewport: { width: VW, height: VH }, deviceScaleFactor: 1 });
   await ctx.addInitScript(() => {
     const st = document.createElement("style");
     st.textContent = "nextjs-portal{display:none!important}";
