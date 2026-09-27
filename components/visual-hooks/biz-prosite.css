@@ -1,0 +1,44 @@
+/* ProSite — посайтовые правки волны раскатки (аудит 2026-09). Только правила .pro-<theme> / .pro[data-hero] … */
+
+/* --- Пин-процесс: главы на светлых кадрах (бумага, контакт-лист, окно, белый стол) читаются без плашек —
+   мягкий нижний скрим под зоной глав + тень текста. Тёмные миры (iron, pour, plat, cask) не трогаем. --- */
+:is(.pro-swell,.pro-nib,.pro-wick,.pro-fern,.pro-fetch,.pro-cacao,.pro-hide,.pro-comb,.pro-spice,.pro-lens,.pro-wax,.pro-spine,
+  .pro-grove,.pro-curd,.pro-stride,.pro-botanic,.pro-ink,.pro-selvedge,.pro-mane,.pro-deck,.pro-lather,.pro-malt,.pro-steep,
+  .pro-loaf,.pro-balm,.pro-stem,.pro-clay,.pro-velo,.pro-thread,.pro-barb) .pb-cband-wash{
+  background:radial-gradient(130% 100% at 50% 62%,transparent 26%,rgba(0,0,0,.5)),
+    linear-gradient(0deg,rgba(0,0,0,.66),rgba(0,0,0,.22) 44%,transparent 64%)}
+:is(.pro-swell,.pro-nib,.pro-wick,.pro-fern,.pro-fetch,.pro-cacao,.pro-hide,.pro-comb,.pro-spice,.pro-lens,.pro-wax,.pro-spine,
+  .pro-grove,.pro-curd,.pro-stride,.pro-botanic,.pro-ink,.pro-selvedge,.pro-mane,.pro-deck,.pro-lather,.pro-malt,.pro-steep,
+  .pro-loaf,.pro-balm,.pro-stem,.pro-clay,.pro-velo,.pro-thread,.pro-barb) .pb-cband-chap :is(h3,p){
+  text-shadow:0 2px 26px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.4)}
+/* самые светлые кадры процесса (лист бумаги, контакт-лист, белый стол с ботаниками, флеш-лист) — скрим плотнее */
+:is(.pro-nib,.pro-lens,.pro-botanic,.pro-ink) .pb-cband-wash{
+  background:radial-gradient(130% 100% at 50% 62%,transparent 26%,rgba(0,0,0,.5)),
+    linear-gradient(0deg,rgba(0,0,0,.76),rgba(0,0,0,.36) 48%,transparent 74%)}
+
+/* --- regime-shift (nib, spice, selvedge): grayscale убивал цвет продукта — возвращаем цвет объекту;
+   «грязная» полоса cream→black заменена переходом через цвет самого продукта (чернила / специи / индиго). --- */
+.pro-nib .ph-rg-object img,.pro-spice .ph-rg-object img,.pro-selvedge .ph-rg-object img{filter:saturate(1.08) contrast(1.03)}
+.pro-nib .ph-rg-dark{background:linear-gradient(180deg,#ece9e2 0%,#c3d0e4 20%,#5a7fbd 46%,#18264a 74%,var(--bg) 100%)}
+.pro-spice .ph-rg-dark{background:linear-gradient(180deg,#ece9e2 0%,#efc47c 20%,#d8743a 46%,#6a2410 74%,var(--bg) 100%)}
+.pro-selvedge .ph-rg-dark{background:linear-gradient(180deg,#ece9e2 0%,#bcc6de 20%,#3d58a6 46%,#141c3e 74%,var(--bg) 100%)}
+/* steep: Ч/Б в hero оставлен намеренно (сухой лист), но и у него переход — через цвет настоя, а не серую муть */
+.pro-steep .ph-rg-dark{background:linear-gradient(180deg,#ece9e2 0%,#dfdcc0 20%,#9ab070 46%,#1d2a17 74%,var(--bg) 100%)}
+
+/* --- loaf: «SOURDOUGH» резался до «SOURDOUGI» — кегль по ширине слова (оба слоя: под объектом и над ним) --- */
+.pro-loaf .ph-tc-type h1,.pro-loaf .ph-tc-front h1{font-size:clamp(56px,13.4vw,224px)}
+@media(max-width:900px){.pro-loaf .ph-tc-type h1,.pro-loaf .ph-tc-front h1{font-size:14.5vw}}
+
+/* --- stride: «1,000km» был шире вьюпорта --- */
+.pro-stride .pb-bignum-v{font-size:clamp(64px,16.5vw,272px)}
+
+/* --- курсив-акцент по фото/шейдеру того же цвета: светлее + тень --- */
+.pro.pro-swell .ph .ph-pt-copy h1,.pro.pro-comb .ph .ph-pt-copy h1{text-shadow:0 2px 30px rgba(0,0,0,.42),0 1px 3px rgba(0,0,0,.25)}
+.pro.pro-swell .ph .ph-pt-copy h1 em{color:#f2fffe;text-shadow:0 0 22px rgba(1,40,48,.75),0 2px 30px rgba(1,32,38,.6)}
+.pro.pro-swell .pb-cine .pb-cine-copy h2 em{color:#e6fffc;text-shadow:0 2px 26px rgba(0,22,28,.7)}
+.pro.pro-fern .ph .ph-th-copy h1 em{color:#c4f2d6;text-shadow:0 2px 24px rgba(2,18,9,.7)}
+.pro.pro-comb .ph .ph-pt-copy h1 em{color:#fff1cf;text-shadow:0 2px 22px rgba(40,20,0,.65)}
+.pro.pro-cask .ph .ph-th-copy h1 em{color:#f7c77f;text-shadow:0 2px 22px rgba(0,0,0,.75)}
+.pro.pro-malt .ph .ph-th-copy h1 em{color:#ffdca6;text-shadow:0 2px 22px rgba(0,0,0,.75)}
+.pro-spice .pb-edit-copy :is(h3,p){text-shadow:0 2px 24px rgba(0,0,0,.7)}.pro.pro-spice .pb-edit .pb-edit-copy h3 em{color:#ffd2a6}
+.pro-mane .pb-edit-copy :is(h3,p){text-shadow:0 2px 24px rgba(0,0,0,.55)}.pro.pro-mane .pb-edit .pb-edit-copy h3 em{color:#f6c3d0}

@@ -1577,3 +1577,6 @@
 .pb-cband-frame.is-first{opacity:clamp(0,calc(1.6 - max(var(--sp) - var(--c),0)*2.2*var(--n,2)),1)}
 .pb-cband-frame.is-last{opacity:clamp(0,calc(1.6 - max(var(--c) - var(--sp),0)*2.2*var(--n,2)),1)}
 .pb-cband-frame img{transform:scale(calc(1.04 + var(--sp)*.22))}
+/* мобильная/без-движения версия пина-процесса: кадры стопкой — все видимы, без зума */
+@media (max-width:900px){ .pb-cband-frame,.pb-cband-frame.is-first,.pb-cband-frame.is-last{opacity:1}.pb-cband-frame{height:42vh}.pb-cband-frame img{transform:none} }
+@media (prefers-reduced-motion:reduce){ .pb-cband-frame,.pb-cband-frame.is-first,.pb-cband-frame.is-last{opacity:1}.pb-cband-frame img{transform:none} }

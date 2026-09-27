@@ -33,6 +33,10 @@ import { CarDealerSite } from "@/components/concept-sites/CarDealerSite";
 import { JpRestaurantSite } from "@/components/concept-sites/JpRestaurantSite";
 import { FreestyleSite } from "@/components/concept-sites/FreestyleSite";
 import { Backdrop } from "@/components/scene-kit";
+import "./biz-prosite.css";
+import "./biz-bespoke.css";
+// bespoke-сайты: второй акт (актёр/погода/атмосфера + часы страницы для счётчиков акта)
+import { Actor, Atmosphere, Weather, subscribe, clamp01, smooth } from "@/components/scene-kit";
 
 type Scene = {
   slug: string;
@@ -1013,7 +1017,7 @@ function PosterScene({ cls, img, ar = "1", tall = 178, back, front, annos = [], 
         {back && <div className="pos-title pos-back" aria-hidden>{back}</div>}
         <div className="pos-subj" style={{ ["--ar"]: ar } as React.CSSProperties}><img src={img} alt="" /></div>
         {front && <div className="pos-title pos-front">{front}</div>}
-        <div className="pos-frame" aria-hidden><i className="c-tl" /><i className="c-tr" /><i className="c-bl" /><i className="c-br" /></div>
+        {/* рамка-скобы убрана: она резала фильм на слайды — сцены forge идут одним планом */}
         {annos.map((a, i) => <div key={i} className={`pos-an an-${a.at}`}>{a.k && <b>{a.k}</b>}{a.v && <span>{a.v}</span>}</div>)}
         {meta && <div className="pos-meta">{meta}</div>}
         {(cap || body) && <div className="pos-cap">{cap && <b>{cap}</b>}{body && <p>{body}</p>}</div>}
@@ -1022,50 +1026,107 @@ function PosterScene({ cls, img, ar = "1", tall = 178, back, front, annos = [], 
   );
 }
 
-/* FORGE process — pinned-сцена Heat→Hammer→Quench→Hone по scroll-progress (--sp). Огонь→холодная сталь→одна кромка. */
+/* FORGE process — pinned-сцена Heat→Hammer→Quench→Hone→Damascus по scroll-progress (--sp). Огонь→холодная сталь→одна кромка,
+   и та же кромка непрерывным отъездом камеры (scale ≈3.7→1) становится целым клинком-реликвией (бывший отдельный постер DAMASCUS). */
 function ForgeProcess() {
   const ref = useSectionProgress<HTMLDivElement>();
   const win = (a: number, b: number) => ({ ["--a"]: a, ["--b"]: b } as React.CSSProperties);
+  useEffect(() => {
+    // стартовый масштаб отъезда: макро кромки должно накрывать экран при любом соотношении сторон
+    const el = ref.current; if (!el) return;
+    const fit = () => { const h = Math.min(innerHeight * 0.78, 720), w = (h * 9) / 16; el.style.setProperty("--z0", (Math.max(innerWidth / w, innerHeight / h) * 1.02).toFixed(3)); };
+    fit(); addEventListener("resize", fit);
+    return () => removeEventListener("resize", fit);
+  }, [ref]);
   return (
     <section ref={ref} className="frg-proc">
       <div className="frg-proc-sticky">
-        <div className="fp-media fp-fire" style={win(-0.1, 0.55)}>
-          <img src="/uploads/1/hooks/sites/forge-p/hands.jpg" alt="" />
+        <div className="fp-media fp-fire" style={win(-0.1, 0.35)}>
+          <img src="/uploads/1/hooks/sites/forge-p/atmos.jpg" alt="" />
         </div>
-        <div className="fp-media fp-quench" style={win(0.47, 0.8)}>
+        <div className="fp-media fp-quench" style={win(0.3, 0.51)}>
           <img src="/uploads/1/hooks/sites/forge-p/quench.jpg" alt="" />
         </div>
-        <div className="fp-media fp-hone" style={win(0.72, 1.15)}>
-          <img src="/uploads/1/hooks/sites/forge-p/blade.jpg" alt="" />
-        </div>
-        <div className="fp-fold" style={win(0.24, 0.5)} aria-hidden />
+        <div className="fp-fold" style={win(0.15, 0.32)} aria-hidden />
         <div className="fp-wash" />
         <div className="fp-cold" aria-hidden />
+        <div className="fp-relic" aria-hidden><div className="pos-title pos-back">DAMASCUS</div></div>
+        <div className="fp-hone" style={win(0.46, 1.2)}>
+          <img src="/uploads/1/hooks/sites/forge-p/blade.jpg" alt="" />
+        </div>
         <div className="fp-line" aria-hidden />
+        <div className="fp-relic">
+          <div className="pos-title pos-front"><em>steel.</em></div>
+          <div className="pos-an an-tl"><b>STEEL</b><span>FOLDED CARBON</span></div>
+          <div className="pos-an an-tr"><b>HANDLE</b><span>STABILISED WALNUT</span></div>
+          <div className="pos-an an-bl"><b>LENGTH</b><span>210 MM</span></div>
+          <div className="pos-an an-br"><b>COMMISSION</b><span>№ 047</span></div>
+          <div className="pos-meta">No 04 — THE BLADE</div>
+          <div className="pos-cap"><b>THE PATTERN RUNS LIKE WATER</b><p>Folded until the layers run like water — a single one-of-one blade, numbered and signed by the hand that made it.</p></div>
+        </div>
         <div className="fp-rail" aria-hidden><span>THE FORGE</span><span>№ 01–04</span></div>
-        <div className="fp-chap c-heat" style={win(-0.06, 0.26)}>
+        <div className="fp-chap c-heat" style={win(-0.04, 0.165)}>
           <span className="fp-stage">01 — HEAT</span>
           <b className="fp-big">1500°</b>
           <p>The billet glows to fifteen hundred degrees, then folds — again and again.</p>
         </div>
-        <div className="fp-chap c-hammer" style={win(0.27, 0.5)}>
+        <div className="fp-chap c-hammer" style={win(0.17, 0.32)}>
           <span className="fp-stage">02 — HAMMER</span>
           <b className="fp-big">FOLD<br />&amp; DRAW</b>
           <p>Every layer drawn out by hand until the pattern runs like water.</p>
         </div>
-        <div className="fp-chap c-quench" style={win(0.52, 0.72)}>
+        <div className="fp-chap c-quench" style={win(0.33, 0.46)}>
           <span className="fp-stage">03 — QUENCH</span>
           <b className="fp-big">SET</b>
           <p>Locked hard in an instant — orange to cold graphite.</p>
         </div>
-        <div className="fp-chap c-hone" style={win(0.75, 1.1)}>
+        <div className="fp-chap c-hone" style={win(0.48, 0.63)}>
           <span className="fp-stage">04 — HONE</span>
           <b className="fp-big fp-serif">one quiet<br /><em>line.</em></b>
-          <p>Weeks of grinding and stoning bring the edge down to a single line.</p>
+          <p>Weeks of grinding and stoning bring the edge down to a single line — then the camera pulls back.</p>
         </div>
       </div>
     </section>
   );
+}
+
+/* ===== BESPOKE — общий второй акт (16 bespoke-сайтов) =====
+   Act: CinematicBand (главы с разными кадрами сменяются кроссфейдом в одном закреплённом плане, фон зумит) +
+   сцена-оверлей с тем же прогрессом --sp (обёртка той же высоты, что лента) — события акта: счётчики, линии, диски, свет.
+   Окна оверлея: className "bs-w" + style={aw(a, b)} → видимость внутри [a,b] прогресса акта (--wa/--wb: --a занят акцентом сайта). */
+type Band = Extract<ProBlock, { t: "cinematicBand" }>;
+const BS = "/uploads/1/hooks/sites/";
+const aw =(a: number, b: number, more?: Record<string, string | number>) => ({ ["--wa"]: a, ["--wb"]: b, ...more } as React.CSSProperties);
+function Act({ cls, band, children }: { cls: string; band: Band; children?: React.ReactNode }) {
+  const ref = useSectionProgress<HTMLDivElement>();
+  return (
+    <div ref={ref} className={`bs-act ${cls}`}>
+      <CinematicBand b={band} />
+      {children && <div className="bs-act-over" aria-hidden><div className="bs-act-stage">{children}</div></div>}
+    </div>
+  );
+}
+/* Число акта: считает по прогрессу ближайшего .bs-act в окне [a,b] (одни часы scene-kit на страницу). */
+function ActCount({ to, from = 0, a = 0, b = 1, dec = 0, pre = "", suf = "", time = false, comma = false }: { to: number; from?: number; a?: number; b?: number; dec?: number; pre?: string; suf?: string; time?: boolean; comma?: boolean }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const fmt = (v: number) => {
+    if (time) { const s = Math.round(v); return `${pre}${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}${suf}`; }
+    const n = v.toFixed(dec);
+    return pre + (comma ? Number(n).toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec }) : n) + suf;
+  };
+  useEffect(() => {
+    const el = ref.current, host = el?.closest<HTMLElement>(".bs-act");
+    if (!el || !host) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = fmt(to); return; }
+    let last = "";
+    return subscribe(({ vh }) => {
+      const r = host.getBoundingClientRect();
+      const sp = clamp01(-r.top / Math.max(1, host.offsetHeight - vh));
+      const s = fmt(from + (to - from) * smooth((sp - a) / Math.max(1e-6, b - a)));
+      if (s !== last) { el.textContent = s; last = s; }
+    });
+  }, [to, from, a, b, dec, pre, suf, time, comma]); // eslint-disable-line react-hooks/exhaustive-deps
+  return <span ref={ref}>{fmt(from)}</span>;
 }
 
 /* ===== Бизнес-сайт: FORGE — bespoke ножи (editorial-постер, без видео) ===== */
@@ -1073,6 +1134,10 @@ const FP = "/uploads/1/hooks/sites/forge-p";
 function ForgeSite() {
   return (
     <div className="vh-site frg">
+      {/* остывание мира: огонь горна → холодный графит к CTA (фон всех сцен = var(--bg) ← --atm) */}
+      <Atmosphere stops={[{ at: ".frg-bleed", color: "#170d08" }, { at: ".frg .pos-hands", color: "#140c09" }, { at: ".frg .frg-proc", color: "#0d0e11", anchor: 0.45 }, { at: ".frg .pos-quote", color: "#0a0d12" }, { at: ".frg-cta-pos", color: "#070a0e" }]} />
+      {/* искры и окалина пролетают через стыки сцен — из кадра в кадр */}
+      <Weather kind="sparks" count={16} color="#ff7a32" color2="#ffc27a" between={[".frg .pos-hands", ".frg-cta-pos"]} world={0.8} zIndex={26} seed={11} />
       <header className="frg-head">
         <Link href="/visual-hooks" className="frg-brand">FORGE</Link>
         <nav className="frg-nav"><a href="#" onClick={stop}>Blades</a><a href="#" onClick={stop}>The forge</a><a href="#" onClick={stop}>Commission</a></nav>
@@ -1081,7 +1146,6 @@ function ForgeSite() {
       <section className="frg-bleed" {...heroPtr}>
         <div className="frg-bleed-img"><img src={`${FP}/smith.jpg`} alt="" /></div>
         <div className="frg-bleed-wash" aria-hidden />
-        <div className="pos-frame frg-bleed-frame" aria-hidden><i className="c-tl" /><i className="c-tr" /><i className="c-bl" /><i className="c-br" /></div>
         <div className="pos-an an-br"><b>№ 01 — THE SMITH</b><span>ONE BILLET · MADE TO ORDER</span></div>
         <div className="frg-bleed-copy">
           <span className="frg-eyebrow">Bespoke blades · one smith</span>
@@ -1098,16 +1162,11 @@ function ForgeSite() {
         cap="EVERY BLADE IS ONE OF ONE"
         body="We forge to commission, in small numbers. Each knife carries the marks of the hand that made it and the fire that shaped it." />
 
+      {/* Heat → Hammer → Quench → Hone → отъезд до целого клинка DAMASCUS — одна сцена */}
       <ForgeProcess />
 
-      <PosterScene cls="pos-relic" img={`${FP}/blade.jpg`} ar="9 / 16" tall={192}
-        back={<>DAMASCUS</>} front={<em>steel.</em>}
-        annos={[{ at: "tl", k: "STEEL", v: "FOLDED CARBON" }, { at: "tr", k: "HANDLE", v: "STABILISED WALNUT" }, { at: "bl", k: "LENGTH", v: "210 MM" }, { at: "br", k: "COMMISSION", v: "№ 047" }]}
-        meta="No 04 — THE BLADE"
-        cap="THE PATTERN RUNS LIKE WATER"
-        body="Folded until the layers run like water — a single one-of-one blade, numbered and signed by the hand that made it." />
-
-      <PosterScene cls="pos-quote" img={`${FP}/quench.jpg`} ar="16 / 9" tall={168}
+      {/* горн остывает: те же угли, но уже серые — клинок переживёт огонь (кадр закалки больше не повторяется) */}
+      <PosterScene cls="pos-quote pos-cool" img={`${FP}/atmos.jpg`} ar="16 / 9" tall={168}
         back={<>OUTLIVE</>} front={<em>you.</em>}
         annos={[{ at: "tl", v: "THE SMITH" }, { at: "br", v: "ON THE WHOLE JOB" }]}
         meta="No 05 — THE VOICE"
@@ -1116,6 +1175,12 @@ function ForgeSite() {
 
       <section className="frg-cta-pos">
         <div className="frg-grain" aria-hidden />
+        {/* финал актёра: тот же клинок лежит холодной сталью, одна оранжевая точка — клеймо № 047 */}
+        <figure className="frg-cta-obj" aria-hidden>
+          <span className="frg-cta-blade"><img src={`${FP}/blade.jpg`} alt="" /></span>
+          <i className="frg-stamp" />
+          <figcaption>№ 047 · folded carbon · 210 mm</figcaption>
+        </figure>
         <div className="frg-cta-in">
           <span className="frg-eyebrow">Commission</span>
           <h2>Commission<br /><em>a blade.</em></h2>
@@ -1137,6 +1202,8 @@ function MonoSite() {
   const specs: [string, string][] = [["210 m²", "under one continuous roof"], ["3", "rooms, no corridors"], ["1", "lake, held perfectly still"], ["0", "walls you cannot see through"]];
   return (
     <div className="vh-site mono">
+      {/* один день у озера: туман → полдень → сумерки (акт) → рассвет на CTA — петля */}
+      <Atmosphere stops={[{ at: ".mono-hero", color: "#eceae5" }, { at: ".mono-act", color: "#e2e5e7", anchor: 0.2 }, { at: ".mono-act", color: "#252935", anchor: 0.8 }, { at: ".mono-cta", color: "#f1e5da", anchor: 0.1 }]} />
       <section className="mono-hero">
         <video className="mono-hero-vid" src="/uploads/1/hooks/sites/mono-hero.mp4" poster="/uploads/1/hooks/sites/mono.jpg" autoPlay muted loop playsInline />
         <header className="mono-head">
@@ -1145,10 +1212,18 @@ function MonoSite() {
         </header>
         <div className="mono-hero-copy"><span className="mono-eyebrow">Architecture, distilled</span><h1>A house that disappears<br /><em>into its lake.</em></h1></div>
       </section>
-      <section className="mono-statement"><Reveal className="vh-rv--up"><h2>We built very little,<br /><em>very well.</em></h2><p>One structure, three rooms, and a lake that doubles the sky. Nothing here asks for your attention. That is the point.</p></Reveal></section>
-      <section className="mono-specs"><div className="mono-specs-row">{specs.map(([v, l]) => (<Reveal key={l} className="mono-spec vh-rv--up"><b>{v}</b><span>{l}</span></Reveal>))}</div></section>
-      <section className="mono-setting"><Reveal className="mono-setting-media vh-rv--mask"><img loading="lazy" src="/uploads/1/hooks/sites/mono.jpg" alt="" /></Reveal><Reveal className="mono-setting-copy vh-rv--up"><h3>Sited on still water, <em>fifty minutes from the city.</em></h3><p>Cast concrete, floor-to-ceiling glass, and a roof that reads as a single line against the fog.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Held quietly, <em>on the water.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/mono-interior.jpg" alt="" /><figcaption>Glass to the lake.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/mono-dusk.jpg" alt="" /><figcaption>One line, at dusk.</figcaption></figure></Reveal></div></section>
+      {/* второй акт «один день у озера»: дом стоит, меняется только свет — скролл = время. Цифры всплывают отражением
+          в воде. Чужой дом (dusk-павильон) и повтор постера hero убраны. */}
+      <Act cls="mono-act" band={{ t: "cinematicBand", media: `${BS}g/mono-interior.jpg`, chapters: [
+        { index: "06:40 — fog", title: <>We built very little,<br /><em>very well.</em></>, body: "One structure, three rooms, and a lake that doubles the sky. Nothing here asks for your attention. That is the point.", align: "left" },
+        { index: "12:00 — still water", title: <>Sited on still water,<br /><em>fifty minutes from the city.</em></>, body: "Cast concrete, floor-to-ceiling glass, and a roof that reads as a single line against the sky.", align: "left" },
+        { index: "19:30 — dusk", title: <>The glass turns<br /><em>to mirror.</em></>, body: "At dusk the lights come on inside and the house all but disappears into its lake.", align: "left" },
+      ] }}>
+        <div className="mono-specs-act bs-w" style={aw(0.34, 0.68)}>
+          {specs.map(([v, l], i) => <div key={l} className="mono-spec-r bs-k" style={aw(0.34 + i * 0.05, 0.5 + i * 0.05)}><b>{v}</b><span>{l}</span></div>)}
+        </div>
+        <div className="mono-lamp bs-w" style={aw(0.74, 1.3, { "--wr": 0.12 })} />
+      </Act>
       <section className="mono-cta"><Reveal className="vh-rv--up"><h2>Come see it <em>at dawn.</em></h2><p>Private viewings, by appointment, when the water is at its stillest.</p><a href="#" onClick={stop} className="mono-btn">Request a viewing <i>↗</i></a></Reveal></section>
       <footer className="mono-foot"><div className="mono-foot-top"><b>MONO</b><p>One house, held quietly on the water.</p></div><div className="mono-foot-legal"><span>Mono Residences</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1156,10 +1231,15 @@ function MonoSite() {
 }
 
 /* ===== PHANTOM — авто (dark, kinetic, dramatic) ===== */
+// плиты мира для акта: солончак в синий час и тот же горизонт ночью (вектор — без повтора кадра hero)
+const svgUri = (s: string) => "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s);
+const PHAN_DAY = svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070d1c"/><stop offset=".6" stop-color="#1d3564"/><stop offset="1" stop-color="#7d9cd0"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f9eb0"/><stop offset=".3" stop-color="#434d5a"/><stop offset="1" stop-color="#0c0e12"/></linearGradient><radialGradient id="h" cx=".62" cy=".62" r=".5"><stop offset="0" stop-color="#cfe9ff" stop-opacity=".35"/><stop offset="1" stop-color="#cfe9ff" stop-opacity="0"/></radialGradient></defs><rect width="1600" height="560" fill="url(#s)"/><rect y="560" width="1600" height="340" fill="url(#g)"/><rect width="1600" height="900" fill="url(#h)"/><rect y="558.5" width="1600" height="2" fill="#dff3ff" opacity=".8"/></svg>`);
+const PHAN_NIGHT = svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#010208"/><stop offset=".7" stop-color="#070d1d"/><stop offset="1" stop-color="#15223c"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f2733"/><stop offset=".35" stop-color="#0b0e13"/><stop offset="1" stop-color="#030405"/></linearGradient></defs><rect width="1600" height="560" fill="url(#s)"/><rect y="560" width="1600" height="340" fill="url(#g)"/><g fill="#dbe8ff">${Array.from({ length: 46 }, (_, i) => `<circle cx="${(i * 353) % 1600}" cy="${(i * 197) % 470}" r="${0.6 + ((i * 7) % 5) * 0.28}" opacity="${0.25 + ((i * 11) % 7) * 0.1}"/>`).join("")}</g><rect y="559" width="1600" height="1.5" fill="#8fd8ff" opacity=".55"/></svg>`);
 function PhantomSite() {
-  const stats: [string, string][] = [["0-100", "in 2.6 seconds"], ["680", "km of silence"], ["1", "gear, no shifts"], ["∞", "flat, wide open"]];
   return (
     <div className="vh-site phan">
+      {/* день → ночь: 680 км тишины уводят горизонт в темноту, CTA — фары в темноте */}
+      <Atmosphere stops={[{ at: ".phan-hero", color: "#070809" }, { at: ".phan-act", color: "#070b14", anchor: 0.16 }, { at: ".phan-act", color: "#030406", anchor: 0.86 }, { at: ".phan-cta", color: "#020304" }]} />
       <section className="phan-hero">
         <video className="phan-hero-vid" src="/uploads/1/hooks/sites/phantom-hero.mp4" poster="/uploads/1/hooks/sites/phantom.jpg" autoPlay muted loop playsInline />
         <div className="phan-hero-wash" />
@@ -1167,49 +1247,89 @@ function PhantomSite() {
         <h1 className="phan-h1">NOTHING<br /><em>for miles.</em></h1>
         <div className="phan-sub">An electric grand tourer built for the empty places.</div>
       </section>
-      <section className="phan-statement"><Reveal className="vh-rv--up"><h2>Silence is the <em>new speed.</em></h2></Reveal></section>
-      <section className="phan-stats"><div className="phan-stats-row">{stats.map(([v, l]) => (<Reveal key={l} className="phan-stat vh-rv--up"><b>{v}</b><span>{l}</span></Reveal>))}</div></section>
-      <section className="phan-show"><Reveal className="phan-show-media vh-rv--zoom"><img loading="lazy" src="/uploads/1/hooks/sites/phantom.jpg" alt="" /></Reveal><Reveal className="phan-show-copy vh-rv--up"><h3>Drawn as <em>one line.</em></h3><p>No grille, no seams, no noise. Just a shape that moves air and nothing else.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Drawn to <em>move air, nothing else.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/phantom-rear.jpg" alt="" /><figcaption>No seams, no noise.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/phantom-cabin.jpg" alt="" /><figcaption>One screen, one line.</figcaption></figure></Reveal></div></section>
-      <section className="phan-cta"><Reveal className="vh-rv--up"><h2>Reserve the <em>first run.</em></h2><p>Two hundred cars. A refundable hold secures your place in line.</p><a href="#" onClick={stop} className="phan-btn">Reserve yours <i>↗</i></a></Reveal></section>
+      {/* второй акт «Silence is the new speed»: машина стоит на пине, мир летит мимо (штрихи солончака в параллаксе),
+          0→100, потом 680 км уводят горизонт в ночь, и камера садится внутрь. Чужое синее купе (rear) убрано. */}
+      <Act cls="phan-act" band={{ t: "cinematicBand", media: PHAN_DAY, chapters: [
+        { index: "The empty places", title: <>Silence is<br />the <em>new speed.</em></>, align: "center", media: PHAN_DAY },
+        { index: "0–100 km/h", title: <><ActCount to={100} a={0.25} b={0.44} /><small> km/h</small></>, body: "From standstill in 2.6 seconds, and nothing louder than the wind to tell you so.", align: "left", media: PHAN_DAY },
+        { index: "Range", title: <><ActCount to={680} a={0.5} b={0.68} /> km <em>of silence.</em></>, body: "One charge from the salt flats to the coast. The horizon goes from day to night before you stop.", align: "right", media: PHAN_NIGHT },
+        { index: "Inside", title: <>Drawn as <em>one line.</em></>, body: "One gear, one screen, no seams. A shape that moves air and nothing else.", align: "left", media: `${BS}g/phantom-cabin.jpg` },
+      ] }}>
+        <div className="phan-world bs-w" style={aw(-0.2, 0.74, { "--wr": 0.08 })}>
+          {[[0.8, 90], [2.6, 150], [6, 240], [12, 380], [24, 560]].map(([d, v]) => <i key={d} style={{ ["--d" as string]: `${d}%`, ["--v" as string]: v }} />)}
+        </div>
+        <div className="phan-sweep bs-k" style={aw(0.7, 0.84)} />
+      </Act>
+      <section className="phan-cta">
+        <div className="phan-lights" aria-hidden><i /><i /></div>
+        <Reveal className="vh-rv--up"><h2>Reserve the <em>first run.</em></h2><p>Two hundred cars. A refundable hold secures your place in line.</p><a href="#" onClick={stop} className="phan-btn">Reserve yours <i>↗</i></a></Reveal></section>
       <footer className="phan-foot"><div className="phan-foot-top"><b>PHANTOM</b><p>Electric grand touring for the empty places.</p></div><div className="phan-foot-legal"><span>Phantom Motors</span><span>A Visual Hooks concept</span></div></footer>
     </div>
   );
 }
 
 /* ===== HOROLOGE — часы (dark, premium, cosmic, gold) ===== */
+// авантюриновое небо циферблата (плита акта, вектор; детерминированные искры) — кадр g/horo-dial был другой моделью часов
+const HORO_SKY = svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="a" cx=".58" cy=".46" r=".78"><stop offset="0" stop-color="#1a2f7a"/><stop offset=".5" stop-color="#0c1746"/><stop offset="1" stop-color="#03061a"/></radialGradient><radialGradient id="m" cx=".7" cy=".32" r=".42"><stop offset="0" stop-color="#6a78c8" stop-opacity=".28"/><stop offset="1" stop-color="#6a78c8" stop-opacity="0"/></radialGradient><filter id="b"><feGaussianBlur stdDeviation="1.4"/></filter></defs><rect width="1600" height="900" fill="url(#a)"/><rect width="1600" height="900" fill="url(#m)"/><g filter="url(#b)">${Array.from({ length: 70 }, (_, i) => `<circle cx="${(i * 911) % 1600}" cy="${(i * 577) % 900}" r="${2 + ((i * 13) % 7) * 0.7}" fill="${i % 3 ? "#d9b46a" : "#9fb4ff"}" opacity="${0.25 + ((i * 7) % 5) * 0.1}"/>`).join("")}</g>${Array.from({ length: 420 }, (_, i) => `<circle cx="${(i * 733 + ((i * i) % 97)) % 1600}" cy="${(i * 389 + ((i * 7) % 53)) % 900}" r="${0.5 + ((i * 17) % 9) * 0.17}" fill="${i % 4 === 0 ? "#f2cf86" : i % 4 === 1 ? "#e6c07a" : "#dbe6ff"}" opacity="${0.35 + ((i * 11) % 7) * 0.1}"/>`).join("")}</svg>`);
 function HorologeSite() {
   return (
     <div className="vh-site horo">
+      {/* небо циферблата становится фоном страницы: ночь густеет к CTA */}
+      <Atmosphere stops={[{ at: ".horo-hero", color: "#0a0906" }, { at: ".horo-act", color: "#070814", anchor: 0.2 }, { at: ".horo-act", color: "#04050c", anchor: 0.8 }, { at: ".horo-cta", color: "#04050b" }]} />
       <section className="horo-hero">
         <video className="horo-hero-vid" src="/uploads/1/hooks/sites/horologe-hero.mp4" poster="/uploads/1/hooks/sites/horologe.jpg" autoPlay muted loop playsInline />
         <div className="horo-hero-wash" />
         <header className="horo-head"><Link href="/visual-hooks" className="horo-brand">HOROLOGE</Link><nav className="horo-nav"><a href="#" onClick={stop}>Movement</a><a href="#" onClick={stop}>Collection</a><a href="#" onClick={stop}>Acquire</a></nav></header>
         <div className="horo-hero-copy"><span className="horo-eyebrow">Complication N°VII</span><h1>A little <em>galaxy</em><br />on your wrist.</h1></div>
       </section>
-      <section className="horo-statement"><Reveal className="vh-rv--up"><h2>Four hundred parts,<br /><em>one quiet universe.</em></h2><p>The dial is an aventurine sky. Beneath it, a movement wound by hand and finished under a loupe over three months.</p></Reveal></section>
-      <section className="horo-move"><Reveal className="horo-move-media vh-rv--zoom"><img loading="lazy" src="/uploads/1/hooks/sites/horologe.jpg" alt="" /></Reveal><Reveal className="horo-move-copy vh-rv--up"><h3>Wound by hand,<br /><em>read at a glance.</em></h3><p>A seventy-two hour reserve, a moonphase accurate for a century, and a rotor you will never hear.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>A quiet universe, <em>up close.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/horo-dial.jpg" alt="" /><figcaption>An aventurine sky.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/horo-caseback.jpg" alt="" /><figcaption>Four hundred parts.</figcaption></figure></Reveal></div></section>
-      <section className="horo-cta"><Reveal className="vh-rv--up"><h2>Twenty-eight will <em>ever exist.</em></h2><p>Each numbered, each spoken for by application only.</p><a href="#" onClick={stop} className="horo-btn">Request an audience <i>↗</i></a></Reveal></section>
+      {/* второй акт: камера проваливается в авантюриновое небо циферблата (вектор — кадр другой модели убран), потом механизм
+          «разносится» кольцами (0→400 деталей), и луна проходит фазы. Сплит-повтор постера hero и галерея убраны. */}
+      <Act cls="horo-act" band={{ t: "cinematicBand", media: HORO_SKY, chapters: [
+        { index: "The dial", title: <>An aventurine<br /><em>night sky.</em></>, body: "Copper flecks suspended in blue glass, cut and polished by hand — a sky small enough to wear.", align: "center", media: HORO_SKY },
+        { index: "The movement", title: <><ActCount to={400} a={0.36} b={0.56} /> parts,<br /><em>one quiet universe.</em></>, body: "Wound by hand and finished under a loupe over three months.", align: "left", media: `${BS}g/horo-caseback.jpg` },
+        { index: "Moonphase", title: <>Right for<br /><em>a century.</em></>, body: "A seventy-two hour reserve, a moon that will not need correcting until 2126, and a rotor you will never hear.", align: "left", media: `${BS}g/horo-caseback.jpg` },
+      ] }}>
+        <div className="horo-rings bs-w bs-k" style={aw(0.34, 0.68, { "--wr": 0.05 })}>
+          {["sapphire", "dial", "bridges", "rotor"].map((l, i) => <i key={l} style={{ ["--i" as string]: i }} />)}
+          {["sapphire", "dial", "bridges", "rotor"].map((l, i) => <span key={l} style={{ ["--i" as string]: i }}>{l}</span>)}
+        </div>
+        <div className="horo-moon bs-w bs-k" style={aw(0.7, 1.12, { "--wr": 0.05 })}><b /><span>moonphase · 29.53 days</span></div>
+      </Act>
+      <section className="horo-cta">
+        {/* двадцать восемь звёзд — двадцать восемь часов; одна уже горит золотом */}
+        <div className="horo-28" aria-hidden>{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ transform: `translateY(${(-Math.sin((i / 27) * Math.PI) * 30).toFixed(1)}px)` }} />)}</div>
+        <Reveal className="vh-rv--up"><h2>Twenty-eight will <em>ever exist.</em></h2><p>Each numbered, each spoken for by application only.</p><a href="#" onClick={stop} className="horo-btn">Request an audience <i>↗</i></a></Reveal></section>
       <footer className="horo-foot"><div className="horo-foot-top"><b>HOROLOGE</b><p>Hand-finished complications, in tiny numbers.</p></div><div className="horo-foot-legal"><span>Maison Horologe</span><span>A Visual Hooks concept</span></div></footer>
     </div>
   );
 }
 
 /* ===== TIDE — cold-water swim club (teal, cinematic) ===== */
+// пузыри нырка: детерминированные позиции/размеры/задержки (без Math.random)
+const TIDE_BUBBLES = Array.from({ length: 16 }, (_, i) => ({ x: (i * 37) % 100, s: 4 + ((i * 7) % 5) * 3, d: ((i * 13) % 10) / 4, t: 3.2 + ((i * 5) % 4) * 0.7 }));
 function TideSite() {
-  const ritual: [string, string][] = [["Arrive", "Six a.m., the water is four degrees and nobody is talking."], ["Plunge", "Ninety seconds. The gasp, then the strange, total quiet."], ["Warm", "Wool, a fire, and coffee too hot to hold. This is the part nobody tells you about."]];
   return (
     <div className="vh-site tide">
+      {/* фон — это температура: бирюза 4° → подводная тьма → тёплый янтарь огня и кофе */}
+      <Atmosphere stops={[{ at: ".tide-hero", color: "#04141a" }, { at: ".tide-act", color: "#03121a", anchor: 0.2 }, { at: ".tide-act", color: "#2a1709", anchor: 0.84 }, { at: ".tide-cta", color: "#26150a" }]} />
       <section className="tide-hero">
         <video className="tide-hero-vid" src="/uploads/1/hooks/sites/tide-hero.mp4" poster="/uploads/1/hooks/sites/tide-hero.jpg" autoPlay muted loop playsInline />
         <div className="tide-hero-wash" />
         <header className="tide-head"><Link href="/visual-hooks" className="tide-brand">TIDE</Link><nav className="tide-nav"><a href="#" onClick={stop}>The swim</a><a href="#" onClick={stop}>Membership</a><a href="#" onClick={stop}>Join</a></nav></header>
         <div className="tide-hero-copy"><span className="tide-eyebrow">A cold-water club</span><h1>The cold does<br /><em>the work.</em></h1><p>We meet at dawn, all year, and get in. That is the whole idea.</p></div>
       </section>
-      <section className="tide-statement"><Reveal className="vh-rv--up"><h2>Get in. Everything else<br /><em>gets quieter.</em></h2></Reveal></section>
-      <section className="tide-ritual"><Reveal className="tide-ritual-head vh-rv--up"><h3>The ritual</h3></Reveal><div className="tide-steps">{ritual.map(([h, p], i) => (<Reveal key={h} className="tide-step vh-rv--up"><span>{String(i + 1).padStart(2, "0")}</span><b>{h}</b><p>{p}</p></Reveal>))}</div></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Dawn, <em>all year.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/tide-swim.jpg" alt="" /><figcaption>Four degrees, and in.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/tide-shore.jpg" alt="" /><figcaption>The shore at six.</figcaption></figure></Reveal></div></section>
+      {/* второй акт «The ritual» в 3 фазы: берег 6:00/4° → камера уходит под ватерлинию (вода заливает экран, пузыри,
+          таймер 90 секунд) → выход, свет резко теплеет. Текстовые колонки шагов и повтор «Dawn, all year» убраны. */}
+      <Act cls="tide-act" band={{ t: "cinematicBand", media: `${BS}g/tide-shore.jpg`, chapters: [
+        { index: "06:00 · 4°C — arrive", title: <>Get in. Everything else<br /><em>gets quieter.</em></>, body: "Six a.m., the water is four degrees and nobody is talking.", align: "left", media: `${BS}g/tide-shore.jpg` },
+        { index: "Plunge", title: <>Ninety seconds.<br /><em>The gasp.</em></>, body: "Then the strange, total quiet of your own heartbeat under the water.", align: "left", media: `${BS}g/tide-swim.jpg` },
+        { index: "Warm", title: <>Wool, a fire,<br /><em>coffee too hot to hold.</em></>, body: "This is the part nobody tells you about.", align: "right", media: `${BS}g/tide-swim.jpg` },
+      ] }}>
+        <div className="tide-water" aria-hidden>
+          <div className="tide-bubbles">{TIDE_BUBBLES.map((b, i) => <i key={i} style={{ left: `${b.x}%`, width: b.s, height: b.s, animationDelay: `${b.d}s`, animationDuration: `${b.t}s` }} />)}</div>
+        </div>
+        <div className="tide-timer bs-w" style={aw(0.34, 0.66)}><ActCount to={90} a={0.38} b={0.62} time /><span>the gasp</span></div>
+      </Act>
       <section className="tide-cta"><Reveal className="vh-rv--up"><h2>Your first swim is <em>on us.</em></h2><p>Come once. Most people are back on Thursday.</p><a href="#" onClick={stop} className="tide-btn">Book a dawn swim <i>↗</i></a></Reveal></section>
       <footer className="tide-foot"><div className="tide-foot-top"><b>TIDE</b><p>A cold-water swim club. All year, at dawn.</p></div><div className="tide-foot-legal"><span>Tide Club</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1217,38 +1337,75 @@ function TideSite() {
 }
 
 /* ===== CANTO — hi-fi / винил (warm analog, brass) ===== */
+// тёмный орех под пластинку (плита акта, вектор)
+const CANTO_PLATE = svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="w" cx=".64" cy=".5" r=".8"><stop offset="0" stop-color="#3a2212"/><stop offset=".55" stop-color="#1c0f07"/><stop offset="1" stop-color="#090503"/></radialGradient><radialGradient id="l" cx=".82" cy=".08" r=".55"><stop offset="0" stop-color="#ffb25e" stop-opacity=".22"/><stop offset="1" stop-color="#ffb25e" stop-opacity="0"/></radialGradient></defs><rect width="1600" height="900" fill="url(#w)"/>${Array.from({ length: 22 }, (_, i) => `<path d="M0 ${40 + i * 40} C 400 ${20 + i * 41 + ((i * 17) % 23)}, 1000 ${60 + i * 39 - ((i * 11) % 19)}, 1600 ${36 + i * 40}" stroke="#000" stroke-opacity=".16" fill="none" stroke-width="${1 + (i % 3)}"/>`).join("")}<rect width="1600" height="900" fill="url(#l)"/></svg>`);
 function CantoSite() {
   return (
     <div className="vh-site canto">
+      {/* «with the lights low»: страница темнеет, лампы усилителя к CTA разгораются */}
+      <Atmosphere stops={[{ at: ".canto-hero", color: "#100b06" }, { at: ".canto-act", color: "#0d0805", anchor: 0.2 }, { at: ".canto-act", color: "#070403", anchor: 0.82 }, { at: ".canto-cta", color: "#060302" }]} />
       <section className="canto-hero">
-        <video className="canto-hero-vid" src="/uploads/1/hooks/sites/canto-hero.mp4" poster="/uploads/1/hooks/sites/canto-hero.jpg" autoPlay muted loop playsInline />
+        {/* hero-видео несло этикетку «…NOTE» — вместо него перегенерированный кадр без чужого лейбла, с медленным наездом */}
+        <img className="canto-hero-vid canto-hero-still" src="/uploads/1/hooks/sites/canto-hero.jpg" alt="" />
         <div className="canto-hero-wash" />
         <header className="canto-head"><Link href="/visual-hooks" className="canto-brand">CANTO</Link><nav className="canto-nav"><a href="#" onClick={stop}>The system</a><a href="#" onClick={stop}>Rooms</a><a href="#" onClick={stop}>Listen</a></nav></header>
         <div className="canto-hero-copy"><span className="canto-eyebrow">Analog hi-fi, by hand</span><h1>Music, with the<br /><em>weight put back in.</em></h1></div>
       </section>
-      <section className="canto-statement"><Reveal className="vh-rv--up"><h2>We do not stream.<br /><em>We sit down.</em></h2><p>A turntable, a valve amp, and two speakers voiced over a year. Then one record, start to finish, with the lights low.</p></Reveal></section>
-      <section className="canto-split"><Reveal className="canto-split-media vh-rv--mask"><img loading="lazy" src="/uploads/1/hooks/sites/canto-hero.jpg" alt="" /></Reveal><Reveal className="canto-split-copy vh-rv--up"><h3>Brass, walnut,<br /><em>and forty years of tubes.</em></h3><p>Every system is built to the room it will live in. We come, we measure, we tune it by ear.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Weight, <em>put back in.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/canto-deck.jpg" alt="" /><figcaption>Brass and walnut.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/canto-room.jpg" alt="" /><figcaption>One record, lights low.</figcaption></figure></Reveal></div></section>
-      <section className="canto-cta"><Reveal className="vh-rv--up"><h2>Hear it <em>in the room.</em></h2><p>Book an hour in the listening lounge. Bring the record that matters most.</p><a href="#" onClick={stop} className="canto-btn">Book a session <i>↗</i></a></Reveal></section>
+      {/* второй акт — «сторона A»: диск сверху крутится скроллом, тонарм идёт от края к центру, главы = треки;
+          потом диск уходит в угол «now playing», в конце выбег и тонарм поднимается. Сплит-повтор hero и галерея убраны. */}
+      <Act cls="canto-act" band={{ t: "cinematicBand", media: CANTO_PLATE, chapters: [
+        { index: "Side A · 01", title: <>We do not stream.<br /><em>We sit down.</em></>, body: "A turntable, a valve amp, and two speakers voiced over a year. Then one record, start to finish.", align: "left", media: CANTO_PLATE },
+        { index: "Side A · 02", title: <>Brass, walnut,<br /><em>forty years of tubes.</em></>, body: "Every system is built to the room it will live in. We come, we measure, we tune it by ear.", align: "left", media: `${BS}g/canto-deck.jpg` },
+        { index: "Side A · 03", title: <>With the<br /><em>lights low.</em></>, body: "The run-out groove is the only notification you will get tonight.", align: "left", media: `${BS}g/canto-room.jpg` },
+      ] }}>
+        <div className="canto-rec">
+          <div className="canto-disc"><b>CANTO</b><small>SIDE A · 33⅓</small></div>
+          <i className="canto-sheen" />
+          <i className="canto-arm" />
+        </div>
+      </Act>
+      <section className="canto-cta"><i className="canto-tubes" aria-hidden /><Reveal className="vh-rv--up"><h2>Hear it <em>in the room.</em></h2><p>Book an hour in the listening lounge. Bring the record that matters most.</p><a href="#" onClick={stop} className="canto-btn">Book a session <i>↗</i></a></Reveal></section>
       <footer className="canto-foot"><div className="canto-foot-top"><b>CANTO</b><p>Analog hi-fi systems, built by ear.</p></div><div className="canto-foot-legal"><span>Canto Audio</span><span>A Visual Hooks concept</span></div></footer>
     </div>
   );
 }
 
 /* ===== ATLAS — экспедиционное снаряжение (cold, epic) ===== */
+// изолинии карты (детерминированные «волнистые эллипсы»): по ходу акта рвутся и редеют — «где кончается карта»
+const ATLAS_ISO = Array.from({ length: 9 }, (_, k) => {
+  const pts = Array.from({ length: 73 }, (_, j) => {
+    const t = (j / 72) * Math.PI * 2, r = 70 + k * 46;
+    const rr = r * (1 + 0.09 * Math.sin(3 * t + k * 0.9) + 0.05 * Math.sin(5 * t - k * 1.7));
+    return `${(800 + rr * 1.5 * Math.cos(t)).toFixed(1)} ${(470 + rr * Math.sin(t)).toFixed(1)}`;
+  });
+  return `M${pts.join(" L")}`;
+});
 function AtlasSite() {
-  const kit: [string, string][] = [["-40°", "tested, not rated"], ["7", "expeditions before it ships"], ["1", "repair, free, forever"]];
   return (
     <div className="vh-site atlas">
+      {/* фон холодеет и светлеет с высотой; к CTA карта кончается — чистый белый */}
+      <Atmosphere stops={[{ at: ".atlas-hero", color: "#0c1014" }, { at: ".atlas-act", color: "#0c1117", anchor: 0.2 }, { at: ".atlas-act", color: "#dde5ea", anchor: 0.84 }, { at: ".atlas-cta", color: "#eef3f6" }]} />
+      <Weather kind="snow" count={26} color="#f4f8fb" between={[".atlas-act", ".atlas-foot"]} world={0.45} wind={1.6} zIndex={5} seed={5} />
       <section className="atlas-hero">
         <video className="atlas-hero-vid" src="/uploads/1/hooks/sites/atlas-hero.mp4" poster="/uploads/1/hooks/sites/atlas-hero.jpg" autoPlay muted loop playsInline />
         <div className="atlas-hero-wash" />
         <header className="atlas-head"><Link href="/visual-hooks" className="atlas-brand">ATLAS</Link><nav className="atlas-nav"><a href="#" onClick={stop}>The kit</a><a href="#" onClick={stop}>Field notes</a><a href="#" onClick={stop}>Shop</a></nav></header>
         <div className="atlas-hero-copy"><span className="atlas-eyebrow">Expedition gear</span><h1>Made for where<br /><em>the map ends.</em></h1></div>
       </section>
-      <section className="atlas-statement"><Reveal className="vh-rv--up"><h2>Gear that earns the<br /><em>weight it costs you.</em></h2><p>We make very few things. Each one goes to the ice on a real expedition before it is allowed anywhere near a shop.</p></Reveal></section>
-      <section className="atlas-stats"><div className="atlas-stats-row">{kit.map(([v, l]) => (<Reveal key={l} className="atlas-stat vh-rv--up"><b>{v}</b><span>{l}</span></Reveal>))}</div></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Where <em>the map ends.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/atlas-pack.jpg" alt="" /><figcaption>A short list, tested.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/atlas-field.jpg" alt="" /><figcaption>Taken to the ice.</figcaption></figure></Reveal></div></section>
+      {/* второй акт: раскладка на пине — цифры встают на свои предметы (статы = событие), потом кит уходит в поле;
+          изолинии рвутся к белому. Строка мелких статов и галерея-повтор «Where the map ends» убраны. */}
+      <Act cls="atlas-act" band={{ t: "cinematicBand", media: `${BS}g/atlas-pack.jpg`, chapters: [
+        { index: "The kit", title: <>Gear that earns<br /><em>the weight it costs you.</em></>, body: "We make very few things. Each one goes to the ice on a real expedition before it is allowed anywhere near a shop.", align: "left", media: `${BS}g/atlas-pack.jpg` },
+        { index: "Tested, not rated", title: <>Every piece<br /><em>earns its place.</em></>, body: "Carried, soaked, frozen and mended in the field before it makes this list.", align: "left", media: `${BS}g/atlas-pack.jpg` },
+        { index: "Taken to the ice", title: <>Built to be repaired,<br /><em>not replaced.</em></>, body: "One repair, free, forever — wherever the map ends for you.", align: "right", media: `${BS}g/atlas-field.jpg` },
+      ] }}>
+        <svg className="atlas-iso" viewBox="0 0 1600 940" preserveAspectRatio="xMidYMid slice" fill="none">{ATLAS_ISO.map((d, i) => <path key={i} d={d} pathLength={1} style={{ ["--i" as string]: i }} />)}</svg>
+        <div className="atlas-tags">
+          <div className="atlas-tag bs-w" style={aw(0.33, 0.62, { "--x": "63%", "--y": "70%" })}><i /><b>−40°</b><span>tested, not rated</span></div>
+          <div className="atlas-tag bs-w" style={aw(0.39, 0.62, { "--x": "47%", "--y": "38%" })}><i /><b>7</b><span>expeditions before it ships</span></div>
+          <div className="atlas-tag bs-w" style={aw(0.45, 0.62, { "--x": "76%", "--y": "80%" })}><i /><b>1</b><span>repair, free, forever</span></div>
+        </div>
+      </Act>
       <section className="atlas-cta"><Reveal className="vh-rv--up"><h2>Pack for <em>the ends of it.</em></h2><p>A short list of things that will not let you down. Built to be repaired, not replaced.</p><a href="#" onClick={stop} className="atlas-btn">See the kit <i>↗</i></a></Reveal></section>
       <footer className="atlas-foot"><div className="atlas-foot-top"><b>ATLAS</b><p>A short list of expedition-grade gear.</p></div><div className="atlas-foot-legal"><span>Atlas Supply</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1259,15 +1416,24 @@ function AtlasSite() {
 function NoctSite() {
   return (
     <div className="vh-site noct">
+      {/* ночь углубляется, круг свечи сужается */}
+      <Atmosphere stops={[{ at: ".noct-hero", color: "#120806" }, { at: ".noct-act", color: "#0f0605", anchor: 0.2 }, { at: ".noct-act", color: "#080302", anchor: 0.84 }, { at: ".noct-cta", color: "#070302" }]} />
       <section className="noct-hero">
         <video className="noct-hero-vid" src="/uploads/1/hooks/sites/noct-hero.mp4" poster="/uploads/1/hooks/sites/noct-hero.jpg" autoPlay muted loop playsInline />
         <div className="noct-hero-wash" />
         <header className="noct-head"><Link href="/visual-hooks" className="noct-brand">NOCT</Link><nav className="noct-nav"><a href="#" onClick={stop}>The list</a><a href="#" onClick={stop}>Makers</a><a href="#" onClick={stop}>Visit</a></nav></header>
         <div className="noct-hero-copy"><span className="noct-eyebrow">A natural wine room</span><h1>Wine that tastes<br /><em>of somewhere.</em></h1></div>
       </section>
-      <section className="noct-statement"><Reveal className="vh-rv--up"><h2>Nothing added,<br /><em>nothing taken away.</em></h2><p>Low light, forty bottles, and no list you have heard of. We pour by the glass and tell you the story if you want it.</p></Reveal></section>
-      <section className="noct-split"><Reveal className="noct-split-media vh-rv--mask"><img loading="lazy" src="/uploads/1/hooks/sites/noct-hero.jpg" alt="" /></Reveal><Reveal className="noct-split-copy vh-rv--up"><h3>Small growers,<br /><em>honest hands.</em></h3><p>Everything on the wall is farmed without chemicals and made without shortcuts. Some of it is a little wild. That is the good part.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Poured <em>after dark.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/noct-pour.jpg" alt="" /><figcaption>By the glass, by candle.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/noct-cellar.jpg" alt="" /><figcaption>Forty bottles, all strange.</figcaption></figure></Reveal></div></section>
+      {/* второй акт — налив: свеча работает фонарём, её круг освещает только текущую главу и переезжает от бокала к бутылке;
+          ночь густеет, круг сужается. Сплит-повтор hero и галерея («Poured after dark» ≈ CTA) убраны. */}
+      <Act cls="noct-act" band={{ t: "cinematicBand", media: `${BS}g/noct-pour.jpg`, chapters: [
+        { index: "By the glass", title: <>Nothing added,<br /><em>nothing taken away.</em></>, body: "Low light, forty bottles, and no list you have heard of.", align: "left", media: `${BS}g/noct-pour.jpg` },
+        { index: "The pour", title: <>We pour slowly,<br /><em>and tell the story.</em></>, body: "If you want it. Otherwise the glass does the talking, and the candle keeps the time.", align: "left", media: `${BS}g/noct-pour.jpg` },
+        { index: "Forty bottles", title: <>Small growers,<br /><em>honest hands.</em></>, body: "Farmed without chemicals, made without shortcuts. Some of it is a little wild. That is the good part.", align: "left", media: `${BS}g/noct-cellar.jpg` },
+      ] }}>
+        <div className="noct-lantern" />
+        <div className="noct-flame bs-w" style={aw(-0.2, 0.62, { "--wr": 0.1 })} />
+      </Act>
       <section className="noct-cta"><Reveal className="vh-rv--up"><h2>Come in <em>after dark.</em></h2><p>No bookings before eight. Sit at the bar and let us pour you something strange.</p><a href="#" onClick={stop} className="noct-btn">Find us <i>↗</i></a></Reveal></section>
       <footer className="noct-foot"><div className="noct-foot-top"><b>NOCT</b><p>A natural wine room. Open after dark.</p></div><div className="noct-foot-legal"><span>Noct Wine</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1298,14 +1464,23 @@ function SolSite() {
 function VesselSite() {
   return (
     <div className="vh-site vess">
+      {/* красная пустота → кремовое ателье «in daylight»: смена света прячется, пока акт закрывает экран */}
+      <Atmosphere stops={[{ at: ".vess-hero", color: "#180608" }, { at: ".vess-act", color: "#2c070c", anchor: 0.16 }, { at: ".vess-act", color: "#efe4d6", anchor: 0.86 }, { at: ".vess-cta", color: "#f4ece1" }]} />
       <section className="vess-hero">
         <video className="vess-hero-vid" src="/uploads/1/hooks/sites/vessel-hero.mp4" poster="/uploads/1/hooks/sites/vessel.jpg" autoPlay muted loop playsInline />
         <div className="vess-hero-wash" />
         <header className="vess-head"><Link href="/visual-hooks" className="vess-brand">VESSEL</Link><nav className="vess-nav"><a href="#" onClick={stop}>Collection</a><a href="#" onClick={stop}>Atelier</a><a href="#" onClick={stop}>Book</a></nav></header>
         <div className="vess-hero-copy"><span className="vess-eyebrow">Autumn / Winter</span><h1>Cloth that <em>moves</em><br />like it means it.</h1></div>
       </section>
-      <section className="vess-statement"><Reveal className="vh-rv--up"><h2>We cut for the body<br /><em>in motion.</em></h2><p>Draped, not fitted. Every piece is made to fall, fold and follow, drawn on a living body rather than a mannequin.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Cut for the body <em>in motion.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/vessel-look.jpg" alt="" /><figcaption>Drawn on a living body.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/vessel-fabric.jpg" alt="" /><figcaption>Made to fall and fold.</figcaption></figure></Reveal></div></section>
+      {/* второй акт «Draped, not fitted»: ткань падает → складывается → складка-занавес проходит через экран и открывает живое тело */}
+      <Act cls="vess-act" band={{ t: "cinematicBand", media: `${BS}g/vessel-fabric.jpg`, chapters: [
+        { index: "Draped, not fitted", title: <>We cut for the body<br /><em>in motion.</em></>, body: "No darts, no padding, no mannequin. Every piece is made to fall, fold and follow.", align: "center", media: `${BS}g/vessel-fabric.jpg` },
+        { index: "01 — Fall", title: <>It <em>falls.</em></>, body: "Cut on the bias, so the cloth drops from the shoulder the way water does.", align: "left", media: `${BS}g/vessel-fabric.jpg` },
+        { index: "02 — Fold", title: <>It <em>folds.</em></>, body: "Pleats pressed by hand, then left free to open as you walk.", align: "right", media: `${BS}g/vessel-fabric.jpg` },
+        { index: "03 — Follow", title: <>It <em>follows.</em></>, body: "Drawn on a living body, never a mannequin — so it moves when you do.", align: "left", media: `${BS}g/vessel-look.jpg` },
+      ] }}>
+        <div className="vess-fold bs-k" style={aw(0.62, 0.88)} />
+      </Act>
       <section className="vess-cta"><Reveal className="vh-rv--up"><h2>Seen only <em>by appointment.</em></h2><p>The collection shows in the atelier, on a body, in daylight. Book a fitting.</p><a href="#" onClick={stop} className="vess-btn">Request an appointment <i>↗</i></a></Reveal></section>
       <footer className="vess-foot"><div className="vess-foot-top"><b>VESSEL</b><p>Draped ready-to-wear, shown by appointment.</p></div><div className="vess-foot-legal"><span>Vessel Atelier</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1314,17 +1489,37 @@ function VesselSite() {
 
 /* ===== HAVEN — курорт/отель (warm golden, serene) ===== */
 function HavenSite() {
+  const pin = useSectionProgress<HTMLElement>();
   return (
     <div className="vh-site hav">
-      <section className="hav-hero">
-        <video className="hav-hero-vid" src="/uploads/1/hooks/sites/haven-hero.mp4" poster="/uploads/1/hooks/sites/haven.jpg" autoPlay muted loop playsInline />
-        <div className="hav-hero-wash" />
-        <header className="hav-head"><Link href="/visual-hooks" className="hav-brand">HAVEN</Link><nav className="hav-nav"><a href="#" onClick={stop}>The place</a><a href="#" onClick={stop}>Suites</a><a href="#" onClick={stop}>Reserve</a></nav></header>
-        <div className="hav-hero-copy"><span className="hav-eyebrow">A shoreline retreat</span><h1>Where the pool<br /><em>forgets the sea.</em></h1></div>
+      {/* один день: золото утра → белый полдень → синие сумерки к «Stay until you lose the day» */}
+      <Atmosphere stops={[{ at: ".hav-hero", color: "#eadcc4", anchor: 0.3 }, { at: ".hav-act", color: "#eeece6", anchor: 0.2 }, { at: ".hav-act", color: "#1c2740", anchor: 0.82 }, { at: ".hav-cta", color: "#19233a" }]} />
+      {/* актёр — линия горизонта: кромка бассейна → горизонт в окне → море с холма → линия заката под солнцем CTA */}
+      <Actor width="100vw" zIndex={6} bob={0} tilt={0} stops={[
+        { at: ".hav-hero", anchor: 0.28, pose: { x: 50, y: 42, o: 0 } },
+        { at: ".hav-hero", anchor: 0.6, pose: { x: 50, y: 42, o: 0.9 } },
+        { at: ".hav-act", anchor: 0.25, pose: { x: 50, y: 40, o: 0.55 } },
+        { at: ".hav-act", anchor: 0.75, pose: { x: 50, y: 35, o: 0.55 } },
+        { at: ".hav-cta", anchor: 0.5, pose: { x: 50, y: 20, o: 0.95, dock: true } },
+        { at: ".hav-foot", anchor: 0.9, pose: { x: 50, y: 20, o: 0 } },
+      ]}><div className="hav-line" /></Actor>
+      {/* hero на пине: камера наезжает на женщину, кромка бассейна растворяется в море, statement всплывает из воды */}
+      <section ref={pin} className="hav-hero">
+        <div className="hav-hero-pin">
+          <video className="hav-hero-vid" src="/uploads/1/hooks/sites/haven-hero.mp4" poster="/uploads/1/hooks/sites/haven.jpg" autoPlay muted loop playsInline />
+          <div className="hav-hero-wash" />
+          <div className="hav-haze" aria-hidden />
+          <header className="hav-head"><Link href="/visual-hooks" className="hav-brand">HAVEN</Link><nav className="hav-nav"><a href="#" onClick={stop}>The place</a><a href="#" onClick={stop}>Suites</a><a href="#" onClick={stop}>Reserve</a></nav></header>
+          <div className="hav-hero-copy"><span className="hav-eyebrow">A shoreline retreat</span><h1>Where the pool<br /><em>forgets the sea.</em></h1></div>
+          <div className="hav-hero-state"><h2>Nine rooms, one horizon,<br /><em>and nowhere to be.</em></h2><p>No lobby, no schedule, no screens by the water. Just a long edge where the pool and the ocean agree to be the same thing.</p></div>
+        </div>
       </section>
-      <section className="hav-statement"><Reveal className="vh-rv--up"><h2>Nine rooms, one horizon,<br /><em>and nowhere to be.</em></h2><p>No lobby, no schedule, no screens by the water. Just a long edge where the pool and the ocean agree to be the same thing.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>One horizon, <em>nowhere to be.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/haven-room.jpg" alt="" /><figcaption>Nine rooms, one edge.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/haven-view.jpg" alt="" /><figcaption>Where pool forgets sea.</figcaption></figure></Reveal></div></section>
-      <section className="hav-cta"><Reveal className="vh-rv--up"><h2>Stay until you <em>lose the day.</em></h2><p>Two-night minimum. Breakfast when you wake, dinner when the light goes.</p><a href="#" onClick={stop} className="hav-btn">Check dates <i>↗</i></a></Reveal></section>
+      {/* второй акт: белый полдень в номере → поздний день над бухтой уходит в синий час (холодные кадры = время суток, не чужая гамма) */}
+      <Act cls="hav-act" band={{ t: "cinematicBand", media: `${BS}g/haven-room.jpg`, chapters: [
+        { index: "Noon", title: <>Every room keeps<br /><em>the same line of sea.</em></>, body: "Nine suites, each with the horizon at the window and nothing on the wall to compete with it.", align: "left", media: `${BS}g/haven-room.jpg` },
+        { index: "Five o'clock", title: <>Walk down to the cove,<br /><em>or don't.</em></>, body: "The light goes gold, then blue, whether you watch it or not.", align: "right", media: `${BS}g/haven-view.jpg` },
+      ] }} />
+      <section className="hav-cta"><div className="hav-sun" aria-hidden /><Reveal className="vh-rv--up"><h2>Stay until you <em>lose the day.</em></h2><p>Two-night minimum. Breakfast when you wake, dinner when the light goes.</p><a href="#" onClick={stop} className="hav-btn">Check dates <i>↗</i></a></Reveal></section>
       <footer className="hav-foot"><div className="hav-foot-top"><b>HAVEN</b><p>A nine-room shoreline retreat.</p></div><div className="hav-foot-legal"><span>Haven Retreat</span><span>A Visual Hooks concept</span></div></footer>
     </div>
   );
@@ -1388,18 +1583,43 @@ function RoastSite() {
 }
 
 /* ===== LUME — ювелирка (dark, platinum, refraction) ===== */
+// чёрный бархат под камень (плита акта, вектор): лёгкий сине-фиолетовый отлив ворса
+const LUME_VELVET = svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="v" cx=".66" cy=".42" r=".75"><stop offset="0" stop-color="#1c1f2e"/><stop offset=".45" stop-color="#0d0e16"/><stop offset="1" stop-color="#040406"/></radialGradient><radialGradient id="l" cx=".2" cy=".05" r=".6"><stop offset="0" stop-color="#3a3350" stop-opacity=".45"/><stop offset="1" stop-color="#3a3350" stop-opacity="0"/></radialGradient></defs><rect width="1600" height="900" fill="url(#v)"/><rect width="1600" height="900" fill="url(#l)"/></svg>`);
 function LumeSite() {
   return (
     <div className="vh-site lume">
+      {/* от чёрного к бархату мастерской под лампой */}
+      <Atmosphere stops={[{ at: ".lume-hero", color: "#08090c" }, { at: ".lume-act", color: "#07080c", anchor: 0.2 }, { at: ".lume-act", color: "#1b1210", anchor: 0.82 }, { at: ".lume-cta", color: "#1d1311" }]} />
       <section className="lume-hero">
         <video className="lume-hero-vid" src="/uploads/1/hooks/sites/lume-hero.mp4" poster="/uploads/1/hooks/sites/lume.jpg" autoPlay muted loop playsInline />
         <div className="lume-hero-wash" />
         <header className="lume-head"><Link href="/visual-hooks" className="lume-brand">LUME</Link><nav className="lume-nav"><a href="#" onClick={stop}>Stones</a><a href="#" onClick={stop}>Bespoke</a><a href="#" onClick={stop}>Enquire</a></nav></header>
         <div className="lume-hero-copy"><span className="lume-eyebrow">Fine jewellery, made to order</span><h1>Light, <em>set</em><br />to be kept.</h1></div>
       </section>
-      <section className="lume-statement"><Reveal className="vh-rv--up"><h2>One stone, chosen<br /><em>to move with the light.</em></h2><p>We start with the gem, not the setting. Only when a stone earns it do we build the ring around the way it throws colour.</p></Reveal></section>
-      <section className="lume-split"><Reveal className="lume-split-media vh-rv--mask"><img loading="lazy" src="/uploads/1/hooks/sites/lume.jpg" alt="" /></Reveal><Reveal className="lume-split-copy vh-rv--up"><h3>Traced, cut,<br /><em>and set by one pair of hands.</em></h3><p>Every commission is drawn with you, then made by a single bench jeweller from stone to polish. It takes months. It should.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Begin with <em>the stone.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/lume-ring.jpg" alt="" /><figcaption>One stone, set for you.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/lume-bench.jpg" alt="" /><figcaption>Made at the bench.</figcaption></figure></Reveal></div></section>
+      {/* второй акт: луч входит в камень и выходит спектром; вокруг камня линией дорисовывается оправа; потом — руки у верстака.
+          Чужое кольцо (сапфир в золоте) и повтор постера hero убраны; заголовок CTA больше не дублируется. */}
+      <Act cls="lume-act" band={{ t: "cinematicBand", media: LUME_VELVET, chapters: [
+        { index: "Stone first", title: <>One stone, chosen<br /><em>to move with the light.</em></>, body: "We start with the gem, not the setting. White light goes in; the stone decides what colour comes out.", align: "left", media: LUME_VELVET },
+        { index: "Then the setting", title: <>The ring is drawn<br /><em>around its fire.</em></>, body: "Only when a stone earns it do we draw the claws, the gallery and the band — around the way it throws colour.", align: "left", media: LUME_VELVET },
+        { index: "At the bench", title: <>Traced, cut, and set<br /><em>by one pair of hands.</em></>, body: "Every commission is drawn with you, then made by a single bench jeweller from stone to polish. It takes months. It should.", align: "left", media: `${BS}g/lume-bench.jpg` },
+      ] }}>
+        <svg className="lume-draw bs-w" style={aw(-0.2, 0.6, { "--wr": 0.07 })} viewBox="0 0 400 400" fill="none">
+          <path className="lume-beam bs-k" style={aw(-0.1, 0.1)} pathLength={1} d="M-40 20 L196 160" />
+          <g className="lume-stone bs-k" style={aw(-0.04, 0.16)}>
+            <path pathLength={1} d="M140 160 L162 134 H238 L260 160 Z" /><path pathLength={1} d="M140 160 L200 238 L260 160" />
+            <path pathLength={1} d="M162 134 L180 160 L200 134 L220 160 L238 134 M180 160 L200 238 L220 160" />
+          </g>
+          <g className="lume-rays bs-k" style={aw(0.08, 0.26)}>
+            {["#9b7bff", "#5aa8ff", "#57e0b0", "#ffe066", "#ff7a59"].map((c, i) => <path key={c} pathLength={1} stroke={c} d={`M214 168 L${420} ${88 + i * 34}`} />)}
+          </g>
+          <g className="lume-set bs-k" style={aw(0.3, 0.48)}>
+            <path pathLength={1} d="M146 162 L166 246 M254 162 L234 246 M172 160 L180 246 M228 160 L220 246" />
+            <path pathLength={1} d="M160 246 H240 M166 246 L176 272 M234 246 L224 272" />
+            <ellipse pathLength={1} cx="200" cy="304" rx="112" ry="34" />
+            <ellipse pathLength={1} cx="200" cy="304" rx="96" ry="26" />
+          </g>
+        </svg>
+      </Act>
       <section className="lume-cta"><Reveal className="vh-rv--up"><h2>Begin with <em>the stone.</em></h2><p>A private appointment, a tray of gems, and no pressure to leave with anything but an idea.</p><a href="#" onClick={stop} className="lume-btn">Request an appointment <i>↗</i></a></Reveal></section>
       <footer className="lume-foot"><div className="lume-foot-top"><b>LUME</b><p>Bespoke fine jewellery, stone first.</p></div><div className="lume-foot-legal"><span>Lume Jewellery</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1805,349 +2025,368 @@ function ProSite({ data }: { data: Pro }) {
 const g = "/uploads/1/hooks/sites/g/";
 const PRO: Record<string, Pro> = {
   iron: { slug: "iron", theme: "iron", brand: "IRON", nav: ["The room", "Coaching", "Join"], tagline: "A small, serious strength gym.", legal: "Iron Room", typography: "grotesk", hero: { archetype: "edge-arrival", edge: "left", eyebrow: "A serious room", title: <>Strong is a<br /><em>quiet room.</em></>, sub: "One rack, no mirrors, no music over your own breathing.", proof: ["1", "rack · no mirrors"] }, blocks: [
-    { t: "cinematicBand", media: `${g}iron-lift.jpg`, motif: "halftone", chapters: [{ index: "I", title: <>One rack.<br />No mirrors.</>, body: "Nothing to watch but the bar and your own form.", align: "left" }, { index: "II", title: <>No music over<br />your own breathing.</>, body: "The room stays quiet on purpose.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>Rack — membership capped, never a queue</>, media: `${g}iron-rack.jpg`, note: "Real weight, honest coaching, and a room we keep small so it stays serious." },
-    { t: "diptych", primary: `${g}iron-lift.jpg`, secondary: `${g}iron-chalk.jpg`, index: "01", title: <>Strong is a<br /><em>quiet room.</em></>, body: "A gym for the training, not the photo. Come to work, not to be seen.", overlap: "object" },
-    { t: "idea", kick: "What Iron is", title: <>A gym for the training,<br /><em>not the photo.</em></>, body: "Real weight, honest coaching, and a room we cap on purpose so the bar is always free and nobody is performing for a phone." },
-    { t: "cine", mode: "ember", palette: ["#0d0705", "#5a1e0a", "#e0622e"], title: <>Show up.<br />Lift.<br /><em>Leave.</em></> },
-    { t: "stats", items: [["40", "members, capped"], ["2", "coaches, always in"], ["5am–10pm", "open, every day"]], note: "Membership is capped so the room stays yours." },
-    { t: "gallery", head: <>The work is <em>the point.</em></>, items: [{ img: `${g}iron-lift.jpg`, cap: "Every session, coached." }, { img: `${g}iron-chalk.jpg`, cap: "Chalk, not filters." }, { img: `${g}iron-rack.jpg`, cap: "The room at dawn." }] },
+    { t: "idea", kick: "The rule", title: <>A gym for the training,<br /><em>not the photo.</em></>, body: "Real weight, honest coaching, and a room we cap on purpose so the bar is always free and nobody is performing for a phone." },
+    { t: "cinematicBand", media: `${g}iron-rack.jpg`, motif: "none", chapters: [
+      { index: "05:00", title: <>The room,<br />before anyone.</>, body: "The lights come up on one rack. Nobody here is filming.", align: "left", media: `${g}iron-rack.jpg` },
+      { index: "05:20", title: <>Chalk,<br />then grip.</>, body: "A coach at your shoulder, watching the bar path, not the clock.", align: "right", media: `${g}iron-chalk.jpg` },
+      { index: "05:40", title: <>Just the bar<br />and your breath.</>, body: "No mirror to check, no playlist to hide under.", align: "left", media: `${g}iron-lift.jpg` },
+    ] },
+    { t: "bigNumber", value: "40", label: <>members, capped — the bar is always free</>, media: "/uploads/1/hooks/sites/iron.jpg", note: "When the room is full, the list opens. Nobody queues for a rack." },
+    { t: "split", img: `${g}iron-chalk.jpg`, rev: true, title: <>Coached,<br /><em>every session.</em></>, list: [{ b: "Two coaches, always in", s: "Someone who knows your numbers is on the floor." }, { b: "Open five till ten", s: "Every day, including the ones you'd rather skip." }, { b: "Real weight only", s: "Bars, plates and chalk. No machines to hide behind." }] },
     { t: "quote", text: "I came to get strong, not to be seen. First gym that let me.", cite: "Marcus D., two years in" },
     { t: "cta", title: <>Come <em>lift.</em></>, body: "A trial week, then a place we hold as long as you use it.", label: "Start a trial" },
   ] },
   botanic: { slug: "botanic", theme: "botanic", brand: "BOTANIC", nav: ["The gin", "Distillery", "Buy"], tagline: "Small-batch botanical gin.", legal: "Botanic Distillery", typography: "editorial", hero: { archetype: "gallery-horizon", eyebrow: "Small-batch gin", title: <>Gin with<br /><em>a garden in it.</em></>, sub: "Distilled in small copper runs, from botanicals we can name.", strip: ["/uploads/1/hooks/sites/botanic.jpg", "/uploads/1/hooks/sites/g/botanic-bots.jpg", "/uploads/1/hooks/sites/g/botanic-serve.jpg", "/uploads/1/hooks/sites/g/botanic-still.jpg", "/uploads/1/hooks/sites/botanic.jpg"] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/botanic-still.jpg", motif: "none", chapters: [{ index: "I", title: <>Distilled in<br />small copper runs.</>, body: "A slow, small run — not an industrial column still.", align: "left" }, { index: "II", title: <>From botanicals<br />we can name.</>, body: "Each one on the label, each one for a reason.", align: "right" }] },
-    { t: "bigNumber", value: "12", label: <>botanicals, each named on the label</>, media: "/uploads/1/hooks/sites/g/botanic-bots.jpg", note: "No mystery “natural flavourings” — a real garden, distilled." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/botanic-serve.jpg", secondary: "/uploads/1/hooks/sites/g/botanic-bots.jpg", index: "N°01", title: <>Gin with<br /><em>a garden in it.</em></>, body: "Small-batch, foraged where we can, bottled while it is bright.", overlap: "object" },
-    { t: "idea", kick: "What Botanic is", title: <>Gin that tastes<br /><em>of somewhere.</em></>, body: "Twelve botanicals, foraged and grown near the still, redistilled in batches small enough to taste every one. Bright, green, and unmistakably from one place." },
-    { t: "split", img: `${g}botanic-bots.jpg`, title: <>Twelve botanicals,<br /><em>each earning its place.</em></>, list: [{ b: "Juniper, grown close", s: "Two valleys over, not shipped in from a sack." }, { b: "Citrus, peeled that morning", s: "Bright and oily, never dried to dust." }, { b: "A little something wild", s: "Foraged, seasonal, and never quite the same twice." }] },
-    { t: "editorial", img: `${g}botanic-still.jpg`, title: <>One small still,<br /><em>run slow.</em></>, body: "Batches of a few hundred bottles, cut by taste rather than a spreadsheet." },
     { t: "stats", items: [["12", "botanicals, named"], ["300", "bottles a batch"], ["43%", "the way it should be"]], note: "Figures from the current release." },
+    { t: "cinematicBand", media: `${g}botanic-bots.jpg`, motif: "none", chapters: [
+      { index: "Gathered", title: <>What’s in it,<br />by name.</>, body: "Juniper from two valleys over, citrus peeled that morning, something wild.", align: "left", media: `${g}botanic-bots.jpg` },
+      { index: "Distilled", title: <>One small<br />copper still.</>, body: "A few hundred bottles a run, cut by taste.", align: "right", media: `${g}botanic-still.jpg` },
+      { index: "Poured", title: <>Long,<br />over ice.</>, body: "Bright and green while it is young.", align: "left", media: `${g}botanic-serve.jpg` },
+    ] },
+    { t: "idea", kick: "Of one place", title: <>Gin that tastes<br /><em>of somewhere.</em></>, body: "Twelve botanicals, redistilled in batches small enough to taste every one. Bright, green, and unmistakably from one place." },
     { t: "cta", title: <>Pour <em>a measure.</em></>, body: "A tasting set of three expressions, with the botanicals to nose alongside.", label: "Order a tasting" },
   ] },
   nib: { slug: "nib", theme: "nib", brand: "NIB", nav: ["Pens", "Ink", "Visit"], tagline: "Fountain pens, ink and paper.", legal: "Nib & Co.", typography: "signal", hero: { archetype: "regime-shift", index: "N° 01 / 04", eyebrow: "Analogue writing", title: <>Words deserve<br />a good tool.</>, sub: "Fountain pens, real ink, and paper worth the fuss — the slow instruments a screen can't replace.", object: "/uploads/1/hooks/sites/nib.jpg", labels: ["Nib", "Ink", "Paper", "Hand"] }, blocks: [
-    { t: "cinematicBand", media: `${g}nib-write.jpg`, motif: "halftone", chapters: [{ index: "I", title: <>Ink that<br />dries and stays.</>, body: "A line with weight, laid down slowly on paper worth the fuss.", align: "left" }, { index: "II", title: <>A tool that<br />outlives you.</>, body: "Serviced, refilled, handed on — never thrown away.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>Nib, tuned to your hand and the way you write</>, media: `${g}nib-inks.jpg`, note: "The slow instruments a screen can't replace: pen, ink, paper, hand." },
-    { t: "diptych", primary: `${g}nib-paper.jpg`, secondary: `${g}nib-inks.jpg`, index: "N° 01", title: <>Words deserve<br /><em>a good tool.</em></>, body: "A short shelf of things that last: pens that outlive you, inks in colours worth naming.", overlap: "object" },
-    { t: "idea", kick: "What Nib is", title: <>A short shelf<br /><em>of things that last.</em></>, body: "Pens that will outlive you, inks in colours worth naming, and the notebooks to spend them on. Nothing here is disposable." },
     { t: "cine", mode: "silk", palette: ["#0a0c12", "#22345e", "#6f9fd8"], title: <>Slow down.<br /><em>Write it by hand.</em></> },
-    { t: "split", img: `${g}nib-write.jpg`, title: <>Chosen for<br /><em>your hand.</em></>, list: [{ b: "A nib to match your grip", s: "Fine or broad, wet or dry, matched to how you actually write." }, { b: "Ink worth naming", s: "Colours with depth, shading and a little sheen." }, { b: "Paper that behaves", s: "No feathering, no bleed, a pleasure to drag a nib across." }] },
-    { t: "gallery", head: <>The good stuff, <em>up close.</em></>, items: [{ img: `${g}nib-inks.jpg`, cap: "Ink, in colours worth naming." }, { img: `${g}nib-paper.jpg`, cap: "Paper that behaves." }] },
+    { t: "cinematicBand", media: `${g}nib-inks.jpg`, motif: "none", chapters: [
+      { index: "Ink", title: <>Choose<br />the colour.</>, body: "Inks with depth, shading and a little sheen.", align: "left", media: `${g}nib-inks.jpg` },
+      { index: "Paper", title: <>Meet<br />the page.</>, body: "No feathering, no bleed — a surface worth dragging a nib across.", align: "right", media: `${g}nib-paper.jpg` },
+      { index: "Hand", title: <>Then let<br />the line go.</>, body: "Laid down slowly, it dries and stays.", align: "left", media: `${g}nib-write.jpg` },
+    ] },
+    { t: "bigNumber", value: "3", label: <>pens on the counter — narrowed from a wall to your hand</>, media: "/uploads/1/hooks/sites/nib.jpg", note: "Fine or broad, wet or dry, matched to how you actually write." },
+    { t: "idea", kick: "Nothing disposable", title: <>A short shelf<br /><em>of things that last.</em></>, body: "Pens that will outlive you, inks in colours worth naming, and the notebooks to spend them on. Serviced, refilled, handed on — never thrown away." },
     { t: "quote", text: "I came in for a birthday gift and left writing letters again. That is on them.", cite: "Priya S., regular" },
-    { t: "cta", title: <>Find <em>your pen.</em></>, body: "Tell us your hand and your budget. We narrow a wall of pens to three.", label: "Find a pen" },
+    { t: "cta", title: <>Find <em>your pen.</em></>, body: "Bring your handwriting and an hour. We do the narrowing.", label: "Find a pen" },
   ] },
   swell: { slug: "swell", theme: "swell", brand: "SWELL", nav: ["Boards", "The bay", "Order"], tagline: "Hand-shaped surfboards.", legal: "Swell Surf", typography: "fashion", hero: { archetype: "portal-frame", frame: "portrait", eyebrow: "Hand-shaped boards", title: <>The ocean keeps<br /><em>no schedule.</em></>, sub: "Boards shaped by hand for the waves you actually ride." }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/swell-wave.jpg", motif: "none", chapters: [{ index: "I", title: <>Shaped by hand<br />for real waves.</>, body: "Blanks read and cut for the water you actually surf.", align: "left" }, { index: "II", title: <>The board<br />you actually ride.</>, body: "Not a rack model — one shaped to you and your bay.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>Board, shaped by hand to your surf and your bay</>, media: "/uploads/1/hooks/sites/g/swell-shape.jpg", note: "The ocean keeps no schedule; the board is made to meet it when it comes." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/swell-shape.jpg", secondary: "/uploads/1/hooks/sites/g/swell-rack.jpg", index: "01", title: <>The ocean keeps<br /><em>no schedule.</em></>, body: "Hand-shaped boards for the waves you actually ride, glassed to last.", overlap: "object" },
-    { t: "idea", kick: "What Swell is", title: <>A board shaped<br /><em>to how you surf.</em></>, body: "No pop-outs, no hype models. We watch how you ride, then shape a board to your break, your weight and your bad habits." },
+    { t: "cinematicBand", media: `${g}swell-wave.jpg`, motif: "none", chapters: [
+      { index: "The break", title: <>Read the water<br />first.</>, body: "We watch the break you surf before a blank is touched.", align: "left", media: `${g}swell-wave.jpg` },
+      { index: "The blank", title: <>Planed down,<br />a curl at a time.</>, body: "Foam where you need float, thin where you need bite.", align: "right", media: `${g}swell-shape.jpg` },
+      { index: "The rack", title: <>Glassed, dried,<br />and waiting.</>, body: "One board, ready for the bay.", align: "left", media: `${g}swell-rack.jpg` },
+    ] },
     { t: "cine", mode: "caustics", palette: ["#03141a", "#0a5c6e", "#7fe0e0"], title: <>Made for<br /><em>the wave you get.</em></> },
-    { t: "split", img: `${g}swell-shape.jpg`, title: <>Planed by hand,<br /><em>a curl at a time.</em></>, list: [{ b: "Shaped to your break", s: "Beach, point or reef, the outline follows the wave." }, { b: "Foiled to your weight", s: "Foam where you need float, thin where you need bite." }, { b: "Your name in the stringer", s: "One board, signed, built to be surfed for years." }] },
-    { t: "gallery", head: <>From blank <em>to break.</em></>, items: [{ img: `${g}swell-rack.jpg`, cap: "The rack, drying." }, { img: `${g}swell-wave.jpg`, cap: "Where it ends up." }] },
+    { t: "idea", kick: "No pop-outs", title: <>A board shaped<br /><em>to how you surf.</em></>, body: "No hype models. We watch how you ride, then shape to your break, your weight and your bad habits — built to be surfed for years, not hung on a wall." },
+    { t: "split", img: `${g}swell-shape.jpg`, title: <>Shaped to<br /><em>your break.</em></>, list: [{ b: "Beach, point or reef", s: "The outline follows the wave, not a catalogue." }, { b: "Foiled to your weight", s: "Volume measured to you, not to a size chart." }, { b: "Glassed to last", s: "Built for years in the water, not a season." }] },
     { t: "quote", text: "First board that felt like it read the wave for me. I stopped fighting it by week two.", cite: "Kai M., ordered twice" },
     { t: "cta", title: <>Get <em>shaped.</em></>, body: "A conversation, a few weeks in the bay, and a board with your name in the stringer.", label: "Order a board" },
   ] },
   wick: { slug: "wick", theme: "wick", brand: "WICK", typography: "grotesk", hero: { archetype: "type-collision", object: "/uploads/1/hooks/sites/wick.jpg", eyebrow: "Poured by hand", title: <>SLOWBURN</>, sub: "Poured by hand, scented lightly, made to burn slow." }, nav: ["The range", "Refills", "Shop"], tagline: "Hand-poured candles.", legal: "Wick Studio", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/wick-lit.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Poured<br />by hand.</>, body: "Small pours, scented lightly, cured before they ship.", align: "left" }, { index: "II", title: <>Made to<br />burn slow.</>, body: "A clean, even burn to the last of the wax.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>Wick, one clean pour — scented lightly, burned slow</>, media: "/uploads/1/hooks/sites/g/wick-pour.jpg", note: "Light that smells like a memory, not a fragrance wall — a little scent, or none." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/wick-shelf.jpg", secondary: "/uploads/1/hooks/sites/g/wick-lit.jpg", index: "01", title: <>Light that smells<br /><em>like a memory.</em></>, body: "Hand-poured candles, plainly kept, made to burn slow and clean.", overlap: "object" },
-    { t: "idea", kick: "What Wick is", title: <>No headache<br /><em>in a jar.</em></>, body: "Clean wax, restrained scent, and a wick that burns to the bottom without tunnelling. A candle you notice, not one that takes over the room." },
-    { t: "steps", head: <>Made slowly, <em>on purpose.</em></>, items: [{ h: "Pour", p: "Small pours of clean wax, scented with a light hand." }, { h: "Cure", p: "Two weeks resting, so the scent settles and the burn stays even." }, { h: "Trim", p: "Cut, wicked and checked by hand before it ships." }] },
-    { t: "split", img: `${g}wick-pour.jpg`, title: <>Poured in small<br /><em>batches, by hand.</em></>, list: [{ b: "Clean wax, no soot", s: "Burns clean to the base without a black halo." }, { b: "Scent you can live with", s: "Present in the room, gone from your headache." }, { b: "Refill, keep the vessel", s: "Send the jar back, we pour it again." }] },
-    { t: "gallery", head: <>Warm, <em>up close.</em></>, items: [{ img: `${g}wick-lit.jpg`, cap: "Lit, at dusk." }, { img: `${g}wick-shelf.jpg`, cap: "The current range." }] },
+    { t: "diptych", primary: `${g}wick-lit.jpg`, secondary: `${g}wick-shelf.jpg`, index: "01", title: <>Light that smells<br /><em>like a memory.</em></>, body: "A little scent, or none — never a fragrance wall. Hand-poured, plainly kept.", overlap: "object" },
+    { t: "cinematicBand", media: `${g}wick-pour.jpg`, motif: "none", chapters: [
+      { index: "Day 1", title: <>Poured in<br />small batches.</>, body: "Clean wax, and a light hand with the scent.", align: "left", media: `${g}wick-pour.jpg` },
+      { index: "Day 14", title: <>Left to cure<br />two weeks.</>, body: "So the scent settles and the burn stays even.", align: "right", media: `${g}wick-shelf.jpg` },
+      { index: "Lit", title: <>Then it burns<br />to the base.</>, body: "An even pool to the last of the wax — no soot, no tunnel.", align: "left", media: `${g}wick-lit.jpg` },
+    ] },
+    { t: "idea", kick: "The point", title: <>No headache<br /><em>in a jar.</em></>, body: "Clean wax, restrained scent, and a wick trimmed by hand. A candle you notice, not one that takes over the room." },
+    { t: "split", img: `${g}wick-pour.jpg`, rev: true, title: <>Keep the jar,<br /><em>we refill it.</em></>, list: [{ b: "Send the vessel back", s: "We clean it, wick it and pour it again." }, { b: "Scent you can live with", s: "Present in the room, gone from your headache." }, { b: "No black halo", s: "Clean wax leaves the glass clear to the last." }] },
     { t: "cta", title: <>Light <em>one.</em></>, body: "A trio to find your scent, then a refill service so the vessel stays.", label: "Shop the range" },
   ] },
   cask: { slug: "cask", theme: "cask", brand: "CASK", nav: ["Releases", "The warehouse", "List"], tagline: "Single-cask, cask-strength whisky.", legal: "Cask & Co.", typography: "fashion", hero: { archetype: "product-theatre", eyebrow: "Single-cask whisky", title: <>Whisky with<br /><em>a birthday.</em></>, sub: "One cask, bottled as it is, at the strength it earned.", object: "/uploads/1/hooks/sites/cask.jpg", depth: "/uploads/1/hooks/sites/g/cask-depth.jpg", proof: [["1", "cask, never blended"], ["cask", "strength, undiluted"], ["1 / 250", "bottles, numbered"]] }, blocks: [
-    { t: "idea", kick: "What Cask is", title: <>One barrel,<br /><em>bottled honestly.</em></>, body: "No blending to a house style, no colour added, no water unless you add it. Each release is one cask, and when it is gone it is gone." },
-    { t: "cinematicBand", media: `${g}cask-barrels.jpg`, motif: "halftone", chapters: [{ index: "I", title: <>Laid down<br />in the dark.</>, body: "Rolled into the warehouse and forgotten on purpose.", align: "left" }, { index: "II", title: <>Left to the wood<br />and the years.</>, body: "Colour, weight and character, drawn slowly from the oak.", align: "right" }, { index: "III", title: <>One cask.<br />Never again.</>, align: "center" }] },
-    { t: "editorial", img: `${g}cask-barrels.jpg`, title: <>It sleeps<br /><em>in the dark for years.</em></>, body: "Laid down in oak and left alone, gaining colour and character from the wood and the years, not from a lab." },
-    { t: "bigNumber", value: "58.2%", label: <>ABV as it left the wood — cask strength, undiluted</>, media: `${g}cask-glass.jpg`, note: "Every release carries its own figure on the label. This one asked for no water at all." },
-    { t: "diptych", primary: `${g}cask-pour.jpg`, secondary: `${g}cask-glass.jpg`, index: "N°47", title: <>Bottled as it is,<br /><em>numbered by hand.</em></>, body: "Two hundred and fifty bottles from a single cask, each one signed and counted. What you pour is exactly what slept in the wood.", overlap: "object" },
-    { t: "gallery", head: <>Poured <em>as it is.</em></>, items: [{ img: `${g}cask-pour.jpg`, cap: "No water added." }, { img: `${g}cask-glass.jpg`, cap: "The colour of the wood." }] },
-    { t: "quote", text: "Bought a bottle from cask 47 on a whim. There will never be another exactly like it, and that is the point.", cite: "Hamish G., on the list" },
+    { t: "idea", kick: "One barrel", title: <>One barrel,<br /><em>bottled honestly.</em></>, body: "No blending to a house style, no colour added, no water unless you add it. Each release is one cask, and when it is gone it is gone." },
+    { t: "cinematicBand", media: `${g}cask-barrels.jpg`, motif: "none", chapters: [
+      { index: "Year 0", title: <>Laid down<br />in the dark.</>, body: "Rolled into the warehouse and forgotten on purpose.", align: "left", media: `${g}cask-barrels.jpg` },
+      { index: "Year 12", title: <>Drawn from<br />one cask.</>, body: "Colour and weight from the oak, not from a lab.", align: "right", media: `${g}cask-pour.jpg` },
+      { index: "Bottled", title: <>One cask.<br />Never again.</>, body: "When the last bottle goes, so does this whisky.", align: "center", media: `${g}cask-glass.jpg` },
+    ] },
+    { t: "bigNumber", value: "58.2%", label: <>ABV as it left the wood — cask strength, undiluted</>, media: "/uploads/1/hooks/sites/cask.jpg", note: "Every release carries its own figure on the label. This one asked for no water at all." },
+    { t: "diptych", primary: `${g}cask-pour.jpg`, secondary: `${g}cask-glass.jpg`, index: "1/250", title: <>Numbered<br /><em>by hand.</em></>, body: "Two hundred and fifty bottles from a single cask, each one signed and counted. What you pour is exactly what slept in the wood.", overlap: "object" },
+    { t: "quote", text: "Bought a bottle on a whim. There will never be another exactly like it, and that is the point.", cite: "Hamish G., on the list" },
     { t: "cta", title: <>Claim <em>a bottle.</em></>, body: "New single-cask releases a few times a year, to a short list first.", label: "Join the list" },
   ] },
   clay: { slug: "clay", theme: "clay", brand: "CLAY", nav: ["The batch", "Studio", "Shop"], tagline: "Wheel-thrown tableware.", legal: "Clay Studio", typography: "editorial", hero: { archetype: "hard-split", index: "STUDIO", mediaSide: "left", eyebrow: "Wheel-thrown, one at a time", title: <>Made to be<br /><em>used up.</em></>, sub: "Thrown by hand, fired once, and sold exactly as it came out." }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/clay-wheel.jpg", motif: "none", chapters: [{ index: "I", title: <>Thrown by hand,<br />one at a time.</>, body: "No two are identical, and that is the whole point.", align: "left" }, { index: "II", title: <>Fired once,<br />sold as it came out.</>, body: "No correction, no gloss to hide the maker.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>of one — wheel-thrown, never moulded</>, media: "/uploads/1/hooks/sites/g/clay-hands.jpg", note: "Made to be used up, chipped, and lived with, not displayed." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/clay-wheel.jpg", secondary: "/uploads/1/hooks/sites/g/clay-hands.jpg", index: "01", title: <>Made to be<br /><em>used up.</em></>, body: "Tableware for daily use, thrown and fired in one small studio.", overlap: "object" },
-    { t: "idea", kick: "What Clay is", title: <>Pots for<br /><em>every day.</em></>, body: "Small batches, honest glazes, and the odd thumbprint left in on purpose. Made to eat off, every single day, until they break." },
-    { t: "split", img: `${g}clay-wheel.jpg`, title: <>Thrown by hand,<br /><em>never quite twice.</em></>, list: [{ b: "One pair of hands", s: "Every piece thrown, trimmed and glazed by the same potter." }, { b: "Honest, food-safe glazes", s: "Earthy, matte, and made to live in a dishwasher." }, { b: "Sold as it came out", s: "Small marks left in, because a hand made it." }] },
-    { t: "gallery", head: <>The current <em>batch.</em></>, items: [{ img: `${g}clay-shelf.jpg`, cap: "Fresh from the kiln." }, { img: `${g}clay-wheel.jpg`, cap: "On the wheel." }, { img: `${g}clay-hands.jpg`, cap: "Every piece, by hand." }] },
+    { t: "cinematicBand", media: `${g}clay-wheel.jpg`, motif: "none", chapters: [
+      { index: "Centre", title: <>A lump<br />on the wheel.</>, body: "Centred by feel before anything can rise.", align: "left", media: `${g}clay-wheel.jpg` },
+      { index: "Pull", title: <>One pair<br />of hands.</>, body: "Walls pulled up slowly — never quite the same twice.", align: "right", media: `${g}clay-hands.jpg` },
+      { index: "Fire", title: <>Out of<br />the kiln.</>, body: "Fired once, with the small marks left in, because a hand made it.", align: "left", media: `${g}clay-shelf.jpg` },
+    ] },
+    { t: "steps", head: <>How to <em>live with it.</em></>, items: [{ h: "Eat off it", p: "Every day, not just when guests come." }, { h: "Wash it", p: "Food-safe glazes, happy in a dishwasher." }, { h: "Chip it, keep it", p: "A mark on a bowl is a meal it was there for." }] },
+    { t: "gallery", head: <>The current <em>batch.</em></>, items: [{ img: `${g}clay-shelf.jpg`, cap: "Fresh from the kiln." }, { img: `${g}clay-hands.jpg`, cap: "Every piece, by hand." }] },
     { t: "cta", title: <>The next batch is <em>out of the kiln.</em></>, body: "A few dozen pieces, photographed as they are, first come first served.", label: "See the batch" },
   ] },
   stride: { slug: "stride", theme: "stride", brand: "STRIDE", nav: ["The shoe", "Fitting", "Buy"], tagline: "One carefully tuned running shoe.", legal: "Stride Running", typography: "signal", hero: { archetype: "index-stage", eyebrow: "One shoe, done well", title: <>Built for<br />the long run.</>, items: [{ label: "The shoe", meta: "one, refined", img: "/uploads/1/hooks/sites/g/stride-detail.jpg" }, { label: "The road", meta: "1,000 km", img: "/uploads/1/hooks/sites/g/stride-road.jpg" }, { label: "The run", meta: "tuned at dawn", img: "/uploads/1/hooks/sites/g/stride-run.jpg" }, { label: "The fit", meta: "one free resole", img: "/uploads/1/hooks/sites/stride.jpg" }] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/stride-road.jpg", motif: "halftone", chapters: [{ index: "I", title: <>One shoe,<br />tuned for years.</>, body: "We refine a single model instead of launching a new one each season.", align: "left" }, { index: "II", title: <>Not a new model<br />every season.</>, body: "No colourway churn, no gimmick foam.", align: "right" }] },
-    { t: "bigNumber", value: "1,000km", label: <>before you feel it go</>, media: "/uploads/1/hooks/sites/g/stride-detail.jpg", note: "Foam that stays steady for a year, not soft for a week." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/stride-run.jpg", secondary: "/uploads/1/hooks/sites/g/stride-detail.jpg", index: "01", title: <>Built for<br /><em>the long run.</em></>, body: "A single road shoe, tuned on real roads, resoled when it wears.", overlap: "object" },
-    { t: "idea", kick: "What Stride is", title: <>One shoe,<br /><em>refined for years.</em></>, body: "No colourway churn, no gimmick foam. A single road shoe we tune slowly, resole when it wears, and stand behind past the hype." },
-    { t: "split", img: `${g}stride-detail.jpg`, title: <>Every part<br /><em>earns its place.</em></>, list: [{ b: "Foam that lasts a thousand miles", s: "Not the softest for a week, the steadiest for a year." }, { b: "A knit that dries and holds", s: "Locks the foot without cooking it." }, { b: "Resoleable, on purpose", s: "Send them back, we give them a second life." }] },
-    { t: "editorial", img: `${g}stride-run.jpg`, title: <>Made for the<br /><em>mile after mile.</em></>, body: "Tuned on real roads at dawn, by people who run further than they market." },
-    { t: "stats", items: [["1", "shoe, refined"], ["1,000km", "before you feel it"], ["1", "free resole"]], note: "Illustrative, from long-term wear testing." },
+    { t: "bigNumber", value: "1,000km", label: <>before you feel it go</>, media: "/uploads/1/hooks/sites/stride.jpg", note: "One shoe, refined each year instead of replaced." },
+    { t: "cinematicBand", media: `${g}stride-run.jpg`, motif: "none", chapters: [
+      { index: "Km 0", title: <>Tuned on<br />real roads.</>, body: "Tested at dawn by people who run further than they market.", align: "left", media: `${g}stride-run.jpg` },
+      { index: "Km 500", title: <>The same ride<br />on day three hundred.</>, body: "No colourway churn, no gimmick foam.", align: "right", media: `${g}stride-road.jpg` },
+      { index: "Km 1,000", title: <>Then a new sole,<br />on us.</>, body: "The upper has another life in it.", align: "left", media: `${g}stride-detail.jpg` },
+    ] },
+    { t: "split", img: `${g}stride-run.jpg`, rev: true, title: <>Every part<br /><em>earns its place.</em></>, list: [{ b: "Foam that holds its shape", s: "Not the softest for a week — the steadiest for a year." }, { b: "A knit that dries and holds", s: "Locks the foot without cooking it." }, { b: "Resoleable, on purpose", s: "The upper outlives the sole, so we replace the sole." }] },
     { t: "cta", title: <>Find <em>your fit.</em></>, body: "A gait check, a size, and a shoe that will still be here next year.", label: "Get fitted" },
   ] },
   plat: { slug: "plat", theme: "plat", brand: "PLAT", nav: ["The room", "An evening", "Book"], tagline: "A twelve-seat tasting kitchen.", legal: "Plat Kitchen", typography: "fashion", hero: { archetype: "edge-arrival", edge: "right", eyebrow: "A twelve-seat kitchen", title: <>A dinner worth<br /><em>the drive.</em></>, sub: "Twelve seats, one sitting, and no menu to choose from.", proof: ["12", "seats · one sitting"] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/plat-room.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Twelve seats,<br />one sitting.</>, body: "One service a night, cooked for the room.", align: "left" }, { index: "II", title: <>No menu<br />to choose from.</>, body: "We cook what the morning market gave us.", align: "right" }] },
-    { t: "bigNumber", value: "12", label: <>seats — one long table, one service</>, media: "/uploads/1/hooks/sites/g/plat-dish.jpg", note: "Nothing to choose and nothing to miss; the kitchen paces the night." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/plat-room.jpg", secondary: "/uploads/1/hooks/sites/g/plat-dish.jpg", index: "XII", title: <>A dinner worth<br /><em>the drive.</em></>, body: "A dozen small courses, explained as they land, in a room of twelve.", overlap: "object" },
-    { t: "idea", kick: "What Plat is", title: <>One long meal,<br /><em>cooked for the room.</em></>, body: "We cook what the morning market gave us, one sitting at a time, and tell you what each plate is as it lands. There is nothing to choose and nothing to miss." },
-    { t: "editorial", img: `${g}plat-room.jpg`, title: <>Twelve seats,<br /><em>one long table.</em></>, body: "Low light, one service a night, and a room small enough that the kitchen cooks for you, not for a hundred." },
-    { t: "steps", head: <>How an evening <em>runs.</em></>, items: [{ h: "Arrive", p: "Seven o'clock, all twelve of you, a glass already poured." }, { h: "Eat", p: "A dozen small courses, paced by the kitchen, explained as they land." }, { h: "Stay", p: "No turning the table. The night is yours until it ends." }] },
-    { t: "gallery", head: <>Plated <em>to the second.</em></>, items: [{ img: `${g}plat-dish.jpg`, cap: "One of the dozen." }, { img: `${g}plat-chef.jpg`, cap: "Finished at the pass." }] },
+    { t: "cinematicBand", media: `${g}plat-room.jpg`, motif: "none", chapters: [
+      { index: "19:00", title: <>Twelve chairs,<br />one long table.</>, body: "A glass already poured before you sit.", align: "left", media: `${g}plat-room.jpg` },
+      { index: "21:00", title: <>Finished<br />at the pass.</>, body: "A dozen small courses, paced by the kitchen.", align: "right", media: `${g}plat-chef.jpg` },
+      { index: "23:30", title: <>The last plate<br />lands.</>, body: "Explained as it arrives. Nobody turns the table.", align: "left", media: `${g}plat-dish.jpg` },
+    ] },
     { t: "quote", text: "No menu, no choices, no idea what was coming. Best meal of the year by a mile.", cite: "Sofia L., booked again" },
+    { t: "idea", kick: "No menu", title: <>One long meal,<br /><em>cooked for the room.</em></>, body: "We cook what the morning market gave us, one sitting at a time. There is nothing to choose and nothing to miss." },
+    { t: "gallery", head: <>Plated <em>to the second.</em></>, items: [{ img: `${g}plat-dish.jpg`, cap: "One of the dozen." }, { img: `${g}plat-chef.jpg`, cap: "At the pass." }] },
     { t: "cta", title: <>Take one of the <em>twelve seats.</em></>, body: "Bookings open on the first of the month and go within the hour.", label: "Join the list" },
   ] },
   fetch: { slug: "fetch", theme: "fetch", brand: "FETCH", nav: ["The box", "What's inside", "Start"], tagline: "A considered box for one specific dog.", legal: "Fetch Pet", typography: "grotesk", hero: { archetype: "product-theatre", eyebrow: "For one specific dog", title: <>Everything your dog<br /><em>would order.</em></>, sub: "A monthly box packed to your dog, not the average of all dogs.", object: "/uploads/1/hooks/sites/fetch.jpg", depth: "/uploads/1/hooks/sites/g/fetch-depth.jpg", proof: [["4", "questions, one box"], ["monthly", "before the bag runs out"], ["1 dog", "not the average"]] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/fetch-portrait.jpg", motif: "none", chapters: [{ index: "I", title: <>Packed to your dog,<br />not the average.</>, body: "Breed, age, belly and habits — the box is built to that answer.", align: "left" }, { index: "II", title: <>Vet-checked,<br />honestly sourced.</>, body: "Real food and gear, posted before the bag runs out.", align: "right" }] },
-    { t: "bigNumber", value: "4", label: <>questions, then a box built for one dog</>, media: "/uploads/1/hooks/sites/g/fetch-bowl.jpg", note: "No plastic filler, no average-of-all-dogs guesswork." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/fetch-portrait.jpg", secondary: "/uploads/1/hooks/sites/g/fetch-play.jpg", index: "01", title: <>Everything your dog<br /><em>would order.</em></>, body: "A monthly box for one specific dog, matched and delivered.", overlap: "object" },
-    { t: "idea", kick: "What Fetch is", title: <>A box packed<br /><em>to one dog.</em></>, body: "Tell us the breed, the age, the belly and the habits. We pack food, chews and gear for that dog and post it before the bag runs out. No plastic filler, no average-of-all-dogs guesswork." },
-    { t: "cine", mode: "ember", palette: ["#0d0603", "#5a2a12", "#ffb060"], title: <>Made for the<br /><em>good ones.</em></> },
-    { t: "gallery", head: <>What lands on <em>the mat.</em></>, items: [{ img: `${g}fetch-portrait.jpg`, cap: "One dog, one box." }, { img: `${g}fetch-bowl.jpg`, cap: "Food, honestly sourced." }, { img: `${g}fetch-play.jpg`, cap: "Gear that survives them." }] },
-    { t: "steps", head: <>How the box <em>gets built.</em></>, items: [{ h: "Tell us", p: "Four questions about your dog, ninety seconds." }, { h: "We pack", p: "Vet-checked food and gear matched to that answer." }, { h: "It arrives", p: "Monthly, timed before the last bag runs out." }] },
+    { t: "cinematicBand", media: `${g}fetch-portrait.jpg`, motif: "none", chapters: [
+      { index: "Q 1–4", title: <>Tell us about<br />one dog.</>, body: "Breed, age, belly and habits — ninety seconds.", align: "left", media: `${g}fetch-portrait.jpg` },
+      { index: "Packed", title: <>Built to<br />that answer.</>, body: "Vet-checked food and chews, honestly sourced, no plastic filler.", align: "right", media: `${g}fetch-bowl.jpg` },
+      { index: "Monthly", title: <>On the mat,<br />right on time.</>, body: "Timed to their appetite, so the bowl is never empty.", align: "left", media: `${g}fetch-play.jpg` },
+    ] },
+    { t: "idea", kick: "One dog", title: <>A box packed<br /><em>to one dog.</em></>, body: "Tell us the breed, the age, the belly and the habits. We pack food, chews and gear for that dog and post it before the bag runs out. No guesswork." },
+    { t: "split", img: `${g}fetch-bowl.jpg`, rev: true, title: <>What lands<br /><em>on the mat.</em></>, list: [{ b: "Food, honestly sourced", s: "Real ingredients, matched to their belly." }, { b: "Chews sized to the jaw", s: "Not to the average dog." }, { b: "Gear that survives them", s: "Tested by the ones who destroy everything." }] },
     { t: "cta", title: <>Build <em>their box.</em></>, body: "Answer four questions. We do the rest, every month.", label: "Build a box" },
   ] },
-  stem: { slug: "stem", theme: "stem", brand: "STEM", nav: ["The idea", "Our work", "Send"], tagline: "Considered floristry, made to say something.", legal: "Stem Floral", typography: "editorial", hero: { archetype: "gallery-horizon", eyebrow: "Flowers, with intent", title: <>Flowers that say<br /><em>the hard things.</em></>, sub: "Considered arrangements for the moments words keep falling short of.", strip: ["/uploads/1/hooks/sites/stem.jpg", "/uploads/1/hooks/sites/g/stem-bouquet.jpg", "/uploads/1/hooks/sites/g/stem-arrange.jpg", "/uploads/1/hooks/sites/g/stem-shop.jpg", "/uploads/1/hooks/sites/g/stem-bouquet.jpg"] }, blocks: [
-    { t: "cinematicBand", media: `${g}stem-arrange.jpg`, chapters: [{ index: "I", title: <>Arranged by hand,<br />stem by stem.</>, body: "One florist, one table, one arrangement at a time.", align: "left" }, { index: "II", title: <>Made to a feeling,<br />not a catalogue.</>, body: "You describe the person; we translate it to stems.", align: "right" }] },
-    { t: "bigNumber", value: "0", label: <>Bouquets by the dozen — every arrangement is one of one</>, media: `${g}stem-bouquet.jpg`, note: "For the moments words keep falling short of. Same-day in the city, never from a shelf." },
-    { t: "diptych", primary: `${g}stem-bouquet.jpg`, secondary: `${g}stem-shop.jpg`, index: "N°1", title: <>Flowers that say<br /><em>the hard things.</em></>, body: "Seasonal, always, and never forced — we work with what is genuinely good this week.", overlap: "object" },
-    { t: "idea", kick: "What Stem is", title: <>Not bouquets<br /><em>by the dozen.</em></>, body: "Tell us the person and the occasion, and we arrange something that means exactly that — never pulled from a catalogue, never the same twice. Flowers for the moments that are hard to put into words." },
-    { t: "editorial", img: `${g}stem-arrange.jpg`, title: <>Arranged by hand,<br /><em>stem by stem.</em></>, body: "One florist, one table, one arrangement at a time — the way it holds together is the whole point." },
-    { t: "split", img: `${g}stem-bouquet.jpg`, title: <>Seasonal, always,<br /><em>and never forced.</em></>, list: [{ b: "What the season gives", s: "We work with what is genuinely good this week." }, { b: "Made to a feeling", s: "You describe the person; we translate it to stems." }, { b: "Same-day in the city", s: "Ordered by noon, on the table by evening." }] },
+  stem: { slug: "stem", theme: "stem", brand: "STEM", nav: ["The idea", "Our work", "Send"], tagline: "Considered floristry, made to say something.", legal: "Stem Floral", typography: "editorial", hero: { archetype: "gallery-horizon", eyebrow: "Flowers, with intent", title: <>Flowers that say<br /><em>the hard things.</em></>, sub: "Considered arrangements for the moments words keep falling short of.", strip: ["/uploads/1/hooks/sites/stem.jpg", "/uploads/1/hooks/sites/g/stem-arrange.jpg", "/uploads/1/hooks/sites/g/stem-bouquet.jpg", "/uploads/1/hooks/sites/g/stem-shop.jpg", "/uploads/1/hooks/sites/stem.jpg"] }, blocks: [
+    { t: "idea", kick: "Never by the dozen", title: <>Not a catalogue,<br /><em>a translation.</em></>, body: "Tell us the person and the occasion, and we arrange something that means exactly that — never pulled from a shelf, never the same twice." },
+    { t: "cinematicBand", media: `${g}stem-arrange.jpg`, motif: "none", chapters: [
+      { index: "01 · The person", title: <>You tell us<br />who it’s for.</>, body: "Not the budget — who they are and what just happened.", align: "left", media: `${g}stem-arrange.jpg` },
+      { index: "02 · The stems", title: <>We say it<br />in flowers.</>, body: "One florist, one table, whatever the season is giving.", align: "right", media: `${g}stem-bouquet.jpg` },
+      { index: "03 · The doorstep", title: <>Wrapped<br />and sent today.</>, body: "Ordered by noon, on the table by evening.", align: "left", media: `${g}stem-shop.jpg` },
+    ] },
     { t: "quote", text: "I said 'she's leaving a job she loved and is terrified.' What arrived said exactly that. I don't know how.", cite: "Marcus T., sent again" },
     { t: "cta", title: <>Say it with <em>stems.</em></>, body: "Same-day in the city, considered and never from a catalogue.", label: "Send flowers" },
   ] },
   thread: { slug: "thread", theme: "thread", brand: "THREAD", nav: ["The cloth", "The fitting", "Book"], tagline: "Made-to-measure tailoring.", legal: "Thread Tailors", typography: "grotesk", hero: { archetype: "hard-split", index: "01 / MTM", eyebrow: "Made to measure", title: <>A SUIT<br />THAT<br /><em>remembers<br />you.</em></>, sub: "One cloth, one fitting, and a pattern we keep on file for life.", mediaSide: "right" }, blocks: [
-    { t: "cinematicBand", media: `${g}thread-fitting.jpg`, motif: "halftone", chapters: [{ index: "I", title: <>Measured,<br />not guessed.</>, body: "Chalk, pins and a tape read your posture, not just your chest.", align: "left" }, { index: "II", title: <>One cloth,<br />one pattern on file.</>, body: "A second suit needs only a phone call.", align: "right" }] },
-    { t: "bigNumber", value: "∞", label: <>Repairs, for as long as you own the suit</>, media: `${g}thread-detail.jpg`, note: "Wear it hard, bring it back. A made-to-measure suit is a relationship, not a purchase." },
-    { t: "diptych", primary: `${g}thread-cloth.jpg`, secondary: `${g}thread-detail.jpg`, index: "MTM", title: <>Cut to your measure,<br /><em>kept in repair.</em></>, body: "You choose one cloth; we cut it to your exact body and keep the pattern for life.", overlap: "object" },
-    { t: "idea", kick: "What Thread is", title: <>Cut once,<br /><em>kept in repair for life.</em></>, body: "You choose one cloth. We cut it to your exact measure and keep the pattern on file. Wear it hard, bring it back, and we make it right for as long as you own it — a suit is a relationship, not a purchase." },
-    { t: "split", img: `${g}thread-cloth.jpg`, title: <>It starts with<br /><em>the cloth.</em></>, list: [{ b: "Mills we can name", s: "English and Italian wools, chosen by weight and season." }, { b: "One length, one suit", s: "Cut for your body, never graded off a size chart." }, { b: "A pattern on file", s: "A second suit needs only a phone call." }] },
-    { t: "editorial", img: `${g}thread-fitting.jpg`, title: <>An hour with<br /><em>a tape measure.</em></>, body: "Chalk, pins and a mirror. We read your posture, not just your chest, and adjust until it hangs like it was grown on you." },
-    { t: "gallery", head: <>In the <em>details.</em></>, items: [{ img: `${g}thread-detail.jpg`, cap: "Hand-stitched, where it counts." }, { img: `${g}thread-cloth.jpg`, cap: "The cloth you chose." }] },
-    { t: "stats", items: [["1", "cloth, your choice"], ["4wk", "to first fitting"], ["∞", "repairs, on us"]], note: "Illustrative of the made-to-measure service." },
+    { t: "cinematicBand", media: `${g}thread-cloth.jpg`, motif: "grain", chapters: [
+      { index: "The cloth", title: <>It starts with<br />one length.</>, body: "English and Italian wools, chosen by weight and season.", align: "left", media: `${g}thread-cloth.jpg` },
+      { index: "The fitting", title: <>Measured,<br />not guessed.</>, body: "Chalk, pins and a tape read your posture, not just your chest.", align: "right", media: `${g}thread-fitting.jpg` },
+      { index: "The finish", title: <>Stitched where<br />it counts.</>, body: "By hand, and the pattern kept on file.", align: "left", media: `${g}thread-detail.jpg` },
+    ] },
+    { t: "bigNumber", value: "∞", label: <>repairs, for as long as you own the suit</>, media: "/uploads/1/hooks/sites/thread.jpg", note: "Wear it hard, bring it back. A made-to-measure suit is a relationship, not a purchase." },
+    { t: "gallery", head: <>In the <em>details.</em></>, items: [{ img: `${g}thread-detail.jpg`, cap: "Finished by hand." }, { img: `${g}thread-cloth.jpg`, cap: "The cloth you chose." }] },
+    { t: "idea", kick: "On file", title: <>A second suit<br /><em>is a phone call.</em></>, body: "You choose one cloth. We cut it to your exact measure and keep the pattern, so the next one starts where this one finished." },
     { t: "cta", title: <>Start with <em>a fitting.</em></>, body: "An hour, a tape measure, and a cloth you will still love in ten years.", label: "Book a fitting" },
   ] },
   barb: { slug: "barb", theme: "barb", brand: "BARB", nav: ["The chair", "An hour", "Book"], tagline: "A one-chair barbershop.", legal: "Barb & Co.", typography: "signal", hero: { archetype: "portal-frame", frame: "portrait", eyebrow: "One chair, no rush", title: <>A proper cut<br /><em>takes its time.</em></>, sub: "One chair, one barber, and a hot towel at the end." }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/barb-chair.jpg", motif: "halftone", chapters: [{ index: "I", title: <>One chair,<br />all of the hour.</>, body: "No queue, no clippers on a conveyor belt.", align: "left" }, { index: "II", title: <>A hot towel<br />to finish.</>, body: "Because the end of it should feel like something.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>chair — one head at a time, never two</>, media: "/uploads/1/hooks/sites/g/barb-cut.jpg", note: "You get the chair, the hour, and a cut that grows out well." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/barb-chair.jpg", secondary: "/uploads/1/hooks/sites/g/barb-cut.jpg", index: "01", title: <>A proper cut<br /><em>takes its time.</em></>, body: "One seat by the window and a barber who has time to get it right.", overlap: "object" },
-    { t: "idea", kick: "What Barb is", title: <>One chair,<br /><em>and all of the hour.</em></>, body: "No queue, no clippers on a conveyor belt, no next-please. You get the chair, the hour, the conversation optional, and a cut that grows out as well as it goes on." },
-    { t: "editorial", img: `${g}barb-chair.jpg`, title: <>The chair<br /><em>is the whole shop.</em></>, body: "One seat by the window, morning light, and a barber who has time to get it exactly right." },
-    { t: "split", img: `${g}barb-cut.jpg`, rev: true, title: <>Cut to grow<br /><em>out well.</em></>, list: [{ b: "Scissor over comb", s: "Slower, sharper, and kinder to how it grows." }, { b: "The hour is yours", s: "We book one head at a time, never two." }, { b: "A hot towel to finish", s: "Because the end of it should feel like something." }] },
-    { t: "cine", mode: "ember", palette: ["#0c0704", "#5a3010", "#e6a24a"], title: <>Sit down.<br /><em>Take the hour.</em></> },
+    { t: "cinematicBand", media: `${g}barb-chair.jpg`, motif: "none", chapters: [
+      { index: "10:00", title: <>The chair<br />by the window.</>, body: "Morning light, one seat, and nobody waiting behind you.", align: "left", media: `${g}barb-chair.jpg` },
+      { index: "10:30", title: <>Scissor<br />over comb.</>, body: "Slower, sharper, and kinder to how it grows.", align: "right", media: `${g}barb-cut.jpg` },
+      { index: "11:00", title: <>A hot towel<br />to finish.</>, body: "Because the end of it should feel like something.", align: "left", media: `${g}barb-towel.jpg` },
+    ] },
+    { t: "split", img: `${g}barb-cut.jpg`, rev: true, title: <>Cut to grow<br /><em>out well.</em></>, list: [{ b: "The hour is yours", s: "We book one head at a time, never two." }, { b: "Conversation optional", s: "Talk, or don't. The cut's the same." }, { b: "Still right in four weeks", s: "Shaped for how it grows, not just for today." }] },
+    { t: "idea", kick: "No next-please", title: <>One chair,<br /><em>and all of the hour.</em></>, body: "No queue, no clippers on a conveyor belt. You get the chair, the hour, and a cut that grows out as well as it goes on." },
+    { t: "bigNumber", value: "60", label: <>minutes in the chair, start to towel</>, media: "/uploads/1/hooks/sites/barb.jpg", note: "Nothing booked after you, so nothing gets rushed." },
     { t: "cta", title: <>Sit in <em>the chair.</em></>, body: "Standing appointments for regulars, a short waitlist for everyone else.", label: "Book the chair" },
   ] },
   steep: { slug: "steep", theme: "steep", brand: "STEEP", nav: ["The leaf", "The garden", "Taste"], tagline: "Whole-leaf tea from named gardens.", legal: "Steep Tea", typography: "fashion", hero: { archetype: "regime-shift", index: "N° 01 / 04", eyebrow: "Whole-leaf tea", title: <>Tea, given<br /><em>its time.</em></>, sub: "Whole leaf from named gardens, timed to the second and poured slowly.", object: "/uploads/1/hooks/sites/steep.jpg", labels: ["Leaf", "Water", "Minutes", "Garden"] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/steep-garden.jpg", motif: "none", chapters: [{ index: "I", title: <>It begins on<br />a hillside.</>, body: "Terraced gardens, picked by hand at altitude.", align: "left" }, { index: "II", title: <>Whole leaf,<br />nothing broken.</>, body: "Single-origin, with the harvest on the tin.", align: "right" }] },
-    { t: "bigNumber", value: "4", label: <>named gardens — single-origin, dated by harvest</>, media: "/uploads/1/hooks/sites/g/steep-leaf.jpg", note: "Bagged tea is broken leaf brewed in ninety seconds of impatience." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/steep-garden.jpg", secondary: "/uploads/1/hooks/sites/g/steep-leaf.jpg", index: "N°01", title: <>Tea, given<br /><em>its time.</em></>, body: "Whole leaf, the right heat and minutes, printed, not guessed.", overlap: "object" },
-    { t: "idea", kick: "What Steep is", title: <>Not dust<br /><em>in a hurry.</em></>, body: "Bagged tea is broken leaf brewed in ninety seconds of impatience. Ours is whole leaf from gardens we can name, with the water temperature and the minutes it actually asks for printed on every tin." },
-    { t: "editorial", img: `${g}steep-garden.jpg`, title: <>It begins on<br /><em>a hillside.</em></>, body: "Terraced gardens picked by hand at altitude, where the mist and the slow growth do most of the work before we ever touch it." },
-    { t: "split", img: `${g}steep-leaf.jpg`, title: <>Whole leaf,<br /><em>nothing broken.</em></>, list: [{ b: "Named gardens, named years", s: "Single-origin, with the harvest on the tin." }, { b: "Brewed the way it asks", s: "The right heat and minutes, printed, not guessed." }, { b: "It unfurls in the pot", s: "Watch it open — that is what whole leaf means." }] },
-    { t: "gallery", head: <>Poured <em>slowly.</em></>, items: [{ img: `${g}steep-pour.jpg`, cap: "Given its minutes." }, { img: `${g}steep-leaf.jpg`, cap: "Whole, always." }] },
+    { t: "cinematicBand", media: `${g}steep-garden.jpg`, motif: "none", chapters: [
+      { index: "Garden", title: <>It begins on<br />a hillside.</>, body: "Terraced gardens, picked by hand at altitude.", align: "left", media: `${g}steep-garden.jpg` },
+      { index: "1:30", title: <>The leaf<br />unfurls.</>, body: "Whole leaf opens in the pot — that is what whole means.", align: "right", media: `${g}steep-leaf.jpg` },
+      { index: "3:00", title: <>Poured<br />when it’s ready.</>, body: "The heat and the minutes, printed on the tin.", align: "left", media: `${g}steep-pour.jpg` },
+    ] },
+    { t: "bigNumber", value: "4", label: <>named gardens — single-origin, dated by harvest</>, media: "/uploads/1/hooks/sites/steep.jpg", note: "Each tin names its garden and its year." },
+    { t: "idea", kick: "Whole leaf", title: <>Not dust<br /><em>in a hurry.</em></>, body: "Bagged tea is broken leaf brewed in ninety seconds of impatience. Ours is whole leaf from gardens we can name, with the water temperature and the minutes it actually asks for printed on every tin." },
     { t: "cta", title: <>Find <em>your leaf.</em></>, body: "A short flight of samples, chosen to how you take your morning.", label: "Start tasting" },
   ] },
   loaf: { slug: "loaf", theme: "loaf", brand: "LOAF", nav: ["The bake", "The crumb", "Reserve"], tagline: "Wood-fired sourdough, baked daily.", legal: "Loaf Bakery", typography: "grotesk", hero: { archetype: "type-collision", eyebrow: "Wild yeast, wood fire", title: <>SOURDOUGH</>, sub: "Wild yeast, a long slow proof, and a wood fire at dawn.", object: "/uploads/1/hooks/sites/loaf.jpg" }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/loaf-oven.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Wild yeast,<br />wood fire.</>, body: "A long overnight proof and a wood fire at dawn.", align: "left" }, { index: "II", title: <>Sour, dark,<br />and alive.</>, body: "The way bread was before it came wrapped in plastic.", align: "right" }] },
-    { t: "bigNumber", value: "0", label: <>added — flour, water, salt, and time, that is the list</>, media: "/uploads/1/hooks/sites/g/loaf-crumb.jpg", note: "We bake a few hundred a day and stop when they are gone." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/loaf-oven.jpg", secondary: "/uploads/1/hooks/sites/g/loaf-crumb.jpg", index: "01", title: <>Bread worth<br /><em>getting up for.</em></>, body: "Wood-fired sourdough, an open crumb and a dark blistered crust.", overlap: "object" },
-    { t: "idea", kick: "What Loaf is", title: <>The way bread was<br /><em>before the plastic.</em></>, body: "We bake a few hundred loaves a day and stop when they are gone. Wild yeast, a proof that takes its time overnight, and a wood fire at dawn. Sour, dark and alive — nothing you can buy wrapped." },
-    { t: "cine", mode: "ember", palette: ["#0d0703", "#5e2c0e", "#f0a23a"], title: <>Fired<br /><em>at dawn.</em></> },
-    { t: "split", img: `${g}loaf-crumb.jpg`, rev: true, title: <>Read it<br /><em>by the crumb.</em></>, list: [{ b: "An open, airy crumb", s: "The mark of a long, patient proof." }, { b: "A dark blistered crust", s: "The wood fire does what a home oven can't." }, { b: "Three ingredients", s: "Flour, water, salt, and time. That's the whole list." }] },
-    { t: "gallery", head: <>From <em>the fire.</em></>, items: [{ img: `${g}loaf-oven.jpg`, cap: "Into the wood fire." }, { img: `${g}loaf-shelf.jpg`, cap: "Cooling, briefly." }] },
+    { t: "idea", kick: "Before the plastic", title: <>The way bread was,<br /><em>and still should be.</em></>, body: "We bake a few hundred loaves a day and stop when they're gone. Wild yeast, a proof that takes the night, and a wood fire at dawn." },
+    { t: "cinematicBand", media: `${g}loaf-oven.jpg`, motif: "none", chapters: [
+      { index: "04:30", title: <>The fire<br />is lit.</>, body: "Wood, not gas — hot enough to blister a crust.", align: "left", media: `${g}loaf-oven.jpg` },
+      { index: "06:00", title: <>Out,<br />and cooling.</>, body: "Racked by the window while the street wakes up.", align: "right", media: `${g}loaf-shelf.jpg` },
+      { index: "07:00", title: <>Read it<br />by the crumb.</>, body: "Open and airy — the mark of a long, patient proof.", align: "left", media: `${g}loaf-crumb.jpg` },
+    ] },
+    { t: "bigNumber", value: "3", label: <>ingredients — flour, water, salt. And time.</>, media: "/uploads/1/hooks/sites/loaf.jpg", note: "Nothing you can buy wrapped, and gone by the afternoon." },
     { t: "quote", text: "I set an alarm for a loaf of bread now. Worth every minute of lost sleep.", cite: "Elena K., every Saturday" },
     { t: "cta", title: <>Reserve <em>tomorrow's loaf.</em></>, body: "Order the night before, collect it while it is still warm.", label: "Reserve a loaf" },
   ] },
   velo: { slug: "velo", theme: "velo", brand: "VÉLO", nav: ["The frame", "The build", "Start"], tagline: "Made-to-measure steel bicycles.", legal: "Vélo Cycles", typography: "signal", hero: { archetype: "index-stage", eyebrow: "Made-to-measure steel", title: <>One bike,<br />built around you.</>, items: [{ label: "The frame", meta: "steel, brazed", img: "/uploads/1/hooks/sites/g/velo-frame.jpg" }, { label: "The build", meta: "≈ 4 months", img: "/uploads/1/hooks/sites/g/velo-braze.jpg" }, { label: "The ride", meta: "30 years", img: "/uploads/1/hooks/sites/g/velo-ride.jpg" }, { label: "The fit", meta: "your geometry", img: "/uploads/1/hooks/sites/velo.jpg" }] }, blocks: [
-    { t: "cinematicBand", media: `${g}velo-braze.jpg`, motif: "halftone", chapters: [{ index: "I", title: <>Brazed by<br />one pair of hands.</>, body: "Lug by lug, brass drawn into the joint by heat and patience.", align: "left" }, { index: "II", title: <>Steel, because<br />it lasts.</>, body: "It bends before it breaks, and can always be brought back.", align: "right" }] },
-    { t: "bigNumber", value: "30yr", label: <>And still yours — steel outlives the trend</>, media: `${g}velo-ride.jpg`, note: "The person who measures you is the person who builds it. A bike for a lifetime, not a season." },
-    { t: "diptych", primary: `${g}velo-frame.jpg`, secondary: `${g}velo-braze.jpg`, index: "01", title: <>Measured to your body,<br /><em>not a size chart.</em></>, body: "Every tube length is yours, cut and brazed around your fit, your roads and your ambitions.", overlap: "object" },
-    { t: "idea", kick: "What Vélo is", title: <>Measured to your body,<br /><em>not a size chart.</em></>, body: "We take your fit, your roads and your ambitions, then cut and braze a steel frame around them. No stock sizes, no carbon that cracks in five years — a bike that will still be yours in thirty." },
-    { t: "editorial", img: `${g}velo-braze.jpg`, title: <>Brazed by<br /><em>one pair of hands.</em></>, body: "Lug by lug, brass drawn into the joint by heat and patience. The person who measures you is the person who builds it." },
-    { t: "split", img: `${g}velo-frame.jpg`, title: <>Steel, because<br /><em>it lasts.</em></>, list: [{ b: "Cut to your fit", s: "Every tube length is yours, not graded from a range." }, { b: "Repairable forever", s: "Steel bends before it breaks, and can be brought back." }, { b: "A ride that softens the road", s: "The reason people never sell them." }] },
-    { t: "gallery", head: <>Made to <em>be ridden.</em></>, items: [{ img: `${g}velo-ride.jpg`, cap: "Where it belongs." }, { img: `${g}velo-frame.jpg`, cap: "Raw, before paint." }] },
-    { t: "stats", items: [["1", "frame, your geometry"], ["~4mo", "from fit to first ride"], ["30yr", "and still yours"]], note: "Illustrative of the made-to-measure build." },
+    { t: "idea", kick: "Your geometry", title: <>Measured to your body,<br /><em>not a size chart.</em></>, body: "We take your fit, your roads and your ambitions, then cut and braze a steel frame around them. No stock sizes, no carbon that cracks in five years." },
+    { t: "cinematicBand", media: `${g}velo-braze.jpg`, motif: "none", chapters: [
+      { index: "Week 3", title: <>Brass drawn<br />into the joint.</>, body: "Lug by lug, by heat and patience, by one pair of hands.", align: "left", media: `${g}velo-braze.jpg` },
+      { index: "Month 4", title: <>A frame<br />in your numbers.</>, body: "Raw steel on the bench, every tube cut to your fit.", align: "right", media: `${g}velo-frame.jpg` },
+      { index: "Year 1 → 30", title: <>Then the road,<br />for decades.</>, body: "Steel bends before it breaks, and can always be brought back.", align: "left", media: `${g}velo-ride.jpg` },
+    ] },
+    { t: "bigNumber", value: "30yr", label: <>and still yours — steel outlives the trend</>, media: "/uploads/1/hooks/sites/velo.jpg", note: "The person who measures you is the person who builds it." },
+    { t: "split", img: `${g}velo-ride.jpg`, rev: true, title: <>A ride that<br /><em>softens the road.</em></>, list: [{ b: "Brazed, not glued", s: "Joints you can reheat and repair." }, { b: "Repairable forever", s: "Dents, crashes, new standards — steel takes the fix." }, { b: "Built to be kept", s: "The reason people never sell them." }] },
     { t: "cta", title: <>Start a <em>build.</em></>, body: "A fitting, a conversation, and a wait of about four months for a bike that lasts a lifetime.", label: "Book a fitting" },
   ] },
   balm: { slug: "balm", theme: "balm", brand: "BALM", nav: ["The room", "The hour", "Book"], tagline: "A single-room day spa.", legal: "Balm Spa", typography: "fashion", hero: { archetype: "edge-arrival", edge: "left", eyebrow: "An hour, for you", title: <>An hour that<br /><em>undoes the week.</em></>, sub: "Steam, stone and silence, in hands that know the way.", proof: ["1", "room · one guest"] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/balm-room.jpg", motif: "halftone", chapters: [{ index: "I", title: <>One room,<br />one guest.</>, body: "Warm low light, a single table, a door that stays closed.", align: "left" }, { index: "II", title: <>Silence,<br />if you want it.</>, body: "No small talk unless you start it, no clock you can feel.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>room, one guest — the hour is only yours</>, media: "/uploads/1/hooks/sites/g/balm-stones.jpg", note: "No upsells, no playlist you did not choose, no package to buy up into." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/balm-room.jpg", secondary: "/uploads/1/hooks/sites/g/balm-stones.jpg", index: "01", title: <>An hour that<br /><em>undoes the week.</em></>, body: "Steam, stone and silence, in hands that know the way.", overlap: "object" },
-    { t: "idea", kick: "What Balm is", title: <>No upsells,<br /><em>no playlist you didn't choose.</em></>, body: "One room, one guest at a time, and no talking unless you want it. No package to buy up into, no clock you can feel ticking. Just an hour built, quietly, to put you back together." },
-    { t: "cine", mode: "silk", palette: ["#0a0810", "#3a2a4a", "#d0a8c0"], title: <>Steam, stone,<br /><em>and silence.</em></> },
-    { t: "editorial", img: `${g}balm-room.jpg`, title: <>One room,<br /><em>one guest.</em></>, body: "Warm low light, a single table, and a door that stays closed. The whole space is yours for the hour." },
-    { t: "split", img: `${g}balm-stones.jpg`, rev: true, title: <>Warmth that<br /><em>reaches deep.</em></>, list: [{ b: "Hot stone and steam", s: "Heat that loosens what the week tightened." }, { b: "Hands that know the way", s: "One therapist, trained, unhurried." }, { b: "Silence, if you want it", s: "No small talk unless you start it." }] },
+    { t: "cine", mode: "silk", palette: ["#0a0810", "#3a2a4a", "#d0a8c0"], title: <>Nothing to do<br /><em>but breathe.</em></> },
+    { t: "cinematicBand", media: `${g}balm-room.jpg`, motif: "none", chapters: [
+      { index: "Minute 0", title: <>The door<br />closes.</>, body: "One room, warm and low-lit, and nobody else in it.", align: "left", media: `${g}balm-room.jpg` },
+      { index: "Minute 20", title: <>Heat that<br />reaches deep.</>, body: "Hot stone and steam loosen what the week tightened.", align: "right", media: `${g}balm-stones.jpg` },
+      { index: "Minute 45", title: <>Unhurried<br />hands.</>, body: "One therapist, trained. No small talk unless you start it.", align: "left", media: `${g}balm-hands.jpg` },
+    ] },
+    { t: "idea", kick: "Nothing extra", title: <>No upsells,<br /><em>no playlist you didn't choose.</em></>, body: "One guest at a time, no package to buy up into, no clock you can feel ticking. Just an hour built, quietly, to put you back together." },
+    { t: "bigNumber", value: "60", label: <>minutes — and not one of them shared</>, media: "/uploads/1/hooks/sites/balm.jpg", note: "The clock stays out of the room. We tell you when it's over." },
     { t: "cta", title: <>Book <em>the hour.</em></>, body: "Mornings are quietest. We keep a few late slots for the truly wrung out.", label: "Book an hour" },
   ] },
   fern: { slug: "fern", theme: "fern", brand: "FERN", nav: ["The idea", "The plants", "Match"], tagline: "The right plant for your light.", legal: "Fern & Light", typography: "editorial", hero: { archetype: "product-theatre", eyebrow: "Plants, placed well", title: <>Plants that make<br /><em>a room breathe.</em></>, sub: "Chosen for your actual light, delivered already thriving.", object: "/uploads/1/hooks/sites/fern.jpg", depth: "/uploads/1/hooks/sites/g/fern-depth.jpg", proof: [["1", "photo of your room"], ["3", "plants that will live"], ["optional", "we keep them alive"]] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/fern-room.jpg", motif: "none", chapters: [{ index: "I", title: <>Matched to<br />your actual light.</>, body: "Send us your room; we match a plant to the light it really gets.", align: "left" }, { index: "II", title: <>Delivered<br />already thriving.</>, body: "Settled, healthy, and kept alive with a visit if you like.", align: "right" }] },
-    { t: "bigNumber", value: "3", label: <>plants that will genuinely live where you put them</>, media: "/uploads/1/hooks/sites/g/fern-leaf.jpg", note: "Most plants die because they were bought for a photo, not a window." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/fern-room.jpg", secondary: "/uploads/1/hooks/sites/g/fern-shelf.jpg", index: "01", title: <>Plants that make<br /><em>a room breathe.</em></>, body: "The right green in the right corner, chosen for your light.", overlap: "object" },
-    { t: "idea", kick: "What Fern is", title: <>Matched to your light,<br /><em>not your Pinterest.</em></>, body: "Most plants die because they were bought for a photo, not a window. Send us your room and we match a plant to the light it actually gets, deliver it settled, and keep it alive with a visit if you would rather not." },
-    { t: "editorial", img: `${g}fern-room.jpg`, title: <>A room that<br /><em>breathes.</em></>, body: "The right green in the right corner changes a whole space — quieter, softer, alive in a way furniture never is." },
-    { t: "gallery", head: <>Chosen, <em>placed, kept.</em></>, items: [{ img: `${g}fern-leaf.jpg`, cap: "Delivered thriving." }, { img: `${g}fern-shelf.jpg`, cap: "Placed for the light." }, { img: `${g}fern-room.jpg`, cap: "The room, after." }] },
-    { t: "steps", head: <>How the match <em>works.</em></>, items: [{ h: "Send a photo", p: "Your room, your window, the light as it really is." }, { h: "We match three", p: "Plants that will genuinely live where you'll put them." }, { h: "We keep them", p: "An optional visit, so you never have to guess." }] },
+    { t: "cinematicBand", media: `${g}fern-shelf.jpg`, motif: "none", chapters: [
+      { index: "Morning", title: <>Send us<br />your window.</>, body: "A photo of the room, and the light it really gets.", align: "left", media: `${g}fern-shelf.jpg` },
+      { index: "Noon", title: <>We match<br />three plants.</>, body: "Only ones that will genuinely live where you'll put them.", align: "right", media: `${g}fern-leaf.jpg` },
+      { index: "Evening", title: <>They arrive<br />thriving.</>, body: "Potted, settled, and visited if you'd rather not guess.", align: "left", media: `${g}fern-room.jpg` },
+    ] },
+    { t: "split", img: `${g}fern-leaf.jpg`, rev: true, title: <>Chosen for the light,<br /><em>not the look.</em></>, list: [{ b: "North, south, or a lightwell", s: "We read the window before the catalogue." }, { b: "Grown on, not shipped raw", s: "Settled in its pot before it leaves us." }, { b: "Visits, if you like", s: "Watering, turning, repotting — so you never guess." }] },
+    { t: "idea", kick: "Why they die", title: <>Bought for a photo,<br /><em>not a window.</em></>, body: "Most plants die because they were chosen for how they look, not for the light they would get. We start from your window and work backwards." },
+    { t: "editorial", img: `${g}fern-room.jpg`, title: <>Quieter, softer,<br /><em>alive.</em></>, body: "The right green in the right corner changes a whole space, in a way furniture never does." },
     { t: "cta", title: <>Green <em>the room.</em></>, body: "Send us a photo of your space. We reply with three plants that will live.", label: "Get matched" },
   ] },
   cacao: { slug: "cacao", theme: "cacao", brand: "CACAO", nav: ["The bean", "The bar", "Taste"], tagline: "Single-origin bean-to-bar chocolate.", legal: "Cacao Bar", typography: "grotesk", hero: { archetype: "gallery-horizon", eyebrow: "Single-origin chocolate", title: <>Chocolate, read<br /><em>like wine.</em></>, sub: "One origin, one roast, and nothing hidden in the bar.", strip: ["/uploads/1/hooks/sites/cacao.jpg", "/uploads/1/hooks/sites/g/cacao-bar.jpg", "/uploads/1/hooks/sites/g/cacao-bean.jpg", "/uploads/1/hooks/sites/g/cacao-pour.jpg", "/uploads/1/hooks/sites/cacao.jpg"] }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/cacao-bean.jpg", motif: "halftone", chapters: [{ index: "I", title: <>One origin,<br />one roast.</>, body: "A single farm, a single roast, tuned to this harvest.", align: "left" }, { index: "II", title: <>Nothing hidden<br />in the bar.</>, body: "Two ingredients, no emulsifiers, no vanilla to paper over it.", align: "right" }] },
-    { t: "bigNumber", value: "2", label: <>ingredients, one named farm, one year</>, media: "/uploads/1/hooks/sites/g/cacao-bar.jpg", note: "A flavour that changes with the harvest — so we print the year." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/cacao-bar.jpg", secondary: "/uploads/1/hooks/sites/g/cacao-pour.jpg", index: "N°01", title: <>Chocolate, read<br /><em>like wine.</em></>, body: "Single-origin bean-to-bar, tempered by hand and poured thin.", overlap: "object" },
-    { t: "idea", kick: "What Cacao is", title: <>Two ingredients,<br /><em>one named farm.</em></>, body: "Not a blend engineered to taste the same forever. A single origin, a single roast, and a flavour that shifts with the harvest — so we print the farm, the batch and the year, because they are the whole point." },
-    { t: "cine", mode: "ember", palette: ["#0c0603", "#4a2410", "#c98a4a"], title: <>Read it<br /><em>like wine.</em></> },
-    { t: "split", img: `${g}cacao-bean.jpg`, title: <>It starts<br /><em>at the farm.</em></>, list: [{ b: "A farm we can name", s: "Single-origin, traceable to the grower." }, { b: "Roasted for the bean", s: "One roast profile, tuned to this harvest." }, { b: "The year on the wrapper", s: "Because a 2024 does not taste like a 2023." }] },
-    { t: "editorial", img: `${g}cacao-pour.jpg`, title: <>Nothing hidden<br /><em>in the bar.</em></>, body: "Two ingredients, tempered by hand, poured thin. No emulsifiers, no vanilla to paper over the origin." },
+    { t: "bigNumber", value: "2", label: <>ingredients — cacao and a little sugar</>, note: "No emulsifiers, no vanilla to paper over the origin." },
+    { t: "cinematicBand", media: `${g}cacao-bean.jpg`, motif: "none", chapters: [
+      { index: "Farm", title: <>Beans from<br />one farm.</>, body: "Fermented, dried, and roasted to this harvest alone.", align: "left", media: `${g}cacao-bean.jpg` },
+      { index: "Temper", title: <>Ground,<br />then tempered.</>, body: "Worked by hand until it runs glossy and even.", align: "right", media: `${g}cacao-pour.jpg` },
+      { index: "Bar", title: <>Poured thin,<br />dated on the wrapper.</>, body: "Because a 2024 does not taste like a 2023.", align: "left", media: `${g}cacao-bar.jpg` },
+    ] },
+    { t: "idea", kick: "Single origin", title: <>Not a blend engineered<br /><em>to taste the same forever.</em></>, body: "A single farm, a single roast, and a flavour that shifts with the harvest — so we print the farm, the batch and the year, because they are the whole point." },
+    { t: "steps", head: <>How to <em>read a bar.</em></>, items: [{ h: "Look", p: "A deep, even gloss means the temper was handled right." }, { h: "Snap", p: "A clean crack, not a bend — it is ready." }, { h: "Melt", p: "Let it sit. The farm arrives in waves, the way a good wine does." }] },
     { t: "cta", title: <>Taste <em>the origin.</em></>, body: "A flight of four bars from four farms, with the notes to read them by.", label: "Order a flight" },
   ] },
   hide: { slug: "hide", theme: "hide", brand: "HIDE", nav: ["The idea", "The line", "Carry"], tagline: "Vegetable-tanned leather goods.", legal: "Hide & Grain", typography: "fashion", hero: { archetype: "hard-split", index: "01 / VG-TAN", mediaSide: "right", eyebrow: "Full-grain leather", title: <>Leather that<br /><em>earns its scars.</em></>, sub: "Cut from one hide, stitched to outlast the trend." }, blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/hide-bench.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Cut from<br />one hide.</>, body: "Vegetable-tanned, edged and burnished by hand at one bench.", align: "left" }, { index: "II", title: <>Saddle-stitched<br />to last.</>, body: "Two needles, one seam, a stitch that holds even cut.", align: "right" }] },
-    { t: "bigNumber", value: "20yr", label: <>and better for the years — a repair promise for life</>, media: "/uploads/1/hooks/sites/g/hide-stitch.jpg", note: "Buy one bag and carry it for decades; send it back for repair." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/hide-bag.jpg", secondary: "/uploads/1/hooks/sites/g/hide-stitch.jpg", index: "01", title: <>Leather that<br /><em>earns its scars.</em></>, body: "Full-grain leather that ages into a patina instead of cracking.", overlap: "object" },
-    { t: "idea", kick: "What Hide is", title: <>Buy one bag,<br /><em>carry it twenty years.</em></>, body: "Vegetable-tanned, saddle-stitched, and built to look better the harder you use it. Not a season's accessory — a single object that scuffs into a patina and comes back to us for repair instead of the bin." },
-    { t: "editorial", img: `${g}hide-bench.jpg`, title: <>Made at<br /><em>one bench.</em></>, body: "Cut, edged, stitched and burnished by hand, by someone whose name is on the repair ticket twenty years from now." },
-    { t: "split", img: `${g}hide-stitch.jpg`, title: <>Saddle-stitched,<br /><em>so it can't unravel.</em></>, list: [{ b: "Two needles, one seam", s: "A stitch that holds even if the thread is cut." }, { b: "Vegetable-tanned hide", s: "Ages into a patina instead of cracking." }, { b: "A repair promise", s: "Send it back; we make it right, for life." }] },
-    { t: "gallery", head: <>Made to <em>be used.</em></>, items: [{ img: `${g}hide-bag.jpg`, cap: "One bag, made to order." }, { img: `${g}hide-stitch.jpg`, cap: "The seam that lasts." }] },
+    { t: "cinematicBand", media: `${g}hide-bench.jpg`, motif: "none", chapters: [
+      { index: "The cut", title: <>Marked and cut<br />from one hide.</>, body: "Vegetable-tanned leather, laid out at one bench.", align: "left", media: `${g}hide-bench.jpg` },
+      { index: "The seam", title: <>Two needles,<br />one seam.</>, body: "A saddle stitch holds even if the thread is cut.", align: "right", media: `${g}hide-stitch.jpg` },
+      { index: "The years", title: <>Scuffed into<br />a patina.</>, body: "It darkens where your hand goes, and comes back to us for repair.", align: "left", media: `${g}hide-bag.jpg` },
+    ] },
+    { t: "bigNumber", value: "20yr", label: <>and better for the years — repaired, never replaced</>, media: "/uploads/1/hooks/sites/hide.jpg", note: "Send it back when it needs it; the person who made it signs the repair ticket." },
+    { t: "idea", kick: "Not a season", title: <>One bag,<br /><em>carried for decades.</em></>, body: "Not a season's accessory — a single object built to look better the harder you use it, that ends up back on our bench instead of in the bin." },
+    { t: "split", img: `${g}hide-bench.jpg`, title: <>Made at<br /><em>one bench.</em></>, list: [{ b: "Full-grain, veg-tanned", s: "Ages into a patina instead of cracking." }, { b: "Edged and burnished by hand", s: "No painted edges to peel in a year." }, { b: "A repair promise", s: "Send it back; we make it right, for life." }] },
     { t: "cta", title: <>Carry <em>one thing.</em></>, body: "A short line of bags, made to order, each with a repair promise.", label: "See the line" },
   ] },
   spice: { slug: "spice", theme: "spice", brand: "SPICE", typography: "signal", hero: { archetype: "regime-shift", index: "N° 01 / 04", object: "/uploads/1/hooks/sites/spice.jpg", labels: ["Whole", "Dated", "Ground fresh", "In season"], eyebrow: "Whole spice, dated", title: <>Spice bought<br /><em>like it matters.</em></>, sub: "Whole, recent, and ground the day you cook." }, nav: ["The idea", "The shelf", "Stock"], tagline: "Whole spices, freshly harvested.", legal: "Spice Merchant", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/spice-jars.jpg", motif: "none", chapters: [{ index: "I", title: <>Whole,<br />never pre-ground.</>, body: "The oils that make a spice a spice go within weeks of grinding.", align: "left" }, { index: "II", title: <>Dated,<br />bought in season.</>, body: "A harvest date on every tin, so you know how fresh it is.", align: "right" }] },
-    { t: "bigNumber", value: "0", label: <>pre-ground jars — whole spice only, dated</>, media: "/uploads/1/hooks/sites/g/spice-scoop.jpg", note: "Grind the day you cook and your kitchen smells of the thing itself." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/spice-jars.jpg", secondary: "/uploads/1/hooks/sites/g/spice-scoop.jpg", index: "N°01", title: <>Spice bought<br /><em>like it matters.</em></>, body: "Whole spice from named sources, with the harvest date on the tin.", overlap: "object" },
-    { t: "idea", kick: "What Spice is", title: <>Pre-ground is<br /><em>a ghost of itself.</em></>, body: "The oils that make a spice a spice are gone within weeks of grinding. Ours arrives whole, with a harvest date printed on the tin, so your kitchen smells of the thing itself and not of dust from a jar of unknown age." },
-    { t: "cine", mode: "ember", palette: ["#0e0703", "#5e2810", "#e08a3a"], title: <>The smell of<br /><em>the real thing.</em></> },
-    { t: "split", img: `${g}spice-jars.jpg`, rev: true, title: <>Whole,<br /><em>and dated.</em></>, list: [{ b: "A harvest date on every tin", s: "You know exactly how fresh it is." }, { b: "Whole, never pre-ground", s: "Grind the day you cook, keep the oils." }, { b: "Sourced by the season", s: "Bought when and where it is actually best." }] },
-    { t: "gallery", head: <>From jar <em>to mortar.</em></>, items: [{ img: `${g}spice-scoop.jpg`, cap: "Scooped, not sachet." }, { img: `${g}spice-grind.jpg`, cap: "Ground when you cook." }] },
+    { t: "cinematicBand", media: `${g}spice-jars.jpg`, motif: "none", chapters: [
+      { index: "In season", title: <>Bought<br />at harvest.</>, body: "A date on every tin, so you know exactly how fresh it is.", align: "left", media: `${g}spice-jars.jpg` },
+      { index: "Whole", title: <>Kept whole<br />until you cook.</>, body: "The oils stay locked in the seed, the bark and the pod.", align: "right", media: `${g}spice-scoop.jpg` },
+      { index: "Ground fresh", title: <>Cracked<br />the day you use it.</>, body: "And the kitchen smells of the thing itself.", align: "left", media: `${g}spice-grind.jpg` },
+    ] },
+    { t: "editorial", img: "/uploads/1/hooks/sites/spice.jpg", title: <>The colour<br /><em>of the real thing.</em></>, body: "Ground the day you cook, a spice still has its oils — and its colour. Pre-ground is a ghost of itself." },
+    { t: "bigNumber", value: "10", label: <>tins on a starter shelf — the everyday ones</>, media: `${g}spice-jars.jpg`, note: "Refilled when the harvest turns, not when a warehouse clears out." },
+    { t: "gallery", head: <>From tin <em>to mortar.</em></>, items: [{ img: `${g}spice-scoop.jpg`, cap: "Scooped, not sachet." }, { img: `${g}spice-grind.jpg`, cap: "Ground when you cook." }] },
     { t: "cta", title: <>Stock <em>the shelf.</em></>, body: "A starter set of the ten you actually reach for, whole and dated.", label: "Build a shelf" },
   ] },
   comb: { slug: "comb", theme: "comb", brand: "COMB", typography: "editorial", hero: { archetype: "portal-frame", frame: "portrait", eyebrow: "Raw single-hive honey", title: <>Honey with<br /><em>a postcode.</em></>, sub: "Raw, unblended, and different from every hive." }, nav: ["The idea", "The hive", "Taste"], tagline: "Raw honey, one hive at a time.", legal: "Comb Apiary", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/comb-frame.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Raw,<br />from one hive.</>, body: "Unheated, unfiltered, unblended — the character left in.", align: "left" }, { index: "II", title: <>Different<br />every jar.</>, body: "Each tastes of the fields one colony actually flew.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>Hive per jar — single-origin, never blended</>, media: "/uploads/1/hooks/sites/g/comb-drip.jpg", note: "Supermarket honey is warmed, filtered flat and blended to taste the same all year." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/comb-jar.jpg", secondary: "/uploads/1/hooks/sites/g/comb-drip.jpg", index: "N°01", title: <>Honey with<br /><em>a postcode.</em></>, body: "Raw single-hive honey you can taste the fields in — a trio from three sites.", overlap: "object" },
-    { t: "idea", kick: "What Comb is", title: <>We don't blend<br /><em>the character out.</em></>, body: "Supermarket honey is warmed, filtered flat and blended to taste the same all year. We do none of that. Each jar is raw, from one colony, and tastes of the exact fields those bees actually flew — a postcode you can taste." },
-    { t: "cine", mode: "ember", palette: ["#0e0803", "#5e3a08", "#f0b030"], title: <>The fields<br /><em>one hive flew.</em></> },
-    { t: "split", img: `${g}comb-frame.jpg`, title: <>One colony,<br /><em>one jar.</em></>, list: [{ b: "Raw and unheated", s: "The enzymes and aroma survive the jar." }, { b: "Single-hive, never blended", s: "Character intact, not averaged away." }, { b: "A taste that moves", s: "Spring and late summer are different honeys." }] },
+    { t: "cinematicBand", media: `${g}comb-drip.jpg`, motif: "none", chapters: [
+      { index: "Raw", title: <>Never warmed,<br />never filtered.</>, body: "It runs the way it left the comb, aroma and all.", align: "right", media: `${g}comb-drip.jpg` },
+      { index: "One hive", title: <>From one colony,<br />one site.</>, body: "Never pooled with anyone else's bees.", align: "left", media: `${g}comb-frame.jpg` },
+      { index: "The jar", title: <>Jarred with<br />its address.</>, body: "One colony's summer, sealed as it came.", align: "left", media: `${g}comb-jar.jpg` },
+    ] },
+    { t: "idea", kick: "Nothing averaged", title: <>We don't blend<br /><em>the character out.</em></>, body: "Supermarket honey is warmed, filtered flat and blended to taste the same all year. We do none of that. Each jar is raw, from one colony, and tastes of the exact fields those bees actually flew." },
+    { t: "split", img: `${g}comb-frame.jpg`, rev: true, title: <>One colony,<br /><em>one season.</em></>, list: [{ b: "One site, one jar", s: "The label names the field, not a country." }, { b: "Nothing warmed or filtered", s: "The pollen and the aroma survive the jar." }, { b: "A taste that moves", s: "Spring and late summer are different honeys." }] },
     { t: "gallery", head: <>Straight from <em>the comb.</em></>, items: [{ img: `${g}comb-jar.jpg`, cap: "Raw, with the comb." }, { img: `${g}comb-drip.jpg`, cap: "Slow and golden." }] },
     { t: "cta", title: <>Find <em>your hive.</em></>, body: "A trio from three sites, so you can taste what a mile does.", label: "Taste the trio" },
   ] },
   grove: { slug: "grove", theme: "grove", brand: "GROVE", typography: "editorial", hero: { archetype: "gallery-horizon", eyebrow: "New-harvest olive oil", title: <>Oil pressed<br /><em>the week it's picked.</em></>, sub: "One grove, one pressing, dated like it should be.", strip: ["/uploads/1/hooks/sites/grove.jpg", "/uploads/1/hooks/sites/g/grove-tree.jpg", "/uploads/1/hooks/sites/g/grove-bottle.jpg", "/uploads/1/hooks/sites/g/grove-pour.jpg", "/uploads/1/hooks/sites/grove.jpg"] }, nav: ["The idea", "The grove", "Order"], tagline: "Single-grove, new-harvest olive oil.", legal: "Grove Oil", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/grove-tree.jpg", motif: "none", chapters: [{ index: "I", title: <>One grove,<br />one pressing.</>, body: "Old trees on a single hillside, picked and milled together.", align: "left" }, { index: "II", title: <>Green, sharp,<br />and dated.</>, body: "Milled within hours, sent while it is still peppery.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>hillside, one pressing — a harvest date, not a best-before</>, media: "/uploads/1/hooks/sites/g/grove-bottle.jpg", note: "Olive oil is a fresh juice, not a pantry fixture that sits a year." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/grove-tree.jpg", secondary: "/uploads/1/hooks/sites/g/grove-pour.jpg", index: "01", title: <>Oil pressed<br /><em>the week it’s picked.</em></>, body: "Single-grove oil, milled the day it is harvested and shipped young.", overlap: "object" },
-    { t: "idea", kick: "What Grove is", title: <>A fresh juice,<br /><em>not a pantry fixture.</em></>, body: "Olive oil is at its best the week it is milled, then it fades quietly for a year on a shelf. Ours is pressed within hours of the harvest and sent while it is still green, peppery and sharp — with the date to prove it." },
-    { t: "editorial", img: `${g}grove-tree.jpg`, title: <>One grove,<br /><em>one pressing.</em></>, body: "Old trees on a single hillside, picked and milled together, so every tin is one place and one moment — not a tanker of anonymous oil." },
-    { t: "split", img: `${g}grove-bottle.jpg`, rev: true, title: <>Green, sharp,<br /><em>and dated.</em></>, list: [{ b: "Milled within hours", s: "Picked and pressed the same day." }, { b: "A harvest date, not a best-before", s: "You drink it young, the way it's meant." }, { b: "Single-grove, unblended", s: "One hillside's flavour, start to finish." }] },
-    { t: "gallery", head: <>Still <em>green.</em></>, items: [{ img: `${g}grove-pour.jpg`, cap: "Poured while it's sharp." }, { img: `${g}grove-bottle.jpg`, cap: "This year's tin." }] },
+    { t: "cinematicBand", media: `${g}grove-tree.jpg`, motif: "none", chapters: [
+      { index: "Picked", title: <>Old trees,<br />one hillside.</>, body: "Harvested by hand in a single week.", align: "left", media: `${g}grove-tree.jpg` },
+      { index: "Pressed", title: <>Milled within<br />hours.</>, body: "Green, peppery and sharp — it still tastes of the fruit.", align: "right", media: `${g}grove-pour.jpg` },
+      { index: "Dated", title: <>A harvest date,<br />not a best-before.</>, body: "Sent young, the way it is meant to be tasted.", align: "left", media: `${g}grove-bottle.jpg` },
+    ] },
+    { t: "steps", head: <>How to keep it <em>green.</em></>, items: [{ h: "Open it", p: "The week it arrives — this is when it is at its best." }, { h: "Pour it raw", p: "On bread, beans, tomatoes, anything warm." }, { h: "Finish it", p: "Within a few months, then taste the next harvest." }] },
+    { t: "idea", kick: "Fresh juice", title: <>Not a<br /><em>pantry fixture.</em></>, body: "Olive oil is at its best the week it is milled, then fades quietly for a year on a shelf. Ours is sent while it is still green, with the date to prove it." },
     { t: "cta", title: <>Taste <em>this year's.</em></>, body: "The new-harvest tin, shipped the week the mill runs.", label: "Order the harvest" },
   ] },
   pour: { slug: "pour", theme: "pour", brand: "POUR", typography: "signal", hero: { archetype: "product-theatre", object: "/uploads/1/hooks/sites/pour.jpg", depth: "/uploads/1/hooks/sites/g/pour-depth.jpg", proof: [["12", "drinks, not forty"], ["stirred", "not rushed"], ["off-menu", "if you trust the bar"]], eyebrow: "A drinks list", title: <>A short list,<br /><em>poured properly.</em></>, sub: "Twelve drinks, no menu of forty, and every one made right." }, nav: ["The idea", "The bar", "Visit"], tagline: "A short-list cocktail bar.", legal: "Pour Bar", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/pour-bar.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Twelve drinks,<br />done right.</>, body: "A menu of forty is forty compromises; we pour twelve.", align: "left" }, { index: "II", title: <>Stirred,<br />not rushed.</>, body: "The right dilution, the right glass, every time.", align: "right" }] },
-    { t: "bigNumber", value: "12", label: <>drinks — every one someone’s favourite</>, media: "/uploads/1/hooks/sites/g/pour-glass.jpg", note: "Tell the bartender a spirit and a mood, and trust the list." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/pour-bar.jpg", secondary: "/uploads/1/hooks/sites/g/pour-make.jpg", index: "12", title: <>A short list,<br /><em>poured properly.</em></>, body: "Twelve cocktails, made by the person who wrote the list.", overlap: "object" },
-    { t: "idea", kick: "What Pour is", title: <>A dozen things<br /><em>done perfectly.</em></>, body: "A menu of forty cocktails is a menu of forty compromises. We pour twelve, we pour them right, and we change them when the season turns. Tell the bartender a spirit and a mood, and trust the rest to the person who built the list." },
-    { t: "cine", mode: "ember", palette: ["#0a0608", "#3a1418", "#d08a4a"], title: <>Poured<br /><em>properly.</em></> },
-    { t: "split", img: `${g}pour-make.jpg`, title: <>Made by<br /><em>the person who wrote it.</em></>, list: [{ b: "Twelve drinks, not forty", s: "Every one is somebody's favourite." }, { b: "Stirred, not rushed", s: "The right dilution, the right glass, every time." }, { b: "Tell us a mood", s: "Off-menu, if you trust the bar." }] },
-    { t: "gallery", head: <>At <em>the bar.</em></>, items: [{ img: `${g}pour-glass.jpg`, cap: "One, made right." }, { img: `${g}pour-bar.jpg`, cap: "Pull up a stool." }] },
+    { t: "cinematicBand", media: `${g}pour-make.jpg`, motif: "none", chapters: [
+      { index: "Stir", title: <>Forty turns<br />of the spoon.</>, body: "Dilution judged by feel, and by the clock.", align: "left", media: `${g}pour-make.jpg` },
+      { index: "Strain", title: <>Into<br />the right glass.</>, body: "Chilled, garnished, set down without a speech.", align: "right", media: `${g}pour-glass.jpg` },
+      { index: "Stay", title: <>Then the room<br />goes quiet.</>, body: "Low light, twelve drinks, and nobody rushing the next.", align: "left", media: `${g}pour-bar.jpg` },
+    ] },
+    { t: "idea", kick: "Twelve, not forty", title: <>A dozen things<br /><em>done perfectly.</em></>, body: "A menu of forty cocktails is forty compromises. We pour twelve, we pour them right, and we change them when the season turns." },
+    { t: "diptych", primary: `${g}pour-glass.jpg`, secondary: "/uploads/1/hooks/sites/pour.jpg", index: "12", title: <>Made by<br /><em>the person who wrote it.</em></>, body: "Tell the bartender a spirit and a mood. Off-menu, if you trust the bar.", overlap: "object" },
     { t: "cta", title: <>Pull up <em>a stool.</em></>, body: "Walk-ins at the bar, a small book for the back room.", label: "Find the bar" },
   ] },
   curd: { slug: "curd", theme: "curd", brand: "CURD", typography: "grotesk", hero: { archetype: "hard-split", index: "01 / RAW-MILK", mediaSide: "right", eyebrow: "A cheesemonger", title: <>CHEESE<br />WITH<br /><em>a season.</em></>, sub: "Cut to order, ripe today, and never from a factory." }, nav: ["The idea", "The cave", "Order"], tagline: "A small-maker cheesemonger.", legal: "Curd & Cave", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/curd-cave.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Aged in<br />our own cave.</>, body: "Cool, damp and patient; we turn the wheels by hand.", align: "left" }, { index: "II", title: <>Cut to order,<br />ripe on the day.</>, body: "Not the day it was packed — the day you need it.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>cave — finished by us, cut to your table</>, media: "/uploads/1/hooks/sites/g/curd-wheel.jpg", note: "Wrapped supermarket cheese is picked to survive a lorry, not to taste." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/curd-cave.jpg", secondary: "/uploads/1/hooks/sites/g/curd-wheel.jpg", index: "01", title: <>Cheese with<br /><em>a season.</em></>, body: "Small-maker cheese, aged in our cave and cut the day you want it.", overlap: "object" },
-    { t: "idea", kick: "What Curd is", title: <>Ripe today,<br /><em>not shelf-stable forever.</em></>, body: "Wrapped supermarket cheese is picked to survive a lorry, not to taste of anything. We buy from small makers, age it in our own cave, and cut it the day you want it — so it is perfectly ripe on the day, not the day it was packed." },
-    { t: "editorial", img: `${g}curd-cave.jpg`, title: <>Aged in<br /><em>our own cave.</em></>, body: "Cool, damp, and patient. We turn the wheels by hand and cut them only when they are ready, not when a date on a label says so." },
-    { t: "split", img: `${g}curd-wheel.jpg`, rev: true, title: <>Cut to order,<br /><em>ripe on the day.</em></>, list: [{ b: "Small makers, named", s: "Farmhouse and artisan, never factory." }, { b: "Aged by us", s: "Finished in our cave to the day you need." }, { b: "Built to your table", s: "Tell us the crowd; we build the board." }] },
-    { t: "gallery", head: <>Onto <em>the board.</em></>, items: [{ img: `${g}curd-board.jpg`, cap: "Built for your table." }, { img: `${g}curd-wheel.jpg`, cap: "Cut the day you want it." }] },
+    { t: "diptych", primary: `${g}curd-board.jpg`, secondary: `${g}curd-wheel.jpg`, index: "01", title: <>Ripe on the day<br /><em>you eat it.</em></>, body: "Not the day it was packed. Small-maker cheese, finished in our cave and cut when you want it.", overlap: "object" },
+    { t: "cinematicBand", media: `${g}curd-cave.jpg`, motif: "none", chapters: [
+      { index: "Spring", title: <>Into<br />the cave.</>, body: "Cool, damp and patient; every wheel turned by hand.", align: "left", media: `${g}curd-cave.jpg` },
+      { index: "Autumn", title: <>Cut when<br />it’s ready.</>, body: "Not when a date on a label says so.", align: "right", media: `${g}curd-wheel.jpg` },
+      { index: "Today", title: <>Onto<br />your board.</>, body: "Built for whoever’s eating, cut that morning.", align: "left", media: `${g}curd-board.jpg` },
+    ] },
+    { t: "split", img: `${g}curd-cave.jpg`, rev: true, title: <>Small makers,<br /><em>named.</em></>, list: [{ b: "Farmhouse and artisan", s: "Never factory, never picked to survive a lorry." }, { b: "Finished by us", s: "In our cave, to the day you need it." }, { b: "Built to your table", s: "Tell us the crowd; we build the board." }] },
     { t: "cta", title: <>Build <em>a board.</em></>, body: "A conversation about who is eating, then a box that is perfectly ripe on the day.", label: "Order a board" },
   ] },
   lens: { slug: "lens", theme: "lens", brand: "LENS", typography: "editorial", hero: { archetype: "index-stage", eyebrow: "Portraits, on film", title: <>Portraits that<br />hold still.</>, items: [{ label: "The sitting", meta: "one hour, one roll", img: "/uploads/1/hooks/sites/g/lens-portrait.jpg" }, { label: "The film", meta: "a few frames", img: "/uploads/1/hooks/sites/g/lens-camera.jpg" }, { label: "The darkroom", meta: "developed by hand", img: "/uploads/1/hooks/sites/g/lens-contact.jpg" }, { label: "The print", meta: "not a download", img: "/uploads/1/hooks/sites/lens.jpg" }] }, nav: ["The idea", "The work", "Sit"], tagline: "Film portraiture, printed by hand.", legal: "Lens Studio", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/lens-portrait.jpg", motif: "halftone", chapters: [{ index: "I", title: <>A few frames,<br />not a thousand.</>, body: "No burst to pick from — a handful of careful exposures.", align: "left" }, { index: "II", title: <>Developed<br />by hand.</>, body: "In the darkroom, not a lab machine.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>roll, one hour — three hand prints, not a folder</>, media: "/uploads/1/hooks/sites/g/lens-camera.jpg", note: "A photograph you will still have when the hard drive dies." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/lens-portrait.jpg", secondary: "/uploads/1/hooks/sites/g/lens-contact.jpg", index: "N°01", title: <>Portraits that<br /><em>hold still.</em></>, body: "Shot on film, slowly, and printed by hand a fortnight later.", overlap: "object" },
-    { t: "idea", kick: "What Lens is", title: <>A few frames,<br /><em>not a thousand.</em></>, body: "Digital gives you a thousand near-identical frames and the anxiety of choosing. We shoot a few careful exposures on film, develop them by hand, and give you a print you will still have long after the hard drive has died." },
-    { t: "editorial", img: `${g}lens-portrait.jpg`, title: <>Made to<br /><em>hold still.</em></>, body: "One roll, one hour, a real conversation across the lens. What comes back is a photograph, not a file." },
-    { t: "split", img: `${g}lens-camera.jpg`, title: <>Slow,<br /><em>on purpose.</em></>, list: [{ b: "Shot on film", s: "A handful of exposures, each one considered." }, { b: "Developed by hand", s: "In the darkroom, not a lab machine." }, { b: "A print, not a download", s: "Something to frame, not to forget in a folder." }] },
-    { t: "gallery", head: <>From negative <em>to print.</em></>, items: [{ img: `${g}lens-contact.jpg`, cap: "The contact sheet." }, { img: `${g}lens-portrait.jpg`, cap: "The one you keep." }] },
-    { t: "cta", title: <>Sit for <em>a portrait.</em></>, body: "An hour in the studio, a roll of film, and three hand prints a fortnight later.", label: "Book a sitting" },
+    { t: "cinematicBand", media: `${g}lens-camera.jpg`, motif: "grain", chapters: [
+      { index: "02 · The film", title: <>One roll,<br />a few frames.</>, body: "No burst to pick from — a handful of careful exposures.", align: "left", media: `${g}lens-camera.jpg` },
+      { index: "03 · The darkroom", title: <>Developed<br />by hand.</>, body: "Under the red light, not in a lab machine.", align: "right", media: `${g}lens-contact.jpg` },
+      { index: "04 · The print", title: <>Something<br />to frame.</>, body: "Printed on fibre paper and dried on the line.", align: "left", media: `${g}lens-portrait.jpg` },
+    ] },
+    { t: "idea", kick: "Why film", title: <>A thousand frames<br /><em>is homework, not a portrait.</em></>, body: "Digital hands you a thousand near-identical frames and the job of choosing. We shoot a few careful exposures, develop them by hand, and give you a print you will still have long after the hard drive has died." },
+    { t: "bigNumber", value: "3", label: <>hand prints from one sitting — not a folder of files</>, media: "/uploads/1/hooks/sites/lens.jpg", note: "One hour in the studio, one roll of film, one conversation across the lens." },
+    { t: "diptych", primary: `${g}lens-contact.jpg`, secondary: `${g}lens-camera.jpg`, index: "N°01", title: <>Negative<br /><em>to print.</em></>, body: "Every frame on the contact sheet goes under the loupe before one is chosen.", overlap: "object" },
+    { t: "cta", title: <>Sit for <em>a portrait.</em></>, body: "Book an hour in the studio. We call when the prints are dry.", label: "Book a sitting" },
   ] },
   wax: { slug: "wax", theme: "wax", brand: "WAX", nav: ["The idea", "The shop", "Visit"], tagline: "An independent record shop.", legal: "Wax Records", typography: "grotesk", hero: { archetype: "type-collision", eyebrow: "A record shop", title: <>ANALOG</>, sub: "We sell the sitting down, not just the record.", object: "/uploads/1/hooks/sites/wax.jpg" }, blocks: [
-    { t: "cinematicBand", media: `${g}wax-spin.jpg`, motif: "grain", chapters: [{ index: "I", title: <>Side one<br />to side two.</>, body: "The whole record, in the order it was meant to be heard.", align: "left" }, { index: "II", title: <>Try it<br />before you buy.</>, body: "A turntable on the counter, and staff who've heard it.", align: "right" }] },
-    { t: "bigNumber", value: "12″", label: <>The format we still sell — vinyl, whole albums</>, media: `${g}wax-crate.jpg`, note: "A stream gives you everything and the patience for none of it. We sell the sitting down." },
-    { t: "diptych", primary: `${g}wax-crate.jpg`, secondary: `${g}wax-spin.jpg`, index: "33⅓", title: <>Flick through,<br /><em>stay a while.</em></>, body: "Racks worth the browse, a crate kept aside for regulars, new arrivals every Friday.", overlap: "object" },
-    { t: "idea", kick: "What Wax is", title: <>The sitting down,<br /><em>not just the record.</em></>, body: "A stream gives you everything and the patience for none of it. We sell the ritual back: racks worth flicking through, a turntable to try before you buy, and someone behind the counter who has actually heard the thing you're holding." },
-    { t: "cine", mode: "grid", palette: ["#0a0510", "#2a1050", "#ff5ea0"], title: <>Side one<br /><em>to side two.</em></> },
-    { t: "split", img: `${g}wax-spin.jpg`, rev: true, title: <>Try it<br /><em>before you buy.</em></>, list: [{ b: "A turntable on the counter", s: "Hear it, then decide." }, { b: "Racks worth the flick", s: "Curated, not an algorithm's dump." }, { b: "Staff who've heard it", s: "Ask; you'll get a real answer." }] },
+    { t: "bigNumber", value: "12″", label: <>the format we still sell — whole albums, in order</>, media: "/uploads/1/hooks/sites/wax.jpg", note: "Not a playlist of singles. The record, as it was meant to be heard." },
+    { t: "cinematicBand", media: `${g}wax-shop.jpg`, motif: "grain", chapters: [
+      { index: "Side A · 1", title: <>Walk in<br />off the street.</>, body: "Racks worth the browse, and a counter with a turntable.", align: "left", media: `${g}wax-shop.jpg` },
+      { index: "Side A · 2", title: <>Flick<br />through.</>, body: "Curated by people who've heard it, not an algorithm.", align: "right", media: `${g}wax-crate.jpg` },
+      { index: "Side B", title: <>Drop<br />the needle.</>, body: "Hear the whole side before you decide.", align: "left", media: `${g}wax-spin.jpg` },
+    ] },
+    { t: "idea", kick: "The ritual", title: <>Side one<br /><em>to side two.</em></>, body: "A stream gives you everything and the patience for none of it. We sell the ritual back: the flick through, the needle, and someone behind the counter who has actually heard the thing you're holding." },
     { t: "gallery", head: <>In the <em>crates.</em></>, items: [{ img: `${g}wax-crate.jpg`, cap: "Flick through." }, { img: `${g}wax-shop.jpg`, cap: "Stay a while." }] },
     { t: "cta", title: <>Come <em>flick through.</em></>, body: "New arrivals every Friday, and a crate we keep aside for regulars.", label: "See what's in" },
   ] },
   spine: { slug: "spine", theme: "spine", brand: "SPINE", typography: "fashion", hero: { archetype: "edge-arrival", edge: "left", proof: ["0", "algorithms on the shelves"], eyebrow: "A bookshop", title: <>Books chosen by<br /><em>someone who read them.</em></>, sub: "A small shop, no algorithm on the shelves." }, nav: ["The idea", "The shop", "Ask"], tagline: "An independent bookshop.", legal: "Spine Books", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/spine-shelf.jpg", motif: "halftone", chapters: [{ index: "I", title: <>No spreadsheet<br />on the shelves.</>, body: "Every book is here because a person read it and loved it.", align: "left" }, { index: "II", title: <>Read<br />before it’s shelved.</>, body: "Staff picks, with a card that says why.", align: "right" }] },
-    { t: "bigNumber", value: "0", label: <>algorithms — curation is a person’s taste, not a trend</>, media: "/uploads/1/hooks/sites/g/spine-stack.jpg", note: "Describe a book you couldn’t put down; we hand you the next." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/spine-shelf.jpg", secondary: "/uploads/1/hooks/sites/g/spine-read.jpg", index: "01", title: <>Books chosen by<br /><em>someone who read them.</em></>, body: "A small shop, a slow browse, and an answer when you ask.", overlap: "object" },
-    { t: "idea", kick: "What Spine is", title: <>No spreadsheet<br /><em>on the shelves.</em></>, body: "Every book on our table is there because a person read it and loved it — not because a chart said it would sell. Tell us the last book you couldn't put down, and someone who has actually read the next one will hand it to you." },
-    { t: "editorial", img: `${g}spine-shelf.jpg`, title: <>A room that<br /><em>rewards the browse.</em></>, body: "Floor to ceiling, arranged by a human logic, made for the slow flick along a shelf that a search bar can never replace." },
-    { t: "split", img: `${g}spine-stack.jpg`, title: <>Picked <em>by hand.</em></>, list: [{ b: "Read before it's shelved", s: "Staff picks, with a card that says why." }, { b: "No algorithm", s: "Curation is a person's taste, not a trend." }, { b: "Ask, and leave with the one", s: "Describe a book you loved; get the next." }] },
-    { t: "gallery", head: <>Stay <em>and read.</em></>, items: [{ img: `${g}spine-read.jpg`, cap: "A corner to sit in." }, { img: `${g}spine-shelf.jpg`, cap: "Worth the browse." }] },
+    { t: "quote", text: "I asked for ‘the last one, but sadder.’ She had it in my hands before I finished the sentence.", cite: "Tom H., regular" },
+    { t: "cinematicBand", media: `${g}spine-shelf.jpg`, motif: "none", chapters: [
+      { index: "The browse", title: <>Floor to ceiling,<br />by a human logic.</>, body: "Arranged for the slow flick a search bar can't replace.", align: "left", media: `${g}spine-shelf.jpg` },
+      { index: "The card", title: <>Every pick<br />says why.</>, body: "A handwritten card from the person who read it.", align: "right", media: `${g}spine-stack.jpg` },
+      { index: "The corner", title: <>Then sit down<br />with it.</>, body: "A chair by the window, and nobody hurrying you to the till.", align: "left", media: `${g}spine-read.jpg` },
+    ] },
+    { t: "idea", kick: "No algorithm", title: <>No spreadsheet<br /><em>on the shelves.</em></>, body: "Every book on our table is there because a person read it and loved it — not because a chart said it would sell." },
+    { t: "split", img: `${g}spine-stack.jpg`, rev: true, title: <>Ask, and leave<br /><em>with the one.</em></>, list: [{ b: "Read before it's shelved", s: "If nobody here loved it, it isn't here." }, { b: "No bestseller wall", s: "Curation is a person's taste, not a trend." }, { b: "Staff picks, signed", s: "A name on every card, so you know whose taste it is." }] },
     { t: "cta", title: <>Ask for <em>a recommendation.</em></>, body: "Tell us the last book you could not put down. We will hand you the next.", label: "Get a pick" },
   ] },
   ink: { slug: "ink", theme: "ink", brand: "INK", typography: "fashion", hero: { archetype: "portal-frame", frame: "portrait", eyebrow: "A private studio", title: <>Ink you will<br /><em>wear for good.</em></>, sub: "One artist, one client, and a design drawn only for you." }, nav: ["The idea", "The work", "Book"], tagline: "A private, custom tattoo studio.", legal: "Ink Studio", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/ink-studio.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Drawn for you,<br />not off the wall.</>, body: "No flash to point at, drawn with you over weeks.", align: "left" }, { index: "II", title: <>One chair,<br />one day, yours.</>, body: "The room and the artist are yours for the whole day.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>client a day — the room and artist are yours</>, media: "/uploads/1/hooks/sites/g/ink-flash.jpg", note: "A piece you will still love in thirty years, tattooed slowly." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/ink-work.jpg", secondary: "/uploads/1/hooks/sites/g/ink-flash.jpg", index: "N°01", title: <>Ink you will<br /><em>wear for good.</em></>, body: "A private studio, custom work only, a few pieces taken each month.", overlap: "object" },
-    { t: "idea", kick: "What Ink is", title: <>Drawn for you,<br /><em>not off the wall.</em></>, body: "No flash to point at, no walk-in rush, no needle sharing your artist with three other chairs. We draw with you over weeks until the design is right, then tattoo it slowly in a room that is yours for the whole day." },
-    { t: "cine", mode: "nebula", palette: ["#050308", "#2a1040", "#8f6fd8"], title: <>Worn<br /><em>for good.</em></> },
-    { t: "split", img: `${g}ink-work.jpg`, rev: true, title: <>One chair,<br /><em>one day, yours.</em></>, list: [{ b: "Custom, always", s: "Drawn with you over weeks, never off a sheet." }, { b: "One client a day", s: "The room and the artist are yours." }, { b: "Slow, so it lasts", s: "A piece you'll still love in thirty years." }] },
-    { t: "gallery", head: <>From flash <em>to skin.</em></>, items: [{ img: `${g}ink-flash.jpg`, cap: "Drawn for you." }, { img: `${g}ink-studio.jpg`, cap: "A room for the day." }] },
+    { t: "cinematicBand", media: "/uploads/1/hooks/sites/ink.jpg", motif: "none", chapters: [
+      { index: "The chair", title: <>One machine,<br />set for one.</>, body: "One artist, one client — the room is yours all day.", align: "left", media: "/uploads/1/hooks/sites/ink.jpg" },
+      { index: "Weeks 1–3", title: <>Drawn with you,<br />version by version.</>, body: "Sketched, redrawn and argued over until it is only yours.", align: "right", media: `${g}ink-flash.jpg` },
+      { index: "The day", title: <>Tattooed<br />slowly.</>, body: "Line by line, for as long as it takes to be right.", align: "left", media: `${g}ink-work.jpg` },
+    ] },
+    { t: "idea", kick: "Custom only", title: <>Nothing here<br /><em>is for anyone else.</em></>, body: "No walk-in rush and no needle shared with three other chairs. We draw with you over weeks until the design is right, then tattoo it slowly in a room that is yours for the whole day." },
+    { t: "bigNumber", value: "1", label: <>client a day — the room and the artist are yours</>, media: `${g}ink-work.jpg`, note: "No walk-ins, no second chair, no rush at the end of the day." },
     { t: "cta", title: <>Start <em>a piece.</em></>, body: "Send us the idea and where it lives on you. We take on a few each month.", label: "Request a booking" },
   ] },
-  mane: { slug: "mane", theme: "mane", brand: "MANE", typography: "editorial", hero: { archetype: "index-stage", eyebrow: "A hair studio", title: <>Hair, cut like<br />it will be seen.</>, items: [{ label: "The consult", meta: "on us, first", img: "/uploads/1/hooks/sites/g/mane-chair.jpg" }, { label: "The cut", meta: "one at a time", img: "/uploads/1/hooks/sites/g/mane-cut.jpg" }, { label: "The finish", meta: "as it'll be seen", img: "/uploads/1/hooks/sites/g/mane-style.jpg" }, { label: "The chair", meta: "an hour, yours", img: "/uploads/1/hooks/sites/mane.jpg" }] }, nav: ["The idea", "The studio", "Book"], tagline: "A one-chair hair studio.", legal: "Mane Studio", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/mane-chair.jpg", motif: "none", chapters: [{ index: "I", title: <>No double-booking,<br />no rush.</>, body: "One chair, a long consultation, an hour only yours.", align: "left" }, { index: "II", title: <>Cut to grow<br />out well.</>, body: "Still looks right six weeks later, not just today.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>chair, one client — no juggling, no waiting under foil</>, media: "/uploads/1/hooks/sites/g/mane-style.jpg", note: "A salon that runs three chairs runs on your patience; we run one." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/mane-chair.jpg", secondary: "/uploads/1/hooks/sites/g/mane-style.jpg", index: "01", title: <>Hair, cut like<br /><em>it will be seen.</em></>, body: "A real consultation first, on us, before a single snip.", overlap: "object" },
-    { t: "idea", kick: "What Mane is", title: <>No double-booking,<br /><em>no rush under the dryer.</em></>, body: "A salon that runs three chairs runs on your patience. We run one. That means a long consultation before anything is cut, an hour that is only yours, and a shape built to grow out as well as it goes in." },
-    { t: "editorial", img: `${g}mane-chair.jpg`, title: <>One chair,<br /><em>one hour, yours.</em></>, body: "A calm room, a big mirror, and a stylist who is thinking about your hair and no one else's for the whole appointment." },
-    { t: "split", img: `${g}mane-style.jpg`, title: <>Cut to<br /><em>grow out well.</em></>, list: [{ b: "A real consultation first", s: "On us, before a single snip." }, { b: "One client at a time", s: "No juggling, no waiting under foil." }, { b: "A shape that lasts", s: "Still looks right six weeks later." }] },
-    { t: "gallery", head: <>In the <em>chair.</em></>, items: [{ img: `${g}mane-cut.jpg`, cap: "Considered, unhurried." }, { img: `${g}mane-style.jpg`, cap: "Finished, as it'll be seen." }] },
+  mane: { slug: "mane", theme: "mane", brand: "MANE", typography: "editorial", hero: { archetype: "index-stage", eyebrow: "A hair studio", title: <>Hair, cut like<br />it will be seen.</>, items: [{ label: "The consult", meta: "on us, first", img: "/uploads/1/hooks/sites/g/mane-chair.jpg" }, { label: "The cut", meta: "one at a time", img: "/uploads/1/hooks/sites/mane.jpg" }, { label: "The finish", meta: "as it'll be seen", img: "/uploads/1/hooks/sites/g/mane-style.jpg" }] }, nav: ["The idea", "The studio", "Book"], tagline: "A one-chair hair studio.", legal: "Mane Studio", blocks: [
+    { t: "cinematicBand", media: `${g}mane-chair.jpg`, motif: "none", chapters: [
+      { index: "The consult", title: <>Talk first,<br />cut second.</>, body: "A long consultation, on us, before a single snip.", align: "left", media: `${g}mane-chair.jpg` },
+      { index: "The cut", title: <>One head,<br />one hour.</>, body: "No juggling three chairs, no waiting under foil.", align: "right", media: "/uploads/1/hooks/sites/mane.jpg" },
+      { index: "Six weeks on", title: <>Still right<br />as it grows.</>, body: "A shape built to grow out as well as it goes in.", align: "left", media: `${g}mane-style.jpg` },
+    ] },
+    { t: "idea", kick: "One chair", title: <>A salon with three chairs<br /><em>runs on your patience.</em></>, body: "We run one. A stylist thinking about your hair and no one else's, for the whole appointment." },
+    { t: "bigNumber", value: "6wk", label: <>later — and it still looks like the day you left</>, media: "/uploads/1/hooks/sites/mane.jpg", note: "Cut for how it grows, not just for the mirror at the end." },
+    { t: "editorial", img: `${g}mane-style.jpg`, title: <>Out in<br /><em>the daylight.</em></>, body: "Cut to be seen where it actually will be — outside, on the street, weeks from now." },
     { t: "cta", title: <>Book <em>the chair.</em></>, body: "New clients start with a consultation, on us, before anything is cut.", label: "Book a consultation" },
   ] },
   selvedge: { slug: "selvedge", theme: "selvedge", brand: "SELVEDGE", typography: "signal", hero: { archetype: "regime-shift", index: "N° 01 / 04", object: "/uploads/1/hooks/sites/selvedge.jpg", labels: ["Raw", "Shuttle loom", "Your fade", "Repaired"], eyebrow: "Raw denim", title: <>Denim that<br /><em>fades to you.</em></>, sub: "Woven on old looms, sold raw, broken in by your life." }, nav: ["The idea", "The loom", "Find"], tagline: "Raw selvedge denim, built to age.", legal: "Selvedge Co.", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/selvedge-loom.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Woven on<br />old looms.</>, body: "Narrow shuttle looms that finish a self-edge no wide loom can.", align: "left" }, { index: "II", title: <>Sold raw,<br />faded by you.</>, body: "A year of your life makes a pair that is only yours.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>fade — earned, not printed on at the factory</>, media: "/uploads/1/hooks/sites/g/selvedge-fade.jpg", note: "Pre-distressed jeans wear someone else’s life; ours wear yours." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/selvedge-jean.jpg", secondary: "/uploads/1/hooks/sites/g/selvedge-fade.jpg", index: "01", title: <>Denim that<br /><em>fades to you.</em></>, body: "Heavy shuttle-loom denim, sold raw, repaired free for life.", overlap: "object" },
-    { t: "idea", kick: "What Selvedge is", title: <>Sold stiff,<br /><em>broken in by you.</em></>, body: "Pre-distressed jeans wear someone else's life. Ours arrive raw, heavy and dark off a shuttle loom, and a year of your walking, sitting and folding fades them into a pair that could belong to no one else on earth." },
-    { t: "editorial", img: `${g}selvedge-loom.jpg`, title: <>Woven on<br /><em>old looms.</em></>, body: "Narrow shuttle looms, slow and clattering, that finish a self-edge no wide modern loom can — the mark you can see in the cuff." },
-    { t: "split", img: `${g}selvedge-fade.jpg`, rev: true, title: <>A fade<br /><em>that is only yours.</em></>, list: [{ b: "Sold raw and dark", s: "The fades are yours to earn, not printed on." }, { b: "Heavy shuttle-loom denim", s: "Woven to age for a decade, not a season." }, { b: "Free repairs, for life", s: "We patch the knees; you keep wearing them." }] },
-    { t: "gallery", head: <>Earned, <em>not printed.</em></>, items: [{ img: `${g}selvedge-jean.jpg`, cap: "Raw, to begin." }, { img: `${g}selvedge-fade.jpg`, cap: "A year of you." }] },
+    { t: "idea", kick: "Sold raw", title: <>Sold stiff,<br /><em>broken in by you.</em></>, body: "Pre-distressed jeans wear someone else's life. Ours arrive raw, heavy and dark, and a year of your walking, sitting and folding turns them into a pair that could belong to no one else." },
+    { t: "cinematicBand", media: `${g}selvedge-loom.jpg`, motif: "none", chapters: [
+      { index: "Month 0", title: <>Off a<br />shuttle loom.</>, body: "Narrow, slow and clattering — the self-edge you see in the cuff.", align: "left", media: `${g}selvedge-loom.jpg` },
+      { index: "Month 1", title: <>Stiff, dark,<br />and raw.</>, body: "Nothing printed on, nothing pre-worn.", align: "right", media: `${g}selvedge-jean.jpg` },
+      { index: "Month 12", title: <>Worn into<br />a map of you.</>, body: "Whiskers, honeycombs and knees, from twelve months of wear.", align: "left", media: `${g}selvedge-fade.jpg` },
+    ] },
+    { t: "bigNumber", value: "12", label: <>months of wear, and the fade is only yours</>, media: "/uploads/1/hooks/sites/selvedge.jpg", note: "Free repairs for life — we patch the knees, you keep wearing them." },
+    { t: "gallery", head: <>Earned, <em>not printed.</em></>, items: [{ img: `${g}selvedge-jean.jpg`, cap: "Raw, to begin." }, { img: `${g}selvedge-fade.jpg`, cap: "A year later." }] },
     { t: "cta", title: <>Find <em>your pair.</em></>, body: "A handful of cuts, a proper fitting, and a lifetime of free repairs.", label: "See the cuts" },
   ] },
   deck: { slug: "deck", theme: "deck", brand: "DECK", typography: "grotesk", hero: { archetype: "type-collision", object: "/uploads/1/hooks/sites/g/deck-skate.jpg", eyebrow: "A skate shop", title: <>KICKFLIP</>, sub: "Pressed by skaters, for the way you actually ride." }, nav: ["The idea", "The shop", "Build"], tagline: "A skater-run board shop.", legal: "Deck Shop", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/deck-skate.jpg", motif: "grain", chapters: [{ index: "I", title: <>Pressed by<br />skaters.</>, body: "Our own wood, set up on the counter while you wait.", align: "left" }, { index: "II", title: <>Built to<br />be broken in.</>, body: "Trucks and grip to your stance, by people who ride your spots.", align: "right" }] },
-    { t: "bigNumber", value: "1", label: <>board, built to your stance while you wait</>, media: "/uploads/1/hooks/sites/g/deck-board.jpg", note: "A skate shop run by people who don’t skate is a rack with grip tape." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/deck-skate.jpg", secondary: "/uploads/1/hooks/sites/g/deck-board.jpg", index: "01", title: <>Boards built<br /><em>to be broken in.</em></>, body: "Skater-pressed decks, set up ready to push, not sold off a wall.", overlap: "object" },
-    { t: "idea", kick: "What Deck is", title: <>No mall brands,<br /><em>no dead stock.</em></>, body: "A skate shop run by people who don't skate is a clothing rack with grip tape. We press our own boards, set them up on the counter while you wait, and skate the same spots you do — so the advice is real, not a sticker price." },
-    { t: "cine", mode: "grid", palette: ["#08060e", "#241048", "#ff7a3a"], title: <>Broken in<br /><em>by you.</em></> },
-    { t: "split", img: `${g}deck-shop.jpg`, rev: true, title: <>Set up<br /><em>on the counter.</em></>, list: [{ b: "Boards we press", s: "Our own wood, not a warehouse brand." }, { b: "Built to your stance", s: "Trucks and grip set up while you wait." }, { b: "Skated, not sold", s: "The staff ride the spots you ride." }] },
-    { t: "gallery", head: <>From rack <em>to road.</em></>, items: [{ img: `${g}deck-board.jpg`, cap: "Pick a deck." }, { img: `${g}deck-skate.jpg`, cap: "Push off." }] },
+    { t: "cinematicBand", media: "/uploads/1/hooks/sites/deck.jpg", motif: "grain", chapters: [
+      { index: "Pressed", title: <>Our own<br />wood.</>, body: "Pressed by skaters, shaped to the concave we ride.", align: "left", media: "/uploads/1/hooks/sites/deck.jpg" },
+      { index: "Set up", title: <>Built on<br />the counter.</>, body: "Trucks, grip and wheels to your stance while you wait.", align: "right", media: `${g}deck-shop.jpg` },
+      { index: "Pushed", title: <>Then broken in<br />by you.</>, body: "Skated at the spots we skate, not hung on a wall.", align: "left", media: `${g}deck-skate.jpg` },
+    ] },
+    { t: "split", img: `${g}deck-shop.jpg`, rev: true, title: <>Skated,<br /><em>not sold.</em></>, list: [{ b: "Advice that's real", s: "The staff ride the spots you ride." }, { b: "Our boards, our wood", s: "Not a warehouse brand with a markup." }, { b: "Walk out rolling", s: "Pick a deck in, push off out." }] },
+    { t: "idea", kick: "Skater-run", title: <>No mall brands,<br /><em>no dead stock.</em></>, body: "A skate shop run by people who don't skate is a clothing rack with grip tape. We press our own boards and skate the same spots you do — so the advice is real, not a sticker price." },
     { t: "cta", title: <>Set up <em>a board.</em></>, body: "Pick a deck, we build it to your stance and hand it over ready to push.", label: "Build a setup" },
   ] },
   lather: { slug: "lather", theme: "lather", brand: "LATHER", typography: "fashion", hero: { archetype: "edge-arrival", edge: "right", proof: ["4", "things + six weeks"], eyebrow: "An apothecary", title: <>Soap that<br /><em>is just soap.</em></>, sub: "Cold-pressed, plainly scented, nothing you can't pronounce." }, nav: ["The idea", "The bench", "Shop"], tagline: "Cold-pressed soap and simple skincare.", legal: "Lather Apothecary", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/lather-shelf.jpg", motif: "none", chapters: [{ index: "I", title: <>Four things,<br />and six weeks.</>, body: "Oils, lye, water and a little scent, cured slowly.", align: "left" }, { index: "II", title: <>Cut by hand,<br />plainly kept.</>, body: "Amber glass, paper labels, nothing pretending.", align: "right" }] },
-    { t: "bigNumber", value: "6wk", label: <>cure — the slow way, because it makes a better bar</>, media: "/uploads/1/hooks/sites/g/lather-soap.jpg", note: "Kind to skin that has had enough of the fragrance aisle." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/lather-shelf.jpg", secondary: "/uploads/1/hooks/sites/g/lather-soap.jpg", index: "01", title: <>Soap that<br /><em>is just soap.</em></>, body: "Cold-pressed soap, botanical scent only, a refill habit that wastes nothing.", overlap: "object" },
-    { t: "idea", kick: "What Lather is", title: <>Four things,<br /><em>and six weeks.</em></>, body: "Oils, lye, water, and a little botanical scent. That's the whole recipe. Cured for six weeks, cut by hand, and kind to skin that has had quite enough of the fragrance aisle and its unpronounceable list." },
-    { t: "editorial", img: `${g}lather-shelf.jpg`, title: <>Plainly<br /><em>made, plainly kept.</em></>, body: "Amber glass, paper labels, and a shelf you're not embarrassed to leave out. Nothing here is trying to be anything but honest." },
-    { t: "split", img: `${g}lather-make.jpg`, title: <>Cured slow,<br /><em>cut by hand.</em></>, list: [{ b: "Cold-pressed, six-week cure", s: "The slow way, because it makes a better bar." }, { b: "Botanical scent only", s: "A little, or none — never a fragrance wall." }, { b: "Refill, don't rebuy", s: "A habit built so nothing is wasted." }] },
-    { t: "gallery", head: <>On the <em>shelf.</em></>, items: [{ img: `${g}lather-soap.jpg`, cap: "Cut by hand." }, { img: `${g}lather-shelf.jpg`, cap: "Honestly kept." }] },
+    { t: "idea", kick: "The whole recipe", title: <>An apothecary<br /><em>that keeps it short.</em></>, body: "Oils, lye, water and a little botanical scent. That is it — cured slowly, cut by hand, and kind to skin that has had quite enough of the fragrance aisle." },
+    { t: "cinematicBand", media: `${g}lather-make.jpg`, motif: "none", chapters: [
+      { index: "Day 1", title: <>Poured<br />into the mould.</>, body: "Everything in one pot, stirred by hand.", align: "left", media: `${g}lather-make.jpg` },
+      { index: "Week 6", title: <>Cured slow,<br />then cut.</>, body: "Six weeks on the rack makes a harder, milder bar.", align: "right", media: `${g}lather-soap.jpg` },
+      { index: "On the shelf", title: <>Amber glass,<br />paper labels.</>, body: "Simple skincare beside it, plainly kept.", align: "left", media: `${g}lather-shelf.jpg` },
+    ] },
+    { t: "split", img: `${g}lather-soap.jpg`, rev: true, title: <>Refill,<br /><em>don’t rebuy.</em></>, list: [{ b: "Cold-pressed", s: "No heat to cook off the good oils." }, { b: "Botanical scent only", s: "A little, or none — never a fragrance wall." }, { b: "Bring the jar back", s: "A refill habit, so nothing is wasted." }] },
     { t: "cta", title: <>Wash <em>simply.</em></>, body: "A trio to find your scent, then a refill habit so nothing is wasted.", label: "Shop the bars" },
   ] },
   malt: { slug: "malt", theme: "malt", brand: "MALT", typography: "signal", hero: { archetype: "product-theatre", object: "/uploads/1/hooks/sites/malt.jpg", depth: "/uploads/1/hooks/sites/g/malt-depth.jpg", proof: [["4", "beers, rotating"], ["taproom", "poured fresh"], ["Thu-Sun", "whatever tanked"]], eyebrow: "A small brewery", title: <>Beer worth<br /><em>slowing down for.</em></>, sub: "Brewed in small batches, and best where it's made." }, nav: ["The idea", "The tanks", "Visit"], tagline: "A small-batch taproom brewery.", legal: "Malt Brewing", blocks: [
-    { t: "cinematicBand", media: "/uploads/1/hooks/sites/g/malt-tank.jpg", motif: "halftone", chapters: [{ index: "I", title: <>Brewed<br />out the back.</>, body: "A few tanks and whatever the brewer felt like this month.", align: "left" }, { index: "II", title: <>Poured fresh,<br />where it’s made.</>, body: "We don’t ship far; it is best exactly here.", align: "right" }] },
-    { t: "bigNumber", value: "4", label: <>beers on, rotating — never the same all year</>, media: "/uploads/1/hooks/sites/g/malt-glass.jpg", note: "Beer shipped nationwide is built to survive the lorry, not to taste." },
-    { t: "diptych", primary: "/uploads/1/hooks/sites/g/malt-tank.jpg", secondary: "/uploads/1/hooks/sites/g/malt-grain.jpg", index: "01", title: <>Beer worth<br /><em>slowing down for.</em></>, body: "Small-batch beer, poured fresh in the taproom the week it is ready.", overlap: "object" },
-    { t: "idea", kick: "What Malt is", title: <>No core range<br /><em>stretched across a country.</em></>, body: "Beer shipped nationwide is beer built to survive the journey. We don't ship far. A rotating handful of batches, brewed out the back, poured fresh in the taproom the week they're ready — best exactly where it's made." },
-    { t: "editorial", img: `${g}malt-tank.jpg`, title: <>Brewed<br /><em>out the back.</em></>, body: "Copper and steel, a few tanks, and whatever the brewer felt like making this month. Small enough that every batch is somebody's decision, not a spreadsheet's." },
-    { t: "split", img: `${g}malt-grain.jpg`, rev: true, title: <>Small batch,<br /><em>poured fresh.</em></>, list: [{ b: "A rotating handful", s: "Never the same four beers all year." }, { b: "Poured where it's made", s: "Freshest the week it leaves the tank." }, { b: "Brewed by a person", s: "Every batch is a choice, not a formula." }] },
-    { t: "gallery", head: <>On <em>this week.</em></>, items: [{ img: `${g}malt-glass.jpg`, cap: "Whatever tanked this week." }, { img: `${g}malt-tank.jpg`, cap: "Where it's made." }] },
+    { t: "cinematicBand", media: `${g}malt-grain.jpg`, motif: "none", chapters: [
+      { index: "Mash", title: <>Malt by<br />the sack.</>, body: "Milled and mashed a few steps from the bar.", align: "left", media: `${g}malt-grain.jpg` },
+      { index: "Tank", title: <>A few tanks,<br />one brewer.</>, body: "Whatever the brewer felt like making this month.", align: "right", media: `${g}malt-tank.jpg` },
+      { index: "Tap", title: <>Poured fresh,<br />where it’s made.</>, body: "We don’t ship far; it is best exactly here.", align: "left", media: `${g}malt-glass.jpg` },
+    ] },
+    { t: "editorial", img: `${g}malt-tank.jpg`, title: <>Brewed<br /><em>out the back.</em></>, body: "Copper and steel, and small enough that every batch is somebody's decision, not a spreadsheet's." },
+    { t: "idea", kick: "Not shipped", title: <>No core range<br /><em>stretched across a country.</em></>, body: "Beer shipped nationwide is built to survive the journey. We keep a rotating handful of batches, poured in the taproom the week they are ready." },
     { t: "cta", title: <>Pull <em>a pint.</em></>, body: "The taproom is open Thursday to Sunday, with whatever tanked this week.", label: "See what's on" },
   ] },
 };

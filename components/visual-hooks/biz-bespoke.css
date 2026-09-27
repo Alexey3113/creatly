@@ -1,0 +1,271 @@
+/* Bespoke бизнес-сайты — второй акт и правки волны раскатки (аудит 2026-09). Только неймспейсы своих сайтов. */
+
+/* ===== общий второй акт: Act = CinematicBand + сцена-оверлей того же прогресса (--sp на обёртке) ===== */
+.bs-act{position:relative}
+.bs-act-over{position:absolute;inset:0;z-index:3;pointer-events:none}
+.bs-act-stage{position:sticky;top:0;height:100vh;overflow:hidden}
+/* окно видимости [--wa,--wb] (рампа --wr) и локальный прогресс --k 0..1 внутри окна */
+.bs-w{opacity:clamp(0,min(calc((var(--sp) - var(--wa))/var(--wr,.06)),calc((var(--wb) - var(--sp))/var(--wr,.06))),1)}
+.bs-k{--k:clamp(0,calc((var(--sp) - var(--wa))/(var(--wb) - var(--wa))),1)}
+.bs-act .pb-cband-chap h3 em{font-style:italic;color:var(--a)}
+.bs-act .pb-cband-chap p{text-shadow:0 1px 14px rgba(0,0,0,.45)}
+.bs-act .pb-cband-chap h3{text-shadow:0 2px 30px rgba(0,0,0,.28)}
+@media (prefers-reduced-motion:reduce),(max-width:900px){.bs-act-over{display:none}}
+/* мягкий вход/выход акта: край кадра растворяется в цвет мира (--atm), пока план не закреплён / уже отпущен */
+.bs-act .pb-cband-sticky::after{content:"";position:absolute;left:0;right:0;top:0;height:42vh;z-index:1;pointer-events:none;background:linear-gradient(180deg,var(--atm,var(--bg)),transparent);opacity:clamp(0,calc(1 - var(--sp)*6),1)}
+.bs-act .pb-cband-sticky::before{content:"";position:absolute;left:0;right:0;bottom:0;height:42vh;z-index:1;pointer-events:none;background:linear-gradient(0deg,var(--atm,var(--bg)),transparent);opacity:clamp(0,calc((var(--sp) - .84)*6.5),1)}
+@media (max-width:900px){.bs-act .pb-cband .pb-cband-frame{opacity:1}.bs-act .pb-cband .pb-cband-frame:not(.is-first):not(.is-last){display:none}}
+
+/* ===== FORGE — Hone и DAMASCUS склеены в одну сцену-отъезд, без рамок-скоб; мир остывает к CTA ===== */
+.vh-site.frg{--bg:var(--atm,#0a0d12)}
+.frg .pos{--as:clamp(0,calc(.32 + var(--sp)/.42),1)}
+.frg .pos-cool .pos-subj img{filter:grayscale(.84) contrast(1.14) brightness(.7)}
+.frg .frg-proc{height:540vh}
+.frg .fp-cold{opacity:clamp(0,calc((var(--sp) - .44)/.1),.72)}
+.frg .fp-wash{opacity:clamp(0,calc((.8 - var(--sp))/.1),1)}
+.frg .fp-line{opacity:clamp(0,calc((.68 - var(--sp))/.06),1)}
+.frg .fp-rail{opacity:clamp(0,calc((.74 - var(--sp))/.05),1)}
+/* кромка → клинок: бокс клинка 9:16 стартует в масштабе «накрыть экран» (--z0 из JS) и отъезжает к 1 (ease-out) */
+.frg .fp-hone{--pk:clamp(0,calc((var(--sp) - .6)/.26),1);position:absolute;left:50%;top:50%;z-index:3;height:min(78vh,720px);aspect-ratio:9/16;
+  opacity:clamp(0,calc((var(--sp) - var(--a))/.06),1);
+  transform:translate(-50%,-50%) scale(calc(var(--z0,3.7) - (var(--z0,3.7) - 1)*var(--pk)*(2 - var(--pk))));will-change:transform,opacity}
+.frg .fp-hone img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.1) brightness(.9);transform:none;
+  -webkit-mask:radial-gradient(ellipse 70% 76% at 50% 47%,#000 44%,transparent 90%);mask:radial-gradient(ellipse 70% 76% at 50% 47%,#000 44%,transparent 90%)}
+.frg .fp-relic{position:absolute;inset:0;pointer-events:none;--as:clamp(0,calc((var(--sp) - .76)/.12),1)}
+/* CTA: клинок лежит холодной сталью, одна оранжевая точка-клеймо */
+.frg .frg-cta-pos{align-content:center;row-gap:3vh;padding:14vh 0 12vh;border-top:0;background:radial-gradient(circle at 50% 36%,rgba(40,52,68,.34),transparent 56%),var(--bg)}
+.frg-cta-obj{position:relative;z-index:2;margin:0;--w:min(60vw,860px);width:var(--w);height:calc(var(--w)*.26)}
+.frg-cta-blade{position:absolute;left:50%;top:50%;width:calc(var(--w)*.5625);height:var(--w);transform:translate(-50%,-50%) rotate(-90deg)}
+.frg-cta-blade img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(.55) contrast(1.12) brightness(.92);
+  -webkit-mask:radial-gradient(ellipse 46% 62% at 50% 50%,#000 50%,transparent 96%);mask:radial-gradient(ellipse 46% 62% at 50% 50%,#000 50%,transparent 96%)}
+.frg-stamp{position:absolute;left:31%;top:50%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:var(--a);box-shadow:0 0 16px 5px rgba(255,106,42,.5)}
+.frg-cta-obj figcaption{position:absolute;left:50%;bottom:-2.6vh;transform:translateX(-50%);white-space:nowrap;font:500 10px var(--vh-mono);letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){.frg .frg-proc{height:auto}.frg .fp-hone{position:relative;left:auto;top:auto;transform:none;margin:0 auto;opacity:1}}
+
+/* ===== VESSEL — красная пустота → складка-занавес → кремовое ателье ===== */
+.vh-site.vess{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.vess .pb-cband-chap.center h3{font-size:clamp(40px,6vw,96px);line-height:1}
+.vess .pb-cband .pb-cband-frame img{filter:brightness(.8) contrast(1.06)}
+.vess .pb-cband-chap .pb-cband-ix{color:#e6c79c;letter-spacing:.26em;text-transform:uppercase}
+.vess-fold{position:absolute;top:-12%;bottom:-12%;left:0;width:78vw;transform:translateX(calc(108vw - var(--k)*196vw)) skewX(-8deg);will-change:transform;
+  background:linear-gradient(90deg,transparent 0,rgba(236,224,207,.9) 11%,#efe4d3 24%,#d6c2a4 33%,#f4ebdd 43%,#e0cfb5 54%,#f6eee3 65%,#d4c0a2 76%,rgba(238,227,210,.94) 88%,transparent 100%);
+  box-shadow:inset 40px 0 70px rgba(110,70,40,.2)}
+.vh-site.vess .vess-cta{color:#2b1510;border-top:0}
+.vh-site.vess .vess-cta em{color:#8e1d22}
+.vh-site.vess .vess-cta p{color:#6d5649}
+.vh-site.vess a.vess-btn{background:#7c1219;color:#f6ede2}
+.vh-site.vess .vess-foot{color:#2b1510;border-top-color:rgba(60,30,20,.16)}
+.vh-site.vess .vess-foot-top p,.vh-site.vess .vess-foot-legal{color:#7a6457;border-top-color:rgba(60,30,20,.16)}
+
+/* ===== PHANTOM — мир летит мимо стоящей машины; горизонт уходит в ночь; фары в темноте на CTA ===== */
+.vh-site.phan{--vh-display:"Space Grotesk",sans-serif;background:var(--atm,var(--bg))}
+.phan .pb-cband-chap h3{font-weight:700;letter-spacing:-.04em;font-size:clamp(44px,7.4vw,124px);line-height:.92}
+.phan .pb-cband-chap h3 em{font:400 italic 1em var(--vh-serif);letter-spacing:-.01em}
+.phan .pb-cband-chap h3 small{font-size:.3em;font-weight:500;letter-spacing:.02em;color:#cfe6f2}
+.phan .pb-cband-chap .pb-cband-ix{color:#8fd8ff;font-size:12px}
+.phan .pb-cband-chap p{font-size:16px;color:rgba(235,245,252,.88)}
+/* штрихи солончака: ниже линии горизонта плиты (она зумит вместе с кадром: origin 45%, scale 1.04+.22·sp), ближние быстрее */
+.phan-world{position:absolute;inset:0}
+.phan-world i{position:absolute;left:0;top:calc(45% + (17.2% + var(--d))*(1.04 + var(--sp)*.22));width:900vw;height:1px;will-change:transform;
+  background:repeating-linear-gradient(90deg,transparent 0 17vw,rgba(214,238,255,.5) 17vw 25vw,transparent 25vw 41vw,rgba(214,238,255,.26) 41vw 44vw,transparent 44vw 63vw);
+  transform:translateX(calc(var(--sp)*var(--v)*-1vw))}
+.phan-world i:nth-child(4){height:2px;filter:blur(.6px)}
+.phan-world i:nth-child(5){height:3px;filter:blur(1.4px);opacity:.7}
+/* «one line»: блик-линия проходит по экрану на стыке ночь → салон */
+.phan-sweep{position:absolute;top:0;bottom:0;left:0;width:2px;background:linear-gradient(180deg,transparent,#e6f6ff 28%,#fff 50%,#e6f6ff 72%,transparent);
+  box-shadow:0 0 26px 7px rgba(143,216,255,.42);transform:translateX(calc(var(--k)*104vw - 2vw));opacity:clamp(0,calc(min(var(--k),1 - var(--k))*9),1)}
+.vh-site.phan .phan-cta{position:relative;overflow:hidden;border-top:0;padding-top:clamp(150px,24vh,250px)}
+.phan-lights{position:absolute;left:50%;top:clamp(60px,10vh,110px);width:min(620px,64vw);height:60px;transform:translateX(-50%);pointer-events:none}
+.phan-lights::before{content:"";position:absolute;left:7%;right:7%;top:50%;height:2px;margin-top:-1px;border-radius:2px;background:linear-gradient(90deg,transparent,#dff4ff 10%,#fff 50%,#dff4ff 90%,transparent);box-shadow:0 0 20px 3px rgba(143,216,255,.55),0 0 90px 12px rgba(143,216,255,.16)}
+.phan-lights i{position:absolute;top:50%;width:170px;height:90px;margin-top:-45px;border-radius:50%;background:radial-gradient(closest-side,rgba(235,248,255,.92),rgba(143,216,255,.26) 48%,transparent);filter:blur(3px)}
+.phan-lights i:first-child{left:-44px}.phan-lights i:last-child{right:-44px}
+
+/* ===== HOROLOGE — провал в авантюриновое небо, разнесённый механизм, фазы луны, 28 звёзд ===== */
+.vh-site.horo{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.horo .pb-cband-chap .pb-cband-ix{color:#d6b56a;letter-spacing:.24em;text-transform:uppercase}
+.horo .pb-cband-chap h3 em{color:#e0bf72}
+/* кадр 1 — небо циферблата (вектор): медленный провал внутрь */
+.horo .pb-cband .pb-cband-frame.is-first img{transform:scale(calc(1.02 + var(--sp)*.9));transform-origin:58% 46%}
+/* разнесённый вид: кольца деталей расходятся по глубине вокруг центра механизма */
+.horo-rings{position:absolute;left:59%;top:47%;width:0;height:0;--W:min(34vw,420px)}
+.horo-rings i{position:absolute;left:0;top:0;width:var(--W);aspect-ratio:1;border-radius:50%;border:1px solid rgba(224,191,114,.6);
+  box-shadow:0 0 22px rgba(224,191,114,.12),inset 0 0 22px rgba(224,191,114,.08);
+  transform:translate(-50%,-50%) scale(calc(.45 + var(--k)*(.2 + var(--i)*.24)));opacity:calc(.95 - var(--k)*.3 - var(--i)*.1)}
+.horo-rings span{position:absolute;white-space:nowrap;left:calc(var(--W)/2*(.45 + var(--k)*(.2 + var(--i)*.24))*.72 + 8px);top:calc(var(--W)/2*(.45 + var(--k)*(.2 + var(--i)*.24))*-.72 - 14px);
+  font:500 10px var(--vh-mono);letter-spacing:.22em;text-transform:uppercase;color:#e9d6a6;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+/* луна: тень сползает влево — растущая луна до полнолуния */
+.horo-moon{position:absolute;right:9vw;top:13vh;width:clamp(84px,8vw,124px);text-align:center}
+.horo-moon b{display:block;position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;
+  background:radial-gradient(circle at 64% 60%,rgba(150,120,70,.35) 0 9%,transparent 10%),radial-gradient(circle at 34% 30%,rgba(150,120,70,.28) 0 6%,transparent 7%),radial-gradient(circle at 38% 36%,#fbf4de,#e4d2a2 58%,#b99e64);
+  box-shadow:0 0 calc(20px + var(--k)*50px) rgba(244,226,180,calc(.1 + var(--k)*.28))}
+.horo-moon b::after{content:"";position:absolute;inset:-2px;border-radius:50%;background:#04050c;transform:translateX(calc(var(--k)*-106%))}
+.horo-moon span{display:block;margin-top:14px;white-space:nowrap;font:500 10px var(--vh-mono);letter-spacing:.22em;text-transform:uppercase;color:#cdb98a}
+.vh-site.horo .horo-cta{border-top:0;padding-top:clamp(110px,18vh,200px)}
+.horo-28{display:flex;justify-content:center;align-items:flex-end;gap:clamp(8px,1.4vw,18px);height:44px;margin:0 auto 7vh}
+.horo-28 i{flex:none;width:4px;height:4px;border-radius:50%;background:#efe4c8;box-shadow:0 0 8px 1px rgba(240,225,190,.5);opacity:.72}
+.horo-28 i:nth-child(3n){opacity:.42}.horo-28 i:nth-child(5n+2){opacity:.95}
+.horo-28 i:first-child{width:7px;height:7px;background:#e3b456;box-shadow:0 0 14px 3px rgba(227,180,86,.75);opacity:1}
+
+/* ===== LUME — луч входит в камень и выходит спектром; оправа дорисовывается линией; бархат под лампой ===== */
+.vh-site.lume{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.lume .pb-cband .pb-cband-chap:nth-child(5) .pb-cband-ix{color:#b79bff}
+.lume .pb-cband .pb-cband-chap:nth-child(6) .pb-cband-ix{color:#7fe0ff}
+.lume .pb-cband .pb-cband-chap:nth-child(7) .pb-cband-ix{color:#ffc46b}
+.lume .pb-cband-chap h3 em{color:#dfe5f0}
+.lume-draw{position:absolute;right:5vw;top:50%;width:min(44vw,620px);height:auto;aspect-ratio:1;transform:translateY(-52%);overflow:visible}
+.lume-draw path,.lume-draw ellipse{fill:none;stroke-width:1.1;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--k))}
+.lume-stone path,.lume-set path,.lume-set ellipse{stroke:#e2e8f3}
+.lume-stone{filter:drop-shadow(0 0 6px rgba(226,232,243,.45))}
+.lume-beam{stroke:#fff;stroke-width:1.8;filter:drop-shadow(0 0 7px rgba(255,255,255,.85))}
+.lume-rays path{stroke-width:1.5;opacity:.9;filter:drop-shadow(0 0 4px rgba(255,255,255,.3))}
+.vh-site.lume .lume-cta{border-top:0}
+.vh-site.lume .lume-cta::before{content:"";display:block;width:min(260px,40vw);height:2px;margin:0 auto 6vh;background:linear-gradient(90deg,transparent,#9b7bff,#5aa8ff,#57e0b0,#ffe066,#ff7a59,transparent);box-shadow:0 0 22px rgba(255,255,255,.16)}
+
+/* ===== MONO — один день у озера: дом стоит, меняется свет (туман → полдень → сумерки); CTA — рассвет ===== */
+.vh-site.mono{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.mono .pb-cband{--noon:clamp(0,calc((var(--sp) - .22)/.2),1);--dusk:clamp(0,calc((var(--sp) - .6)/.28),1)}
+.mono .pb-cband .pb-cband-media img{transform:scale(calc(1.04 + var(--sp)*.14));transform-origin:58% 45%;
+  filter:brightness(calc(1.04 - var(--dusk)*.22)) saturate(calc(.7 + var(--noon)*.3 + var(--dusk)*.2)) contrast(calc(.94 + var(--noon)*.08 + var(--dusk)*.08))}
+.mono .pb-cband .pb-cband-wash{background:linear-gradient(0deg,rgba(12,13,16,.72),rgba(12,13,16,.28) 34%,transparent 52%),radial-gradient(120% 100% at 62% 42%,transparent 38%,rgba(16,18,22,.4)),linear-gradient(30deg,rgba(14,15,18,.5),transparent 50%)}
+.mono .pb-cband .pb-cband-wash::before{content:"";position:absolute;inset:0;background:radial-gradient(58% 52% at 62% 40%,rgba(238,240,242,.8),rgba(238,240,242,.28) 60%,transparent 82%);opacity:calc(1 - var(--noon))}
+.mono .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#1d2542 0%,#a0664e 52%,#2b2436 100%);mix-blend-mode:multiply;opacity:calc(var(--dusk)*.62)}
+.mono .pb-cband-chap .pb-cband-ix{color:#dde7ee;letter-spacing:.22em;text-transform:uppercase}
+.mono .pb-cband-chap h3 em{color:#d3e2ec}
+/* цифры всплывают отражением в воде (за стеклом) */
+.mono-specs-act{position:absolute;left:44vw;top:17vh;display:grid;grid-template-columns:repeat(2,minmax(0,15vw));gap:6vh 3vw}
+.mono-spec-r{opacity:var(--k);transform:translateY(calc((1 - var(--k))*26px));-webkit-box-reflect:below 4px linear-gradient(transparent 38%,rgba(255,255,255,.34))}
+.mono-spec-r b{display:block;font:400 clamp(40px,4.4vw,68px)/1 var(--vh-serif);color:#1b1f25}
+.mono-spec-r span{display:block;margin-top:8px;font:600 11px var(--vh-mono);letter-spacing:.08em;text-transform:uppercase;color:#262b31}
+.mono-lamp{position:absolute;inset:0;background:radial-gradient(circle at 57% 6%,rgba(255,200,130,.55),transparent 24%),radial-gradient(60% 40% at 58% 70%,rgba(255,190,120,.22),transparent 70%),radial-gradient(circle at 16% 40%,rgba(255,190,120,.18),transparent 30%);mix-blend-mode:screen}
+.vh-site.mono .mono-cta{border-top:0}
+
+/* ===== HAVEN — hero на пине (наезд, кромка растворяется, statement всплывает), линия горизонта через всю страницу ===== */
+.vh-site.hav{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.vh-site.hav .hav-hero{height:210vh;overflow:visible}
+.hav-hero-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.vh-site.hav .hav-hero-vid{transform:scale(calc(1 + var(--sp,0)*.2));transform-origin:60% 50%}
+.hav-haze{position:absolute;left:0;right:0;top:36%;height:18%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(250,238,216,.7) 50%,transparent);opacity:clamp(0,calc(var(--sp,0)*2.2),.85)}
+.vh-site.hav .hav-hero-copy{opacity:clamp(0,calc(1 - var(--sp,0)*3.4),1);transform:translateY(calc(var(--sp,0)*-60px))}
+.vh-site.hav .hav-eyebrow{color:#6a4015;text-shadow:0 1px 10px rgba(250,240,225,.7)}
+.vh-site.hav .hav-hero-copy h1 em{color:#7e4b17}
+.hav-hero-state{position:absolute;z-index:10;left:var(--pad);bottom:11vh;max-width:760px;color:#241c14;
+  --k:clamp(0,calc((var(--sp,0) - .34)/.3),1);opacity:var(--k);filter:blur(calc((1 - var(--k))*10px));transform:translateY(calc((1 - var(--k))*30px)) scaleY(calc(.94 + var(--k)*.06));transform-origin:0 100%}
+.hav-hero-state h2{margin:0;font:400 clamp(36px,5.2vw,78px)/1.04 var(--vh-serif);letter-spacing:-.01em}
+.hav-hero-state h2 em{font-style:italic;color:#7e4b17}
+.hav-hero-state p{margin:22px 0 0;max-width:50ch;font:400 clamp(15px,1.3vw,17px)/1.7 var(--vh-sans);color:#3e3429}
+.hav-line{height:1px;width:100%;background:linear-gradient(90deg,transparent,rgba(255,246,228,.95) 12%,#fff 50%,rgba(255,246,228,.95) 88%,transparent);box-shadow:0 0 12px rgba(255,236,200,.55)}
+.hav .pb-cband .pb-cband-frame.is-first img{filter:brightness(1.04) saturate(.9)}
+.hav .pb-cband .pb-cband-wash{background:radial-gradient(130% 100% at 50% 62%,transparent 30%,rgba(18,20,26,.34))}
+.hav .pb-cband .pb-cband-chap:nth-child(4){color:#241c14}
+.hav .pb-cband .pb-cband-chap:nth-child(4) h3{color:#241c14;text-shadow:0 1px 24px rgba(250,245,236,.7)}
+.hav .pb-cband .pb-cband-chap:nth-child(4) h3 em{color:#7e4b17}
+.hav .pb-cband .pb-cband-chap:nth-child(4) p{color:#2e261d;text-shadow:0 1px 14px rgba(250,245,236,.8)}
+.hav .pb-cband .pb-cband-chap:nth-child(4) .pb-cband-ix{color:#6a4015}
+.hav .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#26345a,#b9785a 62%,#2a2640);mix-blend-mode:multiply;opacity:clamp(0,calc((var(--sp) - .62)/.34),.72)}
+.hav .pb-cband-chap .pb-cband-ix{color:#f3d4a4;letter-spacing:.22em;text-transform:uppercase}
+.hav .pb-cband-chap h3 em{color:#f6dcb4}
+.vh-site.hav .hav-cta{position:relative;color:#f1e9dd;border-top:0;padding-top:clamp(150px,24vh,230px)}
+.vh-site.hav .hav-cta em{color:#f0b872}
+.vh-site.hav .hav-cta p{color:#bdb8b1}
+.vh-site.hav a.hav-btn{background:#f1e9dd;color:#19233a}
+.hav-sun{position:absolute;left:50%;top:20%;width:64px;height:32px;margin-left:-32px;transform:translateY(-100%);border-radius:64px 64px 0 0;background:radial-gradient(circle at 50% 100%,#ffe2ad,#f2a95e 62%,#d9774a);box-shadow:0 -6px 40px 8px rgba(242,169,94,.32)}
+.vh-site.hav .hav-foot{color:#f1e9dd;border-top-color:rgba(255,255,255,.1)}
+.vh-site.hav .hav-foot-top p,.vh-site.hav .hav-foot-legal{color:#a9a49d;border-top-color:rgba(255,255,255,.1)}
+
+/* ===== TIDE — ритуал на пине: берег → под ватерлинию (вода, пузыри, 1:30) → выход в тепло ===== */
+.vh-site.tide{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.tide .pb-cband-chap .pb-cband-ix{color:#7fe3ea;letter-spacing:.22em;text-transform:uppercase}
+.tide .pb-cband-chap h3 em{color:#8fe6ec}
+.tide .pb-cband .pb-cband-chap:last-child h3 em{color:#ffc27a}
+.tide .pb-cband .pb-cband-chap:last-child .pb-cband-ix{color:#ffc27a}
+/* тепло после выхода: янтарь огня поверх того же кадра */
+.tide .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#d9954e,#6a3414);mix-blend-mode:color;opacity:clamp(0,calc((var(--sp) - .7)/.18),.62)}
+.tide .pb-cband .pb-cband-wash::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 82% 92%,rgba(255,150,60,.5),transparent 65%);mix-blend-mode:screen;opacity:clamp(0,calc((var(--sp) - .72)/.16),1)}
+/* ватерлиния режет экран и поднимается выше кадра; потом вода сходит */
+.tide-water{position:absolute;left:0;right:0;bottom:0;overflow:hidden;
+  --rise:clamp(0,calc((var(--sp) - .36)/.14),1);--drain:clamp(0,calc((.76 - var(--sp))/.12),1);height:calc(min(var(--rise),var(--drain))*118%);
+  background:linear-gradient(180deg,rgba(40,150,160,.36),rgba(3,44,56,.48) 38%,rgba(2,24,32,.6))}
+.tide-water::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,rgba(190,245,250,.95) 20%,#fff 50%,rgba(190,245,250,.95) 80%,transparent);box-shadow:0 0 18px 3px rgba(143,230,236,.55)}
+.tide-bubbles{position:absolute;inset:0}
+.tide-bubbles i{position:absolute;bottom:-20px;border-radius:50%;border:1px solid rgba(200,248,252,.7);box-shadow:inset -2px -2px 4px rgba(200,248,252,.3);animation:tide-rise linear infinite}
+@keyframes tide-rise{0%{transform:translate(0,0);opacity:0}12%{opacity:.9}100%{transform:translate(18px,-105vh);opacity:0}}
+.tide-timer{position:absolute;right:var(--pad);top:14vh;text-align:right;color:#e6fbfd;text-shadow:0 2px 20px rgba(0,30,40,.6)}
+.tide-timer span:first-child{display:block;font:300 clamp(64px,8vw,132px)/1 var(--vh-mono);letter-spacing:-.03em}
+.tide-timer > span:last-child{display:block;margin-top:10px;font:500 12px var(--vh-mono);letter-spacing:.24em;text-transform:uppercase;color:#9ce8ee}
+.vh-site.tide .tide-cta{border-top:0}
+.vh-site.tide .tide-cta em{color:#ffb86b}
+.vh-site.tide .tide-cta p{color:#cdb49a}
+.vh-site.tide a.tide-btn{background:#ffb86b;color:#2a1506}
+.vh-site.tide .tide-foot{border-top-color:rgba(255,220,180,.12)}
+.vh-site.tide .tide-foot-top p,.vh-site.tide .tide-foot-legal{color:#b39a82;border-top-color:rgba(255,220,180,.12)}
+@media (prefers-reduced-motion:reduce){.tide-bubbles i{animation:none;display:none}}
+
+/* ===== CANTO — «сторона A»: диск крутится скроллом, тонарм к центру, диск уходит в угол «now playing», свет гаснет ===== */
+.vh-site.canto{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.canto-hero-still{animation:canto-drift 26s ease-in-out infinite alternate;transform-origin:30% 70%}
+@keyframes canto-drift{from{transform:scale(1.03) translate(0,0)}to{transform:scale(1.12) translate(-1.2%,-1%)}}
+.vh-site.canto .canto-eyebrow{color:#f3c07e;text-shadow:0 1px 12px rgba(0,0,0,.75)}
+.vh-site.canto .canto-hero-copy{max-width:min(92vw,980px)}
+.canto .pb-cband-chap .pb-cband-ix{color:#f0b066;letter-spacing:.24em;text-transform:uppercase}
+.canto .pb-cband-chap h3 em{color:#f0b066}
+/* диск: большой в главе 1 → уменьшается в правый нижний угол (--m) и продолжает играть */
+.canto-rec{--D:min(78vh,44vw);--m:clamp(0,calc((var(--sp) - .2)/.16),1);position:absolute;left:66%;top:52%;width:var(--D);height:var(--D);margin:calc(var(--D)/-2) 0 0 calc(var(--D)/-2);
+  transform:translate(calc(var(--m)*23vw),calc(var(--m)*31vh)) scale(calc(1 - var(--m)*.72));opacity:clamp(0,calc(1 - (var(--sp) - .96)*25),1)}
+.canto-disc{position:absolute;inset:0;border-radius:50%;transform:rotate(calc(var(--sp)*1260deg));box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);
+  background:
+   radial-gradient(circle closest-side,#0d0d0d 0 2.4%,#caa46a 2.6% 3.6%,transparent 3.8%),
+   radial-gradient(circle closest-side,#b8612b 0 34%,#8e4520 34.2% 35%,transparent 35.2%),
+   radial-gradient(circle closest-side,transparent 0 55.4%,rgba(255,255,255,.08) 55.6% 56.6%,transparent 56.8% 67.4%,rgba(255,255,255,.08) 67.6% 68.6%,transparent 68.8% 81.4%,rgba(255,255,255,.08) 81.6% 82.6%,transparent 82.8% 99%,#050505 99.2%),
+   repeating-radial-gradient(circle,#101010 0 1px,#1b1b1b 1px 2.3px),#111}
+.canto-disc b{position:absolute;left:50%;top:41%;transform:translateX(-50%);font:600 calc(var(--D)*.028) var(--vh-serif);letter-spacing:.3em;color:#fbe8cc}
+.canto-disc small{position:absolute;left:50%;top:54%;transform:translateX(-50%);white-space:nowrap;font:500 calc(var(--D)*.016) var(--vh-mono);letter-spacing:.18em;color:#fbe8cc;opacity:.8}
+.canto-sheen{position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:conic-gradient(from 20deg,transparent 0 30deg,rgba(255,236,210,.1) 44deg,transparent 60deg 200deg,rgba(255,236,210,.07) 214deg,transparent 232deg);
+  -webkit-mask:radial-gradient(circle closest-side,transparent 35%,#000 36%);mask:radial-gradient(circle closest-side,transparent 35%,#000 36%)}
+/* тонарм: ось справа сверху, кончик идёт от внешней канавки (98°) к внутренней (121°), в конце поднимается */
+.canto-arm{position:absolute;left:calc(var(--D)*1.02);top:calc(var(--D)*.02);width:calc(var(--D)*.66);height:3px;margin-top:-1.5px;transform-origin:0 50%;border-radius:2px;
+  background:linear-gradient(90deg,#8a6a3a,#e6c287 30%,#b8924f);box-shadow:0 6px 14px rgba(0,0,0,.5);
+  transform:rotate(calc(98.2deg + 22.7deg*clamp(0,calc(var(--sp)/.9),1) - 36deg*clamp(0,calc((var(--sp) - .92)/.06),1)))}
+.canto-arm::before{content:"";position:absolute;left:-14px;top:50%;width:28px;height:28px;margin-top:-14px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#f0d49c,#8a6a3a);box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.canto-arm::after{content:"";position:absolute;right:-6px;top:50%;width:18px;height:9px;margin-top:-4.5px;border-radius:2px;background:#d8b577;transform:rotate(18deg)}
+.vh-site.canto .canto-cta{position:relative;overflow:hidden;border-top:0}
+.canto-tubes{position:absolute;left:50%;bottom:-30vh;width:120vw;height:60vh;transform:translateX(-50%);pointer-events:none;background:radial-gradient(50% 50% at 50% 50%,rgba(255,150,60,.3),rgba(255,120,40,.08) 55%,transparent 72%);filter:blur(10px)}
+.vh-site.canto .canto-cta > .vh-rv{position:relative}
+
+/* ===== ATLAS — раскладка на пине: цифры встают на предметы; изолинии рвутся; к CTA — белый край карты ===== */
+.vh-site.atlas{--vh-display:"Space Grotesk",sans-serif;background:var(--atm,var(--bg))}
+.atlas .pb-cband-chap h3{font-weight:700;letter-spacing:-.03em;line-height:.98}
+.atlas .pb-cband-chap h3 em{font:400 italic 1em var(--vh-serif);letter-spacing:-.005em;color:#bcd6ea}
+.atlas .pb-cband-chap .pb-cband-ix{color:#bcd6ea;letter-spacing:.24em;text-transform:uppercase}
+.atlas .pb-cband .pb-cband-frame img{filter:saturate(.86) brightness(.92)}
+.atlas-iso{position:absolute;inset:-4%;width:108%;height:108%;opacity:clamp(0,calc(.5 - var(--sp)*.42),.5)}
+.atlas-iso path{stroke:#e8f1f7;stroke-width:1;stroke-dasharray:calc(.2 - var(--sp)*.17) calc(.004 + var(--sp)*.09);stroke-dashoffset:calc(var(--i)*.07 + var(--sp)*-.2)}
+/* цифры встают на предметы раскладки: точка + выноска + число */
+.atlas-tags{position:absolute;inset:0}
+.atlas-tag{position:absolute;left:var(--x);top:var(--y);display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:end;color:#fff;
+  transform:translate(-7px,-7px);text-shadow:0 2px 16px rgba(0,0,0,.7)}
+.atlas-tag i{grid-row:span 2;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 6px rgba(255,255,255,.18),0 0 18px rgba(0,0,0,.4);align-self:start}
+.atlas-tag b{font:700 clamp(34px,3.6vw,56px)/.9 "Space Grotesk",sans-serif;letter-spacing:-.03em;margin-top:-4px}
+.atlas-tag span{font:600 11px var(--vh-mono);letter-spacing:.12em;text-transform:uppercase;color:#e2eef6;white-space:nowrap}
+.vh-site.atlas .atlas-cta{color:#0c1620;border-top:0}
+.vh-site.atlas .atlas-cta em{color:#2f6a92}
+.vh-site.atlas .atlas-cta p{color:#4c5c68}
+.vh-site.atlas a.atlas-btn{background:#0c1620;color:#eef3f6}
+.vh-site.atlas .atlas-foot{color:#0c1620;border-top-color:rgba(12,22,32,.12)}
+.vh-site.atlas .atlas-foot-top p,.vh-site.atlas .atlas-foot-legal{color:#56656f;border-top-color:rgba(12,22,32,.12)}
+
+/* ===== NOCT — свеча-фонарь: тёплый круг света переезжает от бокала к бутылке и сужается, ночь густеет ===== */
+.vh-site.noct{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.noct .pb-cband-chap .pb-cband-ix{color:#f0a868;letter-spacing:.24em;text-transform:uppercase}
+.noct .pb-cband-chap h3 em{color:#f2a86a}
+.noct .pb-cband-chap p{color:rgba(250,232,218,.9)}
+.noct .pb-cband .pb-cband-wash{background:linear-gradient(20deg,rgba(8,3,2,.72),transparent 55%)}
+.noct-lantern{position:absolute;inset:0;--lx:calc(64% - var(--sp)*16%);--ly:calc(52% - var(--sp)*8%);--lr:calc(58vmax - var(--sp)*20vmax);
+  background:radial-gradient(var(--lr) calc(var(--lr)*.82) at var(--lx) var(--ly),transparent 0,transparent 22%,rgba(7,2,1,.32) 52%,rgba(7,2,1,.7) 100%)}
+.noct-flame{position:absolute;left:31%;top:54%;width:26vmax;height:26vmax;margin:-13vmax 0 0 -13vmax;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,176,90,.34),rgba(255,140,60,.1) 55%,transparent);mix-blend-mode:screen;animation:noct-flicker 3.2s ease-in-out infinite}
+@keyframes noct-flicker{0%,100%{transform:scale(1);filter:brightness(1)}22%{transform:scale(1.04);filter:brightness(1.18)}47%{transform:scale(.97);filter:brightness(.9)}71%{transform:scale(1.02);filter:brightness(1.08)}}
+.vh-site.noct .noct-cta{border-top:0;position:relative}
+.vh-site.noct .noct-cta::before{content:"";position:absolute;left:50%;top:50%;width:70vmax;height:70vmax;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,150,70,.12),transparent);pointer-events:none}
+.vh-site.noct .noct-cta p{color:#caa994}
+@media (prefers-reduced-motion:reduce){.noct-flame{animation:none}}
