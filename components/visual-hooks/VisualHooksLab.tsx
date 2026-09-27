@@ -1442,18 +1442,50 @@ function NoctSite() {
 
 /* ===== SOL — солнечная энергия (light, optimistic) ===== */
 function SolSite() {
-  const how: [string, string][] = [["Survey", "We read your roof, your bills and your sky in a single visit."], ["Install", "One clean day. Panels, battery, and an app that shows the sun at work."], ["Own it", "You make your own power by year one, and sell the rest back after."]];
   return (
     <div className="vh-site sol">
+      {/* один день над крышей: рассвет → белый полдень → золотой закат к CTA */}
+      <Atmosphere stops={[{ at: ".sol-hero", color: "#f4efe4" }, { at: ".sol-act", color: "#f7f3ea", anchor: 0.2 }, { at: ".sol-act", color: "#f3d8b4", anchor: 0.84 }, { at: ".sol-cta", color: "#f0cda2" }]} />
+      {/* актёр — солнце: его положение = прогресс страницы; дуга с востока на запад, к CTA садится */}
+      <Actor width="clamp(64px,6.4vw,110px)" zIndex={5} bob={0} tilt={0} stops={[
+        { at: ".sol-hero", anchor: 0.35, pose: { x: 84, y: 12, o: 0, s: 0.7 } },
+        { at: ".sol-hero", anchor: 0.9, pose: { x: 80, y: 14, o: 1, s: 0.8 } },
+        { at: ".sol-act", anchor: 0.3, pose: { x: 62, y: 9, o: 1, s: 1 } },
+        { at: ".sol-act", anchor: 0.6, pose: { x: 40, y: 8, o: 1, s: 1 } },
+        { at: ".sol-act", anchor: 0.9, pose: { x: 22, y: 16, o: 1, s: 1.1 } },
+        { at: ".sol-cta", anchor: 0.5, pose: { x: 50, y: 20, o: 1, s: 1.25, dock: true } },
+        { at: ".sol-foot", anchor: 0.9, pose: { x: 50, y: 60, o: 0, s: 1.3, dock: true } },
+      ]}><div className="sol-sun" /></Actor>
       <section className="sol-hero">
         <video className="sol-hero-vid" src="/uploads/1/hooks/sites/sol-hero.mp4" poster="/uploads/1/hooks/sites/sol-hero.jpg" autoPlay muted loop playsInline />
         <div className="sol-hero-wash" />
         <header className="sol-head"><Link href="/visual-hooks" className="sol-brand">SOL</Link><nav className="sol-nav"><a href="#" onClick={stop}>How it works</a><a href="#" onClick={stop}>Impact</a><a href="#" onClick={stop}>Quote</a></nav></header>
         <div className="sol-hero-copy"><span className="sol-eyebrow">Home solar, done right</span><h1>Your roof already<br /><em>catches the sun.</em></h1></div>
       </section>
-      <section className="sol-statement"><Reveal className="vh-rv--up"><h2>Stop renting your power.<br /><em>Start owning it.</em></h2><p>Sunlight is free and your roof is already in it. We turn that into your own quiet little power station.</p></Reveal></section>
-      <section className="sol-how"><Reveal className="sol-how-head vh-rv--up"><h3>Three steps to your own sun.</h3></Reveal><div className="sol-steps">{how.map(([h, p], i) => (<Reveal key={h} className="sol-step vh-rv--up"><span>{String(i + 1).padStart(2, "0")}</span><b>{h}</b><p>{p}</p></Reveal>))}</div></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Your own <em>power station.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/sol-panel.jpg" alt="" /><figcaption>Sunlight, at work.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/sol-roof.jpg" alt="" /><figcaption>Owned, not rented.</figcaption></figure></Reveal></div></section>
+      {/* второй акт — одна крыша вместо поля: Survey (контур крыши обмеряется линиями) → Install (панели) →
+          Own it (батарея наполняется, счётчик крутится назад). Текстовые шаги и галерея-повтор убраны. */}
+      <Act cls="sol-act" band={{ t: "cinematicBand", media: `${BS}g/sol-roof.jpg`, chapters: [
+        { index: "Not a power station. Yours.", title: <>Stop renting your power.<br /><em>Start owning it.</em></>, body: "Sunlight is free and your roof is already in it.", align: "center", media: `${BS}g/sol-roof.jpg` },
+        { index: "01 — Survey", title: <>We read your roof<br /><em>in a single visit.</em></>, body: "Your roof, your bills and your sky — measured once, priced honestly.", align: "left", media: `${BS}g/sol-roof.jpg` },
+        { index: "02 — Install", title: <>One clean day.<br /><em>Panels, battery, done.</em></>, body: "And an app that shows the sun at work from the first afternoon.", align: "right", media: `${BS}g/sol-panel.jpg` },
+        { index: "03 — Own it", title: <>Your meter<br /><em>runs backwards.</em></>, body: "You make your own power by year one, and sell the rest back after.", align: "left", media: `${BS}g/sol-panel.jpg` },
+      ] }}>
+        <svg className="sol-survey bs-w" style={aw(0.24, 0.5, { "--wr": 0.04 })} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" fill="none">
+          <g className="bs-k" style={aw(0.27, 0.42)}>
+            <path pathLength={1} d="M170 396 L1500 92 M162 380 L178 412 M1492 76 L1508 108" />
+            <path pathLength={1} d="M300 552 L1420 400 M292 536 L308 568 M1412 384 L1428 416" />
+            <path pathLength={1} d="M160 828 L320 828 M160 828 L290 740 M250 828 A 90 90 0 0 0 236 776" />
+          </g>
+          <text x="830" y="226" transform="rotate(-12.9 830 226)">11.4 m · south-west</text>
+          <text x="850" y="462" transform="rotate(-7.7 850 462)">8 panels · 3.2 kWp</text>
+          <text x="332" y="812">38°</text>
+        </svg>
+        <div className="sol-own bs-w" style={aw(0.78, 1.2, { "--wr": 0.05 })}>
+          <div className="sol-batt bs-k" style={aw(0.8, 0.98)}><i /></div>
+          <b><ActCount from={4812} to={4356} a={0.8} b={0.98} comma /> <small>kWh</small></b>
+          <span>your meter, running backwards</span>
+        </div>
+      </Act>
       <section className="sol-cta"><Reveal className="vh-rv--up"><h2>See your roof <em>in sunlight.</em></h2><p>A free survey and an honest number, with no one calling you twice.</p><a href="#" onClick={stop} className="sol-btn">Get a quote <i>↗</i></a></Reveal></section>
       <footer className="sol-foot"><div className="sol-foot-top"><b>SOL</b><p>Home solar and storage, done right.</p></div><div className="sol-foot-legal"><span>Sol Energy</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1529,14 +1561,24 @@ function HavenSite() {
 function FormSite() {
   return (
     <div className="vh-site form">
+      {/* вся страница — одна тёмная комната; фон — это свет */}
+      <Atmosphere stops={[{ at: ".form-hero", color: "#17171a" }, { at: ".form-act", color: "#131316", anchor: 0.2 }, { at: ".form-act", color: "#0e0e10", anchor: 0.84 }, { at: ".form-cta", color: "#101012" }]} />
       <section className="form-hero">
         <video className="form-hero-vid" src="/uploads/1/hooks/sites/form-hero.mp4" poster="/uploads/1/hooks/sites/form.jpg" autoPlay muted loop playsInline />
         <div className="form-hero-wash" />
         <header className="form-head"><Link href="/visual-hooks" className="form-brand">FORM</Link><nav className="form-nav"><a href="#" onClick={stop}>Pieces</a><a href="#" onClick={stop}>Makers</a><a href="#" onClick={stop}>Enquire</a></nav></header>
         <div className="form-hero-copy"><span className="form-eyebrow">Furniture, essential</span><h1>One chair.<br /><em>Nothing spare.</em></h1></div>
       </section>
-      <section className="form-statement"><Reveal className="vh-rv--up"><h2>We remove until<br /><em>only the use is left.</em></h2><p>Each piece is worked down to the fewest parts that still hold a person. What remains is quiet, heavy, and made to be kept.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Made slowly, <em>to last.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/form-chair.jpg" alt="" /><figcaption>One piece, one maker.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/form-detail.jpg" alt="" /><figcaption>In the joinery.</figcaption></figure></Reveal></div></section>
+      {/* второй акт «вычитание»: брусок и соединение → счётчик деталей идёт вниз → остаётся стул в единственном луче.
+          Луч-прожектор переезжает от соединения к стулу. Галерея («Made slowly…» ≈ CTA) убрана. */}
+      <Act cls="form-act" band={{ t: "cinematicBand", media: `${BS}g/form-detail.jpg`, chapters: [
+        { index: "Start with a block", title: <>We remove until<br /><em>only the use is left.</em></>, body: "Each piece begins as one block of oak and is worked down to the fewest parts that still hold a person.", align: "left", media: `${BS}g/form-detail.jpg` },
+        { index: "In the joinery", title: <>No screws.<br /><em>No glue you can see.</em></>, body: "Dovetails cut by hand, so the joint is the only ornament.", align: "left", media: `${BS}g/form-detail.jpg` },
+        { index: "One chair", title: <>Quiet, heavy,<br /><em>made to be kept.</em></>, body: "What remains holds a person for a lifetime — and nothing spare.", align: "left", media: `${BS}g/form-chair.jpg` },
+      ] }}>
+        <div className="form-beam" />
+        <div className="form-parts bs-w" style={aw(0.3, 1.2, { "--wr": 0.05 })}><span>parts</span><b><ActCount from={64} to={7} a={0.32} b={0.78} /></b></div>
+      </Act>
       <section className="form-cta"><Reveal className="vh-rv--up"><h2>Made slowly, <em>to order.</em></h2><p>A small workshop, a short catalogue, and a wait worth the object at the end of it.</p><a href="#" onClick={stop} className="form-btn">See the pieces <i>↗</i></a></Reveal></section>
       <footer className="form-foot"><div className="form-foot-top"><b>FORM</b><p>Essential furniture, made to order.</p></div><div className="form-foot-legal"><span>Form Studio</span><span>A Visual Hooks concept</span></div></footer>
     </div>
@@ -1544,38 +1586,73 @@ function FormSite() {
 }
 
 /* ===== DEW — скинкер (soft, clean, iridescent) ===== */
+// облако из 40 ингредиентов вокруг капли: 31 гаснет по одному, 9 оставшихся втягиваются в каплю (детерминированная раскладка)
+const DEW_OUT = ["fragrance", "parfum", "alcohol denat.", "silicones", "dimethicone", "parabens", "phenoxyethanol", "SLS", "PEG-40", "mineral oil", "petrolatum", "dyes", "CI 19140", "fillers", "water", "thickeners", "carbomer", "shimmer", "BHT", "EDTA", "polysorbate 20", "limonene", "linalool", "talc", "microbeads", "menthol", "essential oils", "retinyl palmitate", "citric acid", "sodium benzoate", "glitter"];
+const DEW_KEEP = ["squalane", "niacinamide", "hyaluronic acid", "ceramide NP", "panthenol", "bisabolol", "tocopherol", "allantoin", "jojoba oil"];
+const DEW_CLOUD = [...DEW_OUT.map((w) => ({ w, keep: false })), ...DEW_KEEP.map((w) => ({ w, keep: true }))].map((o, i) => {
+  const a = i * 2.39996, r = 13 + ((i * 7) % 11) * 1.9;
+  let x = 60 + Math.cos(a) * r * 1.35, y = 47 + Math.sin(a) * r * 1.05;
+  if (x < 46 && y > 58) x = 100 - x; // низ-лево занят текстом главы
+  return { ...o, x: Math.min(92, Math.max(8, x)), y: Math.min(86, Math.max(12, y)), t: o.keep ? 0 : 0.03 + (i / DEW_OUT.length) * 0.24 };
+});
 function DewSite() {
   return (
     <div className="vh-site dew">
+      {/* масштаб как сюжет: макро кожи → лицо → флакон на льне */}
+      <Atmosphere stops={[{ at: ".dew-hero", color: "#f1ebea" }, { at: ".dew-act", color: "#f3ecea", anchor: 0.2 }, { at: ".dew-act", color: "#ece5dc", anchor: 0.84 }, { at: ".dew-cta", color: "#efe8df" }]} />
       <section className="dew-hero">
         <video className="dew-hero-vid" src="/uploads/1/hooks/sites/dew-hero.mp4" poster="/uploads/1/hooks/sites/dew.jpg" autoPlay muted loop playsInline />
         <div className="dew-hero-wash" />
         <header className="dew-head"><Link href="/visual-hooks" className="dew-brand">DEW</Link><nav className="dew-nav"><a href="#" onClick={stop}>The drop</a><a href="#" onClick={stop}>Ritual</a><a href="#" onClick={stop}>Shop</a></nav></header>
-        <div className="dew-hero-copy"><span className="dew-eyebrow">One serum, nothing else</span><h1>Everything your skin<br /><em>actually needs.</em></h1></div>
+        <div className="dew-hero-copy"><span className="dew-eyebrow">One serum, nothing else</span><h1>Everything<br />your skin<br /><em>actually needs.</em></h1></div>
       </section>
-      <section className="dew-statement"><Reveal className="vh-rv--up"><h2>We took it all out<br /><em>until only this was left.</em></h2><p>Nine ingredients, no water bulking it out, no story on the box. One drop, morning and night, and time to let it work.</p></Reveal></section>
-      <section className="dew-split"><Reveal className="dew-split-media vh-rv--mask"><img loading="lazy" src="/uploads/1/hooks/sites/dew.jpg" alt="" /></Reveal><Reveal className="dew-split-copy vh-rv--up"><h3>Feels like <em>almost nothing.</em></h3><p>It sinks in before you finish rubbing it in. No film, no shine, no scent. Just skin that behaves a little better every week.</p></Reveal></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>One drop, <em>every morning.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/dew-bottle.jpg" alt="" /><figcaption>Eight weeks a bottle.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/dew-skin.jpg" alt="" /><figcaption>Skin, left to itself.</figcaption></figure></Reveal></div></section>
-      <section className="dew-cta"><Reveal className="vh-rv--up"><h2>Start the <em>one-drop ritual.</em></h2><p>One bottle lasts eight weeks. If your skin disagrees, we refund it.</p><a href="#" onClick={stop} className="dew-btn">Try one bottle <i>↗</i></a></Reveal></section>
+      {/* второй акт «We took it all out»: вокруг капли облако из 40 ингредиентов, скролл убирает их по одному до 9,
+          оставшиеся втягиваются внутрь капли; потом лицо и флакон. Сплит-повтор hero и галерея убраны. */}
+      <Act cls="dew-act" band={{ t: "cinematicBand", media: `${BS}g/dew-drop.jpg`, chapters: [
+        { index: "Forty in, nine left", title: <>We took it all out<br /><em>until only this was left.</em></>, body: "No water bulking it out, no fragrance, no story on the box.", align: "left", media: `${BS}g/dew-drop.jpg` },
+        { index: "Sinks in", title: <>Feels like<br /><em>almost nothing.</em></>, body: "It sinks in before you finish rubbing it in. No film, no shine, no scent.", align: "left", media: `${BS}g/dew-skin.jpg` },
+        { index: "Eight weeks a bottle", title: <>One drop,<br /><em>morning and night.</em></>, body: "Nine ingredients and time to let them work — skin that behaves a little better every week.", align: "left", media: `${BS}g/dew-bottle.jpg` },
+      ] }}>
+        <div className="dew-cloud bs-w" style={aw(-0.2, 0.5, { "--wr": 0.05 })}>
+          {DEW_CLOUD.map((o) => <span key={o.w} className={o.keep ? "keep" : undefined} style={{ ["--x" as string]: o.x.toFixed(1), ["--y" as string]: o.y.toFixed(1), ["--t" as string]: o.t.toFixed(3) }}>{o.w}</span>)}
+        </div>
+      </Act>
+      <section className="dew-cta"><i className="dew-bead" aria-hidden /><Reveal className="vh-rv--up"><h2>Start the <em>one-drop ritual.</em></h2><p>One bottle lasts eight weeks. If your skin disagrees, we refund it.</p><a href="#" onClick={stop} className="dew-btn">Try one bottle <i>↗</i></a></Reveal></section>
       <footer className="dew-foot"><div className="dew-foot-top"><b>DEW</b><p>One serum, honestly made.</p></div><div className="dew-foot-legal"><span>Dew Skin</span><span>A Visual Hooks concept</span></div></footer>
     </div>
   );
 }
 
 /* ===== ROAST — кофе-ростер (warm dark, burnt orange) ===== */
+// кривая свежести (дни 0→30): обжарка → пик 4–14 день → спад «полки»; зерно едет по линии (offset-path той же кривой)
+const ROAST_CURVE = "M0 232 C 40 226, 70 120, 118 64 C 150 30, 250 24, 330 44 C 420 70, 500 170, 620 214";
 function RoastSite() {
-  const flow: [string, string][] = [["Source", "One farm at a time, bought at a price the grower actually names."], ["Roast", "In small drums, the morning of the day it ships to you."], ["Ship", "Sealed within the hour, at you in two days, at its peak for ten."]];
   return (
     <div className="vh-site roast">
+      {/* профиль обжарки: сырое серо-зелёное зерно → first crack → тёмная обжарка к CTA */}
+      <Atmosphere stops={[{ at: ".roast-hero", color: "#140d08" }, { at: ".roast-act", color: "#1a1c14", anchor: 0.2 }, { at: ".roast-act", color: "#140c07", anchor: 0.84 }, { at: ".roast-cta", color: "#120b06" }]} />
       <section className="roast-hero">
         <video className="roast-hero-vid" src="/uploads/1/hooks/sites/roast-hero.mp4" poster="/uploads/1/hooks/sites/roast.jpg" autoPlay muted loop playsInline />
         <div className="roast-hero-wash" />
         <header className="roast-head"><Link href="/visual-hooks" className="roast-brand">ROAST</Link><nav className="roast-nav"><a href="#" onClick={stop}>Coffees</a><a href="#" onClick={stop}>Subscribe</a><a href="#" onClick={stop}>Brew</a></nav></header>
-        <div className="roast-hero-copy"><span className="roast-eyebrow">Roasted to order</span><h1>Coffee has a peak.<br /><em>We ship you the peak.</em></h1></div>
+        <div className="roast-hero-copy"><span className="roast-eyebrow">Roasted to order</span><h1>Coffee has a peak.<br /><em>We ship you<br />the peak.</em></h1></div>
       </section>
-      <section className="roast-statement"><Reveal className="vh-rv--up"><h2>Fresh is not a word<br /><em>on the bag.</em></h2><p>Most coffee is weeks old before you open it. Ours is roasted the day it leaves us, so the best ten days are yours, not the warehouse's.</p></Reveal></section>
-      <section className="roast-flow"><Reveal className="roast-flow-head vh-rv--up"><h3>Farm to your kitchen, in days.</h3></Reveal><div className="roast-steps">{flow.map(([h, p], i) => (<Reveal key={h} className="roast-step vh-rv--up"><span>{String(i + 1).padStart(2, "0")}</span><b>{h}</b><p>{p}</p></Reveal>))}</div></section>
-      <section className="vh-gal2"><Reveal className="vh-gal2-head vh-rv--up"><h3>Roasted <em>this week.</em></h3></Reveal><div className="vh-gal2-grid"><Reveal className="vh-rv--mask"><figure><img loading="lazy" src="/uploads/1/hooks/sites/g/roast-beans.jpg" alt="" /><figcaption>Off the cooling tray.</figcaption></figure></Reveal><Reveal className="vh-rv--mask"><figure className="b"><img loading="lazy" src="/uploads/1/hooks/sites/g/roast-pour.jpg" alt="" /><figcaption>Brewed the way you do.</figcaption></figure></Reveal></div></section>
+      {/* второй акт «Coffee has a peak»: через главу рисуется кривая свежести, зерно едет по линии,
+          Roast / At your door / Peak встают на кривую отметками — шаги стали графиком. Текстовые шаги и галерея убраны. */}
+      <Act cls="roast-act" band={{ t: "cinematicBand", media: `${BS}g/roast-beans.jpg`, chapters: [
+        { index: "Fresh is not a word on the bag", title: <>Most coffee is weeks old<br /><em>before you open it.</em></>, body: "Ours is roasted the day it leaves us, so the best ten days are yours, not the warehouse's.", align: "left", media: `${BS}g/roast-beans.jpg` },
+        { index: "Source · roast · ship", title: <>Farm to your kitchen,<br /><em>in days.</em></>, body: "One farm at a time. Small drums, the morning it ships. Sealed within the hour.", align: "left", media: `${BS}g/roast-beans.jpg` },
+        { index: "Day 4 — the peak", title: <>Brewed the way<br /><em>you do.</em></>, body: "At its peak for ten days — and we time the delivery so day four lands on your Sunday.", align: "left", media: `${BS}g/roast-pour.jpg` },
+      ] }}>
+        <div className="roast-chart bs-w bs-k" style={aw(0.3, 0.74, { "--wr": 0.05 })}>
+          <svg viewBox="0 0 620 270" fill="none"><path className="roast-base" d="M0 250 H620" /><path className="roast-peakband" d="M118 250 V20 M330 250 V20" /><path className="roast-line" pathLength={1} d={ROAST_CURVE} /></svg>
+          <i className="roast-bean" style={{ offsetPath: `path("${ROAST_CURVE}")` }} />
+          <span className="roast-mk" style={{ left: 0, top: 258 }}><b>Day 0</b>roasted</span>
+          <span className="roast-mk" style={{ left: 60, top: 150 }}><b>Day 2</b>at your door</span>
+          <span className="roast-mk pk" style={{ left: 170, top: -30 }}><b>Days 4–14</b>the peak</span>
+          <span className="roast-mk" style={{ left: 520, top: 170 }}><b>Day 30+</b>the shelf</span>
+        </div>
+      </Act>
       <section className="roast-cta"><Reveal className="vh-rv--up"><h2>Wake up to the <em>right bag.</em></h2><p>Tell us how you brew. We match the coffee and time the delivery to your Sunday.</p><a href="#" onClick={stop} className="roast-btn">Build a subscription <i>↗</i></a></Reveal></section>
       <footer className="roast-foot"><div className="roast-foot-top"><b>ROAST</b><p>Single-origin coffee, roasted to order.</p></div><div className="roast-foot-legal"><span>Roast Co.</span><span>A Visual Hooks concept</span></div></footer>
     </div>

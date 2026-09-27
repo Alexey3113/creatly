@@ -1,159 +1,157 @@
-/* PILGRIM — «Lungta» Himalayan-ascent world. Шрифты Italiana (display, thin elevated serif — под
-   тезис «thin air») × Public Sans (body, sturdy humanist sans — под тезис «stone, ground»). Палитра:
-   stone-grey / maroon-robe / gold / snow-blue + gold CTA. Стили только .pg-* + копи в .rl-copy. */
-@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Public+Sans:wght@400;500;600;700;800&display=swap');
+/* PILGRIM — «Lungta» Himalayan-ascent world. Шрифты Italiana (display, thin elevated serif — «thin air»)
+   × Public Sans (body, sturdy — «stone, ground»). Палитра stone / maroon-robe / gold / snow-blue + gold CTA.
+   Шрифты грузит FontLinks (runtime <link>), CSS-@import не использовать. Стили только .pg-* (+ копи рила под .pg). */
 
 .pg{ --stone:#8a8a7a; --maroon:#8a2f2a; --gold:#d9b46a; --snow:#cfe0e6; --cta:#ffb84a; --ink:#241f18; --night:#171410; --panel:#f4efe4;
   --rl-void:#171410; --rl-spark:#ffcf7a;
-  background:var(--night); color:var(--ink); font-family:"Public Sans",system-ui,sans-serif; }
+  isolation:isolate; background:var(--atm, var(--night)); color:var(--ink); font-family:"Public Sans",system-ui,sans-serif; }
 
-/* NAV — scrim for readable brand/links over any scene */
+/* NAV — скрим сверху; бренд плотнее (тонкий Italiana на небе не читался) */
 .pg-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
-.pg-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(23,20,16,.46), rgba(23,20,16,0)); }
-.pg-brand{ font:400 21px "Italiana",serif; letter-spacing:.3em; color:var(--panel); text-shadow:0 1px 10px rgba(0,0,0,.5); }
+.pg-nav::before{ content:""; position:absolute; inset:0 0 -30px 0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(23,20,16,.58), rgba(23,20,16,0)); }
+.pg-brand{ font:700 17px "Public Sans",sans-serif; letter-spacing:.42em; color:var(--panel); text-shadow:0 1px 12px rgba(0,0,0,.55); }
 .pg-nav nav{ display:flex; gap:26px; align-items:center; font:600 12.5px "Public Sans",sans-serif; letter-spacing:.05em; }
-.pg-nav a{ color:rgba(244,239,228,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.pg-nav a{ color:rgba(244,239,228,.9); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.45); }
 .pg-nav-cta{ padding:9px 20px; border-radius:4px; background:var(--cta); color:#2b1a05!important; text-shadow:none!important; font-weight:700!important; }
 
-/* HERO / SCENE COPY — every scene is bright high-altitude daylight, so copy always sits in a frosted panel */
-.pg-eyebrow,.pg-idx{ font:600 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--maroon); }
+/* ── КОПИ РИЛА: без стеклянных карточек — мягкий локальный скрим + тень текста ─────────────────── */
+.pg .rl-copy{ isolation:isolate; }
+.pg .rl-copy::before{ content:""; position:absolute; z-index:-1; inset:-12vh -10vw -10vh -12vw; pointer-events:none;
+  background:radial-gradient(56% 52% at 40% 46%, rgba(246,242,233,.66), rgba(246,242,233,.3) 56%, transparent 78%); }
+.pg .rl-dark .rl-copy::before{ background:radial-gradient(56% 52% at 40% 46%, rgba(10,14,30,.5), rgba(10,14,30,.2) 58%, transparent 80%); }
+.pg-eyebrow,.pg-idx{ font:700 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--maroon); }
 .pg-idx{ letter-spacing:.16em; }
-.pg-panel{ padding:30px 34px; border-radius:4px; background:linear-gradient(160deg, rgba(244,239,228,.72), rgba(244,239,228,.48));
-  backdrop-filter:blur(16px) saturate(1.05); border:1px solid rgba(255,255,255,.55); box-shadow:0 26px 60px rgba(30,20,8,.22); }
-.rl-dark .pg-panel{ background:linear-gradient(160deg, rgba(23,20,16,.6), rgba(23,20,16,.3)); border-color:rgba(255,255,255,.14); }
-.rl-copy h1{ margin:16px 0 20px; font:400 clamp(48px,8vw,116px)/1.02 "Italiana",serif; letter-spacing:.005em; color:var(--ink); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; color:var(--maroon); }
-.rl-copy h2{ margin:8px 0 16px; font:400 clamp(34px,5vw,66px)/1.05 "Italiana",serif; color:var(--ink); }
-.rl-copy p{ margin:0 0 26px; max-width:42ch; font:400 16px/1.7 "Public Sans",sans-serif; color:#3a3226; }
+.pg-light{ color:#f2d9a0; text-shadow:0 1px 12px rgba(6,10,26,.8); }
+.pg .rl-copy h1{ margin:16px 0 20px; font:400 clamp(48px,7.4vw,108px)/1.02 "Italiana",serif; letter-spacing:.005em; color:var(--ink);
+  text-shadow:0 1px 24px rgba(246,242,233,.7); }
+.pg .rl-copy h1 em,.pg .rl-copy h2 em{ font-style:italic; color:var(--maroon); }
+.pg .rl-copy h2{ margin:8px 0 16px; font:400 clamp(36px,5.2vw,72px)/1.04 "Italiana",serif; color:var(--ink); text-shadow:0 1px 22px rgba(246,242,233,.75); }
+.pg .rl-copy .pg-hl{ color:#fbf6ea; text-shadow:0 2px 30px rgba(6,10,26,.75), 0 1px 3px rgba(6,10,26,.5); }
+.pg .rl-copy p{ margin:0 0 26px; max-width:40ch; font:500 16px/1.7 "Public Sans",sans-serif; color:#2f281d; text-shadow:0 1px 14px rgba(246,242,233,.8); }
+.pg .rl-copy .pg-pl{ color:#e6e3dc; text-shadow:0 1px 16px rgba(6,10,26,.85); }
 .pg-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-.pg-btn{ padding:15px 30px; border-radius:4px; background:var(--cta); color:#2b1a05; text-decoration:none; font:700 15px "Public Sans",sans-serif; box-shadow:0 14px 34px rgba(255,184,74,.32); transition:transform .15s ease; }
+.pg-btn{ display:inline-block; padding:15px 30px; border-radius:4px; background:var(--cta); color:#2b1a05; text-decoration:none; font:700 15px "Public Sans",sans-serif; box-shadow:0 14px 34px rgba(255,184,74,.32); transition:transform .15s ease; }
 .pg-btn:active{ transform:translateY(1px); }
-.pg-ghost{ padding:15px 18px; color:var(--ink); text-decoration:none; font:600 15px "Public Sans",sans-serif; border-bottom:2px solid rgba(36,31,24,.32); }
-.rl-dark .pg-ghost{ color:var(--panel); border-bottom-color:rgba(244,239,228,.4); }
+.pg-ghost{ padding:15px 18px; color:var(--ink); text-decoration:none; font:700 15px "Public Sans",sans-serif; border-bottom:2px solid rgba(36,31,24,.4); }
 
-.pg-kick{ display:block; font:600 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--maroon); }
-.pg-link{ color:var(--maroon); text-decoration:none; font:600 15px "Public Sans",sans-serif; }
-.pg-head h2{ margin:12px 0 0; font:400 clamp(30px,4.6vw,58px)/1.06 "Italiana",serif; color:var(--panel); }
+/* ── СЦЕНЫ: паломник постоянного малого масштаба, в правой части кадра (из-под копи) ──────────── */
+.pg [data-scene="valley"] .rl-mid img{ transform:translate(4vw,-8vh) scale(.5); transform-origin:50% 84%; }
+.pg [data-scene="valley"] .rl-shadow{ left:54%; top:75%; width:9vw; }
+.pg [data-scene="bridge"] .rl-mid img{ transform:translate(9vw,4vh) scale(.78); transform-origin:100% 92%; }
+.pg [data-scene="bridge"] .rl-shadow{ display:none; }
+/* fg — только нижняя полоса (маска движка 52→72% ложилась на паломника «призраком»), кромка с магентой — за кадр */
+.pg [data-scene="valley"] .rl-fg img, .pg [data-scene="summit"] .rl-fg img{ transform:translateY(6vh);
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 68%, #000 84%); mask-image:linear-gradient(180deg, transparent 0, transparent 68%, #000 84%); }
+.pg [data-scene="bridge"] .rl-fg img{ transform:translateY(7vh);
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 68%, #000 84%), linear-gradient(90deg, #000 0, #000 62%, transparent 80%);
+          mask-image:linear-gradient(180deg, transparent 0, transparent 68%, #000 84%), linear-gradient(90deg, #000 0, #000 62%, transparent 80%);
+  -webkit-mask-composite:source-in; mask-composite:intersect; }
+/* монастырь зеркалим: гомпа уходит вправо, копи ложится на небо и дальние пики */
+.pg [data-scene="monastery"] .rl-world{ transform:scaleX(-1); }
+.pg [data-scene="summit"] .rl-mid img{ transform:translate(12vw,2vh) scale(.56); transform-origin:50% 79%; }
+.pg [data-scene="summit"] .rl-shadow{ display:none; }
+/* стоп-кадр на вершине — табличка высоты слева внизу, под копи */
+.pg [data-scene="summit"] .rl-freeze{ right:auto; left:6vw; bottom:9vh; }
+.pg-freeze{ display:grid; gap:8px; padding:16px 22px 14px; border-left:3px solid var(--cta); background:linear-gradient(90deg, rgba(10,14,30,.55), rgba(10,14,30,0));
+  color:#fbf6ea; }
+.pg-freeze b{ font:400 clamp(44px,5.6vw,80px)/.9 "Italiana",serif; letter-spacing:.01em; }
+.pg-freeze span{ font:700 11px "Public Sans",sans-serif; letter-spacing:.24em; text-transform:uppercase; color:#f2d9a0; }
 
-/* STEPS / PROCESS — daily rhythm */
-.pg-rhythm{ padding:16vh 6vw 14vh; background:var(--night); }
-.pg-steps{ list-style:none; margin:8vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:3vw; }
-.pg-step{ border-top:2px solid rgba(217,180,106,.35); padding-top:20px; }
-.pg-step-t{ display:block; font:400 clamp(26px,2.6vw,36px) "Italiana",serif; color:var(--gold); margin-bottom:14px; }
-.pg-step h3{ margin:0 0 10px; font:600 18px "Public Sans",sans-serif; color:var(--panel); }
-.pg-step p{ margin:0; font:400 14px/1.65 "Public Sans",sans-serif; color:#b9ad9a; }
+/* ── ВЕРЁВКА ФЛАЖКОВ (сквозной актёр рила) ─────────────────────────────────────────────── */
+.pg-rope{ position:fixed; inset:0; z-index:30; pointer-events:none; transform-origin:62% 40%; will-change:transform, opacity; }
+.pg-rope-svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.pg-rope-line{ fill:none; stroke:#efe6d2; stroke-width:1.6; stroke-linecap:round; }
+.pg-rope-glow{ fill:none; stroke:rgba(20,14,8,.35); stroke-width:4; stroke-linecap:round; transform:translateY(2px); }
+.pg-rf{ position:absolute; left:0; top:0; width:17px; height:22px; margin-left:-8px; transform-origin:0 0; opacity:0; will-change:transform, opacity; }
+.pg-rf i{ display:block; width:100%; height:100%; transform-origin:50% 0; border-radius:0 0 1px 1px; box-shadow:0 3px 6px rgba(0,0,0,.18);
+  background-image:linear-gradient(180deg, rgba(0,0,0,.1), transparent 30%, transparent 70%, rgba(0,0,0,.12)); }
+/* ведущий флажок: золотой, с «конём ветра» — строчки мантры */
+.pg-lead-flag{ display:block; width:100%; height:auto; overflow:visible; filter:drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
+.pg-lead-flag path:nth-child(1){ stroke:#efe6d2; stroke-width:2; }
+.pg-lead-flag path:nth-child(2){ fill:#e2b53c; stroke:#8a2f2a; stroke-width:1; }
+.pg-lead-flag path:nth-child(3){ stroke:#8a2f2a; stroke-width:1.4; stroke-linecap:round; fill:none; }
 
-/* BIG-TYPE MANIFESTO — flag-rope decoration either side */
-.pg-manifest{ padding:16vh 8vw; text-align:center; background:linear-gradient(180deg,#171410,#120f0b); display:flex; flex-direction:column; align-items:center; gap:5vh; }
-.pg-flagline{ display:block; width:min(56vw,760px); height:10px; position:relative; }
-.pg-flagline::before{ content:""; position:absolute; left:0; right:0; top:4px; height:1px; background:linear-gradient(90deg, transparent, rgba(217,180,106,.55) 16%, rgba(217,180,106,.55) 84%, transparent); }
-.pg-flagline::after{ content:""; position:absolute; left:0; right:0; top:4px; height:8px;
-  background-image:repeating-linear-gradient(100deg, var(--maroon) 0 6px, var(--gold) 6px 12px, var(--snow) 12px 18px, transparent 18px 30px);
-  clip-path:polygon(0 0,3% 100%,6% 0,9% 100%,12% 0,15% 100%,18% 0,21% 100%,24% 0,27% 100%,30% 0,33% 100%,36% 0,39% 100%,42% 0,45% 100%,48% 0,51% 100%,54% 0,57% 100%,60% 0,63% 100%,66% 0,69% 100%,72% 0,75% 100%,78% 0,81% 100%,84% 0,87% 100%,90% 0,93% 100%,96% 0,99% 100%,100% 0);
-  opacity:.85; }
-.pg-manifest p{ margin:0; max-width:24ch; font:400 clamp(28px,4.4vw,58px)/1.16 "Italiana",serif; color:var(--panel); }
-.pg-manifest em{ font-style:italic; color:var(--gold); }
+/* ── ЛЕНДИНГ: на плите мира (Backdrop) и свете высоты (--atm) ───────────────────────────── */
+.pg-kick{ display:block; font:700 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); }
+.pg-head h2{ margin:12px 0 0; font:400 clamp(34px,5vw,72px)/1.02 "Italiana",serif; color:var(--panel); }
 
-/* SIGNATURE — VERTICAL ALTITUDE TIMELINE on a prayer-flag spine */
-.pg-climb-wrap{ padding:16vh 8vw; background:#120f0b; }
-.pg-climb{ list-style:none; margin:8vh 0 0; padding:0; position:relative; }
-.pg-climb::before{ content:""; position:absolute; left:1.05rem; top:6px; bottom:6px; width:2px;
-  background:linear-gradient(180deg, var(--stone), var(--maroon) 28%, var(--gold) 56%, var(--snow) 78%, var(--cta)); opacity:.55; }
-.pg-climb-row{ position:relative; display:grid; grid-template-columns:8.5rem 1fr; column-gap:2vw; align-items:baseline; padding:34px 0 34px 3rem; border-top:1px solid #241d14; }
-.pg-climb-row:last-child{ border-bottom:1px solid #241d14; }
-.pg-flag{ position:absolute; left:0.15rem; top:40px; width:0; height:0; border-style:solid; border-width:9px 0 9px 16px; border-color:transparent transparent transparent currentColor;
-  clip-path:polygon(0 0, 100% 50%, 0 100%); box-shadow:0 0 0 3px #120f0b; }
-.pg-alt{ font:400 clamp(28px,3.6vw,46px) "Italiana",serif; color:var(--gold); white-space:nowrap; }
-.pg-climb-row h3{ margin:0 0 10px; font:600 clamp(19px,2vw,24px) "Public Sans",sans-serif; color:var(--panel); }
-.pg-climb-row p{ margin:0; max-width:54ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#a99f8c; }
+/* ПЯТЬ ВЫСОТ — вертикальная ось-верёвка */
+.pg-alt{ padding:18vh 8vw 14vh; background:linear-gradient(180deg, rgba(20,20,28,0), rgba(20,20,28,.5) 22%, rgba(20,20,28,.5) 80%, rgba(20,20,28,0)); }
+.pg-alt-body{ position:relative; margin-top:8vh; max-width:62rem; }
+.pg-spine{ position:absolute; left:0; top:0; width:26px; height:100%; overflow:visible; }
+.pg-spine-line{ fill:none; stroke:#efe6d2; stroke-width:1; stroke-dasharray:1; stroke-dashoffset:1; }
+.pg-alt-list{ list-style:none; margin:0; padding:0; }
+.pg-alt-row{ position:relative; display:grid; grid-template-columns:13rem 1fr; column-gap:2.4vw; align-items:baseline; padding:34px 0 34px 4.2rem; border-top:1px solid rgba(239,230,210,.12); }
+.pg-alt-row:last-child{ border-bottom:1px solid rgba(239,230,210,.12); }
+.pg-alt-flag{ position:absolute; left:14px; top:36px; width:22px; height:28px; transform-origin:0 0; animation:pg-flutter 2.8s ease-in-out infinite; box-shadow:0 4px 10px rgba(0,0,0,.3); }
+.pg-alt-row:nth-child(2) .pg-alt-flag{ animation-delay:-.7s } .pg-alt-row:nth-child(3) .pg-alt-flag{ animation-delay:-1.3s }
+.pg-alt-row:nth-child(4) .pg-alt-flag{ animation-delay:-.4s } .pg-alt-row:nth-child(5) .pg-alt-flag{ animation-delay:-2s }
+@keyframes pg-flutter{ 0%,100%{ transform:skewY(-6deg) skewX(0) } 35%{ transform:skewY(-4deg) skewX(9deg) scaleY(.92) } 70%{ transform:skewY(-7deg) skewX(-5deg) } }
+.pg-alt-m{ font:400 clamp(32px,3.4vw,50px) "Italiana",serif; color:var(--gold); white-space:nowrap; }
+.pg-alt-row h3{ margin:0 0 10px; font:600 clamp(19px,2vw,24px) "Public Sans",sans-serif; color:var(--panel); }
+.pg-alt-row p{ margin:0; max-width:54ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#c2b9a8; }
 
-/* FEATURE CARDS */
-.pg-kit{ padding:16vh 6vw; background:linear-gradient(180deg,#120f0b,#171410); }
-.pg-kit-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(217,180,106,.2); border:1px solid rgba(217,180,106,.2); }
-.pg-kit-card{ background:#1c1712; padding:38px 26px; }
-.pg-kit-card h3{ margin:0 0 12px; font:600 19px "Public Sans",sans-serif; color:var(--gold); }
-.pg-kit-card p{ margin:0; font:400 14px/1.7 "Public Sans",sans-serif; color:#a99f8c; }
+/* ГОМПА — сплит с колоколами дня */
+.pg-stay{ display:grid; grid-template-columns:1fr 1.05fr; min-height:86vh; background:rgba(26,19,16,.55); backdrop-filter:blur(4px); }
+.pg-stay-media{ background-size:cover; background-position:18% 50%; clip-path:polygon(0 0,100% 0,88% 100%,0 100%); }
+.pg-stay-copy{ align-self:center; padding:12vh 7vw 12vh 4vw; }
+.pg-stay-copy h2{ margin:14px 0 18px; font:400 clamp(30px,3.4vw,50px)/1.08 "Italiana",serif; color:var(--panel); }
+.pg-stay-copy > p{ margin:0 0 5vh; max-width:46ch; font:400 16px/1.75 "Public Sans",sans-serif; color:#c9bfad; }
+.pg-bells{ list-style:none; margin:0; padding:0; display:grid; gap:18px; }
+.pg-bells li{ display:grid; grid-template-columns:4.6rem 1fr; gap:18px; align-items:baseline; }
+.pg-bells b{ font:400 28px "Italiana",serif; color:var(--gold); }
+.pg-bells h3{ margin:0 0 4px; font:600 16px "Public Sans",sans-serif; color:var(--panel); }
+.pg-bells p{ margin:0; max-width:44ch; font:400 14px/1.6 "Public Sans",sans-serif; color:#aea491; }
 
-/* SPLIT */
-.pg-split{ display:grid; grid-template-columns:1.05fr 1fr; min-height:78vh; background:#171410; }
-.pg-split-media{ background-size:cover; background-position:50% 44%; }
-.pg-split-copy{ align-self:center; padding:10vh 6vw; }
-.pg-split-copy h2{ margin:14px 0 18px; font:400 clamp(28px,3.6vw,50px)/1.08 "Italiana",serif; color:var(--panel); }
-.pg-split-copy p{ margin:0 0 24px; max-width:46ch; font:400 16px/1.75 "Public Sans",sans-serif; color:#b9ad9a; }
+/* ЧТО НЕСЁМ — ведомость в две колонки */
+.pg-carry{ padding:16vh 8vw; background:linear-gradient(180deg, rgba(20,15,11,0), rgba(20,15,11,.62) 26%, rgba(20,15,11,.62) 80%, rgba(20,15,11,0)); }
+.pg-carry-list{ margin:7vh 0 0; display:grid; grid-template-columns:1fr 1fr; gap:0 6vw; max-width:72rem; }
+.pg-carry-list div{ padding:26px 0; border-top:1px solid rgba(217,180,106,.22); }
+.pg-carry-list dt{ margin:0 0 8px; font:600 18px "Public Sans",sans-serif; color:var(--gold); }
+.pg-carry-list dd{ margin:0; max-width:46ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#c2b9a8; }
 
-/* GALLERY */
-.pg-gallery{ padding:16vh 6vw; background:#120f0b; }
-.pg-gallery-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-.pg-gallery-tile{ position:relative; aspect-ratio:3/4; border-radius:6px; overflow:hidden; background-size:cover; background-position:50% 42%; display:flex; flex-direction:column; justify-content:flex-end; padding:20px; }
-.pg-gallery-veil{ position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(14,11,8,.84) 100%); }
-.pg-gallery-t{ position:relative; z-index:1; font:400 21px "Italiana",serif; color:var(--panel); }
-.pg-gallery-s{ position:relative; z-index:1; margin-top:6px; font:400 12.5px/1.4 "Public Sans",sans-serif; color:#cdc2ae; }
+/* ВЕТЕР — отзыв под нитью флажков */
+.pg-wind{ position:relative; padding:14vh 8vw 18vh; overflow:hidden; background:linear-gradient(180deg, rgba(24,18,12,0), rgba(24,18,12,.4)); }
+.pg-wind-string{ position:relative; display:flex; justify-content:space-between; margin:0 -8vw 9vh; padding:0 2vw; height:40px;
+  transform:rotate(-3deg); transform-origin:0 0; }
+.pg-wind-string::before{ content:""; position:absolute; left:0; right:0; top:0; height:1.5px; background:#efe6d2; opacity:.8; }
+.pg-wind-string i{ position:relative; display:block; width:26px; height:34px; transform-origin:50% 0; animation:pg-flutter 2.4s ease-in-out infinite; box-shadow:0 5px 10px rgba(0,0,0,.28); }
+.pg-wind blockquote{ margin:0; max-width:24ch; font:400 clamp(30px,4.2vw,58px)/1.16 "Italiana",serif; color:#f3ede0; }
+.pg-wind em{ font-style:italic; color:var(--gold); }
+.pg-wind cite{ display:block; margin-top:34px; font:700 12px "Public Sans",sans-serif; letter-spacing:.16em; text-transform:uppercase; font-style:normal; color:#b7ab94; }
 
-/* MARQUEE */
-.pg-marquee{ overflow:hidden; background:#0f0c09; padding:24px 0; border-top:1px solid #241d14; border-bottom:1px solid #241d14; }
-.pg-marquee-track{ display:flex; width:max-content; white-space:nowrap; animation:pg-scroll 32s linear infinite; }
-.pg-marquee-track span{ font:600 15px "Public Sans",sans-serif; letter-spacing:.08em; color:var(--gold); }
-@keyframes pg-scroll{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+/* БРОНЬ */
+.pg-deal{ display:grid; place-items:center; padding:18vh 6vw; background:transparent; }
+.pg-deal-card{ position:relative; width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(217,180,106,.34); border-radius:6px;
+  background:rgba(28,22,16,.8); backdrop-filter:blur(10px); }
+.pg-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
+.pg-price b{ font:400 clamp(46px,6.2vw,80px) "Italiana",serif; color:var(--panel); }
+.pg-price span{ font:500 14px "Public Sans",sans-serif; color:#c9bfad; }
+.pg-deal-card > p{ margin:0 auto 22px; max-width:40ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#c9bfad; }
+.pg-deal-facts{ list-style:none; margin:0 auto 30px; padding:0; display:flex; justify-content:center; gap:28px; flex-wrap:wrap; font:500 13px "Public Sans",sans-serif; color:#a99f8c; }
+.pg-deal-facts b{ font:400 24px "Italiana",serif; color:var(--gold); margin-right:4px; }
+.pg-note{ display:block; margin-top:18px; font:500 12px "Public Sans",sans-serif; letter-spacing:.04em; color:#8f8570; }
 
-/* STATS */
-.pg-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:#0f0c09; border-top:1px solid #241d14; }
-.pg-stat{ padding:56px 26px; border-left:1px solid #241d14; }
-.pg-stat:first-child{ border-left:0; }
-.pg-stat b{ display:block; font:400 clamp(40px,5.2vw,74px)/1 "Italiana",serif; color:var(--snow); }
-.pg-stat span{ display:block; margin-top:10px; font:500 13px "Public Sans",sans-serif; letter-spacing:.04em; color:#8f8672; }
-
-/* QUOTE */
-.pg-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,#120f0b,#171410); }
-.pg-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(24px,3.6vw,44px)/1.28 "Italiana",serif; color:#f0ebe0; }
-.pg-quote em{ font-style:italic; color:var(--gold); }
-.pg-quote cite{ display:block; margin-top:34px; font:600 13px "Public Sans",sans-serif; letter-spacing:.06em; font-style:normal; color:#8f8672; }
-
-/* FAQ / ACCORDION */
-.pg-faq{ padding:16vh 6vw; background:#171410; }
-.pg-faq-list{ margin-top:6vh; max-width:56rem; }
-.pg-faq-item{ border-top:1px solid rgba(217,180,106,.22); padding:24px 0; }
-.pg-faq-item:last-child{ border-bottom:1px solid rgba(217,180,106,.22); }
-.pg-faq-item summary{ cursor:pointer; font:600 18px "Public Sans",sans-serif; color:var(--panel); list-style:none; display:flex; justify-content:space-between; align-items:center; gap:20px; }
-.pg-faq-item summary::-webkit-details-marker{ display:none; }
-.pg-faq-item summary::after{ content:"+"; font:400 24px "Italiana",serif; color:var(--gold); flex:none; }
-.pg-faq-item[open] summary::after{ content:"–"; }
-.pg-faq-item p{ margin:16px 0 0; max-width:60ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#a99f8c; }
-
-/* DEAL */
-.pg-deal{ display:grid; place-items:center; padding:18vh 6vw; background:#120f0b; }
-.pg-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(217,180,106,.3); border-radius:6px; background:#1c1712; }
-.pg-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
-.pg-price b{ font:400 clamp(44px,6.2vw,78px) "Italiana",serif; color:var(--panel); }
-.pg-price span{ font:500 14px "Public Sans",sans-serif; color:#b9ad9a; }
-.pg-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#b9ad9a; }
-.pg-note{ display:block; margin-top:18px; font:500 12px "Public Sans",sans-serif; letter-spacing:.04em; color:#7a7160; }
-
-/* CLIMAX */
+/* ФИНАЛ */
 .pg-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 46%; }
-.pg-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 40%, rgba(23,20,16,.4), rgba(15,12,9,.92) 78%); }
+.pg-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 40%, rgba(23,20,16,.3), rgba(15,12,9,.9) 78%); }
 .pg-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
-.pg-climax-copy h2{ margin:0 0 34px; font:400 clamp(36px,5.6vw,84px)/1.06 "Italiana",serif; color:var(--panel); }
+.pg-climax-copy h2{ margin:0 0 34px; font:400 clamp(40px,6vw,92px)/1.02 "Italiana",serif; color:var(--panel); }
 .pg-climax-copy em{ font-style:italic; color:var(--gold); }
 
-/* FOOT */
-.pg-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#0f0c09; color:#7a7160; font:500 13px "Public Sans",sans-serif; }
-.pg-foot .pg-brand{ color:#b9ad9a; font-size:16px; }
+.pg-foot{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; padding:40px 6vw; background:#0f0c09; color:#8a806c; font:500 13px "Public Sans",sans-serif; }
+.pg-foot .pg-brand{ color:#c9bfad; font-size:14px; text-shadow:none; }
 
 @media (max-width:820px){
   .pg-nav nav a:not(.pg-nav-cta){ display:none; }
-  .pg-steps{ grid-template-columns:1fr 1fr; row-gap:6vh; }
-  .pg-kit-grid{ grid-template-columns:1fr 1fr; }
-  .pg-split{ grid-template-columns:1fr; }
-  .pg-split-media{ min-height:44vh; }
-  .pg-gallery-grid{ grid-template-columns:1fr 1fr; }
-  .pg-stats{ grid-template-columns:1fr 1fr; }
-  .pg-climb-row{ grid-template-columns:6rem 1fr; padding-left:2.4rem; }
-  .pg-climb::before{ left:0.85rem; }
-  .pg-flag{ left:0; }
+  .pg [data-scene="valley"] .rl-mid img{ transform:translateX(18vw) scale(.5); }
+  .pg-alt-row{ grid-template-columns:1fr; padding-left:3.4rem; }
+  .pg-stay{ grid-template-columns:1fr; } .pg-stay-media{ min-height:44vh; clip-path:none; }
+  .pg-carry-list{ grid-template-columns:1fr; }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .pg-marquee-track{ animation:none; }
+  .pg-alt-flag, .pg-wind-string i{ animation:none; }
   .pg-btn{ transition:none; }
 }

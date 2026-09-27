@@ -1,128 +1,104 @@
 "use client";
-/* ПИЛОТ новой модели — «CANOPY»: иллюстрированный кино-скроллителлинг-лендинг.
-   СЦЕНЫ в pinned slide-reel: закреплённый стек, следующая сцена ВЫЕЗЖАЕТ снизу и бесшовно
-   накрывает предыдущую (translateY 100%→0 по прогрессу) — без пустых полей, «одно продолжает другое».
-   Внутри сцены слои (bg-плита → midground → fg-вырезка feathered) параллаксят/dolly по локальному --sp.
-   Ассеты: /uploads/1/animated/model/canopy/*. */
-import { useEffect, useRef } from "react";
-import Lenis from "lenis";
-import "./canopy.css";
+/* ПИЛОТ модели — «CANOPY»: иллюстрированный кино-скроллителлинг-лендинг. Корень шаблона 30 миров.
+   Переведён со своего встроенного рила на общий движок <Reel/> v2 (партитура hold/travel, копи эстафетой,
+   склейки из мира, маркеры для сквозных слоёв). Ассеты: /uploads/1/animated/model/canopy/*.
+
+   СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09): ОДИН странник в плаще (актёр-спрайт) идёт через все четыре
+   главы — олень и лань теперь ВСТРЕЧИ, а не замены героя — и продолжает путь по тропе лендинга
+   (путевые точки, полевой блокнот, карточка маршрута). Склейки из мира: спуск с хребта в ущелье,
+   шов — белая полоса брызг (descend) → путь вбок по тропе (pan) → стволы пролетают перед объективом (flythrough).
+   Стоп-кадр — встреча с оленем. Светлячки ночного луга живут в окне ночи и первом экране лендинга. */
+import { Reel, reelMark, type ReelScene } from "./reel";
+import { Actor, Weather, Atmosphere, Backdrop } from "@/components/scene-kit";
 import { FontLinks } from "@/components/shared/FontLinks";
+import "./canopy.css";
 
 const A = "/uploads/1/animated/model/canopy";
+const WANDERER = "/uploads/1/animated/canopy/actor-wanderer.webp";
 
-type SceneDef = { id: string; bg: string; mid?: string; fg?: string; dark?: boolean; copy: React.ReactNode; fly?: boolean };
-const SCENES: SceneDef[] = [
-  { id: "ridge", bg: `${A}/bg.webp`, mid: `${A}/traveler.webp`, fg: `${A}/fern.webp`, copy: (
+const scenes: ReelScene[] = [
+  { id: "ridge", bg: `${A}/bg.webp`, fg: `${A}/fern.webp`, len: 1.1, hold: 0.5, copy: (
     <>
       <span className="cp-eyebrow">Guided illustrated expeditions</span>
       <h1>Walk into<br /><em>the quiet.</em></h1>
-      <p>A slow route through fog-lit forests, waterfalls and moonlit meadows — one continuous painted world.</p>
-      <div className="cp-cta"><a href="#" className="cp-btn">Start the journey</a><a href="#" className="cp-btn-ghost">See the route →</a></div>
+      <p>A slow route through fog-lit forests, waterfalls and moonlit meadows — one continuous painted world, and you walk all of it.</p>
+      <div className="cp-cta"><a href="#deal" className="cp-btn">Start the journey</a><a href="#trail" className="cp-btn-ghost">See the route →</a></div>
     </>
   ) },
-  { id: "falls", bg: `${A}/falls-bg.webp`, mid: `${A}/falls-mist.webp`, fg: `${A}/falls-rocks.webp`, copy: (
+  { id: "falls", into: "descend", tint: "#eef4f1", bg: `${A}/falls-bg.webp`, mid: `${A}/falls-mist.webp`, fg: `${A}/falls-rocks.webp`, copy: (
     <><span className="cp-ch-idx">Chapter 02</span><h2>The Falls</h2>
-      <p>A gorge of moving water and wet stone — cool, loud, alive. Stand at the edge until the spray reaches you.</p>
-      <a href="#" className="cp-ch-more">Learn more →</a></>
+      <p>A gorge of moving water and wet stone — cool, loud, alive. Stand at the edge until the spray reaches you.</p></>
   ) },
-  { id: "pass", bg: `${A}/dusk-forest.webp`, mid: `${A}/stag.webp`, fg: `${A}/trees.webp`, dark: true, copy: (
+  { id: "pass", into: "pan", dark: true, len: 1.25, hold: 0.56, bg: `${A}/dusk-forest.webp`, mid: `${A}/stag.webp`, fg: `${A}/trees.webp`,
+    freeze: (<div className="cp-freeze"><b>19:52</b><span>the stag lets you pass</span></div>), copy: (
     <><span className="cp-ch-idx">Chapter 03</span><h2 className="cp-h-light">The Pass</h2>
-      <p className="cp-p-light">Between water and meadow the trees close in — dusk, resin, and a stag that lets you through.</p>
-      <a href="#" className="cp-ch-more">Learn more →</a></>
+      <p className="cp-p-light">Between water and meadow the trees close in — dusk, resin, and a stag that stands its ground, then lets you through.</p></>
   ) },
-  { id: "meadow", bg: `${A}/meadow-bg.webp`, mid: `${A}/deer.webp`, fg: `${A}/meadow-grass.webp`, dark: true, fly: true, copy: (
+  { id: "meadow", into: "flythrough", dark: true, spark: 6, bg: `${A}/meadow-bg.webp`, mid: `${A}/deer.webp`, fg: `${A}/meadow-grass.webp`, copy: (
     <><span className="cp-ch-idx">Chapter 04</span><h2 className="cp-h-light">The Meadow</h2>
-      <p className="cp-p-light">Moonlight, fireflies, and a deer that watches you pass. The route ends where the noise does.</p>
-      <a href="#" className="cp-ch-more">Learn more →</a></>
+      <p className="cp-p-light">Moonlight, fireflies, and a deer that watches you pass. The route ends where the noise does.</p></>
   ) },
 ];
 
-function useReel(root: React.RefObject<HTMLDivElement | null>) {
-  useEffect(() => {
-    const el = root.current; if (!el) return;
-    const reel = el.querySelector<HTMLElement>(".cp-reel");
-    const scenes = Array.from(el.querySelectorAll<HTMLElement>(".cp-scene"));
-    const n = scenes.length;
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const fine = matchMedia("(pointer:fine)").matches;
-    if (reduce) { scenes.forEach((s) => { s.style.setProperty("--enter", "1"); s.style.setProperty("--sp", "0.5"); }); return; }
-    const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1, smoothWheel: true });
-    const clamp = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
-    let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0;
-    // ОДИН кадровый цикл: Lenis + курсор + прогресс сцен считаются КАЖДЫЙ кадр → всегда синхронно с
-    // рендером и текущим вьюпортом (нет рассинхрона CSS-vh ↔ JS на ресайзе/скролле). Накрытые и
-    // припаркованные сцены гасим display:none — иначе стек полноэкранных слоёв мигал на ресайзе.
-    const frame = (t: number) => {
-      lenis.raf(t);
-      cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
-      el.style.setProperty("--mx", cx.toFixed(3)); el.style.setProperty("--my", cy.toFixed(3));
-      if (reel) {
-        const r = reel.getBoundingClientRect();
-        const p = clamp(-r.top / Math.max(1, reel.offsetHeight - window.innerHeight));
-        // enter всех сцен считаем заранее — нужен для видимости соседей
-        const enters = scenes.map((_, i) => (i === 0 ? 1 : clamp((p - (i - 0.85) / n) / (0.85 / n))));
-        for (let i = 0; i < n; i++) {
-          const enter = enters[i];
-          const sp = clamp((p - i / n) / (1 / n));
-          const feather = i === 0 ? 0 : clamp((1 - enter) * 6);
-          const s = scenes[i];
-          // Держим в композиторе только сцены вокруг текущего перехода: полностью накрытые
-          // следующей и ещё припаркованные под вьюпортом выключаем через display:none —
-          // их GPU-слои реально освобождаются. Иначе к сценам 3–4 копятся все слои стека →
-          // на переходе и особенно на ресайзе браузер мигает пустыми заглушками.
-          const covered = i + 1 < n && enters[i + 1] >= 1;
-          const parked = i > 0 && enter <= 0;
-          const hidden = covered || parked;
-          const want = hidden ? "none" : "";
-          if (s.style.display !== want) s.style.display = want;
-          s.style.setProperty("--enter", enter.toFixed(4));
-          s.style.setProperty("--sp", sp.toFixed(4));
-          s.style.setProperty("--feather", feather.toFixed(4));
-        }
-      }
-      raf = requestAnimationFrame(frame);
-    };
-    raf = requestAnimationFrame(frame);
-    const onMove = (e: PointerEvent) => { tx = (e.clientX / innerWidth) * 2 - 1; ty = (e.clientY / innerHeight) * 2 - 1; };
-    if (fine) addEventListener("pointermove", onMove);
-    return () => { cancelAnimationFrame(raf); lenis.destroy(); removeEventListener("pointermove", onMove); };
-  }, [root]);
-}
+/* тропа лендинга: четыре путевые точки (вместо «карточки×4» + «галерея×4 настроения») */
+const WAYS: [string, string, string, string, string][] = [
+  ["01", "km 0", "The Ridge", "Dawn over the treeline — mist, god-rays, the first light you walk into.", "Come back in first snow and it's a different painting."],
+  ["02", "km 38", "The Falls", "A gorge of moving water and wet stone. The spray reaches the path before you reach the edge.", "High water in spring — louder, whiter, closer."],
+  ["03", "km 71", "The Pass", "Dusk in the pines — resin, shadow, and a stag that decides when you may go on.", "In autumn the pass turns copper by five."],
+  ["04", "km 120", "The Meadow", "Moonlight, fireflies, a deer at the treeline. The hut is lit when you arrive.", "Midsummer nights never quite get dark here."],
+];
 
 export function Canopy() {
-  const ref = useRef<HTMLDivElement>(null);
-  useReel(ref);
   return (
-    <div className="cp" ref={ref}>
+    <div className="cp">
       <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Archivo:wght@400;500;600;700&display=swap"]} />
       <header className="cp-nav">
         <span className="cp-brand">CANOPY<i>°</i></span>
-        <nav><a href="#">Field</a><a href="#">Routes</a><a href="#">Journal</a><a href="#" className="cp-nav-cta">Start the journey</a></nav>
+        <nav><a href="#trail">Routes</a><a href="#notes">Field notes</a><a href="#deal">Journal</a><a href="#deal" className="cp-nav-cta">Start the journey</a></nav>
       </header>
 
-      {/* SLIDE-REEL: закреплённый стек сцен, бесшовно наезжающих друг на друга */}
-      <div className="cp-reel" style={{ ["--n" as string]: SCENES.length, height: `calc(${SCENES.length} * 125vh)` }}>
-        <div className="cp-reel-stage">
-          {SCENES.map((sc, i) => (
-            <section key={sc.id} className={`cp-scene ${sc.dark ? "cp-scene-dark" : ""}`} style={{ ["--i" as string]: i, zIndex: i + 1 }} data-scene={sc.id}>
-              <div className="cp-layer cp-bg" style={{ backgroundImage: `url(${sc.bg})` }} aria-hidden />
-              <div className="cp-haze" aria-hidden />
-              {i > 0 && <div className="cp-mist" aria-hidden />}
-              {sc.mid && <div className="cp-layer cp-mid" aria-hidden><span className="cp-shadow" /><img src={sc.mid} alt="" /></div>}
-              {sc.fg && <div className="cp-layer cp-fg" aria-hidden><img src={sc.fg} alt="" /></div>}
-              {sc.fly && <>{[1, 2, 3, 4, 5].map((k) => <span key={k} className={`cp-fly cp-fly-${k}`} aria-hidden />)}</>}
-              <div className="cp-scene-copy">{sc.copy}</div>
-            </section>
-          ))}
-          <div className="cp-scrollcue" aria-hidden>descend ↓</div>
-        </div>
-      </div>
+      <Reel scenes={scenes} cue="walk on ↓" />
 
-      {/* 04 · STORY — тихая зона чтения */}
+      {/* СКВОЗНОЙ СЛОЙ: ночь луга → рассвет → брызги → сумерки → ночь по тропе лендинга */}
+      <Atmosphere stops={[
+        { at: ".cp-intro", color: "#10201b" }, { at: ".cp-steps", color: "#13271f" },
+        { at: ".cp-way:nth-child(1)", color: "#2a3b33" }, { at: ".cp-way:nth-child(2)", color: "#1d3531" },
+        { at: ".cp-way:nth-child(3)", color: "#2b2434" }, { at: ".cp-way:nth-child(4)", color: "#0f1c22" },
+        { at: ".cp-notes", color: "#132420" }, { at: ".cp-deal", color: "#10201a" }, { at: ".cp-climax", color: "#0b1612" },
+      ]} />
+      <Backdrop from=".cp-intro" dim={0.58} plates={[
+        { at: ".cp-intro", src: `${A}/meadow-bg.webp` }, { at: ".cp-way:nth-child(1)", src: `${A}/bg.webp` },
+        { at: ".cp-way:nth-child(2)", src: `${A}/falls-bg.webp` }, { at: ".cp-way:nth-child(3)", src: `${A}/dusk-forest.webp` },
+        { at: ".cp-way:nth-child(4)", src: `${A}/meadow-bg.webp` }, { at: ".cp-deal", src: `${A}/meadow-bg.webp`, pos: "50% 70%" },
+      ]} />
+
+      {/* СТРАННИК — один герой через все главы и тропу лендинга (спрайт идёт вправо) */}
+      <Actor src={WANDERER} className="cp-wanderer" width="7.4vw" zIndex={32} bob={2} tilt={0.03} stops={[
+        { at: reelMark("s0"), pose: { x: 72, y: 73, s: 1.15 } },
+        { at: reelMark("t0"), pose: { x: 76, y: 76, s: 1.3, o: 0.15, blur: 3 } },
+        { at: reelMark("s1"), pose: { x: 77, y: 74, s: 0.86, o: 1, fx: -1 } },
+        { at: reelMark("t1"), pose: { x: 58, y: 76, s: 0.92, fx: 1 } },
+        { at: reelMark("s2"), pose: { x: 43, y: 76, s: 0.98 } },
+        { at: reelMark("t2"), pose: { x: 50, y: 80, s: 1.2, o: 0.6, blur: 3 } },
+        { at: reelMark("s3"), pose: { x: 44, y: 75, s: 0.62, o: 1 } },
+        { at: reelMark("end"), pose: { x: 48, y: 74, s: 0.56 } },
+        { at: ".cp-intro", pose: { x: 50, y: 118, s: 0.5, o: 0 } },
+        { at: ".cp-trail-head", pose: { x: 22, y: 100, s: 0.6, o: 0 } },
+        { at: ".cp-way:nth-child(1)", pose: { x: 21, y: 56, s: 0.62, dock: true } },
+        { at: ".cp-way:nth-child(2)", pose: { x: 21, y: 56, s: 0.62, dock: true } },
+        { at: ".cp-way:nth-child(3)", pose: { x: 21, y: 56, s: 0.62, dock: true } },
+        { at: ".cp-way:nth-child(4)", pose: { x: 21, y: 56, s: 0.62, dock: true } },
+        { at: ".cp-notes", pose: { x: 84, y: 64, s: 0.6 } },
+        { at: ".cp-deal-card", pose: { x: 104, y: 72, s: 0.66, fx: -1, dock: true } },
+        { at: ".cp-climax", pose: { x: 62, y: 74, s: 0.4, o: 0 } },
+      ]} />
+
+      <Weather kind="fireflies" count={24} color="#ffd98a" color2="#fff3c4" between={[reelMark("t2"), ".cp-steps"]} world={0.4} zIndex={31} />
+
+      {/* 04 · STORY — тихая зона чтения на плите ночного луга */}
       <section className="cp-intro"><p><em>Four chapters, one walk.</em> Dawn ridge, the falls, the pass, the night meadow — hand-painted scenes you move through, not past.</p></section>
 
-      {/* 05 · КАК ЭТО РАБОТАЕТ — 3 шага вдоль пути */}
+      {/* 05 · КАК ЭТО РАБОТАЕТ — 3 шага */}
       <section className="cp-steps">
         <span className="cp-kicker">How a route works</span>
         <div className="cp-steps-row">
@@ -134,35 +110,35 @@ export function Canopy() {
         </div>
       </section>
 
-      {/* 06 · ГЛАВЫ — 4 карточки */}
-      <section className="cp-feat">
-        {[["01", "The Ridge", "Dawn over the treeline — mist, god-rays, first light."],
-          ["02", "The Falls", "A gorge of moving water and wet stone, cool and loud."],
-          ["03", "The Pass", "Dusk in the pines — resin, shadow, a watching stag."],
-          ["04", "The Meadow", "Moonlight, fireflies, a deer that watches you pass."]].map(([nn, t, s]) => (
-          <article className="cp-feat-card" key={nn}><span className="cp-feat-n">{nn}</span><h3>{t}</h3><p>{s}</p><a href="#">Learn more →</a></article>
-        ))}
+      {/* 06 · ТРОПА — путевые точки; странник идёт по ним, мир под блоком меняется по главам */}
+      <section className="cp-trail" id="trail">
+        <div className="cp-trail-head"><span className="cp-kicker">The route, on foot</span><h2>One path, four paintings.</h2></div>
+        <ol className="cp-ways">
+          {WAYS.map(([n, km, t, s, mood]) => (
+            <li className="cp-way" key={n}>
+              <span className="cp-way-km">{km}</span>
+              <div className="cp-way-copy"><span className="cp-way-n">Chapter {n}</span><h3>{t}</h3><p>{s}</p><span className="cp-way-mood">{mood}</span></div>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      {/* 07 · ГАЛЕРЕЯ — сезонные виды (плиты как обложки) */}
-      <section className="cp-gallery">
-        <div className="cp-gallery-head"><span className="cp-kicker">The same route, four moods</span><h2>Come back and it’s a different painting.</h2></div>
-        <div className="cp-gallery-row">
-          {[[`${A}/bg.webp`, "Dawn"], [`${A}/falls-bg.webp`, "High water"], [`${A}/dusk-forest.webp`, "Dusk"], [`${A}/meadow-bg.webp`, "Night"]].map(([src, cap], i) => (
-            <figure className="cp-gal" key={i} style={{ backgroundImage: `url(${src})` }}><figcaption>{cap as string}</figcaption></figure>
-          ))}
+      {/* 07 · ПОЛЕВОЙ БЛОКНОТ — цифры записью в блокноте, не полосой */}
+      <section className="cp-notes" id="notes">
+        <div className="cp-notebook">
+          <span className="cp-kicker">Field notes · route no. 4</span>
+          <ul>
+            <li><b>120</b><span>hand-painted kilometres, hut to hut</span></li>
+            <li><b>4</b><span>seasons — the same route, four worlds</span></li>
+            <li><b>6</b><span>walkers per route, never more</span></li>
+            <li><b>0</b><span>bars of signal after the ridge</span></li>
+          </ul>
+          <span className="cp-notebook-sign">— sketched at the meadow hut, 21:40</span>
         </div>
       </section>
 
-      {/* 08 · ДОВЕРИЕ — цифры */}
-      <section className="cp-trust">
-        {[["120", "hand-painted km"], ["4", "seasons, four worlds"], ["6", "walkers per route, max"], ["0", "bars of signal"]].map(([n, l], i) => (
-          <div className="cp-trust-cell" key={i}><b>{n}</b><span>{l}</span></div>
-        ))}
-      </section>
-
       {/* 09 · СДЕЛКА — оффер + CTA */}
-      <section className="cp-deal">
+      <section className="cp-deal" id="deal">
         <div className="cp-deal-card">
           <span className="cp-kicker">The two-day route</span>
           <div className="cp-price"><b>€480</b><span>/ person · guide, huts &amp; meals</span></div>
@@ -175,7 +151,7 @@ export function Canopy() {
       {/* 10 · КУЛЬМИНАЦИЯ + CTA */}
       <section className="cp-climax" style={{ backgroundImage: `url(${A}/meadow-bg.webp)` }}>
         <div className="cp-climax-veil" aria-hidden />
-        <div className="cp-climax-copy"><h2>The quiet is <em>a two-day walk</em> from here.</h2><a href="#" className="cp-btn">Start the journey</a></div>
+        <div className="cp-climax-copy"><h2>Start walking. <em>The painting fills in around you.</em></h2><a href="#deal" className="cp-btn">Start the journey</a></div>
       </section>
 
       {/* 11 · FOOTER */}

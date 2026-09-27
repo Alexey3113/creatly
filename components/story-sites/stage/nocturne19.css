@@ -1,10 +1,10 @@
 /* STORY v2 · САЙТ 16 «NOCTURNE / ТЬМА» — near-black/blood-red хоррор-журнал (pin19). ТЁМНЫЙ.
-   Шрифты: Alumni Sans (heavy Cyrillic вордмарк) · Spline Sans Mono (mono labels). */
-@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,600;0,800;0,900;1,600&family=Spline+Sans+Mono:wght@400;600&display=swap');
+   Шрифты: Alumni Sans (heavy Cyrillic вордмарк) · Spline Sans Mono (mono labels).
+   Сквозная архитектура: глаза-актёр (data-share="eyes") через все сцены, слово «ТЬМА» S2→S3, кадр «дома» S5→S6.
+   Световая дуга: S1 темнее всех → каждая сцена на ступень светлее → финал тёплый. */
 
-.nc-site{--bg:#080506;--panel:#140a0c;--blood:#7a0e16;--red-hi:#c01e26;--smoke:#2e1c20;--bone:#cbc0bc;--mut:#6e595c;
+.nc-site{--bg:#080506;--panel:#140a0c;--blood:#7a0e16;--red-hi:#c8222b;--smoke:#2e1c20;--bone:#d6cbc6;--mut:#8a7478;
   position:fixed;inset:0;background:var(--bg);color:var(--bone);font-family:"Spline Sans Mono","Alumni Sans",system-ui,sans-serif;overflow:hidden}
-
 
 .nc-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .nc-head a{pointer-events:auto}
@@ -15,99 +15,145 @@
 .nc-nav .nc-cta{padding:7px 14px;border:1px solid var(--blood);color:var(--red-hi)}
 @media(max-width:900px){.nc-nav a:not(.nc-cta){display:none}}
 
-.nc-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.5;
+.nc-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.45;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>")}
 .nc-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:400 12px "Spline Sans Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
 .nc-eyebrow{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--red-hi)}
 .nc-folio{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
 .nc-meta{font:400 12px "Spline Sans Mono",monospace;letter-spacing:.06em;color:var(--red-hi)}
 
-/* 0 · OCCLUDED IDOL */
-.nc-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 40%,#1a0a0c,#050303 82%)}
-.nc-cover-fig{z-index:3}
-.nc-cover-fig .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 44%;filter:contrast(1.1) saturate(1.05)}
-.nc-cover-veil{position:absolute;inset:0;z-index:4;background:radial-gradient(55% 55% at 50% 34%,transparent,rgba(5,3,3,.7) 92%),linear-gradient(0deg,rgba(5,3,3,.9),transparent 46%)}
-/* ФОНАРИК (пилот): курсор «ищет» в темноте — луч раскрывает лицо/красные глаза, остальное тонет во мраке.
-   Центр радиуса едет за --px/--py (пишет StageDeck). Слой над кадром (z5), но под текстом (z6) → HUD читаем.
-   Только десктоп-мышь; на входе (курсор в центре) луч на лице. */
+/* ── ПЛИТА КАДРА: коробка с пропорцией фото, «cover» по контейнеру (container query) — внутри неё фото и глаза
+   лежат в одних координатах, поэтому глаза-актёр точно сидят на глазах снимка при любом экране.
+   --X/--Y точка экрана, куда встаёт точка снимка --u/--v; --z — наезд сверх cover. */
+.nc-cq{container-type:size}
+.nc-plate{position:absolute;left:var(--X,50%);top:var(--Y,50%);width:calc(max(100cqw,100cqh * var(--ar)) * var(--z,1));aspect-ratio:var(--ar);
+  transform:translate(calc(var(--u,.5) * -100%),calc(var(--v,.5) * -100%))}
+.nc-img{position:absolute;inset:0;width:100%;height:100%;display:block;-webkit-user-drag:none}
+/* своё «дыхание» кадра: живёт и в активной, и в уходящей сцене (движковый ken-burns снимается на старте перехода → рывок) */
+.stage-scene:is(.is-active,.is-leaving) .nc-kb{animation:stage-kb 22s ease-in-out infinite alternate}
+.nc-plate-hero{--ar:.8056;--X:50%;--Y:44%;--u:.5;--v:.44}
+.nc-plate-pb{--ar:.8056;--z:1.6;--X:50%;--Y:40%;--u:.504;--v:.4125}
+.nc-plate-s1{--ar:1;--z:1.18;--X:62%;--Y:47%;--u:.5;--v:.385}
+
+/* ── ГЛАЗА-АКТЁР: два угля. Всё в % коробки → призрак StageDeck масштабируется при перелёте без скачка. */
+.nc-eyes{position:absolute;aspect-ratio:4;transform:translate(-50%,-50%);pointer-events:none;z-index:1}
+.nc-eyes i{position:absolute;top:50%;width:30%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(closest-side,#fff4e8 0 7%,#ff5a36 15%,rgba(242,34,38,.7) 27%,rgba(206,16,28,.26) 52%,rgba(170,10,20,0) 100%);
+  animation:nc-blink 9s ease-in-out infinite}
+.nc-eyes i:first-child{left:25%}
+.nc-eyes i:last-child{left:75%}
+@keyframes nc-blink{0%,92%,100%{scale:1 1}94.5%{scale:1.05 .06}97%{scale:1 1}}
+.nc-eyes-hero{left:50.45%;top:45.95%;width:20.2%}
+.nc-eyes-pb{left:50.4%;top:41.25%;width:20.8%}
+.nc-eyes-s1{left:50%;top:38.5%;width:9%}
+.nc-eyes-dark{left:50%;top:16vh;width:min(20vw,280px);z-index:3}
+.nc-eyes-x2{left:50.6%;top:35.35%;width:calc(max(100cqw,100cqh) * .384)}
+
+/* ── СЛОВО-ОБЪЕКТ «ТЬМА»: кегль = высота коробки (cqh), пропорция = ширина слова → призрак растёт/сжимается ровно */
+.nc-word{display:block;container-type:size;aspect-ratio:1.77;pointer-events:none}
+.nc-word>span{display:block;font:900 100cqh/1 "Alumni Sans",sans-serif;letter-spacing:.02em;text-align:center;white-space:nowrap;
+  color:var(--red-hi);text-shadow:0 0 .14em rgba(200,34,43,.42)}
+
+/* 0 · ОБЛОЖКА */
+.nc-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 40%,#221012,#070404 82%)}
+.nc-plate-hero .nc-img{filter:brightness(1.3) contrast(1.08) saturate(1.12)}
+.nc-cover-veil{position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:radial-gradient(62% 60% at 50% 46%,transparent 34%,rgba(5,3,3,.6) 96%),linear-gradient(0deg,rgba(5,3,3,.88),transparent 42%)}
+/* ФОНАРИК: курсор «ищет» в темноте — луч раскрывает лицо, остальное тонет во мраке (только десктоп-мышь) */
 .nc-cover-flash{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .6s ease;
-  background:radial-gradient(circle 23vw at calc(50% + var(--px,0)*50%) calc(50% + var(--py,0)*50%),
-    transparent 0%,rgba(6,3,4,.12) 40%,rgba(6,3,4,.66) 82%)}
+  background:radial-gradient(circle 24vw at calc(50% + var(--px,0)*50%) calc(50% + var(--py,0)*50%),
+    transparent 0%,rgba(6,3,4,.1) 40%,rgba(6,3,4,.5) 82%)}
 @media (hover:hover) and (pointer:fine){ .nc-site .nc-cover.scene-body .nc-cover-flash{opacity:1} }
-.nc-wordmark{display:grid;place-items:start center;padding-top:8vh;pointer-events:none}
-.nc-wordmark span{font:900 clamp(90px,26vw,440px)/.8 "Alumni Sans",sans-serif;letter-spacing:.02em;color:#3a1418;opacity:.9}
-.nc-orn{position:absolute;inset:0;z-index:6;pointer-events:none;--lp:var(--sp,1)}
-.nc-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9)}
-.nc-orn-issue{top:4vh;right:4vw;font:900 18px "Alumni Sans",sans-serif;letter-spacing:.1em;color:var(--bone)}
-.nc-orn-no{top:4vh;left:4vw;font:400 11px "Spline Sans Mono",monospace;letter-spacing:.1em;color:var(--mut)}
-.nc-orn-l{top:34vh;left:4vw;font:400 12px/1.6 "Spline Sans Mono",monospace;color:var(--mut)}
-.nc-orn-r{top:22vh;right:4vw;text-align:right;font:400 12px/1.6 "Spline Sans Mono",monospace;color:var(--red-hi)}
-.nc-orn-script{bottom:22vh;left:50%;transform:translateX(-50%);font:italic 600 clamp(24px,4vw,52px) "Alumni Sans",sans-serif;color:var(--bone)}
+.nc-wordmark{display:grid;place-items:start center;padding-top:10vh;pointer-events:none}
+.nc-wordmark span{font:900 clamp(96px,23vw,380px)/.8 "Alumni Sans",sans-serif;letter-spacing:.02em;color:var(--red-hi);
+  text-shadow:0 0 44px rgba(200,34,43,.42),0 8px 34px rgba(0,0,0,.8)}
+.nc-orn{position:absolute;inset:0;z-index:8;pointer-events:none}
+.nc-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1) - .2)*3,1)*.92)}
+.nc-orn-issue{top:11vh;right:4vw;font:900 18px "Alumni Sans",sans-serif;letter-spacing:.1em;color:var(--bone)}
+.nc-orn-no{top:11vh;left:4vw;font:400 11px "Spline Sans Mono",monospace;letter-spacing:.1em;color:var(--mut)}
+.nc-orn-l{top:36vh;left:4vw;font:400 12px/1.6 "Spline Sans Mono",monospace;color:var(--mut)}
+.nc-orn-r{top:24vh;right:4vw;text-align:right;font:400 12px/1.6 "Spline Sans Mono",monospace;color:var(--red-hi)}
 .nc-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 8vw 8vh}
-.nc-cover-hi p{margin:6px 0 0;max-width:52ch;font:400 14px/1.7 "Spline Sans Mono",monospace;color:#b09a96}
+.nc-cover-hi p{margin:6px 0 0;max-width:52ch;font:400 14px/1.7 "Spline Sans Mono",monospace;color:#c4aeaa}
 
-/* 1 · TUNNEL ZOOM */
+/* 1 · НАЕЗД — ступень светлее */
 .nc-tunnel{background:var(--bg)}
-.nc-tunnel-fig{z-index:1}
-.nc-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:contrast(1.12) saturate(1.05)}
-.nc-tunnel-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(58% 58% at 50% 42%,transparent,rgba(5,3,3,.75) 92%),linear-gradient(0deg,rgba(5,3,3,.88),transparent 46%)}
-.nc-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:900 40vh "Alumni Sans",sans-serif;color:rgba(192,30,38,.1);pointer-events:none}
-.nc-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
-.nc-tunnel-cap p{margin:8px 0;max-width:44ch;font:400 14px/1.7 "Spline Sans Mono",monospace;color:#cbb8b4}
+.nc-plate-pb .nc-img{filter:brightness(1.5) contrast(1.1) saturate(1.14)}
+.nc-tunnel-veil{position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(58% 56% at 50% 40%,transparent 36%,rgba(6,3,4,.5) 96%),linear-gradient(0deg,rgba(6,3,4,.8),transparent 46%)}
+.nc-word-s2{position:absolute;left:50%;bottom:3vh;height:36vh;transform:translateX(-50%);z-index:6}
+.nc-tunnel-cap{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;padding:0 0 16vh 5vw}
+.nc-tunnel-cap p{margin:8px 0;max-width:30ch;font:400 14px/1.7 "Spline Sans Mono",monospace;color:#d4c2be}
 
-/* 2 · TYPE GUILLOTINE */
-.nc-guillo{background:#0a0405}
-.nc-guillo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 70% at 50% 45%,#1a0a0c,#060303 82%)}
-.nc-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
-.nc-guillo-type .kt{font:900 clamp(60px,17vw,300px)/.82 "Alumni Sans",sans-serif;letter-spacing:.02em;color:var(--bone)}
+/* 2 · ФРАЗА — снизу поднимается красный жар (свет растёт) */
+.nc-guillo{background:#0c0607}
+.nc-guillo-bg{position:absolute;inset:0;z-index:0;
+  background:radial-gradient(72% 56% at 50% 110%,rgba(176,26,34,.6),transparent 72%),radial-gradient(74% 74% at 50% 44%,#2c1316,#0c0607 86%)}
+.nc-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:10vh;pointer-events:none}
+.nc-word-s3{height:clamp(52px,11vw,190px);margin-bottom:.6vh}
+.nc-guillo-type .kt{font:900 clamp(56px,15vw,260px)/.82 "Alumni Sans",sans-serif;letter-spacing:.02em;color:var(--bone)}
 .nc-guillo-red{display:block}.nc-guillo-red .kt,.nc-guillo-red .kt-l{color:var(--red-hi)}
-.nc-guillo-row{position:absolute;left:0;right:0;bottom:12vh;z-index:6;display:flex;gap:14px;justify-content:center;font:400 12px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1)-.4)*3,1))}
+.nc-guillo-row{position:absolute;left:0;right:0;bottom:7vh;z-index:6;display:flex;gap:14px;justify-content:center;font:400 12px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1) - .4)*3,1))}
 
-/* 3 · SPOTLIGHT — круг света в темноте, подпись слева (ось иная) */
-.nc-spot-fig{z-index:1}
-.nc-spot-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:64% 45%;filter:contrast(1.12)}
+/* 3 · СКВОЗЬ ДЫМ — круг света вокруг фигуры, угли ярче */
+.nc-plate-s1 .nc-img{filter:brightness(1.8) contrast(1.08) saturate(1.18)}
 .nc-spot-mask{position:absolute;inset:0;z-index:3;pointer-events:none;
-  background:radial-gradient(circle at 68% 50%,transparent 0 14vw,rgba(8,5,6,.9) 30vw,#050303 46vw),linear-gradient(90deg,#050303 20%,transparent 52%)}
-.nc-spot-cap{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:38vw}
+  background:radial-gradient(circle at 62% 47%,transparent 0 18vw,rgba(14,7,8,.5) 34vw,rgba(12,6,7,.74) 54vw),linear-gradient(90deg,rgba(12,6,7,.8) 16%,transparent 48%)}
+.nc-spot-cap{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:36vw}
 .nc-spot-cap h3{margin:6px 0 12px;font:900 clamp(44px,7vw,110px)/.85 "Alumni Sans",sans-serif;color:var(--bone)}
-.nc-spot-cap p{margin:0;max-width:34ch;font:400 14px/1.6 "Spline Sans Mono",monospace;color:#b09a96}
+.nc-spot-cap p{margin:0;max-width:34ch;font:400 14px/1.6 "Spline Sans Mono",monospace;color:#c8b2ae}
 .nc-spot-mark{margin-top:18px;font:400 11px "Spline Sans Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--red-hi)}
 
-/* 4 · REEL — вертикальная киноплёнка (не сетка) */
-.nc-reel-bg{position:absolute;inset:0;z-index:0;background:#070405}
-.nc-reel-head{position:absolute;top:7vh;left:5vw;z-index:6}
-.nc-reel-head b{display:block;font:900 clamp(34px,5.4vw,80px)/.85 "Alumni Sans",sans-serif;color:var(--bone)}
+/* 4 · АРХИВ — киноплёнка на подсвеченном столе; кадр 003 горит тёплым (вход в «дом») */
+.nc-reel-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(58% 78% at 50% 58%,#4c2a21,#1f110e 80%)}
+.nc-reel-head{position:absolute;top:12vh;left:5vw;z-index:6}
+.nc-reel-head b{display:block;font:900 clamp(34px,5vw,74px)/.85 "Alumni Sans",sans-serif;color:var(--bone)}
 .nc-reel-head span{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--red-hi)}
-.nc-reel-strip{position:absolute;left:50%;transform:translateX(-50%);top:20vh;bottom:8vh;width:min(62vw,760px);z-index:2;
-  padding:0 26px;background:#100a0b;
-  border-left:2px solid #2a1518;border-right:2px solid #2a1518;
-  display:flex;flex-direction:column;gap:8px;
-  -webkit-mask:none}
+.nc-reel-strip{position:absolute;left:50%;transform:translateX(-50%);top:24vh;bottom:7vh;width:min(58vw,760px);z-index:2;
+  padding:0 26px;background:#2a1916;border-left:2px solid #4a2a24;border-right:2px solid #4a2a24;
+  display:flex;flex-direction:column;gap:8px;box-shadow:0 0 80px rgba(0,0,0,.6)}
 .nc-reel-strip::before,.nc-reel-strip::after{content:"";position:absolute;top:0;bottom:0;width:12px;
-  background-image:radial-gradient(circle,#050303 42%,transparent 46%);background-size:12px 22px;background-repeat:repeat-y}
+  background-image:radial-gradient(circle,#090505 42%,transparent 46%);background-size:12px 22px;background-repeat:repeat-y}
 .nc-reel-strip::before{left:6px}.nc-reel-strip::after{right:6px}
-.nc-frame{position:relative;margin:0;flex:1;overflow:hidden;border:1px solid rgba(122,14,22,.3);
+.nc-frame{position:relative;margin:0;flex:1;overflow:hidden;border:1px solid rgba(122,14,22,.35);container-type:size;
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-20px))}
 .nc-frame-1{--d:0}.nc-frame-2{--d:.1}.nc-frame-3{--d:.2}.nc-frame-4{--d:.3}
-.nc-frame img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.08)}
-.nc-frame figcaption{position:absolute;left:0;bottom:0;padding:5px 9px;font:400 10px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(5,3,3,.92),transparent)}
+.nc-frame img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.06) brightness(1.4)}
+.nc-frame-sel{border-color:rgba(255,128,70,.6);box-shadow:0 0 36px rgba(255,110,50,.3)}
+.nc-frame figcaption{position:absolute;left:0;bottom:0;z-index:2;padding:5px 9px;font:400 10px "Spline Sans Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(5,3,3,.92),transparent)}
+.nc-frame-sel figcaption{color:#ffb48a}
+/* «дом»: один и тот же тёплый грейд в кадре-плёнке и в финальном окне → перелёт без смены цвета */
+.nc-site .nc-home-img{object-fit:cover;object-position:50.6% 35.35%;filter:sepia(.5) saturate(1.5) brightness(1.55) contrast(1.02) hue-rotate(-8deg)}
 .nc-reel-code{position:absolute;left:5vw;bottom:3vh;z-index:6;font:400 11px "Spline Sans Mono",monospace;letter-spacing:.06em;color:var(--mut)}
 
-/* 5 · END CARD — конец выпуска, растворяется в чёрную пустоту (не центр-слоган) */
-.nc-end-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 55% at 50% 40%,#1a070a,#040202 78%)}
-.nc-end-block{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-bottom:16vh}
-.nc-end-label{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.32em;text-transform:uppercase;color:var(--red-hi)}
-.nc-end-block h4{margin:16px 0 24px;font:900 clamp(44px,9vw,150px)/.9 "Alumni Sans",sans-serif;text-transform:uppercase;color:var(--bone)}
-.nc-end-link{font:400 13px "Spline Sans Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--red-hi);text-decoration:none;border-bottom:1px solid rgba(122,14,22,.6);padding-bottom:6px;transition:color .2s}
-.nc-end-link:hover{color:var(--bone)}
-.nc-end-meta{position:absolute;bottom:6vh;left:0;right:0;text-align:center;font:400 10px "Spline Sans Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#4e3c3e}
-.nc-end-fade{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(0deg,#040202 6%,transparent 34%)}
+/* 5 · ДОМ — тёплое окно, героиня вернулась; красная точка призыва = уголёк глаз */
+.nc-end-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(66% 88% at 74% 46%,#7a3a1c,#34180e 56%,#160a08 100%)}
+.nc-end-win{position:absolute;right:7vw;top:14vh;bottom:11vh;width:min(36vw,560px);z-index:2;overflow:hidden;container-type:size;
+  border:1px solid rgba(255,160,100,.4);box-shadow:0 0 110px rgba(255,120,60,.32)}
+.nc-end-win .nc-home-img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.nc-end-block{position:absolute;left:8vw;top:50%;transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:flex-start;max-width:44vw}
+.nc-end-label{font:400 11px "Spline Sans Mono",monospace;letter-spacing:.32em;text-transform:uppercase;color:#ff9a6a}
+.nc-end-block h4{margin:16px 0 26px;font:900 clamp(56px,9.4vw,160px)/.84 "Alumni Sans",sans-serif;text-transform:uppercase;color:#f0e2d8}
+.nc-end-block h4 em{font-style:normal;color:#ff5a3c;text-shadow:0 0 40px rgba(255,90,60,.4)}
+.nc-end-link{display:inline-flex;align-items:center;gap:12px;font:400 13px "Spline Sans Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#ffb48a;text-decoration:none;border-bottom:1px solid rgba(255,140,90,.5);padding-bottom:6px;transition:color .2s}
+.nc-end-link i{width:10px;height:10px;border-radius:50%;background:#ff4a2e;box-shadow:0 0 14px 4px rgba(255,74,46,.6)}
+.nc-end-link:hover{color:#fff}
+.nc-end-meta{margin-top:28px;font:400 10px "Spline Sans Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#9a7466}
+
+@media(prefers-reduced-motion:reduce){ .nc-kb,.nc-eyes i{animation:none!important} }
 
 /* мобилка */
 @media(max-width:900px){
   .nc-wordmark span{font-size:40vw}
-  .nc-orn-l,.nc-orn-r{font-size:10px}.nc-orn-r{top:16vh}
-  .nc-spot-cap{max-width:none;right:5vw;background:rgba(5,3,3,.5)}
+  .nc-orn-l,.nc-orn-r{font-size:10px}.nc-orn-l{top:30vh}.nc-orn-r{top:20vh}
+  .nc-plate-pb{--Y:36%}
+  .nc-word-s2{height:24vh;bottom:4vh}
+  .nc-tunnel-cap{justify-content:flex-start;padding:12vh 6vw 0}
+  .nc-plate-s1{--X:50%;--Y:36%}
+  .nc-spot-mask{background:radial-gradient(circle at 50% 36%,transparent 0 30vw,rgba(12,6,7,.7) 60vw,rgba(10,5,6,.9) 90vw)}
+  .nc-spot-cap{max-width:none;left:5vw;right:5vw;top:auto;bottom:6vh;transform:none;background:rgba(5,3,3,.5)}
   .nc-reel-strip{width:88vw;top:22vh}
-  .nc-end-block h4{font-size:40px}
+  .nc-end-win{right:auto;left:8vw;top:12vh;bottom:auto;height:36vh;width:84vw}
+  .nc-end-block{top:auto;bottom:6vh;transform:none;max-width:none;right:6vw}
+  .nc-end-block h4{font-size:44px}
 }

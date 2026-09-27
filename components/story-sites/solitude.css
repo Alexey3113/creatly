@@ -1,7 +1,10 @@
-/* STORY 03 — SOLITUDE. Ренессанс+техно, золото на тёмном, вход «техно-скан» (clip сверху-вниз). */
+/* STORY 03 — SOLITUDE. Ренессанс + техно, золото на тёмном. Движок StageDeck.
+   Актёры: .so-pearl (data-share="pearl") — круглое окно в hero-a с чёрной жемчужиной; .so-flame (data-share="flame") —
+   пламя свечи. Их стили только классовые — призрак StageDeck (клон в корне .stage) выглядит как оригинал. */
 .so-site{--bg:#141210;--ink:#efe7d6;--mut:#9c9484;--accent:#c8a24a;--bordo:#6e1a20;--cream:#efe7d6;
-  position:relative;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
-.so-scene .ps-sticky{background:var(--bg)}
+  --pearl-x:calc(92vw - 24.55vh);--pearl-y:56.7vh;
+  position:fixed;inset:0;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"Manrope",sans-serif}
+.so-site .stage{background:#100d0b}
 
 /* header */
 .so-head{position:fixed;z-index:50;top:0;left:0;right:0;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;
@@ -14,207 +17,238 @@
 .so-nav .so-cta{padding:8px 16px;border:1px solid var(--accent);color:var(--cream)}
 
 .so-eyebrow{font:600 12px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.so-folio{display:block;font:600 12px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.so-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
 
-/* ---------- обложка ---------- */
-.so-cover-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(120% 100% at 50% 25%,#241d16,#100d0b 74%)}
-.so-cover-fig{z-index:2}
-.so-cover-fig .ps-media{width:auto;height:98vh;max-width:none;object-fit:contain;filter:contrast(1.04) drop-shadow(0 30px 60px rgba(0,0,0,.6))}
-.so-cover-hi{justify-items:start;align-content:end;padding:0 0 9vh 5vw}
-.so-cover-hi h1{margin:14px 0 16px;font:400 clamp(46px,7.6vw,116px)/.92 "Playfair Display",serif;letter-spacing:-.01em;color:var(--cream);text-shadow:0 4px 26px rgba(0,0,0,.6)}
+/* копи и закладки уходящей сцены гаснут в первой трети перехода */
+.so-site .stage-scene.is-leaving .so-out,.so-site .stage-scene.is-leaving .st-mark{opacity:clamp(0,calc(1 - var(--ep,0)*3.2),1)}
+/* iris сайта раскрывается ровно из жемчужины кулона */
+.so-site .stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp,0)*150%) at var(--pearl-x) var(--pearl-y))}
+/* wipe-y сайта — техно-сканер: золотая линия на кромке проявки */
+.so-site .stage[data-trans="wipe-y"] .is-entering::after{content:"";position:absolute;left:0;right:0;z-index:40;height:2px;pointer-events:none;
+  top:calc((1 - var(--sp,1))*100%);background:linear-gradient(90deg,transparent,#e8cf94 18%,#fff2cc 50%,#e8cf94 82%,transparent);
+  box-shadow:0 0 22px 4px rgba(200,162,74,.55)}
+
+/* ---------- актёры ---------- */
+.so-pearl{position:absolute;display:block;aspect-ratio:1;border-radius:50%;overflow:hidden;pointer-events:none;z-index:5;transform:translate(-50%,-50%);
+  box-shadow:0 0 0 1.5px rgba(232,207,148,.95),0 0 0 6px rgba(20,18,16,.35),0 0 26px rgba(200,162,74,.5)}
+.so-pearl img{position:absolute;display:block;max-width:none;width:872.7%;height:1563.6%;left:-438.6%;top:-836.4%}
+.so-flame{position:absolute;display:block;aspect-ratio:1;border-radius:50%;pointer-events:none;z-index:5;transform:translate(-50%,-50%);mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(255,250,230,.98) 0 5%,rgba(255,214,130,.8) 13%,rgba(255,170,70,.38) 32%,rgba(255,130,40,.14) 54%,transparent 70%);
+  animation:so-flicker 3.2s ease-in-out infinite}
+@keyframes so-flicker{0%,100%{scale:1}35%{scale:1.07}62%{scale:.95}80%{scale:1.03}}
+
+/* ---------- 0 · обложка ---------- */
+.so-cover-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(90% 100% at 72% 40%,#2a2117,#100d0b 72%)}
+.so-cover-frame{position:absolute;z-index:2;pointer-events:none;left:calc(92vw - 55.8vh - 2.6vw);right:5.4vw;top:14vh;bottom:8vh;--lp:var(--sp,1);
+  border:1px solid rgba(200,162,74,.55);box-shadow:inset 0 0 0 7px rgba(16,13,11,.45),inset 0 0 0 8px rgba(200,162,74,.22);
+  opacity:clamp(0,calc(var(--lp)*1.6),1);clip-path:inset(0 calc((1 - clamp(0,var(--lp)*1.3,1))*100%) 0 0)}
+.so-cover-frame i{position:absolute;width:16px;height:16px;border:0 solid var(--accent)}
+.so-cover-frame i:nth-child(1){left:-9px;top:-9px;border-width:2px 0 0 2px}
+.so-cover-frame i:nth-child(2){right:-9px;top:-9px;border-width:2px 2px 0 0}
+.so-cover-frame i:nth-child(3){left:-9px;bottom:-9px;border-width:0 0 2px 2px}
+.so-cover-frame i:nth-child(4){right:-9px;bottom:-9px;border-width:0 2px 2px 0}
+.so-wordmark{justify-items:start;align-content:start;padding:13vh 0 0 5vw;z-index:1;pointer-events:none}
+.so-wordmark span{display:block;font:400 clamp(80px,15vw,290px)/.84 "Playfair Display",serif;letter-spacing:.02em;text-transform:uppercase;
+  color:transparent;background:linear-gradient(180deg,#e8cf94,#c8a24a 55%,#8a6f2f);-webkit-background-clip:text;background-clip:text;
+  filter:drop-shadow(0 10px 46px rgba(200,162,74,.25))}
+.so-cover-fig{justify-items:end;align-items:end;padding-right:8vw;z-index:3}
+.so-fig-box{position:relative;height:100vh;aspect-ratio:1536/2752}
+.so-fig-box .ps-media{width:100%;height:100%;max-width:none;object-fit:contain;object-position:bottom;filter:contrast(1.03) drop-shadow(0 30px 60px rgba(0,0,0,.7))}
+.so-pearl-cover{left:56%;top:56.7%;width:11.46%;opacity:clamp(0,calc((var(--sp,1) - .5)*3),1)}
+.so-reticle{position:absolute;left:56%;top:56.7%;width:21%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;z-index:4;
+  border:1px solid rgba(232,207,148,.6);opacity:clamp(0,calc((var(--sp,1) - .55)*3),1);
+  background:linear-gradient(#e8cf94,#e8cf94) 50% 0/1px 20% no-repeat,linear-gradient(#e8cf94,#e8cf94) 50% 100%/1px 20% no-repeat,
+    linear-gradient(#e8cf94,#e8cf94) 0 50%/20% 1px no-repeat,linear-gradient(#e8cf94,#e8cf94) 100% 50%/20% 1px no-repeat}
+.so-cover-hi{justify-items:start;align-content:end;padding:0 0 8vh 5vw}
+.so-cover-hi h1{margin:12px 0 14px;font:400 clamp(38px,4.4vw,72px)/.94 "Playfair Display",serif;letter-spacing:-.01em;color:var(--cream);text-shadow:0 4px 26px rgba(0,0,0,.6)}
 .so-cover-hi h1 em{font-style:italic;color:var(--accent)}
-.so-cover-hi p{margin:0;max-width:40ch;font:400 15px/1.6 "Manrope",sans-serif;color:#d5cbb8;text-shadow:0 2px 12px rgba(0,0,0,.7)}
-.so-badges{position:absolute;z-index:6;left:5vw;top:12vh;display:flex;gap:12px;align-items:center}
-.so-badge{padding:4px 10px;border:1px solid rgba(200,162,74,.5);border-radius:4px;font:600 11px "DM Mono",monospace;letter-spacing:.12em;color:var(--accent)}
-.so-star{font:600 12px "DM Mono",monospace;letter-spacing:.3em;color:var(--mut)}
-.so-scrollcue{position:absolute;z-index:6;right:5vw;bottom:5vh;font:600 12px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.so-cover-hi p{margin:0;max-width:34ch;font:400 15px/1.6 "Manrope",sans-serif;color:#d5cbb8;text-shadow:0 2px 12px rgba(0,0,0,.7)}
+.so-scrollcue{position:absolute;z-index:6;right:5vw;bottom:3.4vh;font:600 12px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
 .so-scrollcue i{font-style:normal;display:inline-block;animation:so-bob 1.7s ease-in-out infinite}
 @keyframes so-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+.so-orn{position:absolute;inset:0;z-index:4;pointer-events:none;--lp:var(--sp,1);color:var(--mut);
+  font:600 11px/1.5 "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase}
+.so-orn span{position:absolute;opacity:calc(clamp(0,(var(--lp,0) - .1)*5,1))}
+.so-orn-tl{left:5vw;top:9vh}
+.so-orn-tl b{color:var(--accent)}
+.so-orn-tr{right:6.6vw;top:15.6vh;text-align:right;color:var(--accent)}
+.so-orn-lm{left:calc(92vw - 55.8vh - 12vw);top:64vh;color:var(--accent)}
+.so-orn-rm{left:calc(92vw - 55.8vh - .8vw);top:16vh}
+.so-orn-bar{left:calc(92vw - 55.8vh - 2.6vw);bottom:3.6vh;letter-spacing:.2em;opacity:.75!important}
+.so-orn-star{left:5vw;bottom:3.6vh;color:var(--accent);letter-spacing:.3em}
+.so-orn-no{right:6.6vw;bottom:10vh;font:400 38px "Playfair Display",serif;color:var(--accent)}
+.so-grain{position:absolute;inset:0;z-index:8;pointer-events:none;opacity:.45;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
+.so-site::after{content:"";position:fixed;inset:0;z-index:9;pointer-events:none;opacity:.4;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
 
-/* ---------- разворот: техно-скан ---------- */
+/* ---------- 1 · «Жемчуг» — макро на бархате ---------- */
+.so-pearlscene{background:#140b0a}
+.so-velvet{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(46% 70% at var(--pearl-x) var(--pearl-y),#4a1418 0%,#2a0c0e 46%,transparent 80%),
+  repeating-linear-gradient(100deg,rgba(255,255,255,.014) 0 2px,transparent 2px 7px),#140b0a}
+.so-pearl-macro{left:var(--pearl-x);top:var(--pearl-y);width:54vh;z-index:3}
+.so-macro-ring{position:absolute;z-index:4;left:var(--pearl-x);top:var(--pearl-y);width:64vh;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  border:1px dashed rgba(200,162,74,.45);pointer-events:none;--lp:var(--sp,1);opacity:calc(clamp(0,(var(--lp) - .5)*3,1));
+  font:600 10px "DM Mono",monospace;letter-spacing:.2em;color:var(--accent)}
+.so-macro-ring span{position:absolute;white-space:nowrap}
+.so-macro-ring span:nth-child(1){left:50%;top:-22px;transform:translateX(-50%)}
+.so-macro-ring span:nth-child(2){right:-54px;top:50%;transform:translateY(-50%)}
+.so-macro-ring span:nth-child(3){left:50%;bottom:-22px;transform:translateX(-50%);color:var(--mut)}
+.so-pearl-copy{justify-items:start;align-content:center;padding:0 0 0 7vw;z-index:6}
+.so-pearl-copy h3{margin:10px 0 14px;font:400 clamp(44px,6.4vw,104px)/.92 "Playfair Display",serif;color:var(--cream)}
+.so-pearl-copy h3 em{display:block;font-style:italic;color:var(--accent);font-size:.42em;margin-top:8px}
+.so-col-badges{display:flex;gap:12px;margin-bottom:16px}
+.so-col-badges span{padding:3px 9px;border:1px solid rgba(200,162,74,.5);border-radius:4px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;color:var(--accent)}
+.so-col-code{margin-top:20px;font:600 11px "DM Mono",monospace;letter-spacing:.1em;color:var(--mut)}
+
+/* ---------- 2 · метод — файл под сканером ---------- */
+.so-method{background:#0f0c0a}
 .so-paper{position:absolute;inset:0;z-index:1;background:radial-gradient(90% 80% at 50% 40%,#1c1712,#0f0c0a)}
-.so-scan{position:relative;
-  clip-path:inset(0 0 calc((1 - clamp(0,var(--lp)*1.4,1))*100%) 0)}
-/* золотая линия-сканер на кромке проявки */
-.so-scan::after{content:"";position:absolute;left:0;right:0;z-index:20;height:2px;pointer-events:none;
-  top:calc(clamp(0,var(--lp)*1.4,1)*100%);
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);
-  box-shadow:0 0 18px 2px rgba(200,162,74,.6);
-  opacity:calc((1 - clamp(0,var(--lp)*1.4,1)) * clamp(0,var(--lp)*8,1))}
-
-/* техно-строка */
-.so-techrow{display:flex;gap:18px;align-items:center;font:600 11px "DM Mono",monospace;letter-spacing:.14em;color:var(--mut);
-  opacity:calc(clamp(0,var(--lp)*5,1))}
+.so-method-404{position:absolute;z-index:2;left:2vw;bottom:-5vh;pointer-events:none;--lp:var(--sp,1);
+  font:400 clamp(160px,30vw,520px)/.8 "Playfair Display",serif;color:transparent;-webkit-text-stroke:1px rgba(200,162,74,.26);
+  opacity:calc(clamp(0,(var(--lp) - .3)*3,1))}
+.so-scan-a{justify-items:start;align-content:center;padding:0 7vw 0 43vw}
+.so-techrow{display:flex;gap:18px;align-items:center;font:600 11px "DM Mono",monospace;letter-spacing:.14em;color:var(--mut);opacity:calc(clamp(0,var(--lp)*5,1))}
 .so-techrow span:nth-child(3){color:var(--accent);letter-spacing:.3em}
-
-/* манифест */
-.so-scan-a{justify-items:start;align-content:center;padding:0 8vw;max-width:min(1100px,90vw);margin:0 auto}
-.so-scan-a .so-folio{display:block;margin-top:16px;font:600 12px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);
-  opacity:calc(clamp(0,(var(--lp) - .06)*5,1))}
-.so-scan-a h2{margin:12px 0 20px;font:400 clamp(40px,6.6vw,104px)/.98 "Playfair Display",serif;letter-spacing:-.01em;color:var(--cream);
+.so-scan-a .so-folio{margin-top:16px;opacity:calc(clamp(0,(var(--lp) - .06)*5,1))}
+.so-scan-a h2{margin:12px 0 20px;font:400 clamp(40px,6vw,98px)/.98 "Playfair Display",serif;letter-spacing:-.01em;color:var(--cream);
   opacity:calc(clamp(0,(var(--lp) - .12)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .12)*4,1))*22px))}
 .so-scan-a h2 em{font-style:italic;color:var(--accent)}
-.so-scan-a>p{margin:0;max-width:46ch;font:400 16px/1.7 "Manrope",sans-serif;color:#cec3b0;
-  opacity:calc(clamp(0,(var(--lp) - .22)*5,1))}
-.so-facts{list-style:none;display:flex;gap:44px;margin:32px 0 0;padding:0}
+.so-scan-a>p{margin:0;max-width:44ch;font:400 16px/1.7 "Manrope",sans-serif;color:#cec3b0;opacity:calc(clamp(0,(var(--lp) - .22)*5,1))}
+.so-facts{list-style:none;display:flex;gap:40px;margin:32px 0 0;padding:0}
 .so-facts li{opacity:calc(clamp(0,(var(--lp) - .3)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .3)*4,1))*14px))}
 .so-facts b{display:block;font:400 clamp(30px,4vw,58px)/1 "Playfair Display",serif;color:var(--accent)}
 .so-facts span{font:600 11px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
 
-/* ---------- финал ---------- */
-.so-final-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(100% 90% at 50% 30%,#251d13,#100d0a 72%)}
-.so-final-copy{justify-items:start;align-content:center;padding:0 0 0 6vw}
-.so-final-copy h2{margin:14px 0 16px;font:400 clamp(44px,7.2vw,112px)/.96 "Playfair Display",serif;letter-spacing:-.02em;color:var(--cream)}
-.so-final-copy h2 em{font-style:italic;color:var(--accent)}
-.so-final-copy p{margin:0;max-width:40ch;font:400 16px/1.7 "Manrope",sans-serif;color:#cec3b0}
-.so-final-cta{position:absolute;z-index:16;left:6vw;bottom:12vh}
-.so-btn{display:inline-flex;align-items:center;gap:12px;padding:16px 32px;border-radius:2px;background:var(--accent);color:#1a1408;
-  font:700 13px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
-.so-btn i{font-style:normal}
-.so-links{display:flex;gap:22px;margin-top:22px}
-.so-links a{font:600 12px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);text-decoration:none}
-.so-links a:hover{color:var(--cream)}
-
-
-@media(max-width:900px){
-  .so-nav a:not(.so-cta){display:none}
-  .so-cover-fig .ps-media{height:auto;width:118vw}
-  .so-cover-hi{padding:14vh 6vw 12vh;background:linear-gradient(0deg,#141210 8%,rgba(20,18,16,.74) 44%,transparent 68%)}
-  .so-badges{top:10vh;flex-wrap:wrap;max-width:70vw}
-  .so-scan-a{padding:0 6vw}
-  .so-facts{gap:24px;flex-wrap:wrap}
-}
-
-.so-sign{margin-top:26px;font:500 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-
-/* ===== АРХЕТИПЫ УНИКАЛЬНЫХ СТРАНИЦ (SOLITUDE) ===== */
+/* ---------- 3 · «Портрет» — музейная рама ---------- */
 .so-mono{background:#100d0b}
 .so-mono-fig{z-index:1}
-.so-mono-fig .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;object-position:55% 42%;filter:contrast(1.03)}
+.so-mono-fig .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 32%;filter:contrast(1.03)}
 .so-mono-frame{position:absolute;inset:3vh 3vw;z-index:4;pointer-events:none;border:1px solid rgba(200,162,74,.5);box-shadow:inset 0 0 0 6px rgba(20,18,16,.35)}
-.so-mono-veil{position:absolute;inset:0;z-index:3;background:
+.so-mono-veil{position:absolute;inset:0;z-index:3;pointer-events:none;background:
   linear-gradient(90deg,rgba(16,13,11,.88) 0,rgba(16,13,11,.42) 34%,transparent 58%),
   linear-gradient(0deg,rgba(16,13,11,.78),transparent 42%)}
 .so-mono-badge{position:absolute;z-index:5;left:5vw;top:11vh;font:600 12px "DM Mono",monospace;letter-spacing:.24em;color:var(--accent)}
-.so-mono-idx{position:absolute;z-index:5;right:5vw;top:10vh;transform:translateX(calc((1 - clamp(0,var(--lp)*3,1))*60px));opacity:calc(clamp(0,var(--lp)*3,1));font:400 clamp(80px,15vw,220px)/.8 "Playfair Display",serif;color:rgba(200,162,74,.22)}
-.so-mono-cap{justify-items:start;align-content:end;transform:translateX(calc((1 - clamp(0,var(--lp)*3,1))*-50px));padding:0 0 13vh 7vw;z-index:6;text-align:left}
-.so-mono-cap .so-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
-.so-mono-cap h3{margin:12px 0 14px;font:400 clamp(40px,6vw,90px)/.94 "Playfair Display",serif;color:var(--cream);letter-spacing:-.01em;
-  opacity:calc(clamp(0,(var(--lp) - .08)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .08)*4,1))*22px))}
+.so-mono-idx{position:absolute;z-index:5;right:5vw;top:10vh;pointer-events:none;font:400 clamp(80px,15vw,220px)/.8 "Playfair Display",serif;color:rgba(200,162,74,.22)}
+.so-mono-cap{justify-items:start;align-content:end;padding:0 0 13vh 7vw;z-index:6;text-align:left}
+.so-mono-cap h3{margin:12px 0 14px;font:400 clamp(40px,6vw,90px)/.94 "Playfair Display",serif;color:var(--cream);letter-spacing:-.01em}
 .so-mono-cap h3 em{font-style:italic;color:var(--accent);font-size:.5em;margin-left:10px}
-.so-mono-cap p{margin:0 0 12px;max-width:34ch;font:400 15px/1.66 "Manrope",sans-serif;color:#d9cdb6;
-  opacity:calc(clamp(0,(var(--lp) - .2)*5,1))}
-.so-mono-cap .so-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.so-mono-cap p{margin:0 0 12px;max-width:34ch;font:400 15px/1.66 "Manrope",sans-serif;color:#d9cdb6}
 
-.so-macro{background:#100d0b}
-.so-macro-fig{z-index:1}
-.so-macro-fig .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 44%;filter:contrast(1.03)}
-.so-macro-scan{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(16,13,11,.82),transparent 30%,transparent 72%,rgba(16,13,11,.5))}
-.so-macro-huge{position:absolute;z-index:4;left:3vw;bottom:12vh;transform:translateX(calc((1 - clamp(0,var(--lp)*2.6,1))*-70px));opacity:calc(clamp(0,var(--lp)*4,1));font:400 clamp(70px,16vw,230px)/.78 "Playfair Display",serif;
-  color:transparent;-webkit-text-stroke:1px rgba(200,162,74,.5);letter-spacing:.02em}
-.so-macro-cap{justify-items:end;align-content:end;text-align:right;padding:0 6vw 9vh 0;z-index:6}
-.so-macro-cap .so-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
-.so-macro-cap p{margin:10px 0 12px;max-width:30ch;font:400 15px/1.6 "Manrope",sans-serif;color:#e4d7bd;
-  opacity:calc(clamp(0,(var(--lp) - .12)*5,1));transform:translateY(calc((1 - clamp(0,(var(--lp) - .12)*4,1))*18px))}
-.so-macro-cap .so-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+/* ---------- 4 · «Роза» — высокая панель со свечой ---------- */
+.so-rose{background:#100d0b}
+.so-rose-bg{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(52% 70% at 64% 11%,rgba(255,186,104,.2),rgba(255,160,70,.06) 52%,transparent 74%),
+  radial-gradient(60% 80% at 76% 20%,#2c2216,#100d0b 72%)}
+.so-rose-fig{justify-items:end;align-items:center;z-index:2}
+.so-rose-box{position:relative;height:100vh;aspect-ratio:1536/2752}
+.so-rose-box .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;filter:contrast(1.03);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 3%),linear-gradient(transparent,#000 5%,#000 92%,transparent);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,#000 3%),linear-gradient(transparent,#000 5%,#000 92%,transparent);mask-composite:intersect}
+.so-rose .so-flame{opacity:clamp(0,calc((var(--sp,1) - .35)*2.2),1)}
+.so-rose-huge{position:absolute;z-index:4;left:4vw;top:11vh;pointer-events:none;--lp:var(--sp,1);
+  font:400 clamp(90px,19vw,300px)/.78 "Playfair Display",serif;color:transparent;-webkit-text-stroke:1px rgba(214,178,98,.62);letter-spacing:.02em;
+  transform:translateX(calc((1 - clamp(0,var(--lp)*2.6,1))*-70px));opacity:calc(clamp(0,(var(--lp) - .3)*4,1))}
+.so-rose-cap{justify-items:start;align-content:end;padding:0 0 11vh 6vw;z-index:6}
+.so-rose-cap p{margin:10px 0 12px;max-width:34ch;font:400 15px/1.6 "Manrope",sans-serif;color:#e4d7bd}
 
-.so-collage{background:radial-gradient(90% 80% at 50% 40%,#1c1712,#0f0c0a)}
-/* РАЗВОРОТ во всю ширину — кинематографичная landscape-полоса (формат-контраст к 9:16) */
-.so-pano{background:#100d0b}
-.so-pano-fig{z-index:1}
-.so-pano-fig .ps-media{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);width:100%;height:58vh;max-width:none;object-fit:cover;object-position:50% 42%;filter:contrast(1.03)}
-.so-pano-bars{position:absolute;left:0;right:0;top:50%;height:58vh;transform:translateY(-50%);z-index:3;pointer-events:none;
-  border-top:1px solid rgba(200,162,74,.5);border-bottom:1px solid rgba(200,162,74,.5);
-  box-shadow:inset 0 46px 60px -26px #100d0b,inset 0 -46px 60px -26px #100d0b}
-.so-pano-word{position:absolute;z-index:4;left:4vw;top:8vh;--lp:var(--sp,1);pointer-events:none;
-  transform:translateX(calc((1 - clamp(0,var(--lp)*2.6,1))*-84px));opacity:calc(clamp(0,var(--lp)*4,1));
-  font:400 clamp(48px,9vw,150px)/.82 "Playfair Display",serif;color:var(--cream);letter-spacing:-.01em}
-.so-pano-word em{font-style:italic;color:var(--accent);font-size:.3em;margin-left:.4em;letter-spacing:.04em}
-.so-pano-cap{justify-items:center;align-content:end;text-align:center;padding:0 6vw 8vh;z-index:6}
-.so-pano-cap .so-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
-.so-pano-cap p{margin:10px auto 12px;max-width:52ch;font:400 15px/1.66 "Manrope",sans-serif;color:#e4d7bd;transform:translateY(calc((1 - clamp(0,var(--lp)*3,1))*20px))}
-.so-pano-cap .so-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
-/* АРХИВ — бенто-стена работ (мозаика разнокалиберных кадров, каскадное проявление плиток) */
+/* ---------- 5 · «Фреска» — во весь кадр, вспышка канделябра ---------- */
+.so-fresco{background:#100d0b}
+.so-fresco-fig{z-index:1}
+.so-cbox{position:absolute;--ar:1.7917;--w:max(100vw,calc(100vh * var(--ar)));--h:max(100vh,calc(100vw / var(--ar)));
+  width:var(--w);height:var(--h);left:calc((100vw - var(--w)) * .5);top:calc((100vh - var(--h)) * .5)}
+.so-cbox .ps-media{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;filter:contrast(1.03)}
+.so-bloom{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;transform-origin:47% 14%;
+  opacity:clamp(0,calc((var(--sp,1) - .5)*2.5),1);
+  background:radial-gradient(34% 50% at 47% 14%,rgba(255,236,184,.95),rgba(255,196,110,.55) 36%,rgba(255,160,70,.2) 66%,transparent 88%),
+    radial-gradient(120% 110% at 47% 14%,rgba(255,196,120,.42),rgba(255,170,90,.16) 60%,rgba(255,160,80,.08) 100%)}
+.stage-scene.is-active .so-bloom{animation:so-breathe 5.5s ease-in-out infinite alternate}
+@keyframes so-breathe{from{scale:1}to{scale:1.07}}
+.so-fresco-veil{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(0deg,rgba(16,13,11,.86),transparent 36%)}
+.so-fresco-word{position:absolute;z-index:4;left:4vw;top:11vh;pointer-events:none;--lp:var(--sp,1);
+  font:400 clamp(48px,8.4vw,140px)/.82 "Playfair Display",serif;color:var(--cream);letter-spacing:-.01em;text-shadow:0 6px 30px rgba(0,0,0,.6);
+  opacity:calc(clamp(0,(var(--lp) - .3)*4,1))}
+.so-fresco-word em{display:block;font-style:italic;color:var(--accent);font-size:.3em;margin-top:10px;letter-spacing:.04em}
+.so-fresco-cap{justify-items:start;align-content:end;padding:0 0 7vh 6vw;z-index:6}
+.so-fresco-cap p{margin:10px 0 12px;max-width:46ch;font:400 15px/1.66 "Manrope",sans-serif;color:#e4d7bd}
+
+/* ---------- 6 · «Каталог» — развеска салона 6×4 ---------- */
 .so-wall{background:#100d0b}
-.so-wall-grid{position:absolute;inset:9vh 4vw 7vh;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(6,1fr);gap:9px}
-.so-tile{position:relative;overflow:hidden;border:1px solid rgba(200,162,74,.24);border-radius:2px;
+.so-wall-grid{position:absolute;inset:10vh 4vw 8vh;z-index:2;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr);gap:9px}
+.so-tile{position:relative;overflow:hidden;margin:0;border:1px solid rgba(200,162,74,.24);border-radius:2px;
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);
   transform:translateY(calc((1 - var(--r))*24px)) scale(calc(.94 + var(--r)*.06))}
 .so-tile img{width:100%;height:100%;max-width:none;object-fit:cover;display:block;filter:contrast(1.02)}
 .so-tile figcaption{position:absolute;left:0;right:0;bottom:0;padding:6px 8px;font:600 9px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#efe7d6;background:linear-gradient(0deg,rgba(16,13,11,.85),transparent);opacity:0;transition:opacity .3s}
 .so-tile:hover figcaption{opacity:1}
-.so-tile-a{grid-column:1/3;grid-row:1/4;--d:0}
-.so-tile-b{grid-column:3/5;grid-row:1/2;--d:.06}
-.so-tile-c{grid-column:3/4;grid-row:2/4;--d:.1}
-.so-tile-d{grid-column:4/5;grid-row:2/4;--d:.14}
-.so-tile-e{grid-column:1/2;grid-row:4/7;--d:.2}
-.so-tile-f{grid-column:2/4;grid-row:4/7;--d:.26}
-.so-tile-g{grid-column:4/5;grid-row:4/6;--d:.32}
-.so-tile-h{grid-column:4/5;grid-row:6/7;--d:.38}
-.so-wall-cap{position:absolute;left:4vw;bottom:2.4vh;z-index:4;--lp:var(--sp,1);opacity:calc(clamp(0,var(--lp)*4,1));
+.so-tile-a{grid-column:1/3;grid-row:1/5;--d:0}
+.so-tile-a img{object-position:50% 30%}
+.so-tile-b{grid-column:3/6;grid-row:1/3;--d:.06}
+.so-tile-c{grid-column:6/7;grid-row:1/3;--d:.1;container-type:size}
+.so-tile-c img{object-position:0% 50%}
+.so-tile-d{grid-column:3/4;grid-row:3/5;--d:.14}
+.so-tile-e{grid-column:4/5;grid-row:3/5;--d:.2}
+.so-tile-f{grid-column:5/6;grid-row:3/5;--d:.26}
+.so-tile-g{grid-column:6/7;grid-row:3/4;--d:.32}
+.so-tile-h{grid-column:6/7;grid-row:4/5;--d:.38}
+/* пламя на свече tile-1: кадр квадратный, cover + прижат влево → координаты свечи через cq-единицы ячейки */
+.so-flame-tile{left:calc(.03 * max(100cqw,100cqh));top:calc(.155 * max(100cqw,100cqh));width:calc(.34 * max(100cqw,100cqh))}
+.so-wall-cap{position:absolute;left:4vw;bottom:3vh;z-index:4;--lp:var(--sp,1);opacity:calc(clamp(0,var(--lp)*4,1));
   font:600 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .so-wall-cap b{color:var(--accent)}
-.so-col-grid{z-index:3}
-.so-col{position:absolute;overflow:hidden;margin:0;border:1px solid rgba(200,162,74,.34);box-shadow:0 28px 56px rgba(0,0,0,.6);
-  transform-origin:center;--p:clamp(0,(var(--lp,0) - var(--thr,0))*2.4,1);
-  opacity:calc(clamp(0,(var(--lp,0) - var(--thr,0))*4,1));
-  transform-origin:bottom center;
-  transform:translateX(calc((1 - var(--p))*var(--fly,0px))) translateY(calc((1 - var(--p))*var(--flyY,26px))) rotate(calc(var(--rot0,0deg) + (var(--rot,0deg) - var(--rot0,0deg))*var(--p))) scale(calc(.88 + var(--p)*.12))}
-.so-col .ps-media{width:100%;height:100%;max-width:none;object-fit:cover;display:block}
-.so-col figcaption{position:absolute;left:0;bottom:0;right:0;padding:8px 10px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);background:linear-gradient(0deg,rgba(16,13,11,.85),transparent)}
-.so-col-1{left:7vw;top:15vh;width:30vw;height:62vh;--rot:-3deg;--flyY:52px;z-index:5}
-.so-col-2{right:11vw;top:13vh;width:16vw;height:24vh;--rot:5deg;--flyY:-64px;z-index:4}
-.so-col-3{right:16vw;bottom:11vh;width:18vw;height:28vh;--rot:-4deg;--flyY:84px;z-index:3}
-.so-col-copy{justify-items:start;align-content:start;padding:13vh 0 0 7vw;z-index:6}
-.so-col-badges{display:flex;gap:12px;margin-bottom:14px}
-.so-col-badges span{padding:3px 9px;border:1px solid rgba(200,162,74,.5);border-radius:4px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;color:var(--accent)}
-.so-col-copy .so-folio{color:var(--accent);opacity:calc(clamp(0,var(--lp)*4,1))}
-.so-col-copy h3{margin:8px 0 12px;font:400 clamp(40px,6vw,90px)/.94 "Playfair Display",serif;color:var(--cream);
-  opacity:calc(clamp(0,(var(--lp) - .1)*5,1))}
-.so-col-copy h3 em{font-style:italic;color:var(--accent);font-size:.5em;margin-left:10px}
-.so-col-copy .so-meta{font:600 11px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
-.so-col-code{margin-top:18px;font:600 11px "DM Mono",monospace;letter-spacing:.1em;color:var(--mut)}
+
+/* ---------- 7 · финал — рассвет ---------- */
+.so-final{background:#e9cf94;color:#1d1408}
+.so-final-bg{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(46% 62% at 80% 20%,#fff6dc 0%,#f6e2b0 26%,rgba(236,204,140,0) 64%),
+  linear-gradient(180deg,#f1dcaa 0%,#e2c17f 48%,#c9a05a 82%,#8a6230 100%)}
+.so-final-hero{z-index:2}
+.so-final-frame{position:absolute;left:8vw;top:11vh;width:28vw;height:78vh;margin:0;overflow:hidden;
+  border:1px solid rgba(90,60,20,.55);box-shadow:0 0 0 8px rgba(255,246,222,.6),0 0 0 9px rgba(120,84,30,.45),0 40px 90px rgba(60,36,10,.4)}
+.so-final-frame img{width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 26%;display:block}
+.so-flame-dawn{left:80%;top:20%;width:46vh;z-index:1}
+.so-final-copy{justify-items:start;align-content:center;padding:0 6vw 0 45vw;z-index:6}
+.so-final-copy .so-eyebrow{color:#7a5410}
+.so-final-copy h2{margin:14px 0 16px;font:400 clamp(44px,6.4vw,104px)/.96 "Playfair Display",serif;letter-spacing:-.02em;color:#1d1408}
+.so-final-copy h2 em{font-style:italic;color:#8a5a14}
+.so-final-copy p{margin:0;max-width:40ch;font:500 16px/1.7 "Manrope",sans-serif;color:#3a2a14}
+.so-final-cta-in{margin-top:34px;pointer-events:auto}
+.so-btn{display:inline-flex;align-items:center;gap:12px;padding:16px 32px;border-radius:2px;background:#1d1408;color:#f1dcaa;
+  font:700 13px "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 12px 30px rgba(60,36,10,.3)}
+.so-btn i{font-style:normal}
+.so-links{display:flex;gap:22px;margin-top:22px}
+.so-links a{font:600 12px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#4a3418;text-decoration:none}
+.so-links a:hover{color:#1d1408}
+.so-sign{margin-top:24px;font:500 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#5e4520}
 
 @media(max-width:900px){
+  .so-site{--pearl-x:calc(50vw + 2.6vh);--pearl-y:66.2vh}
+  .so-nav a:not(.so-cta){display:none}
+  .so-wordmark span{font-size:clamp(64px,19vw,130px)}
+  .so-wordmark{padding-top:10vh}
+  .so-cover-fig{justify-items:center;padding-right:0}
+  .so-fig-box{height:78vh}
+  .so-cover-frame,.so-orn-tr,.so-orn-lm,.so-orn-rm,.so-orn-bar,.so-orn-no{display:none}
+  .so-cover-hi{padding:14vh 6vw 10vh;background:linear-gradient(0deg,#141210 8%,rgba(20,18,16,.74) 44%,transparent 68%)}
+  .so-pearl-copy{align-content:start;padding:12vh 6vw 0}
+  .so-pearl-macro{width:40vh}
+  .so-macro-ring{width:46vh}
+  .so-scan-a{padding:0 6vw}
+  .so-method-404{font-size:48vw}
+  .so-facts{gap:24px;flex-wrap:wrap}
   .so-mono-veil{background:linear-gradient(0deg,rgba(16,13,11,.93),rgba(16,13,11,.42) 46%,transparent 70%)}
   .so-mono-cap{padding:0 7vw 13vh}
   .so-mono-frame{inset:2vh 4vw}
-  .so-macro-cap{justify-items:start;text-align:left;padding:0 6vw 9vh}
-  .so-col-1{left:4vw;right:auto;top:12vh;width:62vw;height:46vh;--rot:-2deg}
-  .so-col-2{right:4vw;top:9vh;width:34vw;height:24vh;--rot:5deg}
-  .so-col-3{right:7vw;top:39vh;width:30vw;height:20vh;--rot:-4deg}
-  .so-pano-fig .ps-media,.so-pano-bars{height:44vh}
-  .so-pano-word{font-size:clamp(40px,13vw,74px);top:13vh}
-  .so-pano-cap{padding-bottom:11vh}
+  .so-rose-fig{justify-items:center}
+  .so-rose-cap{padding:0 6vw 9vh;background:linear-gradient(0deg,rgba(16,13,11,.9),transparent 40%)}
+  .so-fresco-word{font-size:clamp(40px,13vw,74px)}
   .so-wall-grid{inset:8vh 4vw 5vh;grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:19vh;grid-auto-flow:row dense;gap:7px}
   .so-tile{grid-column:auto;grid-row:auto}
-  .so-tile-a,.so-tile-e,.so-tile-f{grid-row:span 2}
+  .so-tile-a,.so-tile-c,.so-tile-e{grid-row:span 2}
   .so-tile-b{grid-column:span 2}
-  .so-col-copy{padding-top:62vh}
+  .so-final-frame{left:6vw;top:10vh;width:50vw;height:42vh}
+  .so-final-copy{align-content:end;padding:0 6vw 7vh}
+  .so-flame-dawn{left:78%;top:18%;width:34vh}
 }
-
-/* ===== ОБЛОЖКА-ПОСТЕР v2 (SOLITUDE) ===== */
-.so-wordmark{place-items:center;align-content:center;z-index:1;pointer-events:none}
-.so-wordmark span{font:400 clamp(110px,20vw,360px)/.82 "Playfair Display",serif;letter-spacing:.02em;text-transform:uppercase;
-  color:transparent;background:linear-gradient(180deg,#e8cf94,#c8a24a 55%,#8a6f2f);-webkit-background-clip:text;background-clip:text;
-  filter:drop-shadow(0 10px 46px rgba(200,162,74,.25));transform:translateY(-3vh)}
-.so-cover-fig{z-index:3}
-.so-cover-fig .ps-media{width:auto;height:100vh;max-width:none;object-fit:contain;object-position:bottom;filter:contrast(1.03) drop-shadow(0 30px 60px rgba(0,0,0,.7))}
-.so-orn{position:absolute;inset:0;z-index:4;pointer-events:none;--lp:var(--sp,1);color:var(--mut);
-  font:600 11px/1.5 "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase}
-.so-orn span{position:absolute;opacity:calc(clamp(0,(var(--lp,0) - .1)*5,1))}
-.so-orn-tl{left:4vw;top:12vh;transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .1)*5,1))*-30px))}
-.so-orn-tl b{color:var(--accent)}
-.so-orn-tr{right:4vw;top:12vh;text-align:right;color:var(--accent);transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .1)*5,1))*30px))}
-.so-orn-lm{left:4vw;top:46vh;color:var(--accent);transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .2)*5,1))*-30px))}
-.so-orn-rm{right:4vw;top:44vh;text-align:right;transform:translateX(calc((1 - clamp(0,(var(--lp,0) - .2)*5,1))*30px))}
-.so-orn-bar{left:50%;bottom:3vh;transform:translateX(-50%);letter-spacing:.2em;opacity:.75!important}
-.so-orn-star{left:6vw;bottom:8vh;color:var(--accent);letter-spacing:.3em}
-.so-orn-no{right:4vw;bottom:12vh;font:400 38px "Playfair Display",serif;color:var(--accent)}
-.so-grain{position:absolute;inset:0;z-index:8;pointer-events:none;opacity:.45;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
-
-/* глобальное плёночное зерно на всех сценах */
-.so-site::after{content:"";position:fixed;inset:0;z-index:9;pointer-events:none;opacity:.4;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
-.so-collage::before{content:"[ + ]   ✦   exp.404";position:absolute;left:7vw;bottom:8vh;z-index:5;font:600 12px "DM Mono",monospace;letter-spacing:.28em;color:var(--accent);opacity:calc(clamp(0,(var(--sp,1) - .3)*4,1)*.55);pointer-events:none}
-.so-collage::after{content:"P4a* (0.5%) 00.504.55";position:absolute;right:7vw;top:14vh;z-index:5;font:600 10px "DM Mono",monospace;letter-spacing:.2em;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1) - .3)*4,1)*.5);pointer-events:none}

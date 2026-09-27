@@ -19,91 +19,129 @@
 .ae-eyebrow{font:600 11px "Manrope",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--red-hi)}
 .ae-folio{font:600 11px "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
 
-/* 0 · OCCLUDED IDOL */
+/* финал на костяной бумаге → чернильный хедер */
+.ae-brand,.ae-nav a{transition:color .45s,border-color .45s}
+.ae-site:has(.stage-scene[data-i="5"]:is(.is-active,.is-entering)) :is(.ae-brand,.ae-nav a){color:var(--ink)}
+.ae-site:has(.stage-scene[data-i="5"].is-active) .stage-dots span{background:rgba(23,17,17,.25)}
+.ae-site:has(.stage-scene[data-i="5"].is-active) .stage-dots span.on{background:var(--blood)}
+
+/* передача текста: уходящий гаснет к f≈.4 — два заголовка сцен не стоят в кадре вместе */
+.ae-site .stage-scene.is-leaving .ae-tx{opacity:clamp(0,calc(1 - var(--ep,0)*2.5),1)}
+
+/* КРОВЬ РАСТЕКАЕТСЯ (ae-bleed): новая сцена проступает тремя кляксами разной скорости, у главной — алая кромка.
+   Маска на входящей (она выше по z); уходящая видна под ней целиком. */
+.ae-site .stage[data-trans="ae-bleed"] .is-entering{--bl:calc(var(--sp)*112vmax);
+  -webkit-mask-image:radial-gradient(circle at 30% 40%,#000 calc(var(--bl) - 7vmax),transparent var(--bl)),radial-gradient(circle at 74% 70%,#000 calc(var(--bl)*.78 - 6vmax),transparent calc(var(--bl)*.78)),radial-gradient(circle at 84% 16%,#000 calc(var(--bl)*.6 - 5vmax),transparent calc(var(--bl)*.6));
+  -webkit-mask-composite:source-over;
+  mask-image:radial-gradient(circle at 30% 40%,#000 calc(var(--bl) - 7vmax),transparent var(--bl)),radial-gradient(circle at 74% 70%,#000 calc(var(--bl)*.78 - 6vmax),transparent calc(var(--bl)*.78)),radial-gradient(circle at 84% 16%,#000 calc(var(--bl)*.6 - 5vmax),transparent calc(var(--bl)*.6));
+  mask-composite:add}
+.ae-site .stage[data-trans="ae-bleed"] .is-leaving{opacity:1}
+.ae-bleed-rim{position:absolute;inset:0;z-index:8;pointer-events:none;display:none;
+  background:radial-gradient(circle at 30% 40%,transparent calc(var(--sp)*112vmax - 10vmax),rgba(160,24,34,.9) calc(var(--sp)*112vmax - 3vmax),rgba(110,10,18,0) calc(var(--sp)*112vmax));opacity:calc(1 - var(--sp))}
+.ae-site .stage[data-trans="ae-bleed"] .is-entering .ae-bleed-rim{display:block}
+@media(prefers-reduced-motion:reduce){.ae-site .stage .stage-scene{-webkit-mask-image:none!important;mask-image:none!important}.ae-bleed-rim{display:none!important}}
+
+/* 0 · OCCLUDED IDOL — вордмарк строчными над головой: верх вуали (21% вырезки) лишь касается букв */
+.ae-cover{--fh:94vh}
 .ae-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(78% 78% at 50% 34%,#24100f,#0a0808 78%)}
-.ae-wordmark{display:grid;place-items:center;pointer-events:none}
-.ae-wordmark span{font:400 clamp(60px,16vw,260px)/.86 "Pirata One",cursive;letter-spacing:.01em;color:#cfc4b8;text-transform:uppercase;opacity:.82}
+.ae-wordmark{display:block;pointer-events:none}
+.ae-wordmark span{position:absolute;left:0;right:0;top:calc(100vh - var(--fh) + var(--fh)*.21 - .8em);text-align:center;
+  font:400 clamp(64px,13vw,240px)/1 "Pirata One",cursive;letter-spacing:.01em;color:#dcd2c6}
 .ae-cover-fig{display:grid;place-items:end center;pointer-events:none}
-.ae-cover-fig .ps-media{width:auto;height:98vh;max-width:none;object-fit:contain;object-position:bottom}
+.ae-cover-fig .ps-media{width:auto;height:var(--fh);max-width:none;object-fit:contain}
 .ae-orn{position:absolute;inset:0;z-index:8;pointer-events:none;--lp:var(--sp,1)}
 .ae-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.85);font:600 11px/1.5 "Manrope",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
-.ae-orn-l{top:24vh;left:4vw;max-width:14vw}.ae-orn-r{top:16vh;right:4vw;text-align:right;color:var(--red-hi)!important}
-.ae-orn-eye{top:11vh;right:14vw;font-size:20px!important;color:var(--red-hi)!important}
+.ae-orn-l{top:40vh;left:4vw;max-width:14vw}.ae-orn-r{top:40vh;right:4vw;text-align:right;color:var(--red-hi)!important}
+.ae-orn-eye{top:33vh;right:14vw;font-size:20px!important;color:var(--red-hi)!important}
 .ae-orn-drip{bottom:9vh;right:5vw;font-size:16px!important;color:var(--blood)!important;letter-spacing:.4em}
-.ae-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 12vh 4vw}
-.ae-cover-hi h1{margin:8px 0 12px;font:400 clamp(44px,7vw,116px)/.85 "Pirata One",cursive;color:var(--bone)}
+.ae-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 11vh 4vw}
+.ae-cover-hi h1{margin:8px 0 12px;font:400 clamp(44px,6.4vw,110px)/.85 "Pirata One",cursive;color:var(--bone)}
 .ae-cover-hi h1 em{font-style:normal;color:var(--red-hi)}
-.ae-cover-hi p{margin:0;max-width:36ch;font:400 15px/1.6 "Manrope",sans-serif;color:#c2b4ae}
+.ae-cover-hi p{margin:0;max-width:30ch;font:400 15px/1.6 "Manrope",sans-serif;color:#cbbdb7}
 
-/* 1 · TYPE GUILLOTINE */
-.ae-guillo-fig{z-index:1}
-.ae-guillo-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 22%;filter:brightness(.62) contrast(1.08)}
-.ae-guillo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(10,8,8,.55),rgba(10,8,8,.15) 40%,rgba(10,8,8,.88))}
-.ae-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;font:400 clamp(60px,17vw,300px)/.82 "Pirata One",cursive;text-transform:uppercase;color:var(--bone);pointer-events:none}
-.ae-guillo-out{color:transparent;-webkit-text-stroke:2px var(--blood)}
-.ae-guillo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 10vh 4vw}
-.ae-guillo-cap p{margin:0;max-width:40ch;font:400 15px/1.6 "Manrope",sans-serif;color:#c2b4ae}
+/* 1 · DEVOTION — та же вырезка крупно: лицо (55%,47%) в центре, руки по краям; DEVO · TION по сторонам головы */
+.ae-guillo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 62% at 50% 40%,#3a1515,#0d0909 80%)}
+.ae-guillo-type{position:absolute;inset:0;z-index:2;pointer-events:none;font:400 clamp(70px,21vh,230px)/1 "Pirata One",cursive;color:var(--bone);
+  opacity:clamp(0,calc(var(--sp,1)*2.2 - 1),1)}
+.ae-g-l{position:absolute;left:3vw;top:12vh}
+.ae-g-r{position:absolute;right:3vw;top:12vh;color:transparent;-webkit-text-stroke:2px var(--red-hi)}
+.ae-close{--W:max(100vw,160vh);display:block}
+.ae-close .ps-media{position:absolute;width:var(--W);height:calc(var(--W)*1.2414);max-width:none;left:calc(50% - var(--W)*.55);top:calc(54% - var(--W)*1.2414*.47);object-fit:contain}
+.ae-guillo-scrim{display:none}
+.ae-guillo-cap{display:block}
+.ae-guillo-cap>*{position:relative}
+.ae-guillo-cap{padding:37vh 0 0 3vw}
+.ae-guillo-cap p{margin:6px 0 0;max-width:min(26ch,22vw);font:400 15px/1.6 "Manrope",sans-serif;color:#d2c4be}
 
 /* 2 · SPLIT PERSONA */
-.ae-split{background:var(--bg)}
+.ae-split{background:#120b0b}
 .ae-split-a,.ae-split-b{width:50%;height:100%}
-.ae-split-a{left:0}.ae-split-a .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 22%;clip-path:polygon(0 0,100% 0,90% 100%,0 100%);filter:grayscale(1) contrast(1.1)}
-.ae-split-b{left:50%}.ae-split-b .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 22%;clip-path:polygon(10% 0,100% 0,100% 100%,0 100%)}
+.ae-split-a{left:0}.ae-split-a .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 22%;clip-path:polygon(0 0,100% 0,90% 100%,0 100%);filter:grayscale(1) contrast(1.1) brightness(1.08)}
+.ae-split-b{left:50%}.ae-split-b .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 22%;clip-path:polygon(10% 0,100% 0,100% 100%,0 100%);filter:brightness(1.1)}
 .ae-split-type{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;pointer-events:none}
 .ae-split-type span{font:600 13px "Manrope",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:rgba(10,8,8,.75);padding:6px 14px}
 .ae-split-type b{margin-top:.2em;font:400 clamp(44px,11vw,190px)/.9 "Pirata One",cursive;text-transform:uppercase;color:var(--bone);text-shadow:0 2px 30px rgba(0,0,0,.7)}
 .ae-split-type em{font-style:normal;color:var(--red-hi)}
 
-/* 3 · FLASH — тату-флеш-карта по центру, пунктир-рамка + бирка (ось иная) */
-.ae-flash-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 70% at 50% 44%,#20100f,#0a0707 82%)}
-.ae-flash-huge{position:absolute;inset:0;z-index:1;display:grid;place-items:center;font:400 62vh "Pirata One",cursive;color:rgba(160,24,34,.09);pointer-events:none}
-.ae-flash-card{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;width:min(40vh,46vw);height:min(52vh,60vw);padding:14px;background:#120c0c;border:2px dashed rgba(160,24,34,.6);box-shadow:0 30px 70px rgba(0,0,0,.7)}
-.ae-flash-card .ps-media{width:100%;height:100%;object-fit:cover}
-.ae-flash-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blood);color:var(--bone);font:800 11px "Manrope",sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px}
-.ae-flash-cap{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:26vw}
+/* 3 · FLASH — крупная флеш-рамка (руки с чётками), свет сверху: сцена светлее предыдущих */
+.ae-flash-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(46% 70% at 62% 0%,rgba(204,47,58,.28),transparent 70%),radial-gradient(80% 80% at 58% 44%,#3a1717,#140c0c 82%)}
+.ae-flash-huge{position:absolute;inset:0;z-index:1;display:grid;place-items:center;font:400 62vh "Pirata One",cursive;color:rgba(204,47,58,.1);pointer-events:none}
+.ae-flash{--fc:min(58vh,44vw)}
+.ae-flash-card{position:absolute;z-index:2;left:calc(63% - var(--fc)/2);top:14vh;width:var(--fc);height:72vh;padding:14px;background:#160e0e;border:2px dashed rgba(204,47,58,.7);box-shadow:0 30px 70px rgba(0,0,0,.6)}
+.ae-flash-card img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05)}
+.ae-flash-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blood);color:var(--bone);font:800 11px "Manrope",sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:5px 14px;white-space:nowrap}
+.ae-flash-cap{position:absolute;left:6vw;top:0;bottom:0;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;width:min(30vw,420px)}
 .ae-flash-cap h3{margin:6px 0 12px;font:400 clamp(36px,5vw,80px)/.9 "Pirata One",cursive;color:var(--bone)}
-.ae-flash-cap p{margin:0;font:400 15px/1.6 "Manrope",sans-serif;color:#c2b4ae}
+.ae-flash-cap p{margin:0;font:400 15px/1.6 "Manrope",sans-serif;color:#d2c4be}
 
-/* 4 · BOOK — портфолио-разворот с корешком (не сетка) */
-.ae-book-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 80% at 50% 42%,#1a0d0d,#070505 82%)}
-.ae-book-head{position:absolute;top:7vh;left:6vw;z-index:6}
+/* 4 · BOOK — разворот (ещё светлее), главная плата — чётки, в стопке ждёт кадр обложки */
+.ae-book-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 80% at 50% 40%,#4a1d1d,#170d0d 82%)}
+.ae-book-head{position:absolute;top:7vh;left:6vw;z-index:6;opacity:clamp(0,calc(var(--sp,1)*2.2 - 1.1),1)}
 .ae-book-head b{display:block;font:400 clamp(30px,5vw,72px)/.85 "Pirata One",cursive;color:var(--bone)}
-.ae-book-head span{font:600 11px "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--red-hi)}
-.ae-book-spread{position:absolute;inset:22vh 6vw 8vh;z-index:2;display:flex;gap:0;background:#0f0a0a;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.ae-book-head span{font:600 11px "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#e0515a}
+.ae-book-spread{position:absolute;inset:22vh 6vw 8vh;z-index:2;display:flex;gap:0;background:#1a1010;box-shadow:0 30px 80px rgba(0,0,0,.55)}
 .ae-plate{position:relative;margin:0;overflow:hidden;
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-20px))}
 .ae-plate img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05)}
 .ae-plate figcaption{position:absolute;left:0;bottom:0;padding:7px 10px;font:600 10px "Manrope",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(8,6,6,.92),transparent)}
-.ae-plate-main{--d:0;flex:0 0 56%}
+.ae-plate-main{--d:0;flex:0 0 56%;opacity:1;transform:none}
 .ae-book-spine{width:2px;background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(160,24,34,.5),rgba(0,0,0,.6));box-shadow:0 0 24px rgba(0,0,0,.8)}
 .ae-book-right{flex:1;display:flex;flex-direction:column;gap:8px;padding:8px}
-.ae-plate-s1{--d:.1;flex:1}.ae-plate-s2{--d:.2;flex:1}.ae-plate-s3{--d:.3;flex:1}
-.ae-book-code{position:absolute;left:6vw;bottom:3vh;z-index:6;font:600 11px "Manrope",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.ae-plate-s1{--d:.3;flex:1}.ae-plate-s2{--d:.4;flex:1}.ae-plate-s3{--d:.5;flex:1}
+.ae-book-code{position:absolute;left:6vw;bottom:3vh;z-index:6;font:600 11px "Manrope",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#9a8580}
 
-/* 5 · STAMP — красный оттиск-печать (не центр-слоган) */
-.ae-stamp-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 40%,#2a0e0e,#070505 74%)}
-.ae-stamp-seal{position:absolute;top:50%;left:26vw;transform:translate(-50%,-50%) rotate(-11deg);z-index:2;width:clamp(200px,30vh,320px);height:clamp(200px,30vh,320px);border-radius:50%;border:4px double var(--red-hi);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;color:var(--red-hi);opacity:.9;box-shadow:inset 0 0 0 2px rgba(160,24,34,.3)}
-.ae-stamp-seal span{font:800 12px "Manrope",sans-serif;letter-spacing:.2em;text-transform:uppercase}
-.ae-stamp-seal b{font:400 clamp(34px,5vw,62px) "Pirata One",cursive;letter-spacing:.02em}
-.ae-stamp-block{position:absolute;right:8vw;top:50%;transform:translateY(-50%);z-index:6;width:min(44ch,50vw)}
-.ae-stamp-small{font:400 12px "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
-.ae-stamp-block h4{margin:8px 0 20px;font:400 clamp(40px,6vw,96px)/.9 "Pirata One",cursive;color:var(--bone)}
-.ae-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--blood);color:var(--bone);font:800 13px "Manrope",sans-serif;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
+/* 5 · STAMP — рассвет дуги: костяная бумага, оттиск героини, красная печать поверх угла (multiply как тушь) */
+.ae-stamp-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 90% at 36% 42%,#f1e9df,#d8cfc4 68%,#c2b6a8)}
+.ae-print{position:absolute;z-index:2;left:9vw;top:13vh;height:74vh;aspect-ratio:1856/2304;margin:0;padding:12px;background:#f7f2eb;box-shadow:0 30px 70px rgba(60,30,30,.32),0 2px 6px rgba(60,30,30,.18)}
+.ae-print img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05)}
+.ae-stamp-seal{position:absolute;z-index:3;top:70vh;left:calc(9vw + 74vh*.8056 + 5vh);transform:translate(-50%,-50%) rotate(-11deg);width:clamp(170px,26vh,280px);height:clamp(170px,26vh,280px);border-radius:50%;border:4px double var(--blood);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;color:var(--blood);mix-blend-mode:multiply;
+  opacity:calc(clamp(0,(var(--sp,1) - .55)*3,1)*.92)}
+.ae-stamp-seal span{font:800 11px "Manrope",sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.ae-stamp-seal b{font:400 clamp(30px,4.4vw,56px) "Pirata One",cursive;letter-spacing:.02em}
+.ae-stamp-block{position:absolute;right:8vw;top:50%;transform:translateY(-50%);z-index:6;width:min(40ch,38vw);opacity:clamp(0,calc(var(--sp,1)*2.2 - 1.1),1)}
+.ae-stamp-small{font:600 12px "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6a5550}
+.ae-stamp-block h4{margin:8px 0 20px;font:400 clamp(40px,6vw,96px)/.9 "Pirata One",cursive;color:var(--ink)}
+.ae-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--blood);color:#f6efe6;font:800 13px "Manrope",sans-serif;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
 .ae-btn:hover{background:var(--red-hi);transform:translateY(-2px)}
 .ae-links{display:flex;gap:22px;margin-top:16px;font:600 12px "Manrope",sans-serif;letter-spacing:.08em;text-transform:uppercase}
-.ae-links a{color:var(--mut);text-decoration:none}.ae-links a:hover{color:var(--red-hi)}
+.ae-links a{color:#4e3d39;text-decoration:none}.ae-links a:hover{color:var(--blood)}
 
 /* мобилка */
 @media(max-width:900px){
-  .ae-cover-fig .ps-media,.ae-guillo-fig .ps-media{height:80vh}
-  .ae-wordmark span{font-size:24vw}
-  .ae-orn-l,.ae-orn-r{max-width:40vw;font-size:10px}
-  .ae-flash-card{width:70vw;height:44vh;top:38vh}
-  .ae-flash-cap{max-width:none;left:5vw;right:5vw;top:auto;bottom:6vh;transform:none}
+  .ae-cover{--fh:76vh}
+  .ae-wordmark span{font-size:22vw}
+  .ae-orn-l,.ae-orn-r{max-width:40vw;font-size:10px;top:30vh}
+  .ae-g-l,.ae-g-r{top:9vh;font-size:13vh}
+  .ae-guillo-cap{padding:auto;display:flex;flex-direction:column;justify-content:flex-end;padding:0 5vw 6vh}
+  .ae-guillo-cap p{max-width:none;text-shadow:0 1px 12px rgba(0,0,0,.9)}
+  .ae-flash{--fc:70vw}
+  .ae-flash-card{left:15vw;top:12vh;height:44vh}
+  .ae-flash-cap{width:auto;left:5vw;right:5vw;top:auto;bottom:6vh;justify-content:flex-end}
   .ae-book-spread{flex-direction:column;inset:20vh 5vw 8vh}
   .ae-plate-main{flex:0 0 46%}.ae-book-spine{height:2px;width:auto}.ae-book-right{flex-direction:row}
-  .ae-stamp-seal{left:50%;top:26vh;width:180px;height:180px}
-  .ae-stamp-block{right:5vw;left:5vw;top:52vh;width:auto;transform:none}
+  .ae-print{left:50%;transform:translateX(-50%);top:10vh;height:42vh}
+  .ae-stamp-seal{left:70vw;top:46vh;width:140px;height:140px}
+  .ae-stamp-block{right:5vw;left:5vw;top:auto;bottom:6vh;width:auto;transform:none}
   .ae-split-a,.ae-split-b{width:100%;height:50%}.ae-split-a{top:0}.ae-split-b{top:50%;left:0}
   .ae-split-a .ps-media{clip-path:polygon(0 0,100% 0,100% 90%,0 100%)}.ae-split-b .ps-media{clip-path:polygon(0 10%,100% 0,100% 100%,0 100%)}
 }

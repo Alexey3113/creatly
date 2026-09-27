@@ -7,7 +7,7 @@
 
 .rs-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .rs-head a{pointer-events:auto}
-.rs-brand{font:400 30px/1 "Pinyon Script",cursive;color:var(--pink);text-decoration:none}
+.rs-brand{font:400 30px/1 "Pinyon Script",cursive;color:var(--pink);text-decoration:none;transition:color .5s}
 .rs-nav{display:flex;gap:22px;align-items:center;font:600 12px "Mulish",sans-serif;letter-spacing:.14em;text-transform:uppercase}
 .rs-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.rs-nav a:hover{color:var(--pink)}
 .rs-nav .rs-cta{padding:8px 16px;border:1px solid var(--rose);color:var(--paper)}
@@ -24,7 +24,7 @@
 /* 0 · OCCLUDED IDOL — скрапбук */
 .rs-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 80% at 50% 34%,#3a2626,#1c1414 76%)}
 .rs-wordmark{display:grid;place-items:center;pointer-events:none}
-.rs-wordmark span{font:700 clamp(52px,13vw,220px)/.9 "Playfair Display",serif;letter-spacing:.02em;color:#e9d7cd;text-transform:uppercase;opacity:.9}
+.rs-wordmark span{font:700 clamp(46px,11.4vw,196px)/.9 "Playfair Display",serif;letter-spacing:.26em;margin-right:-.26em;color:#e9d7cd;text-transform:uppercase;opacity:.92}
 .rs-cover-fig{display:grid;place-items:end center;pointer-events:none}
 .rs-cover-fig .ps-media{width:auto;height:98vh;max-width:none;object-fit:contain;object-position:bottom}
 .rs-notes{position:absolute;inset:0;z-index:8;pointer-events:none;--lp:var(--sp,1)}
@@ -33,7 +33,7 @@
 .rs-note-r{top:15vh;right:4vw;text-align:right;font:400 20px/1.5 "Pinyon Script",cursive;color:var(--pink)}
 .rs-note-tag{bottom:9vh;right:5vw;text-align:right;font:600 11px/1.5 "Mulish",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--rose)}
 .rs-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 12vh 4vw}
-.rs-cover-hi h1{margin:8px 0 12px;font:500 clamp(34px,5vw,78px)/.98 "Playfair Display",serif;color:var(--paper)}
+.rs-cover-hi h1{margin:8px 0 12px;font:500 clamp(32px,4.4vw,70px)/.98 "Playfair Display",serif;color:var(--paper);text-shadow:0 2px 20px rgba(28,20,20,.85)}
 .rs-cover-hi h1 em{font-style:italic;color:var(--pink)}
 .rs-cover-hi p{margin:0;max-width:36ch;font:400 15px/1.7 "Mulish",sans-serif;color:#d8c4bc}
 
@@ -49,9 +49,10 @@
 .rs-list li::before{content:"✿ ";color:var(--rose)}
 
 /* 2 · SIDECAR */
-.rs-side-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(110deg,#1c1414 42%,#2f202000)}
-.rs-side-fig{z-index:2;display:grid;place-items:center}
-.rs-side-fig .ps-media{width:44vw;height:64vh;object-fit:cover;border:6px solid #f0e4da;box-shadow:0 30px 60px rgba(0,0,0,.5);transform:translateX(24vw) rotate(2deg)}
+.rs-side-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 80% at 30% 50%,#3a2626,#211616 80%)}
+.rs-side-fig{z-index:2;display:block}
+.rs-side-fig .ps-media{position:absolute;right:0;top:0;width:62vw;height:100%;object-fit:cover;object-position:50% 50%;filter:sepia(.1) saturate(.95);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 36%);mask-image:linear-gradient(90deg,transparent 0,#000 36%)}
 .rs-side-cap{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 0 0 6vw;max-width:42vw}
 .rs-side-cap h2{margin:6px 0 12px;font:500 clamp(40px,6vw,96px)/.94 "Playfair Display",serif;color:var(--paper)}
 .rs-side-cap h2 em{font-style:italic;color:var(--pink)}
@@ -59,40 +60,47 @@
 .rs-side-orn{position:absolute;left:6vw;bottom:8vh;z-index:6;font:600 11px "Mulish",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);opacity:calc(clamp(0,(var(--sp,1)-.4)*3,1))}
 
 /* 3 · KEEPSAKE — приклеенное фото + подпись от руки (ось иная) */
-.rs-keep-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 70% at 60% 46%,#2f2020,#1a1212 84%)}
-.rs-keep-huge{position:absolute;z-index:1;left:3vw;bottom:8vh;font:italic 500 clamp(60px,14vw,220px) "Playfair Display",serif;color:rgba(233,215,205,.1);pointer-events:none}
-.rs-keep-photo{position:absolute;top:50%;left:64%;transform:translate(-50%,-50%);z-index:2;width:min(34vh,42vw);height:min(46vh,58vw);padding:12px 12px 44px;background:#f0e4da;box-shadow:0 30px 60px rgba(0,0,0,.55)}
-.rs-keep-photo .ps-media{width:100%;height:100%;object-fit:cover;filter:sepia(.18)}
+.rs-keep-tex{position:absolute;inset:0;z-index:0;overflow:hidden}
+.rs-keep-tex img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.42) saturate(.85) sepia(.25) blur(1.5px);transform:scale(1.04)}
+.rs-keep-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(64% 70% at 64% 46%,rgba(58,38,38,.2),rgba(26,18,18,.88) 86%)}
+.rs-keep-huge{position:absolute;z-index:2;left:4vw;bottom:6vh;font:400 clamp(80px,15vw,250px)/1 "Pinyon Script",cursive;color:rgba(230,181,186,.42);pointer-events:none}
+.rs-keep-photo{position:absolute;top:50%;left:64%;transform:translate(-50%,-50%);z-index:3;width:min(42vh,44vw);height:min(58vh,60vw);padding:12px 12px 46px;background:#f3e6dc;box-shadow:0 30px 60px rgba(0,0,0,.55)}
+.rs-keep-photo .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 50%;filter:sepia(.16)}
 .rs-keep-photo::before,.rs-keep-photo::after{content:"";position:absolute;width:70px;height:24px;background:rgba(230,181,186,.4);border:1px solid rgba(230,181,186,.3)}
 .rs-keep-photo::before{top:-10px;left:24px;transform:rotate(-6deg)}
 .rs-keep-photo::after{top:-8px;right:24px;transform:rotate(5deg)}
-.rs-keep-label{position:absolute;top:calc(50% + 20vh);left:64%;transform:translateX(-50%);z-index:3;font:400 clamp(20px,2.4vw,32px) "Pinyon Script",cursive;color:var(--pink)}
+.rs-keep-label{position:absolute;top:calc(50% + 24vh);left:64%;transform:translateX(-50%);z-index:4;font:400 clamp(20px,2.4vw,32px) "Pinyon Script",cursive;color:var(--pink)}
 .rs-keep-cap{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:30vw}
 .rs-keep-cap p{margin:8px 0 12px;font:400 15px/1.7 "Mulish",sans-serif;color:#e6d4cc}
 
 /* 4 · JOURNAL — страница дневника: фото на скотче + записи от руки (не сетка) */
-.rs-journal-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 80% at 50% 42%,#2a1c1c,#160f0f 82%)}
+.rs-journal-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 80% at 50% 42%,#f8efe7 0%,#ecdccf 70%,#dfc8ba 100%)}
+.rs-journal .rs-grain{mix-blend-mode:multiply;opacity:.22}
 .rs-journal-head{position:absolute;top:6vh;left:6vw;z-index:6}
-.rs-journal-head b{display:block;font:italic 500 clamp(28px,4.6vw,64px)/.9 "Playfair Display",serif;color:var(--paper)}
-.rs-journal-head span{font:600 11px "Mulish",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--rose)}
+.rs-journal-head b{display:block;font:italic 500 clamp(28px,4.6vw,64px)/.9 "Playfair Display",serif;color:#4a2626}
+.rs-journal-head span{font:600 11px "Mulish",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#a8566a}
 .rs-journal-page{position:absolute;inset:20vh 6vw 6vh;z-index:2}
-.rs-jp{position:absolute;margin:0;padding:8px 8px 26px;background:#f0e4da;box-shadow:0 18px 40px rgba(0,0,0,.5);
+.rs-jp{position:absolute;margin:0;padding:8px 8px 26px;background:#fffaf4;box-shadow:0 14px 32px rgba(90,50,40,.3);
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r)}
-.rs-jp img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.14)}
+.rs-jp img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.16)}
+.rs-jp-1 img{object-position:50% 20%}
 .rs-jp figcaption{position:absolute;left:8px;bottom:6px;font:italic 500 13px "Playfair Display",serif;color:var(--wine)}
 .rs-jp::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(-3deg);width:60px;height:20px;background:rgba(230,181,186,.4)}
-.rs-jp-1{--d:0;left:1%;top:4%;width:26%;height:64%;transform:rotate(-5deg)}
+.rs-jp-1{--d:0;left:1%;top:4%;width:26%;height:64%}
 .rs-jp-2{--d:.1;left:30%;top:0;width:24%;height:52%;transform:rotate(3deg)}
 .rs-jp-3{--d:.2;left:60%;top:8%;width:23%;height:50%;transform:rotate(-2deg)}
-.rs-jp-4{--d:.3;left:70%;top:44%;width:26%;height:52%;transform:rotate(4deg)}
-.rs-jnote{position:absolute;z-index:4;font:400 clamp(22px,2.8vw,40px) "Pinyon Script",cursive;color:var(--pink)}
+.rs-jp-4{--d:.3;left:70%;top:44%;width:26%;height:52%}
+.rs-jnote{position:absolute;z-index:4;font:400 clamp(22px,2.8vw,40px) "Pinyon Script",cursive;color:#b0576d}
 .rs-jnote-1{left:30%;top:56%;transform:rotate(-4deg)}
 .rs-jnote-2{left:2%;top:74%;transform:rotate(2deg);max-width:26vw}
-.rs-jrose{position:absolute;right:2%;top:0;z-index:4;font-size:44px;color:var(--rose);opacity:.7}
+.rs-jrose{position:absolute;right:2%;top:0;z-index:4;font-size:44px;color:#c26b7e;opacity:.85}
 
 /* 5 · POSTCARD — открытка с маркой/штемпелем (не центр-слоган) */
-.rs-post-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 40%,#3a2626,#160f0f 74%)}
-.rs-post-card{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-1.5deg);z-index:6;width:min(72ch,86vw);display:flex;gap:0;background:#f0e4da;color:#3a2626;box-shadow:0 40px 80px rgba(0,0,0,.55);padding:36px 40px}
+.rs-post-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 42%,#fdf6f1 0%,#f4e1dc 56%,#e7c8c8 100%)}
+.rs-post .rs-grain{mix-blend-mode:multiply;opacity:.2}
+.rs-post-card{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6;width:min(1060px,88vw);display:flex;align-items:center;gap:0;background:#fffaf5;color:#3a2626;box-shadow:0 40px 80px rgba(122,58,58,.24),0 0 0 1px rgba(122,58,58,.08);padding:34px 40px}
+.rs-post-photo{flex:0 0 24%;margin:0 34px 0 0;aspect-ratio:3/4;padding:8px 8px 24px;background:#f3e6dc;box-shadow:0 10px 26px rgba(90,50,40,.25)}
+.rs-post-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;filter:sepia(.16)}
 .rs-post-left{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;padding-right:36px}
 .rs-post-hand{font:400 clamp(30px,4.4vw,58px)/1.05 "Pinyon Script",cursive;color:var(--wine)}
 .rs-post-note{font:italic 500 16px/1.5 "Playfair Display",serif;color:#6e544c}
@@ -106,16 +114,29 @@
 .rs-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;background:var(--wine);color:#f0e4da;font:700 12px "Mulish",sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
 .rs-btn:hover{background:var(--rose);transform:translateY(-2px)}
 .rs-links{position:absolute;left:0;right:0;bottom:6vh;z-index:6;display:flex;justify-content:center;gap:22px;font:600 12px "Mulish",sans-serif;letter-spacing:.1em;text-transform:uppercase}
-.rs-links a{color:var(--mut);text-decoration:none}.rs-links a:hover{color:var(--pink)}
+.rs-links a{color:#8a5a5a;text-decoration:none}.rs-links a:hover{color:var(--wine)}
+
+/* шапка/точки на светлых страницах (дневник, открытка) */
+.rs-nav a,.rs-nav .rs-cta{transition:color .5s,border-color .5s}
+.rs-site:has(.stage-scene.is-active :is(.rs-journal,.rs-post)) .rs-brand{color:#7a3a3a}
+.rs-site:has(.stage-scene.is-active :is(.rs-journal,.rs-post)) .rs-nav a{color:#8a6a64}
+.rs-site:has(.stage-scene.is-active :is(.rs-journal,.rs-post)) .rs-nav .rs-cta{color:#4a2626;border-color:#c98a8a}
+.rs-site:has(.stage-scene.is-active :is(.rs-journal,.rs-post)) .stage-dots span{background:rgba(74,38,38,.24)}
+.rs-site:has(.stage-scene.is-active :is(.rs-journal,.rs-post)) .stage-dots span.on{background:#4a2626}
+
+/* лепестки роз (scene-kit Weather): крупнее и розовее, чтобы читались лепестками, а не пылью */
+.rs-petals i{width:17px!important;height:12px!important;filter:saturate(1.15) drop-shadow(0 2px 3px rgba(40,20,20,.25))}
 
 /* мобилка */
 @media(max-width:900px){
   .rs-cover-fig .ps-media,.rs-guillo-fig .ps-media{height:80vh}
   .rs-wordmark span{font-size:22vw}
   .rs-note-l,.rs-note-r{max-width:40vw;font-size:12px}
-  .rs-side-fig .ps-media{width:82vw;height:44vh;transform:translateX(0) rotate(2deg)}
+  .rs-side-fig .ps-media{width:100vw;height:56vh;-webkit-mask-image:linear-gradient(0deg,transparent 0,#000 30%);mask-image:linear-gradient(0deg,transparent 0,#000 30%)}
+  .rs-wordmark span{letter-spacing:.12em;margin-right:-.12em}
+  .rs-post-photo{flex:none;width:42%;margin:0 0 14px}
   .rs-side-cap{max-width:none;padding:0 5vw;justify-content:flex-end;padding-bottom:8vh;align-items:flex-start;text-align:left}
-  .rs-keep-photo{left:50%;top:26vh;transform:translate(-50%,0) rotate(-4deg);width:60vw;height:40vh}
+  .rs-keep-photo{left:50%;top:26vh;transform:translate(-50%,0);width:60vw;height:40vh}
   .rs-keep-label{left:50%;top:68vh}
   .rs-keep-cap{max-width:none;left:5vw;right:5vw;top:auto;bottom:5vh;transform:none}
   .rs-jp-1{left:2%;top:2%;width:44%;height:42%}.rs-jp-2{left:52%;top:2%;width:44%;height:42%}

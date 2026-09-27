@@ -1,147 +1,169 @@
 /* TERRAZZO — «MELTEMI», private island villas, Cyclades. Мир: слепящий средиземноморский свет,
    деревня на обрыве → синие купола → длинная белая лестница к бухте → закатная гавань.
-   Шрифты Instrument Serif (display, солнечный, чуть эксцентричный италик) × Instrument Sans (body, чёткий гротеск).
-   Палитра: whitewash / aegean blue / bougainvillea pink / sun stone gold + pink CTA. Стили только .tz-* + копи в .rl-copy. */
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+   Шрифты Lora (display) × Instrument Sans (body) — через FontLinks.
+   Палитра: whitewash / aegean blue / bougainvillea pink / sun stone gold + pink CTA. Стили только .tz-* + .tz .rl-copy.
+   Лендинг живёт на плите мира (Backdrop) и свете атмосферы: вода темнеет к низу страницы. */
 
 .tz{ --whitewash:#f0ece2; --paper:#faf7f0; --aegean:#2f7ac0; --aegean-deep:#123a57; --bougain:#e06a8a;
   --sunstone:#d9b46a; --pink:#ff6a8a; --ink:#122f47;
-  --rl-void:#0a2f4d; --rl-spark:#ffcf7a;
-  background:var(--whitewash); color:var(--ink); font-family:"Instrument Sans",system-ui,sans-serif; }
+  --rl-void:#f3efe6; --rl-spark:#ffcf7a;
+  isolation:isolate; background:var(--atm, var(--whitewash)); color:var(--ink); font-family:"Instrument Sans",system-ui,sans-serif; }
 
 /* ───────── NAV — скрим сверху для контраста на ярком герое ───────── */
 .tz-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
 .tz-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(10,35,55,.46), rgba(10,35,55,0) 78%); }
+  background:linear-gradient(180deg, rgba(10,35,55,.5), rgba(10,35,55,0) 78%); }
 .tz-brand{ font:400 22px "Lora",serif; letter-spacing:.08em; color:#fbf8f1; text-shadow:0 2px 12px rgba(8,26,40,.5); }
 .tz-nav nav{ display:flex; gap:28px; align-items:center; font:600 12.5px "Instrument Sans",system-ui,sans-serif; letter-spacing:.08em; text-transform:uppercase; }
-.tz-nav a{ color:rgba(251,248,241,.92); text-decoration:none; text-shadow:0 1px 10px rgba(8,26,40,.45); }
+.tz-nav a{ color:rgba(251,248,241,.94); text-decoration:none; text-shadow:0 1px 10px rgba(8,26,40,.5); }
 .tz-nav-cta{ padding:10px 20px; border-radius:999px; background:var(--pink); color:#fff!important; text-shadow:none!important;
   box-shadow:0 8px 22px rgba(255,106,138,.4); }
 
-/* ───────── HERO / SCENE COPY (внутри .rl-copy движка) — frosted card на всех светлых сценах ───────── */
-.rl-copy{ padding:30px 34px; background:rgba(250,247,240,.72); backdrop-filter:blur(18px) saturate(1.15); -webkit-backdrop-filter:blur(18px) saturate(1.15);
-  border:1px solid rgba(255,255,255,.6); border-radius:22px; box-shadow:0 30px 70px rgba(10,40,60,.18); }
-.tz-eyebrow,.tz-idx{ display:block; font:600 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--aegean); }
-.tz-idx{ color:var(--bougain); letter-spacing:.18em; }
-.rl-copy h1{ margin:14px 0 18px; font:400 clamp(52px,8.6vw,124px)/.94 "Lora",serif; letter-spacing:-.01em; color:var(--ink); }
-.rl-copy h1 em, .rl-copy h2 em{ font-style:italic; color:var(--aegean); }
-.rl-copy h2{ margin:8px 0 14px; font:400 clamp(38px,6vw,82px)/1 "Lora",serif; color:var(--ink); }
-.rl-copy p{ margin:0 0 24px; max-width:40ch; font:400 16px/1.7 "Instrument Sans",system-ui,sans-serif; color:#33546e; }
+/* ───────── РИЛ: копи в мире — без стеклянной карточки: мягкий светлый скрим + тень ───────── */
+.tz .rl-copy{ top:16vh; width:min(52rem,88vw); }
+/* лестница сцены 3 — слева в кадре, копи уходит к морю вправо (аудит: «лестницы нет») */
+.tz .rl-scene[data-scene="steps"] .rl-copy{ left:auto; right:5vw; width:min(34rem,88vw); top:18vh; }
+.tz .rl-scene[data-scene="steps"] .rl-freeze{ right:auto; left:40vw; bottom:14vh; }
+/* низ hero: у fg-плиты прозрачные нижние строки → опускаем плиту, шва внизу нет */
+.tz .rl-scene[data-scene="village"] .rl-fg{ bottom:-9%; }
+.tz .rl-copy::before{ content:""; position:absolute; z-index:-1; inset:-16% -26% -18% -32%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(251,248,241,.74), rgba(251,248,241,.38) 58%, transparent); filter:blur(4px); }
+.tz-eyebrow,.tz-idx{ display:block; font:600 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:#1f5f99; }
+.tz-idx{ color:#c24a70; letter-spacing:.18em; }
+.tz .rl-copy h1{ margin:12px 0 16px; font:400 clamp(44px,5.9vw,86px)/.98 "Lora",serif; letter-spacing:-.01em; color:var(--ink); text-shadow:0 1px 26px rgba(251,248,241,.8); }
+.tz .rl-copy h1 em, .tz .rl-copy h2 em{ font-style:italic; color:#1f68ad; }
+.tz .rl-copy h2{ margin:8px 0 14px; font:400 clamp(38px,5.8vw,80px)/1 "Lora",serif; color:var(--ink); text-shadow:0 1px 24px rgba(251,248,241,.8); }
+.tz .rl-copy p{ margin:0 0 22px; max-width:40ch; font:500 16px/1.66 "Instrument Sans",system-ui,sans-serif; color:#24465f; text-shadow:0 1px 14px rgba(251,248,241,.9); }
 .tz-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
 .tz-btn{ padding:15px 30px; border-radius:999px; background:var(--pink); color:#fff; text-decoration:none;
   font:600 15px "Instrument Sans",system-ui,sans-serif; box-shadow:0 16px 34px rgba(255,106,138,.36); }
 .tz-btn:active{ transform:translateY(1px); }
-.tz-ghost{ padding:15px 6px; color:var(--ink); text-decoration:none; font:600 15px "Instrument Sans",system-ui,sans-serif; border-bottom:1px solid rgba(18,47,71,.35); }
+.tz-ghost{ padding:15px 6px; color:var(--ink); text-decoration:none; font:600 15px "Instrument Sans",system-ui,sans-serif; border-bottom:1px solid rgba(18,47,71,.45); text-shadow:0 1px 10px rgba(251,248,241,.9); }
 .tz-ghost:active{ transform:translateY(1px); }
+/* cue (аудит: «лежит на кнопке») — в правый нижний угол */
+.tz .rl-cue{ left:auto; right:6vw; color:#fbf8f1; text-shadow:0 1px 10px rgba(8,26,40,.6); }
 
-.tz-kick{ display:block; font:600 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--aegean); }
+/* гавань: лодка — у причала справа, меньше и на воде (не висит над горизонтом) */
+.tz .rl-scene[data-scene="harbor"] .rl-mid img{ transform:translate(24%, 0) scale(.56); transform-origin:50% 86%; }
+.tz .rl-scene[data-scene="harbor"] .rl-fg img{ transform:translateY(16%); }
+.tz .rl-scene[data-scene="harbor"] .rl-shadow{ display:none; }
 
-/* ───────── MARQUEE — running band of island names (motif: island-hopping) ───────── */
-.tz-marquee{ overflow:hidden; background:var(--aegean); padding:18px 0; white-space:nowrap; border-top:1px solid rgba(255,255,255,.16); border-bottom:1px solid rgba(255,255,255,.16); }
-.tz-marquee-track{ display:inline-flex; animation:tz-scroll 30s linear infinite; }
-.tz-marquee-track span{ font:400 22px "Lora",serif; font-style:italic; letter-spacing:.01em; color:#fbf8f1; padding:0 1.2em; display:inline-flex; align-items:center; gap:1.2em; }
-.tz-marquee-track span::after{ content:"☼"; font-style:normal; color:var(--sunstone); font-size:.7em; }
-@keyframes tz-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+/* стоп-кадр на лестнице */
+.tz-freeze{ display:grid; gap:6px; padding:16px 22px; border:1px solid rgba(47,122,192,.35); border-radius:4px;
+  background:rgba(251,248,241,.78); backdrop-filter:blur(4px); color:var(--ink); text-align:right; }
+.tz-freeze b{ font:400 italic clamp(50px,6.4vw,96px)/.9 "Lora",serif; color:var(--aegean); }
+.tz-freeze span{ font:600 11px "Instrument Sans",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#42627c; }
 
-/* ───────── MANIFESTO — one thought ───────── */
-.tz-manifest{ padding:20vh 8vw; background:var(--paper); }
-.tz-manifest p{ margin:0 auto; max-width:23ch; text-align:center; font:400 clamp(28px,4.4vw,60px)/1.16 "Lora",serif; color:var(--ink); }
-.tz-manifest em{ font-style:italic; color:var(--aegean); }
+/* белая лестница-актёр */
+.tz-stair-art{ display:block; width:100%; height:auto; overflow:visible; filter:drop-shadow(0 20px 30px rgba(18,47,71,.22)); }
 
-/* ───────── STEPS — staircase process, descending (uniquely tied to motif) ───────── */
-.tz-steps{ padding:16vh 8vw; background:var(--whitewash); }
-.tz-steps-head{ margin-bottom:9vh; }
+/* ───────── ЛЕНДИНГ ───────── */
+/* обход движка: Backdrop снимает inline visibility, а в scene-kit.css по умолчанию visibility:hidden */
+.tz .sk-backdrop{ visibility:visible; }
+.tz-kick{ display:block; font:600 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:#1f5f99; }
+
+/* MANIFESTO — одна мысль; острова строкой вместо бегущей ленты */
+.tz-manifest{ padding:24vh 8vw 18vh; text-align:left; }
+.tz-manifest p{ margin:0; max-width:23ch; font:400 clamp(30px,4.6vw,64px)/1.14 "Lora",serif; color:var(--ink); }
+.tz-manifest em{ font-style:italic; color:#1f68ad; }
+.tz-isles{ display:block; margin-top:5vh; font:400 italic 19px "Lora",serif; color:#b1476c; letter-spacing:.01em; }
+
+/* STEPS — лесенкой, ряды ведёт лестница-актёр */
+.tz-steps{ padding:12vh 8vw 16vh 18vw; }
+.tz-steps-head{ margin-bottom:8vh; }
 .tz-steps-head h2{ margin:12px 0 0; font:400 clamp(32px,5vw,68px)/1.05 "Lora",serif; color:var(--ink); }
-.tz-stair{ list-style:none; margin:0; padding:0; max-width:60rem; }
-.tz-stair-row{ display:grid; grid-template-columns:5rem 1fr; gap:2.4vw; align-items:start; padding:26px 0 26px 0;
-  border-top:1px dashed rgba(18,47,71,.22); position:relative; }
-.tz-stair-row:last-child{ border-bottom:1px dashed rgba(18,47,71,.22); }
+.tz-stair{ list-style:none; margin:0; padding:0; max-width:56rem; }
+.tz-stair-row{ display:grid; grid-template-columns:5rem 1fr; gap:2.4vw; align-items:start; padding:30px 28px;
+  background:rgba(251,248,241,.72); border-bottom:3px solid var(--aegean); box-shadow:0 18px 30px -24px rgba(18,47,71,.5); }
+.tz-stair-row + .tz-stair-row{ margin-top:14px; }
 .tz-stair-row:nth-child(1){ margin-left:0; }
-.tz-stair-row:nth-child(2){ margin-left:4%; }
-.tz-stair-row:nth-child(3){ margin-left:8%; }
-.tz-stair-row:nth-child(4){ margin-left:12%; }
+.tz-stair-row:nth-child(2){ margin-left:6%; }
+.tz-stair-row:nth-child(3){ margin-left:12%; }
+.tz-stair-row:nth-child(4){ margin-left:18%; }
 .tz-stair-n{ font:400 clamp(30px,3.4vw,46px) "Lora",serif; color:var(--bougain); }
 .tz-stair-row h3{ margin:2px 0 8px; font:500 clamp(20px,2.2vw,28px) "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
-.tz-stair-row p{ margin:0; max-width:52ch; font:400 15px/1.7 "Instrument Sans",system-ui,sans-serif; color:#42627c; }
+.tz-stair-row p{ margin:0; max-width:52ch; font:400 15px/1.7 "Instrument Sans",system-ui,sans-serif; color:#35566f; }
 
-/* ───────── CARDS — the possibilities ───────── */
-.tz-cards{ padding:14vh 8vw 16vh; background:var(--paper); }
-.tz-cards-head{ margin-bottom:7vh; max-width:44ch; }
+/* CARDS — ступенями вниз */
+.tz-cards{ padding:10vh 8vw 22vh; }
+.tz-cards-head{ margin:0 0 7vh 24vw; max-width:44ch; }
 .tz-cards-head h2{ margin:12px 0 0; font:400 clamp(30px,4.6vw,58px)/1.06 "Lora",serif; color:var(--ink); }
-.tz-card-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
-.tz-card{ padding:34px 26px; background:var(--whitewash); border:1px solid rgba(18,47,71,.12); border-radius:18px; }
-.tz-card b{ display:block; font:400 20px "Lora",serif; font-style:italic; color:var(--aegean); margin-bottom:12px; }
-.tz-card p{ margin:0; font:400 14.5px/1.65 "Instrument Sans",system-ui,sans-serif; color:#42627c; }
+.tz-card-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; align-items:start; }
+.tz-card{ padding:34px 26px; background:rgba(251,248,241,.86); border:1px solid rgba(18,47,71,.12); border-radius:18px; box-shadow:0 20px 40px -28px rgba(18,47,71,.5); }
+.tz-card:nth-child(2){ margin-top:5vh; } .tz-card:nth-child(3){ margin-top:10vh; } .tz-card:nth-child(4){ margin-top:15vh; }
+.tz-card b{ display:block; font:400 20px "Lora",serif; font-style:italic; color:#1f68ad; margin-bottom:12px; }
+.tz-card p{ margin:0; font:400 14.5px/1.65 "Instrument Sans",system-ui,sans-serif; color:#35566f; }
 
-/* ───────── GALLERY — SIGNATURE: island views styled as POSTCARDS ───────── */
-.tz-gallery{ padding:16vh 8vw 18vh; background:var(--aegean-deep); }
-.tz-gallery-head{ text-align:center; margin-bottom:8vh; }
-.tz-gallery-head .tz-kick{ color:var(--sunstone); }
-.tz-gallery-head h2{ margin:12px 0 6px; font:400 clamp(32px,5vw,68px)/1.05 "Lora",serif; color:#fbf8f1; }
-.tz-gallery-head span.tz-script{ display:block; font:400 italic 18px "Lora",serif; color:rgba(251,248,241,.6); }
-.tz-post-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:34px 28px; max-width:76rem; margin:0 auto; }
-.tz-post{ background:#fbf8f1; padding:14px 14px 20px; border-radius:4px; box-shadow:0 22px 50px rgba(4,18,30,.4); position:relative; }
-.tz-post:nth-child(odd){ transform:rotate(-2.2deg); }
-.tz-post:nth-child(even){ transform:rotate(2deg); }
-.tz-post:hover{ transform:rotate(0deg) translateY(-6px); transition:transform .35s ease; }
-.tz-post-img{ position:relative; aspect-ratio:4/5; border-radius:2px; overflow:hidden; background-size:cover; background-position:50% 50%;
+/* POSTCARDS — закреплённая стопка (sticky pile), вода уже синяя */
+.tz-stack{ position:relative; padding:14vh 8vw 18vh; }
+.tz-stack-head{ margin:0 0 4vh 30vw; }
+.tz-stack-head .tz-kick{ color:var(--sunstone); }
+.tz-stack-head h2{ margin:12px 0 0; font:400 clamp(32px,5vw,68px)/1.05 "Lora",serif; color:#fbf8f1; text-shadow:0 2px 20px rgba(6,22,36,.4); }
+.tz-stack-pile{ position:relative; width:min(30rem,78vw); margin:0 auto; }
+.tz-post{ position:sticky; top:16vh; margin:0 0 46vh; background:#fbf8f1; padding:14px 14px 20px; border-radius:4px; box-shadow:0 26px 60px rgba(4,18,30,.45); }
+.tz-post:nth-child(1){ transform:rotate(-3deg); }
+.tz-post:nth-child(2){ top:17vh; transform:rotate(2.4deg) translateX(3%); }
+.tz-post:nth-child(3){ top:18vh; transform:rotate(-1.4deg) translateX(-2%); }
+.tz-post:nth-child(4){ top:19vh; transform:rotate(3deg) translateX(2%); }
+.tz-post-back{ top:20vh!important; margin-bottom:8vh; transform:rotate(-2deg); }
+.tz-post-img{ position:relative; aspect-ratio:5/4; border-radius:2px; overflow:hidden; background-size:cover; background-position:50% 50%;
   box-shadow:inset 0 0 0 1px rgba(18,47,71,.1); }
 .tz-post-stamp{ position:absolute; top:10px; right:10px; width:38px; height:38px; border-radius:50%;
-  border:1.5px dashed rgba(251,248,241,.85); display:grid; place-items:center; font:400 italic 12px "Lora",serif; color:#fbf8f1;
+  border:1.5px dashed rgba(251,248,241,.9); display:grid; place-items:center; font:400 italic 12px "Lora",serif; color:#fbf8f1;
   text-shadow:0 1px 4px rgba(0,0,0,.5); }
 .tz-post-cap{ display:flex; justify-content:space-between; align-items:baseline; margin-top:14px; }
 .tz-post-cap b{ font:400 italic 19px "Lora",serif; color:var(--ink); }
 .tz-post-cap span{ font:600 10px "Instrument Sans",system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:var(--bougain); }
+/* оборот открытки: отзыв рукой гостя */
+.tz-back{ display:grid; grid-template-columns:1.35fr 1fr; gap:22px; aspect-ratio:5/4.3; padding:22px 18px 10px;
+  background:repeating-linear-gradient(180deg, transparent 0 33px, rgba(18,47,71,.08) 33px 34px); }
+.tz-back blockquote{ margin:0; padding-right:18px; border-right:1px solid rgba(18,47,71,.2); font:400 italic clamp(17px,1.7vw,22px)/1.55 "Lora",serif; color:#1f3f5c; }
+.tz-back-side{ display:flex; flex-direction:column; gap:14px; padding-top:4px; }
+.tz-back-stamp{ align-self:flex-end; width:64px; padding:8px 4px; text-align:center; border:2px dashed #e06a8a; font:600 12px/1.2 "Instrument Sans"; color:#b1476c; transform:rotate(4deg); }
+.tz-back-line{ padding-bottom:4px; border-bottom:1px solid rgba(18,47,71,.3); font:400 italic 16px "Lora",serif; color:#2b4a63; }
 
-/* ───────── BIG-TYPE — giant statement ───────── */
-.tz-big{ padding:20vh 6vw; background:var(--whitewash); text-align:center; }
-.tz-big p{ margin:0 auto; max-width:18ch; font:400 clamp(40px,8vw,132px)/.98 "Lora",serif; color:var(--ink); letter-spacing:-.01em; }
-.tz-big em{ font-style:italic; color:var(--aegean); }
+/* BIG-TYPE — на закатной плите */
+.tz-big{ padding:22vh 6vw 22vh 20vw; }
+.tz-big p{ margin:0; max-width:14ch; font:400 clamp(44px,7.4vw,120px)/.98 "Lora",serif; color:#fbf8f1; letter-spacing:-.01em; text-shadow:0 2px 30px rgba(6,22,36,.45); }
+.tz-big em{ font-style:italic; color:#ffc07a; }
 
-/* ───────── STATS ───────── */
-.tz-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--paper); border-top:1px solid rgba(18,47,71,.14); }
-.tz-stat{ padding:56px 30px; border-left:1px solid rgba(18,47,71,.14); }
-.tz-stat:first-child{ border-left:0; }
-.tz-stat b{ display:block; font:400 clamp(44px,5.2vw,82px)/1 "Lora",serif; color:var(--bougain); }
-.tz-stat span{ display:block; margin-top:10px; font:500 12.5px "Instrument Sans",system-ui,sans-serif; letter-spacing:.06em; color:#5c7a91; }
-
-/* ───────── QUOTE ───────── */
-.tz-quote{ padding:20vh 10vw; text-align:center; background:var(--whitewash); }
-.tz-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(26px,3.8vw,52px)/1.22 "Lora",serif; color:var(--ink); font-style:italic; }
-.tz-quote cite{ display:block; margin-top:32px; font:600 12.5px "Instrument Sans",system-ui,sans-serif; letter-spacing:.08em; font-style:normal; color:var(--aegean); }
-
-/* ───────── DEAL ───────── */
-.tz-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--paper); }
-.tz-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(18,47,71,.16); border-radius:20px; background:var(--whitewash); }
+/* DEAL */
+.tz-deal{ display:grid; place-items:center; padding:16vh 6vw 20vh; }
+.tz-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(251,248,241,.2); border-radius:20px;
+  background:rgba(10,36,58,.8); backdrop-filter:blur(10px); color:#fbf8f1; box-shadow:0 30px 70px rgba(0,0,0,.35); }
+.tz-deal-card .tz-kick{ color:var(--sunstone); }
 .tz-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
-.tz-price b{ font:400 clamp(50px,6.6vw,92px) "Lora",serif; color:var(--ink); }
-.tz-price span{ font:500 14px "Instrument Sans",system-ui,sans-serif; color:#5c7a91; }
-.tz-deal-card p{ margin:0 auto 28px; max-width:42ch; font:400 15px/1.7 "Instrument Sans",system-ui,sans-serif; color:#42627c; }
-.tz-note{ display:block; margin-top:18px; font:500 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.05em; color:#7c96a9; }
+.tz-price b{ font:400 clamp(50px,6.6vw,92px) "Lora",serif; color:#fbf8f1; }
+.tz-price span{ font:500 14px "Instrument Sans",system-ui,sans-serif; color:#a9c2d4; }
+.tz-deal-card p{ margin:0 auto 28px; max-width:42ch; font:400 15px/1.7 "Instrument Sans",system-ui,sans-serif; color:#c3d4e0; }
+.tz-note{ display:block; margin-top:18px; font:500 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.05em; color:#8fb0c6; }
 
-/* ───────── CLIMAX ───────── */
+/* CLIMAX */
 .tz-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
-.tz-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(10,35,55,.38), rgba(6,22,36,.86) 78%); }
+.tz-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(10,35,55,.36), rgba(6,22,36,.86) 78%); }
 .tz-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
 .tz-climax-copy h2{ margin:0 0 34px; font:400 clamp(40px,6vw,92px)/1.04 "Lora",serif; color:#fbf8f1; }
 .tz-climax-copy em{ font-style:italic; color:var(--sunstone); }
 
-/* ───────── FOOT ───────── */
-.tz-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:var(--aegean-deep); color:#a9c2d4; font:500 12.5px "Instrument Sans",system-ui,sans-serif; }
+/* FOOT */
+.tz-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#081a2b; color:#a9c2d4; font:500 12.5px "Instrument Sans",system-ui,sans-serif; }
 .tz-foot .tz-brand{ color:#fbf8f1; text-shadow:none; }
 
 @media (max-width:820px){
   .tz-nav nav a:not(.tz-nav-cta){ display:none; }
-  .tz-card-grid{ grid-template-columns:1fr 1fr; }
-  .tz-post-grid{ grid-template-columns:1fr 1fr; }
-  .tz-stats{ grid-template-columns:1fr 1fr; }
+  .tz .rl-cue{ right:5vw; }
+  .tz-steps{ padding-left:8vw; }
   .tz-stair-row{ grid-template-columns:3.4rem 1fr; }
-  .tz-stair-row:nth-child(1),.tz-stair-row:nth-child(2),.tz-stair-row:nth-child(3),.tz-stair-row:nth-child(4){ margin-left:0; }
+  .tz-stair-row:nth-child(n){ margin-left:0; }
+  .tz-cards-head, .tz-stack-head{ margin-left:0; }
+  .tz-card-grid{ grid-template-columns:1fr 1fr; }
+  .tz-card:nth-child(n){ margin-top:0; }
+  .tz-back{ grid-template-columns:1fr; aspect-ratio:auto; }
+  .tz-big{ padding-left:8vw; }
 }
 @media (max-width:560px){
   .tz-card-grid{ grid-template-columns:1fr; }
-  .tz-post-grid{ grid-template-columns:1fr; }
 }
 
-@media (prefers-reduced-motion:reduce){ .tz-marquee-track{ animation:none; } }
+/* reel.css объявляет --rl-void/--rl-spark на самом .rl — переопределяем на нём (иначе шов pan/портала тёмный) */
+.tz .rl{ --rl-void:#f3efe6; --rl-spark:#ffcf7a; }

@@ -1,14 +1,14 @@
-/* HALCYON — contemporary city spring river-festival мир (PETALFARE). Шрифты Anton (display, poster-bold)
-   × Schibsted Grotesk (body, clean geometric). Палитра: blush-pink / acid-chartreuse / cyan-sky / rose + pink CTA.
-   Все 4 сцены светлые — копи сидит на frosted-панелях (.hc-panel) для контраста. Стили только .hc-* + копи в .rl-copy. */
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap');
+/* HALCYON — contemporary city spring river-festival мир (PETALFARE). Шрифты Anton × Schibsted Grotesk (FontLinks).
+   Палитра: blush-pink / acid-chartreuse / cyan-sky / rose + pink CTA. Стили только .hc-* + копи в .rl-copy. */
 
 .hc{ --blush:#f0b8c8; --chartreuse:#a8d84a; --chartreuse-dk:#6f9a26; --cyan:#4ac0e0; --rose:#e86a9a; --cta:#ff5a9a;
   --ink:#2a0f22; --paper:#fff6f1; --paper-2:#ffe9ef;
   --rl-void:#3a0e2c; --rl-spark:#ffd3e2;
-  background:var(--paper); color:var(--ink); font-family:"Schibsted Grotesk",system-ui,sans-serif; }
+  isolation:isolate; overflow-x:clip; background:var(--atm, var(--paper)); color:var(--ink); font-family:"Schibsted Grotesk",system-ui,sans-serif; }
+/* движок задаёт свой --rl-void/--rl-spark на .rl: искры рила — лепестковые, шов — розовый, не чёрный */
+.hc .rl{ --rl-void:#b86a8a; --rl-spark:#ffd3e2; }
 
-/* NAV — скрим сверху для контраста на светлом герое */
+/* NAV — тон по сцене/секции: чернила на светлом фестивале */
 .hc-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw; }
 .hc-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
   background:linear-gradient(180deg, rgba(40,10,30,.44), rgba(40,10,30,0)); }
@@ -16,106 +16,131 @@
 .hc-nav nav{ display:flex; gap:26px; align-items:center; font:600 13px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.02em; }
 .hc-nav a{ color:rgba(255,246,241,.92); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.35); }
 .hc-nav-cta{ padding:9px 20px; border-radius:999px; background:var(--cta); color:#2a0f22!important; text-shadow:none!important; font-weight:700; }
+.hc[data-nav="light"] .hc-nav::before{ background:linear-gradient(180deg, rgba(255,246,241,.7), rgba(255,246,241,0)); }
+.hc[data-nav="light"] .hc-brand{ color:var(--ink); text-shadow:none; }
+.hc[data-nav="light"] .hc-nav a:not(.hc-nav-cta){ color:var(--ink); text-shadow:none; }
 
-/* FROSTED PANEL — все 4 сцены светлые, копи сидит на стеклянной подложке (мотив: бумажный фонарик/билет) */
-.hc-panel{ position:relative; border-radius:22px; background:linear-gradient(160deg, rgba(255,247,242,.74), rgba(255,247,242,.34));
-  -webkit-backdrop-filter:blur(18px) saturate(1.14); backdrop-filter:blur(18px) saturate(1.14);
-  border:1px solid rgba(255,255,255,.55); box-shadow:0 30px 70px rgba(58,15,44,.18), inset 0 1px 0 rgba(255,255,255,.6); }
-.hc-panel-hero{ padding:38px 40px 40px; }
-.hc-panel-chapter{ padding:26px 30px; max-width:36rem; }
-
-/* HERO / SCENE COPY (внутри .rl-copy движка) */
+/* SCENE COPY — без frosted-панелей: бумажный скрим за текстом и мягкая светлая тень */
+.hc .rl-copy::before{ content:""; position:absolute; z-index:-1; inset:-16% -22% -18% -16%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(255,246,241,.8), rgba(255,246,241,.42) 56%, rgba(255,246,241,0)); }
 .hc-eyebrow,.hc-idx{ font:700 12px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#c23d72; }
 .hc-idx{ letter-spacing:.14em; }
-.rl-copy h1{ margin:14px 0 16px; font:400 clamp(46px,7.8vw,112px)/.94 "Anton",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.005em; color:var(--ink); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:normal; color:var(--cta); }
-.rl-copy h2{ margin:8px 0 14px; font:400 clamp(36px,5.8vw,80px)/.98 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
-.rl-copy p{ margin:0 0 22px; max-width:38ch; font:400 16px/1.65 "Schibsted Grotesk",system-ui,sans-serif; color:#3d1830; }
+.hc .rl-copy h1{ margin:14px 0 16px; font:400 clamp(46px,7.8vw,112px)/.94 "Anton",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.005em; color:var(--ink); text-shadow:0 2px 24px rgba(255,246,241,.6); }
+.hc .rl-copy h1 em, .hc .rl-copy h2 em{ font-style:normal; color:var(--cta); }
+.hc .rl-copy h2{ margin:8px 0 14px; font:400 clamp(36px,5.8vw,80px)/.98 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); text-shadow:0 2px 24px rgba(255,246,241,.6); }
+.hc .rl-copy p{ margin:0 0 22px; max-width:38ch; font:500 16px/1.65 "Schibsted Grotesk",system-ui,sans-serif; color:#3d1830; text-shadow:0 1px 12px rgba(255,246,241,.9); }
+.hc .rl-cue{ color:var(--ink); text-shadow:0 1px 8px rgba(255,246,241,.9); }
 .hc-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin-top:4px; }
-.hc-btn{ padding:15px 30px; border-radius:999px; background:var(--cta); color:#fff; text-decoration:none; font:700 15px "Schibsted Grotesk",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,90,154,.38); transition:transform .15s ease; }
+.hc-btn{ display:inline-block; padding:15px 30px; border-radius:999px; background:var(--cta); color:#fff; text-decoration:none; font:700 15px "Schibsted Grotesk",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,90,154,.38); transition:transform .15s ease; }
 .hc-btn:active{ transform:translateY(2px); }
 .hc-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:700 15px "Schibsted Grotesk",system-ui,sans-serif; border-bottom:1px solid rgba(42,15,34,.32); }
 
+/* fg аллеи: без «призрачной» полупрозрачной дорожки — виден низ кадра и правая часть (тележка+дорожка) целиком */
+.hc .rl-scene[data-scene="avenue"] .rl-fg img{
+  -webkit-mask-image:linear-gradient(180deg, transparent 62%, #000 74%), linear-gradient(90deg, transparent 50%, #000 58%);
+          mask-image:linear-gradient(180deg, transparent 62%, #000 74%), linear-gradient(90deg, transparent 50%, #000 58%);
+  -webkit-mask-composite:source-over; mask-composite:add; }
+/* ДЕНЬ ИДЁТ: после обеда теплее, набережная — настоящий золотой час */
+.hc .rl-scene[data-scene="lawn"] .rl-bg{ filter:saturate(1.06) sepia(.1); }
+.hc .rl-scene[data-scene="riverside"] .rl-bg{ filter:saturate(1.2) sepia(.2) brightness(.97); }
+.hc .rl-scene[data-scene="riverside"] .rl-haze{ mix-blend-mode:color; opacity:.58;
+  background:linear-gradient(180deg, #ffb45e 0%, #ffa27a 42%, #ff8fa8 72%, #c46a9a 100%); }
+.hc .rl-scene[data-scene="riverside"] .rl-fg img{ filter:sepia(.35) saturate(1.25) brightness(.88) hue-rotate(-10deg); }
+.hc .rl-scene[data-scene="riverside"] .rl-copy::before{ background:radial-gradient(closest-side, rgba(255,232,214,.78), rgba(255,232,214,.4) 56%, rgba(255,232,214,0)); }
+
+/* СТОП-КАДР — фотофиниш заплыва */
+.hc-freeze{ display:grid; gap:4px; padding:14px 20px 12px; background:#fff; border:3px solid var(--ink); box-shadow:10px 10px 0 var(--cta); color:var(--ink); transform:rotate(3deg); }
+.hc-freeze b{ font:400 clamp(52px,6.4vw,92px)/.9 "Anton",system-ui,sans-serif; letter-spacing:.01em; }
+.hc-freeze span{ font:700 11px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#c23d72; }
+
+/* ЛЕНТА-СТРИМЕР */
+.hc-streamer{ display:block; width:100%; height:auto; aspect-ratio:5/1; overflow:visible; filter:drop-shadow(0 8px 10px rgba(58,15,44,.18)); }
+.hc-rib-wave{ animation:hc-wave 2.6s linear infinite; }
+@keyframes hc-wave{ from{ transform:translateX(0); } to{ transform:translateX(180px); } }
+
 /* общий kicker/link */
 .hc-kick{ display:block; font:700 12px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#c23d72; }
-.hc-link{ color:var(--cta); text-decoration:none; font:700 15px "Schibsted Grotesk",system-ui,sans-serif; border-bottom:1px solid rgba(255,90,154,.35); }
-
-/* MARQUEE — SIGNATURE (часть A): бегущий тикер программы фестиваля */
-.hc-marquee{ position:relative; overflow:hidden; padding:22px 0; background:linear-gradient(90deg, var(--rose), var(--cta) 50%, var(--rose));
-  border-top:3px solid var(--ink); border-bottom:3px solid var(--ink); }
-.hc-marquee-track{ display:flex; width:max-content; animation:hc-scroll 26s linear infinite; }
-.hc-marquee-row{ display:flex; align-items:center; gap:0; flex-shrink:0; }
-.hc-marquee-item{ display:flex; align-items:center; gap:1.2em; padding:0 1.2em; font:400 clamp(17px,2.5vw,30px) "Anton",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.02em; white-space:nowrap; color:#fff6f1; }
-.hc-marquee-dot{ color:var(--chartreuse); font-size:.55em; }
-@keyframes hc-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+.hc-kick-light{ color:var(--blush); }
+.hc-link{ color:#c23d72; text-decoration:none; font:700 15px "Schibsted Grotesk",system-ui,sans-serif; border-bottom:1px solid rgba(255,90,154,.35); }
 
 /* MANIFESTO */
-.hc-manifest{ padding:18vh 8vw; background:var(--paper); text-align:center; }
+.hc-manifest{ padding:26vh 8vw 18vh; background:transparent; text-align:center; }
 .hc-manifest p{ margin:0 auto; max-width:19ch; font:400 clamp(28px,4.4vw,58px)/1.14 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
 .hc-manifest em{ font-style:normal; color:var(--cta); }
 
-/* FEATURE-CARDS — Four Zones (тип, которого нет у эталона) */
-.hc-zones{ padding:14vh 8vw 16vh; background:var(--paper-2); }
-.hc-zones-head h2{ margin:12px 0 0; max-width:16ch; font:400 clamp(30px,4.4vw,56px)/1.05 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
-.hc-zones-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:rgba(42,15,34,.12); }
-.hc-zone{ background:var(--paper-2); padding:38px 26px; }
-.hc-zone-n{ display:block; font:700 13px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#1287a8; }
-.hc-zone h3{ margin:16px 0 10px; font:400 24px "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
-.hc-zone p{ margin:0; font:400 14.5px/1.65 "Schibsted Grotesk",system-ui,sans-serif; color:#5c3350; }
+/* ROUTE — четыре бирки на одной ленте */
+.hc-route{ padding:12vh 6vw 16vh; background:transparent; }
+.hc-route-head{ padding:0 2vw; }
+.hc-route-head h2{ margin:12px 0 0; max-width:16ch; font:400 clamp(30px,4.4vw,56px)/1.05 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
+.hc-route-map{ position:relative; margin-top:6vh; height:clamp(420px,62vh,620px); }
+.hc-route-line{ position:absolute; left:0; right:0; top:4%; width:100%; height:40%; overflow:visible;
+  clip-path:inset(-20% calc(100% - var(--rp, 0) * 100%) -20% 0); }
+.hc-route-line path{ fill:none; stroke:var(--cta); stroke-width:14; stroke-linecap:round; filter:drop-shadow(0 6px 8px rgba(58,15,44,.16)); }
+.hc-tags{ list-style:none; margin:0; padding:0; position:absolute; inset:0; }
+.hc-tag{ position:absolute; width:min(15rem,21vw); padding:22px 20px 20px; background:#fff; border-radius:4px 4px 14px 14px; box-shadow:0 18px 40px rgba(58,15,44,.14);
+  left:calc(2% + var(--i) * 25%); opacity:clamp(0, calc((var(--rp, 0) - var(--i) * .22) * 5), 1); transform-origin:50% -30px; }
+.hc-tag::before{ content:""; position:absolute; left:50%; top:-34px; width:2px; height:34px; background:var(--ink); opacity:.5; }
+.hc-tag::after{ content:""; position:absolute; left:calc(50% - 6px); top:10px; width:12px; height:12px; border-radius:50%; border:2px solid var(--ink); opacity:.35; }
+.hc-tag:nth-child(1){ top:38%; transform:rotate(-3deg); } .hc-tag:nth-child(2){ top:50%; transform:rotate(2deg); }
+.hc-tag:nth-child(3){ top:36%; transform:rotate(-2deg); } .hc-tag:nth-child(4){ top:48%; transform:rotate(3deg); }
+.hc-tag-n{ display:block; margin-top:14px; font:700 13px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; color:#1287a8; }
+.hc-tag h3{ margin:8px 0 8px; font:400 24px "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
+.hc-tag p{ margin:0; font:400 14px/1.6 "Schibsted Grotesk",system-ui,sans-serif; color:#5c3350; }
 
-/* PROGRAM — SIGNATURE (часть B): расписание по дням, три колонки (не эталонный vertical gauge) */
-.hc-program{ padding:16vh 8vw; background:var(--ink); color:#fff6f1; }
+/* PROGRAM — закреплена, лента-таймлайн заполняется скроллом */
+.hc-program{ position:relative; height:250vh; background:linear-gradient(180deg, rgba(42,15,34,0), rgba(42,15,34,.55) 8%, rgba(42,15,34,.55) 92%, rgba(42,15,34,0)); color:#fff6f1; }
+.hc-program-pin{ position:sticky; top:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding:0 8vw; box-sizing:border-box; }
 .hc-program-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:4vw; flex-wrap:wrap; }
-.hc-program-head h2{ margin:12px 0 0; font:400 clamp(32px,5vw,68px)/1.02 "Anton",system-ui,sans-serif; text-transform:uppercase; color:#fff6f1; }
-.hc-program-head .hc-kick{ color:var(--blush); }
-.hc-program-note{ max-width:30ch; font:400 14.5px/1.6 "Schibsted Grotesk",system-ui,sans-serif; color:rgba(255,246,241,.68); }
-.hc-program-grid{ margin-top:8vh; display:grid; grid-template-columns:repeat(3,1fr); gap:3vw; }
-.hc-program-day{ border-top:2px solid rgba(255,246,241,.22); padding-top:22px; }
+.hc-program-head h2{ margin:12px 0 0; font:400 clamp(32px,4.6vw,64px)/1.02 "Anton",system-ui,sans-serif; text-transform:uppercase; color:#fff6f1; }
+.hc-program-note{ max-width:30ch; margin:0; font:400 14.5px/1.6 "Schibsted Grotesk",system-ui,sans-serif; color:rgba(255,246,241,.7); }
+.hc-program-rail{ position:relative; margin:6vh 0 4vh; height:4px; border-radius:4px; background:rgba(255,246,241,.14); }
+.hc-program-fill{ position:absolute; inset:0; border-radius:4px; background:linear-gradient(90deg, var(--chartreuse), var(--cta)); transform-origin:0 50%; transform:scaleX(var(--pp, 0)); }
+.hc-program-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:3vw; }
+.hc-program-day{ padding-top:6px; opacity:.38; transition:opacity .5s ease, transform .5s ease; transform:translateY(8px); }
+.hc-program-day[data-on="1"]{ opacity:1; transform:none; }
 .hc-program-day-n{ display:block; font:700 14px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--chartreuse); }
-.hc-program-day h3{ margin:8px 0 24px; font:400 clamp(22px,2.4vw,32px) "Anton",system-ui,sans-serif; text-transform:uppercase; color:#fff6f1; }
-.hc-program-row{ display:grid; grid-template-columns:4.6rem 1fr; gap:14px; padding:14px 0; border-top:1px solid rgba(255,246,241,.14); }
+.hc-program-day h3{ margin:8px 0 18px; font:400 clamp(22px,2.4vw,32px) "Anton",system-ui,sans-serif; text-transform:uppercase; color:#fff6f1; }
+.hc-program-row{ display:grid; grid-template-columns:4.6rem 1fr; gap:14px; padding:12px 0; border-top:1px solid rgba(255,246,241,.14); }
 .hc-program-row:first-of-type{ border-top:0; }
 .hc-program-time{ font:700 13px "Schibsted Grotesk",system-ui,sans-serif; color:var(--cta); white-space:nowrap; }
 .hc-program-row h4{ margin:0 0 4px; font:600 15px "Schibsted Grotesk",system-ui,sans-serif; color:#fff6f1; }
-.hc-program-row span{ font:400 13px/1.5 "Schibsted Grotesk",system-ui,sans-serif; color:rgba(255,246,241,.62); }
+.hc-program-row span{ font:400 13px/1.5 "Schibsted Grotesk",system-ui,sans-serif; color:rgba(255,246,241,.66); }
 
-/* GALLERY — четыре главы мира, обложки из s{1..4}-bg */
-.hc-gallery{ padding:14vh 8vw 16vh; background:var(--paper); }
-.hc-gallery-head h2{ margin:12px 0 0; max-width:16ch; font:400 clamp(30px,4.4vw,56px)/1.05 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
-.hc-gallery-row{ margin-top:8vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw; }
-.hc-tile{ position:relative; display:flex; flex-direction:column; justify-content:flex-end; aspect-ratio:3/4.2; border-radius:16px; overflow:hidden; background-size:cover; background-position:50% 40%; text-decoration:none; }
-.hc-tile-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(42,15,34,.04) 0%, rgba(42,15,34,.1) 44%, rgba(42,15,34,.5) 74%, rgba(42,15,34,.94) 100%); }
-.hc-tile-n{ position:relative; display:block; margin:0 18px; font:700 13px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.12em; text-transform:uppercase; color:var(--chartreuse); }
-.hc-tile h3{ position:relative; margin:6px 18px 6px; font:400 22px "Anton",system-ui,sans-serif; text-transform:uppercase; color:#fff6f1; }
-.hc-tile p{ position:relative; margin:0 18px 18px; max-width:20ch; font:400 12.5px/1.5 "Schibsted Grotesk",system-ui,sans-serif; color:rgba(255,246,241,.82); }
+/* STREAMER BANNER — бумажная лента с бегущей строкой поперёк кадра */
+.hc-banner{ position:relative; z-index:2; margin:6vh -4vw 4vh; overflow:hidden; padding:18px 0; transform:rotate(-2.6deg);
+  background:linear-gradient(90deg, var(--rose), var(--cta) 50%, var(--rose)); box-shadow:0 18px 40px rgba(58,15,44,.2); }
+.hc-banner::before, .hc-banner::after{ content:""; position:absolute; top:0; bottom:0; width:10px; background:repeating-linear-gradient(180deg, transparent 0 8px, rgba(255,246,241,.9) 8px 10px); }
+.hc-banner::before{ left:0; } .hc-banner::after{ right:0; }
+.hc-banner-track{ display:flex; width:max-content; animation:hc-scroll 30s linear infinite; }
+.hc-banner-item{ display:flex; align-items:center; gap:1.1em; padding:0 1.1em; font:400 clamp(17px,2.4vw,28px) "Anton",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.02em; white-space:nowrap; color:#fff6f1; }
+.hc-banner-item i{ font-style:normal; color:var(--chartreuse); font-size:.55em; }
+@keyframes hc-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
 
 /* SPLIT */
-.hc-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:74vh; background:var(--paper-2); }
-.hc-split-media{ background-size:cover; background-position:50% 42%; }
+.hc-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:74vh; background:transparent; }
+.hc-split-media{ background-size:cover; background-position:50% 42%; border-radius:0 24px 24px 0; }
 .hc-split-copy{ align-self:center; padding:10vh 6vw; }
 .hc-split-copy h2{ margin:14px 0 16px; max-width:16ch; font:400 clamp(30px,3.8vw,52px)/1.05 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
 .hc-split-copy p{ margin:0 0 22px; max-width:44ch; font:400 16px/1.72 "Schibsted Grotesk",system-ui,sans-serif; color:#4a2740; }
+.hc-facts{ list-style:none; margin:0 0 26px; padding:0; display:flex; flex-wrap:wrap; gap:10px; }
+.hc-facts li{ padding:8px 14px; border-radius:999px; background:rgba(255,255,255,.72); font:500 13px "Schibsted Grotesk",system-ui,sans-serif; color:#4a2740; }
+.hc-facts b{ font:400 16px "Anton",system-ui,sans-serif; color:var(--cta); margin-right:4px; }
 
-/* STATS */
-.hc-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--ink); }
-.hc-stat{ padding:52px 28px; border-left:1px solid rgba(255,246,241,.14); }
-.hc-stat:first-child{ border-left:0; }
-.hc-stat b{ display:block; font:400 clamp(36px,5vw,72px)/1 "Anton",system-ui,sans-serif; color:var(--blush); }
-.hc-stat span{ display:block; margin-top:10px; font:600 12.5px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.03em; color:rgba(255,246,241,.62); }
+/* NOTE — приколотый отзыв */
+.hc-note{ padding:16vh 8vw 14vh 30vw; background:transparent; }
+.hc-note-card{ position:relative; margin:0; max-width:34rem; padding:40px 38px 32px; background:#fffdf8; transform:rotate(-2.2deg); box-shadow:0 26px 60px rgba(58,15,44,.18); }
+.hc-note-tape{ position:absolute; left:50%; top:-14px; width:120px; height:28px; transform:translateX(-50%) rotate(3deg); background:rgba(168,216,74,.62); }
+.hc-note-card blockquote{ margin:0; font:500 clamp(22px,2.6vw,34px)/1.3 "Schibsted Grotesk",system-ui,sans-serif; color:var(--ink); }
+.hc-note-card em{ font-style:normal; font-weight:800; color:var(--cta); }
+.hc-note-card figcaption{ margin-top:22px; font:700 13px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.06em; color:#7a4a68; }
 
-/* QUOTE */
-.hc-quote{ padding:18vh 10vw; text-align:center; background:var(--paper); }
-.hc-quote blockquote{ margin:0 auto; max-width:28ch; font:400 clamp(24px,3.4vw,44px)/1.26 "Schibsted Grotesk",system-ui,sans-serif; color:var(--ink); }
-.hc-quote em{ font-style:normal; font-weight:700; color:var(--cta); }
-.hc-quote cite{ display:block; margin-top:30px; font:700 13px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.06em; font-style:normal; color:#7a4a68; }
-
-/* PRICING — сделка: ticket tiers, три карточки (не эталонная одна карточка) */
-.hc-pricing{ padding:18vh 6vw 16vh; background:var(--paper-2); }
+/* PRICING */
+.hc-pricing{ padding:16vh 6vw 16vh; background:transparent; }
 .hc-pricing-head{ text-align:center; max-width:50ch; margin:0 auto; }
 .hc-pricing-head h2{ margin:10px 0 12px; font:400 clamp(30px,4.4vw,58px)/1.06 "Anton",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
 .hc-pricing-head p{ margin:0; font:400 16px/1.6 "Schibsted Grotesk",system-ui,sans-serif; color:#4a2740; }
-.hc-pricing-grid{ margin:8vh auto 0; max-width:76rem; display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:stretch; }
-.hc-plan{ position:relative; display:flex; flex-direction:column; padding:36px 28px; background:#fff; border:1px solid rgba(42,15,34,.14); border-radius:20px; }
+.hc-pricing-grid{ margin:9vh auto 0; max-width:76rem; display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:stretch; }
+.hc-plan{ position:relative; display:flex; flex-direction:column; padding:36px 28px; background:rgba(255,255,255,.9); border:1px solid rgba(42,15,34,.14); border-radius:20px; }
 .hc-plan-featured{ background:#fff; border:2px solid var(--cta); box-shadow:0 24px 60px rgba(255,90,154,.26); transform:translateY(-10px); }
 .hc-plan-badge{ position:absolute; top:-14px; left:50%; transform:translateX(-50%); padding:6px 16px; border-radius:999px; background:var(--cta); color:#fff; font:700 11px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; }
 .hc-plan-tag{ font:700 11px "Schibsted Grotesk",system-ui,sans-serif; letter-spacing:.16em; text-transform:uppercase; color:#c23d72; }
@@ -132,25 +157,31 @@
 .hc-ghost-btn:active{ transform:translateY(2px) scale(.98); }
 .hc-plan-featured .hc-ghost-btn{ background:var(--cta); border-color:var(--cta); color:#fff; }
 
-/* CLIMAX */
-.hc-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 46%; }
-.hc-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(58,15,44,.36), rgba(30,8,22,.9) 80%); }
+/* CLIMAX — закат */
+.hc-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 46%; overflow:hidden; }
+.hc-climax::before{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, #ffab7a 0%, #ff9fb4 48%, #c46a9a 100%); mix-blend-mode:color; opacity:.55; }
+.hc-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(90,30,60,.3), rgba(40,10,30,.86) 80%); }
 .hc-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
 .hc-climax-copy h2{ margin:0 0 30px; font:400 clamp(36px,5.4vw,80px)/1.04 "Anton",system-ui,sans-serif; text-transform:uppercase; color:#fff6f1; }
 .hc-climax-copy em{ font-style:normal; color:var(--blush); }
 
 /* FOOT */
-.hc-foot{ display:flex; justify-content:space-between; align-items:center; padding:38px 6vw; background:var(--ink); color:rgba(255,246,241,.62); font:600 13px "Schibsted Grotesk",system-ui,sans-serif; }
+.hc-foot{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:38px 6vw; background:var(--ink); color:rgba(255,246,241,.62); font:600 13px "Schibsted Grotesk",system-ui,sans-serif; }
 .hc-foot .hc-brand{ color:rgba(255,246,241,.86); text-shadow:none; }
 
 @media (max-width:820px){
   .hc-nav nav a:not(.hc-nav-cta){ display:none; }
-  .hc-zones-grid{ grid-template-columns:1fr 1fr; }
+  .hc-route-map{ height:auto; }
+  .hc-route-line{ display:none; }
+  .hc-tags{ position:relative; display:grid; grid-template-columns:1fr 1fr; gap:40px 14px; padding-top:30px; }
+  .hc-tag, .hc-tag:nth-child(n){ position:relative; left:auto; top:auto; width:auto; opacity:1; }
+  .hc-program{ height:auto; }
+  .hc-program-pin{ position:relative; height:auto; padding:14vh 6vw; }
   .hc-program-grid{ grid-template-columns:1fr; gap:6vh; }
-  .hc-gallery-row{ grid-template-columns:1fr 1fr; }
-  .hc-split{ grid-template-columns:1fr; } .hc-split-media{ min-height:44vh; }
-  .hc-stats{ grid-template-columns:1fr 1fr; }
+  .hc-program-day{ opacity:1; transform:none; }
+  .hc-split{ grid-template-columns:1fr; } .hc-split-media{ min-height:44vh; border-radius:0; }
+  .hc-note{ padding-left:8vw; }
   .hc-pricing-grid{ grid-template-columns:1fr; }
   .hc-plan-featured{ transform:none; }
 }
-@media (prefers-reduced-motion:reduce){ .hc-marquee-track{ animation:none; } }
+@media (prefers-reduced-motion:reduce){ .hc-banner-track, .hc-rib-wave{ animation:none; } }

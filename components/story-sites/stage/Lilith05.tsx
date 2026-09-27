@@ -1,10 +1,14 @@
 "use client";
 /* STORY v2 · ПИЛОТ 5 — «LILITH» (pin 4: occult-romantic, forest-green-black/bone/oxblood, рога+крылья,
-   орнамент-вордмарк, юстированные колонки+✕). Движок StageDeck. Архетипы (своя последовательность):
-   Occluded Idol(вордмарк+колонки) → Type Guillotine(wipe-y) → Split Persona(wipe-x, чисто) →
-   Negative-Space Monument(iris) → Contact-Sheet(drop) → Final(iris). Фото lilith-*. Текст = HTML. */
+   орнамент-вордмарк, юстированные колонки+✕). Движок StageDeck v2. Закон камеры — ВНИЗ (падение):
+   все стыки — гильотина wipe-y (камера опускается), чёрные перья падают сквозь все сцены.
+   Сюжет: её тень (FALLEN divine) раскалывается в сплит Light & Shadow (share="shadow") → обе половины
+   падают из кадра, открывая «Fall.» (drop = буквальное падение, pin посреди полёта) → Аркана →
+   карта I «The Idol» становится иконой-окном финала (share="idol", кольцовка). Свет растёт: красные губы →
+   красная точка «Fall.» → багровое зарево «descend». Фото lilith-*. Текст = HTML. */
 import Link from "next/link";
 import { Layer, SceneMedia } from "@/components/parallax-scene";
+import { Weather } from "@/components/scene-kit";
 import { StageDeck } from "./StageDeck";
 import "@/components/parallax-scene/parallax-scene.css";
 import "./lilith05.css";
@@ -47,10 +51,10 @@ export function Lilith05() {
           <div className="ll-scrollcue" aria-hidden>fall ▾</div>
         </div>
 
-        {/* 1 · TYPE GUILLOTINE (wipe-y) */}
+        {/* 1 · TYPE GUILLOTINE (wipe-y: камера падает) — её тень во весь кадр */}
         <div transition="wipe-y" className="scene-body ll-guillo">
-          <Layer z={1} depth={0.1} phase={[0, 1]} from={{ scale: 1.1 }} to={{ scale: 1.02 }} className="ll-guillo-fig kb-media">
-            <SceneMedia src={`${A}/lilith-portrait-b.jpg`} alt="Lilith — портрет" />
+          <Layer z={1} depth={0.1} phase={[0, 1]} from={{ scale: 1.1 }} to={{ scale: 1.02 }} className="ll-guillo-fig">
+            <SceneMedia src={`${A}/lilith-portrait-b.jpg`} alt="Lilith — портрет" share="shadow" />
           </Layer>
           <div className="ll-guillo-veil" aria-hidden />
           <div className="ll-guillo-type" aria-hidden><span>FALLEN</span><span className="ll-guillo-it">divine</span></div>
@@ -61,13 +65,13 @@ export function Lilith05() {
           <div className="ll-grain" aria-hidden />
         </div>
 
-        {/* 2 · SPLIT PERSONA (wipe-x, чисто — без glitch) */}
-        <div transition="wipe-x" className="scene-body ll-split">
-          <Layer z={1} depth={0.1} phase={[0, 1]} from={{ x: "-6vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="ll-split-a">
+        {/* 2 · SPLIT PERSONA — кадр-тень сжимается в правую половину (share="shadow"), слева входит свет */}
+        <div transition="wipe-y" className="scene-body ll-split">
+          <Layer z={3} depth={0.1} phase={[0, 1]} from={{ x: "-6vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="ll-split-a">
             <SceneMedia src={`${A}/lilith-hero.jpg`} alt="Lilith — свет" />
           </Layer>
-          <Layer z={2} depth={0.1} phase={[0.06, 1]} from={{ x: "6vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="ll-split-b">
-            <SceneMedia src={`${A}/lilith-portrait-b.jpg`} alt="Lilith — тень" />
+          <Layer z={2} depth={0.1} phase={[0, 1]} from={{ opacity: 1 }} to={{ opacity: 1 }} className="ll-split-b">
+            <SceneMedia src={`${A}/lilith-portrait-b.jpg`} alt="Lilith — тень" share="shadow" />
           </Layer>
           <Layer z={6} depth={0.3} phase={[0.1, 0.7]} from={{ opacity: 0, scale: 1.08 }} to={{ opacity: 1, scale: 1 }} className="ll-split-type">
             <span>свет и тьма — в одном дыхании</span>
@@ -76,11 +80,12 @@ export function Lilith05() {
           <div className="ll-grain" aria-hidden />
         </div>
 
-        {/* 3 · NEGATIVE-SPACE MONUMENT (iris) */}
-        <div transition="iris" className="scene-body ll-mono">
+        {/* 3 · FALL. — pin посреди падения: обе половины сплита срываются вниз (drop), под ними — слово и красная точка */}
+        <div transition="drop" className="scene-body ll-mono">
           <div className="ll-mono-bg" aria-hidden />
+          <div className="ll-mono-shaft" aria-hidden />
           <Layer z={2} depth={0.5} phase={[0, 1]} from={{ scale: 0.92, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="ll-mono-word">
-            <span>Fall<em>.</em></span>
+            <span>Fall<i className="ll-dot" aria-hidden /></span>
           </Layer>
           <Layer z={4} depth={0.18} phase={[0.2, 0.8]} from={{ y: "4vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="ll-mono-cap">
             <span className="ll-folio">canto II — the silence</span>
@@ -89,13 +94,13 @@ export function Lilith05() {
           <div className="ll-grain" aria-hidden />
         </div>
 
-        {/* 4 · ARCANA — расклад таро: карты с римскими цифрами (не сетка) */}
-        <div transition="drop" className="scene-body ll-arcana">
+        {/* 4 · ARCANA — расклад таро из её же кадров (wipe-y: падение продолжается) */}
+        <div transition="wipe-y" className="scene-body ll-arcana">
           <div className="ll-arcana-bg" aria-hidden />
           <div className="ll-arcana-head" aria-hidden><b>The Arcana</b><span>the myth of Lilith</span></div>
           <div className="ll-arcana-spread">
-            <figure className="ll-card ll-card-1"><span className="ll-card-n" aria-hidden>I</span><img src={`${A}/lilith-hero.jpg`} alt="Lilith — икона" loading="lazy" /><figcaption>The Idol</figcaption></figure>
-            <figure className="ll-card ll-card-2"><span className="ll-card-n" aria-hidden>II</span><img src={`${A}/lilith-still-2.jpg`} alt="Чёрные крылья" loading="lazy" /><figcaption>The Wings</figcaption></figure>
+            <figure className="ll-card ll-card-1"><span className="ll-card-n" aria-hidden>I</span><img src={`${A}/lilith-hero.jpg`} alt="Lilith — икона" loading="lazy" data-share="idol" /><figcaption>The Idol</figcaption></figure>
+            <figure className="ll-card ll-card-2"><span className="ll-card-n" aria-hidden>II</span><img src={`${A}/lilith-hero.jpg`} alt="Чёрные крылья" loading="lazy" /><figcaption>The Wings</figcaption></figure>
             <figure className="ll-card ll-card-3"><span className="ll-card-n" aria-hidden>III</span><img src={`${A}/lilith-still-1.jpg`} alt="Рога — деталь" loading="lazy" /><figcaption>The Horns</figcaption></figure>
             <figure className="ll-card ll-card-4"><span className="ll-card-n" aria-hidden>IV</span><img src={`${A}/lilith-portrait-b.jpg`} alt="Lilith — тень" loading="lazy" /><figcaption>The Shadow</figcaption></figure>
           </div>
@@ -103,9 +108,10 @@ export function Lilith05() {
           <div className="ll-grain" aria-hidden />
         </div>
 
-        {/* 5 · INVOCATION — оккультная воззвание-карта: фазы луны + сигил (не центр-слоган+кнопка) */}
-        <div transition="iris" className="scene-body ll-invoke">
+        {/* 5 · INVOCATION — дно падения в багровом зареве: карта I становится иконой-окном (share="idol", кольцовка) */}
+        <div transition="wipe-y" className="scene-body ll-invoke">
           <div className="ll-invoke-bg" aria-hidden />
+          <figure className="ll-icon"><img src={`${A}/lilith-hero.jpg`} alt="Lilith — икона" loading="lazy" data-share="idol" /><figcaption aria-hidden>I · The Idol</figcaption></figure>
           <div className="ll-invoke-frame">
             <div className="ll-moons" aria-hidden><span>◐</span><span>◑</span><span>●</span><span>◒</span><span>◓</span></div>
             <span className="ll-invoke-small">between light &amp; shadow</span>
@@ -117,6 +123,8 @@ export function Lilith05() {
           <div className="ll-grain" aria-hidden />
         </div>
       </StageDeck>
+      {/* чёрные перья — сквозной слой, падающий через все сцены */}
+      <Weather kind="leaves" count={12} color="#0c120f" color2="#222c27" zIndex={30} wind={0} world={0} seed={5} className="ll-feathers" />
     </div>
   );
 }

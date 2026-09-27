@@ -1,84 +1,121 @@
-/* CINDERS — HRAUN, fire-and-ice Iceland crossings. Шрифты Big Shoulders Display (display, condensed
-   elemental) × Public Sans (body/UI). Палитра: basalt-black / steam-white / ember-orange / glacier-blue
-   + ember CTA. Стили только .cn-* + копи в .rl-copy. Мотив: нить пара/дыма — см. .cn-wisp. */
-@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700;800;900&family=Public+Sans:wght@400;500;600;700&display=swap');
+/* CINDERS — HRAUN, fire-and-ice Iceland crossings. Шрифты Big Shoulders Display (display) × Public Sans
+   (body) — через FontLinks. Палитра: basalt-black / steam-white / ember-orange / glacier-blue + ember CTA.
+   Стили только .cn-* и копи внутри .cn .rl-copy. Мотив: нить пара (актёр .cn-wisp). */
 
-.cn{ --basalt:#141318; --basalt-2:#1a1a1f; --steam:#dfe4e6; --ember:#e8622a; --emberx:#ff5a2a; --glacier:#5aa0c0;
+.cn{ --basalt:#141318; --basalt-2:#1a1a1f; --steam:#dfe4e6; --ember:#e8622a; --emberx:#ff5a2a; --glacier:#5aa0c0; --ice:#dfe9ee;
   --ink:#18171d; --paper:#eef1f0;
   --rl-void:#141318; --rl-spark:#ff5a2a;
-  background:var(--basalt-2); color:var(--paper); font-family:"Public Sans",system-ui,sans-serif; }
+  isolation:isolate; background:var(--atm, var(--basalt-2)); color:var(--paper); font-family:"Public Sans",system-ui,sans-serif; }
 
-/* NAV — скрим сверху для контраста на светлых сценах */
+/* NAV */
 .cn-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
 .cn-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(10,9,12,.5), transparent); }
+  background:linear-gradient(180deg, rgba(10,9,12,.55), transparent); }
 .cn-brand{ font:700 22px "Big Shoulders Display","Public Sans",system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase;
   color:var(--steam); text-shadow:0 2px 14px rgba(0,0,0,.55), 0 0 22px rgba(255,90,42,.18); }
 .cn-nav nav{ display:flex; gap:28px; align-items:center; font:600 13px "Public Sans",sans-serif; letter-spacing:.03em; }
-.cn-nav a{ color:rgba(238,241,240,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.cn-nav a{ color:rgba(238,241,240,.9); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.45); }
 .cn-nav-cta{ padding:10px 20px; border-radius:3px; background:var(--emberx); color:#fff!important; text-shadow:none!important; font-weight:700; }
 
-/* HERO / SCENE COPY — frosted panel на светлых сценах (dark:false), чистый светлый текст на тёмной (lava) */
-.cn-eyebrow,.cn-idx{ display:inline-block; font:700 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--ember); }
+/* ── РИЛ: копи в мире, без матовых карточек; тёмные сцены — светлый текст на мягкой тени,
+      светлые (пар, ледник) — тёмный текст в паровом ореоле ───────────────────────────── */
+.cn-eyebrow,.cn-idx{ display:inline-block; font:700 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:#c2410f; }
 .cn-idx{ letter-spacing:.14em; }
-.cn-light{ color:#ffb489; }
-
-.rl-copy{ padding:26px 30px 30px; border-radius:4px;
-  background:linear-gradient(155deg, rgba(238,241,240,.82), rgba(223,228,230,.66));
-  backdrop-filter:blur(14px) saturate(1.05); -webkit-backdrop-filter:blur(14px) saturate(1.05);
-  border:1px solid rgba(20,19,24,.1); box-shadow:0 24px 60px rgba(10,9,12,.28); }
-.rl-copy h1{ margin:14px 0 18px; font:800 clamp(46px,7.6vw,110px)/.94 "Big Shoulders Display","Public Sans",system-ui,sans-serif;
+.cn .rl-copy::before{ content:""; position:absolute; inset:-14% -20% -16% -16%; z-index:-1; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(244,247,248,.72), rgba(244,247,248,.34) 60%, transparent); filter:blur(10px); }
+.cn .rl-dark .rl-copy::before{ background:radial-gradient(closest-side, rgba(12,11,15,.6), rgba(12,11,15,.28) 60%, transparent); }
+.cn .rl-copy h1{ margin:14px 0 18px; font:800 clamp(46px,7.6vw,110px)/.94 "Big Shoulders Display","Public Sans",system-ui,sans-serif;
   text-transform:uppercase; letter-spacing:-.01em; color:var(--ink); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:normal; color:var(--emberx); }
-.rl-copy h2{ margin:8px 0 14px; font:700 clamp(36px,5.6vw,78px)/.98 "Big Shoulders Display","Public Sans",system-ui,sans-serif;
+.cn .rl-copy h1 em,.cn .rl-copy h2 em{ font-style:normal; color:var(--emberx); }
+.cn .rl-copy h2{ margin:8px 0 14px; font:700 clamp(36px,5.6vw,78px)/.98 "Big Shoulders Display","Public Sans",system-ui,sans-serif;
   text-transform:uppercase; color:var(--ink); }
-.rl-copy p{ margin:0 0 24px; max-width:38ch; font:400 16px/1.65 "Public Sans",sans-serif; color:#2a2932; }
+.cn .rl-copy p{ margin:0 0 24px; max-width:38ch; font:500 16px/1.65 "Public Sans",sans-serif; color:#24232b; }
+.cn .rl-dark .rl-copy h1, .cn .rl-dark .rl-copy h2{ color:var(--paper); text-shadow:0 3px 30px rgba(8,8,10,.75), 0 1px 3px rgba(8,8,10,.5); }
+.cn .rl-dark .rl-copy p{ color:#ece7e0; text-shadow:0 1px 16px rgba(8,8,10,.9), 0 0 2px rgba(8,8,10,.6); }
+.cn .rl-dark .cn-eyebrow, .cn .rl-dark .cn-idx{ color:#ff8a5a; text-shadow:0 1px 10px rgba(8,8,10,.8); }
+.cn-light{ color:#ffb489!important; }
 .cn-cta{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
-.cn-btn{ padding:15px 28px; border-radius:3px; background:var(--emberx); color:#fff; text-decoration:none;
+.cn-btn{ display:inline-block; padding:15px 28px; border-radius:3px; background:var(--emberx); color:#fff; text-decoration:none;
   font:700 14px "Public Sans",sans-serif; letter-spacing:.02em; box-shadow:0 16px 34px rgba(255,90,42,.32); transition:transform .15s ease; }
 .cn-btn:active{ transform:translateY(2px); }
 .cn-ghost{ padding:15px 6px; color:var(--ink); text-decoration:none; font:700 14px "Public Sans",sans-serif; border-bottom:2px solid rgba(20,19,24,.32); }
+.cn .rl-dark .cn-ghost{ color:var(--steam); border-color:rgba(238,241,240,.45); text-shadow:0 1px 10px rgba(8,8,10,.8); }
 
-/* сцена lava (dark:true) — контейнер без frosted-подложки, текст светлый, тень усилена */
-.rl-dark .rl-copy{ background:linear-gradient(155deg, rgba(20,19,24,.22), rgba(20,19,24,.06)); border-color:rgba(255,180,137,.14); box-shadow:none; backdrop-filter:blur(3px); }
-.rl-dark .rl-copy h2{ color:var(--steam); }
-.rl-dark .rl-copy p{ color:#e8e2da; text-shadow:0 2px 20px rgba(0,0,0,.6); }
-.rl-dark .cn-ghost{ color:var(--steam); border-color:rgba(238,241,240,.4); }
+/* путник — из-под заголовка в правую треть */
+.cn [data-scene="blacksand"] .rl-mid img{ translate:26vw 0; }
+.cn [data-scene="lava"] .rl-mid img{ translate:15vw 0; }
+/* островной fg пляжа с магентовым исподом — опускаем, исподнее уходит за кадр */
+.cn [data-scene="blacksand"] .rl-fg img{ translate:0 34%;
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 33%, #000 44%); mask-image:linear-gradient(180deg, transparent 0, transparent 33%, #000 44%); }
+/* лавовая плита с леттербокс-полосами — крупнее, полосы за кадром */
+.cn [data-scene="lava"] .rl-bg{ background-size:auto 132%; background-position:50% 48%; filter:brightness(.74) saturate(1.12) contrast(1.06); }
+/* кромка лавового fg — маска выше, без фиолетовой линии */
+.cn [data-scene="lava"] .rl-fg img{
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 66%, #000 80%); mask-image:linear-gradient(180deg, transparent 0, transparent 66%, #000 80%); }
+.cn [data-scene="geyser"] .rl-copy, .cn [data-scene="glacier"] .rl-copy{ top:18vh; }
+/* стоп-кадр на лаве */
+.cn-freeze{ display:grid; gap:6px; justify-items:end; text-shadow:0 2px 28px rgba(8,8,10,.9); }
+.cn-freeze b{ font:800 clamp(72px,9vw,140px)/.86 "Big Shoulders Display",sans-serif; color:#ffb489; letter-spacing:-.01em; }
+.cn-freeze span{ font:700 11px "Public Sans",sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--paper); }
 
-.cn-kick{ display:block; font:700 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--ember); }
+/* ── АКТЁР: нить пара (цвет — --atm собственной атмосферы актёра) ──────────────────── */
+.cn-wisp-actor{ mix-blend-mode:screen; }
+.cn-wisp{ display:block; width:100%; height:auto; overflow:visible; filter:blur(6px); transform-origin:50% 100%; animation:cn-sway 7s ease-in-out infinite;
+  -webkit-mask-image:linear-gradient(0deg, transparent 0, #000 14%, #000 52%, transparent 96%); mask-image:linear-gradient(0deg, transparent 0, #000 14%, #000 52%, transparent 96%); }
+.cn-wisp path{ fill:none; stroke:var(--atm, #eef1f0); stroke-linecap:round; }
+.cn-wisp .cn-w1{ stroke-width:12; opacity:.62; }
+.cn-wisp .cn-w2{ stroke-width:7; opacity:.5; stroke-dasharray:120 14; animation:cn-flow 4.8s linear infinite; }
+.cn-wisp .cn-w3{ stroke-width:3.5; opacity:.75; stroke-dasharray:90 10; animation:cn-flow 3.6s linear infinite; }
+@keyframes cn-flow{ from{ stroke-dashoffset:0 } to{ stroke-dashoffset:-134 } }
+@keyframes cn-sway{ 0%,100%{ transform:skewX(0deg) } 30%{ transform:skewX(-4deg) } 70%{ transform:skewX(3deg) } }
+
+/* ── ЛЕНДИНГ: базальт ↔ лёд по очереди, под блоками — плиты мира ──────────────────── */
+.cn-kick{ display:block; font:700 12px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:#ff7a4a; }
 .cn-link{ color:var(--emberx); text-decoration:none; font:700 15px "Public Sans",sans-serif; }
 
-/* MARQUEE — бегущая строка минералов (нет у эталона) */
-.cn-marquee{ overflow:hidden; background:var(--basalt); border-top:1px solid #2a2932; border-bottom:1px solid #2a2932; padding:16px 0; }
-.cn-marquee-track{ display:flex; width:max-content; white-space:nowrap; animation:cn-scroll 32s linear infinite; }
-.cn-marquee-track span{ font:700 17px "Big Shoulders Display","Public Sans",sans-serif; letter-spacing:.06em; text-transform:uppercase; color:#5c5964; }
-@keyframes cn-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+/* MANIFESTO — базальт */
+.cn-manifest{ padding:24vh 8vw 18vh; background:transparent; text-align:center; }
+.cn-manifest p{ margin:0 auto; max-width:20ch; font:600 clamp(28px,4.4vw,58px)/1.16 "Big Shoulders Display","Public Sans",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); text-shadow:0 4px 40px rgba(0,0,0,.7); }
+.cn-manifest em{ font-style:normal; color:#8fd0ea; }
 
-/* MANIFESTO */
-.cn-manifest{ padding:18vh 8vw; background:linear-gradient(180deg,#141318,#101013); text-align:center; }
-.cn-manifest p{ margin:0 auto; max-width:20ch; font:600 clamp(28px,4.4vw,58px)/1.16 "Big Shoulders Display","Public Sans",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); }
-.cn-manifest em{ font-style:normal; color:var(--glacier); }
-
-/* STEPS / PROCESS (нет у эталона) */
-.cn-steps{ padding:15vh 8vw; background:#101013; }
+/* STEPS — вдоль светящейся трещины */
+.cn-steps{ padding:14vh 8vw; background:linear-gradient(90deg, rgba(14,13,17,.72), rgba(14,13,17,.35)); }
 .cn-steps-head h2{ margin:10px 0 0; font:700 clamp(30px,4.6vw,64px)/1.02 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--paper); }
-.cn-steps-list{ list-style:none; margin:7vh 0 0; padding:0; display:grid; gap:0; }
-.cn-step{ display:grid; grid-template-columns:6rem 1fr; gap:2vw; padding:30px 0; border-top:1px solid #26252c; align-items:baseline; }
-.cn-step:last-child{ border-bottom:1px solid #26252c; }
+.cn-steps-body{ position:relative; margin:7vh 0 0; padding-left:7vw; }
+.cn-crack{ position:absolute; left:0; top:0; width:4vw; height:100%; overflow:visible; }
+.cn-crack path{ fill:none; stroke:#ff6a2a; stroke-width:2.5; vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 0 6px rgba(255,106,42,.9)) drop-shadow(0 0 16px rgba(255,90,42,.5)); }
+.cn-steps-list{ list-style:none; margin:0; padding:0; display:grid; gap:0; }
+.cn-step{ display:grid; grid-template-columns:6rem 1fr; gap:2vw; padding:30px 0; border-top:1px solid rgba(255,255,255,.08); align-items:baseline; }
+.cn-step:last-child{ border-bottom:1px solid rgba(255,255,255,.08); }
 .cn-step-n{ font:800 clamp(30px,3.2vw,46px) "Big Shoulders Display",sans-serif; color:var(--emberx); }
 .cn-step h3{ margin:0 0 8px; font:600 20px "Public Sans",sans-serif; color:var(--paper); }
-.cn-step p{ margin:0; max-width:56ch; font:400 15px/1.65 "Public Sans",sans-serif; color:#9c9aa4; }
+.cn-step p{ margin:0; max-width:56ch; font:400 15px/1.65 "Public Sans",sans-serif; color:#a9a7b0; }
 
-/* FEATURE CARDS (нет у эталона) */
-.cn-features{ padding:15vh 8vw; background:var(--basalt-2); }
-.cn-features-head h2{ margin:10px 0 0; font:700 clamp(30px,4.6vw,64px)/1.02 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--paper); }
-.cn-features-grid{ margin-top:6vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:#26252c; }
-.cn-feature{ background:var(--basalt-2); padding:34px 26px; }
-.cn-feature h3{ margin:0 0 12px; font:600 18px/1.3 "Public Sans",sans-serif; color:var(--steam); }
-.cn-feature p{ margin:0; font:400 14px/1.6 "Public Sans",sans-serif; color:#9c9aa4; }
+/* TEMPERATURES — шкала земли */
+.cn-temp{ padding:14vh 8vw 10vh; background:linear-gradient(90deg, rgba(10,9,12,.45), rgba(10,9,12,.05)); }
+.cn-temp-head h2{ margin:10px 0 0; font:700 clamp(30px,4.6vw,64px)/1.02 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--paper); }
+.cn-temp-list{ position:relative; list-style:none; margin:8vh 0 0; padding:0; }
+.cn-temp-list::before{ content:""; position:absolute; left:2.6vw; top:4vh; bottom:4vh; width:6px; border-radius:6px;
+  background:linear-gradient(180deg, #ff5a2a, #f2c9a8 36%, #dfe4e6 64%, #8fd0ea); box-shadow:0 0 22px rgba(255,120,60,.35); }
+.cn-temp-row{ position:relative; min-height:46vh; display:grid; grid-template-columns:minmax(14rem, 26vw) 1fr; gap:3vw; align-items:center; padding-left:8vw; }
+.cn-temp-row::before{ content:""; position:absolute; left:calc(2.6vw - 7px); top:50%; width:20px; height:20px; margin-top:-10px; border-radius:50%;
+  background:var(--basalt); border:3px solid var(--c); box-shadow:0 0 18px var(--c); }
+.cn-temp-row b{ font:800 clamp(56px,7vw,120px)/.9 "Big Shoulders Display",sans-serif; color:var(--c); letter-spacing:-.01em; text-shadow:0 4px 40px rgba(0,0,0,.6); }
+.cn-temp-row h3{ margin:0 0 10px; font:700 clamp(22px,2.2vw,30px) "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--paper); }
+.cn-temp-row p{ margin:0; max-width:40ch; font:400 15.5px/1.65 "Public Sans",sans-serif; color:#c3c1c8; text-shadow:0 1px 12px rgba(0,0,0,.8); }
 
-/* SIGNATURE — SPLIT, медиа СПРАВА; левая панель basalt+ember glow / правая media с ледяной вуалью над огнём */
-.cn-split{ position:relative; display:grid; grid-template-columns:1fr 1.1fr; min-height:82vh; background:var(--basalt); }
+/* FEATURES — лёд */
+.cn-features{ padding:15vh 8vw; background:rgba(223,233,238,.88); color:var(--ink); backdrop-filter:blur(6px); }
+.cn-features .cn-kick{ color:#2f7fa3; }
+.cn-features-head h2{ margin:10px 0 0; font:700 clamp(30px,4.6vw,64px)/1.02 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--ink); }
+.cn-features-grid{ margin-top:6vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(47,127,163,.25); border:1px solid rgba(47,127,163,.25); }
+.cn-feature{ background:rgba(240,245,247,.9); padding:34px 26px; }
+.cn-feature h3{ margin:0 0 12px; font:700 18px/1.3 "Public Sans",sans-serif; color:#12303f; }
+.cn-feature p{ margin:0; font:400 14px/1.6 "Public Sans",sans-serif; color:#475761; }
+
+/* SIGNATURE — SPLIT (базальт) */
+.cn-split{ position:relative; display:grid; grid-template-columns:1fr 1.1fr; min-height:82vh; background:rgba(20,19,24,.9); }
 .cn-split::before{ content:""; position:absolute; left:calc(100%/2.1 - 1px); top:0; bottom:0; width:2px; z-index:3;
   background:linear-gradient(180deg, var(--glacier), var(--emberx)); opacity:.7; }
 .cn-split-copy{ position:relative; align-self:center; padding:10vh 6vw; z-index:2; }
@@ -87,62 +124,49 @@
 .cn-kick-ember{ color:var(--emberx); }
 .cn-split-copy h2{ margin:14px 0 18px; font:700 clamp(30px,3.6vw,54px)/1.04 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--paper); }
 .cn-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Public Sans",sans-serif; color:#a6a4ae; }
-.cn-split-media{ position:relative; background-size:cover; background-position:50% 46%; overflow:hidden; }
+.cn-split-media{ position:relative; background-size:auto 132%; background-position:50% 48%; overflow:hidden; }
 .cn-split-glow{ position:absolute; inset:0;
   background:linear-gradient(180deg, rgba(90,160,192,.42) 0%, rgba(90,160,192,.08) 28%, transparent 52%, rgba(232,98,42,.22) 100%);
   mix-blend-mode:hard-light; }
 .cn-split-glow::after{ content:""; position:absolute; inset:0; box-shadow:inset 0 0 90px 10px rgba(255,90,42,.28); }
 
-/* GALLERY — 4 плиты (нет у эталона) */
-.cn-gallery{ padding:15vh 8vw; background:#101013; }
-.cn-gallery-head h2{ margin:10px 0 0; font:700 clamp(30px,4.6vw,64px)/1.02 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--paper); }
-.cn-gallery-grid{ margin-top:6vh; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-.cn-tile{ position:relative; aspect-ratio:3/4; border-radius:4px; background-size:cover; background-position:50% 40%; overflow:hidden; }
-.cn-tile::before{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,9,12,0) 42%, rgba(10,9,12,.86) 100%); }
-.cn-tile-n{ position:absolute; left:16px; top:16px; z-index:2; font:700 13px "Public Sans",sans-serif; letter-spacing:.1em; color:rgba(238,241,240,.72); }
-.cn-tile-t{ position:absolute; left:16px; right:16px; bottom:16px; z-index:2; font:700 22px "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--steam); }
+/* QUOTE — лёд, слева */
+.cn-quote{ padding:18vh 8vw; background:linear-gradient(90deg, rgba(223,233,238,.9), rgba(223,233,238,.55) 70%, rgba(223,233,238,.2)); color:var(--ink); }
+.cn-quote figure{ margin:0; max-width:46rem; padding-left:3vw; border-left:3px solid var(--glacier); }
+.cn-quote blockquote{ margin:0; font:700 clamp(26px,3.4vw,46px)/1.16 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:#12303f; }
+.cn-quote figcaption{ margin-top:26px; font:700 13px "Public Sans",sans-serif; letter-spacing:.06em; color:#4f6470; }
 
-/* STATS */
-.cn-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:#0c0b0e; border-top:1px solid #26252c; }
-.cn-stat{ padding:56px 28px; border-left:1px solid #26252c; }
-.cn-stat:first-child{ border-left:0; }
-.cn-stat b{ display:block; font:800 clamp(38px,5vw,72px)/1 "Big Shoulders Display",sans-serif; color:var(--glacier); }
-.cn-stat span{ display:block; margin-top:10px; font:600 13px "Public Sans",sans-serif; letter-spacing:.03em; color:#7c7a86; }
-
-/* QUOTE */
-.cn-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,#101013,#141318); }
-.cn-quote blockquote{ margin:0 auto; max-width:26ch; font:500 clamp(24px,3.4vw,44px)/1.28 "Public Sans",sans-serif; color:#eee9e2; font-style:italic; }
-.cn-quote cite{ display:block; margin-top:32px; font:700 13px "Public Sans",sans-serif; letter-spacing:.06em; font-style:normal; color:#7c7a86; }
-
-/* DEAL */
-.cn-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--basalt-2); }
-.cn-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid #2a2932; border-radius:6px; background:#18171d; }
-.cn-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+/* DEAL — базальт */
+.cn-deal{ display:grid; place-items:center; padding:24vh 6vw 18vh; background:transparent; }
+.cn-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(255,255,255,.1); border-radius:6px; background:rgba(20,19,24,.84); backdrop-filter:blur(10px); }
+.cn-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
 .cn-price b{ font:800 clamp(50px,7vw,92px) "Big Shoulders Display",sans-serif; color:var(--steam); }
 .cn-price span{ font:500 15px "Public Sans",sans-serif; color:#9c9aa4; }
-.cn-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#9c9aa4; }
-.cn-note{ display:block; margin-top:18px; font:600 12px "Public Sans",sans-serif; letter-spacing:.06em; color:#6b6975; }
+.cn-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Public Sans",sans-serif; color:#a6a4ae; }
+.cn-note{ display:block; margin-top:18px; font:600 12px "Public Sans",sans-serif; letter-spacing:.06em; color:#7c7a86; }
 
-/* CLIMAX */
+/* CLIMAX — ледник */
 .cn-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 55%; }
-.cn-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(15,20,22,.4), rgba(10,12,14,.88) 78%); }
+.cn-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(15,20,22,.3), rgba(10,12,14,.86) 80%); }
 .cn-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
-.cn-climax-copy h2{ margin:0 0 32px; font:800 clamp(38px,5.8vw,88px)/1.02 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--steam); }
+.cn-climax-copy h2{ margin:0 0 32px; font:800 clamp(38px,5.8vw,88px)/1.02 "Big Shoulders Display",sans-serif; text-transform:uppercase; color:var(--steam); text-shadow:0 4px 40px rgba(0,0,0,.6); }
 .cn-climax-copy em{ font-style:normal; color:var(--emberx); }
 
 /* FOOT */
-.cn-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#0c0b0e; color:#6b6975; font:500 13px "Public Sans",sans-serif; }
+.cn-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#0c0b0e; color:#7c7a86; font:500 13px "Public Sans",sans-serif; }
 .cn-foot .cn-brand{ color:#9c9aa4; text-shadow:none; }
 
 @media (max-width:820px){
   .cn-nav nav a:not(.cn-nav-cta){ display:none; }
   .cn-split{ grid-template-columns:1fr; } .cn-split-media{ min-height:50vh; } .cn-split::before{ display:none; }
-  .cn-stats{ grid-template-columns:1fr 1fr; }
   .cn-features-grid{ grid-template-columns:1fr 1fr; }
-  .cn-gallery-grid{ grid-template-columns:1fr 1fr; }
   .cn-step{ grid-template-columns:3.4rem 1fr; }
+  .cn-temp-row{ grid-template-columns:1fr; min-height:0; padding:5vh 0 5vh 12vw; }
+  .cn-temp-list::before{ left:4vw; }
+  .cn-temp-row::before{ left:calc(4vw - 7px); top:8vh; }
 }
+@media (prefers-reduced-motion:reduce){ .cn-wisp, .cn-wisp path{ animation:none; } }
 
-@media (prefers-reduced-motion:reduce){
-  .cn-marquee-track{ animation:none; }
-}
+/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
+   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
+.cn .sk-backdrop, .cn .rl-fx{ visibility:visible; }

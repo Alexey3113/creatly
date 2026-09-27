@@ -269,3 +269,97 @@
 .vh-site.noct .noct-cta::before{content:"";position:absolute;left:50%;top:50%;width:70vmax;height:70vmax;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,150,70,.12),transparent);pointer-events:none}
 .vh-site.noct .noct-cta p{color:#caa994}
 @media (prefers-reduced-motion:reduce){.noct-flame{animation:none}}
+
+/* ===== ROAST — кривая свежести рисуется через главу, зерно едет по ней; профиль обжарки в тоне кадра ===== */
+.vh-site.roast{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.vh-site.roast .roast-hero-copy h1{font-size:clamp(40px,6vw,92px);line-height:1}
+.roast .pb-cband-chap .pb-cband-ix{color:#f0a26a;letter-spacing:.22em;text-transform:uppercase}
+.roast .pb-cband-chap h3 em{color:#f0a26a}
+/* сырое зерно (серо-зелёный) → first crack (янтарная вспышка) → тёмная обжарка */
+.roast .pb-cband .pb-cband-wash::before{content:"";position:absolute;inset:0;background:#7d8a5e;mix-blend-mode:color;opacity:calc(.42*(1 - clamp(0,calc((var(--sp) - .04)/.24),1)))}
+.roast .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 60% 40%,rgba(255,170,70,.55),transparent 70%);mix-blend-mode:soft-light;opacity:calc(clamp(0,calc((var(--sp) - .22)/.14),1)*clamp(0,calc((.68 - var(--sp))/.14),1))}
+.roast-chart{position:absolute;right:6vw;top:15vh;width:620px;height:270px;--k2:clamp(0,calc((var(--sp) - .34)/.3),1)}
+.roast-chart svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.roast-base{stroke:rgba(255,236,214,.3);stroke-width:1}
+.roast-peakband{stroke:rgba(255,196,120,.22);stroke-width:1;stroke-dasharray:3 6}
+.roast-line{stroke:#ffc07a;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--k2));filter:drop-shadow(0 0 8px rgba(255,160,70,.55))}
+.roast-bean{position:absolute;left:0;top:0;width:18px;height:12px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#9a5a2c,#4a2410);box-shadow:0 0 0 2px rgba(255,200,140,.35),0 4px 10px rgba(0,0,0,.5);
+  offset-distance:calc(var(--k2)*100%);offset-rotate:auto}
+.roast-bean::after{content:"";position:absolute;left:18%;right:18%;top:50%;height:1.5px;margin-top:-.75px;border-radius:2px;background:#e7b27e;opacity:.7}
+.roast-mk{position:absolute;white-space:nowrap;font:500 11px var(--vh-mono);letter-spacing:.1em;text-transform:uppercase;color:#f2dcc4;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+.roast-mk b{display:block;font:600 12px var(--vh-mono);letter-spacing:.14em;color:#ffc07a}
+.roast-mk.pk b{font:400 italic 30px var(--vh-serif);letter-spacing:0;color:#ffd29b}
+.roast-mk:nth-of-type(1){opacity:clamp(0,calc((var(--k2) - .01)/.06),1)}
+.roast-mk:nth-of-type(2){opacity:clamp(0,calc((var(--k2) - .12)/.06),1)}
+.roast-mk:nth-of-type(3){opacity:clamp(0,calc((var(--k2) - .3)/.06),1)}
+.roast-mk:nth-of-type(4){opacity:clamp(0,calc((var(--k2) - .86)/.06),1)}
+.vh-site.roast .roast-cta{border-top:0}
+
+/* ===== SOL — солнце-актёр идёт дугой по странице; одна крыша: обмер → панели → счётчик назад; закат на CTA ===== */
+.vh-site.sol{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.vh-site.sol .sol-hero-wash{background:linear-gradient(180deg,rgba(244,239,228,.35),transparent 30%,transparent 50%,rgba(244,239,228,.92)),linear-gradient(60deg,rgba(244,239,228,.75),transparent 48%)}
+.vh-site.sol .sol-hero-copy h1 em{color:#8a4b05}
+.vh-site.sol .sol-eyebrow{color:#7a4306}
+.sol-sun{width:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 42% 40%,#fffbe8,#ffe39a 45%,#f7b84e 80%,#f0a03c);
+  box-shadow:0 0 40px 14px rgba(255,214,120,.55),0 0 120px 50px rgba(255,190,90,.25)}
+.sol .pb-cband-chap .pb-cband-ix{color:#ffd79a;letter-spacing:.22em;text-transform:uppercase}
+.sol .pb-cband-chap h3 em{color:#ffd28e}
+.sol .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#ffb35c,#8a3f55);mix-blend-mode:soft-light;opacity:clamp(0,calc((var(--sp) - .7)/.2),.85)}
+/* обмер крыши — в координатах кадра (тот же cover и тот же наезд, что у кадра ленты) */
+.sol-survey{position:absolute;inset:0;width:100%;height:100%;transform:scale(calc(1.04 + var(--sp)*.22));transform-origin:50% 45%}
+.sol-survey path{stroke:#fff6de;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--k));filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
+.sol-survey text{fill:#fff6de;font:600 22px var(--vh-mono);letter-spacing:.1em;text-transform:uppercase;paint-order:stroke;stroke:rgba(40,24,6,.55);stroke-width:4px}
+.sol-own{position:absolute;right:var(--pad);top:14vh;text-align:right;color:#fff;text-shadow:0 2px 18px rgba(60,20,10,.55)}
+.sol-batt{position:relative;width:130px;height:48px;margin:0 0 18px auto;border:2px solid rgba(255,255,255,.9);border-radius:8px;padding:5px}
+.sol-batt::after{content:"";position:absolute;right:-9px;top:50%;width:6px;height:18px;margin-top:-9px;border-radius:0 3px 3px 0;background:rgba(255,255,255,.9)}
+.sol-batt i{display:block;height:100%;width:calc(var(--k)*100%);border-radius:4px;background:linear-gradient(90deg,#ffd27a,#9fe07a)}
+.sol-own b{display:block;font:300 clamp(48px,5.4vw,84px)/1 var(--vh-mono);letter-spacing:-.03em}
+.sol-own b small{font-size:.32em;letter-spacing:.1em}
+.sol-own > span{display:block;margin-top:10px;font:600 12px var(--vh-mono);letter-spacing:.2em;text-transform:uppercase;color:#fff1d8}
+.vh-site.sol .sol-cta{border-top:0;padding-top:clamp(170px,26vh,260px)}
+.vh-site.sol .sol-cta em{color:#8a3f10}
+.vh-site.sol a.sol-btn{background:#241a0e;color:#f7ecd9}
+.vh-site.sol .sol-foot-top p,.vh-site.sol .sol-foot-legal{color:#6a5a44}
+
+/* ===== DEW — облако ингредиентов гаснет до девяти, девять втягиваются в каплю; лицо → флакон ===== */
+.vh-site.dew{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.vh-site.dew .dew-hero-wash{background:linear-gradient(180deg,rgba(241,235,234,.3),transparent 30%,transparent 50%,rgba(241,235,234,.9)),linear-gradient(62deg,rgba(241,235,234,.82),transparent 42%)}
+.vh-site.dew .dew-hero-copy{bottom:9vh}
+.vh-site.dew .dew-hero-copy h1{font-size:clamp(38px,5vw,76px);line-height:1}
+.vh-site.dew .dew-hero-copy h1 em{color:#8c3a50}
+.vh-site.dew .dew-eyebrow{color:#8c3a50}
+/* главы акта — тёмным по светлой коже/льну, светлая вуаль вместо тёмной */
+.dew .pb-cband .pb-cband-wash{background:linear-gradient(64deg,rgba(246,238,236,.86),rgba(246,238,236,.4) 34%,transparent 56%)}
+.dew .pb-cband .pb-cband-chap{color:#2a2226}
+.dew .pb-cband .pb-cband-chap h3{color:#2a2226;text-shadow:none}
+.dew .pb-cband .pb-cband-chap h3 em{color:#8c3a50}
+.dew .pb-cband .pb-cband-chap p{color:#4a3d42;text-shadow:none}
+.dew .pb-cband .pb-cband-chap .pb-cband-ix{color:#8c3a50;letter-spacing:.22em;text-transform:uppercase}
+.dew-cloud{position:absolute;inset:0;--pull:clamp(0,calc((var(--sp) - .3)/.14),1)}
+.dew-cloud span{position:absolute;left:calc(var(--x)*1vw);top:calc(var(--y)*1vh);transform:translate(-50%,-50%) translateY(calc(clamp(0,calc((var(--sp) - var(--t))/.03),1)*-18px));
+  white-space:nowrap;font:500 12px var(--vh-mono);letter-spacing:.06em;color:#5e4f55;opacity:clamp(0,calc((var(--t) - var(--sp))/.02),1)}
+.dew-cloud span.keep{font:400 italic clamp(18px,1.6vw,26px) var(--vh-serif);letter-spacing:0;color:#3b1f2a;text-shadow:0 1px 12px rgba(255,248,246,.9);opacity:calc(1 - var(--pull)*var(--pull));
+  left:calc((var(--x) + (58 - var(--x))*var(--pull))*1vw);top:calc((var(--y) + (51 - var(--y))*var(--pull))*1vh);transform:translate(-50%,-50%) scale(calc(1 - var(--pull)*.7))}
+.vh-site.dew .dew-cta{border-top:0;position:relative}
+.dew-bead{display:block;width:34px;height:46px;margin:0 auto 5vh;border-radius:50% 50% 50% 50% / 62% 62% 40% 40%;transform:rotate(180deg);
+  background:radial-gradient(circle at 36% 62%,#fff 0 8%,rgba(255,255,255,.2) 20%,transparent 40%),radial-gradient(circle at 50% 55%,rgba(214,190,222,.55),rgba(190,214,236,.35) 60%,rgba(255,255,255,.15));
+  box-shadow:inset 0 -6px 12px rgba(255,255,255,.7),inset 0 6px 14px rgba(160,120,150,.35),0 10px 22px rgba(120,80,90,.18)}
+
+/* ===== FORM — одна тёмная комната: луч переезжает от соединения к стулу, детали вычитаются 64 → 7 ===== */
+.vh-site.form{--vh-display:var(--vh-serif);background:var(--atm,var(--bg))}
+.form .pb-cband-chap .pb-cband-ix{color:#d9bb93;letter-spacing:.24em;text-transform:uppercase}
+.form .pb-cband-chap h3 em{color:#d9bb93}
+.form .pb-cband .pb-cband-frame img{filter:brightness(.62) contrast(1.12) saturate(.9)}
+/* пятно света = фон: всё тонет в темноте, кроме предмета под лучом (соединение → стул) */
+.form .pb-cband .pb-cband-wash{--lx:calc(70% - clamp(0,calc((var(--sp) - .5)/.3),1)*14%);--ly:calc(44% + clamp(0,calc((var(--sp) - .5)/.3),1)*12%);
+  background:radial-gradient(34vmax 30vmax at var(--lx) var(--ly),transparent 0,rgba(8,8,10,.25) 45%,rgba(8,8,10,.86) 100%)}
+.form .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:radial-gradient(22vmax 20vmax at var(--lx) var(--ly),rgba(255,226,180,.3),transparent 70%);mix-blend-mode:soft-light}
+.form-beam{position:absolute;left:0;top:-20%;width:34vmax;height:150%;transform-origin:50% 0;
+  left:calc(72% - clamp(0,calc((var(--sp) - .5)/.3),1)*14%);transform:translateX(-50%) rotate(calc(16deg - clamp(0,calc((var(--sp) - .5)/.3),1)*6deg));
+  background:linear-gradient(90deg,transparent,rgba(255,236,206,.07) 30%,rgba(255,236,206,.11) 50%,rgba(255,236,206,.07) 70%,transparent);
+  -webkit-mask:linear-gradient(180deg,#000,rgba(0,0,0,.6) 55%,transparent 80%);mask:linear-gradient(180deg,#000,rgba(0,0,0,.6) 55%,transparent 80%);mix-blend-mode:screen}
+.form-parts{position:absolute;right:var(--pad);top:14vh;text-align:right;color:#efe6da}
+.form-parts span{display:block;font:600 11px var(--vh-mono);letter-spacing:.26em;text-transform:uppercase;color:#bfae98;margin-bottom:8px}
+.form-parts b{display:block;font:400 clamp(72px,8vw,128px)/.9 var(--vh-serif);letter-spacing:-.02em}
+.vh-site.form .form-cta{border-top:0;position:relative}
+.vh-site.form .form-cta::before{content:"";position:absolute;left:50%;top:44%;width:80vmax;height:60vmax;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,220,170,.13),transparent);pointer-events:none}

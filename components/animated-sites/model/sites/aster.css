@@ -1,157 +1,187 @@
 /* ASTER — «Apogee» dark-sky observatory & stargazing retreat. Мир: малый наблюдатель под великим
-   небом, ночь как глубина, а не тьма. Шрифты Instrument Sans (display, инструментальный,
-   precision-optics характер) × Outfit (body, чистый/точный geometric sans). Палитра indigo/starlight-silver/
-   nebula-violet/warm-dome-gold + aurora mint CTA. Все 4 сцены тёмные — типографика светлая
-   по всему лендингу. Стили только .as-* + копи в .rl-copy. Мотив: круг-апертура/купол, эхо
-   в декоративных кольцах секций. */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+   небом, ночь как глубина, а не тьма. Шрифты Instrument Sans (display) × Outfit (body) — через FontLinks.
+   Палитра indigo/starlight-silver/nebula-violet/warm-dome-gold + aurora mint CTA. Стили только .as-*
+   и копи внутри .as .rl-copy. Мотив: кольцо окуляра / купол. */
 
 .as{
   --indigo:#1a1f3a; --void:#12163a; --void-deep:#0a0d22; --panel:#161b42;
-  --silver:#c8d0e6; --violet:#6a4aa8; --gold:#d9b46a; --aurora:#8affd8;
-  --ink:#eef1fb; --dim:#93a0c9; --line:#262c58;
+  --silver:#c8d0e6; --violet:#6a4aa8; --violet-l:#a88ae0; --gold:#d9b46a; --aurora:#8affd8;
+  --ink:#eef1fb; --dim:#9aa6cf; --line:rgba(200,208,230,.16);
   --rl-void:#0d1029; --rl-spark:#c8d0e6;
-  background:var(--void-deep); color:var(--ink);
+  isolation:isolate; background:var(--atm, var(--void-deep)); color:var(--ink);
   font-family:"Outfit",system-ui,sans-serif;
 }
 
-.as-disp{ font-family:"Instrument Sans",system-ui,sans-serif; }
-
-/* tileable starfield wash — applied per-section as an extra background layer */
-.as-sky{
-  background-image:
-    radial-gradient(1.6px 1.6px at 14% 22%, rgba(200,208,230,.9), transparent 60%),
-    radial-gradient(1.2px 1.2px at 68% 12%, rgba(200,208,230,.7), transparent 60%),
-    radial-gradient(1px 1px at 42% 68%, rgba(200,208,230,.55), transparent 60%),
-    radial-gradient(1.4px 1.4px at 86% 54%, rgba(200,208,230,.75), transparent 60%),
-    radial-gradient(1px 1px at 25% 84%, rgba(200,208,230,.5), transparent 60%),
-    radial-gradient(1.1px 1.1px at 92% 88%, rgba(200,208,230,.6), transparent 60%);
-  background-size:340px 340px;
-  background-repeat:repeat;
-}
-
-/* NAV — скрим для контраста поверх любой сцены рила */
+/* NAV */
 .as-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
 .as-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(6,8,20,.5), rgba(6,8,20,0)); }
+  background:linear-gradient(180deg, rgba(6,8,20,.55), rgba(6,8,20,0)); }
 .as-brand{ font:700 20px "Instrument Sans",system-ui,sans-serif; letter-spacing:.22em; color:var(--ink); text-shadow:0 1px 12px rgba(0,0,0,.5); }
 .as-nav nav{ display:flex; gap:28px; align-items:center; font:600 13px "Outfit",system-ui,sans-serif; letter-spacing:.03em; }
 .as-nav a{ color:rgba(238,241,251,.85); text-decoration:none; text-shadow:0 1px 10px rgba(0,0,0,.45); }
 .as-nav-cta{ padding:10px 20px; border-radius:999px; background:var(--aurora); color:#07231a!important; text-shadow:none!important; font-weight:700; }
 
-/* HERO / SCENE COPY — все сцены тёмные, светлая типографика везде */
-.as-eyebrow,.as-idx{ display:inline-block; font:600 12px "Outfit",system-ui,sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); }
-.as-idx{ color:var(--silver); letter-spacing:.18em; opacity:.85; }
-.rl-copy h1{ margin:18px 0 20px; font:600 clamp(52px,8.6vw,128px)/.96 "Instrument Sans",system-ui,sans-serif; letter-spacing:.005em; color:var(--ink); text-shadow:0 2px 30px rgba(0,0,0,.4); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:normal; color:var(--aurora); }
-.rl-copy h2{ margin:10px 0 16px; font:600 clamp(38px,6vw,88px)/1 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
-.rl-copy p{ margin:0 0 26px; max-width:42ch; font:400 16px/1.7 "Outfit",system-ui,sans-serif; color:var(--silver); text-shadow:0 1px 16px rgba(0,0,0,.4); }
+/* ── РИЛ ─────────────────────────────────────────────────────────────────────────── */
+.as-eyebrow,.as-idx{ display:inline-block; font:600 12px "Outfit",system-ui,sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); text-shadow:0 1px 12px rgba(0,0,0,.7); }
+.as-idx{ color:var(--silver); letter-spacing:.18em; }
+.as .rl-copy h1{ margin:18px 0 20px; font:600 clamp(52px,8.6vw,128px)/.96 "Instrument Sans",system-ui,sans-serif; letter-spacing:.005em; color:var(--ink); text-shadow:0 2px 34px rgba(4,6,20,.7); }
+.as .rl-copy h1 em,.as .rl-copy h2 em{ font-style:normal; color:var(--aurora); }
+.as .rl-copy h2{ margin:10px 0 16px; font:600 clamp(38px,6vw,88px)/1 "Instrument Sans",system-ui,sans-serif; color:var(--ink); text-shadow:0 2px 30px rgba(4,6,20,.75); }
+.as .rl-copy p{ margin:0 0 26px; max-width:42ch; font:400 16px/1.7 "Outfit",system-ui,sans-serif; color:#d9def0; text-shadow:0 1px 16px rgba(4,6,20,.9), 0 0 2px rgba(4,6,20,.6); }
 .as-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-.as-btn{ padding:15px 30px; border-radius:999px; background:var(--aurora); color:#07231a; text-decoration:none; font:700 15px "Outfit",system-ui,sans-serif; box-shadow:0 16px 36px rgba(138,255,216,.24); white-space:nowrap; }
+.as-btn{ display:inline-block; padding:15px 30px; border-radius:999px; background:var(--aurora); color:#07231a; text-decoration:none; font:700 15px "Outfit",system-ui,sans-serif; box-shadow:0 16px 36px rgba(138,255,216,.24); white-space:nowrap; }
 .as-btn:active{ transform:translateY(1px); }
-.as-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:600 15px "Outfit",system-ui,sans-serif; border-bottom:1px solid rgba(238,241,251,.35); white-space:nowrap; }
+.as-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:600 15px "Outfit",system-ui,sans-serif; border-bottom:1px solid rgba(238,241,251,.35); white-space:nowrap; text-shadow:0 1px 12px rgba(0,0,0,.7); }
 .as-ghost:active{ transform:translateY(1px); }
 
+/* интерьер купола и Млечный Путь: у плит сверху шов-полоса — закрываем её темнотой купола/неба,
+   звёзды сверху даёт общий слой погоды */
+.as [data-scene="telescope"] .rl-haze{ background:
+  linear-gradient(180deg, #0b0d22 0, #0b0d22 38%, rgba(11,13,34,.55) 47%, transparent 58%),
+  linear-gradient(180deg, transparent 58%, rgba(0,0,0,.45) 100%); }
+.as [data-scene="milkyway"] .rl-haze{ background:
+  linear-gradient(180deg, #0c0f27 0, #0c0f27 31%, rgba(12,15,39,.5) 39%, transparent 48%),
+  linear-gradient(180deg, transparent 60%, rgba(0,0,0,.4) 100%); }
+/* калитка fg закрывала купол — оставляем только кромку травы */
+.as [data-scene="hilltop"] .rl-fg img{
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 66%, #000 84%); mask-image:linear-gradient(180deg, transparent 0, transparent 66%, #000 84%); }
+.as [data-scene="telescope"] .rl-copy{ top:13vh; }
+.as [data-scene="milkyway"] .rl-copy{ top:11vh; }
+/* наблюдатель под метеорами: из пятна-плашки оставляем только фигуру на траве */
+.as [data-scene="meteor"] .rl-mid img{
+  -webkit-mask-image:radial-gradient(15% 9% at 49% 73.5%, #000 52%, transparent 100%);
+          mask-image:radial-gradient(15% 9% at 49% 73.5%, #000 52%, transparent 100%);
+  -webkit-mask-composite:source-over; mask-composite:add; }
+.as [data-scene="meteor"] .rl-shadow{ display:none; }
+/* стоп-кадр: время, когда ядро галактики выходит из-за хребта */
+.as-freeze{ display:grid; gap:8px; justify-items:end; color:var(--ink); text-shadow:0 2px 30px rgba(4,6,20,.9); }
+.as-freeze b{ font:600 clamp(64px,8vw,124px)/.9 "Instrument Sans",system-ui,sans-serif; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.as-freeze span{ font:600 11px "Outfit",system-ui,sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--aurora); }
+
+/* ── АКТЁРЫ ───────────────────────────────────────────────────────────────────────── */
+.as-ring-actor{ mix-blend-mode:screen; }
+.as-ring{ position:relative; width:100%; aspect-ratio:1; border-radius:50%;
+  border:1.5px solid rgba(217,180,106,.9); box-shadow:0 0 18px rgba(217,180,106,.35), inset 0 0 18px rgba(217,180,106,.18); }
+.as-ring::before{ content:""; position:absolute; inset:9%; border-radius:50%; border:1px solid rgba(200,208,230,.5); }
+.as-ring i{ position:absolute; inset:-7%; border-radius:50%;
+  background:conic-gradient(from -2deg, rgba(217,180,106,.9) 0 4deg, transparent 4deg 90deg, rgba(217,180,106,.9) 90deg 94deg, transparent 94deg 180deg,
+    rgba(217,180,106,.9) 180deg 184deg, transparent 184deg 270deg, rgba(217,180,106,.9) 270deg 274deg, transparent 274deg);
+  -webkit-mask-image:radial-gradient(closest-side, transparent 88%, #000 89%, #000 100%);
+          mask-image:radial-gradient(closest-side, transparent 88%, #000 89%, #000 100%); }
+.as-lamp-actor{ mix-blend-mode:screen; }
+.as-lamp{ width:100%; aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle, #fff3d0 0 7%, rgba(255,200,110,.85) 14%, rgba(217,160,80,.3) 34%, transparent 66%);
+  animation:as-flicker 2.6s ease-in-out infinite; }
+@keyframes as-flicker{ 0%,100%{ opacity:1 } 45%{ opacity:.82 } 60%{ opacity:.95 } }
+
+/* ── ЛЕНДИНГ: небо продолжается под блоками (Backdrop + --atm), к CTA светает ─────── */
 .as-kick{ display:block; font:600 12px "Outfit",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); }
 .as-link{ color:var(--aurora); text-decoration:none; font:600 15px "Outfit",system-ui,sans-serif; }
 
-/* ============ SIGNATURE — STATS-FIRST, oversized astronomical numbers ============ */
-.as-stats{ position:relative; padding:15vh 6vw 12vh; background:linear-gradient(180deg,var(--void-deep),var(--void)); overflow:hidden; }
-.as-stats::before{ content:""; position:absolute; right:-14vw; top:-14vw; width:44vw; height:44vw; border-radius:50%;
-  border:1px dashed rgba(200,208,230,.16); pointer-events:none; }
-.as-stats::after{ content:""; position:absolute; right:-4vw; top:-4vw; width:24vw; height:24vw; border-radius:50%;
-  border:1px dashed rgba(217,180,106,.16); pointer-events:none; }
-.as-stats-head{ position:relative; z-index:2; max-width:52ch; margin:0 0 8vh; }
-.as-stats-head h2{ margin:12px 0 0; font:600 clamp(30px,4.4vw,58px)/1.06 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
-.as-stat-grid{ position:relative; z-index:2; display:grid; grid-template-columns:1.35fr 1fr; grid-template-rows:auto auto; gap:0; border-top:1px solid var(--line); }
-.as-stat{ padding:5.5vh 3vw 5.5vh 0; border-bottom:1px solid var(--line); }
-.as-stat:nth-child(1){ grid-column:1; grid-row:1; border-right:1px solid var(--line); padding-right:5vw; }
-.as-stat:nth-child(2){ grid-column:2; grid-row:1; padding-left:5vw; }
-.as-stat:nth-child(3){ grid-column:1; grid-row:2; border-right:1px solid var(--line); padding-right:5vw; }
-.as-stat:nth-child(4){ grid-column:2; grid-row:2; padding-left:5vw; }
-.as-stat b{ display:flex; align-items:baseline; gap:10px; font:700 clamp(56px,7.4vw,128px)/1 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
-.as-stat:nth-child(1) b{ font-size:clamp(72px,9.4vw,168px); color:var(--aurora); }
-.as-stat b sup{ font:600 clamp(16px,1.6vw,24px) "Outfit",system-ui,sans-serif; color:var(--gold); }
-.as-stat p{ margin:14px 0 0; max-width:34ch; font:400 15px/1.6 "Outfit",system-ui,sans-serif; color:var(--dim); }
-
 /* MANIFESTO */
-.as-manifest{ padding:18vh 8vw; background:var(--void); text-align:center; }
-.as-manifest p{ margin:0 auto; max-width:24ch; font:600 clamp(28px,4.4vw,60px)/1.16 "Instrument Sans",system-ui,sans-serif; color:#dde2f5; }
-.as-manifest em{ font-style:normal; color:var(--violet); }
+.as-manifest{ padding:26vh 8vw 18vh; background:transparent; text-align:center; }
+.as-manifest p{ margin:0 auto; max-width:24ch; font:600 clamp(28px,4.4vw,60px)/1.16 "Instrument Sans",system-ui,sans-serif; color:#e3e7f7; text-shadow:0 4px 40px rgba(4,6,20,.8); }
+.as-manifest em{ font-style:normal; color:var(--violet-l); }
 
-/* STEPS / PROCESS — «How a Night Unfolds», отсутствует у эталона */
-.as-steps{ padding:16vh 6vw; background:linear-gradient(180deg,var(--void),var(--void-deep)); }
-.as-steps-head{ max-width:52ch; margin:0 0 8vh; }
-.as-steps-head h2{ margin:12px 0 0; font:600 clamp(30px,4.4vw,58px)/1.06 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
-.as-timeline{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(5,1fr); gap:2vw; border-top:1px solid var(--line); padding-top:5vh; }
-.as-timeline li{ position:relative; padding-top:24px; }
-.as-timeline li::before{ content:""; position:absolute; left:0; top:-1px; width:10px; height:10px; border-radius:50%; background:var(--aurora); box-shadow:0 0 0 4px rgba(138,255,216,.14); }
-.as-time{ display:block; font:700 13px "Outfit",system-ui,sans-serif; letter-spacing:.06em; color:var(--gold); margin-bottom:10px; }
-.as-timeline h3{ margin:0 0 8px; font:600 clamp(18px,1.8vw,22px) "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
-.as-timeline p{ margin:0; font:400 13.5px/1.6 "Outfit",system-ui,sans-serif; color:var(--dim); }
+/* CONSTELLATION — цифры-звёзды */
+.as-const{ padding:12vh 6vw 8vh; background:transparent; }
+.as-const-head{ max-width:52ch; }
+.as-const-head h2{ margin:12px 0 0; font:600 clamp(30px,4.4vw,58px)/1.06 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
+.as-chart{ position:relative; height:118vh; margin:4vh 0 0; }
+.as-lines{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.as-lines polyline{ fill:none; stroke:rgba(200,208,230,.32); stroke-width:1; stroke-dasharray:1 5; vector-effect:non-scaling-stroke; }
+.as-dust{ position:absolute; width:5px; height:5px; margin:-2.5px 0 0 -2.5px; border-radius:50%; background:var(--silver); box-shadow:0 0 10px 2px rgba(200,208,230,.6); }
+.as-star{ position:absolute; width:min(26vw,21rem); padding:18px 0 0 20px; }
+.as-star::before{ content:""; position:absolute; left:-5px; top:-5px; width:10px; height:10px; border-radius:50%; background:#fff;
+  box-shadow:0 0 0 3px rgba(138,255,216,.18), 0 0 18px 6px rgba(200,220,255,.55); }
+.as-star b{ display:flex; align-items:baseline; gap:8px; font:700 clamp(48px,6vw,104px)/1 "Instrument Sans",system-ui,sans-serif; color:var(--ink); text-shadow:0 2px 30px rgba(4,6,20,.8); }
+.as-star:first-of-type b{ color:var(--aurora); }
+.as-star sup{ font:600 clamp(14px,1.4vw,20px) "Outfit",system-ui,sans-serif; color:var(--gold); }
+.as-star p{ margin:12px 0 0; max-width:30ch; font:400 14.5px/1.6 "Outfit",system-ui,sans-serif; color:var(--dim); text-shadow:0 1px 12px rgba(4,6,20,.9); }
+.as-star:last-of-type{ margin-left:calc(-1 * min(26vw,21rem)); padding:18px 20px 0 0; text-align:right; }
+.as-star:last-of-type::before{ left:auto; right:-5px; }
+.as-star:last-of-type b{ justify-content:flex-end; }
+.as-star:last-of-type p{ margin-left:auto; }
 
-/* FEATURE CARDS — «Instruments & Programs», отсутствует у эталона */
-.as-cards{ padding:16vh 6vw; background:var(--void-deep); }
+/* THE NIGHT — закреплённая дуга */
+.as-night{ position:relative; display:grid; grid-template-columns:55vw 1fr; background:linear-gradient(90deg, rgba(8,10,28,.1), rgba(8,10,28,.55)); }
+.as-night-pin{ position:sticky; top:0; height:100vh; }
+.as-arc{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.as-arc path{ fill:none; stroke:rgba(217,180,106,.7); stroke-width:1.5; stroke-dasharray:3 6; vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 5px rgba(217,180,106,.5)); }
+.as-horizon{ position:absolute; left:4%; right:4%; top:80%; height:1px; background:linear-gradient(90deg, transparent, rgba(200,208,230,.4), transparent); }
+.as-tick{ position:absolute; width:9px; height:9px; margin:-4.5px 0 0 -4.5px; border-radius:50%; background:var(--gold); box-shadow:0 0 12px rgba(217,180,106,.7); }
+.as-tick em{ position:absolute; left:50%; top:-26px; transform:translateX(-50%); white-space:nowrap; font:600 11px "Outfit",system-ui,sans-serif; font-style:normal; letter-spacing:.14em; color:var(--gold); }
+.as-night-list{ padding:24vh 6vw 30vh 2vw; }
+.as-night-head h2{ margin:12px 0 0; font:600 clamp(30px,4vw,54px)/1.06 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
+.as-hours{ list-style:none; margin:10vh 0 0; padding:0; }
+.as-hour{ min-height:44vh; padding-left:24px; border-left:1px solid var(--line); }
+.as-time{ display:block; font:700 13px "Outfit",system-ui,sans-serif; letter-spacing:.08em; color:var(--gold); margin-bottom:10px; }
+.as-hour h3{ margin:0 0 10px; font:600 clamp(24px,2.4vw,34px) "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
+.as-hour p{ margin:0; max-width:36ch; font:400 15px/1.65 "Outfit",system-ui,sans-serif; color:var(--dim); }
+
+/* INSTRUMENTS */
+.as-cards{ padding:16vh 6vw; background:transparent; }
 .as-cards-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:4vw; margin:0 0 7vh; flex-wrap:wrap; }
 .as-cards-head h2{ margin:12px 0 0; font:600 clamp(30px,4.4vw,58px)/1.06 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
 .as-cards-head p{ margin:0; max-width:38ch; font:400 15px/1.65 "Outfit",system-ui,sans-serif; color:var(--dim); }
 .as-card-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-.as-card{ background:var(--void-deep); padding:4vh 1.8vw 5vh; }
-.as-card-n{ display:block; font:700 13px "Outfit",system-ui,sans-serif; color:var(--violet); letter-spacing:.05em; margin-bottom:2.2vh; }
+.as-card{ background:rgba(10,13,34,.78); backdrop-filter:blur(6px); padding:4vh 1.8vw 5vh; }
+.as-card-n{ display:block; font:700 13px "Outfit",system-ui,sans-serif; color:var(--violet-l); letter-spacing:.05em; margin-bottom:2.2vh; }
 .as-card h3{ margin:0 0 12px; font:600 clamp(19px,1.7vw,23px)/1.16 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
 .as-card p{ margin:0; font:400 13.5px/1.6 "Outfit",system-ui,sans-serif; color:var(--dim); }
 
-/* GALLERY — «Four Skies», обложки-плиты из s{1..4}-bg */
-.as-gallery{ padding:16vh 6vw; background:var(--void); }
-.as-gallery-head{ max-width:52ch; margin:0 0 7vh; }
-.as-gallery-head h2{ margin:12px 0 0; font:600 clamp(30px,4.4vw,58px)/1.06 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
-.as-plates{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.2vw; }
-.as-plate{ position:relative; aspect-ratio:3/4; border-radius:6px; overflow:hidden; background-size:cover; background-position:50% 40%; }
-.as-plate::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,13,34,0) 42%, rgba(10,13,34,.86) 100%); }
-.as-plate span{ position:absolute; left:16px; right:16px; bottom:16px; z-index:2; font:700 14px "Outfit",system-ui,sans-serif; letter-spacing:.03em; color:var(--ink); }
-.as-plate em{ display:block; font:600 11px "Outfit",system-ui,sans-serif; font-style:normal; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
-
 /* SPLIT */
-.as-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:78vh; background:var(--void-deep); }
-.as-split-media{ background-size:cover; background-position:50% 44%; }
+.as-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:78vh; background:rgba(10,13,34,.6); }
+.as-split-media{ background-size:cover; background-position:50% 62%; border-radius:0 50% 50% 0 / 0 50% 50% 0; }
 .as-split-copy{ align-self:center; padding:10vh 6vw; }
 .as-split-copy h2{ margin:14px 0 18px; font:600 clamp(30px,3.6vw,54px)/1.06 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
 .as-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Outfit",system-ui,sans-serif; color:var(--dim); }
 
-/* QUOTE */
-.as-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,var(--void),var(--void-deep)); }
-.as-quote blockquote{ margin:0 auto; max-width:26ch; font:600 clamp(26px,3.6vw,50px)/1.24 "Instrument Sans",system-ui,sans-serif; color:#dde2f5; }
-.as-quote em{ font-style:normal; color:var(--aurora); }
-.as-quote cite{ display:block; margin-top:34px; font:600 13px "Outfit",system-ui,sans-serif; letter-spacing:.06em; font-style:normal; color:var(--dim); }
+/* LOG — запись журнала наблюдений */
+.as-log{ padding:18vh 6vw 14vh; background:transparent; }
+.as-log-entry{ max-width:50rem; margin-left:auto; padding:0 0 0 3vw; border-left:1px solid rgba(138,255,216,.5); }
+.as-log-meta{ display:block; font:600 11px "Outfit",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--aurora); }
+.as-log blockquote{ margin:20px 0 0; font:600 clamp(24px,3vw,42px)/1.26 "Instrument Sans",system-ui,sans-serif; color:#e3e7f7; text-shadow:0 2px 30px rgba(4,6,20,.8); }
+.as-log em{ font-style:normal; color:var(--aurora); }
+.as-log cite{ display:block; margin-top:24px; font:600 13px "Outfit",system-ui,sans-serif; letter-spacing:.06em; font-style:normal; color:var(--dim); }
 
 /* DEAL */
-.as-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--void-deep); }
-.as-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid var(--line); border-radius:16px; background:var(--void); }
-.as-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.as-deal{ display:grid; place-items:center; padding:18vh 6vw; background:transparent; }
+.as-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(200,208,230,.2); border-radius:16px; background:rgba(14,16,44,.72); backdrop-filter:blur(10px); }
+.as-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
 .as-price b{ font:700 clamp(50px,6.6vw,90px) "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
 .as-price span{ font:500 15px "Outfit",system-ui,sans-serif; color:var(--dim); }
 .as-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Outfit",system-ui,sans-serif; color:var(--dim); }
-.as-note{ display:block; margin-top:18px; font:500 12px "Outfit",system-ui,sans-serif; letter-spacing:.05em; color:#5f6ba0; }
+.as-note{ display:block; margin-top:18px; font:500 12px "Outfit",system-ui,sans-serif; letter-spacing:.05em; color:#7d88b8; }
 
-/* CLIMAX */
-.as-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 46%; }
-.as-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 40%, rgba(10,13,34,.4), rgba(8,10,26,.92) 78%); }
+/* CLIMAX — светает */
+.as-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 70%; }
+.as-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 90% at 50% 88%, rgba(60,40,80,.1), rgba(20,16,44,.55) 60%, rgba(12,12,34,.88)); }
 .as-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
-.as-climax-copy h2{ margin:0 0 34px; font:700 clamp(40px,6vw,96px)/1.02 "Instrument Sans",system-ui,sans-serif; color:var(--ink); }
+.as-climax-copy h2{ margin:0 0 34px; font:700 clamp(40px,6vw,96px)/1.02 "Instrument Sans",system-ui,sans-serif; color:var(--ink); text-shadow:0 4px 40px rgba(4,6,20,.6); }
 .as-climax-copy em{ font-style:normal; color:var(--aurora); }
 
 /* FOOT */
-.as-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:var(--void-deep); color:#5f6ba0; font:500 13px "Outfit",system-ui,sans-serif; border-top:1px solid var(--line); }
+.as-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#0a0c22; color:#7d88b8; font:500 13px "Outfit",system-ui,sans-serif; border-top:1px solid var(--line); }
 .as-foot .as-brand{ color:var(--dim); }
 
 @media (max-width:820px){
   .as-nav nav a:not(.as-nav-cta){ display:none; }
-  .as-stat-grid{ grid-template-columns:1fr; }
-  .as-stat:nth-child(1),.as-stat:nth-child(3){ border-right:0; padding-right:0; }
-  .as-stat:nth-child(2),.as-stat:nth-child(4){ padding-left:0; }
-  .as-timeline{ grid-template-columns:1fr 1fr; row-gap:5vh; }
+  .as-chart{ height:auto; }
+  .as-lines, .as-dust{ display:none; }
+  .as-star, .as-star:last-of-type{ position:relative; left:auto!important; top:auto!important; width:auto; margin:0 0 7vh; padding:18px 0 0 20px; text-align:left; }
+  .as-star:last-of-type::before{ left:-5px; right:auto; }
+  .as-star:last-of-type b{ justify-content:flex-start; }
+  .as-night{ grid-template-columns:1fr; }
+  .as-night-pin{ position:relative; height:60vh; }
+  .as-night-list{ padding:6vh 6vw 10vh; }
+  .as-hour{ min-height:0; padding-bottom:5vh; }
   .as-card-grid{ grid-template-columns:1fr 1fr; }
-  .as-plates{ grid-template-columns:1fr 1fr; }
-  .as-split{ grid-template-columns:1fr; } .as-split-media{ min-height:50vh; }
+  .as-split{ grid-template-columns:1fr; } .as-split-media{ min-height:50vh; border-radius:0; }
   .as-cards-head{ align-items:flex-start; }
 }
+@media (prefers-reduced-motion:reduce){ .as-lamp{ animation:none; } }
+
+/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
+   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
+.as .sk-backdrop, .as .rl-fx{ visibility:visible; }

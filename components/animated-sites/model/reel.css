@@ -43,8 +43,8 @@
 /* fg — нижняя полоса-рамка, уходит вниз быстрее всех (ближний план обгоняет) */
 .rl-fg{ position:absolute; inset:0 0 -4% 0; z-index:5; will-change:transform, opacity; transform-origin:50% 100%; }
 .rl-fg img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 100%;
-  -webkit-mask-image:linear-gradient(180deg, transparent 0%, transparent 52%, #000 72%, #000 100%);
-          mask-image:linear-gradient(180deg, transparent 0%, transparent 52%, #000 72%, #000 100%); }
+  -webkit-mask-image:linear-gradient(180deg, transparent 0%, transparent var(--rl-fg-a, 52%), #000 var(--rl-fg-b, 72%), #000 100%);
+          mask-image:linear-gradient(180deg, transparent 0%, transparent var(--rl-fg-a, 52%), #000 var(--rl-fg-b, 72%), #000 100%); }
 
 /* копи: reel позиционирует и ведёт прозрачность (эстафета); оформление — сайта */
 .rl-copy{ position:absolute; z-index:10; left:6vw; top:22vh; width:min(46rem,88vw); will-change:opacity, transform; }
@@ -60,12 +60,12 @@
 /* ЭФФЕКТЫ ШВА — над всеми сценами */
 .rl-fx{ position:absolute; pointer-events:none; opacity:0; visibility:hidden; z-index:40; }
 /* полоса стыка при спуске/подъёме: поверхность воды / облачный слой */
-.rl-fx-seam{ left:-5%; right:-5%; top:0; height:34vh;
+.rl-fx-seam{ left:-5%; right:-5%; top:0; height:46vh;
   background:
     radial-gradient(60% 55% at 30% 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 55%, transparent), transparent 70%),
     radial-gradient(55% 60% at 72% 48%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 42%, transparent), transparent 70%),
-    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--fx-tint, #fff) 38%, transparent) 50%, transparent 100%);
-  filter:blur(10px); }
+    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--fx-tint, #fff) 62%, transparent) 38%, color-mix(in srgb, var(--fx-tint, #fff) 78%, transparent) 50%, color-mix(in srgb, var(--fx-tint, #fff) 62%, transparent) 62%, transparent 100%);
+  filter:blur(12px); }
 /* луч, ведущий кромку раскрытия */
 .rl-fx-beam{ top:-10%; bottom:-10%; width:26vw; margin-left:-13vw; transform:rotate(10deg); mix-blend-mode:screen;
   background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 70%, transparent) 42%, #fff8 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 70%, transparent) 58%, transparent);

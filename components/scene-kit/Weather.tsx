@@ -94,7 +94,7 @@ export function Weather({
         // проявление, пока якорь «с» поднимается от низа экрана; угасание, пока якорь «до» уходит за верх
         const vis = smooth((vh - ta) / (vh * 0.6)) * smooth((tb + vh * 0.2) / (vh * 0.6));
         root.style.opacity = vis.toFixed(3);
-        root.style.visibility = vis < 0.01 ? "hidden" : "";
+        root.style.visibility = vis < 0.01 ? "hidden" : "visible";
         if (vis < 0.01) return;
       }
       const k = dt / 16.7;

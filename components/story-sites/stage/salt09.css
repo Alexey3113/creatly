@@ -7,12 +7,19 @@
 
 .sl-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;pointer-events:none}
 .sl-head a{pointer-events:auto}
-.sl-brand{font:700 26px/1 "UnifrakturCook",cursive;letter-spacing:.02em;color:var(--bone);text-decoration:none}
+.sl-brand{font:700 26px/1 "UnifrakturCook",cursive;letter-spacing:.02em;color:var(--bone);text-decoration:none;transition:color .45s}
 .sl-nav{display:flex;gap:22px;align-items:center;font:500 13px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
-.sl-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.sl-nav a:hover{color:var(--orange)}
+.sl-nav a{color:var(--grey);text-decoration:none;transition:color .45s,border-color .45s}.sl-nav a:hover{color:var(--orange)}
 .sl-nav .sl-cta{padding:7px 14px;border:1px solid var(--orange);color:var(--orange)}
+/* дефект аудита: навигация тонула в оранжевой полосе. Светлые/оранжевые сцены (обложка, лик, соль) → чернильный хедер */
+.sl-site:has(.stage-scene:is([data-i="0"],[data-i="1"],[data-i="2"]):is(.is-active,.is-entering)) :is(.sl-brand,.sl-nav a,.sl-nav .sl-cta){color:var(--ink)}
+.sl-site:has(.stage-scene:is([data-i="0"],[data-i="1"],[data-i="2"]):is(.is-active,.is-entering)) .sl-nav .sl-cta{border-color:var(--ink)}
+.sl-site:has(.stage-scene[data-i="2"].is-active) .stage-dots span{background:rgba(36,28,20,.28)}
+.sl-site:has(.stage-scene[data-i="2"].is-active) .stage-dots span.on{background:var(--ink)}
 @media(max-width:900px){.sl-nav a:not(.sl-cta){display:none}}
 
+/* передача текста между сценами: уходящий гаснет к f≈.4, входящий проявляется во второй половине — два заголовка сцен не стоят в кадре вместе */
+.sl-site .stage-scene.is-leaving .sl-tx{opacity:clamp(0,calc(1 - var(--ep,0)*2.5),1)}
 .sl-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.5;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>")}
 .sl-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:500 12px "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
@@ -37,37 +44,56 @@
 .sl-cover-hi h1{margin:6px 0 12px;font:700 clamp(46px,8vw,120px)/.85 "UnifrakturCook",cursive;color:var(--bone)}
 .sl-cover-hi p{margin:0;max-width:40ch;font:400 17px/1.5 "Barlow Condensed",sans-serif;color:#cabfae}
 
-/* 1 · TYPE GUILLOTINE */
-.sl-guillo-fig{z-index:1}
-.sl-guillo-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 26%;filter:sepia(.35) brightness(.72) contrast(1.05)}
-.sl-guillo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(26,20,16,.5),rgba(26,20,16,.15) 40%,rgba(26,20,16,.88))}
-.sl-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;font:600 clamp(56px,15vw,240px)/.82 "Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.02em;color:var(--bone);pointer-events:none}
-.sl-guillo-out{color:transparent;-webkit-text-stroke:2px var(--orange)}
-.sl-guillo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 10vh 4vw}
-.sl-guillo-cap p{margin:0;max-width:44ch;font:400 17px/1.5 "Barlow Condensed",sans-serif;color:#cabfae}
+/* СКВОЗНАЯ СТАТУЯ — бокс натуральной пропорции (1856×2304), лик (70%,41.5%) бокса ставится в --fcx/--fcy кадра (не --cx: его пишет Layer).
+   Та же вырезка, что на обложке → «призрак» StageDeck даёт чистый наезд без подмены. */
+.sl-statue{--W:max(115vw,82vh);--fcx:.67;--fcy:.6;display:block}
+.sl-statue .ps-media,.sl-statue .sl-crust{position:absolute;width:var(--W);height:calc(var(--W)*1.2414);max-width:none;
+  left:calc(var(--fcx)*100% - var(--W)*.70);top:calc(var(--fcy)*100% - var(--W)*1.2414*.415);object-fit:contain;transform-origin:70% 41.5%}
+/* удержание S2→S3: обе статуи ползут к лику ОДНИМ масштабом (уходящая по --ep, входящая по --sp) — геометрия совпадает,
+   меняется только материя. */
+.sl-statue-warm .ps-media{transform:scale(calc(1 + var(--ep,0)*.24))}
+.sl-statue-salt .ps-media,.sl-statue-salt .sl-crust{transform:scale(calc(1 + var(--sp,1)*.24))}
 
-/* 2 · TUNNEL ZOOM */
-.sl-tunnel{background:var(--bg)}
-.sl-tunnel-fig{z-index:1}
-.sl-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:sepia(.3) contrast(1.06)}
-.sl-tunnel-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(60% 60% at 50% 45%,transparent,rgba(26,20,16,.75) 92%),linear-gradient(0deg,rgba(26,20,16,.85),transparent 48%)}
-.sl-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:700 30vh "UnifrakturCook",cursive;color:rgba(212,122,30,.12);pointer-events:none}
-.sl-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
-.sl-tunnel-cap p{margin:8px 0;max-width:44ch;font:400 17px/1.5 "Barlow Condensed",sans-serif;color:#e0d6c6}
+/* 1 · THE GLANCE — оранжевая стена и серый бетон, как в самом кадре; слово ЗА статуей */
+.sl-glance-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(55% 50% at 62% 38%,rgba(255,196,128,.32),transparent 70%),
+  linear-gradient(180deg,#d8812a 0,#c26a1a 74%,#948e85 74.3%,#827c73 100%)}
+.sl-glance-type{position:absolute;left:4vw;top:15vh;z-index:2;display:flex;flex-direction:column;align-items:flex-start;
+  font:600 clamp(56px,11.5vw,196px)/.82 "Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.01em;color:var(--ink);pointer-events:none;
+  opacity:clamp(0,calc(var(--sp,1)*1.6 - .3),1)}
+.sl-glance-out{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.sl-glance-cap{display:block}
+.sl-glance-cap>*{position:relative}
+.sl-glance-txt{position:absolute;left:4vw;top:53vh;max-width:min(30vw,420px)}
+.sl-glance-cap .sl-folio{color:var(--ink)}
+.sl-glance-cap p{margin:6px 0 0;font:500 17px/1.5 "Barlow Condensed",sans-serif;color:var(--ink)}
 
-/* 3 · RELIC — кадр прижат к низу во всю ширину, подпись сверху-слева (ось иная) */
-.sl-relic-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#2a2016,#160f0b)}
-.sl-relic-huge{position:absolute;right:5vw;top:6vh;z-index:1;font:400 40vh "Barlow Condensed",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(212,122,30,.22);pointer-events:none}
+/* 2 · SALT — удержание: мир белеет, статуя становится солью (светлая точка дуги) */
+.sl-salt-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(75% 65% at 62% 42%,#cdc6ba 0,#a79f93 55%,#7f786e 100%)}
+.sl-salt-huge{position:absolute;left:3vw;bottom:-4vh;z-index:1;font:700 34vh/1 "UnifrakturCook",cursive;color:rgba(36,28,20,.1);pointer-events:none}
+.sl-statue-salt .ps-media{filter:grayscale(1) sepia(.06) brightness(1.52) contrast(.8)}
+.sl-crust{display:block;pointer-events:none;mix-blend-mode:screen;opacity:.5;
+  -webkit-mask:url("/uploads/1/story2/salt-hero-cut-soft.png") center/100% 100% no-repeat;mask:url("/uploads/1/story2/salt-hero-cut-soft.png") center/100% 100% no-repeat;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='s'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='1' seed='7'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 9 -5.6'/></filter><rect width='100%25' height='100%25' filter='url(%23s)'/></svg>")}
+.sl-salt-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 8vh 4vw}
+.sl-salt-cap .sl-folio{color:var(--ink)}
+.sl-salt-cap p{margin:8px 0;max-width:36ch;font:500 18px/1.5 "Barlow Condensed",sans-serif;color:var(--ink);
+  text-shadow:0 0 18px rgba(205,198,186,.9)}
+.sl-salt-cap .sl-meta{color:#7a3a10}
+
+/* 3 · RELIC — кадр прижат к низу во всю ширину, подпись сверху-слева */
+.sl-relic-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#3a2c1f,#1c140e)}
+.sl-relic-huge{position:absolute;right:5vw;top:6vh;z-index:1;font:400 40vh "Barlow Condensed",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(212,122,30,.24);pointer-events:none}
 .sl-relic-cap{position:absolute;left:6vw;top:14vh;z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:46vw}
 .sl-relic-cap h3{margin:6px 0 12px;font:700 clamp(40px,6vw,104px)/.86 "UnifrakturCook",cursive;color:var(--bone)}
-.sl-relic-cap p{margin:0;max-width:40ch;font:400 16px/1.55 "Barlow Condensed",sans-serif;color:#cabfae}
+.sl-relic-cap p{margin:0;max-width:40ch;font:400 16px/1.55 "Barlow Condensed",sans-serif;color:#d2c7b6}
 .sl-relic-band{position:absolute;left:0;right:0;top:auto;bottom:0;height:46vh;z-index:2;overflow:hidden;border-top:1px solid rgba(212,122,30,.4)}
 .sl-relic-band .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:sepia(.15) contrast(1.05)}
 .sl-relic-marks{position:absolute;right:12px;bottom:10px;z-index:3;font:500 11px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:rgba(22,15,11,.7);padding:4px 8px}
 
-/* 4 · CASCADE — диагональный веер снимков (не сетка) */
-.sl-cascade-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 75% at 50% 42%,#2a2016,#120c08 80%)}
-.sl-cascade-head{position:absolute;top:8vh;left:6vw;z-index:6}
+/* 4 · RELIQUARY — веер; пластина iii прямая и сверху: в неё садится реликвия из S4 (без скачка поворота/кропа/грейда) */
+.sl-cascade-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 75% at 50% 46%,#3a2a1c,#150e09 80%)}
+.sl-cascade-head{position:absolute;top:8vh;left:6vw;z-index:6;opacity:clamp(0,calc(var(--sp,1)*2.2 - 1.1),1)}
 .sl-cascade-head b{display:block;font:700 clamp(30px,5vw,70px)/.85 "UnifrakturCook",cursive;color:var(--bone)}
 .sl-cascade-head span{font:500 12px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
 .sl-cascade-stack{position:absolute;inset:20vh 6vw 8vh;z-index:2}
@@ -76,29 +102,46 @@
 .sl-plate img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.2)}
 .sl-plate figcaption{position:absolute;left:0;bottom:0;padding:5px 8px;font:500 10px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#1a1410;background:#efe6d6}
 .sl-plate-1{--d:0;left:2%;transform:rotate(-8deg) translateY(calc((1 - var(--r))*40px))}
-.sl-plate-2{--d:.1;left:24%;top:8%;transform:rotate(-2deg) translateY(calc((1 - var(--r))*40px));z-index:2}
-.sl-plate-3{--d:.2;left:46%;top:2%;transform:rotate(4deg) translateY(calc((1 - var(--r))*40px));z-index:3}
-.sl-plate-4{--d:.3;left:66%;top:10%;transform:rotate(9deg) translateY(calc((1 - var(--r))*40px));z-index:4}
+.sl-plate-2{--d:.1;left:24%;top:8%;transform:rotate(-3deg) translateY(calc((1 - var(--r))*40px));z-index:2}
+.sl-plate-3{--d:0;left:46%;top:2%;z-index:5;opacity:1;transform:none;box-shadow:0 26px 60px rgba(0,0,0,.65),0 0 0 1px rgba(212,122,30,.5)}
+.sl-plate-3 img{object-position:50% 42%;filter:sepia(.15) contrast(1.05)}
+.sl-plate-4{--d:.3;left:67%;top:12%;transform:rotate(8deg) translateY(calc((1 - var(--r))*40px));z-index:4}
 .sl-cascade-code{position:absolute;left:6vw;bottom:3vh;z-index:6;font:500 12px "JetBrains Mono",monospace;letter-spacing:.08em;color:var(--mut)}
 
-/* 5 · LETTER — исповедь от первого лица с подписью (не центр-слоган) */
-.sl-letter-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(75% 75% at 50% 44%,#2a2016,#120c08 78%)}
-.sl-letter-block{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6;width:min(56ch,84vw);text-align:left;border-left:2px solid var(--orange);padding-left:30px}
+/* 5 · LETTER — кольцо: соляная статуя в полный рост справа (как на обложке), за ней зарево горящего дома */
+.sl-letter-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(38% 34% at 76% 100%,rgba(255,168,74,.55),transparent 72%),
+  radial-gradient(70% 52% at 74% 100%,rgba(212,122,30,.42),transparent 75%),
+  linear-gradient(180deg,#1a1410 0,#140e0a 60%,#24160d 100%)}
+.sl-letter-word{position:absolute;right:1vw;top:7vh;z-index:1;font:700 clamp(80px,21vw,340px)/.8 "UnifrakturCook",cursive;color:rgba(212,122,30,.13);pointer-events:none}
+.sl-letter-fig{display:block;transform-origin:79% 41%}
+.sl-letter-fig .ps-media{position:absolute;bottom:0;height:92vh;width:auto;max-width:none;left:calc(72% - 92vh*.8056*.5);object-fit:contain;
+  filter:grayscale(1) sepia(.32) brightness(1.3) contrast(.86)}
+.sl-letter-layer{display:block}
+.sl-letter-layer a{pointer-events:auto}
+.sl-letter-block{position:absolute;top:50%;left:6vw;transform:translateY(-50%);width:min(600px,44vw);text-align:left;border-left:2px solid var(--orange);padding-left:30px}
 .sl-letter-verse{font:500 12px "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
-.sl-letter-body{margin:16px 0 22px;font:400 clamp(19px,2.4vw,30px)/1.55 "Barlow Condensed",sans-serif;color:#e6dcc9}
+.sl-letter-body{margin:16px 0 22px;font:400 clamp(19px,2.2vw,30px)/1.55 "Barlow Condensed",sans-serif;color:#e6dcc9}
 .sl-letter-sign{display:block;margin-bottom:26px;font:700 clamp(30px,5vw,64px) "UnifrakturCook",cursive;color:var(--bone)}
 .sl-letter-link{font:500 13px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-decoration:none;border-bottom:1px solid rgba(212,122,30,.5);padding-bottom:5px;transition:color .2s}
 .sl-letter-link:hover{color:#e88a2a}
-.sl-letter-meta{position:absolute;bottom:5vh;left:0;right:0;text-align:center;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#6e6152}
+.sl-letter-meta{position:absolute;bottom:5vh;left:6vw;z-index:6;font:500 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#7a6b5a}
 
 /* мобилка */
 @media(max-width:900px){
-  .sl-cover-fig .ps-media,.sl-guillo-fig .ps-media,.sl-tunnel-fig .ps-media{height:80vh}
+  .sl-cover-fig .ps-media{height:80vh}
   .sl-wordmark span{font-size:34vw}
   .sl-orn-tr,.sl-orn-lm{font-size:13px}
+  .sl-statue{--fcx:.54;--fcy:.5}
+  .sl-glance-txt{top:auto;bottom:7vh;right:6vw;max-width:none}
+  .sl-glance-type{top:13vh;font-size:21vw}
+  .sl-salt-cap p,.sl-glance-cap p{max-width:none;padding-right:6vw}
   .sl-relic-cap{max-width:none;padding-right:5vw}
   .sl-relic-band{height:38vh}
   .sl-plate{width:44%;height:40%}
   .sl-plate-1{left:2%;top:2%}.sl-plate-2{left:40%;top:8%}.sl-plate-3{left:6%;top:48%}.sl-plate-4{left:44%;top:54%}
-  .sl-letter-block{width:88vw}
+  .sl-letter-fig{transform-origin:50% 38%}
+  .sl-letter-fig .ps-media{left:calc(50% - 80vh*.8056*.5);height:80vh;opacity:.42}
+  .sl-letter-block{left:6vw;width:84vw;padding-left:20px}
+  .sl-letter-meta{left:6vw;right:6vw}
 }

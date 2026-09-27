@@ -48,7 +48,13 @@ import { Reel, reelMark, type ReelScene } from "../reel";
   len?: 1, hold?: .42, // длина главы и доля удержания
   freeze?: <div className="xx-freeze">…</div>, // стоп-кадр внутри удержания (титр/цифра/штамп)
   midPos?: "72% 86%", bgPos?: "50% 40%" }       // увести героя из-под копи
-reelMark("s{i}") — середина удержания сцены i; reelMark("t{i}") — середина перехода i→i+1; reelMark("end").
+reelMark("s{i}") — середина удержания сцены i; reelMark("a{i}")/reelMark("h{i}") — начало/конец удержания (поставь актёру
+одинаковую позу на a{i} и h{i} — он замрёт на весь стоп-кадр); reelMark("t{i}") — середина перехода i→i+1; reelMark("end").
+Доп. поля сцены: midShift (vw, сдвиг героя по X — midPos по X не работает, когда вырезка упирается в ширину), midScale,
+fgMask: [52, 72] (ниже — чтобы полупрозрачная кромка fg не ложилась «призраком» на героя), seam: { h: 46, o: 1.15 } (шов спуска/подъёма).
+scene-kit `Follow`: числовые CSS-переменные по якорям (счётчики, высотомеры, stroke-dashoffset SVG-нити) —
+`<Follow target=".xx-rope" stops={[{ at: reelMark("s0"), vars: { "--draw": 0 } }, { at: ".xx-cta", vars: { "--draw": 1 } }]} />`.
+Backdrop: у плиты можно `size` (background-size). Баг видимости Backdrop исправлен в движке — обходы `visibility:visible` не нужны.
 ```
 Склейку выбирай ИЗ МИРА: подъём → `ascend`; спуск/нырок → `descend`; путь по горизонтали → `pan`;
 заросли/облака/рынок → `flythrough`; окно/арка/грот/окуляр → `portal`; луч/рассвет/фонарь → `sweep`;

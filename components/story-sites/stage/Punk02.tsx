@@ -1,7 +1,9 @@
 "use client";
 /* STORY v2 · ПИЛОТ 2 — «BIG FN LIFE» / Madeline (punk personal-brand, pin 2: white/black + hot-pink,
-   спрей-маркер, дерзость). Движок StageDeck. Архетипы (своя последовательность, НЕ как portfolio):
-   Split Manifesto → Type Guillotine(cut) → Split Persona(smash) → Poster Wall(wipe-x) → Contact-Sheet(drop) → Final(smash).
+   спрей-маркер, дерзость). Движок StageDeck v2. Сквозная архитектура: закон камеры — ВБОК (латеральные
+   вытирания), вырезка Мэдлин ведёт сюжет: обложка → в манифесте свет гаснет, она остаётся (share="madeline")
+   → на кульминации UNSTOPPABLE (единственный smash) она встаёт в розовую панель сплита → меню → розовый
+   маркер-мазок заливает подкаст → финал: она возвращается (кольцовка с обложкой, но в темноте).
    Фото p02-*. Спрей/маркер-типографика = HTML. */
 import Link from "next/link";
 import { Layer, SceneMedia } from "@/components/parallax-scene";
@@ -27,10 +29,10 @@ export function Punk02() {
 
       <StageDeck>
         {/* 0 · SPLIT MANIFESTO — обложка */}
-        <div transition="smash" className="scene-body pk-cover">
+        <div transition="wipe-x" className="scene-body pk-cover">
           <div className="pk-cover-bg" aria-hidden />
           <Layer z={2} depth={0.14} phase={[0, 0.9]} from={{ x: "16vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="pk-cover-fig">
-            <SceneMedia src={`${A}/p02-hero-cut.png`} alt="Madeline — персональный бренд, портрет" />
+            <SceneMedia src={`${A}/p02-hero-cut.png`} alt="Madeline — персональный бренд, портрет" share="madeline" />
           </Layer>
           <Layer z={4} depth={0.3} phase={[0, 0.8]} from={{ opacity: 1 }} to={{ opacity: 1 }} className="pk-cover-hi">
             <span className="pk-eyebrow">For the women who are <i>done playing small.</i></span>
@@ -46,8 +48,12 @@ export function Punk02() {
           <div className="pk-scrollcue" aria-hidden>scroll ↓</div>
         </div>
 
-        {/* 1 · TYPE GUILLOTINE — манифест (cut) */}
-        <div transition="cut" className="scene-body pk-manifesto">
+        {/* 1 · TYPE GUILLOTINE — манифест: мир вытирается в чёрное, Мэдлин остаётся в кадре (share="madeline") */}
+        <div transition="wipe-x" className="scene-body pk-manifesto">
+          <div className="pk-mani-glow" aria-hidden />
+          <Layer z={2} depth={0.12} phase={[0, 1]} from={{ y: "1vh" }} to={{ y: "0vh" }} className="pk-mani-fig">
+            <SceneMedia src={`${A}/p02-hero-cut.png`} alt="Madeline — новая идентичность" share="madeline" />
+          </Layer>
           <div className="pk-mani-type">
             <KineticText text="THIS ISN'T" mode="slam" />
             <KineticText text="JUST A BUSINESS." mode="slam" start={0.08} />
@@ -56,13 +62,14 @@ export function Punk02() {
           <div className="pk-mani-row" aria-hidden><span>★ Build your brand</span><span>★ Make more money</span><span>★ Live on your terms</span></div>
         </div>
 
-        {/* 2 · SPLIT PERSONA — две версии (smash) */}
+        {/* 2 · SPLIT PERSONA — кульминация UNSTOPPABLE (единственный smash): она встаёт в розовую панель (share="madeline") */}
         <div transition="smash" className="scene-body pk-split">
           <Layer z={1} depth={0.12} phase={[0, 1]} from={{ x: "-8vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="pk-split-a">
-            <SceneMedia src={`${A}/p02-hero.jpg`} alt="Madeline — уверенный образ" />
+            <SceneMedia src={`${A}/p02-portrait-b.jpg`} alt="Madeline — чёрно-белый образ" />
           </Layer>
-          <Layer z={2} depth={0.12} phase={[0.06, 1]} from={{ x: "8vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="pk-split-b">
-            <SceneMedia src={`${A}/p02-portrait-b.jpg`} alt="Madeline — второй образ" />
+          <Layer z={2} depth={0.12} phase={[0, 1]} from={{ x: "4vw" }} to={{ x: "0vw" }} className="pk-split-b">
+            <span className="pk-split-panel" aria-hidden />
+            <SceneMedia src={`${A}/p02-hero-cut.png`} alt="Madeline — цветной образ" share="madeline" />
           </Layer>
           <Layer z={6} depth={0.34} phase={[0.1, 0.7]} from={{ opacity: 1 }} to={{ opacity: 1 }} className="pk-split-type">
             <span>You + the right strategy =</span>
@@ -82,8 +89,8 @@ export function Punk02() {
           </ol>
         </div>
 
-        {/* 4 · CONTACT-SHEET — подкаст (drop) */}
-        <div transition="drop" className="scene-body pk-pod">
+        {/* 4 · CONTACT-SHEET — подкаст: розовый маркер-мазок заливает кадр (вытирание вбок с рваной кромкой) */}
+        <div transition="wipe-x" className="scene-body pk-pod">
           <div className="pk-pod-bg" aria-hidden />
           <Layer z={2} depth={0.2} phase={[0, 0.9]} from={{ y: "-40vh", rotate: "-6deg", opacity: 0 }} to={{ y: "0vh", rotate: "-3deg", opacity: 1 }} className="pk-pod-fig">
             <SceneMedia src={`${A}/p02-still-2.jpg`} alt="Полароиды — подкаст THE BIG FN LIFE" />
@@ -96,9 +103,12 @@ export function Punk02() {
           </Layer>
         </div>
 
-        {/* 5 · FINAL DETONATION (smash) */}
-        <div transition="smash" className="scene-body pk-final">
+        {/* 5 · FINAL — Мэдлин возвращается (кольцовка с обложкой: та же поза, но в темноте и в розовом свете) */}
+        <div transition="wipe-x" className="scene-body pk-final">
           <div className="pk-final-bg" aria-hidden />
+          <Layer z={2} depth={0.14} phase={[0, 0.9]} from={{ x: "6vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="pk-final-fig">
+            <SceneMedia src={`${A}/p02-hero-cut.png`} alt="Madeline" />
+          </Layer>
           <div className="pk-final-type">
             <KineticText text="READY TO BUILD" mode="slam" />
             <span className="pk-mark-big">your big fn life?</span>

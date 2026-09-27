@@ -1,95 +1,81 @@
 "use client";
 /* LUMEN — «Farlight», lighthouse-keeper stays through the storm season. Мир: тёплый вращающийся
-   луч маяка режет холодную тьму шторма — от бурного мыса, через укрытую бухту, к самому лучу
-   в ночи, и наконец к тихому розовому рассвету. Собран на общем движке <Reel/>; лендинг и
-   типографика — свои: пейринг Big Shoulders Display × Public Sans, палитра storm-slate/beam-gold. */
-import { Reel, type ReelScene } from "../reel";
+   луч маяка режет холодную тьму шторма — бурный мыс → (спуск) укрытая бухта → (луч-шторка) ночь
+   луча → (смена света) тихий розовый рассвет.
+   Сквозной актёр — ЛУЧ: conic-gradient от лампы маяка в каждой сцене, оборот от скролла + ритм
+   «раз в 11 секунд». В лендинге тот же луч ходит ПОД секциями по плите мира (Backdrop) от того же
+   маяка и садится на карточку брони («ламповая»). Пейринг Big Shoulders Display × Public Sans. */
+import { useEffect, useRef } from "react";
+import { Reel, reelMark, type ReelScene } from "../reel";
+import { Actor, Weather, Atmosphere, Backdrop, subscribe } from "@/components/scene-kit";
 import "./lumen.css";
+import { FontLinks } from "@/components/shared/FontLinks";
 
 const A = "/uploads/1/animated/lumen";
 
 const scenes: ReelScene[] = [
-  {
-    id: "cape",
-    dark: true,
-    bg: `${A}/s1-bg.webp`,
-    mid: `${A}/s1-mid.webp`,
-    fg: `${A}/s1-fg.webp`,
-    copy: (
-      <>
-        <span className="lm-eyebrow">Keeper stays · storm season</span>
-        <h1>
-          Hold the
-          <br />
-          <em>last light.</em>
-        </h1>
-        <p>
-          Three nights keeping a working lighthouse through a North Atlantic gale — the cape, the cove, the
-          beam, the calm after. One working light, one keeper, one watch rota. Yours for a season.
-        </p>
-        <div className="lm-cta">
-          <a href="#book" className="lm-btn">Book the watch</a>
-          <a href="#keeper" className="lm-ghost">Meet the keeper →</a>
-        </div>
-      </>
-    ),
-  },
-  {
-    id: "cove",
-    dark: true,
-    bg: `${A}/s2-bg.webp`,
-    mid: `${A}/s2-mid.webp`,
-    fg: `${A}/s2-fg.webp`,
-    copy: (
-      <>
-        <span className="lm-idx">— 02 · the cove</span>
-        <h2>Shelter Below</h2>
-        <p>
-          The storm doesn't reach the cove — only its wreckage does. An old hull on the shingle, a stone
-          boathouse with one lit window, and the sound of the gale dropping away behind the cliff.
-        </p>
-      </>
-    ),
-  },
-  {
-    id: "beam",
-    dark: true,
-    bg: `${A}/s3-bg.webp`,
-    mid: `${A}/s3-mid.webp`,
-    fg: `${A}/s3-fg.webp`,
-    spark: 7,
-    copy: (
-      <>
-        <span className="lm-idx">— 03 · the beam</span>
-        <h2>The Turn of the Light</h2>
-        <p>
-          Every eleven seconds it swings past — gold through black rain, gone, gold again. Stand in the lamp
-          room and watch a hundred years of engineering hold back an ocean.
-        </p>
-      </>
-    ),
-  },
-  {
-    id: "dawn",
-    bg: `${A}/s4-bg.webp`,
-    fg: `${A}/s4-fg.webp`,
-    copy: (
-      <>
-        <span className="lm-idx lm-idx-dark">— 04 · the calm</span>
-        <h2 className="lm-hl">After</h2>
-        <p className="lm-pl">
-          Pink light, glass water, the beam gone pale in daylight it no longer needs. You slept through a
-          gale and woke to this.
-        </p>
-      </>
-    ),
-  },
+  { id: "cape", dark: true, bg: `${A}/s1-bg.webp`, mid: `${A}/s1-mid.webp`, fg: `${A}/s1-fg.webp`, len: 1.1, hold: 0.5, copy: (
+    <>
+      <span className="lm-eyebrow">Keeper stays · storm season</span>
+      <h1>Hold the<br /><em>last light.</em></h1>
+      <p>Three nights keeping a working lighthouse through a North Atlantic gale — the cape, the cove, the beam, the calm after. One light, one keeper, one watch rota.</p>
+      <div className="lm-cta"><a href="#book" className="lm-btn">Book the watch</a><a href="#keeper" className="lm-ghost">Meet the keeper →</a></div>
+    </>
+  ) },
+  { id: "cove", dark: true, into: "descend", tint: "#dfe8ea", bg: `${A}/s2-bg.webp`, mid: `${A}/s2-mid.webp`, fg: `${A}/s2-fg.webp`, copy: (
+    <>
+      <span className="lm-idx">— 02 · the cove</span>
+      <h2>Shelter Below</h2>
+      <p>The storm doesn&apos;t reach the cove — only its wreckage does. An old hull on the shingle, one lit window, and the gale dropping away behind the cliff.</p>
+    </>
+  ) },
+  { id: "beam", dark: true, into: "sweep", tint: "#ffd36a", len: 1.3, hold: 0.55, bg: `${A}/s3-bg.webp`, fg: `${A}/s3-fg.webp`,
+    freeze: (<div className="lm-freeze"><b>11 s</b><span>one turn of the light · count it</span></div>), copy: (
+    <>
+      <span className="lm-idx">— 03 · the beam</span>
+      <h2>The Turn of the Light</h2>
+      <p>Every eleven seconds it swings past — gold through black rain, gone, gold again. From the lamp room you watch a hundred years of engineering hold back an ocean.</p>
+    </>
+  ) },
+  { id: "dawn", into: "lightshift", tint: "#f6c9c2", len: 1.1, bg: `${A}/s4-bg.webp`, fg: `${A}/s4-fg.webp`, copy: (
+    <>
+      <span className="lm-idx lm-idx-dark">— 04 · the calm</span>
+      <h2 className="lm-hl">After</h2>
+      <p className="lm-pl">Pink light, glass water, the beam gone pale in a daylight that no longer needs it. You slept through a gale and woke to this.</p>
+    </>
+  ) },
+];
+
+/* вахтенный журнал одной штормовой ночи — вместо шагов, галереи и цитаты */
+const LOG: Array<[string, string, string, string, string]> = [
+  ["18:40", "SW 6", "1004", "lit", "Guests up the gallery stair. Glass dropping. Briefing on the rail while the first squall comes in."],
+  ["20:10", "SW 8", "996", "turning", "Barometer read, log marked. The mechanism shown turning — four seconds of gold, eleven of dark."],
+  ["23:30", "W 9", "989", "turning", "Worst of it. Two hours in the lamp room, beam sweeping the rain. A trawler rounds the point on our light."],
+  ["02:15", "W 7", "993", "turning", "Stand-down. Cocoa in the storm suite; everyone asleep inside ten minutes. Keeper holds the watch."],
+  ["06:05", "NW 3", "1009", "off", "Calm. Pink water. Light extinguished at sunrise, as it has been every morning since 1902."],
 ];
 
 export function Lumen() {
+  const root = useRef<HTMLDivElement>(null);
+  // вращение луча: оборот от скролла + собственный ритм маяка (оборот за 11 с); reduced-motion — только скролл
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    return subscribe(({ y, t, reduced }) => {
+      const rot = y * 0.2 + (reduced ? 0 : (t / 11000) * 360);
+      el.style.setProperty("--lm-rot", `${(rot % 360).toFixed(2)}deg`);
+    });
+  }, []);
+
   return (
-    <div className="lm">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Public+Sans:wght@400;500;600;700;800&display=swap" />
+    <div className="lm" ref={root}>
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Public+Sans:wght@400;500;600;700;800&display=swap"]} />
+      {/* снятие магенты с кромок fg (остатки хромакея) */}
+      <svg className="lm-defs" width="0" height="0" aria-hidden focusable="false">
+        <filter id="lm-demag" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1.2 2.6 -1.4 1 .2" />
+        </filter>
+      </svg>
 
       <header className="lm-nav">
         <span className="lm-brand">FARLIGHT</span>
@@ -101,18 +87,52 @@ export function Lumen() {
         </nav>
       </header>
 
-      <Reel scenes={scenes} cue="descend into the storm ↓" />
+      <Reel scenes={scenes} cue="into the storm ↓" />
 
-      {/* BIG-TYPE — gut-punch statement (не у эталона) */}
+      {/* СКВОЗНОЙ СЛОЙ: ночь возвращается под лендингом, дождь шторма, луч маяка */}
+      <Atmosphere stops={[
+        { at: ".lm-big", color: "#2c2b36" }, { at: ".lm-features", color: "#1a222c" }, { at: ".lm-split", color: "#141b24" },
+        { at: ".lm-char", color: "#0c1119" }, { at: ".lm-log", color: "#0b1016" }, { at: ".lm-faq", color: "#0e141b" },
+        { at: ".lm-deal", color: "#0a0e14" }, { at: ".lm-climax", color: "#0b1118" },
+      ]} />
+      <Backdrop className="lm-bd" from=".lm-big" dim={0.5} plates={[
+        { at: ".lm-big", src: `${A}/s4-bg.webp` }, { at: ".lm-features", src: `${A}/s1-bg.webp` },
+        { at: ".lm-split", src: `${A}/s2-bg.webp` }, { at: ".lm-char", src: `${A}/s3-bg.webp` },
+        { at: ".lm-log", src: `${A}/s3-bg.webp` }, { at: ".lm-deal", src: `${A}/s3-bg.webp` }, { at: ".lm-climax", src: `${A}/s3-bg.webp` },
+      ]} />
+      <Weather kind="rain" count={64} color="#d6e4ec" between={[".lm-nav", reelMark("t2")]} world={0.25} wind={1.4} zIndex={31} />
+      <Weather kind="rain" count={40} color="#c9d8e2" seed={3} between={[".lm-char", ".lm-faq"]} world={0.25} wind={1.2} zIndex={31} />
+      {/* луч над сценами рила */}
+      <Actor className="lm-beam-actor" width="2px" zIndex={32} bob={0} tilt={0} stops={[
+        { at: reelMark("s0"), pose: { x: 73, y: 41, s: 1, o: 0.9 } },
+        { at: reelMark("t0"), pose: { x: 66, y: 50, s: 0.8, o: 0.35 } },
+        { at: reelMark("s1"), pose: { x: 59, y: 66, s: 0.62, o: 0.8 } },
+        { at: reelMark("t1"), pose: { x: 65, y: 58, s: 1.1, o: 1 } },
+        { at: reelMark("s2"), pose: { x: 69, y: 53, s: 1, o: 1 } },
+        { at: reelMark("t2"), pose: { x: 46, y: 47, s: 0.85, o: 0.45 } },
+        { at: reelMark("s3"), pose: { x: 27, y: 41, s: 0.7, o: 0.16 } },
+        { at: reelMark("end"), pose: { x: 27, y: 41, s: 0.7, o: 0.12 } },
+        { at: ".lm-big", pose: { x: 27, y: 40, s: 0.7, o: 0 } },
+      ]}><div className="lm-beam"><i className="lm-cone" /><i className="lm-lamp" /></div></Actor>
+      {/* тот же луч в лендинге — ПОД секциями, от маяка на плите мира; садится на карточку брони */}
+      <Actor className="lm-beam-actor lm-beam-land" width="2px" zIndex={-1} bob={0} tilt={0} stops={[
+        { at: reelMark("end"), pose: { x: 27, y: 40, s: 0.8, o: 0 } },
+        { at: ".lm-big", pose: { x: 27, y: 40, s: 0.8, o: 0.4 } },
+        { at: ".lm-features", pose: { x: 73, y: 41, s: 1, o: 0.75 } },
+        { at: ".lm-split", pose: { x: 59, y: 66, s: 0.8, o: 0.7 } },
+        { at: ".lm-char", pose: { x: 69, y: 52, s: 1, o: 1 } },
+        { at: ".lm-log", pose: { x: 69, y: 52, s: 1, o: 0.9 } },
+        { at: ".lm-faq", pose: { x: 69, y: 52, s: 1, o: 0.8 } },
+        { at: ".lm-deal-card", pose: { x: 50, y: 0, s: 1, o: 1, dock: true } },
+        { at: ".lm-climax", pose: { x: 69, y: 52, s: 1.1, o: 1 } },
+      ]}><div className="lm-beam"><i className="lm-cone" /><i className="lm-lamp" /></div></Actor>
+
+      {/* BIG-TYPE — по рассветной плите */}
       <section className="lm-big">
-        <p>
-          The sea does not warn twice.
-          <br />
-          The light does — <em>every eleven seconds.</em>
-        </p>
+        <p>The sea does not warn twice.<br />The light does — <em>every eleven seconds.</em></p>
       </section>
 
-      {/* FEATURE-CARDS — что даёт Farlight (не у эталона) */}
+      {/* FEATURE-CARDS — что даёт Farlight (полупрозрачные: шторм мыса просвечивает) */}
       <section className="lm-features" id="watch">
         <div className="lm-features-head">
           <span className="lm-kick">What Farlight keeps for you</span>
@@ -134,100 +154,57 @@ export function Lumen() {
         </div>
       </section>
 
-      {/* STEPS/PROCESS — как проходит вахта (не у эталона) */}
-      <section className="lm-steps">
-        <div className="lm-steps-head">
-          <span className="lm-kick">How the watch runs</span>
-          <h2>A night on the point.</h2>
-        </div>
-        <ol className="lm-step-row">
-          {[
-            ["01", "Arrival", "Dusk, wind rising, first briefing on the gallery as the glass starts to drop."],
-            ["02", "Storm Brief", "The keeper reads the barometer, marks the log, shows you the beam mechanism turning."],
-            ["03", "The Watch", "Two hours in the lamp room as the beam sweeps through the worst of the gale."],
-            ["04", "Stand-Down", "Cocoa in the storm suite, the gale still outside, you asleep inside ten minutes."],
-          ].map(([n, t, s], i) => (
-            <li className="lm-step" key={i}>
-              <span className="lm-step-n">{n}</span>
-              <h3>{t}</h3>
-              <p>{s}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* SIGNATURE — SPLIT, медиа СПРАВА (луч), тепло-vs-холод контраст */}
+      {/* SPLIT — окно штормового номера (иллюминатор) */}
       <section className="lm-split" id="keeper">
         <div className="lm-split-copy">
-          <span className="lm-kick">The keeper's trade</span>
+          <span className="lm-kick">The keeper&apos;s trade</span>
           <h2>One beam, aimed by hand for sixty years.</h2>
-          <p>
-            Behind the glass is a Fresnel lens older than the road to the point, and a keeper who inherited
-            it from her father. The mechanism has never failed a night. Everything cold outside the tower —
-            the rock, the rain, the black water — is answered by four seconds of gold every eleven, on the
-            hour, on the worst hour, without asking.
-          </p>
-          <p className="lm-split-sub">
-            You don't watch the storm from the house. You watch it from inside the one thing the storm can't
-            put out.
-          </p>
-          <a href="#book" className="lm-link">Read the keeper's log →</a>
+          <p>Behind the glass is a Fresnel lens older than the road to the point, and a keeper who inherited it from her father. The mechanism has never failed a night. Everything cold outside the tower is answered by four seconds of gold every eleven.</p>
+          <p className="lm-split-sub">You don&apos;t watch the storm from the house. You watch it from inside the one thing the storm can&apos;t put out.</p>
+          <a href="#log" className="lm-link">Read the keeper&apos;s log →</a>
         </div>
-        <div className="lm-split-media" style={{ backgroundImage: `url(${A}/s3-bg.webp)` }} aria-hidden>
-          <span className="lm-split-sweep" aria-hidden />
-        </div>
+        <div className="lm-porthole" aria-hidden><div className="lm-porthole-glass" style={{ backgroundImage: `url(${A}/s1-bg.webp)` }} /></div>
       </section>
 
-      {/* GALLERY — the logbook, 4 обложки-плиты */}
-      <section className="lm-gallery" id="log">
-        <div className="lm-gallery-head">
-          <span className="lm-kick">The logbook</span>
-          <h2>Four chapters, one storm.</h2>
+      {/* LIGHT CHARACTERISTIC — блок мира вместо полосы цифр: подпись огня на морской карте */}
+      <section className="lm-char" aria-label="Light characteristic">
+        <span className="lm-kick">On every chart since 1902</span>
+        <div className="lm-char-code" aria-hidden>
+          <span>Fl<i className="lm-flash" /></span><span>W</span><span>11s</span><span>42m</span><span>18M</span>
         </div>
-        <div className="lm-gallery-grid">
-          {[
-            [`${A}/s1-bg.webp`, "I · The Cape", "Bruised sky, black rock, the tower still standing where it's stood since 1902."],
-            [`${A}/s2-bg.webp`, "II · The Cove", "A wrecked hull as a reminder of what the light is actually for."],
-            [`${A}/s3-bg.webp`, "III · The Beam", "Eleven seconds of dark, four seconds of gold, all night, every night."],
-            [`${A}/s4-bg.webp`, "IV · The Calm", "Pink water, gulls, a light burning pale in a sky that no longer needs it."],
-          ].map(([img, t, s], i) => (
-            <a className="lm-gallery-card" key={i} href="#book" style={{ backgroundImage: `url(${img})` }}>
-              <span className="lm-gallery-veil" aria-hidden />
-              <span className="lm-gallery-t">{t}</span>
-              <span className="lm-gallery-s">{s}</span>
-            </a>
+        <dl className="lm-char-key">
+          <div><dt>Fl</dt><dd>flashing — one flash per turn</dd></div>
+          <div><dt>W</dt><dd>white light, gold in rain</dd></div>
+          <div><dt>11s</dt><dd>period — unbroken for 120 years</dd></div>
+          <div><dt>42m</dt><dd>lamp height above the tide</dd></div>
+          <div><dt>18M</dt><dd>nautical miles of reach</dd></div>
+        </dl>
+        <p className="lm-char-note">27 storm nights hosted last winter · three guests on the point at once, never more.</p>
+      </section>
+
+      {/* KEEPER'S LOG — вахтенный журнал одной ночи (вместо шагов, галереи и цитаты) */}
+      <section className="lm-log" id="log">
+        <div className="lm-log-head">
+          <span className="lm-kick">The logbook · 14 February</span>
+          <h2>A night on the point, as the keeper wrote it.</h2>
+        </div>
+        <div className="lm-ledger" role="table" aria-label="Keeper's log">
+          <div className="lm-ledger-row lm-ledger-th" role="row">
+            <span role="columnheader">Time</span><span role="columnheader">Wind</span><span role="columnheader">Bar.</span><span role="columnheader">Light</span><span role="columnheader">Remarks</span>
+          </div>
+          {LOG.map(([t, w, b, l, r]) => (
+            <div className="lm-ledger-row" role="row" key={t}>
+              <span role="cell">{t}</span><span role="cell">{w}</span><span role="cell">{b}</span><span role="cell" data-l={l}>{l}</span><span role="cell">{r}</span>
+            </div>
           ))}
+          <div className="lm-ledger-guest" role="row">
+            <span role="cell">Guest&apos;s remark —</span>
+            <span role="cell">“I have slept through storms before. Never <em>eleven feet</em> from the light that was keeping the boats off the rocks.” — Callum R.</span>
+          </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="lm-stats">
-        {[["11s", "beam rotation, unbroken since 1902"], ["27", "storm nights hosted last winter"], ["1902", "the year Farlight was first lit"], ["3", "guests on the point at once, max"]].map(([n, l], i) => (
-          <div className="lm-stat" key={i}><b>{n}</b><span>{l}</span></div>
-        ))}
-      </section>
-
-      {/* MARQUEE — storm-warning ticker (не у эталона) */}
-      <div className="lm-marquee" aria-hidden>
-        <div className="lm-marquee-track">
-          {Array.from({ length: 2 }, (_, k) => (
-            <span key={k}>
-              GALE WARNING — SMALL CRAFT ADVISORY — LAMP LIT — BEAM OPERATING — KEEPER ON WATCH — ALL CLEAR BY DAWN — GALE WARNING — SMALL CRAFT ADVISORY — LAMP LIT — BEAM OPERATING — KEEPER ON WATCH — ALL CLEAR BY DAWN —
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* QUOTE */}
-      <section className="lm-quote">
-        <blockquote>
-          “I have slept through storms before. I have never slept through one <em>eleven feet</em> from the
-          light that was keeping the boats off the rocks.”
-        </blockquote>
-        <cite>— Callum R., three nights on the point · February</cite>
-      </section>
-
-      {/* FAQ / ACCORDION — не у эталона */}
+      {/* FAQ / ACCORDION */}
       <section className="lm-faq">
         <div className="lm-faq-head">
           <span className="lm-kick">Before you book</span>
@@ -248,21 +225,19 @@ export function Lumen() {
         </div>
       </section>
 
-      {/* DEAL */}
+      {/* DEAL — карточка как ламповая: луч выходит из неё */}
       <section className="lm-deal" id="book">
         <div className="lm-deal-card">
-          <span className="lm-kick">The keeper's watch</span>
-          <div className="lm-price"><b>£340</b><span>/ night · full point, keeper's table &amp; lamp room access</span></div>
+          <span className="lm-kick">The keeper&apos;s watch</span>
+          <div className="lm-price"><b>£340</b><span>/ night · full point, keeper&apos;s table &amp; lamp room access</span></div>
           <p>One party on the point at a time, three nights minimum in storm season. Book a window and we send the tide chart and the watch rota.</p>
           <a href="#" className="lm-btn">Reserve the point</a>
-          <span className="lm-note">Free to reschedule for weather · Storm nights are not refunded — that's the point</span>
+          <span className="lm-note">Free to reschedule for weather · Storm nights are not refunded — that&apos;s the point</span>
         </div>
       </section>
 
-      {/* CLIMAX */}
-      <section className="lm-climax" style={{ backgroundImage: `url(${A}/s3-bg.webp)` }}>
-        <div className="lm-climax-veil" aria-hidden />
-        <div className="lm-climax-sweep" aria-hidden />
+      {/* CLIMAX — прозрачный: под ним маяк плиты мира и тот же луч */}
+      <section className="lm-climax">
         <div className="lm-climax-copy">
           <h2>The light turns.<br /><em>Come stand in it.</em></h2>
           <a href="#book" className="lm-btn">Book the watch</a>

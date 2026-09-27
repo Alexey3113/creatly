@@ -8,7 +8,7 @@
 
 .sc-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .sc-head a{pointer-events:auto}
-.sc-brand{font:800 22px/1 "Shippori Mincho",serif;letter-spacing:.06em;color:var(--bone);text-decoration:none}
+.sc-brand{font:800 22px/1 "Shippori Mincho",serif;letter-spacing:.06em;color:var(--bone);text-decoration:none;transition:color .4s}
 .sc-nav{display:flex;gap:22px;align-items:center;font:600 12px "Share Tech Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
 .sc-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.sc-nav a:hover{color:var(--red-hi)}
 .sc-nav .sc-cta{padding:8px 14px;border:1px solid var(--red);color:var(--bone);font-family:"Shippori Mincho",serif}
@@ -20,6 +20,18 @@
 .sc-eyebrow{font:600 11px "Share Tech Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--red-hi)}
 .sc-folio{font:600 11px "Share Tech Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .sc-meta{font:600 11px "Share Tech Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--red-hi)}
+
+/* рамка-ретикль камеры наблюдения (4 угла) — язык сайта: объект взят в кадр */
+.sc-ret{position:absolute;z-index:7;pointer-events:none;--c:var(--red-hi);
+  background:linear-gradient(var(--c),var(--c)) 0 0/22px 2px,linear-gradient(var(--c),var(--c)) 0 0/2px 22px,
+    linear-gradient(var(--c),var(--c)) 100% 0/22px 2px,linear-gradient(var(--c),var(--c)) 100% 0/2px 22px,
+    linear-gradient(var(--c),var(--c)) 0 100%/22px 2px,linear-gradient(var(--c),var(--c)) 0 100%/2px 22px,
+    linear-gradient(var(--c),var(--c)) 100% 100%/22px 2px,linear-gradient(var(--c),var(--c)) 100% 100%/2px 22px;background-repeat:no-repeat;
+  opacity:calc(clamp(0,(var(--sp,1) - .45)*3,1));animation:sc-blink 2.4s steps(2,jump-none) infinite}
+.sc-ret span{position:absolute;left:0;bottom:calc(100% + 6px);white-space:nowrap;font:600 10px "Share Tech Mono",monospace;letter-spacing:.14em;color:var(--c);text-shadow:0 1px 6px rgba(0,0,0,.8)}
+@keyframes sc-blink{0%,100%{filter:none}50%{filter:brightness(1.5)}}
+@media(prefers-reduced-motion:reduce){.sc-ret{animation:none}}
+.sc-ret-cover{left:calc(50% - 7.5vw);top:11vh;width:15vw;height:27vh}
 
 /* ===== 0 · OCCLUDED IDOL ===== */
 .sc-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 44% 34%,#26100f,#0b0808 72%)}
@@ -44,17 +56,26 @@
 /* ===== 1 · VERTICAL TABLET ===== */
 .sc-tablet-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#1a0a0b,#0b0808)}
 .sc-tablet-kanji{display:grid;pointer-events:none}
-.sc-tablet-kanji span{font:800 46vh/.8 "Shippori Mincho",serif;color:#5a1218;opacity:.5}
+.sc-tablet-kanji span{font:800 46vh/.8 "Shippori Mincho",serif;color:rgba(122,24,32,.16);-webkit-text-stroke:1.5px rgba(216,50,63,.42);text-shadow:0 0 34px rgba(216,50,63,.22)}
 .sc-tk-1{place-items:start start;padding:6vh 0 0 6vw}
 .sc-tk-2{place-items:center center}
 .sc-tk-3{place-items:end end;padding:0 8vw 8vh 0}
 .sc-tablet-cap{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 0 0 6vw;max-width:46vw}
 .sc-tablet-cap h2{margin:8px 0 12px;font:700 clamp(42px,7vw,104px)/.9 "Oswald",sans-serif;text-transform:uppercase;color:var(--bone)}
-.sc-tablet-cap h2 em{font:800 clamp(38px,6vw,92px) "Shippori Mincho",serif;font-style:normal;color:var(--red-hi)}
+.sc-tablet-cap h2 em{font:800 clamp(38px,6vw,92px) "Shippori Mincho",serif;font-style:normal;color:#ff4a58;text-shadow:0 0 28px rgba(255,74,88,.45)}
 .sc-tablet-cap p{margin:0 0 18px;max-width:38ch;font:400 15px/1.6 "Oswald",sans-serif;color:#c3b3ad}
 .sc-facts{list-style:none;display:flex;gap:26px;margin:0;padding:0}
 .sc-facts b{display:block;font:800 30px "Shippori Mincho",serif;color:var(--red-hi)}
 .sc-facts span{font:600 10px "Share Tech Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+/* монитор CAM 02: переулок на экране — через цифровой зум станет следующим кадром (share=alley) */
+.sc-mon{display:block}
+.sc-mon-frame{position:absolute;right:6vw;top:calc(50% - 20vh);width:31vw;height:40vh;background:#050303;border:1px solid rgba(216,50,63,.6);
+  box-shadow:0 0 0 7px #0b0808,0 0 0 8px rgba(216,50,63,.3),0 30px 80px rgba(0,0,0,.65),0 0 70px rgba(216,50,63,.22)}
+/* fit/position/filter = как у полноэкранного кадра S3 → призрак садится без скачка */
+.sc-mon-frame .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 32%;filter:contrast(1.08) saturate(1.05)}
+.sc-mon-scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+.sc-mon-tag,.sc-mon-time{position:absolute;top:10px;font:600 10px "Share Tech Mono",monospace;letter-spacing:.12em;color:#ff4a58;text-shadow:0 1px 4px #000}
+.sc-mon-tag{left:12px}.sc-mon-time{right:12px;color:var(--bone)}
 
 /* ===== 2 · TUNNEL ZOOM ===== */
 .sc-tunnel{background:var(--bg)}
@@ -64,6 +85,9 @@
 .sc-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:800 44vh "Shippori Mincho",serif;color:rgba(216,50,63,.16);pointer-events:none}
 .sc-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
 .sc-tunnel-cap p{margin:8px 0;max-width:40ch;font:400 15px/1.6 "Oswald",sans-serif;color:#d8cfc4}
+.sc-ret-alley{left:49%;top:33%;width:19%;height:50%}
+.sc-cam{position:absolute;inset:11vh 5vw auto;z-index:7;display:flex;justify-content:space-between;pointer-events:none;font:600 11px "Share Tech Mono",monospace;letter-spacing:.12em;color:#ff4a58;
+  opacity:calc(clamp(0,(var(--sp,1) - .5)*3,1))}
 
 /* общий: сканлайны наблюдения */
 .sc-scan{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.35;
@@ -71,8 +95,9 @@
 
 /* ===== 3 · SURVEILLANCE — full-bleed + HUD-скобки (ось иная) ===== */
 .sc-surv-fig{z-index:1}
-.sc-surv-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.1) saturate(1.05)}
-.sc-surv-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(60% 60% at 50% 45%,transparent,rgba(11,8,8,.78) 96%),linear-gradient(0deg,rgba(11,8,8,.9),transparent 44%)}
+.sc-surv-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.08) sepia(.14) saturate(1.1) brightness(1.08)}
+.sc-ret-gloves{left:43%;top:25%;width:33%;height:52%}
+.sc-surv-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(64% 64% at 58% 45%,transparent,rgba(11,8,8,.62) 96%),linear-gradient(0deg,rgba(11,8,8,.88),transparent 42%)}
 .sc-surv-hud{position:absolute;inset:5vh 5vw;z-index:6;pointer-events:none;color:var(--red-hi);font:600 12px "Share Tech Mono",monospace;letter-spacing:.1em}
 .sc-hud-c{position:absolute}.sc-hud-tl{top:0;left:0}.sc-hud-tr{top:0;right:0}.sc-hud-bl{bottom:0;left:0}.sc-hud-br{bottom:0;right:0}
 .sc-hud-cross{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;color:rgba(216,203,196,.5)}
@@ -81,34 +106,62 @@
 .sc-surv-cap p{margin:0;max-width:44ch;font:400 15px/1.6 "Oswald",sans-serif;color:#c3b3ad}
 
 /* ===== 4 · ZINE — рваная masonry-сетка (не равная) ===== */
-.sc-zine-bg{position:absolute;inset:0;z-index:0;background:#0e0909}
+.sc-zine{color:#140c0c}
+.sc-zine-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 90% at 46% 40%,#ebe3d7 0%,#ddd2c3 60%,#cabdac 100%)}
 .sc-zine-head{position:absolute;top:7vh;left:5vw;z-index:6}
-.sc-zine-head b{display:block;font:700 clamp(26px,4.4vw,64px)/.9 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.04em;color:var(--bone)}
-.sc-zine-head span{font:600 11px "Share Tech Mono",monospace;letter-spacing:.14em;color:var(--red-hi)}
+.sc-zine-head b{display:block;font:700 clamp(26px,4.4vw,64px)/.9 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#140c0c}
+.sc-zine-head span{font:600 11px "Share Tech Mono",monospace;letter-spacing:.14em;color:var(--red)}
 .sc-zine-grid{position:absolute;inset:22vh 5vw 8vh;z-index:2;display:grid;gap:10px;
   grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);
   grid-template-areas:"a a a b b b" "a a a b b b" "a a a c c c" "a a a c c c" "d d d k k k" "d d d k k k"}
-.sc-z{position:relative;margin:0;overflow:hidden;border:1px solid rgba(160,30,40,.3);
+.sc-z{position:relative;margin:0;overflow:hidden;border:1px solid rgba(20,12,12,.3);box-shadow:0 10px 26px rgba(40,20,18,.28);
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-24px))}
 .sc-z-a{grid-area:a;--d:0}.sc-z-b{grid-area:b;--d:.08}.sc-z-c{grid-area:c;--d:.16}.sc-z-d{grid-area:d;--d:.24}
-.sc-z img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) sepia(.14) saturate(1.1)}
+.sc-z img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.08) sepia(.14) saturate(1.1)}
+.sc-z-a img{object-position:50% 25%}.sc-z-d img{object-position:50% 40%;filter:contrast(1.08) sepia(.14) saturate(1.1) brightness(1.08)}
 .sc-z figcaption{position:absolute;left:0;bottom:0;padding:5px 8px;font:600 9px "Share Tech Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(11,8,8,.9),transparent)}
 .sc-z-kanji{grid-area:k;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--red);color:var(--bone);font:800 clamp(24px,3vw,48px)/.9 "Shippori Mincho",serif}
-.sc-zine-code{position:absolute;left:5vw;bottom:3vh;z-index:6;font:600 11px "Share Tech Mono",monospace;letter-spacing:.08em;color:var(--mut)}
+.sc-zine-code{position:absolute;left:5vw;bottom:3vh;z-index:6;font:600 11px "Share Tech Mono",monospace;letter-spacing:.08em;color:#5c4a44}
+.sc-zine .sc-grain{mix-blend-mode:multiply;opacity:.35}
 
-/* ===== 5 · TERMINAL — boot-лог, левая ось (не центр-слоган) ===== */
-.sc-term-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 90% at 25% 40%,#2a0e10,#0b0808 74%)}
-.sc-term-jp{position:absolute;right:-2vw;top:50%;transform:translateY(-50%);z-index:1;font:800 90vh "Shippori Mincho",serif;color:rgba(160,30,40,.1);pointer-events:none}
-.sc-term-panel{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;width:min(60ch,86vw)}
-.sc-term-log{display:flex;flex-direction:column;gap:5px;margin-bottom:22px;font:600 13px "Share Tech Mono",monospace;letter-spacing:.04em;color:var(--red-hi)}
-.sc-term-panel h4{margin:0 0 14px;font:700 clamp(44px,9vw,150px)/.88 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.02em;color:var(--bone)}
-.sc-term-red{color:var(--red-hi)}
-.sc-term-sub{margin:0 0 26px;max-width:40ch;font:400 15px/1.6 "Oswald",sans-serif;color:#c3b3ad}
+/* ===== 5 · TERMINAL — красная тревога (кульминация дуги), CAM 01 на мониторе SHINRA (share=cam01) ===== */
+.sc-term-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 95% at 70% 50%,#e3414d 0%,#b0222d 42%,#5a0d13 100%)}
+.sc-term-jp{position:absolute;right:-2vw;top:50%;transform:translateY(-50%);z-index:1;font:800 90vh "Shippori Mincho",serif;color:rgba(20,4,6,.13);pointer-events:none}
+.sc-term-panel{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;width:min(44vw,640px)}
+.sc-term-log{display:flex;flex-direction:column;gap:5px;margin-bottom:22px;font:600 13px "Share Tech Mono",monospace;letter-spacing:.04em;color:#2a0507}
+.sc-term-panel h4{margin:0 0 14px;font:700 clamp(44px,7.4vw,124px)/.88 "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.02em;color:#f6ede6;text-shadow:0 4px 30px rgba(60,0,6,.35)}
+.sc-term-red{color:#170405;text-shadow:none}
+.sc-term-sub{margin:0 0 26px;max-width:40ch;font:400 15px/1.6 "Oswald",sans-serif;color:#fbe4df}
 .sc-term-cta{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.sc-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--red);color:var(--bone);font:600 15px "Shippori Mincho",serif;letter-spacing:.04em;text-decoration:none;transition:background .2s,transform .2s}
-.sc-btn:hover{background:var(--red-hi);transform:translateY(-2px)}
+.sc-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:#f6ede6;color:#7a1016;font:600 15px "Shippori Mincho",serif;letter-spacing:.04em;text-decoration:none;transition:background .2s,transform .2s}
+.sc-btn:hover{background:#fff;transform:translateY(-2px)}
 .sc-links{display:flex;gap:20px;font:600 12px "Share Tech Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
-.sc-links a{color:var(--mut);text-decoration:none}.sc-links a:hover{color:var(--red-hi)}
+.sc-links a{color:#ffd9d4;text-decoration:none}.sc-links a:hover{color:#fff}
+.sc-term-mon{position:absolute;right:6vw;top:calc(50% - 27vh);width:33vw;height:54vh;margin:0;z-index:4;background:#050303;border:1px solid rgba(20,4,6,.6);
+  box-shadow:0 0 0 8px #120304,0 0 0 9px rgba(255,210,200,.25),0 40px 90px rgba(40,0,4,.55)}
+/* fit/position/filter = как у кадра CAM 01 в зине → призрак без скачка */
+.sc-term-mon img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%;display:block;filter:contrast(1.08) sepia(.14) saturate(1.1)}
+.sc-term-mon figcaption{position:absolute;left:0;right:0;bottom:-30px;display:flex;justify-content:space-between;font:600 10px "Share Tech Mono",monospace;letter-spacing:.12em;color:#2a0507}
+.sc-term .sc-scan{opacity:.22}
+
+/* ===== переключение канала (единственный cut, кульминация): глитч-склейка вместо мутного растворения ===== */
+.sc-site .stage[data-trans="cut"] .is-entering{opacity:clamp(0,calc(var(--sp)*2.4 - .2),1);
+  transform:translateX(calc(sin(var(--sp)*40rad)*(1 - var(--sp))*26px));
+  filter:contrast(calc(1 + (1 - var(--sp))*.7)) brightness(calc(1 + (1 - var(--sp))*.6))}
+.sc-site .stage[data-trans="cut"] .is-entering::after{content:"";position:absolute;inset:0;z-index:30;pointer-events:none;mix-blend-mode:screen;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.16) 0 2px,transparent 2px 5px),
+    linear-gradient(transparent 0 36%,rgba(255,60,80,.6) 36% 41%,transparent 41% 69%,rgba(0,229,255,.3) 69% 72%,transparent 72%);
+  opacity:calc((1 - var(--sp))*1.5)}
+.sc-site .stage[data-trans="cut"] .is-leaving{opacity:calc(1 - var(--ep)*2.4);filter:brightness(calc(1 + var(--ep)*2)) contrast(calc(1 + var(--ep)))}
+@media(prefers-reduced-motion:reduce){.sc-site .stage[data-trans="cut"] .is-entering::after{display:none}}
+
+/* ===== шапка на светлом зине ===== */
+.sc-nav a,.sc-nav .sc-cta{transition:color .4s,border-color .4s}
+.sc-site:has(.stage-scene.is-active .sc-zine) .sc-brand{color:#140c0c}
+.sc-site:has(.stage-scene.is-active .sc-zine) .sc-nav a{color:#5c4a44}
+.sc-site:has(.stage-scene.is-active .sc-zine) .sc-nav .sc-cta{color:#140c0c;border-color:var(--red)}
+.sc-site:has(.stage-scene.is-active :is(.sc-zine,.sc-term)) .stage-dots span{background:rgba(20,12,12,.28)}
+.sc-site:has(.stage-scene.is-active :is(.sc-zine,.sc-term)) .stage-dots span.on{background:#140c0c}
 
 /* ===== мобилка ===== */
 @media(max-width:900px){
@@ -119,5 +172,9 @@
   .sc-surv-cap h3{font-size:34px}
   .sc-zine-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(5,1fr);
     grid-template-areas:"a a" "a a" "b k" "c c" "d d"}
-  .sc-term-panel{width:88vw}
+  .sc-term-panel{width:88vw;top:auto;bottom:6vh;transform:none}
+  .sc-mon-frame{right:5vw;left:5vw;width:auto;top:auto;bottom:6vh;height:26vh}
+  .sc-term-mon{right:5vw;left:5vw;width:auto;top:12vh;height:30vh}
+  .sc-ret-cover{left:calc(50% - 17vw);width:34vw;top:14vh;height:20vh}
+  .sc-ret-alley{left:40%;width:30%}
 }

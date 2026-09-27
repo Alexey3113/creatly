@@ -1,167 +1,182 @@
 /* SOLSTICE — "GLØD", nordic cabin retreats. Flat cut-paper folk-art world: layered paper planes,
-   torn/notched edges, stacked-paper shadows, folded-corner tickets. Fonts Big Shoulders Display
-   (tall folk-poster caps) × DM Sans (warm clean body). Palette pine / twilight-blue / ember / lavender-dusk
-   + ember CTA. Styles only .sl-* + copy typography in .rl-copy under this root. */
-@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+   torn/notched edges, stacked-paper shadows, folded-corner tickets. Fonts Big Shoulders Display × DM Sans (FontLinks).
+   Palette pine / twilight-blue / ember / lavender-dusk + ember CTA. Styles only .sl-* (+ reel copy under .sl). */
 
 .sl{
   --pine:#25402f; --pine-deep:#152a1d; --night:#0c160f;
   --twilight:#b8c8d8; --ember:#e8792a; --cta:#ff8a2a; --lavender:#7a6a9a;
   --paper:#f5ecdc; --paper-dim:#e9dcc4; --ink:#1a2a20; --ink-soft:#3a4a3e;
   --rl-void:#0c160f; --rl-spark:#ffb066;
-  background:var(--pine); color:var(--paper);
-  font-family:"DM Sans",system-ui,sans-serif;
-  overflow-x:clip;
+  isolation:isolate; background:var(--atm, var(--pine)); color:var(--paper);
+  font-family:"DM Sans",system-ui,sans-serif; overflow-x:clip;
 }
 
-/* ── NAV — scrim + brand shadow ───────────────────────────────────────── */
+/* ── NAV ─────────────────────────────────────────────────────────────── */
 .sl-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
-.sl-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(9,17,11,.46), transparent); }
-.sl-brand{ font:800 22px "Big Shoulders Display",system-ui,sans-serif; letter-spacing:.1em; color:var(--paper);
-  text-shadow:0 2px 12px rgba(0,0,0,.5); }
+.sl-nav::before{ content:""; position:absolute; inset:0 0 -24px 0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(9,17,11,.5), transparent); }
+.sl-brand{ font:800 22px "Big Shoulders Display",system-ui,sans-serif; letter-spacing:.1em; color:var(--paper); text-shadow:0 2px 12px rgba(0,0,0,.5); }
 .sl-nav nav{ display:flex; gap:28px; align-items:center; font:600 13px "DM Sans",system-ui,sans-serif; letter-spacing:.03em; }
-.sl-nav a{ color:rgba(245,236,220,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.sl-nav a{ color:rgba(245,236,220,.9); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
 .sl-nav-cta{ position:relative; padding:10px 20px 10px 18px; border-radius:7px 7px 7px 2px; background:var(--cta); color:#211205!important; text-shadow:none!important; font-weight:700; }
 .sl-nav-cta::after{ content:""; position:absolute; top:0; right:0; width:9px; height:9px;
   background:linear-gradient(135deg, transparent 50%, rgba(0,0,0,.22) 50%); border-radius:0 7px 0 0; }
 
-/* ── SCENE COPY (inside engine's .rl-copy) ────────────────────────────── */
+/* ── SCENE COPY: без бумажной карточки поверх героини — скрим + тень ─────── */
+.sl .rl-copy{ isolation:isolate; }
+.sl .rl-copy::before{ content:""; position:absolute; z-index:-1; inset:-12vh -10vw -10vh -12vw; pointer-events:none;
+  background:radial-gradient(56% 52% at 40% 46%, rgba(240,236,246,.66), rgba(240,236,246,.3) 56%, transparent 78%); }
+.sl .rl-dark .rl-copy::before{ background:radial-gradient(56% 54% at 42% 46%, rgba(10,14,22,.62), rgba(10,14,22,.28) 58%, transparent 80%); }
 .sl-eyebrow,.sl-idx{ display:inline-block; font:700 12px "DM Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--pine); }
-.sl-idx{ letter-spacing:.16em; color:var(--pine); }
-.sl-light{ color:var(--twilight); }
-.rl-copy h1{ margin:14px 0 20px; font:800 clamp(52px,9vw,128px)/.88 "Big Shoulders Display",system-ui,sans-serif;
-  letter-spacing:-.005em; text-transform:uppercase; color:var(--ink); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:normal; color:var(--ember); }
-.rl-copy h2{ margin:8px 0 14px; font:700 clamp(38px,6.4vw,92px)/.94 "Big Shoulders Display",system-ui,sans-serif;
-  text-transform:uppercase; color:var(--ink); }
-.rl-copy .sl-hl{ color:var(--paper); }
-.rl-copy p{ margin:0 0 26px; max-width:38ch; font:400 16px/1.7 "DM Sans",system-ui,sans-serif; color:var(--ink-soft); }
-.rl-copy .sl-pl{ color:#e4e6da; text-shadow:0 1px 16px rgba(0,0,0,.55); }
+.sl-idx{ letter-spacing:.16em; }
+.sl-light{ color:var(--twilight); text-shadow:0 1px 10px rgba(0,0,0,.6); }
+.sl .rl-copy h1{ margin:14px 0 20px; font:800 clamp(52px,8.6vw,124px)/.88 "Big Shoulders Display",system-ui,sans-serif;
+  letter-spacing:-.005em; text-transform:uppercase; color:var(--ink); text-shadow:0 1px 26px rgba(240,236,246,.7); }
+.sl .rl-copy h1 em,.sl .rl-copy h2 em{ font-style:normal; color:var(--ember); }
+.sl .rl-copy h2{ margin:8px 0 14px; font:700 clamp(38px,6.2vw,90px)/.94 "Big Shoulders Display",system-ui,sans-serif;
+  text-transform:uppercase; color:var(--ink); text-shadow:0 1px 24px rgba(240,236,246,.75); }
+.sl .rl-copy .sl-hl{ color:var(--paper); text-shadow:0 2px 30px rgba(8,10,16,.8), 0 1px 3px rgba(8,10,16,.55); }
+.sl .rl-copy p{ margin:0 0 26px; max-width:38ch; font:500 16px/1.7 "DM Sans",system-ui,sans-serif; color:#2a3a30; text-shadow:0 1px 14px rgba(240,236,246,.85); }
+.sl .rl-copy .sl-pl{ color:#e8e8e0; text-shadow:0 1px 16px rgba(6,8,14,.9); }
 .sl-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-.sl-btn{ position:relative; padding:15px 30px 15px 26px; border-radius:8px 8px 8px 2px; background:var(--cta);
-  color:#211205; text-decoration:none; font:700 15px "DM Sans",system-ui,sans-serif; box-shadow:0 14px 30px rgba(232,121,42,.34);
-  transition:transform .15s ease; }
+.sl-btn{ position:relative; display:inline-block; padding:15px 30px 15px 26px; border-radius:8px 8px 8px 2px; background:var(--cta);
+  color:#211205; text-decoration:none; font:700 15px "DM Sans",system-ui,sans-serif; box-shadow:0 14px 30px rgba(232,121,42,.34); transition:transform .15s ease; }
 .sl-btn::after{ content:""; position:absolute; top:0; right:0; width:11px; height:11px;
   background:linear-gradient(135deg, transparent 50%, rgba(0,0,0,.24) 50%); border-radius:0 8px 0 0; }
 .sl-btn:active{ transform:translateY(2px); }
-.sl-ghost{ padding:15px 4px; color:var(--ink); text-decoration:none; font:600 15px "DM Sans",system-ui,sans-serif; border-bottom:2px solid rgba(26,42,32,.32); }
-.sl-light + .sl-ghost, .rl-dark .sl-ghost{ color:var(--paper); border-color:rgba(245,236,220,.32); }
+.sl-ghost{ padding:15px 4px; color:var(--ink); text-decoration:none; font:700 15px "DM Sans",system-ui,sans-serif; border-bottom:2px solid rgba(26,42,32,.4); }
 
-/* frosted paper panel behind copy on LIGHT scenes — reads as a pinned cut-paper note */
-.sl-panel{ position:relative; padding:30px 34px 26px; border-radius:4px 16px 4px 16px;
-  background:rgba(245,236,220,.82); backdrop-filter:blur(14px) saturate(1.05); -webkit-backdrop-filter:blur(14px) saturate(1.05);
-  border:1px solid rgba(255,255,255,.5); box-shadow:9px 10px 0 0 rgba(122,106,154,.34), 0 20px 44px rgba(12,22,15,.3);
-  transform:rotate(-.6deg); }
-.sl-panel .sl-eyebrow,.sl-panel .sl-idx{ color:var(--pine); }
+/* ── СЦЕНЫ ───────────────────────────────────────────────────────────── */
+/* лес: путник меньше мира, в правой трети; fg-ветки сняты (маска ложилась на путника «призраком», окно тонуло в ветках) */
+.sl [data-scene="snowforest"] .rl-mid img{ transform:translate(26vw,-1vh) scale(.46); transform-origin:50% 88%; }
+.sl [data-scene="snowforest"] .rl-shadow{ left:76%; top:86%; width:7vw; }
+.sl [data-scene="lake"] .rl-mid img{ transform:translate(12vw,2vh); }
+.sl [data-scene="lake"] .rl-shadow{ display:none; }
+.sl [data-scene="hearth"] .rl-mid img{ transform:translate(9vw,2vh) scale(.92); transform-origin:50% 86%; }
+.sl [data-scene="hearth"] .rl-shadow{ left:60%; }
+.sl [data-scene="hearth"] .rl-fg img{ transform:translate(10vw,10vh) scale(.76); transform-origin:100% 100%; }
+.sl [data-scene="whiteout"] .rl-fg img{ transform:translate(12vw,8vh) scale(.78); transform-origin:100% 100%; }
+/* уменьшенный fg: левая кромка картинки уходит в прозрачность, без жёсткого шва */
+.sl [data-scene="hearth"] .rl-fg img, .sl [data-scene="whiteout"] .rl-fg img{
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 52%, #000 72%), linear-gradient(90deg, transparent 0, transparent 4%, #000 22%);
+          mask-image:linear-gradient(180deg, transparent 0, transparent 52%, #000 72%), linear-gradient(90deg, transparent 0, transparent 4%, #000 22%);
+  -webkit-mask-composite:source-in; mask-composite:intersect; }
+.sl-freeze{ display:grid; gap:8px; padding:14px 22px; border-left:3px solid var(--cta); background:linear-gradient(90deg, rgba(20,28,44,.55), rgba(20,28,44,0)); color:var(--paper); }
+.sl-freeze b{ font:800 clamp(56px,7vw,104px)/.88 "Big Shoulders Display",system-ui,sans-serif; }
+.sl-freeze span{ font:700 11px "DM Sans",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:#ffcf9a; }
+.sl [data-scene="lake"] .rl-freeze{ right:auto; left:6vw; bottom:8vh; }
 
-/* kicker + link (shared) */
+/* ── ОКНО — сквозной актёр: четыре тёплых стекла + ореол ─────────────── */
+.sl-window{ position:relative; width:100%; aspect-ratio:4/5; display:grid; grid-template-columns:1fr 1fr; gap:9%; padding:10%;
+  background:#3a2414; border-radius:3px; box-shadow:0 0 0 2px rgba(58,36,20,.6), 0 0 40px 18px rgba(255,150,60,.38), 0 0 120px 50px rgba(255,138,42,.2); }
+.sl-window i{ display:block; border-radius:1px; background:radial-gradient(120% 100% at 50% 70%, #ffe2a0, #ffb052 55%, #ff8a2a); box-shadow:inset 0 0 8px rgba(255,120,30,.6); }
+.sl-window-actor{ filter:saturate(1.05); }
+
+/* ── ЛЕНДИНГ ─────────────────────────────────────────────────────────── */
 .sl-kick{ display:block; font:700 12px "DM Sans",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--ember); }
 .sl-link{ color:var(--cta); text-decoration:none; font:700 15px "DM Sans",system-ui,sans-serif; }
 
-/* ── MANIFESTO — one big cut-paper thought ────────────────────────────── */
-.sl-manifest{ position:relative; padding:20vh 8vw; background:linear-gradient(180deg,var(--pine),var(--pine-deep)); text-align:center; overflow:hidden; }
+/* MANIFESTO */
+.sl-manifest{ position:relative; padding:22vh 8vw 18vh; text-align:center; overflow:hidden; }
 .sl-manifest::before,.sl-manifest::after{ content:""; position:absolute; border-radius:30%; opacity:.5; filter:blur(1px); }
 .sl-manifest::before{ width:22vw; height:22vw; left:-6vw; top:-4vw; background:var(--lavender); transform:rotate(18deg); }
 .sl-manifest::after{ width:16vw; height:16vw; right:-4vw; bottom:-5vw; background:var(--ember); opacity:.28; transform:rotate(-12deg); }
-.sl-manifest p{ position:relative; margin:0 auto; max-width:20ch; font:700 clamp(30px,4.8vw,66px)/1.1 "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); }
+.sl-manifest p{ position:relative; margin:0 auto; max-width:20ch; font:700 clamp(30px,4.8vw,66px)/1.1 "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); text-shadow:0 2px 24px rgba(8,12,20,.5); }
 .sl-manifest em{ font-style:normal; color:var(--ember); }
 
-/* ── STEPS — vertical numbered handoffs, cut-paper ticket rows ──────────── */
-.sl-steps{ padding:16vh 8vw; background:var(--pine-deep); }
+/* РВАНЫЕ БУМАЖНЫЕ СЛОИ — разделители с параллаксом (--p от скролла) */
+.sl-tear{ --p:0; position:relative; height:clamp(90px,16vh,160px); margin:-4vh 0; pointer-events:none; z-index:1; }
+.sl-tear i{ position:absolute; left:-4%; right:-4%; height:100%;
+  clip-path:polygon(0 38%,4% 30%,9% 40%,14% 26%,19% 36%,25% 22%,31% 34%,37% 24%,42% 38%,48% 28%,54% 40%,60% 25%,66% 35%,72% 22%,78% 36%,84% 27%,90% 39%,95% 29%,100% 36%,100% 100%,0 100%); }
+.sl-tear-a{ top:0; transform:translateY(calc(var(--p) * 26px)); }
+.sl-tear-b{ top:22%; transform:translateY(calc(var(--p) * 12px)) scaleX(-1); }
+.sl-tear-c{ top:44%; transform:translateY(calc(var(--p) * -6px)); }
+.sl-tear-cold .sl-tear-a{ background:#8fa3c0; } .sl-tear-cold .sl-tear-b{ background:#7a6a9a; } .sl-tear-cold .sl-tear-c{ background:rgba(26,37,54,.92); }
+.sl-tear-warm .sl-tear-a{ background:#e8792a; } .sl-tear-warm .sl-tear-b{ background:#b8c8d8; } .sl-tear-warm .sl-tear-c{ background:rgba(27,42,34,.94); }
+
+/* STEPS — билеты-передачи */
+.sl-steps{ padding:14vh 8vw 16vh; background:rgba(26,37,54,.92); }
 .sl-steps-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,64px)/1.05 "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); max-width:16ch; }
 .sl-steps-list{ list-style:none; margin:8vh 0 0; padding:0; display:grid; gap:18px; }
 .sl-steps-row{ position:relative; display:grid; grid-template-columns:5.5rem 1fr; gap:2.4vw; align-items:start;
-  padding:28px 30px; background:var(--paper); border-radius:4px 18px 4px 18px; color:var(--ink);
-  box-shadow:7px 8px 0 0 rgba(37,64,47,.5); }
+  padding:28px 30px; background:var(--paper); border-radius:4px 18px 4px 18px; color:var(--ink); box-shadow:7px 8px 0 0 rgba(122,106,154,.5); }
 .sl-steps-row:nth-child(even){ transform:rotate(.35deg); }
 .sl-steps-row:nth-child(odd){ transform:rotate(-.35deg); }
 .sl-steps-n{ font:800 clamp(34px,3.4vw,50px) "Big Shoulders Display",system-ui,sans-serif; color:var(--ember); line-height:1; }
 .sl-steps-row h3{ margin:2px 0 8px; font:700 19px "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.02em; color:var(--ink); }
 .sl-steps-row p{ margin:0; max-width:56ch; font:400 15px/1.68 "DM Sans",system-ui,sans-serif; color:var(--ink-soft); }
 
-/* ── SIGNATURE SPLIT — media LEFT (hearth) + cozy copy, layered cut-paper ─ */
+/* SPLIT — очаг */
 .sl-split{ position:relative; display:grid; grid-template-columns:1.06fr 1fr; align-items:center; gap:6vw;
-  min-height:86vh; padding:10vh 6vw; background:var(--pine); overflow:hidden; }
+  min-height:86vh; padding:12vh 6vw; background:linear-gradient(180deg, rgba(40,24,14,.5), rgba(40,24,14,.72)); overflow:hidden; }
 .sl-split-media{ position:relative; aspect-ratio:4/5; }
 .sl-split-layer{ position:absolute; border-radius:6px; }
 .sl-split-layer-a{ left:-7%; top:10%; width:62%; height:64%; background:var(--lavender); transform:rotate(-8deg); }
 .sl-split-layer-b{ right:-6%; bottom:-5%; width:48%; height:46%; background:var(--ember); opacity:.9; transform:rotate(7deg); }
-.sl-split-img{ position:absolute; inset:4% 3%; background-size:cover; background-position:50% 42%; border-radius:4px 26px 4px 26px;
+.sl-split-img{ position:absolute; inset:4% 3%; background-size:cover; background-position:70% 42%; border-radius:4px 26px 4px 26px;
   box-shadow:0 26px 60px rgba(6,12,8,.5);
   clip-path:polygon(0% 3%,8% 0%,16% 2.6%,24% 0%,32% 2.6%,40% 0%,48% 2.6%,56% 0%,64% 2.6%,72% 0%,80% 2.6%,88% 0%,96% 2.6%,100% 0%,100% 100%,0% 100%); }
 .sl-split-copy h2{ margin:14px 0 18px; font:700 clamp(30px,3.8vw,56px)/1.02 "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); }
-.sl-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "DM Sans",system-ui,sans-serif; color:#cdd6c9; }
+.sl-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "DM Sans",system-ui,sans-serif; color:#e4d6c4; }
 
-/* ── FEATURE CARDS ───────────────────────────────────────────────────── */
-.sl-cards{ padding:16vh 8vw; background:var(--pine-deep); }
+/* ХОЛОД ПРОТИВ ТЕПЛА */
+.sl-thermo{ display:grid; grid-template-columns:1fr 1fr; min-height:78vh; }
+.sl-thermo > div{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:12vh 6vw; }
+.sl-thermo-cold{ background:linear-gradient(160deg, rgba(184,200,216,.94), rgba(143,163,192,.94)); color:#1a2536; }
+.sl-thermo-warm{ background:linear-gradient(160deg, rgba(58,36,20,.9), rgba(96,44,16,.92)); color:var(--paper);
+  clip-path:polygon(4% 0,100% 0,100% 100%,0 100%,3% 88%,0 76%,4% 62%,1% 48%,5% 34%,1% 20%,3% 8%); }
+.sl-thermo b{ display:block; margin:10px 0 18px; font:800 clamp(90px,14vw,220px)/.84 "Big Shoulders Display",system-ui,sans-serif; letter-spacing:-.02em; }
+.sl-thermo-cold b{ color:#1f3a5a; }
+.sl-thermo-warm b{ color:var(--cta); text-shadow:0 0 60px rgba(255,138,42,.45); }
+.sl-thermo p{ margin:0; max-width:32ch; font:500 16px/1.7 "DM Sans",system-ui,sans-serif; }
+.sl-kick-cold{ color:#2c4a6e; }
+
+/* FEATURE CARDS */
+.sl-cards{ padding:14vh 8vw 16vh; background:rgba(27,42,34,.9); }
 .sl-cards-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,60px)/1.05 "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); max-width:18ch; }
 .sl-cards-grid{ margin-top:8vh; display:grid; grid-template-columns:repeat(4,1fr); gap:3.4vw 2vw; }
-.sl-card{ position:relative; padding:30px 24px 26px; background:var(--paper); border-radius:4px 18px 4px 18px; color:var(--ink);
-  box-shadow:7px 8px 0 0 rgba(122,106,154,.4); }
+.sl-card{ position:relative; padding:30px 24px 26px; background:var(--paper); border-radius:4px 18px 4px 18px; color:var(--ink); box-shadow:7px 8px 0 0 rgba(122,106,154,.4); }
 .sl-card:nth-child(odd){ transform:rotate(-.7deg); } .sl-card:nth-child(even){ transform:rotate(.7deg); }
 .sl-card b{ display:block; margin-bottom:10px; font:700 18px "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--ink); }
 .sl-card p{ margin:0; font:400 14px/1.62 "DM Sans",system-ui,sans-serif; color:var(--ink-soft); }
 
-/* ── GALLERY — four rooms of winter (bg plates as tiles) ────────────────── */
-.sl-gallery{ padding:16vh 8vw; background:var(--pine); }
-.sl-gallery-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,60px)/1.05 "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); max-width:18ch; }
-.sl-gallery-grid{ margin-top:8vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw; }
-.sl-gallery-tile{ position:relative; aspect-ratio:3/4; border-radius:4px 16px 4px 16px; overflow:hidden; background-size:cover; background-position:50% 40%; }
-.sl-gallery-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(12,22,15,0) 46%, rgba(12,22,15,.86) 100%); }
-.sl-gallery-cap{ position:absolute; left:16px; right:16px; bottom:14px; }
-.sl-gallery-cap span{ display:block; font:700 12px "DM Sans",system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--twilight); }
-.sl-gallery-cap b{ display:block; margin-top:4px; font:700 21px "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); }
+/* QUOTE — приколотая записка, не по центру */
+.sl-quote{ padding:18vh 8vw; }
+.sl-note{ position:relative; margin:0 0 0 auto; max-width:40rem; padding:44px 46px 36px; background:var(--paper); color:var(--ink);
+  border-radius:3px 20px 3px 20px; transform:rotate(-1.6deg); box-shadow:10px 12px 0 0 rgba(122,106,154,.45), 0 30px 60px rgba(6,10,16,.4); }
+.sl-note::before{ content:""; position:absolute; top:-12px; left:50%; width:26px; height:26px; margin-left:-13px; border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #ffb066, var(--ember) 60%, #a84e14); box-shadow:0 4px 8px rgba(0,0,0,.3); }
+.sl-note blockquote{ margin:0; font:500 clamp(22px,2.6vw,34px)/1.34 "DM Sans",system-ui,sans-serif; font-style:italic; color:var(--ink); }
+.sl-note em{ font-style:italic; color:#c85a14; }
+.sl-note figcaption{ margin-top:24px; font:700 12px "DM Sans",system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:#5a6a5e; }
 
-/* ── STATS ────────────────────────────────────────────────────────────── */
-.sl-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--night); border-top:1px solid rgba(184,200,216,.16); }
-.sl-stat{ padding:56px 28px; border-left:1px solid rgba(184,200,216,.16); }
-.sl-stat:first-child{ border-left:0; }
-.sl-stat b{ display:block; font:700 clamp(44px,5.2vw,80px)/1 "Big Shoulders Display",system-ui,sans-serif; color:var(--ember); }
-.sl-stat span{ display:block; margin-top:10px; font:500 13px "DM Sans",system-ui,sans-serif; letter-spacing:.03em; color:var(--twilight); }
-
-/* ── QUOTE ────────────────────────────────────────────────────────────── */
-.sl-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,var(--night),var(--pine-deep)); }
-.sl-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(24px,3.4vw,44px)/1.32 "DM Sans",system-ui,sans-serif; font-style:italic; color:var(--paper); }
-.sl-quote em{ font-style:italic; color:var(--ember); }
-.sl-quote cite{ display:block; margin-top:30px; font:600 13px "DM Sans",system-ui,sans-serif; letter-spacing:.06em; font-style:normal; color:var(--twilight); }
-
-/* ── MARQUEE ──────────────────────────────────────────────────────────── */
-.sl-marquee{ overflow:hidden; background:var(--ember); padding:20px 0; border-top:1px solid rgba(0,0,0,.14); border-bottom:1px solid rgba(0,0,0,.14); }
-.sl-marquee-track{ display:flex; width:max-content; gap:3.2rem; animation:sl-scroll 26s linear infinite; }
-.sl-marquee-track span{ font:800 26px "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; letter-spacing:.04em; color:#221206; white-space:nowrap; }
-@keyframes sl-scroll{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
-
-/* ── DEAL ─────────────────────────────────────────────────────────────── */
-.sl-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--pine); }
-.sl-deal-card{ position:relative; width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border-radius:6px 30px 6px 30px;
+/* DEAL */
+.sl-deal{ display:grid; place-items:center; padding:20vh 6vw 18vh; background:transparent; }
+.sl-deal-card{ position:relative; width:min(46rem,92vw); text-align:center; padding:8vh 6vw 7vh; border-radius:6px 30px 6px 30px;
   background:var(--paper); color:var(--ink); box-shadow:10px 12px 0 0 rgba(122,106,154,.4), 0 30px 60px rgba(6,12,8,.4); }
-.sl-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.sl-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
 .sl-price b{ font:800 clamp(48px,6.6vw,88px) "Big Shoulders Display",system-ui,sans-serif; color:var(--ink); }
 .sl-price span{ font:500 15px "DM Sans",system-ui,sans-serif; color:var(--ink-soft); }
 .sl-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "DM Sans",system-ui,sans-serif; color:var(--ink-soft); }
-.sl-deal .sl-btn{ margin:0 auto; }
-.sl-note{ display:block; margin-top:18px; font:500 12px "DM Sans",system-ui,sans-serif; letter-spacing:.05em; color:#6f7d70; }
+.sl-deal .sl-btn{ margin:0 auto; box-shadow:0 0 40px 10px rgba(255,138,42,.35), 0 14px 30px rgba(232,121,42,.34); }
+.sl-note-s{ display:block; margin-top:18px; font:500 12px "DM Sans",system-ui,sans-serif; letter-spacing:.05em; color:#6f7d70; }
 
-/* ── CLIMAX ───────────────────────────────────────────────────────────── */
+/* CLIMAX */
 .sl-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
-.sl-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(12,22,15,.4), rgba(9,15,10,.92) 78%); }
+.sl-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(12,22,15,.35), rgba(9,15,10,.9) 78%); }
 .sl-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
 .sl-climax-copy h2{ margin:0 0 34px; font:800 clamp(40px,6vw,92px)/1 "Big Shoulders Display",system-ui,sans-serif; text-transform:uppercase; color:var(--paper); }
 .sl-climax-copy em{ font-style:normal; color:var(--ember); }
 
-/* ── FOOTER ───────────────────────────────────────────────────────────── */
 .sl-foot{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:40px 6vw; background:var(--night); color:var(--twilight); font:500 13px "DM Sans",system-ui,sans-serif; }
 .sl-foot .sl-brand{ color:var(--paper); font-size:19px; }
 
 @media (max-width:820px){
   .sl-nav nav a:not(.sl-nav-cta){ display:none; }
   .sl-split{ grid-template-columns:1fr; } .sl-split-media{ aspect-ratio:4/3; }
+  .sl-thermo{ grid-template-columns:1fr; } .sl-thermo-warm{ clip-path:none; }
   .sl-cards-grid{ grid-template-columns:1fr 1fr; }
-  .sl-gallery-grid{ grid-template-columns:1fr 1fr; }
-  .sl-stats{ grid-template-columns:1fr 1fr; }
   .sl-steps-row{ grid-template-columns:1fr; gap:6px; }
-  .sl-panel{ padding:22px 22px 20px; }
+  .sl-note{ padding:36px 26px 28px; }
 }
-
-@media (prefers-reduced-motion:reduce){ .sl-marquee-track{ animation:none; } }
+@media (prefers-reduced-motion:reduce){ .sl-btn{ transition:none; } }

@@ -1,60 +1,62 @@
 "use client";
-/* SOLSTICE — "GLØD", nordic cabin retreats. Мир: тепло против холода, путь домой сквозь синюю
-   полярную сумерку к оранжевому очагу. Собран на общем движке <Reel/>; лендинг и типографика —
-   свои (флэт cut-paper folk-art: слоистая бумага, рваные/зубчатые края, сложенные уголки-тикеты).
-   Шрифт-пейринг Big Shoulders Display (высокие folk-poster капители) × DM Sans (тёплый sans). */
-import { Reel, type ReelScene } from "../reel";
+/* SOLSTICE — "GLØD", nordic cabin retreats. Мир: тепло против холода — путь домой сквозь синюю полярную
+   сумерку к оранжевому очагу. Флэт cut-paper folk-art; шрифт-пейринг Big Shoulders Display × DM Sans.
+   СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09): актёр — ОДНО тёплое окно в постоянной точке экрана, которое растёт по
+   мере приближения: далеко в соснах → через озеро (стоп-кадр «−14°») → зум СКВОЗЬ окно в очаг (portal) →
+   шквал уносит тепло (sweep) → окна хижины в белой мгле → в лендинге окно стоит на «тёплой» стороне и
+   становится свечением CTA. Снег гаснет на тёплых секциях; рваные бумажные слои-разделители с параллаксом. */
+import { useEffect, useRef } from "react";
+import { Reel, reelMark, type ReelScene } from "../reel";
+import { Actor, Weather, Atmosphere, Backdrop, subscribe } from "@/components/scene-kit";
+import { FontLinks } from "@/components/shared/FontLinks";
 import "./solstice.css";
 
 const A = "/uploads/1/animated/solstice";
+const W = { x: 80, y: 37 }; // постоянная точка окна
 
 const scenes: ReelScene[] = [
-  {
-    id: "snowforest",
-    bg: `${A}/s1-bg.webp`, mid: `${A}/s1-mid.webp`, fg: `${A}/s1-fg.webp`,
-    copy: (
-      <div className="sl-panel">
-        <span className="sl-eyebrow">Nordic cabin retreats</span>
-        <h1>Come home<br /><em>to the fire.</em></h1>
-        <p>Four days deep in spruce and frost, walking the long way back to warm. GLØD builds the whole descent from cold to hearth — you just follow the light in the window.</p>
-        <div className="sl-cta"><a href="#book" className="sl-btn">Book a stay</a><a href="#journey" className="sl-ghost">See the journey →</a></div>
-      </div>
-    ),
-  },
-  {
-    id: "lake",
-    bg: `${A}/s2-bg.webp`, mid: `${A}/s2-mid.webp`, fg: `${A}/s2-fg.webp`,
-    copy: (
-      <div className="sl-panel">
-        <span className="sl-idx">— 02 · the crossing</span>
-        <h2>The Frozen Mile</h2>
-        <p>Ice thick enough to trust, a straight line drawn across the dark, and a single window already lit gold on the far shore.</p>
-      </div>
-    ),
-  },
-  {
-    id: "hearth", dark: true, spark: 5,
-    bg: `${A}/s3-bg.webp`, mid: `${A}/s3-mid.webp`, fg: `${A}/s3-fg.webp`,
-    copy: (
-      <>
-        <span className="sl-idx sl-light">— 03 · the arrival</span>
-        <h2 className="sl-hl">The Hearth</h2>
-        <p className="sl-pl">Boots by the door, kettle already singing, the cold you carried in gone from your shoulders inside a minute.</p>
-      </>
-    ),
-  },
-  {
-    id: "whiteout",
-    bg: `${A}/s4-bg.webp`, mid: `${A}/s4-mid.webp`, fg: `${A}/s4-fg.webp`,
-    copy: (
-      <div className="sl-panel">
-        <span className="sl-idx">— 04 · the clearing</span>
-        <h2>After the White</h2>
-        <p>The squall lifts, the pines step back into place, and there it is — small, orange-lit, exactly where you left it.</p>
-      </div>
-    ),
-  },
+  { id: "snowforest", bg: `${A}/s1-bg.webp`, mid: `${A}/s1-mid.webp`, len: 1.1, hold: 0.5, copy: (
+    <>
+      <span className="sl-eyebrow">Nordic cabin retreats</span>
+      <h1>Come home<br /><em>to the fire.</em></h1>
+      <p>Four days deep in spruce and frost, walking the long way back to warm. GLØD builds the whole route from cold to hearth — you just follow the light in the window.</p>
+      <div className="sl-cta"><a href="#book" className="sl-btn">Book a stay</a><a href="#journey" className="sl-ghost">See the journey →</a></div>
+    </>
+  ) },
+  { id: "lake", into: "pan", tint: "#dfe6f0", len: 1.2, hold: 0.55, bg: `${A}/s2-bg.webp`, mid: `${A}/s2-mid.webp`, fg: `${A}/s2-fg.webp`,
+    freeze: (<div className="sl-freeze"><b>−14°</b><span>the frozen mile · one lit window</span></div>), copy: (
+    <><span className="sl-idx">— 02 · the crossing</span><h2>The Frozen Mile</h2>
+      <p>Ice thick enough to trust, a straight line drawn across the dark, and a single window already lit gold on the far shore.</p></>
+  ) },
+  { id: "hearth", dark: true, into: "portal", portal: W, spark: 5, bg: `${A}/s3-bg.webp`, mid: `${A}/s3-mid.webp`, fg: `${A}/s3-fg.webp`, copy: (
+    <><span className="sl-idx sl-light">— 03 · the arrival</span><h2 className="sl-hl">The Hearth</h2>
+      <p className="sl-pl">Boots by the door, kettle already singing, the cold you carried in gone from your shoulders inside a minute.</p></>
+  ) },
+  { id: "whiteout", into: "sweep", tint: "#f1f4fa", len: 1.1, bg: `${A}/s4-bg.webp`, fg: `${A}/s4-fg.webp`, copy: (
+    <><span className="sl-idx">— 04 · the clearing</span><h2>After the White</h2>
+      <p>The squall lifts, the pines step back into place, and there it is — small, orange-lit, exactly where you left it.</p></>
+  ) },
 ];
+
+/* рваные бумажные слои с параллаксом: --p (−1…1) по мере прохода разделителя через экран */
+function PaperTear({ className }: { className: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    return subscribe(({ vh, reduced }) => {
+      if (reduced) return;
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -vh * 0.2 || r.top > vh * 1.2) return;
+      el.style.setProperty("--p", ((r.top + r.height / 2 - vh / 2) / vh).toFixed(4));
+    });
+  }, []);
+  return (
+    <div ref={ref} className={`sl-tear ${className}`} aria-hidden>
+      <i className="sl-tear-a" /><i className="sl-tear-b" /><i className="sl-tear-c" />
+    </div>
+  );
+}
 
 const STEPS: [string, string, string][] = [
   ["01", "Arrival", "Off the train at the valley halt, into a waiting sled. No road runs past this point."],
@@ -70,24 +72,10 @@ const CARDS: [string, string][] = [
   ["Lantern Trails", "Marked spruce paths lit through the blue hour — safe, and beautiful, to walk alone."],
 ];
 
-const GALLERY: [string, string, string][] = [
-  [`${A}/s1-bg.webp`, "Chapter one", "The Pines"],
-  [`${A}/s2-bg.webp`, "Chapter two", "The Mile"],
-  [`${A}/s3-bg.webp`, "Chapter three", "The Hearth"],
-  [`${A}/s4-bg.webp`, "Chapter four", "The Clearing"],
-];
-
-const STATS: [string, string][] = [
-  ["9", "cabins, one valley"],
-  ["96", "hours a fire stays lit"],
-  ["40", "minutes, station to silence"],
-  ["-14°", "average, never once mattered"],
-];
-
 export function Solstice() {
   return (
     <div className="sl">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" />
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"]} />
 
       <header className="sl-nav">
         <span className="sl-brand">GLØD</span>
@@ -100,12 +88,42 @@ export function Solstice() {
 
       <Reel scenes={scenes} cue="scroll home ↓" />
 
-      {/* MANIFESTO — one big cut-paper thought */}
+      {/* СКВОЗНОЙ СЛОЙ: сумерки ↔ очаг под лендингом, снег (гаснет в тепле), окно */}
+      <Atmosphere stops={[
+        { at: ".sl-manifest", color: "#1c2a3a" }, { at: ".sl-steps", color: "#1a2536" }, { at: ".sl-split", color: "#3b2416" },
+        { at: ".sl-thermo", color: "#262233" }, { at: ".sl-cards", color: "#1b2a22" }, { at: ".sl-quote", color: "#2a2238" },
+        { at: ".sl-deal", color: "#3a2314" }, { at: ".sl-climax", color: "#0c160f" },
+      ]} />
+      <Backdrop from=".sl-manifest" dim={0.5} plates={[
+        { at: ".sl-manifest", src: `${A}/s2-bg.webp` }, { at: ".sl-steps", src: `${A}/s1-bg.webp` }, { at: ".sl-split", src: `${A}/s3-bg.webp`, pos: "70% 50%" },
+        { at: ".sl-cards", src: `${A}/s4-bg.webp` }, { at: ".sl-deal", src: `${A}/s3-bg.webp`, pos: "75% 60%" },
+      ]} />
+      <Weather kind="snow" count={34} color="#f4f6fb" between={[reelMark("s0"), reelMark("s1")]} world={0.6} zIndex={31} />
+      <Weather kind="snow" count={30} color="#f4f6fb" between={[reelMark("t2"), ".sl-split"]} world={0.6} zIndex={31} seed={13} />
+      <Actor className="sl-window-actor" width="5vw" zIndex={32} bob={0} tilt={0} stops={[
+        { at: reelMark("s0"), pose: { x: 61.3, y: 83.5, s: 0.3, o: 1 } },
+        { at: reelMark("t0"), pose: { x: 72, y: 58, s: 0.42, o: 1 } },
+        { at: reelMark("s1"), pose: { x: W.x, y: W.y, s: 0.55, o: 1 } },
+        { at: reelMark("t1"), pose: { x: W.x, y: W.y, s: 7, o: 0, blur: 8 } },
+        { at: reelMark("s2"), pose: { x: 71, y: 76, s: 0.2, o: 0 } },
+        { at: reelMark("t2"), pose: { x: 71, y: 76, s: 0.32, o: 0.7 } },
+        { at: reelMark("s3"), pose: { x: 71, y: 75, s: 0.6, o: 1 } },
+        { at: ".sl-manifest", pose: { x: 80, y: 30, s: 0.5, o: 0 } },
+        { at: ".sl-thermo-warm", anchor: 0.5, pose: { x: 50, y: 42, s: 2.2, o: 1, dock: true } },
+        { at: ".sl-cards", pose: { x: 80, y: 40, s: 1, o: 0 } },
+        { at: ".sl-quote", pose: { x: 50, y: 60, s: 1, o: 0 } },
+        { at: ".sl-deal-card", anchor: 0.5, pose: { x: 50, y: 0, s: 1.3, o: 1, dock: true } },
+        { at: ".sl-climax", pose: { x: 50, y: 30, s: 2, o: 0 } },
+      ]}><div className="sl-window"><i /><i /><i /><i /></div></Actor>
+
+      {/* MANIFESTO — одна большая cut-paper мысль */}
       <section className="sl-manifest">
-        <p>Winter isn't something to survive. <em>It's something to walk into</em> — on purpose, toward a door that's already warm.</p>
+        <p>Winter isn&rsquo;t something to survive. <em>It&rsquo;s something to walk into</em> — on purpose, toward a door that&rsquo;s already warm.</p>
       </section>
 
-      {/* STEPS — the journey home, vertical numbered handoffs (unique block) */}
+      <PaperTear className="sl-tear-cold" />
+
+      {/* STEPS — путь домой, билеты-передачи */}
       <section className="sl-steps" id="journey">
         <div className="sl-steps-head">
           <span className="sl-kick">How a stay begins</span>
@@ -113,15 +131,12 @@ export function Solstice() {
         </div>
         <ol className="sl-steps-list">
           {STEPS.map(([n, t, s]) => (
-            <li className="sl-steps-row" key={n}>
-              <span className="sl-steps-n">{n}</span>
-              <div><h3>{t}</h3><p>{s}</p></div>
-            </li>
+            <li className="sl-steps-row" key={n}><span className="sl-steps-n">{n}</span><div><h3>{t}</h3><p>{s}</p></div></li>
           ))}
         </ol>
       </section>
 
-      {/* SIGNATURE SPLIT — media LEFT (the hearth), layered cut-paper showcase */}
+      {/* SPLIT — очаг (тёплая секция: снег гаснет) */}
       <section className="sl-split" id="cabins">
         <div className="sl-split-media">
           <span className="sl-split-layer sl-split-layer-a" aria-hidden />
@@ -136,73 +151,56 @@ export function Solstice() {
         </div>
       </section>
 
-      {/* FEATURE CARDS — what's waiting (block tidewell lacks) */}
+      {/* ХОЛОД ПРОТИВ ТЕПЛА — вместо полосы из четырёх цифр; окно встаёт на тёплую сторону */}
+      <section className="sl-thermo">
+        <div className="sl-thermo-cold">
+          <span className="sl-kick sl-kick-cold">Outside</span>
+          <b>−14°</b>
+          <p>Blue hour from three in the afternoon. Forty minutes from the station to the last signal bar.</p>
+        </div>
+        <div className="sl-thermo-warm">
+          <span className="sl-kick">Inside</span>
+          <b>+21°</b>
+          <p>Nine cabins, one valley. A fire that stays lit for ninety-six hours — it never once mattered how cold it got.</p>
+        </div>
+      </section>
+
+      <PaperTear className="sl-tear-warm" />
+
+      {/* FEATURE CARDS */}
       <section className="sl-cards" id="amenities">
         <div className="sl-cards-head">
-          <span className="sl-kick">What's waiting</span>
+          <span className="sl-kick">What&rsquo;s waiting</span>
           <h2>Built for the walk in, built for staying still.</h2>
         </div>
         <div className="sl-cards-grid">
-          {CARDS.map(([t, s]) => (
-            <div className="sl-card" key={t}><b>{t}</b><p>{s}</p></div>
-          ))}
+          {CARDS.map(([t, s]) => (<div className="sl-card" key={t}><b>{t}</b><p>{s}</p></div>))}
         </div>
       </section>
 
-      {/* GALLERY — four rooms of winter, bg plates as tiles */}
-      <section className="sl-gallery">
-        <div className="sl-gallery-head">
-          <span className="sl-kick">One journey, four chapters</span>
-          <h2>Every stay walks the same four rooms.</h2>
-        </div>
-        <div className="sl-gallery-grid">
-          {GALLERY.map(([img, kick, t]) => (
-            <div className="sl-gallery-tile" style={{ backgroundImage: `url(${img})` }} key={t}>
-              <div className="sl-gallery-veil" aria-hidden />
-              <div className="sl-gallery-cap"><span>{kick}</span><b>{t}</b></div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section className="sl-stats">
-        {STATS.map(([n, l]) => (
-          <div className="sl-stat" key={l}><b>{n}</b><span>{l}</span></div>
-        ))}
-      </section>
-
-      {/* QUOTE */}
+      {/* QUOTE — приколотая бумажная записка */}
       <section className="sl-quote">
-        <blockquote>“We arrived half-frozen and turned back twice on the ice. The door was already warm before we knocked. <em>I have never been so glad</em> to take off boots.”</blockquote>
-        <cite>— Ingrid H., third winter returning</cite>
+        <figure className="sl-note">
+          <blockquote>&ldquo;We arrived half-frozen and turned back twice on the ice. The door was already warm before we knocked. <em>I have never been so glad</em> to take off boots.&rdquo;</blockquote>
+          <figcaption>— Ingrid H., third winter returning</figcaption>
+        </figure>
       </section>
 
-      {/* MARQUEE — decorative cut-paper band (block tidewell lacks) */}
-      <div className="sl-marquee" aria-hidden>
-        <div className="sl-marquee-track">
-          {Array.from({ length: 2 }, (_, i) => (
-            <span key={i}>SNOW · SMOKE · SPRUCE · EMBER · HOME · SNOW · SMOKE · SPRUCE · EMBER · HOME ·</span>
-          ))}
-        </div>
-      </div>
-
-      {/* DEAL */}
+      {/* DEAL — окно становится свечением CTA */}
       <section className="sl-deal" id="book">
         <div className="sl-deal-card">
           <span className="sl-kick">The stay</span>
           <div className="sl-price"><b>€640</b><span>/ cabin · four nights, full board</span></div>
           <p>Two to four guests, one hearth suite, every meal at the long table, a guide for the frozen mile and the lantern trails. Arrive by sled, leave reluctant.</p>
           <a href="#" className="sl-btn">Reserve your dates</a>
-          <span className="sl-note">Free to reschedule for weather · Guide included</span>
+          <span className="sl-note-s">Free to reschedule for weather · Guide included</span>
         </div>
       </section>
 
-      {/* CLIMAX */}
       <section className="sl-climax" style={{ backgroundImage: `url(${A}/s4-bg.webp)` }}>
         <div className="sl-climax-veil" aria-hidden />
         <div className="sl-climax-copy">
-          <h2>Your window is<br />already <em>lit.</em></h2>
+          <h2>Cold outside.<br /><em>Ember inside.</em></h2>
           <a href="#book" className="sl-btn">Book a stay</a>
         </div>
       </section>

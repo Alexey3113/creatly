@@ -1,141 +1,181 @@
-/* HOLLOW — lantern-led night-walk world. Шрифты DM Serif Display (display, есть italic под <em>)
-   × Space Grotesk (sans/body) — не занятая пара (эталон tidewell = Cormorant × Manrope).
-   Палитра: deep-moss / bio-teal / glow / violet + mint CTA. Стили только .hl-* + копи в .rl-copy. */
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+/* HOLLOW — lantern-led night-walk world. Шрифты DM Serif Display (display, italic под <em>) × Space Grotesk
+   (грузятся через FontLinks). Палитра: deep-moss / bio-teal / glow / violet + mint CTA; тёплый — только фонарь.
+   Стили только .hl-* + копи в .rl-copy. */
 
 .hl{
   --void:#0e2019; --void2:#0a1712; --void3:#152d23; --card:#112a20;
-  --teal:#1f8a6a; --glow:#7ad0c0; --violet:#6a4aa8; --mint:#8affd8;
-  --ink:#eaf6f0; --sub:#a2c9ba; --sub2:#6f9686; --line:#1e4536;
+  --teal:#1f8a6a; --glow:#7ad0c0; --violet:#6a4aa8; --mint:#8affd8; --lamp:#ffd98a;
+  --ink:#eaf6f0; --sub:#a2c9ba; --sub2:#7fa596; --line:#1e4536;
   --rl-void:#0a1712; --rl-spark:#8affd8;
-  background:var(--void); color:var(--ink); font-family:"Space Grotesk",system-ui,sans-serif;
+  isolation:isolate; background:var(--atm, var(--void)); color:var(--ink); font-family:"Space Grotesk",system-ui,sans-serif;
 }
 
-/* NAV — скрим для контраста + тень на бренде, иначе лого гаснет на светлой сцене dawnwood */
+/* движок задаёт свой --rl-void/--rl-spark на .rl — светлячки рила должны быть мятными, как споры */
+.hl .rl{ --rl-void:#0a1712; --rl-spark:#8affd8; }
+
+/* NAV — скрим для контраста + тень на бренде */
 .hl-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
 .hl-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(4,14,10,.5), transparent); }
+  background:linear-gradient(180deg, rgba(4,14,10,.55), transparent); }
 .hl-brand{ font:400 21px "DM Serif Display",serif; letter-spacing:.22em; color:var(--mint); text-shadow:0 1px 14px rgba(0,0,0,.55), 0 0 22px rgba(138,255,216,.25); }
 .hl-nav nav{ display:flex; gap:28px; align-items:center; font:500 13px "Space Grotesk"; letter-spacing:.03em; }
-.hl-nav a{ color:rgba(234,246,240,.86); text-decoration:none; text-shadow:0 1px 10px rgba(0,0,0,.45); }
+.hl-nav a{ color:rgba(234,246,240,.88); text-decoration:none; text-shadow:0 1px 10px rgba(0,0,0,.5); }
 .hl-nav-cta{ padding:10px 20px; border-radius:999px; background:var(--mint); color:#082017!important; font-weight:600; text-shadow:none!important; }
+.hl-nav::before, .hl-brand, .hl-nav a{ transition:opacity .4s ease, color .4s ease, text-shadow .4s ease, background .4s ease; }
+.hl[data-nav="light"] .hl-nav::before{ background:linear-gradient(180deg, rgba(250,246,232,.55), rgba(250,246,232,0)); }
+.hl[data-nav="light"] .hl-brand{ color:#0f261e; text-shadow:none; }
+.hl[data-nav="light"] .hl-nav a:not(.hl-nav-cta){ color:#1d3a30; text-shadow:none; }
+.hl[data-nav="light"] .hl-nav-cta{ background:#0f261e; color:var(--mint)!important; }
 
-/* HERO / SCENE COPY (внутри .rl-copy движка) */
-.hl-eyebrow,.hl-idx{ font:600 12px "Space Grotesk"; letter-spacing:.24em; text-transform:uppercase; color:var(--glow); }
+/* SCENE COPY — без карточки: локальный тёмный скрим за текстом, тень букв */
+.hl .rl-copy::before{ content:""; position:absolute; z-index:-1; inset:-18% -24% -20% -18%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(4,14,10,.62), rgba(4,14,10,.3) 56%, rgba(4,14,10,0)); }
+.hl-eyebrow,.hl-idx{ font:600 12px "Space Grotesk"; letter-spacing:.24em; text-transform:uppercase; color:var(--glow); text-shadow:0 1px 10px rgba(0,0,0,.6); }
 .hl-idx{ letter-spacing:.16em; }
 .hl-light{ color:var(--glow); }
-.rl-copy h1{ margin:16px 0 20px; font:400 clamp(52px,8.6vw,124px)/.98 "DM Serif Display",serif; letter-spacing:-.01em; color:var(--ink); text-shadow:0 2px 30px rgba(0,0,0,.4); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; color:var(--mint); }
-.rl-copy h2{ margin:10px 0 16px; font:400 clamp(40px,6.6vw,92px)/1 "DM Serif Display",serif; color:var(--ink); }
-.rl-copy .hl-hl{ color:var(--mint); text-shadow:0 0 34px rgba(138,255,216,.3); }
-.rl-copy p{ margin:0 0 26px; max-width:40ch; font:400 16px/1.7 "Space Grotesk"; color:var(--sub); text-shadow:0 1px 16px rgba(0,0,0,.4); }
-.rl-copy .hl-pl{ color:#cfe8de; }
+.hl .rl-copy h1{ margin:16px 0 20px; font:400 clamp(52px,8.6vw,124px)/.98 "DM Serif Display",serif; letter-spacing:-.01em; color:var(--ink); text-shadow:0 2px 30px rgba(0,0,0,.5); }
+.hl .rl-copy h1 em, .hl .rl-copy h2 em{ font-style:italic; color:var(--mint); }
+.hl .rl-copy h2{ margin:10px 0 16px; font:400 clamp(40px,6.6vw,92px)/1 "DM Serif Display",serif; color:var(--ink); text-shadow:0 2px 26px rgba(0,0,0,.5); }
+.hl .rl-copy .hl-hl{ color:var(--mint); text-shadow:0 0 34px rgba(138,255,216,.3), 0 2px 20px rgba(0,0,0,.5); }
+.hl .rl-copy p{ margin:0 0 26px; max-width:40ch; font:400 16px/1.7 "Space Grotesk"; color:#cfe6dc; text-shadow:0 1px 14px rgba(0,0,0,.85), 0 0 2px rgba(0,0,0,.6); }
+.hl .rl-copy .hl-pl{ color:#dcefe6; }
 .hl-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
 .hl-btn{ padding:15px 30px; border-radius:999px; background:var(--mint); color:#082017; text-decoration:none; font:600 15px "Space Grotesk"; box-shadow:0 16px 38px rgba(138,255,216,.22); transition:transform .15s ease; }
 .hl-btn:active{ transform:translateY(2px) scale(.98); }
-.hl-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:500 15px "Space Grotesk"; border-bottom:1px solid rgba(234,246,240,.32); }
+.hl-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:500 15px "Space Grotesk"; border-bottom:1px solid rgba(234,246,240,.32); text-shadow:0 1px 10px rgba(0,0,0,.6); }
+
+/* ГЕРОИ СЦЕН — уведены из-под копи в правую треть (движок ставит mid по центру) */
+.hl .rl-shadow{ display:none; }
+.hl .rl-scene[data-scene="thicket"] .rl-mid img{ inset:auto; left:34vw; width:72vw; height:auto; top:calc(92vh - 35.6vw); }
+.hl .rl-scene[data-scene="grove"] .rl-mid img{ inset:auto; left:30vw; width:74vw; height:auto; top:calc(97vh - 37vw); }
+.hl .rl-scene[data-scene="spirit"] .rl-mid img{ inset:auto; left:36vw; height:76.4vh; width:auto; top:20.8vh; }
+.hl .rl-scene[data-scene="dawnwood"] .rl-mid img{ inset:auto; left:35.3vw; height:51.7vh; width:auto; top:40.4vh; }
+
+/* РАССВЕТ — реально светлый: конец дуги ночь → свет */
+.hl .rl-scene[data-scene="dawnwood"] .rl-bg{ filter:brightness(1.55) saturate(.8) contrast(.92); }
+.hl .rl-scene[data-scene="dawnwood"] .rl-haze{ background:
+  radial-gradient(80% 70% at 66% 12%, rgba(255,232,178,.62), rgba(255,232,178,0) 62%),
+  linear-gradient(180deg, rgba(255,244,222,.34), rgba(255,244,222,0) 46%, rgba(12,34,27,0) 70%, rgba(12,34,27,.3)); }
+.hl .rl-scene[data-scene="dawnwood"] .rl-mid img{ filter:brightness(1.15); }
+.hl .rl-scene[data-scene="dawnwood"] .rl-copy::before{ background:radial-gradient(closest-side, rgba(250,246,232,.7), rgba(250,246,232,.32) 56%, rgba(250,246,232,0)); }
+.hl .rl-scene[data-scene="dawnwood"] .rl-copy h2{ color:#0f261e; text-shadow:0 1px 24px rgba(255,248,230,.6); }
+.hl .rl-scene[data-scene="dawnwood"] .rl-copy p{ color:#1d3a30; text-shadow:0 1px 12px rgba(255,248,230,.7); }
+.hl .rl-scene[data-scene="dawnwood"] .rl-copy .hl-idx{ color:#17705a; text-shadow:none; }
+
+/* СТОП-КАДР у духа */
+.hl .rl-freeze{ right:auto; left:6vw; bottom:12vh; }
+.hl-freeze{ display:grid; gap:8px; padding-left:22px; border-left:2px solid var(--lamp); }
+.hl-freeze b{ font:400 clamp(44px,5.6vw,80px)/1 "DM Serif Display",serif; font-style:italic; color:var(--lamp); text-shadow:0 0 30px rgba(255,217,138,.35), 0 2px 18px rgba(0,0,0,.6); }
+.hl-freeze span{ font:600 11px "Space Grotesk"; letter-spacing:.24em; text-transform:uppercase; color:#dcefe6; text-shadow:0 1px 10px rgba(0,0,0,.8); }
+
+/* ФОНАРЬ — тёплая точка (единственный тёплый свет мира) */
+.hl-lamp-actor{ mix-blend-mode:screen; }
+.hl-lamp{ width:100%; aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle, #fff6d8 0, #ffe2a0 7%, rgba(255,205,120,.62) 15%, rgba(255,180,90,.24) 34%, rgba(255,170,80,.08) 52%, transparent 68%);
+  animation:hl-flicker 3.4s ease-in-out infinite; }
+@keyframes hl-flicker{ 0%,100%{ opacity:1; transform:scale(1); } 38%{ opacity:.86; transform:scale(.97); } 52%{ opacity:.97; transform:scale(1.02); } 71%{ opacity:.9; transform:scale(.99); } }
 
 .hl-kick{ display:block; font:600 12px "Space Grotesk"; letter-spacing:.22em; text-transform:uppercase; color:var(--glow); }
 
-/* BIG-TYPE — oversized single statement (свой блок, не тождественен манифесто-цитате) */
-.hl-big{ padding:22vh 6vw; background:radial-gradient(120% 100% at 50% 0%, rgba(31,138,106,.16), transparent 60%), var(--void2); text-align:center; }
-.hl-big p{ margin:0 auto; max-width:19ch; font:400 clamp(34px,6.4vw,96px)/1.04 "DM Serif Display",serif; color:var(--ink); }
-.hl-big em{ font-style:italic; color:var(--mint); text-shadow:0 0 40px rgba(138,255,216,.35); }
+/* BIG-TYPE */
+.hl-big{ padding:28vh 6vw 24vh; background:linear-gradient(180deg, rgba(93,122,114,.9) 0, rgba(46,74,64,.55) 12vh, rgba(10,23,18,0) 34vh); text-align:center; }
+.hl-big p{ margin:0 auto; max-width:19ch; font:400 clamp(34px,6.4vw,96px)/1.04 "DM Serif Display",serif; color:var(--ink); text-shadow:0 2px 30px rgba(0,0,0,.5); }
+.hl-big em{ font-style:italic; color:var(--lamp); text-shadow:0 0 40px rgba(255,217,138,.45); }
 
-/* STEPS / PROCESS — горизонтальная арка похода */
-.hl-steps{ padding:16vh 6vw 14vh; background:var(--void); border-top:1px solid var(--line); }
+/* STEPS */
+.hl-steps{ padding:16vh 6vw 14vh; background:linear-gradient(180deg, rgba(10,23,18,0), rgba(10,23,18,.55) 30%, rgba(10,23,18,.55) 70%, rgba(10,23,18,0)); }
 .hl-steps-head h2{ margin:12px 0 0; font:400 clamp(30px,4.4vw,60px)/1.06 "DM Serif Display",serif; color:var(--ink); }
 .hl-steps-row{ list-style:none; margin:8vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:4vw; }
 .hl-steps-row li{ border-top:1px solid var(--line); padding-top:22px; }
-.hl-steps-n{ display:block; font:400 15px "DM Serif Display",serif; color:var(--teal); margin-bottom:14px; }
+.hl-steps-n{ display:block; font:400 15px "DM Serif Display",serif; color:var(--lamp); margin-bottom:14px; }
 .hl-steps-row h3{ margin:0 0 10px; font:500 19px "Space Grotesk"; color:var(--mint); }
-.hl-steps-row p{ margin:0; font:400 14px/1.7 "Space Grotesk"; color:var(--sub2); }
+.hl-steps-row p{ margin:0; font:400 14px/1.7 "Space Grotesk"; color:var(--sub); }
 
-/* FEATURE CARDS — три формата похода */
-.hl-features{ padding:16vh 6vw; background:var(--void2); }
+/* FEATURE CARDS */
+.hl-features{ padding:16vh 6vw; background:transparent; }
 .hl-features-head h2{ margin:12px 0 0; font:400 clamp(30px,4.4vw,60px)/1.06 "DM Serif Display",serif; color:var(--ink); }
 .hl-features-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(3,1fr); gap:2vw; }
-.hl-feature{ padding:38px 30px; background:var(--card); border:1px solid var(--line); border-radius:14px; transition:border-color .2s ease, transform .2s ease; }
+.hl-feature{ padding:38px 30px; background:rgba(12,32,24,.74); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); border:1px solid var(--line); border-radius:14px; transition:border-color .2s ease, transform .2s ease; }
 .hl-feature:hover{ border-color:var(--teal); transform:translateY(-4px); }
 .hl-feature-meta{ display:block; font:600 11px "Space Grotesk"; letter-spacing:.14em; text-transform:uppercase; color:var(--glow); margin-bottom:14px; }
 .hl-feature h3{ margin:0 0 14px; font:400 clamp(22px,2vw,28px) "DM Serif Display",serif; color:var(--mint); }
 .hl-feature p{ margin:0 0 20px; font:400 14.5px/1.75 "Space Grotesk"; color:var(--sub); }
 .hl-feature-link{ font:600 13px "Space Grotesk"; color:var(--ink); text-decoration:none; border-bottom:1px solid rgba(234,246,240,.3); }
 
-/* GALLERY — 4 плиты-обложки из своих bg */
-.hl-gallery{ padding:16vh 6vw; background:var(--void); }
-.hl-gallery-head h2{ margin:12px 0 0; font:400 clamp(30px,4.4vw,60px)/1.06 "DM Serif Display",serif; color:var(--ink); }
-.hl-gallery-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw; }
-.hl-gallery-tile{ position:relative; aspect-ratio:3/4; border-radius:12px; overflow:hidden; background-size:cover; background-position:50% 40%; display:flex; flex-direction:column; justify-content:flex-end; padding:20px; }
-.hl-gallery-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,23,18,.05) 30%, rgba(8,18,14,.92) 100%); }
-.hl-gallery-kick{ position:relative; z-index:1; font:600 10px "Space Grotesk"; letter-spacing:.14em; text-transform:uppercase; color:var(--glow); }
-.hl-gallery-tile h3{ position:relative; z-index:1; margin:8px 0 0; font:400 22px "DM Serif Display",serif; color:var(--ink); }
+/* ПРОЖЕКТОР — поляна видна только в круге света фонаря */
+.hl-lamplit{ position:relative; min-height:150vh; overflow:clip; background:#040c09; }
+.hl-lamplit-plate{ position:absolute; inset:0; background-size:cover; background-position:50% 50%; filter:saturate(1.05); }
+.hl-lamplit-dark{ position:absolute; inset:0;
+  background:radial-gradient(circle min(30vw,46vh) at var(--lx,50%) var(--ly,60%), rgba(4,12,9,0) 0, rgba(4,12,9,.25) 34%, rgba(4,12,9,.9) 74%, #040c09 100%); }
+.hl-lamplit-glow{ position:absolute; left:var(--lx,50%); top:var(--ly,60%); width:12vw; aspect-ratio:1; translate:-50% -50%; border-radius:50%; mix-blend-mode:screen;
+  background:radial-gradient(circle, #fff6d8 0, #ffe2a0 7%, rgba(255,205,120,.55) 16%, rgba(255,180,90,.18) 38%, transparent 66%); animation:hl-flicker 3.4s ease-in-out infinite; }
+.hl-lamplit-copy{ position:sticky; top:26vh; z-index:2; max-width:40rem; padding:26vh 8vw 30vh; }
+.hl-lamplit-copy h2{ margin:14px 0 18px; font:400 clamp(32px,4.6vw,66px)/1.06 "DM Serif Display",serif; color:var(--ink); text-shadow:0 2px 30px rgba(0,0,0,.8); }
+.hl-lamplit-copy em{ font-style:italic; color:var(--lamp); }
+.hl-lamplit-copy p{ margin:0; max-width:40ch; font:400 15.5px/1.75 "Space Grotesk"; color:#cfe6dc; text-shadow:0 1px 14px rgba(0,0,0,.9); }
 
-/* SIGNATURE — ACCORDION «The Rules of the Wood» */
-.hl-rules{ padding:16vh 6vw; background:linear-gradient(180deg, var(--void2), var(--void3)); }
-.hl-rules-head{ max-width:52ch; }
+/* SIGNATURE — «The Rules of the Wood»: заголовок закреплён, правила проходят */
+.hl-rules{ display:grid; grid-template-columns:minmax(16rem,.85fr) 1.4fr; gap:6vw; align-items:start; padding:18vh 6vw 20vh;
+  background:linear-gradient(180deg, rgba(10,23,18,0), rgba(10,23,18,.6) 18%, rgba(10,23,18,.6) 82%, rgba(10,23,18,0)); }
+.hl-rules-head{ position:sticky; top:20vh; max-width:34ch; }
 .hl-rules-head h2{ margin:12px 0 14px; font:400 clamp(32px,4.8vw,64px)/1.05 "DM Serif Display",serif; color:var(--mint); }
 .hl-rules-head p{ margin:0; font:400 15.5px/1.75 "Space Grotesk"; color:var(--sub); }
-.hl-rules-list{ list-style:none; margin:7vh 0 0; padding:0; border-top:1px solid var(--line); }
+.hl-rules-list{ list-style:none; margin:0; padding:0; border-top:1px solid var(--line); }
 .hl-rule{ border-bottom:1px solid var(--line); }
-.hl-rule-q{ width:100%; display:grid; grid-template-columns:3.4rem 1fr 1.6rem; align-items:center; gap:1.4vw; padding:28px 4px; background:none; border:0; cursor:pointer; text-align:left; font:400 clamp(19px,2.2vw,27px) "DM Serif Display",serif; color:var(--ink); }
-.hl-rule-n{ font:400 15px "Space Grotesk"; color:var(--teal); }
+.hl-rule-q{ width:100%; display:grid; grid-template-columns:3.4rem 1fr 1.6rem; align-items:center; gap:1.4vw; padding:36px 4px; background:none; border:0; cursor:pointer; text-align:left; font:400 clamp(19px,2.2vw,27px) "DM Serif Display",serif; color:var(--ink); }
+.hl-rule-n{ font:400 15px "Space Grotesk"; color:var(--lamp); }
 .hl-rule-mark{ font:400 26px "Space Grotesk"; color:var(--mint); justify-self:end; }
 .hl-rule-a{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s ease; }
-.hl-rule-a p{ overflow:hidden; margin:0; padding:0 4px 0 5rem; max-width:58ch; font:400 15px/1.75 "Space Grotesk"; color:var(--sub2); }
+.hl-rule-a p{ overflow:hidden; margin:0; padding:0 4px 0 5rem; max-width:58ch; font:400 15px/1.75 "Space Grotesk"; color:var(--sub); }
 .hl-rule-open .hl-rule-a{ grid-template-rows:1fr; }
-.hl-rule-open .hl-rule-a p{ padding-bottom:26px; }
+.hl-rule-open .hl-rule-a p{ padding-bottom:30px; }
 .hl-rule-open .hl-rule-q{ color:var(--mint); }
 
-/* STATS */
-.hl-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--void2); border-top:1px solid var(--line); }
-.hl-stat{ padding:56px 30px; border-left:1px solid var(--line); }
-.hl-stat:first-child{ border-left:0; }
-.hl-stat b{ display:block; font:400 clamp(44px,5.2vw,80px)/1 "DM Serif Display",serif; color:var(--glow); }
-.hl-stat span{ display:block; margin-top:10px; font:500 12.5px "Space Grotesk"; letter-spacing:.03em; color:var(--sub2); }
-
 /* QUOTE */
-.hl-quote{ padding:19vh 10vw; text-align:center; background:radial-gradient(90% 140% at 50% 30%, rgba(106,74,168,.16), transparent 60%), var(--void); }
-.hl-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(26px,3.6vw,48px)/1.22 "DM Serif Display",serif; color:var(--ink); }
+.hl-quote{ padding:19vh 10vw; text-align:center; background:transparent; }
+.hl-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(26px,3.6vw,48px)/1.22 "DM Serif Display",serif; color:var(--ink); text-shadow:0 2px 26px rgba(0,0,0,.6); }
 .hl-quote em{ font-style:italic; color:var(--mint); }
-.hl-quote cite{ display:block; margin-top:32px; font:500 13px "Space Grotesk"; letter-spacing:.06em; font-style:normal; color:var(--sub2); }
-
-/* MARQUEE — бегущая строка мотива */
-.hl-marquee{ overflow:hidden; background:var(--teal); padding:16px 0; }
-.hl-marquee-track{ display:flex; width:max-content; animation:hl-scroll 24s linear infinite; }
-.hl-marquee-track span{ white-space:nowrap; font:600 15px "Space Grotesk"; letter-spacing:.1em; text-transform:uppercase; color:#06140f; padding-right:2px; }
-@keyframes hl-scroll{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+.hl-quote cite{ display:block; margin-top:32px; font:500 13px "Space Grotesk"; letter-spacing:.06em; font-style:normal; color:var(--sub); }
 
 /* DEAL */
-.hl-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--void); }
-.hl-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid var(--line); border-radius:16px; background:var(--void3); }
-.hl-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.hl-deal{ display:grid; place-items:center; padding:18vh 6vw; background:transparent; }
+.hl-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(122,208,192,.22); border-radius:16px;
+  background:rgba(14,34,27,.78); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); }
+.hl-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
 .hl-price b{ font:400 clamp(50px,6.6vw,88px) "DM Serif Display",serif; color:var(--mint); }
-.hl-price span{ font:500 14px "Space Grotesk"; color:var(--sub2); }
+.hl-price span{ font:500 14px "Space Grotesk"; color:var(--sub); }
 .hl-deal-card p{ margin:0 auto 28px; max-width:42ch; font:400 15px/1.75 "Space Grotesk"; color:var(--sub); }
 .hl-note{ display:block; margin-top:18px; font:500 12px "Space Grotesk"; letter-spacing:.03em; color:var(--sub2); }
 
-/* CLIMAX */
-.hl-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
-.hl-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(6,20,15,.35), rgba(4,14,10,.92) 80%); }
+/* CLIMAX — рассвет: светлая плита, тёмные чернила */
+.hl-climax{ position:relative; min-height:84vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; overflow:hidden; }
+.hl-climax::before{ content:""; position:absolute; inset:0; background:inherit; filter:brightness(1.6) saturate(.8) contrast(.9); }
+.hl-climax-veil{ position:absolute; inset:0; background:
+  radial-gradient(90% 80% at 60% 8%, rgba(255,232,180,.55), rgba(255,232,180,0) 60%),
+  radial-gradient(70% 60% at 50% 55%, rgba(244,248,238,.5), rgba(244,248,238,0) 70%),
+  linear-gradient(180deg, rgba(10,23,18,.35), rgba(10,23,18,0) 22%); }
 .hl-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
-.hl-climax-copy h2{ margin:0 0 34px; font:400 clamp(38px,5.6vw,88px)/1.06 "DM Serif Display",serif; color:var(--ink); }
-.hl-climax-copy em{ font-style:italic; color:var(--mint); text-shadow:0 0 34px rgba(138,255,216,.32); }
+.hl-climax-copy h2{ margin:0 auto 34px; max-width:16ch; font:400 clamp(38px,5.6vw,88px)/1.06 "DM Serif Display",serif; color:#0f261e; text-shadow:0 1px 30px rgba(255,248,230,.7); }
+.hl-climax-copy em{ font-style:italic; color:#17705a; }
+.hl-climax .hl-btn{ background:#0f261e; color:var(--mint); box-shadow:0 16px 38px rgba(15,38,30,.3); }
 
 /* FOOT */
-.hl-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:var(--void2); color:var(--sub2); font:500 13px "Space Grotesk"; }
+.hl-foot{ display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:40px 6vw; background:var(--void2); color:var(--sub2); font:500 13px "Space Grotesk"; }
 .hl-foot .hl-brand{ color:var(--sub); text-shadow:none; }
 
 @media (max-width:820px){
   .hl-nav nav a:not(.hl-nav-cta){ display:none; }
   .hl-steps-row{ grid-template-columns:1fr 1fr; row-gap:5vh; }
   .hl-features-grid{ grid-template-columns:1fr; }
-  .hl-gallery-grid{ grid-template-columns:1fr 1fr; row-gap:1.4vw; }
-  .hl-stats{ grid-template-columns:1fr 1fr; }
+  .hl-rules{ grid-template-columns:1fr; }
+  .hl-rules-head{ position:relative; top:0; }
   .hl-rule-q{ grid-template-columns:2.4rem 1fr 1.4rem; }
   .hl-rule-a p{ padding-left:2.4rem; }
+  .hl-lamplit-copy{ padding:22vh 6vw 26vh; }
+  /* портрет: герои сцен — снова по центру (позиции правой трети рассчитаны на широкий кадр) */
+  .hl .rl-scene[data-scene="spirit"] .rl-mid img, .hl .rl-scene[data-scene="dawnwood"] .rl-mid img{ inset:0; width:100%; height:100%; }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .hl-marquee-track{ animation:none; }
+  .hl-lamp, .hl-lamplit-glow{ animation:none; }
 }

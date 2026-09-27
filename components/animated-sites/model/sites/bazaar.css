@@ -1,109 +1,143 @@
 /* BAZAAR — Lantern Road, a Silk-Road night-market walking brand. Fonts: Cinzel (display, ornate)
-   × Work Sans (body, warm humanist sans). Палитра: saffron / teal / plum / sand + saffron CTA.
-   Стили только .bz-* + копи сцен в .rl-copy под своим корнем .bz. */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap');
+   × Work Sans (body) — через FontLinks. Палитра: saffron / teal / plum / sand + saffron CTA.
+   Стили только .bz-* и копи сцен внутри .bz .rl-copy. */
 
-.bz{ --saffron:#d99a2a; --teal:#2f7a7a; --plum:#8a2f5a; --sand:#e0c890; --cta:#ffb02a;
+.bz{ --saffron:#d99a2a; --teal:#2f7a7a; --teal-l:#5fb8b0; --plum:#8a2f5a; --sand:#e0c890; --cta:#ffb02a;
   --ink:#2c1710; --void:#2a0f22; --deep:#1c0a17;
   --rl-void:#2a0f22; --rl-spark:#ffb02a;
-  background:var(--void); color:var(--sand); font-family:"Work Sans",system-ui,sans-serif; }
+  isolation:isolate; background:var(--atm, var(--void)); color:var(--sand); font-family:"Work Sans",system-ui,sans-serif; }
 
-/* NAV — scrim for contrast over any scene */
+/* NAV */
 .bz-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw; }
 .bz-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(20,7,16,.5), rgba(20,7,16,0)); }
+  background:linear-gradient(180deg, rgba(20,7,16,.55), rgba(20,7,16,0)); }
 .bz-brand{ font:700 20px "Cinzel",serif; letter-spacing:.24em; color:var(--sand); text-shadow:0 1px 12px rgba(0,0,0,.55); }
 .bz-nav nav{ display:flex; gap:26px; align-items:center; font:600 13px "Work Sans",system-ui,sans-serif; letter-spacing:.03em; }
-.bz-nav a{ color:rgba(224,200,144,.9); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.bz-nav a{ color:rgba(236,220,180,.92); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.5); }
 .bz-nav-cta{ padding:9px 20px; border-radius:999px; background:var(--cta); color:#2c1710!important; text-shadow:none!important; font-weight:700; }
 
-/* SCENE COPY (inside .rl-copy) */
-.bz-eyebrow,.bz-idx{ font:600 12px "Work Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--saffron); }
-.rl-copy h1{ margin:16px 0 20px; font:700 clamp(52px,8.6vw,120px)/.98 "Cinzel",serif; letter-spacing:-.005em; color:var(--ink); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:normal; color:var(--plum); }
-.rl-copy h2{ margin:10px 0 16px; font:700 clamp(40px,6.4vw,88px)/1.02 "Cinzel",serif; color:var(--sand); }
-.rl-copy p{ margin:0 0 26px; max-width:40ch; font:400 16px/1.7 "Work Sans",system-ui,sans-serif; color:var(--ink); }
-
-/* light hero scene ("gate") — frosted panel so dark ink stays legible over the illustration,
-   doubles as a "carpet" surface fitting the market motif */
-.bz .rl-scene:not(.rl-dark) .rl-copy{ padding:34px 38px; border-radius:18px;
-  background:linear-gradient(160deg, rgba(224,200,144,.86), rgba(217,154,42,.68));
-  border:1px solid rgba(255,255,255,.35); backdrop-filter:blur(10px); box-shadow:0 24px 60px rgba(30,10,10,.35); }
-
-/* dark chapter scenes — light text w/ shadow, no panel needed */
-.bz .rl-scene.rl-dark .rl-copy p{ color:#ecd9c2; text-shadow:0 1px 18px rgba(0,0,0,.6); }
-.bz .rl-scene.rl-dark .bz-idx{ color:var(--saffron); }
+/* ── РИЛ: копи прямо в сумерках, без стеклянных карточек — тень + мягкий локальный скрим ── */
+.bz-eyebrow,.bz-idx{ font:600 12px "Work Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--cta); text-shadow:0 1px 12px rgba(20,6,16,.9); }
+.bz .rl-copy::before{ content:""; position:absolute; inset:-16% -22% -18% -16%; z-index:-1; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(24,8,22,.62), rgba(24,8,22,.3) 62%, transparent); filter:blur(10px); }
+.bz .rl-copy h1{ margin:16px 0 20px; font:700 clamp(44px,6.2vw,92px)/1 "Cinzel",serif; letter-spacing:-.005em; color:#f6e7c6;
+  text-shadow:0 3px 34px rgba(20,6,16,.85), 0 1px 3px rgba(20,6,16,.6); }
+.bz .rl-copy h1 em,.bz .rl-copy h2 em{ font-style:normal; color:var(--cta); }
+.bz .rl-copy h2{ margin:10px 0 16px; font:700 clamp(40px,6vw,84px)/1.02 "Cinzel",serif; color:#f6e7c6; text-shadow:0 3px 30px rgba(20,6,16,.85), 0 1px 3px rgba(20,6,16,.6); }
+.bz .rl-copy p{ margin:0 0 26px; max-width:42ch; font:400 16px/1.7 "Work Sans",system-ui,sans-serif; color:#f1e2c8; text-shadow:0 1px 16px rgba(20,6,16,.95), 0 0 2px rgba(20,6,16,.7); }
+.bz [data-scene="gate"] .rl-copy{ top:16vh; width:min(52rem,88vw); }
+.bz [data-scene="square"] .rl-copy{ top:13vh; }
 
 .bz-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-.bz-btn{ padding:15px 30px; border-radius:999px; background:var(--cta); color:#2c1710; text-decoration:none;
+.bz-btn{ display:inline-block; padding:15px 30px; border-radius:999px; background:var(--cta); color:#2c1710; text-decoration:none;
   font:700 15px "Work Sans",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,176,42,.34); transition:transform .15s ease; }
 .bz-btn:active{ transform:translateY(2px) scale(.98); }
-.bz-ghost{ padding:15px 20px; color:var(--ink); text-decoration:none; font:600 15px "Work Sans",system-ui,sans-serif; border-bottom:1px solid rgba(44,23,16,.4); }
+.bz-ghost{ padding:15px 20px; color:#f6e7c6; text-decoration:none; font:600 15px "Work Sans",system-ui,sans-serif; border-bottom:1px solid rgba(246,231,198,.45); text-shadow:0 1px 12px rgba(20,6,16,.9); }
 
-.bz-kick{ display:block; font:600 12px "Work Sans",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--teal); }
-.bz-link{ color:var(--saffron); text-decoration:none; font:600 15px "Work Sans",system-ui,sans-serif; }
+/* ворота зеркалим: арка справа, копи слева, торговец идёт вправо — в ворота */
+.bz [data-scene="gate"] .rl-world{ transform:scaleX(-1); }
+/* пряный ряд на плите почти дневной — уводим в ночь под фонарями */
+.bz [data-scene="spice"] .rl-bg{ filter:brightness(.6) saturate(1.18) contrast(1.05); }
+.bz [data-scene="spice"] .rl-fg img{ translate:0 14%; }
+.bz [data-scene="spice"] .rl-haze{ background:linear-gradient(180deg, rgba(18,20,58,.62) 0, rgba(18,20,58,.2) 42%, transparent 60%, rgba(10,4,10,.5) 100%); }
+/* ковровая палатка майдана — из-под копи вправо */
+.bz [data-scene="square"] .rl-mid img{ translate:15vw 2vh; scale:.9; }
+/* стоп-кадр майдана */
+.bz-freeze{ display:grid; gap:6px; justify-items:end; text-shadow:0 2px 26px rgba(20,6,16,.95); }
+.bz-freeze b{ font:700 clamp(64px,8vw,120px)/.9 "Cinzel",serif; color:var(--cta); }
+.bz-freeze span{ font:600 11px "Work Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:#f6e7c6; }
 
-/* MARQUEE — SIGNATURE: running ticker of market goods/spices/wares */
-.bz-marquee{ position:relative; overflow:hidden; padding:26px 0; background:linear-gradient(90deg, var(--plum), var(--deep) 50%, var(--plum));
-  border-top:1px solid rgba(217,154,42,.35); border-bottom:1px solid rgba(217,154,42,.35); }
-.bz-marquee-track{ display:flex; width:max-content; animation:bz-scroll 32s linear infinite; }
-.bz-marquee-row{ display:flex; align-items:center; gap:0; flex-shrink:0; }
-.bz-marquee-item{ display:flex; align-items:center; gap:1.4em; padding:0 1.4em; font:700 clamp(18px,2.4vw,30px) "Cinzel",serif;
-  letter-spacing:.04em; white-space:nowrap; color:var(--sand); }
-.bz-marquee-dot{ color:var(--saffron); font-size:.6em; }
-@keyframes bz-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+/* ── АКТЁРЫ ───────────────────────────────────────────────────────────────────────── */
+.bz-garland{ display:block; width:100%; height:auto; overflow:visible; }
+.bz-garland > path{ fill:none; stroke:rgba(40,16,12,.85); stroke-width:1.6; }
+.bz-lan line{ stroke:rgba(40,16,12,.9); stroke-width:1.2; }
+.bz-lan-glow{ fill:rgba(255,176,42,.42); filter:blur(5px); }
+.bz-lan-body{ fill:#ffb02a; stroke:#5a2a0c; stroke-width:1.2; }
+.bz-lan-cap{ fill:#5a2a0c; }
+.bz-lan:nth-child(3n+2) .bz-lan-body{ fill:#ff8a3a; }
+.bz-lan:nth-child(3n+3) .bz-lan-body{ fill:#ffd06a; }
+/* фонари зажигаются по одному по ходу скролла (где scroll-timeline нет — горят сразу) */
+@supports (animation-timeline: scroll()){
+  .bz-lan-glow{ animation:bz-glow linear both; animation-timeline:scroll(root); animation-range:var(--r0) var(--r1); }
+  .bz-lan-body{ animation:bz-body linear both; animation-timeline:scroll(root); animation-range:var(--r0) var(--r1); }
+  .bz-lan-1 .bz-lan-glow, .bz-lan-1 .bz-lan-body{ animation:none; } .bz-lan-2{ --r0:3%; --r1:5%; } .bz-lan-3{ --r0:7%; --r1:9%; }
+  .bz-lan-4{ --r0:10%; --r1:12%; } .bz-lan-5{ --r0:13%; --r1:15%; } .bz-lan-6{ --r0:16%; --r1:18%; }
+  .bz-lan-7{ --r0:19%; --r1:21%; } .bz-lan-8{ --r0:22%; --r1:24%; } .bz-lan-9{ --r0:25%; --r1:27%; }
+}
+@keyframes bz-glow{ from{ opacity:0 } to{ opacity:1 } }
+@keyframes bz-body{ from{ fill:#7a4a30 } }
 
-/* FEATURE-CARDS — Four Quarters */
-.bz-quarters{ padding:16vh 8vw 14vh; background:var(--deep); }
-.bz-quarters-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,60px)/1.06 "Cinzel",serif; color:var(--sand); }
-.bz-quarters-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:rgba(217,154,42,.2); }
-.bz-quarter-card{ background:var(--deep); padding:40px 28px; }
-.bz-quarter-n{ display:block; font:700 15px "Work Sans",system-ui,sans-serif; color:var(--saffron); letter-spacing:.1em; }
-.bz-quarter-card h3{ margin:18px 0 12px; font:700 26px "Cinzel",serif; color:var(--sand); }
-.bz-quarter-card p{ margin:0; font:400 14.5px/1.7 "Work Sans",system-ui,sans-serif; color:#c9a98a; }
+/* ── ЛЕНДИНГ: ночь рынка под блоками (Backdrop + --atm) ─────────────────────────────── */
+.bz-kick{ display:block; font:600 12px "Work Sans",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--teal-l); }
+.bz-link{ color:var(--cta); text-decoration:none; font:600 15px "Work Sans",system-ui,sans-serif; }
+
+/* ROUTE — ковровая дорожка через кварталы */
+.bz-route{ position:relative; padding:16vh 6vw 12vh; background:linear-gradient(180deg, rgba(20,7,16,.45), rgba(20,7,16,.08) 25%, rgba(20,7,16,.08) 85%, rgba(20,7,16,.4)); }
+.bz-route-head{ text-align:center; }
+.bz-route-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,60px)/1.06 "Cinzel",serif; color:#f6e7c6; text-shadow:0 2px 26px rgba(20,6,16,.8); }
+.bz-runner{ position:relative; list-style:none; margin:8vh 0 0; padding:0; display:grid; grid-template-columns:1fr 11vw 1fr; }
+.bz-runner::before{ content:""; grid-column:2; grid-row:1 / span 4; border-radius:3px; opacity:.92;
+  background:
+    linear-gradient(90deg, var(--saffron) 0 5%, var(--deep) 5% 8%, transparent 8% 92%, var(--deep) 92% 95%, var(--saffron) 95%),
+    repeating-linear-gradient(45deg, transparent 0 17px, rgba(255,176,42,.75) 17px 19px),
+    repeating-linear-gradient(-45deg, transparent 0 17px, rgba(255,176,42,.75) 17px 19px),
+    radial-gradient(circle at 50% 50%, rgba(47,122,122,.9) 0 5px, transparent 6px) 0 0 / 100% 25.5px,
+    linear-gradient(180deg, #7a2650, var(--plum) 50%, #6e2248);
+  box-shadow:0 0 0 1px rgba(20,6,16,.6), 0 20px 60px rgba(0,0,0,.4); }
+.bz-stop{ min-height:60vh; display:flex; flex-direction:column; justify-content:center; padding:0 3.4vw; }
+.bz-stop:nth-child(odd){ grid-column:1; text-align:right; align-items:flex-end; }
+.bz-stop:nth-child(even){ grid-column:3; }
+.bz-stop:nth-child(1){ grid-row:1; } .bz-stop:nth-child(2){ grid-row:2; } .bz-stop:nth-child(3){ grid-row:3; } .bz-stop:nth-child(4){ grid-row:4; }
+.bz-stop-time{ font:600 13px "Work Sans",system-ui,sans-serif; letter-spacing:.16em; color:var(--cta); text-shadow:0 1px 10px rgba(20,6,16,.9); }
+.bz-stop h3{ margin:12px 0 12px; font:700 clamp(28px,3.2vw,46px)/1.05 "Cinzel",serif; color:#f6e7c6; text-shadow:0 2px 24px rgba(20,6,16,.9); }
+.bz-stop p{ margin:0; max-width:34ch; font:400 16.5px/1.7 "Work Sans",system-ui,sans-serif; color:#ecdcc0; text-shadow:0 1px 14px rgba(20,6,16,.95); }
 
 /* SPLIT */
-.bz-split{ display:grid; grid-template-columns:1.05fr 1fr; min-height:78vh; background:var(--void); }
-.bz-split-media{ background-size:cover; background-position:50% 46%; }
+.bz-split{ display:grid; grid-template-columns:1.05fr 1fr; min-height:78vh; background:rgba(28,10,23,.82); }
+.bz-split-media{ background-size:cover; background-position:50% 46%; border-radius:0 0 50% 50% / 0 0 14% 14%; }
 .bz-split-copy{ align-self:center; padding:10vh 6vw; }
 .bz-split-copy h2{ margin:14px 0 18px; font:700 clamp(28px,3.6vw,52px)/1.08 "Cinzel",serif; color:var(--sand); }
-.bz-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Work Sans",system-ui,sans-serif; color:#cdb08e; }
+.bz-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Work Sans",system-ui,sans-serif; color:#d6bc98; }
 
-/* STEPS/PROCESS */
-.bz-steps{ padding:16vh 8vw; background:var(--plum); }
-.bz-steps-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,60px)/1.06 "Cinzel",serif; color:var(--sand); }
-.bz-steps-row{ list-style:none; margin:7vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:3vw; }
-.bz-step{ border-top:2px solid rgba(224,200,144,.4); padding-top:22px; }
-.bz-step-n{ font:700 15px "Work Sans",system-ui,sans-serif; color:var(--cta); letter-spacing:.1em; }
-.bz-step h3{ margin:14px 0 10px; font:700 22px "Cinzel",serif; color:var(--sand); }
-.bz-step p{ margin:0; font:400 14.5px/1.7 "Work Sans",system-ui,sans-serif; color:#e6d2ba; }
+/* KILIM — лента товаров в тканом орнаменте */
+.bz-kilim{ position:relative; overflow:hidden; padding:30px 0; background:var(--plum); }
+.bz-kilim::before, .bz-kilim::after{ content:""; position:absolute; left:0; right:0; height:12px;
+  background:linear-gradient(135deg, var(--saffron) 25%, transparent 25%) -6px 0 / 12px 12px,
+             linear-gradient(225deg, var(--saffron) 25%, transparent 25%) -6px 0 / 12px 12px, var(--deep); }
+.bz-kilim::before{ top:0; } .bz-kilim::after{ bottom:0; transform:scaleY(-1); }
+.bz-kilim-track{ display:flex; width:max-content; animation:bz-scroll 36s linear infinite; }
+.bz-kilim-item{ display:flex; align-items:center; gap:1.4em; padding:0 1.4em; font:700 clamp(18px,2.2vw,28px) "Cinzel",serif;
+  letter-spacing:.04em; white-space:nowrap; color:var(--sand); }
+.bz-kilim-dot{ color:var(--cta); font-size:.6em; }
+@keyframes bz-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
 
-/* GALLERY — scene plates as route covers */
-.bz-gallery{ padding:16vh 8vw; background:var(--deep); }
-.bz-gallery-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,60px)/1.06 "Cinzel",serif; color:var(--sand); }
-.bz-gallery-grid{ margin-top:7vh; display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
-.bz-gallery-tile{ margin:0; }
-.bz-gallery-img{ aspect-ratio:3/4; border-radius:10px; background-size:cover; background-position:50% 42%;
-  border:1px solid rgba(217,154,42,.3); }
-.bz-gallery-tile figcaption{ margin-top:14px; display:flex; flex-direction:column; gap:4px; }
-.bz-gallery-tile b{ font:700 17px "Cinzel",serif; color:var(--sand); }
-.bz-gallery-tile span{ font:400 13px "Work Sans",system-ui,sans-serif; color:#b28f6e; }
+/* TAGS — ценники на шнуре */
+.bz-tags{ position:relative; height:74vh; background:transparent; }
+.bz-tags-cord{ position:absolute; left:0; top:8vh; width:100%; height:16vh; overflow:visible; }
+.bz-tags-cord path{ fill:none; stroke:rgba(224,200,144,.7); stroke-width:1.5; vector-effect:non-scaling-stroke; }
+.bz-tags-row{ position:absolute; inset:0; }
+.bz-tag{ position:absolute; top:calc(var(--hang) + var(--len)); width:min(16vw,15rem); margin-left:calc(min(16vw,15rem) / -2); padding:22px 20px 20px;
+  text-align:center; border-radius:8px 8px 12px 12px; background:linear-gradient(170deg, #f3dfae, #e0c890); color:var(--ink);
+  box-shadow:0 18px 40px rgba(0,0,0,.4); transform-origin:50% calc(-1 * var(--len)); animation:bz-swing 5.5s ease-in-out infinite; }
+.bz-tag::before{ content:""; position:absolute; left:50%; bottom:100%; width:1.5px; height:var(--len); background:rgba(224,200,144,.7); }
+.bz-tag::after{ content:""; position:absolute; left:50%; top:9px; width:8px; height:8px; margin-left:-4px; border-radius:50%; background:var(--deep); }
+.bz-tag b{ display:block; font:700 clamp(40px,4.4vw,68px)/1 "Cinzel",serif; color:var(--plum); }
+.bz-tag span{ display:block; margin-top:8px; font:600 12.5px/1.4 "Work Sans",system-ui,sans-serif; letter-spacing:.03em; color:#5a3a24; }
+.bz-tag:nth-child(1){ left:12.5%; --hang:12.5vh; --len:5vh; animation-delay:-1s; }
+.bz-tag:nth-child(2){ left:37.5%; --hang:16vh; --len:12vh; animation-delay:-3s; }
+.bz-tag:nth-child(3){ left:62.5%; --hang:16vh; --len:4vh; animation-delay:-2s; }
+.bz-tag:nth-child(4){ left:87.5%; --hang:12.5vh; --len:14vh; animation-delay:-4s; }
+@keyframes bz-swing{ 0%,100%{ transform:rotate(-2.2deg) } 50%{ transform:rotate(2.2deg) } }
 
-/* STATS */
-.bz-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--deep); border-top:1px solid rgba(217,154,42,.25); }
-.bz-stat{ padding:56px 30px; border-left:1px solid rgba(217,154,42,.25); }
-.bz-stat:first-child{ border-left:0; }
-.bz-stat b{ display:block; font:700 clamp(44px,5.4vw,80px)/1 "Cinzel",serif; color:var(--saffron); }
-.bz-stat span{ display:block; margin-top:10px; font:500 13px "Work Sans",system-ui,sans-serif; letter-spacing:.05em; color:#b28f6e; }
-
-/* QUOTE */
-.bz-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,var(--void),var(--plum)); }
-.bz-quote blockquote{ margin:0 auto; max-width:26ch; font:700 clamp(26px,3.8vw,50px)/1.24 "Cinzel",serif; color:var(--sand); }
+/* QUOTE — слева, на плите майдана */
+.bz-quote{ padding:20vh 8vw; background:linear-gradient(90deg, rgba(20,7,16,.78), rgba(20,7,16,.15) 75%); }
+.bz-quote blockquote{ position:relative; margin:0; max-width:28ch; font:700 clamp(26px,3.6vw,48px)/1.24 "Cinzel",serif; color:#f6e7c6; }
+.bz-quote blockquote::before{ content:"“"; position:absolute; left:-.55em; top:-.3em; font-size:2.4em; color:var(--cta); opacity:.8; }
 .bz-quote em{ font-style:normal; color:var(--cta); }
-.bz-quote cite{ display:block; margin-top:34px; font:600 13px "Work Sans",system-ui,sans-serif; letter-spacing:.08em; font-style:normal; color:#c9a98a; }
+.bz-quote cite{ display:block; margin-top:30px; font:600 13px "Work Sans",system-ui,sans-serif; letter-spacing:.08em; font-style:normal; color:#d6bc98; }
 
-/* FAQ / ACCORDION */
-.bz-faq{ padding:16vh 8vw 18vh; background:var(--void); }
+/* FAQ */
+.bz-faq{ padding:16vh 8vw 18vh; background:rgba(20,7,16,.72); }
 .bz-faq-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,60px)/1.06 "Cinzel",serif; color:var(--sand); }
 .bz-faq-list{ margin-top:6vh; max-width:52rem; }
 .bz-faq-item{ border-top:1px solid rgba(217,154,42,.25); padding:22px 0; }
@@ -115,19 +149,19 @@
 .bz-faq-item p{ margin:16px 0 0; max-width:60ch; font:400 15px/1.7 "Work Sans",system-ui,sans-serif; color:#c9a98a; }
 
 /* DEAL */
-.bz-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--deep); }
-.bz-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(217,154,42,.35); border-radius:16px; background:var(--void); }
-.bz-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.bz-deal{ display:grid; place-items:center; padding:22vh 6vw 18vh; background:transparent; }
+.bz-deal-card{ width:min(46rem,92vw); text-align:center; padding:8vh 6vw 7vh; border:1px solid rgba(217,154,42,.35); border-radius:16px; background:rgba(28,10,23,.84); backdrop-filter:blur(10px); }
+.bz-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
 .bz-price b{ font:700 clamp(48px,6.6vw,88px) "Cinzel",serif; color:var(--sand); }
 .bz-price span{ font:500 15px "Work Sans",system-ui,sans-serif; color:#c9a98a; }
 .bz-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Work Sans",system-ui,sans-serif; color:#c9a98a; }
-.bz-note{ display:block; margin-top:18px; font:500 12px "Work Sans",system-ui,sans-serif; letter-spacing:.06em; color:#93725a; }
+.bz-note{ display:block; margin-top:18px; font:500 12px "Work Sans",system-ui,sans-serif; letter-spacing:.06em; color:#a58466; }
 
-/* CLIMAX */
-.bz-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
-.bz-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(28,10,23,.5), rgba(28,10,23,.92) 78%); }
-.bz-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
-.bz-climax-copy h2{ margin:0 0 34px; font:700 clamp(40px,5.6vw,88px)/1.06 "Cinzel",serif; color:var(--sand); }
+/* CLIMAX — караван уходит в звёзды */
+.bz-climax{ position:relative; min-height:86vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 60%; }
+.bz-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 38%, rgba(12,16,44,.35), rgba(12,12,34,.9) 80%); }
+.bz-climax-copy{ position:relative; z-index:2; padding:0 6vw; transform:translateY(-10vh); }
+.bz-climax-copy h2{ margin:0 0 34px; font:700 clamp(40px,5.6vw,88px)/1.06 "Cinzel",serif; color:var(--sand); text-shadow:0 3px 34px rgba(8,8,30,.8); }
 .bz-climax-copy em{ font-style:normal; color:var(--cta); }
 
 /* FOOT */
@@ -136,13 +170,20 @@
 
 @media (max-width:820px){
   .bz-nav nav a:not(.bz-nav-cta){ display:none; }
+  .bz-runner{ grid-template-columns:7vw 1fr; }
+  .bz-runner::before{ grid-column:1; }
+  .bz-stop, .bz-stop:nth-child(odd), .bz-stop:nth-child(even){ grid-column:2; text-align:left; align-items:flex-start; min-height:48vh; }
   .bz-split{ grid-template-columns:1fr; } .bz-split-media{ min-height:50vh; }
-  .bz-stats{ grid-template-columns:1fr 1fr; }
-  .bz-quarters-grid{ grid-template-columns:1fr 1fr; gap:1px; }
-  .bz-steps-row{ grid-template-columns:1fr 1fr; gap:8vw 6vw; }
-  .bz-gallery-grid{ grid-template-columns:1fr 1fr; }
+  .bz-tags{ height:auto; padding:6vh 6vw 10vh; }
+  .bz-tags-cord{ display:none; }
+  .bz-tags-row{ position:relative; display:grid; grid-template-columns:1fr 1fr; gap:6vh 4vw; }
+  .bz-tag{ position:relative; left:auto!important; top:auto; width:auto; margin:0; animation:none; }
+  .bz-tag::before{ display:none; }
+}
+@media (prefers-reduced-motion:reduce){
+  .bz-kilim-track, .bz-tag{ animation:none; }
 }
 
-@media (prefers-reduced-motion:reduce){
-  .bz-marquee-track{ animation:none; }
-}
+/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
+   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
+.bz .sk-backdrop, .bz .rl-fx{ visibility:visible; }

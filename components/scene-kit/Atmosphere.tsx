@@ -39,7 +39,7 @@ export function Atmosphere({ stops, target, line = 0.5 }: { stops: AtmStop[]; ta
   return <span ref={ref} hidden aria-hidden />;
 }
 
-export type Plate = { at: string; src: string; anchor?: number; pos?: string };
+export type Plate = { at: string; src: string; anchor?: number; pos?: string; size?: string };
 
 export function Backdrop({
   plates,
@@ -77,7 +77,7 @@ export function Backdrop({
         if (s) { const r = s.getBoundingClientRect(); vis = smooth((vh - r.top) / (vh * 0.6)); }
       }
       root.style.opacity = vis.toFixed(3);
-      root.style.visibility = vis < 0.01 ? "hidden" : "";
+      root.style.visibility = vis < 0.01 ? "hidden" : "visible";
       if (vis < 0.01) return;
       const seg = segment(els(), vh, anchors, 0.5);
       if (!seg) return;
@@ -93,7 +93,7 @@ export function Backdrop({
   return (
     <div ref={ref} className={`sk-backdrop ${className}`} aria-hidden style={{ ["--sk-dim" as string]: dim, ["--sk-blur" as string]: `${blur}px`, ["--sk-tint" as string]: tint ?? "var(--atm, #000)" }}>
       {plates.map((p, i) => (
-        <div key={i} className="sk-bd-plate" style={{ backgroundImage: `url(${p.src})`, backgroundPosition: p.pos ?? "50% 50%" }} />
+        <div key={i} className="sk-bd-plate" style={{ backgroundImage: `url(${p.src})`, backgroundPosition: p.pos ?? "50% 50%", backgroundSize: p.size }} />
       ))}
       <div className="sk-bd-veil" />
     </div>

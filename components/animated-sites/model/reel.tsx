@@ -57,11 +57,21 @@ export type ReelScene = {
   freeze?: React.ReactNode;
   /** object-position mid-вырезки (увести героя из-под копи) */
   midPos?: string;
+  /** сдвиг mid по X, vw (midPos по X не работает, когда вырезка упирается в ширину кадра) */
+  midShift?: number;
+  /** масштаб mid (герой меньше/больше без правки ассета) */
+  midScale?: number;
+  /** шов спуска/подъёма: высота полосы (vh) и плотность 0..1.5 */
+  seam?: { h?: number; o?: number };
+  /** маска fg-полосы: [где начинается проявление, где полностью видно], % высоты (по умолчанию [52, 72]).
+      Ниже — чтобы полупрозрачная кромка травы/скал не ложилась «призраком» на героя */
+  fgMask?: [number, number];
   /** background-position плиты */
   bgPos?: string;
 };
 
-/** селектор маркера рила для якорей scene-kit: reelMark("s2"), reelMark("t1"), reelMark("end") */
+/** селектор маркера рила для якорей scene-kit: reelMark("s2") середина удержания, reelMark("a2")/reelMark("h2")
+    начало/конец удержания (актёр держит позу весь стоп-кадр), reelMark("t1") середина перехода, reelMark("end") */
 export const reelMark = (key: string) => `[data-reel-mark="${key}"]`;
 
 const OUT_ON_TOP = new Set<ReelTransition>(["flythrough", "occlude"]);
@@ -96,6 +106,8 @@ export function Reel({
   // маркеры: середина удержания и середина перехода (u → top в дорожке так, чтобы центр совпал с серединой экрана)
   const marks: Array<[string, number]> = [];
   scenes.forEach((_, i) => {
+    marks.push([`a${i}`, starts[i] + (i === 0 ? 0.001 : 0)]);
+    marks.push([`h${i}`, holdEnd(i) - 0.001]);
     marks.push([`s${i}`, (starts[i] + holdEnd(i)) / 2]);
     if (i < n - 1) marks.push([`t${i}`, (holdEnd(i) + starts[i] + lens[i]) / 2]);
   });
@@ -175,7 +187,7 @@ export function Reel({
         // база: глубина (ближний план обгоняет дальний)
         let st = 0, sx = 0, ss = 1, so = 1, ox = 50, oy = 50;
         let bs = 1.03 + sp * 0.06 * D, by = (0.5 - sp) * 2 * D, bx = 0, bo = 1, bb = 0;
-        let ms = 1.0 + sp * 0.14 * D, my = (0.5 - sp) * 5 * D, mxo = 0, mo = 1, mb = 0;
+        let ms = (1.0 + sp * 0.14 * D) * (scenes[i].midScale ?? 1), my = (0.5 - sp) * 5 * D, mxo = scenes[i].midShift ?? 0, mo = 1, mb = 0;
         let fs = 1.02 + sp * 0.3 * D, fy = (sp - 0.5) * 10 * D, fxo = 0, fo = 1, fb = 0, fl = 1;
         let clip = "", mask = "", mist = 0;
 
@@ -196,7 +208,7 @@ export function Reel({
               st = -(1 - t) * 100; by += (1 - t) * 14 * D; fy -= (1 - t) * 10 * D;
               break;
             case "pan":
-              sx = (1 - t) * 100; bx -= (1 - t) * 18 * D; fxo += (1 - t) * 12 * D;
+              sx = (1 - t) * 88; bx -= (1 - t) * 18 * D; fxo += (1 - t) * 12 * D;
               mask = `linear-gradient(90deg, transparent 0, transparent ${(f * 2).toFixed(2)}%, #000 ${(f * 12).toFixed(2)}%, #000 100%)`;
               break;
             case "flythrough":
@@ -303,8 +315,10 @@ export function Reel({
         if (o >= 0.005) { node.style.setProperty("--fx-tint", tint || ""); extra?.(node); }
       };
       // шов спуска/подъёма: полоса (поверхность воды, облачный слой) на линии стыка
-      setFx(fx.seam, T === "descend" || T === "ascend" ? Math.sin(Math.PI * tj) : 0, (s) => {
+      const sm = j > 0 ? scenes[j].seam : undefined;
+      setFx(fx.seam, T === "descend" || T === "ascend" ? Math.min(1, Math.sin(Math.PI * tj) * (sm?.o ?? 1.15)) : 0, (s) => {
         const y = T === "descend" ? (1 - E(tj)) * 100 : E(tj) * 100;
+        s.style.height = `${sm?.h ?? 46}vh`;
         s.style.transform = `translate3d(0, calc(${y.toFixed(2)}vh - 50%), 0)`;
       });
       // луч: светящаяся полоса ведёт кромку раскрытия новой сцены
@@ -328,7 +342,7 @@ export function Reel({
           {scenes.map((s, i) => {
             const tin = s.into ?? "rise";
             return (
-              <section key={s.id} className={`rl-scene ${s.dark ? "rl-dark" : ""}`} style={{ zIndex: i + 1, ["--rl-tint" as string]: s.tint }} data-scene={s.id} data-into={i > 0 ? tin : undefined}>
+              <section key={s.id} className={`rl-scene ${s.dark ? "rl-dark" : ""}`} style={{ zIndex: i + 1, ["--rl-tint" as string]: s.tint, ...(s.fgMask ? { ["--rl-fg-a" as string]: `${s.fgMask[0]}%`, ["--rl-fg-b" as string]: `${s.fgMask[1]}%` } : {}) }} data-scene={s.id} data-into={i > 0 ? tin : undefined}>
                 <div className="rl-world">
                   <div className="rl-bg" style={{ backgroundImage: `url(${s.bg})`, backgroundPosition: s.bgPos }} aria-hidden />
                   <div className="rl-haze" aria-hidden />

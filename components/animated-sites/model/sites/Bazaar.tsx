@@ -1,18 +1,25 @@
 "use client";
 /* BAZAAR — «Lantern Road». Мир: Silk-Road ночной рынок чувственного изобилия — ворота на закате,
-   крытая пряная аллея, фонарный майдан, край пустыни под звёздами. Собран на общем движке <Reel/>;
-   лендинг и типографика — БЕСХОЗНЫЕ (свой набор/порядок блоков, шрифт-пейринг Cinzel × Work Sans,
-   палитра saffron/teal/plum/sand). Сигнатурный блок — MARQUEE, бегущая лента товаров рынка. */
-import { Reel, type ReelScene } from "../reel";
+   крытая пряная аллея, фонарный майдан, край пустыни под звёздами. Шрифты Cinzel × Work Sans,
+   палитра saffron / teal / plum / sand.
+   ОДИН ВЕЧЕР: ворота → (зум сквозь арку) пряный ряд → (ткани пролетают мимо камеры) фонарный майдан →
+   (камера идёт вбок за караваном) край пустыни. Актёры: торговец с верблюдом ведёт нас через все сцены
+   и по маршруту лендинга; гирлянда фонарей висит по верху кадра, фонари зажигаются по одному,
+   в лендинге остаётся кромкой и ложится на карточку цены. */
+import { Reel, reelMark, type ReelScene } from "../reel";
+import { Actor, Weather, Atmosphere, Backdrop } from "@/components/scene-kit";
+import { FontLinks } from "@/components/shared/FontLinks";
 import "./bazaar.css";
 
 const A = "/uploads/1/animated/bazaar";
+const GATE = { x: 76, y: 64 }; // арка ворот (плита зеркалится в bazaar.css — ворота справа)
 
 const scenes: ReelScene[] = [
   {
     id: "gate",
+    len: 1.05,
+    hold: 0.5,
     bg: `${A}/s1-bg.webp`,
-    mid: `${A}/s1-mid.webp`,
     fg: `${A}/s1-fg.webp`,
     copy: (
       <>
@@ -38,8 +45,9 @@ const scenes: ReelScene[] = [
   {
     id: "spice",
     dark: true,
+    into: "portal",
+    portal: GATE,
     bg: `${A}/s2-bg.webp`,
-    mid: `${A}/s2-mid.webp`,
     fg: `${A}/s2-fg.webp`,
     copy: (
       <>
@@ -47,7 +55,7 @@ const scenes: ReelScene[] = [
         <h2>The Spice Aisle</h2>
         <p>
           Saffron by the fistful, paprika stacked in burning cones, cardamom cracked open just so you
-          can smell it. We stop at every pyramid that matters and skip the ones that don't.
+          can smell it. We stop at every pyramid that matters and skip the ones that don&rsquo;t.
         </p>
       </>
     ),
@@ -55,10 +63,19 @@ const scenes: ReelScene[] = [
   {
     id: "square",
     dark: true,
+    into: "flythrough",
+    len: 1.25,
+    hold: 0.55,
     spark: 6,
     bg: `${A}/s3-bg.webp`,
     mid: `${A}/s3-mid.webp`,
     fg: `${A}/s3-fg.webp`,
+    freeze: (
+      <div className="bz-freeze">
+        <b>412</b>
+        <span>lanterns, lit by hand at dusk</span>
+      </div>
+    ),
     copy: (
       <>
         <span className="bz-idx">— 03 · lantern square</span>
@@ -73,8 +90,8 @@ const scenes: ReelScene[] = [
   {
     id: "edge",
     dark: true,
+    into: "pan",
     bg: `${A}/s4-bg.webp`,
-    mid: `${A}/s4-mid.webp`,
     fg: `${A}/s4-fg.webp`,
     copy: (
       <>
@@ -89,6 +106,14 @@ const scenes: ReelScene[] = [
   },
 ];
 
+/* маршрут вечера: четыре квартала = четыре остановки ковровой дорожки (кварталы + шаги в одном блоке) */
+const STOPS: [string, string, string][] = [
+  ["19:00", "The Gate", "Mint tea under the tiled arch while we set the pace and the appetite. The city noise stops here."],
+  ["19:40", "The Spice Aisle", "Six stalls, six tastes — and how to tell real saffron from the cut stuff."],
+  ["20:30", "Lantern Square", "Rugs, brass, silk. We teach you the opening number, then step back."],
+  ["21:45", "The Desert Edge", "Tea under open sky while the market glows small behind you. Then the walk back in."],
+];
+
 const MARQUEE_ITEMS = [
   "SAFFRON THREADS",
   "ROSE WATER",
@@ -100,22 +125,14 @@ const MARQUEE_ITEMS = [
   "SILK SCARVES",
   "SMOKED PAPRIKA",
   "MINT TEA",
-  "ROASTED PISTACHIO",
-  "EMBROIDERED SLIPPERS",
 ];
 
-const QUARTERS: [string, string, string][] = [
-  ["01", "The Gate", "Tiled arches, camel bells and the smell of warm bread. Where the night begins and the city noise stops."],
-  ["02", "Spice Aisle", "A covered lane of colour and scent — six stalls, six tastes, one story each about where the harvest came from."],
-  ["03", "Lantern Square", "The market's heart: rugs, brass, tea and the honest art of the opening price."],
-  ["04", "Desert Edge", "Where the lanterns thin out and the sky takes over. Tea under stars, then the walk back in."],
-];
-
-const STEPS: [string, string, string][] = [
-  ["01", "Gather at the Gate", "7pm sharp. Mint tea while we set the pace and the appetite."],
-  ["02", "Taste the Spice Aisle", "Six stalls, six spices — and how to tell real saffron from the cut stuff."],
-  ["03", "Bargain in Lantern Square", "Rugs, brass, silk. We teach you the opening number, then step back."],
-  ["04", "Walk to the Desert Edge", "Tea under open sky while the market glows small behind you."],
+/* цифры — ценники на шнуре гирлянды (вместо полосы из 4 цифр) */
+const TAGS: [string, string][] = [
+  ["11", "years walking this market"],
+  ["38", "stall-keepers we call by name"],
+  ["6", "guests per lantern, max"],
+  ["1", "price you actually pay"],
 ];
 
 const FAQS: [string, string][] = [
@@ -125,16 +142,24 @@ const FAQS: [string, string][] = [
   ["Can I book a private caravan?", "Yes, any night of the week. Groups of up to twelve, your own guide, your own pace through the aisle."],
 ];
 
+/* гирлянда: фонари по кривой провиса (квадратичная Безье, viewBox 1000×120) */
+const LANTERNS = Array.from({ length: 9 }, (_, i) => {
+  const t = 0.1 + i * 0.1;
+  const x = -10 * (1 - t) ** 2 + 1000 * (1 - t) * t + 1010 * t * t;
+  const y = 4 * (1 - t) ** 2 + 120 * (1 - t) * t + 4 * t * t;
+  return { x: +x.toFixed(1), y: +y.toFixed(1), i };
+});
+
 export function Bazaar() {
   return (
     <div className="bz">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" />
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap"]} />
 
       <header className="bz-nav">
         <span className="bz-brand">LANTERN ROAD</span>
         <nav>
-          <a href="#quarters">Four Quarters</a>
           <a href="#route">The Route</a>
+          <a href="#guides">Guides</a>
           <a href="#faq">FAQ</a>
           <a href="#book" className="bz-nav-cta">
             Book a night walk
@@ -142,47 +167,116 @@ export function Bazaar() {
         </nav>
       </header>
 
-      <Reel scenes={scenes} cue="wander ↓" />
+      <Reel scenes={scenes} cue="wander in ↓" />
 
-      {/* MARQUEE — SIGNATURE: running ticker of market goods/spices/wares */}
-      <section className="bz-marquee" aria-label="What you'll find in the aisle">
-        <div className="bz-marquee-track">
-          <div className="bz-marquee-row">
-            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
-              <span className="bz-marquee-item" key={i}>
-                {item}
-                <span className="bz-marquee-dot" aria-hidden>
-                  ✦
-                </span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* СКВОЗНОЙ СЛОЙ: сумерки → ночь под лендингом, плиты рынка по остановкам маршрута */}
+      <Atmosphere
+        stops={[
+          { at: ".bz-stop:nth-child(1)", color: "#3a2140" },
+          { at: ".bz-stop:nth-child(2)", color: "#2c1226" },
+          { at: ".bz-stop:nth-child(3)", color: "#23101f" },
+          { at: ".bz-stop:nth-child(4)", color: "#101634" },
+          { at: ".bz-split", color: "#1c0a17" },
+          { at: ".bz-tags", color: "#171026" },
+          { at: ".bz-quote", color: "#131430" },
+          { at: ".bz-deal", color: "#0e1330" },
+        ]}
+      />
+      <Backdrop
+        from=".bz-route"
+        dim={0.5}
+        plates={[
+          { at: ".bz-stop:nth-child(1)", src: `${A}/s1-bg.webp` },
+          { at: ".bz-stop:nth-child(2)", src: `${A}/s2-bg.webp` },
+          { at: ".bz-stop:nth-child(3)", src: `${A}/s3-bg.webp` },
+          { at: ".bz-stop:nth-child(4)", src: `${A}/s4-bg.webp` },
+          { at: ".bz-quote", src: `${A}/s3-bg.webp` },
+          { at: ".bz-deal", src: `${A}/s4-bg.webp` },
+        ]}
+      />
+      <Weather kind="embers" count={16} color="#ffb02a" color2="#ff7a3a" between={[reelMark("t0"), reelMark("t2")]} world={0.6} zIndex={31} />
+      <Weather kind="stars" count={46} color="#f2e6c8" between={[reelMark("t2"), ".bz-foot"]} world={0.15} zIndex={6} seed={11} />
 
-      {/* FEATURE-CARDS — Four Quarters overview (block type tidewell lacks) */}
-      <section className="bz-quarters" id="quarters">
-        <div className="bz-quarters-head">
+      {/* ГИРЛЯНДА — кромка кадра через весь сайт; фонари зажигаются по одному (scroll-timeline в css) */}
+      <Actor
+        className="bz-garland-actor"
+        width="100vw"
+        zIndex={34}
+        bob={3}
+        tilt={0.02}
+        stops={[
+          { at: reelMark("s0"), pose: { x: 50, y: 11, s: 1, o: 1 } },
+          { at: reelMark("t2"), pose: { x: 50, y: 11, s: 1, o: 1 } },
+          { at: reelMark("s3"), pose: { x: 50, y: 10.5, s: 1, o: 0.92 } },
+          { at: ".bz-route", pose: { x: 50, y: 9.5, s: 1.02, o: 0.85 } },
+          { at: ".bz-faq", pose: { x: 50, y: 9.5, s: 1.02, o: 0.75 } },
+          { at: ".bz-deal-card", anchor: 0.3, pose: { x: 50, y: 4, s: 0.64, o: 1, dock: true } },
+          { at: ".bz-climax", pose: { x: 50, y: 6, s: 0.9, o: 0 } },
+        ]}
+      >
+        <svg className="bz-garland" viewBox="0 0 1000 80" aria-hidden>
+          <path d="M-10,4 Q500,60 1010,4" />
+          {LANTERNS.map(({ x, y, i }) => (
+            <g key={i} className={`bz-lan bz-lan-${i + 1}`} transform={`translate(${x} ${y})`}>
+              <line x1="0" y1="0" x2="0" y2="8" />
+              <circle className="bz-lan-glow" cx="0" cy="22" r="17" />
+              <path className="bz-lan-body" d="M-6,8 h12 l3,6 v14 l-3,6 h-12 l-3,-6 v-14 z" />
+              <rect className="bz-lan-cap" x="-4" y="34" width="8" height="3" rx="1" />
+            </g>
+          ))}
+        </svg>
+      </Actor>
+
+      {/* ТОРГОВЕЦ С ВЕРБЛЮДОМ — входит в ворота, идёт пряным рядом, через майдан, в пустыню и по маршруту */}
+      <Actor
+        src={`${A}/actor-merchant.webp`}
+        width="24vw"
+        zIndex={32}
+        bob={2}
+        tilt={0.04}
+        stops={[
+          { at: reelMark("s0"), pose: { x: 50, y: 80, s: 1, o: 1 } },
+          { at: reelMark("t0"), pose: { x: GATE.x - 4, y: GATE.y + 3, s: 0.32, o: 0 } },
+          { at: reelMark("s1"), pose: { x: 64, y: 84, s: 0.8, o: 1 } },
+          { at: reelMark("t1"), pose: { x: 82, y: 104, s: 1.7, o: 0, blur: 6 } },
+          { at: reelMark("s2"), pose: { x: 28, y: 82, s: 0.78, o: 1 } },
+          { at: reelMark("t2"), pose: { x: 50, y: 81, s: 0.72, o: 1 } },
+          { at: reelMark("s3"), pose: { x: 66, y: 79, s: 0.6, o: 1 } },
+          { at: reelMark("end"), pose: { x: 76, y: 74, s: 0.42, o: 1 } },
+          { at: ".bz-route", pose: { x: 86, y: 60, s: 0.3, o: 0 } },
+          { at: ".bz-stop:nth-child(1)", anchor: 0.35, pose: { x: 114, y: 22, s: 0.42, o: 1, fx: -1, dock: true } },
+          { at: ".bz-stop:nth-child(2)", anchor: 0.35, pose: { x: -14, y: 22, s: 0.42, o: 1, dock: true } },
+          { at: ".bz-stop:nth-child(3)", anchor: 0.35, pose: { x: 114, y: 22, s: 0.42, o: 1, fx: -1, dock: true } },
+          { at: ".bz-stop:nth-child(4)", anchor: 0.35, pose: { x: -14, y: 22, s: 0.42, o: 1, dock: true } },
+          { at: ".bz-split", pose: { x: 30, y: 110, s: 0.4, o: 0 } },
+          { at: ".bz-climax", anchor: 0.4, pose: { x: 58, y: 64, s: 0.24, o: 0.95, dock: true } },
+          { at: ".bz-foot", pose: { x: 70, y: 40, s: 0.18, o: 0 } },
+        ]}
+      />
+
+      {/* ROUTE — ковровая дорожка через четыре квартала (вместо карточек, шагов и галереи) */}
+      <section className="bz-route" id="route">
+        <div className="bz-route-head">
           <span className="bz-kick">One evening, four quarters</span>
           <h2>The whole market, in order.</h2>
         </div>
-        <div className="bz-quarters-grid">
-          {QUARTERS.map(([n, t, s]) => (
-            <div className="bz-quarter-card" key={n}>
-              <span className="bz-quarter-n">{n}</span>
+        <ol className="bz-runner">
+          {STOPS.map(([time, t, s]) => (
+            <li className="bz-stop" key={t}>
+              <span className="bz-stop-time">{time}</span>
               <h3>{t}</h3>
               <p>{s}</p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
-      {/* SPLIT — showcase media + text */}
-      <section className="bz-split" id="route">
+      {/* SPLIT — гиды */}
+      <section className="bz-split" id="guides">
         <div className="bz-split-media" style={{ backgroundImage: `url(${A}/s3-bg.webp)` }} aria-hidden />
         <div className="bz-split-copy">
           <span className="bz-kick">Why it stays with you</span>
-          <h2>We've walked this market for eleven years.</h2>
+          <h2>We&rsquo;ve walked this market for eleven years.</h2>
           <p>
             Every route is built on a relationship, not a map — the saffron vendor who saves us the
             first harvest, the rug-seller who remembers your name by the second visit. You are never
@@ -194,72 +288,45 @@ export function Bazaar() {
         </div>
       </section>
 
-      {/* STEPS/PROCESS — how a night walk works (block type tidewell lacks) */}
-      <section className="bz-steps" id="walks">
-        <div className="bz-steps-head">
-          <span className="bz-kick">How a night walk works</span>
-          <h2>Four stops, one long evening.</h2>
-        </div>
-        <ol className="bz-steps-row">
-          {STEPS.map(([n, t, s]) => (
-            <li className="bz-step" key={n}>
-              <span className="bz-step-n">{n}</span>
-              <h3>{t}</h3>
-              <p>{s}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* GALLERY — four scene plates as route covers (block type tidewell lacks) */}
-      <section className="bz-gallery">
-        <div className="bz-gallery-head">
-          <span className="bz-kick">Four nights, four routes</span>
-          <h2>Pick the version of the market you want.</h2>
-        </div>
-        <div className="bz-gallery-grid">
-          {[
-            [`${A}/s1-bg.webp`, "The Gate", "Arrival, dusk light"],
-            [`${A}/s2-bg.webp`, "Spice Aisle", "Tastings, lamp-lit haze"],
-            [`${A}/s3-bg.webp`, "Lantern Square", "Rugs, tea, bargaining"],
-            [`${A}/s4-bg.webp`, "Desert Edge", "Stars, the walk back"],
-          ].map(([img, t, s]) => (
-            <figure className="bz-gallery-tile" key={t as string}>
-              <div className="bz-gallery-img" style={{ backgroundImage: `url(${img})` }} />
-              <figcaption>
-                <b>{t}</b>
-                <span>{s}</span>
-              </figcaption>
-            </figure>
+      {/* KILIM — бегущая лента товаров, вытканная в орнамент-разделитель */}
+      <section className="bz-kilim" aria-label="What you'll find in the aisle">
+        <div className="bz-kilim-track">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span className="bz-kilim-item" key={i}>
+              {item}
+              <span className="bz-kilim-dot" aria-hidden>
+                ✦
+              </span>
+            </span>
           ))}
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="bz-stats">
-        {[
-          ["11", "years walking this market"],
-          ["38", "stall-keepers we call by name"],
-          ["6", "guests per lantern, max"],
-          ["1", "price you actually pay"],
-        ].map(([n, l], i) => (
-          <div className="bz-stat" key={i}>
-            <b>{n}</b>
-            <span>{l}</span>
-          </div>
-        ))}
+      {/* TAGS — цифры как ценники на шнуре */}
+      <section className="bz-tags" aria-label="Lantern Road in numbers">
+        <svg className="bz-tags-cord" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden>
+          <path d="M0,10 Q500,110 1000,10" />
+        </svg>
+        <div className="bz-tags-row">
+          {TAGS.map(([n, l]) => (
+            <div className="bz-tag" key={l}>
+              <b>{n}</b>
+              <span>{l}</span>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* QUOTE */}
       <section className="bz-quote">
         <blockquote>
-          “I've bargained in a dozen markets and always lost. Here I walked out with a rug I love and
+          “I&rsquo;ve bargained in a dozen markets and always lost. Here I walked out with a rug I love and
           a price I understood — <em>because someone finally explained the game</em>.”
         </blockquote>
         <cite>— Renata K., guest · Lantern Square walk</cite>
       </section>
 
-      {/* FAQ / ACCORDION — block type tidewell lacks */}
+      {/* FAQ */}
       <section className="bz-faq" id="faq">
         <div className="bz-faq-head">
           <span className="bz-kick">Before you book</span>
@@ -275,7 +342,7 @@ export function Bazaar() {
         </div>
       </section>
 
-      {/* DEAL */}
+      {/* DEAL — гирлянда ложится на карточку */}
       <section className="bz-deal" id="book">
         <div className="bz-deal-card">
           <span className="bz-kick">The night walk</span>
@@ -284,8 +351,8 @@ export function Bazaar() {
             <span>/ guest · guide, tea &amp; six tastings</span>
           </div>
           <p>
-            One evening, four quarters of the market, a route we've been refining for eleven years.
-            Reserve a lantern and we'll send the printed map by morning.
+            One evening, four quarters of the market, a route we&rsquo;ve been refining for eleven years.
+            Reserve a lantern and we&rsquo;ll send the printed map by morning.
           </p>
           <a href="#" className="bz-btn">
             Reserve a lantern
@@ -294,8 +361,8 @@ export function Bazaar() {
         </div>
       </section>
 
-      {/* CLIMAX */}
-      <section className="bz-climax" style={{ backgroundImage: `url(${A}/s3-bg.webp)` }}>
+      {/* CLIMAX — караван уходит в звёзды */}
+      <section className="bz-climax" style={{ backgroundImage: `url(${A}/s4-bg.webp)` }}>
         <div className="bz-climax-veil" aria-hidden />
         <div className="bz-climax-copy">
           <h2>

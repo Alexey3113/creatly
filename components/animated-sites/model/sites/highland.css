@@ -1,105 +1,133 @@
-/* HIGHLAND — «Drystane» heritage-walking мир. Шрифты Playfair Display (display) × Public Sans (body).
+/* HIGHLAND — «Drystane» heritage-walking мир. Шрифты Playfair Display × Public Sans (FontLinks).
    Палитра: heather / slate / moss / gorse-gold + gold CTA. Стили только .hg-* + копи в .rl-copy.
-   Копи сидит на «waystone»-панели (тёмное стекло + gold-кант) — единое решение читаемости для всех
-   4 светлых (dark:false) сцен рила, а не только тёмных. */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Public+Sans:wght@400;500;600;700;800&display=swap');
+   Копи рила — без «waystone»-панели: тёмный локальный скрим и тень текста; герой-мир виден целиком. */
 
 .hg{ --heather:#8a5a8a; --slate:#4a5a5a; --moss:#4a6a3a; --gold:#c8a44a; --cta:#ffb84a;
   --void:#242b27; --void2:#1b211d; --panel:#20261f; --pearl:#f3ede0; --stone:#c7c9bd; --line:rgba(243,237,224,.14);
   --rl-void:#242b27; --rl-spark:#c8a44a;
-  background:var(--void); color:var(--pearl); font-family:"Public Sans",system-ui,sans-serif; }
+  isolation:isolate; background:var(--atm, var(--void)); color:var(--pearl); font-family:"Public Sans",system-ui,sans-serif; }
+/* движок задаёт свой --rl-void/--rl-spark на .rl — шов в цвет мира, искры — дрок */
+.hg .rl{ --rl-void:#3b3f38; --rl-spark:#e8c86a; }
 
 /* NAV — скрим сверху для контраста бренда/ссылок на любой сцене */
 .hg-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw; }
 .hg-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(18,22,18,.48), rgba(18,22,18,0)); }
-.hg-brand{ font:600 20px "Playfair Display",serif; letter-spacing:.22em; color:var(--pearl); text-shadow:0 1px 10px rgba(0,0,0,.45); }
+  background:linear-gradient(180deg, rgba(18,22,18,.5), rgba(18,22,18,0)); }
+.hg-brand{ font:600 20px "Playfair Display",serif; letter-spacing:.22em; color:var(--pearl); text-shadow:0 1px 10px rgba(0,0,0,.5); }
 .hg-nav nav{ display:flex; gap:26px; align-items:center; font:600 12px "Public Sans",sans-serif; letter-spacing:.06em; text-transform:uppercase; }
-.hg-nav a{ color:rgba(243,237,224,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+.hg-nav a{ color:rgba(243,237,224,.9); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.45); }
 .hg-nav-cta{ padding:9px 20px; border-radius:3px; background:var(--cta); color:#241a08!important; text-shadow:none!important; font-weight:700; }
 
-/* SCENE COPY (внутри .rl-copy движка) — waystone-панель: тёмное стекло + gold-кант, читаемо на любой сцене */
-.hg .rl-copy{ background:linear-gradient(155deg, rgba(28,33,27,.86), rgba(28,33,27,.64));
-  -webkit-backdrop-filter:blur(11px); backdrop-filter:blur(11px);
-  border:1px solid rgba(243,237,224,.14); border-left:4px solid var(--gold); border-radius:3px;
-  padding:clamp(26px,3vw,42px) clamp(28px,3.4vw,44px); box-shadow:0 28px 70px rgba(8,10,8,.4); }
-.hg-eyebrow,.hg-idx{ font:700 11px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); }
-.rl-copy h1{ margin:16px 0 18px; font:500 clamp(46px,7.4vw,104px)/.98 "Playfair Display",serif; letter-spacing:-.01em; color:var(--pearl); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; font-weight:400; color:var(--gold); }
-.rl-copy h2{ margin:8px 0 14px; font:500 clamp(36px,5.6vw,72px)/1.02 "Playfair Display",serif; color:var(--pearl); }
-.rl-copy p{ margin:0 0 24px; max-width:38ch; font:400 15px/1.7 "Public Sans",sans-serif; color:var(--stone); }
+/* SCENE COPY — без панели: локальный тёмный скрим, тень букв */
+.hg .rl-copy::before{ content:""; position:absolute; z-index:-1; inset:-16% -22% -18% -16%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(20,24,19,.62), rgba(20,24,19,.3) 56%, rgba(20,24,19,0)); }
+.hg-eyebrow,.hg-idx{ font:700 11px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); text-shadow:0 1px 10px rgba(0,0,0,.6); }
+.hg .rl-copy h1{ margin:16px 0 18px; font:500 clamp(46px,7.2vw,100px)/.98 "Playfair Display",serif; letter-spacing:-.01em; color:var(--pearl); text-shadow:0 2px 30px rgba(10,12,9,.6); }
+.hg .rl-copy h1 em, .hg .rl-copy h2 em{ font-style:italic; font-weight:400; color:var(--cta); }
+.hg .rl-copy h2{ margin:8px 0 14px; font:500 clamp(36px,5.6vw,72px)/1.02 "Playfair Display",serif; color:var(--pearl); text-shadow:0 2px 26px rgba(10,12,9,.6); }
+.hg .rl-copy p{ margin:0 0 24px; max-width:38ch; font:400 15.5px/1.7 "Public Sans",sans-serif; color:#e4e2d6; text-shadow:0 1px 12px rgba(10,12,9,.85); }
+/* cue — по центру низа, не упирается в CTA */
+.hg .rl-cue{ left:50%; transform:translateX(-50%); color:var(--pearl); }
 .hg-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-.hg-btn{ padding:15px 28px; border-radius:3px; background:var(--cta); color:#241a08; text-decoration:none; font:700 14px "Public Sans",sans-serif; letter-spacing:.02em; box-shadow:0 14px 34px rgba(255,184,74,.28); transition:transform .15s ease; }
+.hg-btn{ display:inline-block; padding:15px 28px; border-radius:3px; background:var(--cta); color:#241a08; text-decoration:none; font:700 14px "Public Sans",sans-serif; letter-spacing:.02em; box-shadow:0 14px 34px rgba(255,184,74,.28); transition:transform .15s ease; }
 .hg-btn:active{ transform:translateY(2px); }
-.hg-ghost{ padding:15px 6px; color:var(--pearl); text-decoration:none; font:600 14px "Public Sans",sans-serif; border-bottom:1px solid rgba(243,237,224,.4); transition:transform .15s ease; }
+.hg-ghost{ padding:15px 6px; color:var(--pearl); text-decoration:none; font:600 14px "Public Sans",sans-serif; border-bottom:1px solid rgba(243,237,224,.45); text-shadow:0 1px 10px rgba(0,0,0,.6); transition:transform .15s ease; }
 .hg-ghost:active{ transform:translateY(2px); }
 
-/* общий kicker */
+/* fg: маска плотнее — облачные куски с магентой и прямоугольник неба в fg-вырезках не проступают */
+/* короткий переход маски (без «призрачной» полупрозрачной стены), выше облачных кусков вырезки */
+.hg .rl-scene[data-scene="moor"] .rl-fg img{ -webkit-mask-image:linear-gradient(180deg, transparent 46%, #000 53%); mask-image:linear-gradient(180deg, transparent 46%, #000 53%); }
+/* магента-кромка вырезок (дрок, облачные куски) срезана эрозией альфы; руину не трогаем — её fg перерисовывается при окклюзии */
+.hg .rl-scene[data-scene="moor"] .rl-fg img, .hg .rl-scene[data-scene="loch"] .rl-fg img, .hg .rl-scene[data-scene="storm"] .rl-fg img{ filter:url(#hg-trim); }
+.hg-defs{ position:absolute; width:0; height:0; overflow:hidden; }
+.hg .rl-scene[data-scene="loch"] .rl-fg img{ -webkit-mask-image:linear-gradient(180deg, transparent 50%, #000 58%); mask-image:linear-gradient(180deg, transparent 50%, #000 58%); }
+.hg .rl-scene[data-scene="ruin"] .rl-fg img{ -webkit-mask-image:linear-gradient(180deg, transparent 62%, #000 70%); mask-image:linear-gradient(180deg, transparent 62%, #000 70%); }
+.hg .rl-scene[data-scene="storm"] .rl-fg img{ -webkit-mask-image:linear-gradient(180deg, transparent 44%, #000 53%); mask-image:linear-gradient(180deg, transparent 44%, #000 53%); }
+
+/* СТОП-КАДР у руины */
+.hg-freeze{ display:grid; gap:8px; padding:16px 22px; border-left:4px solid var(--gold); background:rgba(20,24,19,.55); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
+.hg-freeze b{ font:500 clamp(46px,5.6vw,82px)/.95 "Playfair Display",serif; font-style:italic; color:var(--pearl); }
+.hg-freeze span{ font:700 11px "Public Sans",sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); }
+
+/* ТЕНЬ ОБЛАКА — мягкое пятно, «умножается» на холмы */
+.hg-cloud-actor{ mix-blend-mode:multiply; }
+.hg-cloud{ width:100%; aspect-ratio:2.2/1; border-radius:50%; filter:blur(28px);
+  background:radial-gradient(50% 50% at 50% 50%, rgba(22,26,30,.95), rgba(22,26,30,.55) 45%, rgba(22,26,30,0) 72%); }
+/* ПУТНИК — кадр из s4-mid (чистая вырезка), кроп CSS-ом */
+.hg-walker, .hg-wall-walker{ display:block; width:100%; aspect-ratio:218/406; background:url(/uploads/1/animated/highland/s4-mid.webp) 50% 64.8% / 807% auto no-repeat;
+  filter:drop-shadow(0 6px 8px rgba(0,0,0,.35)); }
+
 .hg-kick{ display:block; font:700 11px "Public Sans",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); }
 .hg-kick-c{ text-align:center; }
 .hg-link{ color:var(--gold); text-decoration:none; font:600 14px "Public Sans",sans-serif; }
 
-/* MANIFESTO — big-type, одна крупная мысль */
-.hg-manifest{ padding:20vh 8vw; background:linear-gradient(180deg,var(--void),var(--void2)); }
-.hg-manifest p{ margin:0 auto; max-width:24ch; text-align:center; font:500 clamp(28px,4.4vw,58px)/1.16 "Playfair Display",serif; color:#e9e4d6; }
-.hg-manifest em{ font-style:italic; font-weight:400; color:var(--gold); }
+/* MANIFESTO */
+.hg-manifest{ padding:24vh 8vw 20vh; background:transparent; }
+.hg-manifest p{ margin:0 auto; max-width:24ch; text-align:center; font:500 clamp(28px,4.4vw,58px)/1.16 "Playfair Display",serif; color:#efeadc; text-shadow:0 2px 26px rgba(10,12,9,.55); }
+.hg-manifest em{ font-style:italic; font-weight:400; color:var(--cta); }
 
-/* STEPS — waymarker-мили вдоль стены (горизонтальная линия, уникальный блок) */
-.hg-steps{ padding:16vh 8vw; background:var(--void2); }
+/* WAYMARKS — стена кладётся от скролла, вехи проявляются, когда стена до них дошла */
+.hg-steps{ padding:16vh 8vw; background:linear-gradient(180deg, rgba(27,33,29,0), rgba(27,33,29,.5) 25%, rgba(27,33,29,.5) 75%, rgba(27,33,29,0)); }
 .hg-steps-head h2{ margin:12px 0 0; font:500 clamp(30px,4.6vw,60px)/1.06 "Playfair Display",serif; color:var(--pearl); }
-.hg-marks{ list-style:none; margin:9vh 0 0; padding:64px 0 0; display:flex; gap:3.6vw; position:relative; border-top:3px dashed rgba(243,237,224,.28); }
-.hg-mark{ position:relative; flex:1; min-width:180px; }
-.hg-mark-post{ position:absolute; top:-67px; left:0; width:13px; height:13px; border-radius:2px; background:var(--gold); box-shadow:0 0 0 5px var(--void2); }
+.hg-wall{ position:relative; margin:10vh 0 0; height:58px; }
+.hg-wall svg{ display:block; clip-path:inset(-6px calc(100% - var(--wp, 0) * 100%) -6px 0); filter:drop-shadow(0 6px 6px rgba(0,0,0,.35)); }
+.hg-wall-walker{ position:absolute; bottom:30px; left:calc(var(--wp, 0) * 100%); width:clamp(34px,3.1vw,54px); translate:-60% 0; opacity:clamp(0, calc(var(--wp, 0) * 30), 1); }
+.hg-marks{ list-style:none; margin:30px 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:3.6vw; }
+.hg-mark{ position:relative; padding-top:18px; border-top:2px solid rgba(200,164,74,.55); opacity:clamp(.08, calc((var(--wp, 0) - var(--i) * .24 - .04) * 6), 1); transition:none; }
 .hg-mark-mile{ display:block; margin-bottom:10px; font:700 12px "Public Sans",sans-serif; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); }
 .hg-mark h3{ margin:0 0 10px; font:500 clamp(21px,2.2vw,28px) "Playfair Display",serif; color:var(--pearl); }
 .hg-mark p{ margin:0; max-width:30ch; font:400 14px/1.7 "Public Sans",sans-serif; color:var(--stone); }
 
-/* FEATURE-CARDS — три способа пройти маршрут (уникальный блок) */
-.hg-features{ padding:16vh 8vw; background:var(--void); text-align:center; }
+/* FEATURE-CARDS */
+.hg-features{ padding:16vh 8vw; background:transparent; text-align:center; }
 .hg-features-h{ margin:12px auto 0; max-width:20ch; font:500 clamp(30px,4.6vw,58px)/1.08 "Playfair Display",serif; color:var(--pearl); }
 .hg-feature-grid{ margin-top:8vh; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); text-align:left; }
-.hg-feature-card{ background:var(--panel); padding:5vh 2.6vw; }
+.hg-feature-card{ background:rgba(28,34,28,.84); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); padding:5vh 2.6vw; }
 .hg-feature-n{ font:400 16px "Playfair Display",serif; font-style:italic; color:var(--gold); }
 .hg-feature-card h3{ margin:16px 0 12px; font:500 clamp(22px,2.4vw,28px) "Playfair Display",serif; color:var(--pearl); }
 .hg-feature-card p{ margin:0 0 22px; max-width:32ch; font:400 15px/1.7 "Public Sans",sans-serif; color:var(--stone); }
 .hg-feature-p{ display:inline-block; font:700 12px "Public Sans",sans-serif; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); }
 
-/* SIGNATURE SPLIT — медиа СПРАВА (руина) + литературная копия слева */
-.hg-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:80vh; background:var(--void2); }
+/* SIGNATURE SPLIT — руина справа, книга гостей в копи */
+.hg-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:84vh; background:rgba(22,27,23,.7); }
 .hg-split-copy{ align-self:center; padding:10vh 5vw 10vh 8vw; }
 .hg-split-copy h2{ margin:14px 0 20px; font:500 clamp(30px,3.8vw,58px)/1.06 "Playfair Display",serif; color:var(--pearl); }
-.hg-split-copy h2 em{ font-style:italic; font-weight:400; color:var(--gold); }
-.hg-split-copy p{ margin:0 0 26px; max-width:44ch; font:400 16px/1.8 "Public Sans",sans-serif; color:var(--stone); }
+.hg-split-copy h2 em{ font-style:italic; font-weight:400; color:var(--cta); }
+.hg-split-copy p{ margin:0 0 30px; max-width:44ch; font:400 16px/1.8 "Public Sans",sans-serif; color:var(--stone); }
+.hg-guestbook{ margin:0; max-width:40ch; padding:18px 0 0 22px; border-left:2px solid var(--gold); font:italic 400 clamp(18px,1.6vw,22px)/1.45 "Playfair Display",serif; color:#ece7d9; }
+.hg-guestbook em{ font-style:normal; color:var(--cta); }
+.hg-guestbook cite{ display:block; margin-top:12px; font:600 12px "Public Sans",sans-serif; font-style:normal; letter-spacing:.06em; color:var(--stone); }
 .hg-split-media{ background-size:cover; background-position:50% 42%; }
 
-/* GALLERY — четыре главы как обложки */
-.hg-gallery{ padding:16vh 8vw; background:var(--void); }
-.hg-gallery-grid{ margin-top:6vh; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-.hg-gallery-tile{ position:relative; aspect-ratio:3/4; background-size:cover; background-position:50% 38%; border-radius:6px; overflow:hidden; display:flex; align-items:flex-end; padding:18px; }
-.hg-gallery-tile::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 44%, rgba(16,18,14,.8) 100%); }
-.hg-gallery-tile span{ position:relative; z-index:1; font:600 13px "Public Sans",sans-serif; letter-spacing:.03em; color:#f5f1e6; text-shadow:0 1px 8px rgba(0,0,0,.5); }
+/* FORECAST — один день маршрута по часам */
+.hg-forecast{ padding:16vh 8vw; background:transparent; }
+.hg-forecast-head h2{ margin:12px 0 0; max-width:22ch; font:500 clamp(30px,4.4vw,58px)/1.08 "Playfair Display",serif; color:var(--pearl); }
+.hg-sky{ list-style:none; margin:8vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); }
+.hg-sky-cell{ position:relative; padding:34px 2vw 30px 0; border-right:1px solid var(--line); }
+.hg-sky-cell:last-child{ border-right:0; }
+.hg-sky-cell + .hg-sky-cell{ padding-left:2vw; }
+.hg-sky-t{ display:block; font:700 13px "Public Sans",sans-serif; letter-spacing:.14em; color:var(--gold); }
+.hg-sky-glyph{ display:block; width:52px; height:52px; margin:22px 0 18px; }
+.hg-sky-sun .hg-sky-glyph{ border-radius:50%; background:radial-gradient(circle, #ffe09a 0 38%, rgba(255,184,74,.35) 40%, transparent 66%); }
+.hg-sky-rain .hg-sky-glyph{ background:repeating-linear-gradient(105deg, transparent 0 7px, rgba(216,221,224,.8) 7px 9px); border-radius:6px; -webkit-mask-image:linear-gradient(180deg,#000,transparent); mask-image:linear-gradient(180deg,#000,transparent); }
+.hg-sky-mist .hg-sky-glyph{ background:repeating-linear-gradient(180deg, rgba(199,201,189,.75) 0 4px, transparent 4px 12px); border-radius:4px; }
+.hg-sky-bow .hg-sky-glyph{ border-radius:52px 52px 0 0; background:radial-gradient(circle at 50% 100%, transparent 0 16px, #7a5aa8 17px 19px, #4a8ad0 20px 22px, #5ab05a 23px 25px, #e8d04a 26px 28px, #e8864a 29px 31px, #d04a4a 32px 34px, transparent 35px); }
+.hg-sky-cell h3{ margin:0 0 8px; font:500 clamp(20px,2vw,26px) "Playfair Display",serif; color:var(--pearl); }
+.hg-sky-cell p{ margin:0; max-width:26ch; font:400 14px/1.65 "Public Sans",sans-serif; color:var(--stone); }
 
-/* MARQUEE — бегущая строка мотивов */
-.hg-marquee{ overflow:hidden; background:var(--void2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:22px 0; }
-.hg-marquee-track{ display:flex; width:max-content; animation:hg-scroll 32s linear infinite; }
-.hg-marquee-track span{ padding-right:2px; font:500 16px "Playfair Display",serif; font-style:italic; letter-spacing:.01em; color:var(--gold); white-space:nowrap; }
-@keyframes hg-scroll{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+/* CAIRN — цифры пирамидой камней */
+.hg-cairn{ display:grid; grid-template-columns:1fr 1fr; gap:6vw; align-items:end; padding:14vh 8vw 16vh; background:transparent; }
+.hg-cairn-copy h2{ margin:12px 0 0; max-width:20ch; font:500 clamp(26px,3.4vw,46px)/1.12 "Playfair Display",serif; color:var(--pearl); }
+.hg-cairn-stack{ list-style:none; margin:0; padding:0; display:grid; justify-items:center; gap:6px; }
+.hg-cairn-stack li{ display:flex; align-items:baseline; justify-content:center; gap:14px; padding:16px 26px; background:linear-gradient(180deg, #6b7066, #4d534b); color:var(--pearl);
+  border-radius:46% 52% 40% 44% / 60% 56% 44% 40%; box-shadow:inset 0 3px 0 rgba(255,255,255,.14), 0 10px 20px rgba(0,0,0,.3); }
+.hg-cairn-stack li:nth-child(1){ width:34%; } .hg-cairn-stack li:nth-child(2){ width:54%; transform:rotate(-1.5deg); }
+.hg-cairn-stack li:nth-child(3){ width:74%; transform:rotate(1deg); } .hg-cairn-stack li:nth-child(4){ width:96%; }
+.hg-cairn-stack b{ font:500 clamp(30px,3.4vw,50px)/1 "Playfair Display",serif; color:var(--cta); }
+.hg-cairn-stack span{ font:500 12.5px/1.4 "Public Sans",sans-serif; color:#e2e0d4; }
 
-/* STATS */
-.hg-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--void2); border-top:1px solid var(--line); }
-.hg-stat{ padding:56px 26px; border-left:1px solid var(--line); }
-.hg-stat:first-child{ border-left:0; }
-.hg-stat b{ display:block; font:500 clamp(44px,5.2vw,80px)/1 "Playfair Display",serif; color:var(--gold); }
-.hg-stat span{ display:block; margin-top:10px; font:500 13px "Public Sans",sans-serif; letter-spacing:.03em; color:var(--stone); }
-
-/* QUOTE */
-.hg-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,var(--void2),var(--void)); }
-.hg-quote blockquote{ margin:0 auto; max-width:26ch; font:500 clamp(26px,3.6vw,50px)/1.24 "Playfair Display",serif; color:#ece7d9; }
-.hg-quote em{ font-style:italic; font-weight:400; color:var(--gold); }
-.hg-quote cite{ display:block; margin-top:32px; font:600 13px "Public Sans",sans-serif; letter-spacing:.06em; font-style:normal; color:var(--stone); }
-
-/* FAQ/ACCORDION — уникальный блок */
-.hg-faq{ padding:16vh 8vw; background:var(--void); }
+/* FAQ */
+.hg-faq{ padding:16vh 8vw; background:transparent; }
 .hg-faq-list{ max-width:54rem; margin:6vh auto 0; }
 .hg-faq-item{ border-top:1px solid var(--line); padding:26px 0; }
 .hg-faq-item:last-child{ border-bottom:1px solid var(--line); }
@@ -111,20 +139,20 @@
 .hg-faq-item p{ margin:16px 0 0; max-width:60ch; font:400 15px/1.75 "Public Sans",sans-serif; color:var(--stone); }
 
 /* DEAL */
-.hg-deal{ display:grid; place-items:center; padding:18vh 6vw; background:var(--void2); }
-.hg-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid var(--line); border-radius:8px; background:var(--panel); }
-.hg-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.hg-deal{ display:grid; place-items:center; padding:18vh 6vw; background:transparent; }
+.hg-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid var(--line); border-radius:8px; background:rgba(28,34,28,.86); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); }
+.hg-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
 .hg-price b{ font:500 clamp(48px,6.6vw,84px) "Playfair Display",serif; color:var(--pearl); }
 .hg-price span{ font:500 14px "Public Sans",sans-serif; color:var(--stone); }
 .hg-deal-card p{ margin:0 auto 28px; max-width:42ch; font:400 15px/1.75 "Public Sans",sans-serif; color:var(--stone); }
-.hg-note{ display:block; margin-top:18px; font:500 12px "Public Sans",sans-serif; letter-spacing:.04em; color:#8b8d80; }
+.hg-note{ display:block; margin-top:18px; font:500 12px "Public Sans",sans-serif; letter-spacing:.04em; color:#9a9c8e; }
 
 /* CLIMAX */
 .hg-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 46%; }
-.hg-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(18,20,16,.4), rgba(14,16,12,.9) 80%); }
+.hg-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(18,20,16,.3), rgba(14,16,12,.88) 80%); }
 .hg-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
 .hg-climax-copy h2{ margin:0 0 34px; font:500 clamp(38px,5.6vw,84px)/1.06 "Playfair Display",serif; color:var(--pearl); }
-.hg-climax-copy h2 em{ font-style:italic; font-weight:400; color:var(--gold); }
+.hg-climax-copy h2 em{ font-style:italic; font-weight:400; color:var(--cta); }
 
 /* FOOT */
 .hg-foot{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:40px 6vw; background:#161a15; color:var(--stone); font:500 13px "Public Sans",sans-serif; }
@@ -134,12 +162,8 @@
   .hg-nav nav a:not(.hg-nav-cta){ display:none; }
   .hg-split{ grid-template-columns:1fr; } .hg-split-media{ min-height:48vh; order:-1; }
   .hg-feature-grid{ grid-template-columns:1fr; }
-  .hg-gallery-grid{ grid-template-columns:1fr 1fr; }
-  .hg-stats{ grid-template-columns:1fr 1fr; }
-  .hg-marks{ flex-direction:column; gap:40px; border-top:0; border-left:3px dashed rgba(243,237,224,.28); padding:0 0 0 26px; }
-  .hg-mark-post{ top:2px; left:-32px; }
-}
-
-@media (prefers-reduced-motion:reduce){
-  .hg-marquee-track{ animation:none; overflow-x:auto; }
+  .hg-marks{ grid-template-columns:1fr 1fr; row-gap:40px; }
+  .hg-sky{ grid-template-columns:1fr 1fr; }
+  .hg-sky-cell{ border-right:0; padding-left:0!important; }
+  .hg-cairn{ grid-template-columns:1fr; }
 }

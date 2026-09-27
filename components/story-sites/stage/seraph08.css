@@ -25,7 +25,7 @@
 .sf-cover-halo{position:absolute;top:30%;left:50%;width:52vh;height:52vh;transform:translate(-50%,-50%);z-index:1;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(255,235,238,.9),rgba(221,127,149,.25) 60%,transparent 72%)}
 .sf-wordmark{display:grid;place-items:center;pointer-events:none}
-.sf-wordmark span{font:400 clamp(60px,15vw,240px)/.9 "Italiana",serif;letter-spacing:.06em;color:#c98496;text-transform:uppercase;opacity:.75}
+.sf-wordmark span{font:400 clamp(56px,14.2vw,230px)/.9 "Italiana",serif;letter-spacing:.44em;margin-right:-.44em;color:#b24a66;text-transform:uppercase;opacity:.92}
 .sf-cover-fig{display:grid;place-items:end center;pointer-events:none}
 .sf-cover-fig .ps-media{width:auto;height:98vh;max-width:none;object-fit:contain;object-position:bottom;filter:drop-shadow(0 20px 50px rgba(120,60,80,.25));
   -webkit-mask-image:linear-gradient(to right,#000 0,#000 84%,transparent 100%);
@@ -38,26 +38,36 @@
 .sf-cover-hi h1{margin:8px 0 12px;font:400 clamp(40px,6vw,100px)/.9 "Italiana",serif;letter-spacing:.04em;color:var(--deep)}
 .sf-cover-hi p{margin:0;max-width:34ch;font:400 15px/1.7 "Josefin Sans",sans-serif;color:#7a5661}
 
+/* нимб — светящееся кольцо; одно и то же на обложке и в S2 (share=halo) → призрак без скачка */
+.sf-ring{position:absolute;border-radius:50%;pointer-events:none;border:2px solid rgba(255,255,255,.95);
+  box-shadow:0 0 0 1px rgba(221,127,149,.4),0 0 30px 6px rgba(255,236,214,.7),inset 0 0 26px 4px rgba(255,236,214,.55)}
+.sf-ring-a{left:calc(50% - 23vh);top:calc(30% - 23vh);width:46vh;height:46vh;z-index:2}
+.sf-ring-b{left:calc(50% - 31vh);top:calc(34% - 31vh);width:62vh;height:62vh;z-index:4}
+
 /* 1 · RITUAL HALO */
-.sf-halo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 60% at 50% 42%,#f6dde2,#e6c4cc 78%)}
+.sf-halo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(34% 46% at 50% 34%,#fffefa 0%,#fff3e6 32%,#f9dde0 64%,#ebc4cc 100%)}
 .sf-halo-fig{z-index:2;display:grid;place-items:center}
-.sf-halo-fig .ps-media{width:auto;height:96vh;max-width:none;object-fit:contain;object-position:center}
-.sf-halo-ring{position:absolute;top:34%;left:50%;width:56vh;height:56vh;transform:translate(-50%,-50%);z-index:1;border-radius:50%;pointer-events:none;
-  background:conic-gradient(from 0deg,transparent 0 3deg,rgba(163,50,78,.8) 3deg 5deg,transparent 5deg 12deg);
-  -webkit-mask:radial-gradient(circle,transparent 44%,#000 46%,#000 50%,transparent 52%);mask:radial-gradient(circle,transparent 44%,#000 46%,#000 50%,transparent 52%);
-  animation:sf-spin 34s linear infinite;opacity:.9;filter:drop-shadow(0 0 10px rgba(221,127,149,.6))}
+.sf-halo-fig .ps-media{width:auto;height:96vh;max-width:none;object-fit:contain;object-position:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 13%,#000 87%,transparent);mask-image:linear-gradient(90deg,transparent,#000 13%,#000 87%,transparent)}
+/* вспышка «Crown of light»: белое сияние поверх кадра вокруг головы */
+.sf-halo-flash{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(26% 36% at 50% 30%,rgba(255,251,240,.78),rgba(255,238,220,.3) 46%,transparent 72%)}
+.sf-halo-ring{position:absolute;top:34%;left:50%;width:72vh;height:72vh;transform:translate(-50%,-50%);z-index:4;border-radius:50%;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg,rgba(163,50,78,.7) 0deg 1.4deg,transparent 1.4deg 6deg);
+  -webkit-mask:radial-gradient(closest-side,transparent 91%,#000 92.5%,#000 96.5%,transparent 98%);mask:radial-gradient(closest-side,transparent 91%,#000 92.5%,#000 96.5%,transparent 98%);
+  animation:sf-spin 40s linear infinite;filter:drop-shadow(0 0 8px rgba(221,127,149,.6))}
 @keyframes sf-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.sf-halo-ring{animation:none}}
-.sf-halo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(230,196,204,.92),transparent 46%)}
+.sf-halo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(238,203,210,.97) 0%,rgba(238,203,210,.86) 24%,transparent 52%)}
 .sf-halo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
-.sf-halo-cap h2{margin:6px 0 10px;font:400 clamp(38px,6vw,88px)/.9 "Italiana",serif;letter-spacing:.02em;color:var(--deep)}
+.sf-halo-cap h2{margin:6px 0 10px;font:400 clamp(38px,6vw,88px)/.9 "Italiana",serif;letter-spacing:.02em;color:#86223d}
+.sf-halo .sf-folio{color:#8a5566}
 .sf-halo-cap h2 em{font-style:normal;color:var(--red)}
-.sf-halo-cap p{margin:0;max-width:38ch;font:400 15px/1.7 "Josefin Sans",sans-serif;color:#7a5661}
+.sf-halo-cap p{margin:0;max-width:38ch;font:400 15px/1.7 "Josefin Sans",sans-serif;color:#57323f}
 
 /* 2 · SIDECAR */
-.sf-side-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(110deg,#f2e0e4 42%,#ffd9df00)}
+.sf-side{background:#f2e0e4}
+.sf-side-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(58% 86% at 76% 42%,#ffe6c9 0%,#f9d3c5 32%,#f3dde2 68%,#f2e0e4 100%)}
 .sf-side-fig{z-index:2;display:grid;place-items:center}
-.sf-side-fig .ps-media{width:44vw;height:64vh;object-fit:cover;border:6px solid #fbeef0;box-shadow:0 30px 60px rgba(120,60,80,.25);transform:translateX(24vw) rotate(-2deg)}
+.sf-side-fig .ps-media{width:min(52vh,38vw);height:74vh;object-fit:cover;object-position:50% 40%;border:6px solid #fbeef0;box-shadow:0 30px 60px rgba(120,60,80,.25),0 0 90px rgba(255,210,170,.45);transform:translateX(22vw)}
 .sf-side-cap{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 0 0 6vw;max-width:42vw}
 .sf-side-cap h2{margin:6px 0 12px;font:400 clamp(40px,6vw,100px)/.9 "Italiana",serif;letter-spacing:.03em;color:var(--deep)}
 .sf-side-cap h2 em{color:var(--red)}
@@ -72,6 +82,7 @@
 .sf-study-sats{position:absolute;inset:0;z-index:4;pointer-events:none}
 .sf-sat{position:absolute;margin:0;width:14vh;height:14vh;overflow:hidden;border:4px solid #fff;box-shadow:0 16px 34px rgba(120,60,80,.24)}
 .sf-sat img{width:100%;height:100%;object-fit:cover;display:block}
+.sf-sat-1 img{object-position:50% 40%}
 .sf-sat figcaption{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:3px;font:600 8px "Josefin Sans",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(90,30,45,.6)}
 .sf-sat-1{right:26vw;top:20vh}.sf-sat-2{right:12vw;bottom:16vh}
 .sf-study-cap{position:absolute;left:6vw;top:50%;transform:translateY(-50%);z-index:6;display:flex;flex-direction:column;align-items:flex-start;max-width:30vw}
@@ -87,17 +98,21 @@
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-20px))}
 .sf-e img{width:100%;height:100%;object-fit:cover;display:block}
 .sf-e figcaption{position:absolute;left:0;bottom:0;padding:6px 9px;font:600 9px "Josefin Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:linear-gradient(0deg,rgba(90,30,45,.8),transparent)}
-.sf-e-hero{--d:0;left:5vw;top:22vh;width:36vw;height:64vh}
+.sf-e-hero{--d:0;left:5vw;top:20vh;width:30vw;height:68vh;border-radius:999px 999px 0 0}
+.sf-e-hero img{object-position:50% 20%;border-radius:999px 999px 0 0}
 .sf-e-2{--d:.12;right:5vw;top:14vh;width:26vw;height:34vh}
 .sf-e-3{--d:.2;right:20vw;bottom:8vh;width:18vw;height:32vh}
 .sf-e-4{--d:.28;right:5vw;bottom:8vh;width:13vw;height:24vh}
-.sf-edit-quote{position:absolute;left:44vw;top:52vh;z-index:5;max-width:22vw}
+.sf-edit-quote{position:absolute;left:39vw;top:52vh;z-index:5;max-width:24vw}
 .sf-edit-quote b{display:block;font:400 clamp(22px,2.4vw,40px)/1.15 "Italiana",serif;color:var(--deep)}
 .sf-edit-quote span{font:600 11px "Josefin Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
 
 /* 5 · INDEX — оглавление the ascension (не центр-слоган) */
 .sf-index-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 62% 40%,#fbe7ea,#e2bcc4 78%)}
-.sf-index-halo{position:absolute;top:40%;right:16vw;width:44vh;height:44vh;transform:translateY(-50%);z-index:1;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,240,242,.85),transparent 66%)}
+.sf-index-halo{position:absolute;top:34vh;left:77vw;width:86vh;height:86vh;transform:translate(-50%,-50%);z-index:1;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,250,244,.95),rgba(255,236,226,.5) 34%,transparent 66%)}
+.sf-ring-c{left:calc(77vw - 29vh);top:calc(34vh - 29vh);width:58vh;height:58vh;z-index:2}
+.sf-index-arch{position:absolute;left:65vw;top:14vh;width:24vw;height:76vh;margin:0;z-index:3;border-radius:999px 999px 0 0;overflow:hidden;box-shadow:0 30px 70px rgba(120,60,80,.3)}
+.sf-index-arch img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;border-radius:999px 999px 0 0}
 .sf-index-block{position:absolute;top:50%;left:8vw;transform:translateY(-50%);z-index:6;width:min(52ch,80vw)}
 .sf-index-label{font:600 11px "Josefin Sans",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--red)}
 .sf-index-list{list-style:none;margin:18px 0 30px;padding:0}
@@ -115,11 +130,14 @@
 .sf-links a{color:var(--mut);text-decoration:none}.sf-links a:hover{color:var(--deep)}
 .sf-sign{font:600 10px "Josefin Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#b596a0}
 
+/* iris — из нимба за её плечами (а не из центра экрана) */
+.sf-site .stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*150%) at 50% 30%)}
+
 /* мобилка */
 @media(max-width:900px){
   .sf-cover-fig .ps-media,.sf-halo-fig .ps-media{height:80vh}
   .sf-wordmark span{font-size:24vw}.sf-cover-halo,.sf-halo-ring{width:44vh;height:44vh}
-  .sf-side-fig .ps-media{width:82vw;height:44vh;transform:translateX(0)}
+  .sf-side-fig .ps-media{width:60vw;height:46vh;transform:translateX(0)}
   .sf-side-cap{max-width:none;padding:0 5vw;justify-content:flex-end;padding-bottom:8vh}
   .sf-study-main .ps-media{width:56vw;height:34vh;transform:translate(0,-2vh)}
   .sf-study-cap{max-width:none;left:5vw;right:5vw;top:auto;bottom:6vh;transform:none}
@@ -129,5 +147,10 @@
   .sf-e-3,.sf-e-4,.sf-edit-quote{display:none}
   .sf-index-block{left:5vw;right:5vw;width:auto}
   .sf-idx-t{font-size:30px}
-  .sf-index-halo{right:0;left:0;margin:0 auto}
+  .sf-index-halo{left:50%;top:22vh;width:60vh;height:60vh}
+  .sf-ring-c{left:calc(50% - 16vh);top:6vh;width:32vh;height:32vh}
+  .sf-index-arch{left:30vw;width:40vw;top:8vh;height:36vh}
+  .sf-index-block{top:auto;bottom:5vh;transform:none}
+  .sf-wordmark span{letter-spacing:.2em;margin-right:-.2em}
+  .sf-ring-a{left:calc(50% - 16vh);width:32vh;height:32vh;top:calc(30% - 16vh)}.sf-ring-b{left:calc(50% - 22vh);width:44vh;height:44vh;top:calc(34% - 22vh)}
 }

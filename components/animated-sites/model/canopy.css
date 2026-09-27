@@ -1,140 +1,131 @@
-/* CANOPY — иллюстрированный кино-скроллителлинг (пилот). Слоёные sticky-сцены; параллакс/dolly по --sp
-   (прогресс сцены) и --mx/--my (курсор); silhouette-wipe между сценами (dark-veil-in + pines-out).
-   Палитра из bg-плиты: pine/teal/moss + peach dawn + cool moon + ember-CTA. */
+/* CANOPY — иллюстрированный кино-скроллителлинг (пилот). Рил — общий движок Reel v2 (reel.css);
+   здесь только палитра, копи сцен (внутри .cp .rl-copy), свет сцен и лендинг поверх плиты мира.
+   Палитра из bg-плиты: pine/teal/moss + peach dawn + cool moon + ember-CTA. Шрифты Fraunces × Archivo (FontLinks). */
 
 .cp{ --pine:#12281f; --teal:#1f4a3d; --moss:#5a8a5e; --peach:#f0b57a; --moon:#9fb8d6; --cream:#eef2ea; --ink:#182a22; --ember:#ef6f38;
-  --mx:0; --my:0; background:var(--pine); color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }
+  --rl-void:#dfe6de; --rl-spark:#ffd98a;
+  isolation:isolate; background:var(--atm, var(--pine)); color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }
 
-/* NAV */
+/* NAV — скрим сверху: бренд и ссылки читаются и на бледном рассветном небе (аудит: «невидимы») */
 .cp-nav{ position:fixed; top:0; left:0; right:0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:18px 5vw; }
-.cp-brand{ font:600 20px "Fraunces",serif; color:#eef2ea; letter-spacing:.02em; }
+.cp-nav::before{ content:""; position:absolute; inset:0 0 -24px; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(10,24,18,.55), rgba(10,24,18,0)); }
+.cp-brand{ font:600 20px "Fraunces",serif; color:#f3f6f0; letter-spacing:.02em; text-shadow:0 1px 10px rgba(6,16,12,.5); }
 .cp-brand i{ color:var(--ember); font-style:normal; }
 .cp-nav nav{ display:flex; gap:24px; align-items:center; font:500 14px "Archivo"; }
-.cp-nav a{ color:#d6e2d8; text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.35); }
+.cp-nav a{ color:#eef4ee; text-decoration:none; text-shadow:0 1px 8px rgba(6,16,12,.55); }
 .cp-nav-cta{ padding:9px 18px; border-radius:999px; background:var(--cream); color:#12281f!important; text-shadow:none!important; }
 
-/* SLIDE-REEL: высокий рил + закреплённый стек; сцены выезжают снизу и накрывают предыдущую */
-.cp-reel{ position:relative; background:var(--pine); }
-.cp-reel-stage{ position:sticky; top:0; height:100vh; overflow:hidden; background:var(--pine); }
-/* НЕ ставим contain здесь: contain:paint клиппит по padding-box и конфликтует с overflow:visible + маской
-   верхнего края → на ресайзе даёт мельтешение/сжатие. Изоляцию слоёв даёт will-change+translate3d. */
-.cp-scene{ --sp:0; --enter:1; position:absolute; inset:0; overflow:visible;
-  transform:translate3d(0, calc((1 - var(--enter)) * 100%), 0); will-change:transform; backface-visibility:hidden; }
-/* верхний край наезжающей сцены РАСТВОРЯЕТСЯ (сквозь него виден предыдущий мир) — шва нет.
-   hero (первая) без растворения — под ней ничего. */
-/* верх растворяется ТОЛЬКО пока сцена наезжает (--feather 1→0); осевшая непрозрачна → без стека призраков */
-.cp-scene{ --feather:0; }
-.cp-scene:not(:first-child){
-  /* при --feather:0 маска полностью непрозрачна — накрытую сцену можно безопасно display:none */
-  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent calc(var(--feather)*3%), #000 calc(var(--feather)*13%), #000 100%);
-          mask-image:linear-gradient(180deg, transparent 0, transparent calc(var(--feather)*3%), #000 calc(var(--feather)*13%), #000 100%); }
-.cp-scene .cp-bg{ background-color:var(--pine); }
-/* дрейфующая mist-полоса по стыку — дымка между мирами */
-.cp-mist{ position:absolute; left:-6%; right:-6%; top:-2%; height:26%; z-index:9; pointer-events:none;
-  background:radial-gradient(120% 100% at 30% 40%, rgba(232,240,233,.5), transparent 60%),
-            radial-gradient(120% 100% at 72% 55%, rgba(210,224,220,.42), transparent 62%);
-  filter:blur(8px); opacity:calc(var(--feather,0) * .85); animation:cp-mist 16s ease-in-out infinite alternate; }
-.cp-scene-dark .cp-mist{ background:radial-gradient(120% 100% at 34% 42%, rgba(150,170,190,.4), transparent 60%),
-            radial-gradient(120% 100% at 70% 52%, rgba(120,140,168,.34), transparent 62%); }
-@keyframes cp-mist{ from{ transform:translateX(-3%) } to{ transform:translateX(4%) } }
-.cp-layer{ position:absolute; inset:0; will-change:transform; }
-.cp-layer img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-.cp-bg{ background-size:cover; background-position:50% 46%;
-  transform:scale(calc(1.03 + var(--sp)*0.13)) translate3d(calc(var(--mx)*-10px), calc(var(--my)*-6px), 0); transform-origin:50% 42%; }
-.cp-haze{ position:absolute; inset:0; z-index:2; pointer-events:none;
-  background:radial-gradient(120% 80% at 18% 8%, rgba(255,244,222,.45), transparent 46%),
-            linear-gradient(180deg, rgba(238,242,234,.28) 0%, transparent 20%, transparent 60%, rgba(18,40,31,.34) 100%); }
-.cp-mid{ z-index:3; transform:translate3d(calc(var(--mx)*-20px), calc((var(--sp) - .5)*-5vh - var(--my)*10px), 0) scale(calc(1.02 + var(--sp)*0.16)); transform-origin:50% 76%; backface-visibility:hidden; }
-/* без filter:drop-shadow на движущемся слое (дорого на каждом кадре) — тень даёт статичный .cp-shadow */
-.cp-mid img{ backface-visibility:hidden; }
-.cp-shadow{ position:absolute; left:49%; top:80%; width:12vw; height:2.6vh; transform:translateX(-50%); z-index:-1;
-  background:radial-gradient(closest-side, rgba(10,22,16,.5), transparent 72%); filter:blur(11px); }
-/* fg — тонкая нижняя рамка (как папоротник в hero): якорь к низу, малый dolly, feathered верх */
-.cp-fg{ z-index:5; transform:translate3d(calc(var(--mx)*-34px), calc((var(--sp) - .5)*7vh - var(--my)*12px), 0) scale(calc(1.05 + var(--sp)*0.12)); transform-origin:50% 100%; }
-/* маска срезает верхнюю feathered-зону вырезки (там оседает chroma-бахрома); камни снизу — чистые */
-.cp-fg img{ object-position:50% 100%; -webkit-mask-image:linear-gradient(180deg, transparent 0%, transparent 42%, #000 62%, #000 100%); mask-image:linear-gradient(180deg, transparent 0%, transparent 42%, #000 62%, #000 100%); }
-
-/* КОПИ сцены — проявляется, когда сцена почти встала на место (--enter) */
-/* opacity = проявление (--enter) × гашение (--sp): копи уходит, когда следующая сцена начинает наезжать
-   (sp 0.6→0.85) → на стыке нет двух заголовков сразу («The Mssadow»). */
-.cp-scene-copy{ position:absolute; z-index:10; left:5vw; top:24vh; width:min(46rem,88vw);
-  opacity:calc(clamp(0, (var(--enter) - 0.5) * 2.6, 1) * clamp(0, (0.85 - var(--sp)) * 4, 1)); transform:translateY(calc((1 - var(--enter)) * 4vh)); }
-.cp-eyebrow,.cp-ch-idx{ font:600 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:#3a6a54; }
-.cp-scene-dark .cp-ch-idx{ color:var(--peach); }
-.cp-scene-copy h1{ margin:14px 0 18px; font:300 clamp(52px,8.5vw,128px)/.94 "Fraunces",serif; letter-spacing:-.02em; color:#12281f; }
-.cp-scene-copy h1 em{ font-style:italic; color:#2f6a4a; }
-.cp-scene-copy h2{ margin:12px 0 16px; font:300 clamp(44px,7vw,104px)/.96 "Fraunces",serif; color:#12281f; }
-.cp-scene-copy .cp-h-light{ color:#eef2ea; }
-.cp-scene-copy p{ margin:0 0 26px; max-width:40ch; font:400 16px/1.7 "Archivo"; color:#2b4a3d; text-shadow:0 1px 12px rgba(238,242,234,.4); }
-.cp-scene-copy .cp-p-light{ color:#cfe0d4; text-shadow:0 1px 16px rgba(0,0,0,.5); }
+/* ── РИЛ: копи в мире (без карточек) — мягкий локальный скрим + тень ── */
+.cp .rl-copy{ left:5vw; top:21vh; }
+.cp .rl-copy::before{ content:""; position:absolute; z-index:-1; inset:-18% -24% -20% -34%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(240,244,236,.62), rgba(240,244,236,.28) 58%, transparent); filter:blur(4px); }
+.cp .rl-dark .rl-copy::before{ background:radial-gradient(closest-side, rgba(6,14,12,.62), rgba(6,14,12,.28) 58%, transparent); }
+.cp-eyebrow,.cp-ch-idx{ font:600 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:#2c5e48; }
+.cp .rl-dark .cp-ch-idx{ color:var(--peach); }
+.cp .rl-copy h1{ margin:14px 0 18px; font:300 clamp(52px,8.4vw,124px)/.94 "Fraunces",serif; letter-spacing:-.02em; color:#12281f; text-shadow:0 1px 24px rgba(240,244,236,.7); }
+.cp .rl-copy h1 em{ font-style:italic; color:#2a5f43; }
+.cp .rl-copy h2{ margin:12px 0 16px; font:300 clamp(44px,7vw,104px)/.96 "Fraunces",serif; color:#12281f; text-shadow:0 1px 22px rgba(240,244,236,.7); }
+.cp .rl-copy .cp-h-light{ color:#eef2ea; text-shadow:0 2px 30px rgba(4,10,8,.85), 0 1px 3px rgba(4,10,8,.6); }
+.cp .rl-copy p{ margin:0 0 26px; max-width:40ch; font:500 16px/1.7 "Archivo"; color:#24413a; text-shadow:0 1px 14px rgba(240,244,236,.85); }
+.cp .rl-copy .cp-p-light{ color:#d7e6dc; text-shadow:0 1px 16px rgba(4,10,8,.9); }
 .cp-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
 .cp-btn{ padding:15px 30px; border-radius:999px; background:var(--ember); color:#fff; text-decoration:none; font:600 15px "Archivo"; box-shadow:0 12px 30px rgba(239,111,56,.3); }
-.cp-btn-ghost{ padding:15px 22px; color:#12281f; text-decoration:none; font:600 15px "Archivo"; border-bottom:1px solid rgba(18,40,31,.3); }
-.cp-ch-more{ color:var(--ember); text-decoration:none; font:600 15px "Archivo"; }
-.cp-scene-dark .cp-ch-more{ color:var(--peach); }
-.cp-scrollcue{ position:absolute; z-index:20; left:5vw; bottom:4vh; font:600 12px "Archivo"; letter-spacing:.2em; text-transform:uppercase; color:#e7efe8; text-shadow:0 1px 8px rgba(0,0,0,.4); }
+/* ghost (аудит: «не читается») — тёмные чернила + плотная линия */
+.cp-btn-ghost{ padding:15px 22px; color:#0f231b; text-decoration:none; font:600 15px "Archivo"; border-bottom:2px solid rgba(15,35,27,.55); text-shadow:0 1px 10px rgba(240,244,236,.8); }
+.cp .rl-cue{ color:#f4f8f2; text-shadow:0 1px 10px rgba(6,16,12,.65); font-family:"Archivo",system-ui,sans-serif; }
 
-/* светлячки (DOM-спрайты, не частицы) */
-.cp-fly{ position:absolute; z-index:6; width:5px; height:5px; border-radius:50%; background:#ffd98a;
-  box-shadow:0 0 10px 3px rgba(255,208,120,.6); animation:cp-fly 7s ease-in-out infinite; }
-.cp-fly-1{ left:22%; top:52%; animation-delay:0s } .cp-fly-2{ left:38%; top:64%; animation-delay:1.4s }
-.cp-fly-3{ left:63%; top:48%; animation-delay:2.6s } .cp-fly-4{ left:74%; top:60%; animation-delay:.8s } .cp-fly-5{ left:52%; top:70%; animation-delay:3.4s }
-@keyframes cp-fly{ 0%,100%{ transform:translate(0,0); opacity:.35 } 50%{ transform:translate(14px,-20px); opacity:1 } }
+/* свет по сценам: встречи уводим из-под текста в правую треть (олень/лань смотрят на странника) */
+.cp .rl-scene[data-scene="pass"] .rl-mid img{ transform:translateX(24%) scale(.9); transform-origin:50% 86%; }
+.cp .rl-scene[data-scene="pass"] .rl-shadow{ left:72%; }
+.cp .rl-scene[data-scene="meadow"] .rl-mid img{ transform:translateX(24%) scale(.78); transform-origin:50% 86%; }
+.cp .rl-scene[data-scene="meadow"] .rl-shadow{ left:73%; top:80%; }
+.cp .rl-scene[data-scene="falls"] .rl-mid{ mix-blend-mode:screen; opacity:.8; }
 
-/* коммерч. блоки */
-.cp-intro{ padding:18vh 6vw; background:linear-gradient(180deg,#12281f,#0e2018); color:#dfe7df; }
-.cp-intro p{ margin:0 auto; max-width:26ch; text-align:center; font:300 clamp(28px,4.2vw,58px)/1.14 "Fraunces",serif; }
-.cp-intro em{ font-style:italic; color:var(--peach); }
-.cp-feat{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#16332a; color:#dfe7df; }
-.cp-feat-card{ padding:56px 40px 48px; background:#0e2018; }
-.cp-feat-n{ font:600 12px "Archivo"; letter-spacing:.2em; color:var(--peach); }
-.cp-feat-card h3{ margin:14px 0 12px; font:400 clamp(28px,3vw,44px) "Fraunces",serif; }
-.cp-feat-card p{ margin:0 0 22px; font:400 15px/1.6 "Archivo"; color:#a9c0b0; }
-.cp-feat-card a{ color:var(--peach); text-decoration:none; font:600 14px "Archivo"; }
-.cp-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
-.cp-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 40%, rgba(14,32,24,.55), rgba(14,32,24,.9) 78%); }
-.cp-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
-.cp-climax-copy h2{ margin:0 0 34px; font:300 clamp(40px,6vw,96px)/1.02 "Fraunces",serif; color:#eef2ea; }
-.cp-climax-copy em{ font-style:italic; color:var(--peach); }
-/* общий kicker */
+/* стоп-кадр — встреча */
+.cp-freeze{ display:grid; gap:6px; padding:16px 22px; border:1px solid rgba(240,181,122,.45); border-radius:4px;
+  background:rgba(8,18,14,.55); backdrop-filter:blur(4px); color:var(--cream); text-align:right; }
+.cp-freeze b{ font:300 clamp(46px,6vw,88px)/.9 "Fraunces",serif; letter-spacing:-.02em; color:var(--peach); }
+.cp-freeze span{ font:600 11px "Archivo"; letter-spacing:.22em; text-transform:uppercase; opacity:.85; }
+
+/* странник: ступни «в траве» — без висящего острова, тень мягкая */
+.cp-wanderer img{ filter:drop-shadow(0 10px 14px rgba(6,14,10,.35));
+  -webkit-mask-image:linear-gradient(180deg, #000 84%, transparent 99%); mask-image:linear-gradient(180deg, #000 84%, transparent 99%); }
+
+/* ── ЛЕНДИНГ поверх плиты мира ───────────────────────────────────────────── */
+/* обход движка: Backdrop снимает inline visibility, а в scene-kit.css по умолчанию visibility:hidden */
+.cp .sk-backdrop{ visibility:visible; }
 .cp-kicker{ display:block; font:600 12px "Archivo"; letter-spacing:.2em; text-transform:uppercase; color:var(--peach); }
 
+/* 04 · intro */
+.cp-intro{ padding:24vh 6vw 20vh; color:#dfe7df; }
+.cp-intro p{ margin:0 auto; max-width:26ch; text-align:center; font:300 clamp(28px,4.2vw,58px)/1.14 "Fraunces",serif; text-shadow:0 2px 26px rgba(4,10,8,.6); }
+.cp-intro em{ font-style:italic; color:var(--peach); }
+
 /* 05 · steps */
-.cp-steps{ padding:16vh 6vw; background:#0e2018; color:#dfe7df; }
-.cp-steps-row{ margin-top:5vh; display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:#193527; border:1px solid #193527; }
-.cp-step{ padding:44px 34px 40px; background:#0e2018; }
-.cp-step-n{ font:400 40px "Fraunces",serif; color:#2f6a4a; }
+.cp-steps{ padding:14vh 6vw; color:#dfe7df; }
+.cp-steps-row{ margin-top:5vh; display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(25,53,39,.6); border:1px solid rgba(25,53,39,.8); }
+.cp-step{ padding:44px 34px 40px; background:rgba(10,24,18,.78); backdrop-filter:blur(6px); }
+.cp-step-n{ font:400 40px "Fraunces",serif; color:var(--moss); }
 .cp-step h3{ margin:10px 0 12px; font:400 clamp(24px,2.4vw,34px) "Fraunces",serif; color:#eef2ea; }
-.cp-step p{ margin:0; font:400 15px/1.65 "Archivo"; color:#a9c0b0; }
+.cp-step p{ margin:0; font:400 15px/1.65 "Archivo"; color:#b3c7b9; }
 
-/* 07 · gallery */
-.cp-gallery{ padding:16vh 6vw; background:linear-gradient(180deg,#0e2018,#12281f); color:#dfe7df; }
-.cp-gallery-head h2{ margin:12px 0 0; max-width:20ch; font:300 clamp(30px,4vw,64px)/1.06 "Fraunces",serif; color:#eef2ea; }
-.cp-gallery-row{ margin-top:6vh; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-.cp-gal{ position:relative; margin:0; aspect-ratio:3/4; border-radius:6px; overflow:hidden; background-size:cover; background-position:50% 45%;
-  box-shadow:0 20px 50px rgba(0,0,0,.35); transition:transform .5s ease; }
-.cp-gal:hover{ transform:translateY(-8px) scale(1.015); }
-.cp-gal figcaption{ position:absolute; left:16px; bottom:14px; font:600 13px "Archivo"; letter-spacing:.1em; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.6); }
-.cp-gal::after{ content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,20,14,.5), transparent 45%); }
+/* 06 · trail — пунктир тропы, км-столбики слева, странник идёт по линии */
+.cp-trail{ position:relative; padding:14vh 6vw 10vh; color:#dfe7df; }
+.cp-trail-head{ max-width:42rem; margin:0 0 6vh 28%; }
+.cp-trail-head h2{ margin:12px 0 0; font:300 clamp(32px,4.6vw,66px)/1.04 "Fraunces",serif; color:#eef2ea; text-shadow:0 2px 24px rgba(4,10,8,.55); }
+.cp-ways{ position:relative; list-style:none; margin:0; padding:0; }
+.cp-ways::before{ content:""; position:absolute; left:21%; top:-4vh; bottom:-4vh; width:0; border-left:2px dashed rgba(240,181,122,.55); }
+.cp-way{ position:relative; display:grid; grid-template-columns:15% 1fr; column-gap:13%; align-items:center; min-height:52vh; }
+.cp-way::after{ content:""; position:absolute; left:21%; top:50%; width:14px; height:14px; margin:-7px 0 0 -6px; border-radius:50%;
+  background:var(--peach); box-shadow:0 0 0 5px rgba(240,181,122,.18); }
+.cp-way-km{ justify-self:end; font:300 clamp(34px,3.8vw,56px)/1 "Fraunces",serif; color:var(--peach); text-shadow:0 2px 18px rgba(4,10,8,.6); white-space:nowrap; }
+.cp-way-copy{ max-width:34rem; padding:28px 30px; border-radius:6px; background:rgba(8,18,14,.58); backdrop-filter:blur(6px); border:1px solid rgba(240,181,122,.16); }
+.cp-way-n{ font:600 11px "Archivo"; letter-spacing:.2em; text-transform:uppercase; color:#9fc0a8; }
+.cp-way-copy h3{ margin:8px 0 10px; font:400 clamp(28px,3vw,44px)/1.02 "Fraunces",serif; color:#f3f5ee; }
+.cp-way-copy p{ margin:0 0 14px; font:400 15px/1.65 "Archivo"; color:#c3d4c8; }
+.cp-way-mood{ display:block; font:300 italic 16px/1.5 "Fraunces",serif; color:var(--peach); }
 
-/* 08 · trust */
-.cp-trust{ display:grid; grid-template-columns:repeat(4,1fr); background:#0a170f; color:#dfe7df; border-top:1px solid #193527; }
-.cp-trust-cell{ padding:52px 30px; border-left:1px solid #193527; }
-.cp-trust-cell:first-child{ border-left:0; }
-.cp-trust-cell b{ display:block; font:300 clamp(44px,5vw,84px)/1 "Fraunces",serif; color:var(--peach); }
-.cp-trust-cell span{ display:block; margin-top:10px; font:400 13px "Archivo"; letter-spacing:.08em; color:#8fa898; }
+/* 07 · field notes — страница блокнота */
+.cp-notes{ display:grid; place-items:center; padding:16vh 6vw; }
+.cp-notebook{ position:relative; width:min(40rem,92vw); padding:44px 48px 36px 72px; transform:rotate(-1.4deg);
+  background:linear-gradient(90deg, transparent 52px, rgba(214,80,60,.35) 52px 53px, transparent 53px),
+    repeating-linear-gradient(180deg, #f2ecdc 0 33px, rgba(80,110,140,.22) 33px 34px); color:#23312a;
+  box-shadow:0 30px 60px rgba(0,0,0,.4); border-radius:3px; }
+.cp-notebook .cp-kicker{ color:#8a5a2a; margin-bottom:14px; }
+.cp-notebook ul{ list-style:none; margin:0; padding:0; }
+.cp-notebook li{ display:grid; grid-template-columns:4.2rem 1fr; align-items:baseline; min-height:68px; }
+.cp-notebook b{ font:300 italic 48px/1 "Fraunces",serif; color:#1f4a3d; }
+.cp-notebook li span{ font:400 italic 20px/1.3 "Fraunces",serif; color:#3a4a40; }
+.cp-notebook-sign{ display:block; margin-top:14px; text-align:right; font:300 italic 15px "Fraunces",serif; color:#6a6252; }
 
 /* 09 · deal */
-.cp-deal{ display:grid; place-items:center; padding:18vh 6vw; background:linear-gradient(180deg,#12281f,#0e2018); }
-.cp-deal-card{ width:min(46rem,92vw); text-align:center; padding:6vh 6vw; border:1px solid #24493a; border-radius:14px; background:#0e2018; }
+.cp-deal{ display:grid; place-items:center; padding:18vh 6vw; }
+.cp-deal-card{ width:min(46rem,92vw); text-align:center; padding:6vh 6vw; border:1px solid rgba(58,110,88,.5); border-radius:14px; background:rgba(10,24,18,.82); backdrop-filter:blur(8px); }
 .cp-price{ margin:18px 0 10px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
 .cp-price b{ font:300 clamp(52px,7vw,96px) "Fraunces",serif; color:#eef2ea; }
 .cp-price span{ font:400 15px "Archivo"; color:#a9c0b0; }
 .cp-deal-card p{ margin:0 auto 28px; max-width:38ch; font:400 15px/1.7 "Archivo"; color:#a9c0b0; }
-.cp-deal-note{ display:block; margin-top:18px; font:400 12px "Archivo"; letter-spacing:.06em; color:#6f8a78; }
+.cp-deal-note{ display:block; margin-top:18px; font:400 12px "Archivo"; letter-spacing:.06em; color:#7f9a88; }
+
+/* 10 · climax */
+.cp-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
+.cp-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 40%, rgba(14,32,24,.5), rgba(14,32,24,.9) 78%); }
+.cp-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
+.cp-climax-copy h2{ margin:0 0 34px; max-width:18ch; font:300 clamp(40px,6vw,96px)/1.02 "Fraunces",serif; color:#eef2ea; }
+.cp-climax-copy em{ font-style:italic; color:var(--peach); }
 
 .cp-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#0a170f; color:#8fa898; font:400 13px "Archivo"; }
-@media (max-width:820px){ .cp-steps-row,.cp-gallery-row,.cp-trust{ grid-template-columns:1fr 1fr; } }
 
-@media (max-width:820px){ .cp-feat{ grid-template-columns:1fr; } .cp-nav nav a:not(.cp-nav-cta){ display:none; } }
-@media (prefers-reduced-motion:reduce){ .cp-bg,.cp-mid,.cp-fg,.cp-wipe-out{ transform:none } .cp-wipe-in,.cp-wipe-out{ opacity:0 } .cp-fly{ animation:none } }
+@media (max-width:820px){
+  .cp-nav nav a:not(.cp-nav-cta){ display:none; }
+  .cp-steps-row{ grid-template-columns:1fr; }
+  .cp-trail-head{ margin-left:0; }
+  .cp-ways::before, .cp-way::after{ left:12%; }
+  .cp-way{ grid-template-columns:1fr; min-height:0; padding:4vh 0 4vh 20%; }
+  .cp-way-km{ justify-self:start; margin-bottom:10px; }
+  .cp-notebook{ padding:34px 24px 30px 60px; }
+}
+
+/* reel.css объявляет --rl-void/--rl-spark на самом .rl — переопределяем на нём (иначе шов pan/портала тёмный) */
+.cp .rl{ --rl-void:#dfe6de; --rl-spark:#ffd98a; }

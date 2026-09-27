@@ -39,26 +39,28 @@
 .fl-cover-hi h1{margin:8px 0 12px;font:700 clamp(40px,6vw,96px)/.9 "Cinzel Decorative",serif;text-transform:uppercase;letter-spacing:.03em;color:var(--bone)}
 .fl-cover-hi p{margin:0;max-width:34ch;font:400 15px/1.6 "Spectral",serif;color:var(--bone2)}
 
-/* ===== 1 · RITUAL HALO ===== */
-.fl-halo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 60% at 50% 42%,#241b17,#0f0c0b 76%)}
-.fl-halo-fig{z-index:2;display:grid;place-items:center}
-.fl-halo-fig .ps-media{width:auto;height:96vh;max-width:none;object-fit:contain;object-position:center}
-.fl-halo-ring{position:absolute;top:33%;left:50%;width:58vh;height:58vh;transform:translate(-50%,-50%);z-index:1;border-radius:50%;pointer-events:none;
-  background:conic-gradient(from 0deg,transparent 0 3deg,rgba(178,58,65,.85) 3deg 5deg,transparent 5deg 12deg);
-  -webkit-mask:radial-gradient(circle,transparent 44%,#000 46%,#000 50%,transparent 52%);mask:radial-gradient(circle,transparent 44%,#000 46%,#000 50%,transparent 52%);
-  animation:fl-spin 36s linear infinite;opacity:1;filter:drop-shadow(0 0 12px rgba(178,58,65,.5))}
-.fl-halo-ring::after{content:"";position:absolute;top:50%;left:50%;width:100%;height:100%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(230,221,204,.28)}
+/* ===== 1 · RITUAL HALO — iris из круга нимба; вырезка обложки остаётся в кадре (share=roderika) ===== */
+.fl-halo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(26% 38% at 50% 33%,rgba(178,58,65,.34),transparent 72%),radial-gradient(60% 64% at 50% 42%,#2a1f1a,#0f0c0b 78%)}
+.fl-halo-fig{z-index:2;display:block}
+/* fit/position/filter = как на обложке → призрак садится без скачка; камера на ~13% ближе */
+.fl-halo-fig .ps-media{position:absolute;left:50%;bottom:-13vh;width:auto;height:112vh;max-width:none;transform:translateX(-50%);object-fit:contain;object-position:bottom}
+.fl-halo-ring{position:absolute;top:33%;left:50%;width:62vh;height:62vh;transform:translate(-50%,-50%);z-index:1;border-radius:50%;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg,rgba(196,64,72,.92) 0deg 1.8deg,transparent 1.8deg 7.5deg);
+  -webkit-mask:radial-gradient(closest-side,transparent 89%,#000 90.5%,#000 95.5%,transparent 97%);mask:radial-gradient(closest-side,transparent 89%,#000 90.5%,#000 95.5%,transparent 97%);
+  animation:fl-spin 36s linear infinite;filter:drop-shadow(0 0 12px rgba(196,64,72,.7))}
+.fl-halo-ring::after{content:"";position:absolute;inset:6%;border-radius:50%;border:1px solid rgba(230,221,204,.32)}
 @keyframes fl-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.fl-halo-ring{animation:none}}
-.fl-halo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(15,12,11,.9),transparent 44%)}
-.fl-halo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
-.fl-halo-cap h2{margin:6px 0 10px;font:700 clamp(38px,6vw,88px)/.9 "Cinzel Decorative",serif;text-transform:uppercase;color:var(--bone)}
+.fl-halo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(15,12,11,.92),transparent 44%)}
+.fl-halo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 10vh}
+.fl-halo-cap h2{margin:6px 0 10px;font:700 clamp(38px,6vw,88px)/.9 "Cinzel Decorative",serif;text-transform:uppercase;color:var(--bone);text-shadow:0 4px 30px rgba(0,0,0,.7)}
 .fl-halo-cap p{margin:0;max-width:38ch;font:400 15px/1.6 "Spectral",serif;color:var(--bone2)}
 
 /* ===== 2 · ITEM INSPECTOR — тултип поверх full-bleed (ось иная) ===== */
 .fl-item-fig{z-index:1}
-.fl-item-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.05) brightness(.8)}
-.fl-item-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(60% 60% at 60% 50%,rgba(19,16,14,.4),rgba(15,12,11,.86))}
+.fl-item-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.08) brightness(1.06)}
+.fl-item-light{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(36% 46% at 70% 34%,rgba(232,168,96,.22),transparent 72%)}
+.fl-item-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(62% 64% at 62% 48%,rgba(19,16,14,.06),rgba(15,12,11,.74)),linear-gradient(90deg,rgba(15,12,11,.55),transparent 46%)}
 .fl-item-panel{position:absolute;top:50%;left:8vw;transform:translateY(-50%);z-index:6;width:min(42ch,80vw);background:rgba(15,12,11,.72);border:1px solid rgba(138,32,38,.5);box-shadow:0 0 0 1px rgba(197,181,160,.12),0 24px 60px rgba(0,0,0,.6);padding:24px 28px}
 .fl-item-rarity{font:400 11px "Share Tech Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--blood-hi)}
 .fl-item-panel h3{margin:8px 0 14px;font:700 clamp(30px,4vw,58px)/.95 "Cinzel Decorative",serif;text-transform:uppercase;color:var(--bone)}
@@ -68,18 +70,24 @@
 .fl-item-panel p{margin:0;font:italic 400 15px/1.6 "Spectral",serif;color:var(--bone2)}
 
 /* ===== 4 · CONSTELLATION — узлы-кадры на лор-карте (не сетка) ===== */
-.fl-const-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(80% 80% at 50% 46%,#181310,#0d0a09 82%)}
+.fl-const-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(46% 56% at 50% 50%,rgba(210,140,80,.16),transparent 70%),radial-gradient(80% 80% at 50% 46%,#2b2019 0%,#17120f 55%,#0d0a09 92%)}
+.fl-const-sigil{position:absolute;left:50%;top:52%;width:78vh;height:78vh;transform:translate(-50%,-50%);z-index:1;border-radius:50%;pointer-events:none;
+  border:1px solid rgba(178,58,65,.35);box-shadow:inset 0 0 0 26px rgba(0,0,0,0),inset 0 0 0 27px rgba(230,221,204,.08);opacity:calc(clamp(0,(var(--sp,1) - .15)*2,1))}
+.fl-const-sigil::after{content:"✠";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:400 22vh "Cinzel Decorative",serif;color:rgba(178,58,65,.1)}
 .fl-const-head{position:absolute;top:7vh;left:5vw;z-index:6}
 .fl-const-head b{display:block;font:700 clamp(26px,4.4vw,60px)/.9 "Cinzel Decorative",serif;text-transform:uppercase;color:var(--bone)}
 .fl-const-head span{font:400 11px "Share Tech Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--blood-hi)}
 .fl-const-web{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:calc(clamp(0,(var(--sp,1)-.2)*2,1))}
-.fl-line{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(138,32,38,.6),transparent);transform-origin:left center}
+.fl-line{position:absolute;height:1.5px;background:linear-gradient(90deg,transparent,rgba(178,58,65,.9),transparent);transform-origin:left center;box-shadow:0 0 8px rgba(178,58,65,.4)}
 .fl-line-1{left:24%;top:38%;width:30%;transform:rotate(24deg)}
 .fl-line-2{left:44%;top:52%;width:28%;transform:rotate(-32deg)}
 .fl-line-3{left:30%;top:60%;width:34%;transform:rotate(8deg)}
 .fl-node{position:absolute;margin:0;width:clamp(120px,15vw,220px);height:clamp(150px,20vw,280px);overflow:hidden;border:1px solid rgba(138,32,38,.5);box-shadow:0 20px 50px rgba(0,0,0,.6);z-index:3;
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:scale(calc(.9 + var(--r)*.1))}
 .fl-node img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.04) brightness(.92)}
+/* узел I — её вырезка (share=roderika): fit/position/filter = как у фигуры S4 и финала */
+.fl-node-1{background:radial-gradient(70% 60% at 50% 38%,#4a3226,#140e0c 80%)}
+.fl-node-1 img{object-fit:contain;object-position:bottom}
 .fl-node figcaption{position:absolute;left:0;bottom:0;right:0;padding:6px 9px;font:400 10px "Share Tech Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(13,10,9,.92),transparent)}
 .fl-node-1{--d:0;left:16%;top:26%}
 .fl-node-2{--d:.1;left:44%;top:16%}
@@ -87,37 +95,56 @@
 .fl-node-4{--d:.3;left:68%;top:40%}
 .fl-const-code{position:absolute;left:5vw;bottom:3vh;z-index:6;font:400 11px "Share Tech Mono",monospace;letter-spacing:.08em;color:var(--mut)}
 
-/* ===== 5 · SIGIL — геральдическая эмблема + девиз (не центр-слоган) ===== */
-.fl-sigil-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 70% at 50% 42%,#241b17,#0d0a09 76%)}
-.fl-sigil-emblem{position:absolute;top:26vh;left:50%;transform:translateX(-50%);z-index:2;width:clamp(120px,16vh,180px);height:clamp(120px,16vh,180px);display:grid;place-items:center}
-.fl-sigil-ring{position:absolute;inset:0;border:1px solid rgba(138,32,38,.6);border-radius:50%;box-shadow:0 0 0 8px rgba(138,32,38,.08),inset 0 0 30px rgba(138,32,38,.2)}
-.fl-sigil-mark{font:400 clamp(56px,8vh,90px) "Cinzel Decorative",serif;color:var(--blood-hi)}
-.fl-sigil-block{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-top:12vh}
-.fl-sigil-label{font:400 11px "Share Tech Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--blood-hi)}
-.fl-sigil-block h4{margin:14px 0 26px;font:700 clamp(30px,5vw,72px)/1 "Cinzel Decorative",serif;text-transform:uppercase;color:var(--bone);max-width:16ch}
-.fl-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--blood);color:var(--bone);font:600 14px "Spectral",serif;letter-spacing:.04em;text-decoration:none;transition:background .2s,transform .2s}
+/* ===== 5 · SIGIL — она под сигилом-нимбом у свечи (кольцовка с обложкой), самый тёплый/светлый кадр ===== */
+.fl-sigil-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(34% 58% at 38% 66%,rgba(236,166,92,.42) 0%,rgba(150,70,36,.22) 44%,transparent 72%),radial-gradient(90% 90% at 50% 50%,#33251c 0%,#1a1310 60%,#0d0a09 100%)}
+.fl-sigil-emblem{position:absolute;top:34vh;left:38%;transform:translate(-50%,-50%);z-index:2;width:36vh;height:36vh;display:grid;place-items:start center}
+.fl-sigil-ring{position:absolute;inset:0;border:1px solid rgba(214,150,90,.6);border-radius:50%;box-shadow:0 0 0 10px rgba(178,58,65,.08),0 0 60px rgba(236,166,92,.25),inset 0 0 40px rgba(236,166,92,.18)}
+.fl-sigil-mark{margin-top:-6vh;font:400 clamp(40px,6vh,64px) "Cinzel Decorative",serif;color:#e0a263;text-shadow:0 0 24px rgba(236,166,92,.6)}
+.fl-sigil-fig{position:absolute;left:38%;bottom:0;height:74vh;transform:translateX(-50%);z-index:3;pointer-events:none}
+.fl-sigil-fig img{height:100%;width:auto;display:block;object-fit:contain;object-position:bottom;filter:contrast(1.04) brightness(.92)}
+.fl-sigil-flame{position:absolute;left:62vw;top:22vh;z-index:5;width:16px;height:40px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 72%,#fff7dc 0%,#ffd57a 28%,#e8782c 58%,transparent 72%);box-shadow:0 0 70px 34px rgba(255,176,90,.2);animation:fl-flicker 2.6s ease-in-out infinite}
+@keyframes fl-flicker{0%,100%{transform:scale(1) rotate(-2deg)}40%{transform:scale(1.06,.94) rotate(2deg)}70%{transform:scale(.96,1.05) rotate(-1deg)}}
+@media(prefers-reduced-motion:reduce){.fl-sigil-flame{animation:none}}
+.fl-sigil-block{position:absolute;top:0;bottom:0;left:58vw;right:6vw;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;padding-top:8vh}
+.fl-sigil-label{font:400 11px "Share Tech Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#e0a263}
+.fl-sigil-block h4{margin:14px 0 26px;font:700 clamp(30px,4.2vw,64px)/1.02 "Cinzel Decorative",serif;text-transform:uppercase;color:#f2e8d8;max-width:14ch;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+.fl-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--blood);color:var(--bone);font:600 14px "Spectral",serif;letter-spacing:.04em;text-decoration:none;transition:background .2s,transform .2s;box-shadow:0 10px 30px rgba(178,58,65,.3)}
 .fl-btn:hover{background:var(--blood-hi);transform:translateY(-2px)}
 .fl-links{display:flex;gap:20px;margin-top:16px;font:400 12px "Share Tech Mono",monospace;letter-spacing:.06em;text-transform:uppercase}
-.fl-links a{color:var(--mut);text-decoration:none}.fl-links a:hover{color:var(--blood-hi)}
+.fl-links a{color:#b8a894;text-decoration:none}.fl-links a:hover{color:var(--blood-hi)}
 
-/* ===== 3 · TYPE GUILLOTINE ===== */
-.fl-guillo-fig{z-index:1}
-.fl-guillo-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:brightness(.62) contrast(1.05)}
-.fl-guillo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(15,12,11,.6),rgba(15,12,11,.25) 40%,rgba(15,12,11,.85))}
-.fl-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;font:900 clamp(52px,14vw,220px)/.86 "Cinzel Decorative",serif;text-transform:uppercase;letter-spacing:.02em;color:var(--bone);pointer-events:none}
+/* ===== 3 · TYPE GUILLOTINE — отъезд: она маленькая, уходит в тень под своим именем ===== */
+.fl-guillo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(22% 40% at 50% 70%,rgba(230,221,204,.08),transparent 70%),radial-gradient(60% 70% at 50% 58%,#221a16 0%,#120e0c 55%,#080605 100%)}
+.fl-guillo-type{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:14vh;font:900 clamp(52px,14vw,220px)/.86 "Cinzel Decorative",serif;text-transform:uppercase;letter-spacing:.02em;color:rgba(230,221,204,.9);pointer-events:none}
 .fl-guillo-stroke{color:transparent;-webkit-text-stroke:2px var(--blood-hi)}
-.fl-guillo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 10vh 4vw}
+.fl-guillo-fig{z-index:4;display:grid;place-items:end center;pointer-events:none}
+/* fit/position/filter = как у узла I кодекса → призрак без скачка */
+.fl-guillo-fig .ps-media{width:auto;height:56vh;max-width:none;object-fit:contain;object-position:bottom;filter:contrast(1.04) brightness(.92);transform:translateY(-5vh)}
+.fl-guillo-veil{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(0deg,rgba(8,6,5,.96) 0%,rgba(8,6,5,.6) 16%,transparent 36%),radial-gradient(90% 80% at 50% 55%,transparent 45%,rgba(8,6,5,.75))}
+.fl-guillo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 8vh 4vw}
 .fl-guillo-cap p{margin:0;max-width:40ch;font:400 15px/1.6 "Spectral",serif;color:var(--bone2)}
+
+/* ===== стыки сайта: iris из круга нимба; наезд с лица на руку; отъезд камеры ===== */
+.fl-site .stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*150%) at 50% 33%)}
+.fl-site .stage[data-trans="push"] .is-leaving:has(.fl-halo){transform-origin:57% 38%}
+.fl-site .stage[data-trans="push"] .is-entering:has(.fl-item){transform-origin:56% 44%}
+.fl-site .stage[data-trans="push"] .is-leaving:has(.fl-item){transform:scale(calc(1 - var(--ep)*.24));opacity:calc(1 - var(--ep)*1.1)}
 
 /* ===== мобилка ===== */
 @media(max-width:900px){
   .fl-cover-fig .ps-media,.fl-halo-fig .ps-media{height:82vh}
   .fl-wordmark span{font-size:22vw}
   .fl-hud-lm,.fl-hud-rm{top:38%;font-size:10px}.fl-hud-bar{font-size:9px}
-  .fl-halo-ring{width:52vh;height:52vh}
+  .fl-halo-ring{width:50vh;height:50vh}
   .fl-item-panel{left:5vw;right:5vw;width:auto}
   .fl-node{width:38vw;height:26vh}
   .fl-node-1{left:4%;top:24%}.fl-node-2{left:52%;top:18%}.fl-node-3{left:10%;top:56%}.fl-node-4{left:56%;top:52%}
   .fl-line{display:none}
+  .fl-sigil-block{left:6vw;right:6vw;top:auto;bottom:6vh;justify-content:flex-end}
   .fl-sigil-block h4{font-size:28px}
+  .fl-sigil-fig{left:50%;height:56vh;bottom:30vh}.fl-sigil-emblem{left:50%;top:22vh;width:26vh;height:26vh}.fl-sigil-flame{left:auto;right:10vw;top:16vh}
+  .fl-halo-fig .ps-media{height:92vh;bottom:-6vh}
+  .fl-guillo-fig .ps-media{height:44vh}
+  .fl-site .stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*160%) at 50% 30%)}
 }

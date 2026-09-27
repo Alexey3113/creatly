@@ -1,9 +1,10 @@
-/* MERIDIAN — neon-noir city across one night. Шрифты Bricolage Grotesque (display) × Space Grotesk (body/mono).
-   Палитра: warm brick / night blue / neon rose / neon cyan + rose CTA. Стили только .mr-* + копи в .rl-copy. */
+/* MERIDIAN — neon-noir city across one night. Шрифты Bricolage Grotesque (display) × Space Grotesk (body/mono) — FontLinks.
+   Палитра: warm brick / night blue / neon rose / neon cyan + rose CTA. Стили только .mr-* + копи в .rl-copy.
+   Сквозной актёр — неоновая вывеска .mr-sign (горит по --mr-on, двоится по --mr-dbl). */
 
-.mr{ --brick:#e08a4a; --night:#1a2740; --rose:#ff3d68; --cyan:#2fd4d4; --ink:#0b0f18; --paper:#f3ede4;
+.mr{ --brick:#e08a4a; --night:#1a2740; --rose:#ff3d68; --cyan:#2fd4d4; --ink:#0b0f18; --paper:#f3ede4; --mr-on:0; --mr-dbl:0;
   --rl-void:#0d1626; --rl-spark:#2fd4d4;
-  background:var(--night); color:var(--paper); font-family:"Space Grotesk",system-ui,sans-serif; }
+  isolation:isolate; background:var(--atm, var(--night)); color:var(--paper); font-family:"Space Grotesk",system-ui,sans-serif; }
 
 /* NAV — scrim so brand reads on the bright golden-hour hero too */
 .mr-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
@@ -15,103 +16,126 @@
 .mr-nav a{ color:rgba(243,237,228,.86); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.4); }
 .mr-nav-cta{ padding:10px 20px; border-radius:6px; background:var(--rose); color:#fff!important; text-shadow:none!important; font-weight:600; box-shadow:0 8px 22px rgba(255,61,104,.35); }
 
-/* HERO / SCENE COPY (inside engine's .rl-copy) */
-.mr-eyebrow,.mr-idx{ display:inline-flex; align-items:center; gap:10px; font:600 12px "Space Grotesk",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--cyan); }
-.mr-eyebrow::before,.mr-idx::before{ content:""; width:22px; height:1px; background:var(--cyan); opacity:.7; }
-.mr-light{ color:#cfe0ff; }
-.rl-copy h1{ margin:18px 0 20px; font:800 clamp(42px,6.8vw,98px)/1.02 "Bricolage Grotesque",system-ui,sans-serif; letter-spacing:-.02em; color:var(--paper); text-shadow:0 2px 22px rgba(0,0,0,.5); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:normal; color:var(--rose); text-shadow:0 0 24px rgba(255,61,104,.6); }
-.rl-copy h2{ margin:10px 0 16px; font:700 clamp(34px,5vw,72px)/1.04 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
-.rl-copy .mr-hl{ color:var(--paper); text-shadow:0 2px 26px rgba(0,0,0,.5); }
-.rl-copy p{ margin:0 0 28px; max-width:38ch; font:400 16px/1.7 "Space Grotesk",system-ui,sans-serif; color:#cdd7ea; text-shadow:0 1px 14px rgba(0,0,0,.5); }
-.rl-copy .mr-pl{ color:#cdd7ea; text-shadow:0 1px 18px rgba(0,0,0,.65); }
+/* HERO / SCENE COPY — без стеклянной панели: мягкий локальный скрим за копи + тень текста */
+.mr .rl-copy::before{ content:""; position:absolute; inset:-14vh -12vw -12vh -10vw; z-index:-1; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(6,9,18,.62), rgba(6,9,18,.32) 55%, transparent); }
+.mr .mr-eyebrow,.mr .mr-idx{ display:inline-flex; align-items:center; gap:10px; font:600 12px "Space Grotesk",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:var(--cyan); text-shadow:0 1px 10px rgba(0,0,0,.8); }
+.mr .mr-eyebrow::before,.mr .mr-idx::before{ content:""; width:22px; height:1px; background:var(--cyan); opacity:.7; }
+.mr .mr-light{ color:#cfe0ff; }
+.mr .rl-copy h1{ margin:18px 0 20px; font:800 clamp(40px,5.7vw,84px)/1.02 "Bricolage Grotesque",system-ui,sans-serif; letter-spacing:-.02em; color:var(--paper); text-shadow:0 2px 28px rgba(0,0,0,.6); }
+.mr .rl-copy h1 em,.mr .rl-copy h2 em{ font-style:normal; color:var(--rose); text-shadow:0 0 24px rgba(255,61,104,.6); }
+.mr .rl-copy h2{ margin:10px 0 16px; font:700 clamp(34px,5vw,72px)/1.04 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); text-shadow:0 2px 26px rgba(0,0,0,.6); }
+.mr .rl-copy .mr-hl{ color:var(--paper); }
+.mr .rl-copy p{ margin:0 0 28px; max-width:38ch; font:400 16px/1.7 "Space Grotesk",system-ui,sans-serif; color:#dde4f2; text-shadow:0 1px 14px rgba(0,0,0,.85), 0 0 2px rgba(0,0,0,.6); }
 .mr-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-.mr-btn{ padding:15px 30px; border-radius:6px; background:var(--rose); color:#fff; text-decoration:none; font:600 15px "Space Grotesk",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,61,104,.38); }
+.mr-btn{ display:inline-block; padding:15px 30px; border-radius:6px; background:var(--rose); color:#fff; text-decoration:none; font:600 15px "Space Grotesk",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,61,104,.38); }
 .mr-btn:active{ transform:translateY(1px); }
-.mr-ghost{ padding:15px 18px; color:var(--paper); text-decoration:none; font:600 15px "Space Grotesk",system-ui,sans-serif; border-bottom:1px solid rgba(243,237,228,.34); }
+.mr-ghost{ padding:15px 18px; color:var(--paper); text-decoration:none; font:600 15px "Space Grotesk",system-ui,sans-serif; border-bottom:1px solid rgba(243,237,228,.5); text-shadow:0 1px 10px rgba(0,0,0,.7); }
 
-/* frosted glass panel behind copy on LIGHT scenes (rooftops, dawncity) — reads like neon light through a window pane;
-   dark scenes (alley, rain) already carry light text straight on the illustration, no panel needed */
-.rl-scene:not(.rl-dark) .rl-copy{ padding:30px 34px 34px; border-radius:16px;
-  background:linear-gradient(155deg, rgba(9,14,26,.66), rgba(9,14,26,.44));
-  -webkit-backdrop-filter:blur(16px) saturate(1.15); backdrop-filter:blur(16px) saturate(1.15);
-  border:1px solid rgba(47,212,212,.26); box-shadow:0 26px 60px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05); }
+/* сцены рила */
+/* крыши: фигура на карнизе — в правую треть, ниже, на линию крыш */
+.mr .rl-scene[data-scene="rooftops"] .rl-mid img{ transform:translate(16%,14%) scale(.82); }
+.mr .rl-scene[data-scene="rooftops"] .rl-shadow{ left:75%; top:78%; }
+.mr .rl-scene[data-scene="rooftops"] .rl-fg img{ transform:translateY(21%); }
+.mr .rl-scene[data-scene="rooftops"] .rl-copy{ width:min(50rem,88vw); }
+/* переулок: верхняя полоса неба со швом тонет в ночи; копи уже — фигура справа от неё */
+.mr .rl-scene[data-scene="alley"] .rl-copy{ width:min(32rem,88vw); }
+.mr .rl-scene[data-scene="alley"] .rl-haze,
+.mr .rl-scene[data-scene="rain"] .rl-haze{ background:linear-gradient(180deg, rgba(5,8,18,.95) 0%, rgba(5,8,18,.9) 30%, rgba(5,8,18,.72) 37%, rgba(5,8,18,.4) 46%, transparent 58%, transparent 78%, rgba(3,5,12,.55) 100%); }
+/* ливень: гигантская фигура с зонтом — уменьшена и уведена вправо к переходу */
+.mr .rl-scene[data-scene="rain"] .rl-mid img{ transform:translate(24%,16%) scale(.56); }
+.mr .rl-scene[data-scene="rain"] .rl-shadow{ left:74%; top:81%; width:12vw; }
+.mr .rl-scene[data-scene="rain"] .rl-freeze{ right:auto; left:6vw; bottom:10vh; }
+/* рассвет: фигура уходит по проспекту справа, копи тёмная по персиковому небу */
+.mr .rl-scene[data-scene="dawncity"] .rl-mid img{ transform:translateX(22%); }
+.mr .rl-scene[data-scene="dawncity"] .rl-shadow{ left:72%; }
+.mr .rl-scene[data-scene="dawncity"] .rl-copy::before{ background:radial-gradient(closest-side, rgba(255,236,226,.55), rgba(255,236,226,.25) 55%, transparent); }
+.mr .rl-scene[data-scene="dawncity"] .rl-fg img{
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 60%, #000 74%, #000 84%, transparent 89%);
+          mask-image:linear-gradient(180deg, transparent 0, transparent 60%, #000 74%, #000 84%, transparent 89%); }
+.mr .rl-copy .mr-idx-dawn{ color:#8a2440; text-shadow:0 0 10px rgba(255,240,232,.9); }
+.mr .rl-copy .mr-idx-dawn::before{ background:#8a2440; }
+.mr .rl-copy .mr-dawn-h{ color:#141a2a; text-shadow:0 0 30px rgba(255,238,230,.9); }
+.mr .rl-copy .mr-dawn-p{ color:#1c2336; font-weight:500; text-shadow:0 0 14px rgba(255,240,234,.95), 0 0 3px rgba(255,240,234,.9); }
+/* стоп-кадр ливня — таймкод камеры наблюдения */
+.mr-freeze{ display:grid; gap:10px; }
+.mr-freeze b{ font:800 clamp(56px,7.4vw,112px)/.9 "Bricolage Grotesque",sans-serif; color:transparent; -webkit-text-stroke:2px var(--cyan); letter-spacing:-.02em;
+  text-shadow:0 0 30px rgba(47,212,212,.35); }
+.mr-freeze small{ margin-left:.2em; font-size:.32em; -webkit-text-stroke:1px var(--cyan); }
+.mr-freeze span{ font:600 11px "Space Grotesk",sans-serif; letter-spacing:.26em; text-transform:uppercase; color:var(--paper); text-shadow:0 1px 10px rgba(0,0,0,.9); }
+
+/* АКТЁР — неоновая вывеска на кронштейне у правого края кадра */
+.mr-sign{ position:relative; width:100%; }
+.mr-sign-arm{ position:absolute; left:92%; top:12%; width:120%; height:5px; border-radius:3px; background:#1b1f2b; box-shadow:0 2px 6px rgba(0,0,0,.6); }
+.mr-sign-arm::after{ content:""; position:absolute; right:0; top:-10px; width:5px; height:25px; border-radius:2px; background:#232838; }
+.mr-sign-blade{ position:relative; display:grid; justify-items:center; padding:1.4vh 0; border-radius:7px; background:linear-gradient(90deg,#10131c,#1c2130 50%,#10131c);
+  border:1px solid rgba(255,255,255,.07); box-shadow:0 14px 34px rgba(0,0,0,.55), inset 0 0 0 3px rgba(0,0,0,.4); }
+.mr-sign-blade::before{ content:""; position:absolute; inset:-60% -160%; z-index:-1; pointer-events:none; opacity:var(--mr-on);
+  background:radial-gradient(closest-side, rgba(255,61,104,.34), rgba(255,61,104,.1) 55%, transparent); }
+.mr-sign-off,.mr-sign-on{ grid-area:1 / 1; display:block; writing-mode:vertical-rl; text-orientation:upright; text-align:center;
+  font:800 3.25vh/1 "Bricolage Grotesque",system-ui,sans-serif; letter-spacing:.1em; }
+.mr-sign-off{ color:rgba(120,40,60,.35); -webkit-text-stroke:1.2px rgba(255,150,176,.42); }
+.mr-sign-on{ opacity:var(--mr-on); color:#ffe6ec;
+  text-shadow:0 0 2px #fff, 0 0 7px #ff3d68, 0 0 16px #ff3d68, 0 0 34px rgba(255,61,104,.85), 0 0 70px rgba(255,61,104,.5); }
+.mr-sign[data-flick="0"] .mr-sign-on{ animation:mr-flick-a .95s linear; }
+.mr-sign[data-flick="1"] .mr-sign-on{ animation:mr-flick-b .95s linear; }
+@keyframes mr-flick-a{ 0%{opacity:0} 8%{opacity:1} 14%{opacity:.12} 22%{opacity:1} 34%{opacity:.25} 40%{opacity:1} 62%{opacity:.7} 100%{opacity:var(--mr-on)} }
+@keyframes mr-flick-b{ 0%{opacity:0} 8%{opacity:1} 14%{opacity:.12} 22%{opacity:1} 34%{opacity:.25} 40%{opacity:1} 62%{opacity:.7} 100%{opacity:var(--mr-on)} }
+/* двойник в луже: перевёрнутое отражение у земли, рябь и полосы воды */
+.mr-sign-refl{ position:absolute; left:0; right:0; top:calc(100% + 17vh); display:grid; justify-items:center; padding:1.4vh 0; opacity:calc(var(--mr-dbl) * var(--mr-on) * .8);
+  transform:scaleY(-1); filter:blur(1.6px); pointer-events:none;
+  -webkit-mask-image:linear-gradient(0deg, #000 0, rgba(0,0,0,.6) 45%, transparent 90%), repeating-linear-gradient(180deg, #000 0 6px, rgba(0,0,0,.3) 6px 9px);
+          mask-image:linear-gradient(0deg, #000 0, rgba(0,0,0,.6) 45%, transparent 90%), repeating-linear-gradient(180deg, #000 0 6px, rgba(0,0,0,.3) 6px 9px);
+  -webkit-mask-composite:source-in; mask-composite:intersect; }
+.mr-sign-refl span{ display:block; writing-mode:vertical-rl; text-orientation:upright; text-align:center;
+  font:800 3.25vh/1 "Bricolage Grotesque",system-ui,sans-serif; letter-spacing:.1em; color:#ff9ab2;
+  text-shadow:0 0 10px #ff3d68, 0 0 26px rgba(255,61,104,.7); animation:mr-ripple 2.6s ease-in-out infinite alternate; }
+@keyframes mr-ripple{ from{ transform:skewX(-3deg) translateX(-2px) } to{ transform:skewX(3deg) translateX(2px) } }
 
 /* shared kicker */
 .mr-kick{ display:inline-flex; align-items:center; gap:10px; font:600 12px "Space Grotesk",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--rose); }
 .mr-kick::before{ content:""; width:22px; height:1px; background:var(--rose); opacity:.7; }
-.mr-link{ color:var(--rose); text-decoration:none; font:600 15px "Space Grotesk",system-ui,sans-serif; }
 
-/* BIG-TYPE — one giant claim, city as organism */
-.mr-big{ padding:18vh 8vw; background:linear-gradient(180deg,#0d1626,#0a1220); text-align:center; }
-.mr-big p{ margin:0 auto; max-width:20ch; font:700 clamp(32px,6vw,84px)/1.04 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); letter-spacing:-.01em; }
+/* BIG-TYPE — прозрачный, поверх золотого часа */
+.mr-big{ padding:26vh 8vw 20vh; background:transparent; text-align:center; }
+.mr-big p{ margin:0 auto; max-width:20ch; font:700 clamp(32px,6vw,84px)/1.04 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); letter-spacing:-.01em; text-shadow:0 3px 40px rgba(10,8,14,.7); }
 .mr-big em{ font-style:normal; color:var(--rose); text-shadow:0 0 30px rgba(255,61,104,.45); }
 
-/* MARQUEE — running strip, the sign's own words */
-.mr-marquee{ overflow:hidden; padding:22px 0; background:var(--rose); border-top:1px solid rgba(0,0,0,.15); border-bottom:1px solid rgba(0,0,0,.15); }
-.mr-marquee-track{ display:flex; gap:3rem; white-space:nowrap; width:max-content; animation:mr-scroll 26s linear infinite; }
-.mr-marquee span{ font:700 18px "Bricolage Grotesque",system-ui,sans-serif; letter-spacing:.04em; text-transform:uppercase; color:#1a0610; }
-.mr-marquee span em{ font-style:normal; opacity:.55; margin:0 .6em; }
-@keyframes mr-scroll{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+/* HOURS — секции по часам ночи, плита мира меняется под ними */
+.mr-hours{ background:transparent; }
+.mr-hour{ display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); align-items:center; gap:4vw; min-height:100vh; padding:12vh 12vw 12vh 6vw; }
+.mr-hour-time{ display:flex; align-items:flex-start; gap:.6vw; }
+.mr-hour-time b{ font:800 clamp(92px,14vw,228px)/.82 "Bricolage Grotesque",system-ui,sans-serif; letter-spacing:-.04em; color:transparent;
+  -webkit-text-stroke:2px rgba(243,237,228,.9); text-shadow:0 0 50px rgba(10,8,14,.5); font-variant-numeric:tabular-nums; }
+.mr-hour-time span{ margin-top:1.2vw; font:700 clamp(18px,1.8vw,28px) "Space Grotesk",sans-serif; letter-spacing:.1em; color:var(--rose); }
+.mr-hour:nth-child(2) .mr-hour-time b{ -webkit-text-stroke-color:var(--rose); text-shadow:0 0 30px rgba(255,61,104,.45); }
+.mr-hour:nth-child(3) .mr-hour-time b{ -webkit-text-stroke-color:var(--cyan); text-shadow:0 0 30px rgba(47,212,212,.4); }
+.mr-hour:nth-child(4) .mr-hour-time b{ color:rgba(255,226,214,.12); -webkit-text-stroke-color:#ffd9c8; }
+.mr-hour-copy{ padding:4vh 2.6vw; border-left:2px solid var(--rose); background:linear-gradient(90deg, rgba(8,11,20,.72), rgba(8,11,20,.3)); }
+.mr-hour-copy h2{ margin:14px 0 14px; font:700 clamp(30px,3.6vw,54px)/1.04 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
+.mr-hour-copy p{ margin:0; max-width:40ch; font:400 16px/1.75 "Space Grotesk",system-ui,sans-serif; color:#d3dbea; }
 
-/* GALLERY GRID — SIGNATURE: four city-moods, s1..s4 bg tiles */
-.mr-gallery{ padding:16vh 6vw 14vh; background:#0a1220; }
-.mr-gallery-head{ max-width:52rem; margin:0 0 7vh; }
-.mr-gallery-head h2{ margin:12px 0 0; font:700 clamp(32px,5vw,68px)/1.04 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
-.mr-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw; }
-.mr-tile{ position:relative; aspect-ratio:3/4; border-radius:10px; overflow:hidden; background-size:cover; background-position:50% 46%;
-  box-shadow:0 20px 50px rgba(0,0,0,.45); }
-.mr-tile::before{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,18,32,0) 40%, rgba(6,9,16,.92) 100%); }
-.mr-tile-copy{ position:absolute; left:0; right:0; bottom:0; padding:22px; z-index:2; }
-.mr-tile-num{ display:block; font:600 12px "Space Grotesk",system-ui,sans-serif; letter-spacing:.18em; color:var(--cyan); margin-bottom:8px; }
-.mr-tile-copy h3{ margin:0 0 6px; font:700 22px "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
-.mr-tile-copy p{ margin:0; font:400 13px/1.5 "Space Grotesk",system-ui,sans-serif; color:#c8d0e0; }
-.mr-tile:hover{ outline:1px solid rgba(47,212,212,.4); }
-
-/* PROCESS — how the night moves, horizontal steps */
-.mr-process{ padding:16vh 6vw; background:#0f1a2e; }
-.mr-process-head{ max-width:44rem; margin:0 0 8vh; }
-.mr-process-head h2{ margin:12px 0 0; font:700 clamp(30px,4.6vw,58px)/1.06 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
-.mr-steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; counter-reset:mr; }
-.mr-step{ border-top:1px solid rgba(47,212,212,.25); padding-top:22px; }
-.mr-step b{ display:block; font:700 clamp(30px,3vw,42px) "Bricolage Grotesque",system-ui,sans-serif; color:var(--rose); margin-bottom:14px; }
-.mr-step h3{ margin:0 0 10px; font:600 18px "Space Grotesk",system-ui,sans-serif; color:var(--paper); }
-.mr-step p{ margin:0; font:400 14px/1.6 "Space Grotesk",system-ui,sans-serif; color:#a9b6cf; max-width:26ch; }
-
-/* SPLIT — showcase frame + text */
-.mr-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:78vh; background:#0d1626; }
-.mr-split-media{ background-size:cover; background-position:50% 46%; position:relative; }
-.mr-split-media::after{ content:""; position:absolute; inset:0; box-shadow:inset 0 0 120px rgba(0,0,0,.5); }
-.mr-split-copy{ align-self:center; padding:10vh 6vw; }
-.mr-split-copy h2{ margin:14px 0 18px; font:700 clamp(28px,3.6vw,52px)/1.06 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
-.mr-split-copy p{ margin:0 0 24px; max-width:42ch; font:400 16px/1.75 "Space Grotesk",system-ui,sans-serif; color:#a9b6cf; }
-
-/* STATS */
-.mr-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:#070d18; border-top:1px solid rgba(47,212,212,.18); }
-.mr-stat{ padding:56px 30px; border-left:1px solid rgba(47,212,212,.18); }
-.mr-stat:first-child{ border-left:0; }
-.mr-stat b{ display:block; font:700 clamp(42px,5.2vw,80px)/1 "Bricolage Grotesque",system-ui,sans-serif; color:var(--cyan); }
-.mr-stat span{ display:block; margin-top:10px; font:500 13px "Space Grotesk",system-ui,sans-serif; letter-spacing:.05em; color:#7c8bab; }
-
-/* QUOTE */
-.mr-quote{ padding:20vh 10vw; text-align:center; background:linear-gradient(180deg,#0a1220,#0d1626); }
-.mr-quote blockquote{ margin:0 auto; max-width:26ch; font:700 clamp(26px,3.8vw,50px)/1.22 "Bricolage Grotesque",system-ui,sans-serif; color:#eef1f8; }
-.mr-quote em{ font-style:normal; color:var(--rose); }
-.mr-quote cite{ display:block; margin-top:32px; font:500 13px "Space Grotesk",system-ui,sans-serif; letter-spacing:.08em; font-style:normal; color:#7c8bab; }
-
-/* DEAL */
-.mr-deal{ display:grid; place-items:center; padding:18vh 6vw; background:#0d1626; }
-.mr-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(47,212,212,.22); border-radius:14px; background:#0a1220; }
-.mr-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
-.mr-price b{ font:700 clamp(48px,6.6vw,88px) "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
-.mr-price span{ font:500 15px "Space Grotesk",system-ui,sans-serif; color:#7c8bab; }
-.mr-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Space Grotesk",system-ui,sans-serif; color:#a9b6cf; }
-.mr-note{ display:block; margin-top:18px; font:500 12px "Space Grotesk",system-ui,sans-serif; letter-spacing:.06em; color:#5c6a8a; }
+/* DEAL — чек ночного дайнера */
+.mr-deal{ display:grid; place-items:center; padding:20vh 6vw; background:transparent; }
+.mr-deal-card{ width:min(30rem,90vw); padding:6vh 2.6rem 7vh; text-align:left; color:#1a1c24; transform:rotate(-1.4deg);
+  background:linear-gradient(180deg, #f6f1e8, #ece4d6); box-shadow:0 40px 90px rgba(0,0,0,.55);
+  -webkit-mask:radial-gradient(10px 8px at 50% 100%, transparent 96%, #000 100%) 0 100% / 22px 12px repeat-x, linear-gradient(#000,#000) 0 0 / 100% calc(100% - 11px) no-repeat;
+          mask:radial-gradient(10px 8px at 50% 100%, transparent 96%, #000 100%) 0 100% / 22px 12px repeat-x, linear-gradient(#000,#000) 0 0 / 100% calc(100% - 11px) no-repeat; }
+.mr-deal-card .mr-kick{ color:#b0203e; }
+.mr-deal-card .mr-kick::before{ background:#b0203e; }
+.mr-receipt{ list-style:none; margin:3vh 0 2vh; padding:1.6vh 0; border-top:1px dashed rgba(26,28,36,.4); border-bottom:1px dashed rgba(26,28,36,.4); }
+.mr-receipt li{ display:flex; justify-content:space-between; gap:12px; padding:7px 0; font:500 14px "Space Grotesk",sans-serif; letter-spacing:.02em; }
+.mr-receipt b{ font-weight:700; font-variant-numeric:tabular-nums; }
+.mr-price{ margin:2vh 0 3vh; display:flex; gap:12px; align-items:baseline; }
+.mr-price b{ font:800 clamp(52px,6vw,80px)/1 "Bricolage Grotesque",system-ui,sans-serif; color:#12141c; letter-spacing:-.02em; }
+.mr-price span{ font:500 14px "Space Grotesk",sans-serif; color:#5a5e6c; }
+.mr-deal-card .mr-btn{ display:block; text-align:center; }
+.mr-note{ display:block; margin-top:18px; font:500 12px "Space Grotesk",sans-serif; letter-spacing:.06em; color:#6a6e7c; text-align:center; }
 
 /* CLIMAX */
 .mr-climax{ position:relative; min-height:82vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 50%; }
 .mr-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 42%, rgba(8,12,22,.42), rgba(6,9,16,.92) 78%); }
-.mr-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
+.mr-climax-copy{ position:relative; z-index:2; padding:0 12vw; }
 .mr-climax-copy h2{ margin:0 0 34px; font:700 clamp(38px,5.6vw,90px)/1.04 "Bricolage Grotesque",system-ui,sans-serif; color:var(--paper); }
 .mr-climax-copy em{ font-style:normal; color:var(--rose); text-shadow:0 0 30px rgba(255,61,104,.5); }
 
@@ -119,14 +143,17 @@
 .mr-foot{ display:flex; justify-content:space-between; align-items:center; padding:40px 6vw; background:#070d18; color:#5c6a8a; font:500 13px "Space Grotesk",system-ui,sans-serif; }
 .mr-foot .mr-brand{ color:#a9b6cf; }
 
+/* Backdrop: переулок и ливень — ночью */
+.mr-bd .sk-bd-plate:nth-child(3), .mr-bd .sk-bd-plate:nth-child(4), .mr-bd .sk-bd-plate:nth-child(6){ filter:brightness(.7) saturate(1.1); }
+
 @media (max-width:820px){
   .mr-nav nav a:not(.mr-nav-cta){ display:none; }
-  .mr-grid{ grid-template-columns:1fr 1fr; }
-  .mr-steps{ grid-template-columns:1fr 1fr; }
-  .mr-split{ grid-template-columns:1fr; } .mr-split-media{ min-height:50vh; }
-  .mr-stats{ grid-template-columns:1fr 1fr; }
+  .mr-hour{ grid-template-columns:1fr; padding:12vh 16vw 12vh 6vw; }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .mr-marquee-track{ animation:none; }
+  .mr-sign-on, .mr-sign-refl span{ animation:none !important; }
 }
+
+/* обход бага scene-kit: Backdrop снимает inline visibility, а .sk-backdrop в scene-kit.css скрыт — показываем плиту сами (inline "hidden" до лендинга остаётся) */
+.mr .sk-backdrop{ visibility:visible; }

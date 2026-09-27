@@ -1,113 +1,164 @@
-/* BLOOMHOUSE — Victorian glasshouse мир. Шрифты Newsreader (display, editorial serif) × Karla (body, sans).
-   Палитра: emerald / blush / glass-white / brass + rose CTA. Стили только .bh-* + копи в .rl-copy. */
+/* BLOOMHOUSE — Victorian glasshouse мир. Шрифты Newsreader (display) × Karla (body) — через FontLinks.
+   Палитра: emerald / blush / glass-white / brass + rose CTA. Стили только .bh-* и копи внутри .bh .rl-copy. */
 
-.bh{ --emerald:#1f5a3a; --emerald-deep:#123c26; --blush:#e8a9b8; --glass:#eef2ea; --brass:#c8963c; --rose:#ff8fae; --ink:#17301f;
-  --rl-void:#123c26; --rl-spark:#f3d3dd;
-  background:var(--glass); color:var(--ink); font-family:"Karla",system-ui,sans-serif; }
+.bh{ --emerald:#1f5a3a; --emerald-deep:#123c26; --iron:#22382b; --blush:#e8a9b8; --glass:#eef2ea; --brass:#c8963c; --rose:#ff8fae; --ink:#17301f;
+  --rl-void:#dfe7dc; --rl-spark:#f3d3dd;
+  isolation:isolate; background:var(--atm, var(--glass)); color:var(--ink); font-family:"Karla",system-ui,sans-serif; }
 
-/* NAV — скрим сверху для контраста на светлом герое */
-.bh-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw; }
-.bh-nav::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(10,28,18,.40), rgba(10,28,18,0)); }
-.bh-brand{ font:600 20px "Karla"; letter-spacing:.26em; color:var(--glass); text-shadow:0 1px 10px rgba(0,0,0,.4); }
-.bh-nav nav{ display:flex; gap:26px; align-items:center; font:600 13px "Karla"; letter-spacing:.03em; }
-.bh-nav a{ color:rgba(238,242,234,.88); text-decoration:none; text-shadow:0 1px 8px rgba(0,0,0,.35); }
+/* NAV */
+.bh-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw 20px 9vw; }
+.bh-nav::before{ content:""; position:absolute; inset:0 0 -40% 0; z-index:-1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(246,248,242,.86), rgba(246,248,242,.5) 55%, rgba(246,248,242,0)); }
+.bh-brand{ font:700 20px "Karla",system-ui,sans-serif; letter-spacing:.26em; color:var(--emerald-deep); }
+.bh-nav nav{ display:flex; gap:26px; align-items:center; font:600 13px "Karla",system-ui,sans-serif; letter-spacing:.03em; }
+.bh-nav a{ color:var(--emerald-deep); text-decoration:none; font-weight:700; }
 .bh-nav-cta{ padding:9px 20px; border-radius:999px; background:var(--rose); color:#2b0f18!important; text-shadow:none!important; font-weight:700; }
 
-/* HERO — стеклянная панель (мотив оранжереи) под копи первой сцены: подложка густой листвы иначе съедает текст */
-.bh-hero{ position:relative; padding:30px 34px 32px 30px; margin:-30px 0 0 -30px; border-radius:20px;
-  background:linear-gradient(160deg, rgba(238,242,234,.62), rgba(238,242,234,.26));
-  -webkit-backdrop-filter:blur(16px) saturate(1.08); backdrop-filter:blur(16px) saturate(1.08);
-  border:1px solid rgba(255,255,255,.4); box-shadow:0 30px 70px rgba(18,60,38,.12), inset 0 1px 0 rgba(255,255,255,.55); }
-
-/* HERO / SCENE COPY (внутри .rl-copy движка) */
-.bh-eyebrow,.bh-idx{ font:600 12px "Karla"; letter-spacing:.22em; text-transform:uppercase; color:var(--brass); }
+/* ── РИЛ: копи прямо на стекле, без панели; контраст — светлый ореол текста ─────────── */
+.bh .rl-copy{ left:10vw; }
+.bh-eyebrow,.bh-idx{ font:600 12px "Karla",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:#8a5f18; text-shadow:0 0 14px rgba(246,248,242,.95); }
 .bh-idx{ letter-spacing:.15em; }
-.rl-copy h1{ margin:16px 0 20px; font:400 clamp(52px,8.4vw,120px)/.96 "Newsreader",serif; letter-spacing:-.01em; color:var(--emerald-deep);
-  text-shadow:0 2px 30px rgba(238,242,234,.55); }
-.rl-copy h1 em,.rl-copy h2 em{ font-style:italic; color:var(--emerald); }
-.rl-copy h2{ margin:10px 0 16px; font:400 clamp(40px,6.4vw,92px)/1 "Newsreader",serif; color:var(--emerald-deep); text-shadow:0 2px 26px rgba(238,242,234,.5); }
-.rl-copy p{ margin:0 0 26px; max-width:40ch; font:400 16px/1.7 "Karla"; color:#25402c; text-shadow:0 1px 16px rgba(238,242,234,.6); }
+.bh .rl-copy h1{ margin:16px 0 20px; font:400 clamp(52px,8.4vw,120px)/.96 "Newsreader",serif; letter-spacing:-.01em; color:var(--emerald-deep);
+  text-shadow:0 0 30px rgba(246,248,242,.9), 0 0 60px rgba(246,248,242,.6); }
+.bh .rl-copy h1 em,.bh .rl-copy h2 em{ font-style:italic; color:var(--emerald); }
+.bh .rl-copy h2{ margin:10px 0 16px; font:400 clamp(40px,6.4vw,92px)/1 "Newsreader",serif; color:var(--emerald-deep); text-shadow:0 0 28px rgba(246,248,242,.9), 0 0 56px rgba(246,248,242,.55); }
+.bh .rl-copy p{ margin:0 0 26px; max-width:40ch; font:500 16px/1.7 "Karla",system-ui,sans-serif; color:#1d3a27; text-shadow:0 0 12px rgba(246,248,242,.95), 0 0 24px rgba(246,248,242,.8); }
 .bh-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-.bh-btn{ padding:15px 30px; border-radius:999px; background:var(--rose); color:#2b0f18; text-decoration:none; font:700 15px "Karla"; box-shadow:0 14px 34px rgba(255,143,174,.38); transition:transform .15s ease; }
+.bh-btn{ display:inline-block; padding:15px 30px; border-radius:999px; background:var(--rose); color:#2b0f18; text-decoration:none; font:700 15px "Karla",system-ui,sans-serif; box-shadow:0 14px 34px rgba(255,143,174,.38); transition:transform .15s ease; }
 .bh-btn:active{ transform:translateY(2px); }
-.bh-ghost{ padding:15px 20px; color:var(--emerald-deep); text-decoration:none; font:600 15px "Karla"; border-bottom:1px solid rgba(18,60,38,.32); }
+.bh-ghost{ padding:14px 24px; border-radius:999px; color:var(--emerald-deep); text-decoration:none; font:700 15px "Karla",system-ui,sans-serif; background:rgba(246,248,242,.8); border:1px solid rgba(18,60,38,.22); }
+/* подсказка скролла — тёмная на светлом стекле (была белым по белому) */
+.bh .rl-cue{ left:10vw; color:#f6f8f2; text-shadow:0 1px 10px rgba(10,28,18,.85), 0 0 2px rgba(10,28,18,.6); }
 
-/* общий kicker */
-.bh-kick{ display:block; font:600 12px "Karla"; letter-spacing:.2em; text-transform:uppercase; color:var(--brass); }
-.bh-link{ color:var(--emerald); text-decoration:none; font:600 15px "Karla"; border-bottom:1px solid rgba(31,90,58,.35); }
+/* акварель на белой бумаге: белое уходит в multiply, плашек нет */
+.bh .rl-fg, .bh .rl-mid{ mix-blend-mode:multiply; }
+.bh .rl-shadow{ display:none; }
+/* мост над прудом: из пятна-вырезки оставляем только мост с фигурой */
+.bh [data-scene="lilypond"] .rl-mid img{
+  -webkit-mask-image:radial-gradient(30% 26% at 48% 66%, #000 58%, transparent 100%);
+          mask-image:radial-gradient(30% 26% at 48% 66%, #000 58%, transparent 100%);
+  -webkit-mask-composite:source-over; mask-composite:add; translate:8vw 3vh; }
+.bh [data-scene="dome"] .rl-mid img{ translate:12vw 0; scale:.92; }
+/* дуга света по залам: утренний туман → тёплые орхидеи → зелёная тень пруда → небо купола */
+.bh [data-scene="entry"] .rl-haze{ background:radial-gradient(90% 60% at 30% 8%, rgba(255,253,240,.5), transparent 60%), linear-gradient(180deg, transparent 55%, rgba(40,70,50,.22) 100%); }
+.bh [data-scene="orchids"] .rl-haze{ background:radial-gradient(80% 70% at 82% 12%, rgba(255,226,200,.55), transparent 62%), linear-gradient(180deg, rgba(255,236,226,.2), transparent 40%, rgba(90,40,50,.16) 100%); }
+.bh [data-scene="lilypond"] .rl-haze{ background:linear-gradient(180deg, rgba(240,246,240,.25) 0, transparent 30%, rgba(18,60,38,.3) 100%); }
+.bh [data-scene="dome"] .rl-haze{ background:radial-gradient(70% 60% at 50% 0%, rgba(255,255,244,.75), transparent 70%); }
+.bh [data-scene="orchids"] .rl-copy{ left:auto; right:6vw; width:min(34rem,88vw); }
+.bh [data-scene="dome"] .rl-freeze{ right:auto; left:10vw; bottom:10vh; }
+/* стоп-кадр под куполом */
+.bh-freeze{ display:grid; gap:6px; color:var(--emerald-deep); text-shadow:0 0 26px rgba(250,251,246,.95); }
+.bh-freeze b{ font:400 clamp(64px,8vw,124px)/.9 "Newsreader",serif; font-style:italic; }
+.bh-freeze span{ font:700 11px "Karla",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:#8a5f18; }
+
+/* ── АКТЁР: кованая лоза ─────────────────────────────────────────────────────────── */
+.bh-vine{ display:block; width:100%; height:auto; overflow:visible; }
+.bh-vine-stem, .bh-vine-curl{ fill:none; stroke:var(--iron); stroke-width:3; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:0; }
+.bh-vine-curl{ stroke-width:2; }
+.bh-leaf{ fill:#2f6a44; stroke:var(--iron); stroke-width:.8; }
+.bh-flower circle{ fill:var(--blush); stroke:#b0707e; stroke-width:.8; }
+.bh-flower .bh-flower-c{ fill:var(--brass); stroke:none; }
+@supports (animation-timeline: scroll()){
+  .bh-vine-stem{ animation:bh-grow linear both; animation-timeline:scroll(root); animation-range:0% 36%; }
+  .bh-vine-curl{ animation:bh-curl linear both; animation-timeline:scroll(root); animation-range:9% 13%; }
+  .bh-vine-curl-2{ animation-range:20% 24%; }
+  .bh-leaf{ animation:bh-leaf linear both; animation-timeline:scroll(root); animation-range:var(--g) calc(var(--g) + 3%); }
+  .bh-leaf-on{ animation:none; }
+  .bh-flower{ animation:bh-bloom linear both; animation-timeline:scroll(root); }
+  .bh-flower-1{ animation-range:44% 48%; } .bh-flower-2{ animation-range:54% 58%; }
+  .bh-flower-3{ animation-range:64% 68%; } .bh-flower-4{ animation-range:74% 78%; }
+}
+@keyframes bh-grow{ from{ stroke-dashoffset:.86 } to{ stroke-dashoffset:0 } }
+@keyframes bh-curl{ from{ stroke-dashoffset:1 } to{ stroke-dashoffset:0 } }
+@keyframes bh-leaf{ from{ opacity:0 } to{ opacity:1 } }
+@keyframes bh-bloom{ from{ opacity:0 } to{ opacity:1 } }
+
+/* ── ЛЕНДИНГ: залы просвечивают сквозь светлую вуаль (Backdrop + --atm) ─────────────── */
+.bh-kick{ display:block; font:600 12px "Karla",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#8a5f18; }
+.bh-link{ color:var(--emerald); text-decoration:none; font:600 15px "Karla",system-ui,sans-serif; border-bottom:1px solid rgba(31,90,58,.35); }
 
 /* MANIFESTO */
-.bh-manifest{ padding:19vh 8vw; background:linear-gradient(180deg,var(--glass),#e4ece2); }
-.bh-manifest p{ margin:0 auto; max-width:24ch; text-align:center; font:400 clamp(28px,4.4vw,60px)/1.16 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-manifest{ padding:24vh 8vw 19vh 12vw; background:transparent; }
+.bh-manifest p{ margin:0 auto; max-width:24ch; text-align:center; font:400 clamp(28px,4.4vw,60px)/1.16 "Newsreader",serif; color:var(--emerald-deep); text-shadow:0 0 30px rgba(246,248,242,.8); }
 .bh-manifest em{ font-style:italic; color:var(--emerald); }
 
-/* STEPS — SIGNATURE: горизонтальный ряд */
-.bh-steps{ padding:14vh 8vw 16vh; background:#e4ece2; }
-.bh-steps-head h2{ margin:12px 0 0; max-width:20ch; font:400 clamp(30px,4.4vw,58px)/1.08 "Newsreader",serif; color:var(--emerald-deep); }
-.bh-steps-row{ list-style:none; margin:9vh 0 0; padding:0; display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
-.bh-step{ position:relative; padding:0 3vw 0 0; border-left:1px solid rgba(31,90,58,.22); padding-left:2vw; }
-.bh-step:first-child{ border-left:0; padding-left:0; }
-.bh-step-arch{ display:block; height:34px; margin-bottom:22px; border:1px solid var(--brass); border-bottom:0; border-radius:60px 60px 0 0; opacity:.55; }
-.bh-step-n{ display:block; font:400 15px "Newsreader",serif; font-style:italic; color:var(--brass); margin-bottom:10px; }
-.bh-step h3{ margin:0 0 10px; font:500 22px "Newsreader",serif; color:var(--emerald-deep); }
-.bh-step p{ margin:0; max-width:30ch; font:400 14.5px/1.65 "Karla"; color:#3c5747; }
-
-/* GALLERY — четыре залы */
-.bh-gallery{ padding:14vh 8vw 16vh; background:var(--glass); }
-.bh-gallery-head h2{ margin:12px 0 0; max-width:18ch; font:400 clamp(30px,4.4vw,58px)/1.08 "Newsreader",serif; color:var(--emerald-deep); }
-.bh-gallery-row{ margin-top:8vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.4vw; }
-.bh-tile{ position:relative; display:block; aspect-ratio:3/4.2; border-radius:14px; overflow:hidden; background-size:cover; background-position:50% 40%; text-decoration:none; }
-.bh-tile-veil{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(18,60,38,.06) 0%, rgba(12,32,20,.2) 55%, rgba(10,24,15,.82) 100%); }
-.bh-tile-n{ position:relative; display:block; margin:20px 0 0 20px; font:400 15px "Newsreader",serif; font-style:italic; color:var(--blush); }
-.bh-tile h3{ position:relative; margin:0 20px 6px; font:500 22px "Newsreader",serif; color:var(--glass); }
-.bh-tile p{ position:relative; margin:0 20px 20px; max-width:22ch; font:400 13px/1.55 "Karla"; color:rgba(238,242,234,.82); }
+/* CLIMB — шкала высоты */
+.bh-climb{ padding:12vh 8vw 10vh 12vw; background:transparent; }
+.bh-climb-head h2{ margin:12px 0 0; max-width:18ch; font:400 clamp(30px,4.4vw,58px)/1.08 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-halls{ position:relative; list-style:none; margin:8vh 0 0; padding:0 0 0 12vw; }
+.bh-halls::before{ content:""; position:absolute; left:8.6vw; top:0; bottom:0; width:2px;
+  background:repeating-linear-gradient(180deg, var(--brass) 0 14px, transparent 14px 22px); opacity:.7; }
+.bh-hall{ position:relative; min-height:62vh; display:flex; align-items:center; }
+.bh-height{ position:absolute; left:-12vw; width:8vw; text-align:right; font:400 clamp(30px,3.4vw,52px)/1 "Newsreader",serif; font-style:italic; color:var(--brass); }
+.bh-height::after{ content:""; position:absolute; right:-1.35vw; top:50%; width:13px; height:13px; margin-top:-6.5px; border-radius:50%; background:var(--glass); border:2px solid var(--brass); }
+.bh-hall-copy{ max-width:38rem; padding:38px 44px 40px; border-radius:120px 120px 14px 14px / 90px 90px 14px 14px;
+  background:rgba(246,248,242,.82); border:1px solid rgba(200,150,60,.45); backdrop-filter:blur(8px); box-shadow:0 20px 50px rgba(18,60,38,.12); }
+.bh-hall-verb{ display:block; font:400 16px "Newsreader",serif; font-style:italic; color:var(--brass); text-align:center; }
+.bh-hall-copy h3{ margin:6px 0 12px; font:500 clamp(26px,2.6vw,38px) "Newsreader",serif; color:var(--emerald-deep); text-align:center; }
+.bh-hall-copy p{ margin:0; font:400 16px/1.7 "Karla",system-ui,sans-serif; color:#33513f; text-align:center; }
 
 /* SPLIT */
-.bh-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:76vh; background:var(--glass); }
-.bh-split-media{ background-size:cover; background-position:50% 42%; order:2; }
-.bh-split-copy{ align-self:center; padding:10vh 6vw; }
+.bh-split{ display:grid; grid-template-columns:1fr 1.05fr; min-height:76vh; background:rgba(238,242,234,.82); }
+.bh-split-media{ background-size:cover; background-position:50% 42%; order:2; border-radius:50% 50% 0 0 / 22% 22% 0 0; margin:6vh 6vw 0 0; }
+.bh-split-copy{ align-self:center; padding:10vh 6vw 10vh 12vw; }
 .bh-split-copy h2{ margin:14px 0 18px; max-width:16ch; font:400 clamp(30px,3.6vw,52px)/1.08 "Newsreader",serif; color:var(--emerald-deep); }
-.bh-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Karla"; color:#33513f; }
+.bh-split-copy p{ margin:0 0 24px; max-width:44ch; font:400 16px/1.75 "Karla",system-ui,sans-serif; color:#33513f; }
 
-/* STATS — тёмная лента для контраста */
-.bh-stats{ display:grid; grid-template-columns:repeat(4,1fr); background:var(--emerald-deep); }
-.bh-stat{ padding:56px 30px; border-left:1px solid rgba(238,242,234,.14); }
-.bh-stat:first-child{ border-left:0; }
-.bh-stat b{ display:block; font:400 clamp(42px,5vw,78px)/1 "Newsreader",serif; color:var(--blush); }
-.bh-stat span{ display:block; margin-top:10px; font:500 12.5px "Karla"; letter-spacing:.03em; color:#9fc0ab; }
+/* PANES — окно в чугунном переплёте */
+.bh-panes{ display:grid; place-items:center; padding:16vh 6vw 16vh 10vw; background:transparent; }
+.bh-window{ width:min(60rem,86vw); display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:10px; background:var(--iron);
+  border-radius:48% 48% 10px 10px / 30% 30% 10px 10px; box-shadow:0 30px 80px rgba(18,60,38,.25); }
+.bh-pane{ min-height:22vh; display:flex; flex-direction:column; justify-content:flex-end; padding:5vh 3vw 4vh; background:linear-gradient(160deg, rgba(246,249,244,.86), rgba(226,236,228,.72)); backdrop-filter:blur(6px); }
+.bh-pane:nth-child(1){ border-radius:100% 0 0 0 / 60% 0 0 0; padding-top:10vh; }
+.bh-pane:nth-child(2){ border-radius:0 100% 0 0 / 0 60% 0 0; padding-top:10vh; }
+.bh-pane b{ font:400 clamp(44px,5.4vw,84px)/1 "Newsreader",serif; color:var(--emerald-deep); }
+.bh-pane:nth-child(odd) b{ color:#b65a74; }
+.bh-pane span{ margin-top:10px; font:600 13px "Karla",system-ui,sans-serif; letter-spacing:.03em; color:#4a6857; }
 
-/* QUOTE */
-.bh-quote{ padding:19vh 10vw; text-align:center; background:linear-gradient(180deg,var(--glass),#e4ece2); }
-.bh-quote blockquote{ margin:0 auto; max-width:26ch; font:400 clamp(26px,3.6vw,50px)/1.22 "Newsreader",serif; color:var(--emerald-deep); }
-.bh-quote em{ font-style:italic; color:var(--emerald); }
-.bh-quote cite{ display:block; margin-top:32px; font:600 13px "Karla"; letter-spacing:.05em; font-style:normal; color:#5c7b68; }
+/* VISITORS' BOOK */
+.bh-book{ padding:14vh 8vw 16vh 12vw; background:transparent; }
+.bh-page{ margin:0; max-width:44rem; padding:6vh 4vw 5vh; background:repeating-linear-gradient(180deg, transparent 0 33px, rgba(31,90,58,.12) 33px 34px), #fbf8ef;
+  border-radius:4px; box-shadow:0 24px 60px rgba(18,60,38,.18); transform:rotate(-1.2deg); }
+.bh-page-date{ display:block; font:600 11px "Karla",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#8a5f18; }
+.bh-page blockquote{ margin:18px 0 0; font:400 clamp(24px,2.8vw,38px)/1.36 "Newsreader",serif; font-style:italic; color:var(--emerald-deep); }
+.bh-page em{ color:#b65a74; }
+.bh-page figcaption{ margin-top:22px; font:600 13px "Karla",system-ui,sans-serif; letter-spacing:.04em; color:#5c7b68; }
 
 /* DEAL */
-.bh-deal{ display:grid; place-items:center; padding:16vh 6vw; background:#e4ece2; }
-.bh-deal-card{ width:min(46rem,92vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(200,150,60,.4); border-radius:16px; background:var(--glass); }
-.bh-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; }
+.bh-deal{ display:grid; place-items:center; padding:16vh 6vw; background:transparent; }
+.bh-deal-card{ width:min(46rem,86vw); text-align:center; padding:7vh 6vw; border:1px solid rgba(200,150,60,.4); border-radius:16px; background:rgba(246,248,242,.86); backdrop-filter:blur(10px); }
+.bh-price{ margin:18px 0 12px; display:flex; gap:12px; align-items:baseline; justify-content:center; flex-wrap:wrap; }
 .bh-price b{ font:400 clamp(48px,6.6vw,86px) "Newsreader",serif; color:var(--emerald-deep); }
-.bh-price span{ font:500 15px "Karla"; color:#4a6857; }
-.bh-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Karla"; color:#4a6857; }
-.bh-note{ display:block; margin-top:18px; font:500 12px "Karla"; letter-spacing:.03em; color:#6f8f7c; }
+.bh-price span{ font:500 15px "Karla",system-ui,sans-serif; color:#4a6857; }
+.bh-deal-card p{ margin:0 auto 28px; max-width:40ch; font:400 15px/1.7 "Karla",system-ui,sans-serif; color:#4a6857; }
+.bh-note{ display:block; margin-top:18px; font:500 12px "Karla",system-ui,sans-serif; letter-spacing:.03em; color:#6f8f7c; }
 
-/* CLIMAX */
-.bh-climax{ position:relative; min-height:80vh; display:grid; place-items:center; text-align:center; background-size:cover; background-position:50% 40%; }
-.bh-climax-veil{ position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 40%, rgba(12,32,20,.32), rgba(9,24,15,.86) 82%); }
+/* CLIMAX — круглый просвет купола в небо */
+.bh-climax{ position:relative; min-height:96vh; display:grid; place-items:center; text-align:center; overflow:hidden; background:transparent; }
+.bh-oculus{ position:absolute; left:50%; top:50%; width:min(84vh,78vw); aspect-ratio:1; border-radius:50%; transform:translate(-50%,-50%);
+  background-size:cover; background-position:50% 30%;
+  box-shadow:0 0 0 12px var(--iron), 0 0 0 16px rgba(200,150,60,.7), 0 40px 100px rgba(18,60,38,.3); }
+.bh-oculus::after{ content:""; position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle, rgba(250,252,246,.55), rgba(250,252,246,.1) 70%); }
 .bh-climax-copy{ position:relative; z-index:2; padding:0 6vw; }
-.bh-climax-copy h2{ margin:0 0 34px; font:400 clamp(38px,5.6vw,86px)/1.06 "Newsreader",serif; color:var(--glass); }
-.bh-climax-copy em{ font-style:italic; color:var(--blush); }
+.bh-climax-copy h2{ margin:0 0 34px; max-width:14ch; font:400 clamp(38px,5vw,78px)/1.06 "Newsreader",serif; color:var(--emerald-deep); text-shadow:0 0 30px rgba(250,252,246,.9); }
+.bh-climax-copy em{ font-style:italic; color:#b65a74; }
 
 /* FOOT */
-.bh-foot{ display:flex; justify-content:space-between; align-items:center; padding:38px 6vw; background:var(--emerald-deep); color:#8fb09d; font:500 13px "Karla"; }
+.bh-foot{ display:flex; justify-content:space-between; align-items:center; padding:38px 6vw 38px 10vw; background:var(--emerald-deep); color:#8fb09d; font:500 13px "Karla",system-ui,sans-serif; }
 .bh-foot .bh-brand{ color:#c9dccd; text-shadow:none; }
 
 @media (max-width:820px){
+  .bh-nav{ padding-left:6vw; }
   .bh-nav nav a:not(.bh-nav-cta){ display:none; }
-  .bh-split{ grid-template-columns:1fr; } .bh-split-media{ min-height:44vh; order:1; }
-  .bh-stats{ grid-template-columns:1fr 1fr; }
-  .bh-steps-row{ grid-template-columns:1fr 1fr; row-gap:6vh; }
-  .bh-step{ border-left:0; padding-left:0; }
-  .bh-gallery-row{ grid-template-columns:1fr 1fr; }
+  .bh .rl-copy, .bh [data-scene="orchids"] .rl-copy{ left:8vw; right:auto; width:86vw; }
+  .bh-halls{ padding-left:18vw; }
+  .bh-halls::before{ left:12vw; }
+  .bh-height{ left:-18vw; width:10vw; font-size:22px; }
+  .bh-split{ grid-template-columns:1fr; } .bh-split-media{ min-height:44vh; order:1; margin:0; }
+  .bh-window{ grid-template-columns:1fr; border-radius:40% 40% 10px 10px / 12% 12% 10px 10px; }
+  .bh-pane:nth-child(n){ border-radius:0; padding-top:4vh; }
 }
+
+/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
+   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
+.bh .sk-backdrop, .bh .rl-fx{ visibility:visible; }

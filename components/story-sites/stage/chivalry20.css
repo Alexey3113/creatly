@@ -1,8 +1,9 @@
 /* STORY v2 · САЙТ 18 «CHIVALRY» — crimson/black готик (pin20), вуаль+шипастая корона+красный лес.
-   Шрифты: Gilda Display (ornate serif) · Chivo (sans). */
-@import url('https://fonts.googleapis.com/css2?family=Gilda+Display&family=Chivo:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+   Шрифты: Gilda Display (ornate serif) · Chivo (sans).
+   Сквозная архитектура: фигура-призрак S1→S2 (один наезд на корону), кольцо-ореол S3→S6, тондо → медальон.
+   Свет: лес приглушён, фигура светлее (отделение от фона) → каждая сцена светлее → золото клятвы. */
 
-.cv-site{--bg:#0c0607;--panel:#180a0b;--crimson:#9a1620;--red-hi:#c62430;--leaf:#7a1414;--bone:#d4c4c0;--mut:#7a5c5c;
+.cv-site{--bg:#0c0607;--panel:#180a0b;--crimson:#9a1620;--red-hi:#d02a36;--leaf:#7a1414;--bone:#e6d6d0;--mut:#9a7a78;--gold:#e0b060;
   position:fixed;inset:0;background:var(--bg);color:var(--bone);font-family:"Chivo",system-ui,sans-serif;overflow:hidden}
 
 .cv-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
@@ -13,103 +14,121 @@
 .cv-nav .cv-cta{padding:8px 16px;border:1px solid var(--crimson);color:var(--bone)}
 @media(max-width:900px){.cv-nav a:not(.cv-cta){display:none}}
 
-.cv-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.45;
+.cv-grain{position:absolute;inset:0;z-index:9;pointer-events:none;mix-blend-mode:overlay;opacity:.4;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>")}
 .cv-scrollcue{position:absolute;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;font:600 11px "Chivo",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
 .cv-eyebrow{font:600 11px "Chivo",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--red-hi)}
 .cv-folio{font:600 11px "Chivo",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
 .cv-meta{font:italic 400 14px "Gilda Display",serif;color:var(--red-hi)}
 
-/* 0 · OCCLUDED IDOL — вордмарк ЗА вырезанной фигурой */
-.cv-cover-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(78% 78% at 50% 40%,#24090d,#070304 84%)}
-.cv-cover-forest{z-index:0;pointer-events:none}
-.cv-cover-forest .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 26%;filter:contrast(1.05) saturate(1.1) brightness(.72)}
-.cv-cover-fig{z-index:3;display:grid;place-items:end center;pointer-events:none}
-.cv-cover-fig .ps-media{width:auto;height:100vh;max-width:none;object-fit:contain;object-position:bottom;filter:drop-shadow(0 0 60px rgba(198,36,48,.5)) contrast(1.06)}
-.cv-cover-glow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(38% 30% at 50% 30%,rgba(198,36,48,.28),transparent 70%)}
-.cv-wordmark{display:grid;place-items:center;text-align:center;pointer-events:none}
-.cv-wordmark span{font:400 clamp(64px,18vw,300px)/.82 "Gilda Display",serif;letter-spacing:.03em;color:var(--bone);text-transform:uppercase;
-  text-shadow:0 0 50px rgba(198,36,48,.55),0 4px 24px rgba(0,0,0,.6);-webkit-text-stroke:1px rgba(198,36,48,.35)}
-.cv-orn{position:absolute;inset:0;z-index:6;pointer-events:none;--lp:var(--sp,1)}
-.cv-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9);font:600 12px "Chivo",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--red-hi)}
-.cv-orn-l{top:20vh;left:4vw}.cv-orn-r{top:20vh;right:4vw;text-align:right}
+/* ── ПЛИТА КАДРА (cover по контейнеру): фото, вырезка и кольцо в одних координатах снимка */
+.cv-cq{container-type:size}
+.cv-plate{position:absolute;left:var(--X,50%);top:var(--Y,50%);width:calc(max(100cqw,100cqh * var(--ar)) * var(--z,1));aspect-ratio:var(--ar);
+  transform:translate(calc(var(--u,.5) * -100%),calc(var(--v,.5) * -100%))}
+.cv-img{position:absolute;inset:0;width:100%;height:100%;display:block;-webkit-user-drag:none}
+.stage-scene:is(.is-active,.is-leaving) .cv-kb{animation:stage-kb 26s ease-in-out infinite alternate}
+.cv-plate-hero{--ar:.8056;--z:1.04;--X:50%;--Y:22%;--u:.51;--v:.137}
+.cv-plate-crown{--ar:.8056;--z:2.3;--X:50%;--Y:44%;--u:.52;--v:.26}
+.cv-plate-macro{--ar:1;--X:50%;--Y:50%;--u:.5;--v:.46}
+.cv-plate-pb{--ar:.8056;--X:50%;--Y:50%;--u:.5;--v:.36}
+/* фигура и «освещённый» кадр — один грейд: призрак садится на фото без скачка */
+.cv-figure,.cv-lit{filter:brightness(1.32) contrast(1.05) saturate(.95)}
+.cv-forest{filter:brightness(.5) saturate(.78) contrast(1.05)}
+.cv-twin{opacity:0}
+
+/* ── КОЛЬЦО-ОРЕОЛ: эллипс/круг в % коробки; риски — conic по тонкому кольцу (маска closest-side) */
+.cv-ring{position:absolute;display:block;border-radius:50%;border:1.5px solid rgba(226,70,78,.9);pointer-events:none;z-index:2;
+  box-shadow:0 0 26px rgba(208,42,54,.5),inset 0 0 26px rgba(208,42,54,.28)}
+.cv-ring i{position:absolute;inset:4%;border-radius:50%;
+  background:repeating-conic-gradient(rgba(236,96,100,.9) 0 2deg,transparent 2deg 9deg);
+  -webkit-mask:radial-gradient(closest-side,transparent 90%,#000 91%,#000 98%,transparent 99%);mask:radial-gradient(closest-side,transparent 90%,#000 91%,#000 98%,transparent 99%)}
+.stage-scene:is(.is-active,.is-leaving) .cv-ring:not(.cv-ring-crown) i{animation:cv-spin 60s linear infinite}
+@keyframes cv-spin{to{transform:rotate(360deg)}}
+.cv-ring-crown{left:9%;top:24%;width:82%;height:50%}
+.cv-ring-halo{left:55%;top:21%;width:62%;aspect-ratio:1;transform:translate(-50%,-50%)}
+.cv-ring-tondo{inset:-16%}
+.cv-ring-oath{inset:-11%}
+
+/* 0 · ОБЛОЖКА — вордмарк над короной, шипы (вырезка) встают перед буквами */
+.cv-cover-bg{position:absolute;inset:0;z-index:0;background:#0b0506}
+.cv-cover-glow{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(34% 36% at 52% 42%,rgba(214,44,56,.3),transparent 72%)}
+.cv-wordmark{display:grid;place-items:start center;padding-top:10vh;text-align:center;pointer-events:none}
+.cv-wordmark span{font:400 clamp(64px,17vw,290px)/.82 "Gilda Display",serif;letter-spacing:.03em;color:var(--bone);text-transform:uppercase;
+  text-shadow:0 0 46px rgba(214,44,56,.5),0 4px 24px rgba(0,0,0,.7)}
+.cv-orn{position:absolute;inset:0;z-index:6;pointer-events:none}
+.cv-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1) - .2)*3,1)*.9);font:600 12px "Chivo",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--red-hi)}
+.cv-orn-l{top:46vh;left:4vw}.cv-orn-r{top:46vh;right:4vw;text-align:right}
 .cv-orn-yr{bottom:9vh;right:4vw;color:var(--mut)!important;letter-spacing:.16em}
 .cv-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 8vw 8vh}
-.cv-cover-hi p{margin:6px 0 0;max-width:52ch;font:400 15px/1.6 "Chivo",sans-serif;color:#c6acac}
+.cv-cover-hi p{margin:6px 0 0;max-width:52ch;font:400 15px/1.6 "Chivo",sans-serif;color:#dcc2c0;text-shadow:0 2px 14px rgba(0,0,0,.8)}
 
-/* 1 · RITUAL HALO */
-.cv-halo-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 60% at 50% 42%,#1c0a0c,#0a0405 80%)}
-.cv-halo-fig{z-index:2;display:grid;place-items:center}
-.cv-halo-fig .ps-media{width:auto;height:96vh;max-width:none;object-fit:contain;object-position:center;filter:contrast(1.05)}
-.cv-halo-ring{position:absolute;top:34%;left:50%;width:56vh;height:56vh;transform:translate(-50%,-50%);z-index:1;border-radius:50%;pointer-events:none;
-  background:conic-gradient(from 0deg,transparent 0 3deg,rgba(198,36,48,.85) 3deg 5deg,transparent 5deg 12deg);
-  -webkit-mask:radial-gradient(circle,transparent 44%,#000 46%,#000 50%,transparent 52%);mask:radial-gradient(circle,transparent 44%,#000 46%,#000 50%,transparent 52%);
-  animation:cv-spin 38s linear infinite;opacity:.9;filter:drop-shadow(0 0 12px rgba(198,36,48,.5))}
-@keyframes cv-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.cv-halo-ring{animation:none}}
-.cv-halo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(10,4,5,.92),transparent 46%)}
-.cv-halo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
+/* 1 · КОРОНА — наезд (ступень светлее) */
+.cv-tunnel-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 60% at 50% 44%,#3a1216,#0e0607 84%)}
+.cv-tunnel-veil{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(0deg,rgba(10,4,5,.8),transparent 38%)}
+.cv-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 9vh}
+.cv-tunnel-cap p{margin:8px 0;max-width:44ch;font:400 15px/1.6 "Chivo",sans-serif;color:#ead2d0}
+
+/* 2 · IRON THORNS — макро во весь кадр, подпись музейной этикеткой справа снизу */
+.cv-plate-macro .cv-img{filter:brightness(1.36) contrast(1.04) saturate(.96)}
+.cv-dip-scrim{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(290deg,rgba(12,5,6,.82) 0%,rgba(12,5,6,.5) 26%,transparent 50%)}
+.cv-dip-panel{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;text-align:right;padding:0 6vw 9vh 0}
+.cv-dip-mark{font:600 11px "Chivo",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#ff8a8a}
+.cv-dip-panel h3{margin:10px 0 12px;font:400 clamp(40px,5.4vw,92px)/.88 "Gilda Display",serif;color:var(--bone);text-shadow:0 4px 30px rgba(0,0,0,.7)}
+.cv-dip-panel p{margin:0;max-width:34ch;font:400 15px/1.6 "Chivo",sans-serif;color:#ead2d0;text-shadow:0 2px 14px rgba(0,0,0,.8)}
+
+/* 3 · CROWN OF THORNS — нимб за головой, светлее */
+.cv-halo-bg{position:absolute;inset:0;z-index:0;background:#1c0a0c}
+.cv-plate-pb .cv-img{filter:brightness(1.55) contrast(1.04) saturate(.96)}
+.cv-halo-veil{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(0deg,rgba(14,6,7,.86),transparent 44%)}
+.cv-halo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;text-align:left;padding:0 0 9vh 6vw}
 .cv-halo-cap h2{margin:6px 0 10px;font:400 clamp(38px,6vw,88px)/.9 "Gilda Display",serif;color:var(--bone)}
-.cv-halo-cap h2 em{font-style:italic;color:var(--red-hi)}
-.cv-halo-cap p{margin:0;max-width:40ch;font:400 15px/1.6 "Chivo",sans-serif;color:#c6acac}
+.cv-halo-cap h2 em{font-style:italic;color:#ff6a6e}
+.cv-halo-cap p{margin:0;max-width:40ch;font:400 15px/1.6 "Chivo",sans-serif;color:#ead2d0}
 
-/* 2 · TUNNEL ZOOM */
-.cv-tunnel{background:var(--bg)}
-.cv-tunnel-fig{z-index:1}
-.cv-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:contrast(1.08) saturate(1.05)}
-.cv-tunnel-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(58% 58% at 50% 42%,transparent,rgba(8,4,5,.75) 92%),linear-gradient(0deg,rgba(8,4,5,.88),transparent 46%)}
-.cv-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:400 40vh "Gilda Display",serif;color:rgba(198,36,48,.12);pointer-events:none}
-.cv-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
-.cv-tunnel-cap p{margin:8px 0;max-width:42ch;font:400 15px/1.6 "Chivo",sans-serif;color:#d8bcbc}
-
-/* 3 · DIPTYCH — жёсткий раскол 50/50 (ось иная) */
-.cv-dip-fig{position:absolute;left:0;right:auto;top:0;bottom:0;width:50vw;z-index:1;overflow:hidden}
-.cv-dip-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.06)}
-.cv-dip-panel{position:absolute;right:0;left:auto;top:0;bottom:0;width:50vw;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 6vw;background:linear-gradient(180deg,#1c0a0c,#12070a)}
-.cv-dip-mark{font:600 11px "Chivo",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--red-hi)}
-.cv-dip-panel h3{margin:10px 0 14px;font:400 clamp(40px,5.4vw,96px)/.88 "Gilda Display",serif;color:var(--bone)}
-.cv-dip-panel p{margin:0;max-width:34ch;font:400 15px/1.6 "Chivo",sans-serif;color:#c6acac}
-.cv-dip-meta{margin-top:20px;font:600 11px "Chivo",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-
-/* 4 · TRIPTYCH — алтарь: тондо + 3 арочные панели (не сетка) */
-.cv-tript-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 80% at 50% 42%,#180a0b,#060305 80%)}
-.cv-tript-head{position:absolute;top:6vh;left:0;right:0;z-index:6;text-align:center}
+/* 4 · THE ORDER — тондо-замок над центральной аркой; арки — окна в одну панораму */
+.cv-tript-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(88% 84% at 50% 44%,#7a3428,#321310 86%)}
+.cv-tript-head{position:absolute;top:11vh;left:6vw;z-index:6}
 .cv-tript-head b{display:block;font:400 clamp(28px,4.4vw,60px)/.9 "Gilda Display",serif;color:var(--bone)}
-.cv-tript-head span{font:600 11px "Chivo",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--red-hi)}
-.cv-tondo{position:absolute;top:15vh;left:50%;transform:translateX(-50%);z-index:5;margin:0;width:clamp(70px,10vh,110px);height:clamp(70px,10vh,110px);border-radius:50%;overflow:hidden;border:2px solid var(--crimson);box-shadow:0 0 0 6px rgba(154,22,32,.15)}
-.cv-tondo img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.8)}
-.cv-tondo figcaption{position:absolute;inset:0;display:grid;place-items:center;font-size:28px;color:var(--bone);background:rgba(12,6,7,.4)}
+.cv-tript-head span{font:600 11px "Chivo",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#ff8a8a}
+.cv-tondo-wrap{position:absolute;top:calc(26vh - 9vh);left:50%;width:18vh;height:18vh;margin-left:-9vh;z-index:5}
+.cv-seal{position:absolute;inset:0;width:100%;height:100%;display:block;border-radius:50%;object-fit:cover;object-position:52% 26%;
+  border:2px solid var(--crimson);filter:brightness(1.4) contrast(1.04) saturate(.95)}
 .cv-tript-panels{position:absolute;inset:26vh 6vw 9vh;z-index:2;display:flex;gap:16px;align-items:stretch}
-.cv-panel{position:relative;margin:0;flex:1;overflow:hidden;border:1px solid rgba(154,22,32,.45);border-radius:50% 50% 4px 4px/22% 22% 2px 2px;
+.cv-panel{position:relative;margin:0;flex:1;overflow:hidden;border:1px solid rgba(208,42,54,.5);border-radius:50% 50% 4px 4px/22% 22% 2px 2px;
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*30px))}
-.cv-panel-1{--d:0;margin-top:5vh}.cv-panel-2{--d:.12}.cv-panel-3{--d:.24;margin-top:5vh}
-.cv-panel img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05)}
-.cv-panel figcaption{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:10px;font:600 11px "Chivo",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(7,4,5,.92),transparent)}
-.cv-tript-code{position:absolute;left:0;right:0;bottom:3vh;z-index:6;text-align:center;font:600 11px "Chivo",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.cv-panel-1{--d:.1;margin-top:5vh}.cv-panel-2{--d:.2}.cv-panel-3{--d:.3;margin-top:5vh}
+.cv-pano{position:absolute;inset:0;overflow:hidden}
+.cv-pano img{position:absolute;top:50%;left:calc(var(--k) * -1 * (100% + 16px));width:calc(300% + 32px);height:auto;transform:translateY(-50%);display:block;filter:brightness(1.6) contrast(1.04) saturate(.96)}
+.cv-panel figcaption{position:absolute;left:0;right:0;bottom:0;text-align:center;padding:10px;font:600 11px "Chivo",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:linear-gradient(0deg,rgba(7,4,5,.9),transparent)}
+.cv-tript-code{position:absolute;left:0;right:0;bottom:3vh;z-index:6;text-align:center;font:600 11px "Chivo",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#b08a86}
 
-/* 5 · OATH — гербовый щит слева + клятва справа (не центр-слоган) */
-.cv-oath-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 90% at 30% 42%,#240a0d,#070405 74%)}
-.cv-oath-crest{position:absolute;left:12vw;top:50%;transform:translate(-50%,-50%);z-index:2;width:clamp(140px,22vh,240px);height:clamp(180px,28vh,300px);display:grid;place-items:center}
-.cv-shield{position:absolute;inset:0;background:linear-gradient(180deg,#3a0e12,#1c0709);border:2px solid var(--crimson);border-radius:12px 12px 50% 50%/8px 8px 44% 44%;box-shadow:0 0 40px rgba(154,22,32,.35),inset 0 0 30px rgba(0,0,0,.5)}
-.cv-shield-mark{position:relative;font:400 clamp(50px,8vh,90px) "Gilda Display",serif;color:var(--red-hi)}
-.cv-oath-block{position:absolute;right:8vw;top:50%;transform:translateY(-50%);z-index:6;width:min(48ch,52vw)}
-.cv-oath-label{font:600 11px "Chivo",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--red-hi)}
-.cv-oath-block h4{margin:10px 0 16px;font:400 clamp(40px,6vw,96px)/.9 "Gilda Display",serif;color:var(--bone)}
-.cv-oath-block p{margin:0 0 24px;max-width:42ch;font:400 15px/1.6 "Chivo",sans-serif;color:#c6acac}
+/* 5 · OATH — тёплое золото: медальон-печать с героиней, клятва справа */
+.cv-oath-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(82% 92% at 28% 46%,#b0642c,#5a2812 54%,#240d09 100%)}
+.cv-oath-crest{position:absolute;left:10vw;top:50%;width:min(50vh,36vw);height:min(50vh,36vw);transform:translateY(-50%);z-index:3}
+.cv-oath-crest .cv-seal{box-shadow:0 0 90px rgba(255,170,90,.35)}
+.cv-oath-block{position:absolute;right:8vw;top:50%;transform:translateY(-50%);z-index:6;width:min(46ch,44vw)}
+.cv-oath-label{font:600 11px "Chivo",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.cv-oath-block h4{margin:10px 0 16px;font:400 clamp(40px,6vw,96px)/.9 "Gilda Display",serif;color:#f6e6da}
+.cv-oath-block p{margin:0 0 24px;max-width:42ch;font:400 15px/1.6 "Chivo",sans-serif;color:#ecd2c4}
 .cv-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--crimson);color:var(--bone);font:600 13px "Chivo",sans-serif;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s}
 .cv-btn:hover{background:var(--red-hi);transform:translateY(-2px)}
 .cv-links{display:flex;gap:22px;margin-top:16px;font:600 12px "Chivo",sans-serif;letter-spacing:.08em;text-transform:uppercase}
-.cv-links a{color:var(--mut);text-decoration:none}.cv-links a:hover{color:var(--red-hi)}
+.cv-links a{color:#d8b4a0;text-decoration:none}.cv-links a:hover{color:#fff}
+
+@media(prefers-reduced-motion:reduce){ .cv-kb,.cv-ring i{animation:none!important} }
 
 /* мобилка */
 @media(max-width:900px){
-  .cv-cover-fig .ps-media,.cv-halo-fig .ps-media,.cv-tunnel-fig .ps-media{height:80vh}
-  .cv-wordmark span{font-size:18vw}.cv-halo-ring{width:44vh;height:44vh}
-  .cv-dip-fig{width:100%;height:42vh;bottom:auto}
-  .cv-dip-panel{width:100%;top:42vh;padding:6vh 5vw 0}
-  .cv-tondo{display:none}
-  .cv-tript-panels{inset:20vh 5vw 8vh;gap:8px}
+  .cv-plate-hero{--z:1.3;--Y:17%}
+  .cv-wordmark{padding-top:9vh}.cv-wordmark span{font-size:18vw}
+  .cv-orn-l,.cv-orn-r{top:40vh}
+  .cv-plate-crown{--z:2.6}
+  .cv-dip-panel{align-items:flex-start;text-align:left;padding:0 6vw 7vh}
+  .cv-tondo-wrap{top:calc(22vh - 6vh);width:12vh;height:12vh;margin-left:-6vh}
+  .cv-tript-head{top:9vh}
+  .cv-tript-panels{inset:22vh 5vw 8vh;gap:8px}
+  .cv-pano img{left:calc(var(--k) * -1 * (100% + 8px));width:calc(300% + 16px)}
   .cv-panel-1,.cv-panel-3{margin-top:0}
-  .cv-oath-crest{left:50%;top:26vh;width:120px;height:150px}
-  .cv-oath-block{right:5vw;left:5vw;top:56vh;width:auto;transform:none}
+  .cv-oath-crest{left:50%;top:14vh;width:30vh;height:30vh;transform:translateX(-50%)}
+  .cv-oath-block{right:5vw;left:5vw;top:auto;bottom:6vh;width:auto;transform:none}
 }

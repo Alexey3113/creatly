@@ -7,9 +7,9 @@
 
 .hv-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .hv-head a{pointer-events:auto}
-.hv-brand{font:400 26px/1 "Bebas Neue",sans-serif;letter-spacing:.1em;color:var(--gold);text-decoration:none}
+.hv-brand{font:400 26px/1 "Bebas Neue",sans-serif;letter-spacing:.1em;color:var(--cream);text-decoration:none;text-shadow:0 1px 12px rgba(21,14,5,.7)}
 .hv-nav{display:flex;gap:24px;align-items:center;font:400 16px "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase}
-.hv-nav a{color:var(--mut);text-decoration:none;transition:color .2s}.hv-nav a:hover{color:var(--gold)}
+.hv-nav a{color:#efe1c2;text-shadow:0 1px 10px rgba(21,14,5,.8);text-decoration:none;transition:color .2s}.hv-nav a:hover{color:var(--gold)}
 .hv-nav .hv-cta{padding:6px 16px;border:1px solid var(--gold);color:var(--gold)}
 @media(max-width:900px){.hv-nav a:not(.hv-cta){display:none}}
 
@@ -20,91 +20,112 @@
 .hv-folio{font:400 15px "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .hv-meta{font:italic 400 14px "Cardo",serif;color:var(--gold)}
 
-/* 0 · OCCLUDED IDOL (full-bleed кадр + вордмарк) */
+/* передача текста: уходящий гаснет к f≈.4 — два заголовка сцен не стоят в кадре вместе */
+.hv-site .stage-scene.is-leaving .hv-tx{opacity:clamp(0,calc(1 - var(--ep,0)*2.5),1)}
+
+/* СПУСК (hv-descend): камера опускается — старая сцена уходит вверх, новая поднимается снизу; верхний край
+   входящей растворён (шов не режет), к концу маска полностью непрозрачна (нет щелчка при смене класса). */
+.hv-site .stage[data-trans="hv-descend"] .is-entering{transform:translateY(calc((1 - var(--sp))*100%));
+  -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,var(--sp)) 0,#000 16vh);mask-image:linear-gradient(180deg,rgba(0,0,0,var(--sp)) 0,#000 16vh)}
+.hv-site .stage[data-trans="hv-descend"] .is-leaving{transform:translateY(calc(var(--ep)*-100%));opacity:1}
+@media(prefers-reduced-motion:reduce){.hv-site .stage .stage-scene{-webkit-mask-image:none!important;mask-image:none!important}.hv-canvas img{translate:none!important}}
+
+/* ОДИН ХОЛСТ (extra-3, 1536×2752): ширина --Wc, три вида (A колесница, B мантия, C пророк). Картинка каждой
+   сцены сдвигается по --ep к виду следующей и по --sp из вида предыдущей — у соседних сцен она совпадает кадр в кадр. */
+.hv-site{--Wc:max(100vw,160vh);--Hc:calc(var(--Wc)*1.7917);--tA:calc(var(--Hc)*-.05);--tB:calc(50dvh - var(--Hc)*.415);--tC:calc(var(--Hc)*-.55)}
+.hv-canvas{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.hv-canvas img{position:absolute;left:calc(50% - var(--Wc)/2);top:var(--t);width:var(--Wc);height:var(--Hc);max-width:none;display:block;
+  translate:0 calc((1 - var(--sp,1))*var(--dIn,0px) + var(--ep,0)*var(--dOut,0px));filter:contrast(1.05) saturate(1.08)}
+.hv-v-a{--t:var(--tA);--dIn:0px;--dOut:calc(var(--tB) - var(--tA))}
+.hv-v-b{--t:var(--tB);--dIn:calc(var(--tA) - var(--tB));--dOut:calc(var(--tC) - var(--tB))}
+.hv-v-c{--t:var(--tC);--dIn:calc(var(--tB) - var(--tC));--dOut:0px}
+/* локальные скримы под текст вместо тёмных вуалей на весь кадр */
+.hv-scrim{position:absolute;inset:0;z-index:3;pointer-events:none}
+.hv-scrim-bl{background:radial-gradient(60% 55% at 12% 100%,rgba(21,14,5,.78),transparent 70%)}
+.hv-scrim-l{background:linear-gradient(90deg,rgba(21,14,5,.62),rgba(21,14,5,0) 55%)}
+.hv-scrim-r{background:radial-gradient(55% 60% at 96% 72%,rgba(21,14,5,.72),transparent 72%)}
+.hv-cap{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;justify-content:flex-end}
+.hv-cap p{margin:6px 0 8px;max-width:38ch;font:400 18px/1.55 "Cardo",serif;color:#f4e8cc;text-shadow:0 1px 14px rgba(21,14,5,.85)}
+.hv-cap .hv-folio{color:var(--gold-hi);text-shadow:0 1px 10px rgba(21,14,5,.8)}
+.hv-cap-bl{align-items:flex-start;padding:0 0 10vh 5vw}
+.hv-cap-r{align-items:flex-end;text-align:right;padding:0 5vw 16vh 0}
+.hv-cap-r p{max-width:30ch;font-size:22px}
+
+/* 0 · COVER (full-bleed кадр + ОДИН вордмарк) */
 .hv-cover-bg{position:absolute;inset:0;z-index:0;background:#150e05}
 .hv-cover-fig{z-index:1}
 .hv-cover-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 34%;filter:contrast(1.05) saturate(1.08)}
-.hv-cover-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,rgba(21,14,5,.92),rgba(21,14,5,.2) 44%,rgba(21,14,5,.5))}
+.hv-cover-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,rgba(21,14,5,.9),rgba(21,14,5,.12) 44%,rgba(21,14,5,.4))}
 .hv-wordmark{display:grid;place-items:center;align-content:center;pointer-events:none}
-.hv-wordmark span{font:400 clamp(70px,20vw,320px)/.86 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--gold);text-shadow:0 0 60px rgba(224,168,58,.5);opacity:.95}
+.hv-wordmark h1{margin:0;font:400 clamp(70px,20vw,320px)/.86 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream);
+  text-shadow:0 2px 0 rgba(90,50,10,.55),0 0 34px rgba(21,14,5,.65),0 0 90px rgba(21,14,5,.4)}
 .hv-orn{position:absolute;inset:0;z-index:5;pointer-events:none;--lp:var(--sp,1)}
-.hv-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9);font:400 15px "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.hv-orn span{position:absolute;opacity:calc(clamp(0,(var(--sp,1)-.2)*3,1)*.9);font:400 15px "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);text-shadow:0 1px 10px rgba(21,14,5,.8)}
 .hv-orn-l{top:38vh;left:4vw}.hv-orn-r{top:38vh;right:4vw}
-.hv-orn-time{bottom:9vh;right:4vw;text-align:right;color:var(--cream)!important;line-height:1.2}
-.hv-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 12vh 4vw}
-.hv-cover-hi h1{margin:8px 0 12px;font:400 clamp(46px,8vw,120px)/.85 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream)}
-.hv-cover-hi h1 em{font:italic 400 clamp(30px,4vw,60px) "Cardo",serif;color:var(--gold);letter-spacing:0;margin-left:.3em}
-.hv-cover-hi p{margin:0;max-width:38ch;font:400 17px/1.55 "Cardo",serif;color:#e0d0aa}
+.hv-orn-time{bottom:9vh;right:4vw;text-align:right;line-height:1.2}
+.hv-cover-hi{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 11vh 4vw}
+.hv-cover-sub{margin:6px 0 10px;font:italic 400 clamp(30px,4vw,60px)/1 "Cardo",serif;color:var(--gold-hi)}
+.hv-cover-hi p{margin:0;max-width:38ch;font:400 17px/1.55 "Cardo",serif;color:#eadbb8}
 
-/* 1 · TYPE GUILLOTINE */
-.hv-guillo-fig{z-index:1}
-.hv-guillo-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:brightness(.68) saturate(1.1)}
-.hv-guillo-veil{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(21,14,5,.5),rgba(21,14,5,.15) 40%,rgba(21,14,5,.88))}
-.hv-guillo-type{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:center;font:400 clamp(70px,20vw,340px)/.82 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream);pointer-events:none}
-.hv-guillo-out{color:transparent;-webkit-text-stroke:2px var(--gold)}
-.hv-guillo-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 0 10vh 4vw}
-.hv-guillo-cap p{margin:0;max-width:42ch;font:400 17px/1.55 "Cardo",serif;color:#e0d0aa}
+/* 1 · SKY */
+.hv-tunnel-huge{position:absolute;inset:auto 0 4vh 0;z-index:4;text-align:center;font:400 30vh/1 "Bebas Neue",sans-serif;letter-spacing:.05em;color:rgba(242,198,90,.16);pointer-events:none}
 
-/* 2 · TUNNEL ZOOM */
-.hv-tunnel{background:var(--bg)}
-.hv-tunnel-fig{z-index:1}
-.hv-tunnel-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 36%;filter:contrast(1.06) saturate(1.1)}
-.hv-tunnel-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(60% 60% at 50% 42%,transparent,rgba(21,14,5,.72) 92%),linear-gradient(0deg,rgba(21,14,5,.85),transparent 48%)}
-.hv-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:400 34vh "Bebas Neue",sans-serif;letter-spacing:.05em;color:rgba(224,168,58,.14);pointer-events:none}
-.hv-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 12vh}
-.hv-tunnel-cap p{margin:8px 0;max-width:44ch;font:400 17px/1.55 "Cardo",serif;color:#efe1c2}
+/* 2 · FALL — слово слева, мантия падает по центру холста */
+.hv-guillo-type{position:absolute;left:4vw;top:16vh;z-index:4;display:flex;flex-direction:column;align-items:flex-start;font:400 clamp(64px,13vw,230px)/.82 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream);pointer-events:none;
+  text-shadow:0 0 40px rgba(21,14,5,.55);opacity:clamp(0,calc(var(--sp,1)*2.2 - 1),1)}
+.hv-guillo-out{color:transparent;-webkit-text-stroke:2px var(--gold-hi);text-shadow:none}
 
-/* 3 · RELIC — вертикальная кроп-полоса у левого края, подпись справа (ось иная) */
-.hv-relic-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(100deg,#150e05 40%,#2a1c0a)}
+/* 4 · RELIC — песок: полоса-кадр у левого края, подпись справа; фон теплее прежнего */
+.hv-relic-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(100deg,#2a1c0a 30%,#4a3214)}
 .hv-relic-strip{position:absolute;left:0;top:0;bottom:0;width:38vw;z-index:2;overflow:hidden}
 .hv-relic-strip .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.05)}
-.hv-relic-huge{position:absolute;right:5vw;top:8vh;z-index:1;font:400 52vh "Bebas Neue",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(224,168,58,.2);pointer-events:none}
+.hv-relic-huge{position:absolute;right:5vw;top:8vh;z-index:1;font:400 52vh "Bebas Neue",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(242,198,90,.22);pointer-events:none}
 .hv-relic-cap{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 6vw 0 46vw;max-width:none}
 .hv-relic-cap h3{margin:6px 0 14px;font:400 clamp(48px,7vw,120px)/.86 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream)}
-.hv-relic-cap p{margin:0;max-width:38ch;font:400 16px/1.55 "Cardo",serif;color:#e0d0aa}
+.hv-relic-cap p{margin:0;max-width:38ch;font:400 17px/1.55 "Cardo",serif;color:#eadbb8}
 .hv-relic-marks{margin-top:18px;display:flex;gap:12px;font:400 14px "Bebas Neue",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 
-/* 4 · FEATURE + FILM-STRIP — доминанта слева + вертикальная лента справа (не сетка) */
-.hv-feature-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 75% at 40% 40%,#2a1c0a,#100a03 80%)}
-.hv-feature-head{position:absolute;top:8vh;left:5vw;z-index:6}
+/* 5 · FEATURE + FILM-STRIP */
+.hv-feature-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 75% at 40% 40%,#3a270f,#140d04 80%)}
+.hv-feature-head{position:absolute;top:8vh;left:5vw;z-index:6;opacity:clamp(0,calc(var(--sp,1)*2.2 - 1.1),1)}
 .hv-feature-head b{display:block;font:400 clamp(34px,5.4vw,76px)/.85 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream)}
 .hv-feature-head span{font:italic 400 14px "Cardo",serif;color:var(--gold)}
 .hv-feature-main{position:absolute;left:5vw;top:24vh;bottom:9vh;width:52vw;margin:0;overflow:hidden;border:1px solid rgba(224,168,58,.35);
-  --r:clamp(0,calc(var(--sp,1)*3),1);opacity:var(--r);transform:scale(calc(.97 + var(--r)*.03))}
-.hv-feature-main img{width:100%;height:100%;object-fit:cover;display:block}
+  --r:clamp(0,calc(var(--sp,1)*3),1);opacity:var(--r)}
+.hv-feature-main img{width:100%;height:100%;object-fit:cover;object-position:50% 34%;filter:contrast(1.05) saturate(1.08) brightness(.86);display:block}
 .hv-feature-main figcaption{position:absolute;left:0;bottom:0;padding:14px 18px;background:linear-gradient(0deg,rgba(16,10,3,.92),transparent)}
 .hv-feature-main figcaption b{display:block;font:400 clamp(24px,2.6vw,40px) "Bebas Neue",sans-serif;letter-spacing:.03em;color:var(--cream)}
 .hv-feature-main figcaption span{font:italic 400 13px "Cardo",serif;color:var(--gold)}
 .hv-feature-strip{position:absolute;right:5vw;top:24vh;bottom:9vh;width:28vw;z-index:2;display:flex;flex-direction:column;gap:12px}
 .hv-feature-strip figure{position:relative;margin:0;flex:1;overflow:hidden;border:1px solid rgba(224,168,58,.28);
   --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateX(calc((1 - var(--r))*30px))}
-.hv-strip-1{--d:.05}.hv-strip-2{--d:.15}.hv-strip-3{--d:.25}
+.hv-strip-1{--d:.3}.hv-strip-2{--d:.4}.hv-strip-3{--d:0;opacity:1;transform:none}
 .hv-feature-strip img{width:100%;height:100%;object-fit:cover;display:block}
+.hv-strip-3 img{object-position:50% 40%;filter:contrast(1.05)}
 .hv-feature-strip figcaption{position:absolute;left:0;bottom:0;padding:5px 8px;font:400 12px "Bebas Neue",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);background:linear-gradient(0deg,rgba(16,10,3,.9),transparent)}
 .hv-feature-code{position:absolute;left:5vw;bottom:3vh;z-index:4;font:italic 400 14px "Cardo",serif;color:var(--mut)}
-.hv-card{position:relative;margin:0;overflow:hidden;border:1px solid rgba(224,168,58,.35);
-  --r:clamp(0,calc((var(--sp,1) - var(--d,0))*3),1);opacity:var(--r);transform:translateY(calc((1 - var(--r))*-26px))}
-.hv-card-1{--d:0}.hv-card-2{--d:.08}.hv-card-3{--d:.16}.hv-card-4{--d:.24}
-.hv-card img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05)}
-.hv-card figcaption{position:absolute;left:0;bottom:0;padding:7px 9px;font:400 13px "Bebas Neue",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);background:linear-gradient(0deg,rgba(16,10,3,.9),transparent)}
-.hv-wall-code{position:absolute;left:5vw;bottom:3vh;z-index:4;font:italic 400 14px "Cardo",serif;color:var(--mut)}
 
-/* 5 · QUIET — почти пустое золотое поле, тихая строка (не центр-слоган+кнопка) */
-.hv-quiet-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 70% at 50% 42%,#2a1c0a,#0c0803 76%)}
-.hv-quiet-mark{position:absolute;left:50%;top:16vh;transform:translateX(-50%);z-index:2;font:400 clamp(60px,14vh,150px) "Bebas Neue",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(224,168,58,.5);pointer-events:none}
-.hv-quiet-block{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:20px}
-.hv-quiet-verse{font:italic 400 clamp(16px,2vw,26px) "Cardo",serif;color:var(--gold)}
-.hv-quiet-small{font:400 clamp(28px,4vw,60px) "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
-.hv-quiet-link{margin-top:6px;font:400 16px "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(224,168,58,.5);padding-bottom:5px;transition:color .2s}
-.hv-quiet-link:hover{color:var(--gold-hi)}
-.hv-quiet-meta{position:absolute;bottom:5vh;left:0;right:0;text-align:center;font:italic 400 13px "Cardo",serif;color:#7a6440}
+/* 6 · RECEIVE — полотно обложки во весь экран (кольцо), локальный скрим под строкой; самая светлая сцена */
+.hv-quiet-bg{position:absolute;inset:0;z-index:0;background:#2a1c0a}
+.hv-quiet-fig{position:absolute;inset:0;z-index:1}
+.hv-quiet-fig img{width:100%;height:100%;object-fit:cover;object-position:50% 34%;filter:contrast(1.05) saturate(1.08) brightness(.86);display:block}
+.hv-quiet-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(40% 34% at 50% 54%,rgba(21,14,5,.6),transparent 78%);
+  opacity:clamp(0,calc(var(--sp,1)*2 - 1),1)}
+.hv-quiet-block{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px;padding-top:8vh;
+  opacity:clamp(0,calc(var(--sp,1)*2.2 - 1.2),1)}
+.hv-quiet-verse{font:italic 400 clamp(17px,2vw,26px) "Cardo",serif;color:var(--gold-hi);text-shadow:0 1px 14px rgba(21,14,5,.9)}
+.hv-quiet-small{font:400 clamp(34px,5vw,76px) "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);text-shadow:0 2px 24px rgba(21,14,5,.85)}
+.hv-quiet-link{margin-top:6px;font:400 17px "Bebas Neue",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);text-decoration:none;border:1px solid rgba(242,198,90,.8);background:rgba(21,14,5,.45);padding:10px 22px;transition:background .2s}
+.hv-quiet-link:hover{background:rgba(224,168,58,.35)}
+.hv-quiet-meta{position:absolute;bottom:4vh;left:0;right:0;z-index:6;text-align:center;font:italic 400 13px "Cardo",serif;color:#f0e2c2;text-shadow:0 1px 10px rgba(21,14,5,.9)}
 
 /* мобилка */
 @media(max-width:900px){
-  .hv-wordmark span{font-size:30vw}
+  .hv-wordmark h1{font-size:30vw}
   .hv-orn-l,.hv-orn-r{top:32vh;font-size:13px}
-  .hv-relic-strip{width:100%;height:42vh;top:auto;bottom:auto}
+  .hv-cap-r{align-items:flex-start;text-align:left;padding:0 5vw 10vh}
+  .hv-relic-strip{width:100%;height:42vh;top:0;bottom:auto}
   .hv-relic-cap{padding:0 5vw;justify-content:flex-end;padding-bottom:8vh}
-  .hv-feature-main{position:relative;left:auto;top:auto;bottom:auto;width:90vw;height:40vh;margin:22vh auto 0}
-  .hv-feature-strip{position:relative;right:auto;top:auto;bottom:auto;width:90vw;margin:12px auto 0;flex-direction:row;height:14vh}
+  .hv-feature-main{left:5vw;right:5vw;width:auto;top:20vh;bottom:auto;height:38vh}
+  .hv-feature-strip{left:5vw;right:5vw;width:auto;top:61vh;bottom:8vh;flex-direction:row}
 }
