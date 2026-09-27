@@ -1,25 +1,22 @@
 "use client";
-/* ANIMATED · Nº08 — «TERRA» (класс 3d-product-theatre / planet-dolly, приём IMAGE-SCRUB DOLLY-IN + day→night).
-   ОДИН кинокадр (Земля из космоса с терминатором день/ночь) без realtime-3D. В pin-сцене диск планеты
-   изолирован радиальной маской из кадра и МАСШТАБИРУЕТСЯ по --t — камера ныряет сквозь атмосферу к ночной
-   стороне; атмосферный rim-glow (radial) разгорается; звёздное поле в 3 слоя параллаксит по --px/--py;
-   night-веуль густеет по --t и amber city-lights проступают созвездиями; главы-подписи сменяются clip-path.
-   Реальная польза: Earth-observation (наблюдение Земли). Палитра ИЗ КАДРА: space-void + cyan-atmosphere + amber-lights.
-   Бренд TERRA ORBITAL — спутниковое наблюдение Земли. Оригинальный приём: masked-globe dolly + parallax starfield. */
+/* ANIMATED · Nº08 — «TERRA» (класс 3d-product-theatre / planet-dolly → ДЕНЬ И НОЧЬ КАК ОСЬ СТРАНИЦЫ).
+   Одна realtime-3D планета (EarthGlobe) живёт fixed-слоем под ВСЕЙ страницей — не гаснет после пина.
+   scene-kit <Follow> по якорям глав ведёт её камеру (--gx/--gy/--gz: планета уходит из-под копи) и солнце
+   (--sun: день → терминатор → ночь с огнями городов → рассвет над лимбом в финале). Высотомер орбиты
+   (420 km → 90 km) идёт через все главы. Главы сменяются по одной, с паузой — без наложений и обрезки.
+   Палитра ИЗ КАДРА: space-void + cyan-atmosphere + amber-lights. Бренд TERRA ORBITAL. */
 import { useEffect, useRef, useState } from "react";
+import { Follow } from "@/components/scene-kit";
 import { ScrollStage } from "../engine/ScrollStage";
 import { Scene } from "../engine/Track";
 import { EarthGlobe } from "./EarthGlobe";
 import "../engine/scrollstage.css";
 import "./terra08.css";
 
-const HERO = "/uploads/1/animated/terra-hero.jpg";
-
-/* Chapters — сменяются wipe'ом clip-path по --t (одновременно активна одна). */
 const CHAPTERS: [string, string, string][] = [
-  ["01", "DAYLIGHT SIDE", "oceans · weather · biomass"],
-  ["02", "THE TERMINATOR", "the moving line of dawn"],
-  ["03", "NIGHT SIDE", "cities read as constellations"],
+  ["01", "Daylight side", "oceans · weather · biomass"],
+  ["02", "The terminator", "the moving line of dawn"],
+  ["03", "Night side", "cities read as constellations"],
 ];
 
 /* count-up для орбитального дата-борта (rAF, один раз при входе). */
@@ -47,13 +44,32 @@ function CountUp({ to, decimals = 0, prefix = "", suffix = "" }:
   return <span ref={ref} className="tr-num">{prefix}{v.toFixed(decimals)}{suffix}</span>;
 }
 
+/* якорь пин-сцены 320vh по её прогрессу t: доля высоты секции, которая проходит середину экрана */
+const pin = (t: number, V = 3.2) => (t * (V - 1) + 0.5) / V;
+
 export function Terra08() {
   return (
     <ScrollStage className="tr">
-      {/* НАСТОЯЩАЯ realtime-3D планета (three/r3f), fixed позади сцен cover+dolly; гаснет к data/outro */}
-      <EarthGlobe />
+      {/* ОСЬ ДЕНЬ→НОЧЬ и камера планеты — на всю страницу */}
+      <Follow stops={[
+        { at: ".tr-cover", vars: { "--gx": 0.95, "--gy": -0.05, "--gz": 3.7, "--sun": 0.02 } },
+        { at: ".tr-dolly", anchor: pin(0.2), vars: { "--gx": -0.55, "--gy": 0, "--gz": 3.0, "--sun": 0.08 } },
+        { at: ".tr-dolly", anchor: pin(0.5), vars: { "--gx": -0.62, "--gy": 0, "--gz": 2.55, "--sun": 0.42 } },
+        { at: ".tr-dolly", anchor: pin(0.8), vars: { "--gx": -0.66, "--gy": 0, "--gz": 2.25, "--sun": 0.86 } },
+        { at: ".tr-data", vars: { "--gx": -0.85, "--gy": 0.05, "--gz": 2.4, "--sun": 0.96 } },
+        { at: ".tr-end", vars: { "--gx": 0, "--gy": -1.25, "--gz": 2.05, "--sun": 0.62 } },
+      ]} />
+      <Follow round stops={[
+        { at: ".tr-cover", vars: { "--alt": 420 } },
+        { at: ".tr-dolly", anchor: pin(0.8), vars: { "--alt": 90 } },
+        { at: ".tr-end", vars: { "--alt": 90 } },
+      ]} />
 
-      {/* 0 · COVER — планета за копи, заголовок проявляется маской */}
+      {/* НАСТОЯЩАЯ realtime-3D планета — fixed позади всех глав, сквозной объект */}
+      <EarthGlobe />
+      <div className="tr-hud" aria-hidden><span>ORBIT</span><b className="tr-hud-alt" /><span className="tr-hud-sun" /></div>
+
+      {/* 0 · COVER — планета справа, дневная сторона; заголовок целиком */}
       <Scene className="tr-cover">
         <div className="tr-cover-grade" aria-hidden />
         <div className="tr-kick"><span>TERRA ORBITAL</span><span>Nº08 · EARTH OBSERVATION</span></div>
@@ -68,9 +84,8 @@ export function Terra08() {
         <div className="tr-cue" aria-hidden>scroll — fall through the atmosphere ↓</div>
       </Scene>
 
-      {/* 1 · DOLLY — камера ныряет к 3D-планете (день→ночь), главы сменяются clip-path (pin-scrub) */}
+      {/* 1 · DOLLY — наезд, солнце уходит за планету; главы по одной */}
       <Scene className="tr-dolly" pinned vh={320}>
-        <span className="tr-tag">DOLLY 04 · descending 420 km → 90 km</span>
         <div className="tr-chapters">
           {CHAPTERS.map(([idx, t, s], i) => (
             <div key={i} className="tr-chapter" style={{ ["--i" as string]: i }}>
@@ -82,23 +97,24 @@ export function Terra08() {
         </div>
       </Scene>
 
-      {/* 2 · DATA — орбитальный дата-борт, count-up (реальная польза) */}
+      {/* 2 · DATA — ночная сторона слева, телеметрия колонкой справа */}
       <Scene className="tr-data">
-        <p className="tr-data-lead">
-          <span className="tr-line" style={{ ["--d" as string]: 0 }}><i>Every pass rewrites</i></span>
-          <span className="tr-line tr-amber" style={{ ["--d" as string]: 1 }}><i>the living map.</i></span>
-        </p>
-        <div className="tr-grid">
-          <div className="tr-cell"><CountUp to={14} /><span>revisits / day</span></div>
-          <div className="tr-cell"><CountUp to={0.5} decimals={1} suffix=" m" /><span>ground resolution</span></div>
-          <div className="tr-cell tr-cell-amber"><CountUp to={92} suffix="%" /><span>cloud-free composites</span></div>
-          <div className="tr-cell"><CountUp to={6.1} decimals={1} suffix=" PB" /><span>archive, and counting</span></div>
+        <div className="tr-data-col">
+          <p className="tr-data-lead">
+            <span className="tr-line" style={{ ["--d" as string]: 0 }}><i>Every pass rewrites</i></span>
+            <span className="tr-line tr-amber" style={{ ["--d" as string]: 1 }}><i>the living map.</i></span>
+          </p>
+          <ul className="tr-reads">
+            <li><CountUp to={14} /><span>revisits / day</span></li>
+            <li><CountUp to={0.5} decimals={1} suffix=" m" /><span>ground resolution</span></li>
+            <li className="tr-read-amber"><CountUp to={92} suffix="%" /><span>cloud-free composites</span></li>
+            <li><CountUp to={6.1} decimals={1} suffix=" PB" /><span>archive, and counting</span></li>
+          </ul>
         </div>
       </Scene>
 
-      {/* 3 · OUTRO — уход в ночь, CTA */}
+      {/* 3 · OUTRO — рассвет над лимбом планеты, CTA */}
       <Scene className="tr-end">
-        <div className="tr-end-veil" aria-hidden />
         <div className="tr-end-block">
           <h2>
             <span className="tr-line" style={{ ["--d" as string]: 0 }}><i>Task a satellite</i></span>

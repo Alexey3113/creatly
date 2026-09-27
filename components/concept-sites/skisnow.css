@@ -84,7 +84,7 @@
 .sk2-elev{position:absolute;z-index:12;right:var(--pad);bottom:8vh;font:800 12px "DM Mono",monospace;letter-spacing:.14em;color:#1f3fd6}
 .sk2-copy{justify-items:start;align-content:end;padding:0 0 15vh var(--pad)}
 .sk2-copy .sk-eyebrow{color:#1f3fd6}
-.sk2-copy h2{margin:0;font:800 clamp(38px,5.6vw,88px)/.9 "Bricolage Grotesque",sans-serif;color:#15171f;text-transform:uppercase;letter-spacing:-.02em}
+.sk2-copy h2{margin:0;font:800 clamp(34px,4.6vw,76px)/.9 "Bricolage Grotesque",sans-serif;color:#15171f;text-transform:uppercase;letter-spacing:-.02em}
 .sk2-copy h2 em{font-style:normal;color:#1f3fd6}
 .sk2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#5a5e6c}
 
@@ -176,3 +176,48 @@
   .sk3-profile{width:94vw}.sk3-stats{flex-wrap:wrap;gap:14px 6vw}.sk3-legend{margin-left:0;width:100%}
   .sk4-prices{width:92vw}.sk4-price{grid-template-columns:1fr auto}.sk4-price s{display:none}
   .sk5-board{width:80vw}.sk5-sign{justify-items:center!important}.sk5-s1{padding:0 0 6vh 0}.sk5-s2{padding:0 0 36vh 0}.sk5-s3{padding:0 0 64vh 0}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
+/* актёр-райдер: на кобальте S5 — белый силуэт (--rw от Follow); при загрузке поднимается в кадр */
+.sk-actor.sk-rider img{filter:drop-shadow(0 24px 46px rgba(31,63,214,.26)) grayscale(var(--rw,0)) brightness(calc(1 + var(--rw,0) * 2.6)) contrast(calc(1 - var(--rw,0) * .25));animation:sk-rise 1s cubic-bezier(.2,.7,.2,1) .1s both}
+@keyframes sk-rise{from{opacity:0;transform:translateY(6vh) scale(.96)}to{opacity:1;transform:none}}
+/* «25» отсчитывается при загрузке */
+@property --sk-n{syntax:"<integer>";inherits:false;initial-value:25}
+.sk-25{counter-reset:skn var(--sk-n);animation:sk-count 1.4s cubic-bezier(.16,.8,.3,1) .15s backwards}
+.sk-25::before{content:counter(skn)}
+@keyframes sk-count{from{--sk-n:0}to{--sk-n:25}}
+
+/* снежный выброс: сцена открывается веером снежных клубов из-под доски, белая пудра оседает */
+.sk-site .sk2-scene[data-ov]>.ps-sticky{opacity:1;
+  --spray:radial-gradient(circle at 58% 104%,#000 calc(var(--ovp,0) * 120vmax - 4vmax),transparent calc(var(--ovp,0) * 120vmax)),
+    radial-gradient(circle at 44% 86%,#000 calc((var(--ovp,0) - .06) * 95vmax - 4vmax),transparent calc((var(--ovp,0) - .06) * 95vmax)),
+    radial-gradient(circle at 70% 80%,#000 calc((var(--ovp,0) - .1) * 90vmax - 4vmax),transparent calc((var(--ovp,0) - .1) * 90vmax)),
+    radial-gradient(circle at 28% 70%,#000 calc((var(--ovp,0) - .16) * 90vmax - 4vmax),transparent calc((var(--ovp,0) - .16) * 90vmax)),
+    radial-gradient(circle at 52% 54%,#000 calc((var(--ovp,0) - .22) * 85vmax - 4vmax),transparent calc((var(--ovp,0) - .22) * 85vmax));
+  -webkit-mask:var(--spray);mask:var(--spray)}
+.sk-site .sk6-scene[data-ov]>.ps-sticky{opacity:1;
+  --spray:radial-gradient(circle at 86% 38%,#000 calc(var(--ovp,0) * 120vmax - 4vmax),transparent calc(var(--ovp,0) * 120vmax)),
+    radial-gradient(circle at 70% 24%,#000 calc((var(--ovp,0) - .06) * 95vmax - 4vmax),transparent calc((var(--ovp,0) - .06) * 95vmax)),
+    radial-gradient(circle at 72% 60%,#000 calc((var(--ovp,0) - .1) * 90vmax - 4vmax),transparent calc((var(--ovp,0) - .1) * 90vmax)),
+    radial-gradient(circle at 52% 40%,#000 calc((var(--ovp,0) - .16) * 90vmax - 4vmax),transparent calc((var(--ovp,0) - .16) * 90vmax)),
+    radial-gradient(circle at 60% 78%,#000 calc((var(--ovp,0) - .22) * 85vmax - 4vmax),transparent calc((var(--ovp,0) - .22) * 85vmax));
+  -webkit-mask:var(--spray);mask:var(--spray)}
+.sk-powder{position:absolute;inset:0;z-index:30;pointer-events:none;background:#f9f8f3;opacity:calc(1 - var(--ovp,1) * 1.3)}
+.sk-powder::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:140px}
+/* S2→S3: срез по линии склона (косая кромка 25°, кобальтовая линия-гребень) */
+.sk-site .sk3-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * (100% + 48vh) - 48vh);clip-path:polygon(0 0,var(--e) 0,calc(var(--e) + 48vh) 100%,0 100%)}
+.sk-site .sk3-scene[data-ov]>.ps-sticky::after{content:"";position:absolute;z-index:40;top:0;left:calc(var(--ovp,1) * (100% + 48vh) - 48vh - 5px);width:5px;height:112%;background:#1f3fd6;transform-origin:50% 0;transform:rotate(-25.64deg);opacity:calc((1 - var(--ovp,1)) * 8)}
+/* S4→S5: кобальтовый хребет поднимается снизу и накрывает кадр */
+.sk-site .sk5-scene[data-ov]>.ps-sticky{opacity:1;--e:calc((1 - var(--ovp,0)) * 114% - 8%);
+  clip-path:polygon(0 100%,0 calc(var(--e) + 6%),8% calc(var(--e) + 1%),15% calc(var(--e) + 7%),24% calc(var(--e) - 3%),33% calc(var(--e) + 5%),41% calc(var(--e) - 6%),50% calc(var(--e) + 4%),58% calc(var(--e) - 1%),66% calc(var(--e) + 6%),75% calc(var(--e) - 5%),84% calc(var(--e) + 3%),92% calc(var(--e) - 2%),100% calc(var(--e) + 5%),100% 100%)}
+/* S3: фото гор кобальтовым дуотоном под профилем */
+.sk3-photo{-webkit-mask:linear-gradient(transparent 30%,#000 70%);mask:linear-gradient(transparent 30%,#000 70%)}
+.sk3-photo .ps-media{opacity:.2;filter:grayscale(1) sepia(1) hue-rotate(185deg) saturate(2.8) brightness(1.08) contrast(1.05)}
+/* S6: белый свет, в который уезжает райдер */
+.sk6-light{position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(46vw 56vh at 77% 48%,#fff,rgba(255,255,255,.7) 30%,rgba(255,255,255,0) 72%);opacity:calc(clamp(0,(var(--sp,0) - .3) / .45,1))}
+/* текст уходящей сцены гаснет до перекрытия — один заголовок на экране */
+.sk2-copy>*,.sk3-copy>*,.sk4-head>*,.sk5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .64) / .08,1))}
+@media(prefers-reduced-motion:reduce){
+  .sk2-copy>*,.sk3-copy>*,.sk4-head>*,.sk5-eyebrow{opacity:1}
+  .sk-actor.sk-rider img,.sk-25{animation:none}
+}

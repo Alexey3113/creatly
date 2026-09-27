@@ -88,7 +88,7 @@
 
 /* S3 THE OCCASIONS — реестр-афиша (Everest-data) */
 .e3-scene .ps-sticky{background:#07100b}
-.e3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 92% at 50% 44%,#0f2419,#060d09)}
+.e3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 92% at 50% 44%,var(--atm,#0f2419),#060d09)}
 .e3-mono{place-items:center}
 .e3-mono span{font:400 62vh/1 "Marcellus",serif;color:rgba(203,167,90,.06)}
 .e3-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
@@ -103,7 +103,7 @@
 .e3-frame figcaption{margin-top:9px;text-align:center}
 .e3-frame b{display:block;font:400 clamp(16px,1.7vw,24px) "Marcellus",serif;color:#f2ecdd}
 .e3-frame span{display:block;margin-top:3px;font:600 8px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#cba75a}
-.e3-f1{top:38%;left:7%;width:18.5%}.e3-f2{top:38%;left:28.5%;width:18.5%}.e3-f3{top:38%;left:53%;width:18.5%}.e3-f4{top:38%;left:74.5%;width:18.5%}
+.e3-f1{top:31%;left:7%;width:18.5%}.e3-f2{top:31%;left:28.5%;width:18.5%}.e3-f3{top:31%;left:53%;width:18.5%}.e3-f4{top:31%;left:74.5%;width:18.5%}
 
 /* S4 DISCRETION — золотая нить + текст */
 .e4-scene .ps-sticky{background:#0a1310}
@@ -132,7 +132,7 @@
 
 /* S6 NEVER ARRIVE ALONE — печать-объект + CTA */
 .e6-scene .ps-sticky{background:#070f0b}
-.e6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 84% at 50% 42%,#123b2e,#060d09)}
+.e6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 84% at 50% 42%,var(--atm,#123b2e),#060d09)}
 .e6-seal{justify-items:end;align-content:center;padding-right:7vw}
 .e6-seal .ps-media{width:28vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(203,167,90,.2))}
 .e6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
@@ -142,3 +142,54 @@
 .e6-cta{position:absolute;z-index:16;left:var(--pad);bottom:15vh;max-width:38ch}
 .e6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#9fb0a3}
 @media(max-width:900px){.e2-couple .ps-media{width:44vw}.e5-card,.e5-mid{width:74vw}.e6-seal{display:none}.e2-copy,.e6-cta{max-width:88vw}.e3-frame{position:relative;top:auto;left:auto;width:42vw}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА v2 (аудит 2026-09) ===== */
+/* hero: облака плывут, просвет «дышит» (без скролла) */
+.ep-bg .ps-media{animation:epDrift 38s ease-in-out infinite alternate}
+@keyframes epDrift{from{transform:translateX(-1.6%) scale(1.02)}to{transform:translateX(1.6%) scale(1.05)}}
+.ep-breath{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(20vw 28vh at 36% 50%,rgba(255,214,140,.36),transparent 72%);animation:epBreath 6s ease-in-out infinite}
+@keyframes epBreath{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* АКТЁР — приглашение с печатью: тёплое свечение, в hero «горит» в просвете */
+.es-site .es-invite img{filter:drop-shadow(0 18px 30px rgba(0,0,0,.5)) drop-shadow(0 0 22px rgba(203,167,90,.34));animation:esGlow 4.2s ease-in-out infinite}
+@keyframes esGlow{0%,100%{filter:drop-shadow(0 18px 30px rgba(0,0,0,.5)) drop-shadow(0 0 16px rgba(203,167,90,.26))}50%{filter:drop-shadow(0 18px 30px rgba(0,0,0,.5)) drop-shadow(0 0 34px rgba(236,200,120,.55))}}
+
+/* СТЫК «капля сургуча»: SVG-капля растёт из точки до размера кадра, внутри — следующая сцена; золотой ободок = кольцо той же капли */
+.es-site .e2-scene[data-ov]>.ps-sticky,.es-site .e6-scene[data-ov]>.ps-sticky{opacity:1;
+  --k:calc(var(--ovp,0)*var(--ovp,0)*(3 - 2*var(--ovp,0)));--S:calc(var(--k)*300vmax);--S2:calc(var(--S)*.955);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M181.4 102.7C182.6 115.3 182.8 120.5 178.1 132.5C173.4 144.6 164.1 165.2 153.1 174.9C142.1 184.6 123.5 189.8 111.9 190.6C100.3 191.4 93.8 182.7 83.4 179.8C72.9 176.9 58.4 179.1 49.3 173.2C40.2 167.4 35.3 157.6 28.8 144.9C22.3 132.1 12.5 109.9 10.3 96.8C8.2 83.7 9.6 78.2 16.1 66.3C22.6 54.4 37.5 35.2 49.2 25.6C60.9 16.0 75.1 10.1 86.1 8.9C97.2 7.6 103.0 13.0 115.4 18.0C127.9 22.9 151.8 32.2 160.9 38.8C170.1 45.3 167.1 46.4 170.5 57.1C173.9 67.8 180.1 90.2 181.4 102.7Z'/%3E%3C/svg%3E") no-repeat calc(var(--ox) - var(--S)/2) calc(var(--oy) - var(--S)/2)/var(--S) var(--S);mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M181.4 102.7C182.6 115.3 182.8 120.5 178.1 132.5C173.4 144.6 164.1 165.2 153.1 174.9C142.1 184.6 123.5 189.8 111.9 190.6C100.3 191.4 93.8 182.7 83.4 179.8C72.9 176.9 58.4 179.1 49.3 173.2C40.2 167.4 35.3 157.6 28.8 144.9C22.3 132.1 12.5 109.9 10.3 96.8C8.2 83.7 9.6 78.2 16.1 66.3C22.6 54.4 37.5 35.2 49.2 25.6C60.9 16.0 75.1 10.1 86.1 8.9C97.2 7.6 103.0 13.0 115.4 18.0C127.9 22.9 151.8 32.2 160.9 38.8C170.1 45.3 167.1 46.4 170.5 57.1C173.9 67.8 180.1 90.2 181.4 102.7Z'/%3E%3C/svg%3E") no-repeat calc(var(--ox) - var(--S)/2) calc(var(--oy) - var(--S)/2)/var(--S) var(--S)}
+.es-site .e2-scene[data-ov]>.ps-sticky{--ox:36vw;--oy:49vh}
+.es-site .e6-scene[data-ov]>.ps-sticky{--ox:50vw;--oy:85vh}
+.es-wax{display:none}
+.es-site [data-ov]>.ps-sticky .es-wax{display:block;position:absolute;inset:0;z-index:40;pointer-events:none;
+  background:radial-gradient(circle at var(--ox) var(--oy),#fff2c8 0,#e9c97c 26%,#b8893a 58%,#7a5518 100%);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M181.4 102.7C182.6 115.3 182.8 120.5 178.1 132.5C173.4 144.6 164.1 165.2 153.1 174.9C142.1 184.6 123.5 189.8 111.9 190.6C100.3 191.4 93.8 182.7 83.4 179.8C72.9 176.9 58.4 179.1 49.3 173.2C40.2 167.4 35.3 157.6 28.8 144.9C22.3 132.1 12.5 109.9 10.3 96.8C8.2 83.7 9.6 78.2 16.1 66.3C22.6 54.4 37.5 35.2 49.2 25.6C60.9 16.0 75.1 10.1 86.1 8.9C97.2 7.6 103.0 13.0 115.4 18.0C127.9 22.9 151.8 32.2 160.9 38.8C170.1 45.3 167.1 46.4 170.5 57.1C173.9 67.8 180.1 90.2 181.4 102.7Z'/%3E%3C/svg%3E") no-repeat calc(var(--ox) - var(--S)/2) calc(var(--oy) - var(--S)/2)/var(--S) var(--S),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M181.4 102.7C182.6 115.3 182.8 120.5 178.1 132.5C173.4 144.6 164.1 165.2 153.1 174.9C142.1 184.6 123.5 189.8 111.9 190.6C100.3 191.4 93.8 182.7 83.4 179.8C72.9 176.9 58.4 179.1 49.3 173.2C40.2 167.4 35.3 157.6 28.8 144.9C22.3 132.1 12.5 109.9 10.3 96.8C8.2 83.7 9.6 78.2 16.1 66.3C22.6 54.4 37.5 35.2 49.2 25.6C60.9 16.0 75.1 10.1 86.1 8.9C97.2 7.6 103.0 13.0 115.4 18.0C127.9 22.9 151.8 32.2 160.9 38.8C170.1 45.3 167.1 46.4 170.5 57.1C173.9 67.8 180.1 90.2 181.4 102.7Z'/%3E%3C/svg%3E") no-repeat calc(var(--ox) - var(--S2)/2) calc(var(--oy) - var(--S2)/2)/var(--S2) var(--S2);-webkit-mask-composite:xor;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M181.4 102.7C182.6 115.3 182.8 120.5 178.1 132.5C173.4 144.6 164.1 165.2 153.1 174.9C142.1 184.6 123.5 189.8 111.9 190.6C100.3 191.4 93.8 182.7 83.4 179.8C72.9 176.9 58.4 179.1 49.3 173.2C40.2 167.4 35.3 157.6 28.8 144.9C22.3 132.1 12.5 109.9 10.3 96.8C8.2 83.7 9.6 78.2 16.1 66.3C22.6 54.4 37.5 35.2 49.2 25.6C60.9 16.0 75.1 10.1 86.1 8.9C97.2 7.6 103.0 13.0 115.4 18.0C127.9 22.9 151.8 32.2 160.9 38.8C170.1 45.3 167.1 46.4 170.5 57.1C173.9 67.8 180.1 90.2 181.4 102.7Z'/%3E%3C/svg%3E") no-repeat calc(var(--ox) - var(--S)/2) calc(var(--oy) - var(--S)/2)/var(--S) var(--S),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M181.4 102.7C182.6 115.3 182.8 120.5 178.1 132.5C173.4 144.6 164.1 165.2 153.1 174.9C142.1 184.6 123.5 189.8 111.9 190.6C100.3 191.4 93.8 182.7 83.4 179.8C72.9 176.9 58.4 179.1 49.3 173.2C40.2 167.4 35.3 157.6 28.8 144.9C22.3 132.1 12.5 109.9 10.3 96.8C8.2 83.7 9.6 78.2 16.1 66.3C22.6 54.4 37.5 35.2 49.2 25.6C60.9 16.0 75.1 10.1 86.1 8.9C97.2 7.6 103.0 13.0 115.4 18.0C127.9 22.9 151.8 32.2 160.9 38.8C170.1 45.3 167.1 46.4 170.5 57.1C173.9 67.8 180.1 90.2 181.4 102.7Z'/%3E%3C/svg%3E") no-repeat calc(var(--ox) - var(--S2)/2) calc(var(--oy) - var(--S2)/2)/var(--S2) var(--S2);mask-composite:exclude;
+  opacity:calc(1 - clamp(0,(var(--k) - .78)*5,1))}
+
+/* СТЫК S4→S5 «нить раскрывается дверью»: вертикальная щель из нити конфиденциальности, золотые кромки */
+.es-site .e5-scene[data-ov]>.ps-sticky{opacity:1;--k:calc(var(--ovp,0)*var(--ovp,0)*(3 - 2*var(--ovp,0)));--e:calc(var(--k)*50.5%);
+  clip-path:inset(0 calc(50% - var(--e)) 0 calc(50% - var(--e)))}
+.es-site .e5-scene[data-ov]>.ps-sticky::after{content:"";position:absolute;inset:0;z-index:40;pointer-events:none;opacity:calc(1 - clamp(0,(var(--ovp,0) - .9)*10,1));
+  background:linear-gradient(90deg,transparent calc(50% - var(--e)),rgba(240,208,130,.95) calc(50% - var(--e)),rgba(240,208,130,.95) calc(50% - var(--e) + 2px),rgba(203,167,90,.22) calc(50% - var(--e) + 3px),transparent calc(50% - var(--e) + 6vw),
+    transparent calc(50% + var(--e) - 6vw),rgba(203,167,90,.22) calc(50% + var(--e) - 3px),rgba(240,208,130,.95) calc(50% + var(--e) - 2px),rgba(240,208,130,.95) calc(50% + var(--e)),transparent calc(50% + var(--e)))}
+
+/* нить конфиденциальности свисает из конверта (S4) — ярче, над кадром двери */
+.e4-rule{z-index:3;top:17vh;width:1.5px;background:linear-gradient(180deg,rgba(240,208,130,.95),rgba(203,167,90,.6) 55%,transparent);box-shadow:0 0 10px rgba(240,208,130,.45)}
+/* S4 — пара уходит в освещённую дверь: конфиденциальность как кадр, а не пустота */
+.e4-door{place-items:center}
+.e4-door .ps-media{filter:brightness(.66) saturate(1.05) contrast(1.06)}
+.e4-dveil{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(38% 56% at 50% 56%,transparent,rgba(5,10,8,.5) 72%),linear-gradient(180deg,rgba(6,12,9,.8),rgba(6,12,9,.2) 34% 62%,rgba(6,12,9,.86))}
+.e6-glow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(26vw 36vh at 78% 50%,rgba(203,167,90,.22),transparent 70%)}
+
+/* уход текста старой сцены до проявления следующей (перекрытия S2→S3, S3→S4) */
+.e2-copy>*{opacity:clamp(0,(.8 - var(--sp,0))*9,1)}
+.e3-head>*,.e3-frame{opacity:clamp(0,(.78 - var(--sp,0))*9,1)}
+
+@media(prefers-reduced-motion:reduce){
+  .ep-bg .ps-media,.ep-breath,.es-site .es-invite img{animation:none}
+  .es-site [data-ov]>.ps-sticky .es-wax,.es-site .e5-scene[data-ov]>.ps-sticky::after{display:none}
+  .e2-copy>*,.e3-head>*,.e3-frame{opacity:1}
+}

@@ -71,11 +71,9 @@
 .pr2-bg .ps-media{filter:contrast(1.05) saturate(1.1) brightness(.8)}
 .pr2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 46%,rgba(232,90,156,.14),transparent 62%),linear-gradient(180deg,rgba(18,6,17,.5),transparent 28% 56%,rgba(18,6,17,.82))}
 .pr2-num{position:absolute;z-index:3;left:50%;top:44%;transform:translate(-50%,-50%);font:800 66vh/1 "Bricolage Grotesque",sans-serif;color:rgba(232,90,156,.14);pointer-events:none}
-.pr2-car{place-items:center;align-content:center}
-.pr2-car .ps-media{width:52vw;height:auto;max-width:none;filter:contrast(1.05) brightness(1.03) drop-shadow(0 30px 52px rgba(0,0,0,.62)) drop-shadow(0 0 46px rgba(232,90,156,.22))}
 .pr2-fg{justify-items:end;align-content:start}
 .pr2-fg .ps-media{width:30vw;height:auto;max-width:none;filter:drop-shadow(0 10px 20px rgba(0,0,0,.4))}
-.pr2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
+.pr2-copy{justify-items:start;align-content:start;padding:17vh 0 0 var(--pad)}
 .pr2-copy .pr-eyebrow{color:#e85a9c}
 .pr2-copy h2{margin:0;font:800 clamp(40px,6vw,96px)/.9 "Bricolage Grotesque",sans-serif;color:#f2e8ef;text-transform:uppercase;letter-spacing:-.02em}
 .pr2-copy h2 em{font-style:normal;color:#e85a9c}
@@ -84,7 +82,8 @@
 
 /* S3 THE MACHINE — приборный кластер · стрелки разворачиваются по --lp */
 .pr3-scene .ps-sticky{background:#120611}
-.pr3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c0a1a,#0c040b)}
+.pr3-photo .ps-media{filter:brightness(.52) saturate(.95) contrast(1.05)}
+.pr3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 52%,rgba(28,10,26,.25),rgba(12,4,11,.72))}
 .pr3-word{place-items:center}
 .pr3-word span{font:800 clamp(160px,32vw,540px)/.9 "Bricolage Grotesque",sans-serif;color:transparent;-webkit-text-stroke:2px rgba(232,90,156,.14);letter-spacing:-.03em}
 .pr3-copy{justify-items:center;align-content:start;text-align:center;padding-top:5vh}
@@ -111,7 +110,7 @@
 
 /* S4 THE NUMBERS — спеки */
 .pr4-scene .ps-sticky{background:#120611}
-.pr4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1a0c22,#0c040b)}
+.pr4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,rgba(26,12,34,.3),rgba(12,4,11,.78))}
 .pr4-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
 .pr4-head .pr-eyebrow{color:#e85a9c}
 /* rev-sweep: магента-полоса проходит по спекам, они загораются слева-направо (по --lp) */
@@ -130,7 +129,7 @@
 
 /* S5 FROM THE ROAD — timing board · сессии владельцев как круги, P1 = фиолетовый */
 .pr5-scene .ps-sticky{background:#120611}
-.pr5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1c0a1a,#0a030a)}
+.pr5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,rgba(28,10,26,.4),rgba(10,3,10,.82))}
 .pr5-lap{justify-items:center;align-content:start}
 .pr5-l1{padding-top:25vh}.pr5-l2{padding-top:41vh}.pr5-l3{padding-top:57vh}
 .pr5-row{position:relative;display:grid;grid-template-columns:56px 1fr auto auto;column-gap:22px;row-gap:6px;align-items:center;width:min(840px,88vw);padding:15px 22px;background:rgba(24,10,22,.62);border:1px solid rgba(232,90,156,.22);border-radius:5px;backdrop-filter:blur(4px)}
@@ -147,17 +146,58 @@
 
 /* S6 TAKE THE 911 — машина + CTA */
 .pr6-scene .ps-sticky{background:#120611}
-.pr6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 55% 42%,#1c0a1a,#0c040b)}
+.pr6-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(12,4,11,.8),rgba(12,4,11,.35) 50%,rgba(12,4,11,.2)),radial-gradient(82% 86% at 55% 42%,rgba(28,10,26,.2),rgba(12,4,11,.55))}
 .pr6-num{position:absolute;z-index:2;left:54%;top:46%;transform:translate(-50%,-50%);font:800 66vh/1 "Bricolage Grotesque",sans-serif;color:rgba(232,90,156,.1)}
-.pr6-car{justify-items:end;align-content:center;padding-right:2vw}
-.pr6-car .ps-media{width:46vw;height:auto;max-width:none;filter:contrast(1.05) brightness(1.03) drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 44px rgba(232,90,156,.24))}
 .pr6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad);filter:blur(calc((1 - clamp(0, var(--lp,0) * 1.7, 1)) * 9px))}
 .pr6-copy .pr-eyebrow{color:#e85a9c}
 .pr6-copy h2{margin:0;font:800 clamp(52px,10vw,160px)/.86 "Bricolage Grotesque",sans-serif;color:#f2e8ef;text-transform:uppercase;letter-spacing:-.02em}
 .pr6-copy h2 em{font-style:normal;color:#e85a9c}
 .pr6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
 .pr6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#b892a8}
-@media(max-width:900px){.pr2-copy,.pr6-cta{max-width:88vw}.pr2-car .ps-media,.pr6-car .ps-media{width:92vw}.pr2-fg{display:none}
+@media(max-width:900px){.pr2-copy,.pr6-cta{max-width:88vw}.pr5-track{display:none}.pr2-fg{display:none}
   .pr3-cluster{gap:5vw}.prg{width:23vw}.prg-big{width:31vw}.prg-label{font-size:8px}
   .pr4-specs{flex-wrap:wrap;gap:6vw 10vw}.pr4-sweep{display:none}
   .pr5-row{width:92vw;grid-template-columns:44px 1fr auto;column-gap:12px}.pr5-tag{display:none}.pr5-note{grid-column:1 / -1}.pr5-l1{padding-top:20vh}.pr5-l2{padding-top:38vh}.pr5-l3{padding-top:56vh}}
+
+/* ===== v2 · 911-актёр, ночь как сюжет, стыки (аудит 2026-09) ===== */
+/* то же поле во всех сценах: темнеет по общему прогрессу --night (Follow) — сумерки → ночь */
+.pr-site .pr-field .ps-media{filter:brightness(calc(.84 - var(--night,0) * .58)) saturate(calc(1.12 - var(--night,0) * .42)) hue-rotate(calc(var(--night,0) * -14deg)) contrast(1.05)}
+/* АКТЁР — 911: тень на земле + задние фонари загораются к ночи */
+.pr-car-a{position:relative}
+.pr-actor .pr-car-a img{filter:drop-shadow(0 26px 36px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(232,90,156,.16))}
+.pr-tail{position:absolute;width:9%;height:6%;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:var(--lights,0);
+  background:radial-gradient(closest-side,rgba(255,80,110,.95),rgba(255,40,90,.35) 55%,transparent);filter:blur(2px)}
+.pr-tail-l{left:32.5%;top:50.5%}.pr-tail-r{left:40.5%;top:50%}
+/* hero в покое: ветви магнолии качаются, свечение дышит */
+.pr-blossom-l .ps-media{transform-origin:20% 0;animation:pr-sway-l 7s ease-in-out infinite alternate}
+.pr-blossom-r .ps-media{transform-origin:80% 0;animation:pr-sway-r 8s ease-in-out infinite alternate}
+@keyframes pr-sway-l{from{transform:rotate(-2.2deg)}to{transform:rotate(2deg)}}
+@keyframes pr-sway-r{from{transform:scaleX(-1) rotate(2.4deg)}to{transform:scaleX(-1) rotate(-1.8deg)}}
+.pr-blobs{animation:pr-breathe 9s ease-in-out infinite alternate}
+@keyframes pr-breathe{from{opacity:.75}to{opacity:1}}
+/* S4: дорога в перспективе, разметка бежит от скролла */
+.pr4-road{position:absolute;z-index:2;left:22%;right:22%;bottom:-6vh;height:96vh;pointer-events:none;transform-origin:50% 100%;transform:perspective(520px) rotateX(66deg);
+  background:repeating-linear-gradient(180deg,rgba(248,214,232,.75) 0 5vh,transparent 5vh 12vh) 50% calc(var(--sp,0) * 96vh)/5px 100% no-repeat,
+    linear-gradient(90deg,transparent,rgba(10,3,10,.72) 22% 78%,transparent);
+  -webkit-mask:linear-gradient(0deg,#000 40%,transparent);mask:linear-gradient(0deg,#000 40%,transparent)}
+/* S5: круг трассы рисуется по --lap, точка машины едет по нему (offset-path) */
+.pr5-track{position:absolute;z-index:2;left:50%;top:54%;width:560px;height:400px;transform:translate(-50%,-50%) scale(1.45);opacity:.62;pointer-events:none}
+.pr5-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pr5-line-bg{fill:none;stroke:rgba(232,90,156,.16);stroke-width:2.5}
+.pr5-line{fill:none;stroke:#a97cf0;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:calc(100 - var(--lap,0) * 100);filter:drop-shadow(0 0 5px rgba(169,124,240,.8))}
+.pr5-dot{position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(169,124,240,.35),0 0 18px #a97cf0;
+  offset-distance:calc(var(--lap,0) * 100%);offset-rotate:0deg;offset-anchor:50% 50%}
+
+/* СТЫК «влёт в окно» (S2→S3): камера влетает в боковое окно 911 (актёр ×7), салон открывается эллипсом из той же точки */
+.pr-site .pr3-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0));clip-path:ellipse(calc(var(--e) * 140vmax) calc(var(--e) * 120vmax) at 72% 51%)}
+/* СТЫК «свет фар» (S3→S4): ночь открывается конусом света снизу */
+.pr-site .pr4-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));
+  clip-path:polygon(calc(50% - var(--e) * 70%) 100%,calc(50% + var(--e) * 70%) 100%,calc(50% + var(--e) * 160%) calc(100% - var(--e) * 190%),calc(50% - var(--e) * 160%) calc(100% - var(--e) * 190%))}
+.pr4-beam{position:absolute;inset:0;z-index:30;pointer-events:none;opacity:calc(1 - var(--e,1));background:radial-gradient(70% 90% at 50% 100%,rgba(255,236,246,.42),rgba(242,184,212,.12) 45%,transparent 72%)}
+
+@media(prefers-reduced-motion:reduce){
+  .pr-site *,.pr-site *::before,.pr-site *::after{animation:none!important}
+  .pr-site .pr-exit{opacity:1!important}
+  .pr-site .ps-scene[data-ov]>.ps-sticky{clip-path:none;opacity:1}
+  .pr4-beam{display:none}
+}

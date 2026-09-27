@@ -81,10 +81,10 @@
 .bm2-spec{position:absolute;font:800 clamp(16px,1.9vw,26px) "Bricolage Grotesque",sans-serif;color:#eef2f6;letter-spacing:.01em}
 .bm2-spec span{display:block;margin-top:4px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#7d8896}
 .bm2-spec i{display:block;width:9px;height:9px;border:1.5px solid #2ea6ff;border-radius:50%;margin-bottom:8px;box-shadow:0 0 10px rgba(46,166,255,.6)}
-.bm2-s1{top:30vh;left:8vw}.bm2-s2{top:30vh;right:8vw;text-align:right}.bm2-s2 i{margin-left:auto}.bm2-s3{bottom:24vh;right:10vw;text-align:right}.bm2-s3 i{margin-left:auto}
+.bm2-s1{top:30vh;left:8vw}.bm2-s2{top:12vh;right:8vw;text-align:right}.bm2-s2 i{margin-left:auto}.bm2-s3{bottom:24vh;right:10vw;text-align:right}.bm2-s3 i{margin-left:auto}
 .bm2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
 .bm2-copy .bm-eyebrow{color:#2ea6ff}
-.bm2-copy h2{margin:0;font:800 clamp(40px,6vw,96px)/.88 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase;letter-spacing:-.02em}
+.bm2-copy h2{margin:0;font:800 clamp(38px,5vw,80px)/.88 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase;letter-spacing:-.02em}
 .bm2-copy h2 em{font-style:normal;color:#2ea6ff}
 .bm2-copy p{margin:18px 0 0;max-width:40ch;font:400 15px/1.7 "Manrope",sans-serif;color:#8f9aa8}
 .bm2-grain{position:absolute;inset:0;z-index:12;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
@@ -112,13 +112,13 @@
 /* S4 THE NUMBERS — spec sheet */
 .bm4-scene .ps-sticky{background:#0b0d10}
 .bm4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#12161c,#080a0d)}
-.bm4-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
+.bm4-head{justify-items:end;align-content:start;text-align:right;padding:9vh 7vw 0 0}
 .bm4-head .bm-eyebrow{color:#2ea6ff}
 .bm4-head h2{margin:0;font:800 clamp(32px,4.8vw,68px)/1 "Bricolage Grotesque",sans-serif;color:#eef2f6;text-transform:uppercase}
 .bm4-head h2 em{font-style:normal;color:#2ea6ff}
 /* спек фиксируется апертур-рамкой + ряд проявляется (по --lp, последовательно) */
-.bm4-specsL{justify-items:center;align-content:center}
-.bm4-specs{width:min(760px,86vw)}
+.bm4-specsL{justify-items:end;align-content:center;padding-right:7vw}
+.bm4-specs{width:min(720px,56vw)}
 .bm4-spec{position:relative;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:baseline;padding:15px 18px;border-top:1px solid rgba(46,166,255,.22);
   opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 11, 1))}
 .bm4-spec:first-child{border-top:none}
@@ -139,11 +139,11 @@
 .bm5-scan span{display:block;width:64vw;height:2px;background:linear-gradient(90deg,transparent,#2ea6ff,transparent);box-shadow:0 0 16px rgba(46,166,255,.6);opacity:.7}
 .bm5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:#2ea6ff}
 /* HUD data-карточки телеметрии, снап сверху вниз */
-.bm5-row{justify-items:center}
+.bm5-row{justify-items:end;padding-right:6vw!important}
 .bm5-r1{align-content:start;padding-top:17vh}
 .bm5-r2{align-content:center}
 .bm5-r3{align-content:end;padding-bottom:13vh}
-.bm5-card{position:relative;max-width:54vw;padding:22px 34px;border:1px solid rgba(46,166,255,.3);background:rgba(9,12,16,.62);text-align:center}
+.bm5-card{position:relative;max-width:50vw;padding:22px 34px;border:1px solid rgba(46,166,255,.3);background:rgba(9,12,16,.62);text-align:center}
 .bm5-card::before,.bm5-card::after{content:"";position:absolute;width:11px;height:11px;border:1.5px solid #2ea6ff}
 .bm5-card::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
 .bm5-card::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
@@ -163,3 +163,50 @@
 .bm6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
 .bm6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#8f9aa8}
 @media(max-width:900px){.bm2-copy,.bm6-cta{max-width:88vw}.bm2-car .ps-media,.bm6-car .ps-media{width:92vw}.bm2-spec{display:none}.bm3-call{width:40vw}.bm3-car .ps-media{width:84vw}.bm5-card{max-width:90vw}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
+/* актёр-M4: при загрузке «камера отдаляется от карбона»; в S4 — blueprint-силуэт (--bp от Follow) */
+.sk-actor.bm-carA img{filter:drop-shadow(0 40px 70px rgba(0,0,0,.6)) drop-shadow(0 0 calc(40px + var(--bp,0) * 10px) rgba(46,166,255,calc(.2 + var(--bp,0) * .6))) grayscale(var(--bp,0)) brightness(calc(1 + var(--bp,0) * .25)) contrast(calc(1 + var(--bp,0) * .35));
+  animation:bm-pull 1.3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes bm-pull{from{opacity:0;transform:scale(1.14);filter:blur(10px) brightness(1.6)}to{opacity:1;transform:none}}
+/* hero в покое: блик бежит по карбону, световое пятно дышит */
+.bm-glow{animation:bm-breathe 4.6s ease-in-out infinite}
+@keyframes bm-breathe{0%,100%{opacity:.75;transform:scale(.97)}50%{opacity:1;transform:scale(1.04)}}
+.bm-glint{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;overflow:hidden}
+.bm-glint::before{content:"";position:absolute;top:-30%;bottom:-30%;left:-40%;width:22%;transform:rotate(18deg) translateX(-60vw);
+  background:linear-gradient(90deg,transparent,rgba(160,215,255,.16) 40%,rgba(220,240,255,.34) 50%,rgba(160,215,255,.16) 60%,transparent);animation:bm-glint 5.5s cubic-bezier(.45,0,.2,1) infinite}
+@keyframes bm-glint{0%{transform:rotate(18deg) translateX(-30vw)}62%,100%{transform:rotate(18deg) translateX(190vw)}}
+.bm-hero .bm-title,.bm-hero .bm-specs{transition:none}
+
+/* S1→S2: луч фары — сцена раскрывается горизонтальной полосой света на высоте фары, со вспышкой */
+.bm-site .bm2-scene[data-ov]>.ps-sticky{opacity:1;--h:calc(var(--ovp,0) * var(--ovp,0) * 62%);
+  clip-path:inset(max(0%,calc(53% - var(--h))) 0 max(0%,calc(47% - var(--h))) 0)}
+.bm-flash{position:absolute;inset:0;z-index:30;pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(180deg,transparent 18%,rgba(150,210,255,.55) 42%,#eaf6ff 53%,rgba(150,210,255,.55) 64%,transparent 88%);opacity:calc(1 - var(--ovp,1) * 1.25)}
+.bm-flash-red{background:linear-gradient(180deg,transparent 20%,rgba(255,80,60,.5) 46%,#ffe2dc 60%,rgba(255,60,40,.5) 72%,transparent 92%)}
+/* S2→S3: скан-линия сверху вниз проявляет взрыв-схему */
+.bm-site .bm3-scene[data-ov]>.ps-sticky{opacity:1;clip-path:inset(0 0 calc((1 - var(--ovp,0)) * 100%) 0)}
+.bm-site .bm3-scene[data-ov]>.ps-sticky::after{content:"";position:absolute;left:0;right:0;z-index:40;height:2px;top:calc(var(--ovp,1) * 100% - 3px);
+  background:linear-gradient(90deg,transparent,#8fd0ff 20%,#fff 50%,#8fd0ff 80%,transparent);box-shadow:0 0 18px 4px rgba(46,166,255,.7);opacity:calc((1 - var(--ovp,1)) * 6)}
+.bm3-halo{position:absolute;z-index:3;left:50%;top:44%;width:60vw;height:44vh;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(closest-side,rgba(46,166,255,.2),transparent 75%)}
+/* S5→S6: красная вспышка redline — полоса на высоте фары */
+.bm-site .bm6-scene[data-ov]>.ps-sticky{opacity:1;--h:calc(var(--ovp,0) * var(--ovp,0) * 66%);
+  clip-path:inset(max(0%,calc(62% - var(--h))) 0 max(0%,calc(38% - var(--h))) 0)}
+/* S4: выносная линия от blueprint-машины к таблице */
+.bm4-leader{position:absolute;z-index:11;left:29vw;top:52vh;width:calc(37vw - 29vw + 8vw);height:0;border-top:1px dashed rgba(46,166,255,.6);opacity:clamp(0,calc((var(--sp,0) - .16) * 6),1)}
+.bm4-leader::before{content:"";position:absolute;left:-5px;top:-5px;width:9px;height:9px;border-radius:50%;border:1.5px solid #2ea6ff;box-shadow:0 0 10px rgba(46,166,255,.7)}
+/* S5: фара режет темноту к отзывам */
+.bm5-beam{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:screen;clip-path:polygon(26% 81.6%,104% 2%,104% 98%);
+  background:linear-gradient(62deg,rgba(210,236,255,.5) 0%,rgba(46,166,255,.22) 26%,rgba(46,166,255,.06) 60%,transparent 90%);
+  opacity:calc(.35 + clamp(0,var(--sp,0) * 3,1) * .65);animation:bm-flick 3.8s ease-in-out infinite}
+@keyframes bm-flick{0%,100%{filter:brightness(1)}48%{filter:brightness(1.12)}52%{filter:brightness(.9)}}
+/* S6: красный шлейф redline за уходящей машиной */
+.bm6-trail{position:absolute;z-index:3;left:-4vw;top:66vh;width:62vw;height:5vh;pointer-events:none;border-radius:50%;filter:blur(6px);
+  background:linear-gradient(90deg,transparent,rgba(255,40,30,.25) 40%,rgba(255,70,50,.85) 92%,transparent);transform-origin:right center;transform:scaleX(calc(.3 + clamp(0,var(--sp,0) * 1.4,1) * .7))}
+/* текст уходящей сцены гаснет до перекрытия — один заголовок на экране */
+.bm2-copy>*,.bm3-copy>*,.bm4-head>*,.bm5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .64) / .08,1))}
+@media(max-width:900px){.bm4-leader,.bm5-beam{display:none}.bm4-specs{width:92vw}.bm5-card{max-width:90vw}}
+@media(prefers-reduced-motion:reduce){
+  .bm2-copy>*,.bm3-copy>*,.bm4-head>*,.bm5-eyebrow{opacity:1}
+  .sk-actor.bm-carA img,.bm-glow,.bm-glint::before,.bm5-beam{animation:none}
+}

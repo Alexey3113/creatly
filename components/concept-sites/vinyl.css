@@ -43,8 +43,6 @@
 .vp-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 42%,rgba(217,154,74,.14),transparent 62%),linear-gradient(180deg,rgba(20,13,9,.5),transparent 28% 58%,rgba(20,13,9,.78))}
 .vp-title{place-items:center;align-content:center}
 .vp-title span{font:400 clamp(120px,22vw,360px)/.9 "Pirata One",serif;color:#9b2a1e;letter-spacing:.01em;text-shadow:0 4px 30px rgba(0,0,0,.55),2px 2px 0 rgba(0,0,0,.25)}
-.vp-record{justify-items:end;align-content:center;padding-right:3vw}
-.vp-record .ps-media{width:15vw;height:auto;max-width:none;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6))}
 .vp-grain{position:absolute;inset:0;z-index:14;pointer-events:none;opacity:.32;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
 .vp-frame{position:absolute;z-index:16;inset:16px;border:1px solid rgba(217,154,74,.3);pointer-events:none}
 .vp-top{position:absolute;z-index:17;top:28px;left:0;right:0;text-align:center;font:700 11px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:#e3c79c}
@@ -60,7 +58,7 @@
 .vp-credit{position:absolute;z-index:17;left:var(--pad);bottom:8vh;font:700 10px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#a58a6c}
 .vp-rpm{position:absolute;z-index:17;right:var(--pad);top:96px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;color:#e3c79c}
 .vp-cue{position:absolute;z-index:17;left:var(--pad);top:96px;font:700 11px "DM Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--amber)}
-@media(max-width:900px){.vp-kata,.vp-record,.vp-globe{display:none}.vp-title span{font-size:34vw}}
+@media(max-width:900px){.vp-kata,.vp-globe{display:none}.vp-title span{font-size:34vw}}
 
 /* ===== SCENES S2–S6 — sepia-amber after-hours (Pirata blackletter) ===== */
 .vn-scene .ps-sticky{background:#140d09}
@@ -82,9 +80,9 @@
 /* S3 THE CRATE — конверты пластинок */
 .v3-scene .ps-sticky{background:#140d09}
 .v3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c130c,#0e0906)}
-/* сквозной спиннинг-диск за веером */
-.v3-disc{place-items:center}
-.v3-disc .ps-media{width:46vh;height:46vh;max-width:none;object-fit:contain;filter:sepia(.25) contrast(1.05) brightness(.92) drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+/* фон крейта: стопка конвертов под лампой, приглушённо */
+.v3-photo{opacity:.34}
+.v3-photo .ps-media{filter:sepia(.2) brightness(.7) blur(1px)}
 /* конверты крейта — квадратные, веером от центра */
 .v3-sleeve{position:relative;width:15.5vw;min-width:148px;background:#0e0906;padding:8px 8px 26px;box-shadow:0 30px 56px rgba(0,0,0,.6);border:1px solid rgba(217,154,74,.24)}
 .v3-sleeve .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:1/1;object-fit:cover;display:block;filter:sepia(.22) contrast(1.05)}
@@ -97,15 +95,16 @@
 
 /* S4 THE NIGHTS — расписание */
 .v4-scene .ps-sticky{background:#140d09}
-.v4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c130c,#0e0906)}
+.v4-photo .ps-media{filter:sepia(.18) brightness(.55) saturate(.9)}
+.v4-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(14,9,6,.35),rgba(14,9,6,.7) 38%,rgba(14,9,6,.9) 70%),radial-gradient(84% 92% at 50% 42%,rgba(28,19,12,.2),rgba(14,9,6,.6))}
 .v4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.14;background-image:radial-gradient(circle,#000 1px,transparent 1.4px);background-size:4px 4px}
 .v4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
 .v4-head .vn-eyebrow{color:var(--amber)}
 .v4-head h2{margin:0;font:400 clamp(32px,4.8vw,68px)/1 "Pirata One",serif;color:#f0e0c8}
 .v4-head h2 em{font-style:normal;color:#c8492f}
 /* сессии-дорожки: ряд въезжает + амбер-грув прочерчивается под ним (по --lp, последовательно) */
-.v4-nightsL{justify-items:center;align-content:center}
-.v4-nights{width:min(800px,88vw)}
+.v4-nightsL{justify-items:end;align-content:center;padding:8vh 5vw 0 0}
+.v4-nights{width:min(760px,54vw)}
 .v4-night{position:relative;display:grid;grid-template-columns:60px 1fr auto auto;gap:22px;align-items:baseline;padding:16px 0;border-top:1px solid rgba(217,154,74,.14);
   opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 10, 1));
   transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * -24px))}
@@ -120,9 +119,8 @@
 
 /* S5 THE REGULARS — отзывы */
 .v5-scene .ps-sticky{background:#140d09}
-.v5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 84% at 64% 46%,#1c130c,#0c0805)}
-/* grooved record edge слева — «пластина под иглой» */
-.v5-disc{position:absolute;z-index:2;left:-27vw;top:50%;width:58vw;height:58vw;transform:translateY(-50%);border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,rgba(184,69,47,.1) 0 1px,transparent 1px 7px);opacity:.6;pointer-events:none;-webkit-mask:radial-gradient(circle at 50% 50%,#000 60%,transparent 74%);mask:radial-gradient(circle at 50% 50%,#000 60%,transparent 74%)}
+.v5-photo .ps-media{filter:sepia(.2) brightness(.42) saturate(.9)}
+.v5-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(12,8,5,.2),rgba(12,8,5,.75) 36%,rgba(12,8,5,.88)),radial-gradient(82% 84% at 64% 46%,rgba(28,19,12,.3),rgba(12,8,5,.7))}
 .v5-eyebrow{position:absolute;z-index:16;top:96px;left:35vw;font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--amber)}
 /* игла-развёртка идёт сверху вниз по трек-листу */
 .v5-needle{justify-items:start;align-content:start}
@@ -141,12 +139,50 @@
 /* S6 SIDE B — винил-объект + CTA */
 .v6-scene .ps-sticky{background:#140d09}
 .v6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 62% 42%,#241811,#0e0906)}
-.v6-obj{justify-items:end;align-content:center;padding-right:8vw}
-.v6-obj .ps-media{width:26vw;height:auto;max-width:none;filter:drop-shadow(0 30px 52px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(217,154,74,.2))}
 .v6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad)}
 .v6-copy .vn-eyebrow{color:var(--amber)}
 .v6-copy h2{margin:0;font:400 clamp(52px,9vw,150px)/.9 "Pirata One",serif;color:#f0e0c8}
 .v6-copy h2 em{font-style:normal;color:#c8492f}
 .v6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
 .v6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#c8ae8c}
-@media(max-width:900px){.v2-copy,.v6-cta{max-width:88vw}.v3-sleeve{width:38vw}.v3-disc .ps-media{width:70vw;height:70vw}.v4-nights{width:92vw}.v4-night{grid-template-columns:50px 1fr auto;gap:6px 12px}.v4-night s{display:none}.v5-trk{padding-left:var(--pad)}.v5-trk>*{max-width:88vw}.v5-disc,.v5-needle,.v5-eyebrow{display:none}.v6-obj{display:none}}
+@media(max-width:900px){.v2-copy,.v6-cta{max-width:88vw}.v3-sleeve{width:38vw}.v3-disc .ps-media{width:70vw;height:70vw}.v4-nights{width:92vw}.v4-night{grid-template-columns:50px 1fr auto;gap:6px 12px}.v4-night s{display:none}.v5-trk{padding-left:var(--pad)}.v5-trk>*{max-width:88vw}.v5-needle,.v5-eyebrow{display:none}.v4-nights{width:88vw}.v4-nightsL{justify-items:center;padding:0}}
+
+/* ===== v2 · пластинка-актёр и стыки (аудит 2026-09) ===== */
+/* пластинка крутится всегда: угол --spin пишет общий clock (33⅓ об/мин + разгон от скролла) */
+.vn-deck{position:relative;transform:scaleY(calc(1 - var(--tilt,0) * .46));filter:drop-shadow(0 22px 36px rgba(0,0,0,.6)) drop-shadow(0 0 30px rgba(217,154,74,.14))}
+.vn-actor .vn-disc img{filter:none;transform:rotate(var(--spin,0deg));will-change:transform}
+/* тонарм: поднят в сторону (--arm 0) → игла на пластинке (--arm 1) */
+.vn-arm{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;transform-origin:104% 6%;
+  transform:rotate(calc((1 - var(--arm,0)) * -26deg));opacity:var(--arm,0)}
+/* hero в покое: дым из бара плывёт по лицу (связь с S2) */
+.vp-smoke{mix-blend-mode:screen;opacity:.4;pointer-events:none}
+.vp-smoke .ps-media{-webkit-mask:linear-gradient(180deg,transparent,#000 40%);mask:linear-gradient(180deg,transparent,#000 40%);animation:vn-smoke 16s ease-in-out infinite alternate}
+@keyframes vn-smoke{from{transform:translateX(-3%) scale(1.04)}to{transform:translateX(3%) scale(1.1)}}
+.vp-title span{animation:vn-flicker 7s steps(1) infinite}
+@keyframes vn-flicker{0%,100%{opacity:1}46%{opacity:.86}47%{opacity:1}71%{opacity:.9}72%{opacity:1}}
+
+/* СТЫК «игла»: касание иглы — жёсткая склейка (без вуали) + импульс звуковой волны из пластинки */
+.vn-site .v2-scene[data-ov]>.ps-sticky{opacity:clamp(0, (var(--ovp,0) - .5) * 1000, 1)}
+.v2-pulse{position:absolute;inset:0;z-index:30;pointer-events:none;--pp:clamp(0, (var(--ovp,1) - .5) * 2, 1);
+  background:radial-gradient(circle at 52% 54%,transparent calc(var(--pp) * 95vmax - 1.4vmax),rgba(217,154,74,.8) calc(var(--pp) * 95vmax - .3vmax),rgba(217,154,74,.18) calc(var(--pp) * 95vmax + 2.4vmax),transparent calc(var(--pp) * 95vmax + 6vmax)),
+    radial-gradient(circle at 52% 54%,transparent calc(var(--pp) * 60vmax - 1vmax),rgba(217,154,74,.45) calc(var(--pp) * 60vmax),transparent calc(var(--pp) * 60vmax + 3vmax)),
+    rgba(217,154,74,calc(max(0, .5 - var(--pp) * 3)));
+  opacity:calc(1 - var(--pp))}
+/* СТЫК «канавки»: ночи открываются кругом из пластинки, по кромке — бороздки */
+.vn-site .v4-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));clip-path:circle(calc(var(--e) * 120vmax) at 21% 56%)}
+.v4-grooves{position:absolute;inset:0;z-index:30;pointer-events:none;opacity:calc(1 - var(--e,1));
+  background:repeating-radial-gradient(circle at 21% 56%,transparent 0 5px,rgba(217,154,74,.22) 5px 6px);
+  -webkit-mask:radial-gradient(circle at 21% 56%,transparent calc(var(--e,1) * 120vmax - 16vmax),#000 calc(var(--e,1) * 120vmax - 1vmax));
+  mask:radial-gradient(circle at 21% 56%,transparent calc(var(--e,1) * 120vmax - 16vmax),#000 calc(var(--e,1) * 120vmax - 1vmax))}
+/* СТЫК «переворот A→B»: S5 уходит в ребро (0→90°), финал выходит из ребра (−90°→0) — полный оборот пластинки */
+.v5-scene .ps-viewport{transform:perspective(1600px) rotateY(calc(clamp(0, (var(--sp,0) - .625) * 5.3, 1) * 90deg));transform-origin:50% 50%}
+.vn-site .v6-scene[data-ov]>.ps-sticky{opacity:clamp(0, (var(--ovp,0) - .5) * 1000, 1);background:transparent}
+.vn-site .v6-scene[data-ov]>.ps-sticky>.ps-viewport{transform:perspective(1600px) rotateY(calc((1 - clamp(0, (var(--ovp,1) - .5) * 2, 1)) * -90deg))}
+
+@media(prefers-reduced-motion:reduce){
+  .vn-site *,.vn-site *::before,.vn-site *::after{animation:none!important}
+  .vn-site .vn-exit{opacity:1!important}
+  .vn-site .ps-scene[data-ov]>.ps-sticky{clip-path:none;opacity:1}
+  .v5-scene .ps-viewport,.vn-site .v6-scene[data-ov]>.ps-sticky>.ps-viewport{transform:none}
+  .v2-pulse,.v4-grooves{display:none}
+}

@@ -1,120 +1,138 @@
-/* AETHER — 3d-product-theatre на ScrollStage. Dolly-in к арканному шпилю из одного painterly
-   кинокадра: базовый слой наезжает scale по --t (transform-origin у шпиля), два слоя тумана
-   параллаксят по --px и уезжают вниз по --t (передний растворяется), arcane-glow у основания
-   разгорается, манифест-строки проявляются масками, финал — крупный кадр мира + плашка.
+/* AETHER — один мир, одна камера. Painterly-кадр висит fixed-слоем .mn-world; камеру (--cs/--cx/--cy),
+   туман (--fog), ночь (--night) и свечение шпиля (--glow) пишет scene-kit <Follow> на корень по якорям глав.
+   Главы прозрачны — только текст поверх мира. Путник (Actor) и искры (Weather) — между миром и текстом.
    Палитра из кадра: магента-индиго сумерки #1a0f2e · cold mist #b79fd6 · near-black #0a0713 · ember #ff8a5c.
-   Шрифт: Syne (архитектурный дисплей) + Archivo (лейблы). --t со сцены, --px/--py с корня. */
+   Шрифт: Syne (архитектурный дисплей) + Archivo (лейблы). */
 
 .mn{
   --black:#0a0713; --black-2:#160c26; --basalt:#3a2358; --basalt-2:#5a3a86; --steel:#9a7fc0;
   --fog:#8a6fb5; --fog-2:#d3bde8; --magenta:#c2408a; --indigo:#4a3a9f;
   --ember:#e0663c; --ember-2:#ff8a5c; --ember-3:#ffb98a;
+  --cs:1; --cx:0; --cy:0; --mist:.08; --night:0; --glow:.3;
   background:var(--black); color:var(--fog-2); font-family:"Archivo",system-ui,sans-serif;
 }
-.mn .mn-line{ display:block; overflow:hidden; }
+.mn .scene{ z-index:3; background:transparent; }
+.mn .mn-line{ display:block; overflow:hidden; padding-bottom:.06em; }
 .mn .mn-line > i{ display:block; font-style:normal;
   --p:clamp(0, calc((var(--t,0) - 0.08 - var(--d,0)*0.07) * 3.0), 1);
   transform:translateY(calc((1 - var(--p)) * 118%)); opacity:var(--p); will-change:transform; }
-.mn-ember > i, .mn-ember{ color:var(--ember-2); }
+.mn-accent > i, .mn-accent{ color:var(--ember-2); }
 .mn-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
-  font:700 11px "Archivo"; letter-spacing:.28em; color:#8a71ad; z-index:6; }
-.mn-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.18em; color:#8a71ad; z-index:6; }
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#b9a3d6; z-index:6; }
+.mn-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.18em; color:#c9b6e2; z-index:6;
+  text-shadow:0 2px 14px rgba(6,3,14,.8); }
 
-/* 0 · COVER — весь кадр, медленный push */
-.mn-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 0 4vh; }
-.mn-cover-img{ position:absolute; inset:-3%; background-size:cover; background-position:center 42%;
-  transform:scale(calc(1.03 + var(--t,0)*0.10)); transform-origin:52% 40%; will-change:transform; }
-.mn-cover-grade{ position:absolute; inset:0;
-  background:linear-gradient(96deg, rgba(10,7,19,.8) 0%, rgba(20,12,38,.4) 34%, rgba(10,7,19,0) 60%),
-             linear-gradient(180deg, rgba(10,7,19,.32) 0%, rgba(10,7,19,0) 30%, rgba(10,7,19,.72) 90%); }
-.mn-cover-copy{ position:relative; z-index:4; padding:0 6vw; width:min(92vw,54rem); }
-.mn-eyebrow{ margin:0 0 20px; font:700 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:var(--ember-2); }
-.mn-hero{ margin:0; font:800 clamp(44px,9.4vw,158px)/.92 "Syne",sans-serif; letter-spacing:-.03em;
-  text-transform:uppercase; text-shadow:0 12px 60px rgba(6,3,14,.7); }
-.mn-hero i{ font-style:normal; }
-
-/* 1 · DOLLY — pin-scrub. .scene-pin{overflow:visible} чинит sticky; клип — на .scene-sticky. */
-.mn-dolly .scene-sticky{ background:#0a0713; }
-.mn-stage{ position:absolute; inset:0; }
-/* базовый кадр — медленный dolly-in к шпилю (origin у шпиля ~52%/38%) + лёгкий pointer-parallax */
-.mn-far{ position:absolute; inset:0; background-size:cover; background-position:center 40%;
-  transform-origin:52% 38%;
-  transform:scale(calc(1.05 + var(--t,0)*0.95)) translate3d(calc(var(--px,0)*8px), calc(var(--py,0)*6px), 0);
-  will-change:transform; filter:contrast(1.05) brightness(calc(.94 + var(--t,0)*0.12)) saturate(1.06); }
-/* туман — мягкие магента-индиго полосы поверх; средний и передний с разной глубиной параллакса */
-.mn-fog{ position:absolute; inset:-10%; pointer-events:none; will-change:transform,opacity; }
-.mn-fog-mid{ z-index:2; opacity:calc(.7 - var(--t,0)*.35); mix-blend-mode:screen;
-  transform:translate3d(calc(var(--px,0)*22px), calc(var(--t,0)*10%), 0);
-  background:
-    radial-gradient(60% 40% at 30% 46%, rgba(194,64,138,.30), transparent 62%),
-    radial-gradient(70% 46% at 78% 54%, rgba(74,58,159,.32), transparent 66%); }
-.mn-fog-front{ z-index:4; opacity:calc(.9 - var(--t,0)*.82); mix-blend-mode:screen;
-  transform:translate3d(calc(var(--px,0)*44px), calc(var(--t,0)*44%), 0) scale(calc(1 + var(--t,0)*.3));
-  background:
-    linear-gradient(180deg, transparent 40%, rgba(120,90,175,.4) 74%, rgba(90,58,134,.6) 100%),
-    radial-gradient(90% 40% at 44% 96%, rgba(150,110,200,.46), transparent 70%); }
-/* arcane-glow у основания шпиля — прижато к грани справа-внизу, разгорается по --t */
-.mn-ember{ position:absolute; z-index:3; left:67%; top:80%; width:min(26vw,300px); height:min(22vh,210px);
-  transform:translate(-50%,-50%) scale(calc(.7 + var(--t,0)*.85)); transform-origin:50% 60%;
-  pointer-events:none; mix-blend-mode:screen; filter:blur(11px);
-  opacity:calc(.3 + min(.6, var(--t,0)*1.0));
+/* МИР ------------------------------------------------------------------ */
+.mn-world{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; background:var(--black); }
+/* коробка с пропорцией кадра (2752×1536), накрывает экран; начало камеры — у ворот шпиля (68% 40%) */
+.mn-cam{ position:absolute; left:50%; top:50%; width:max(100vw, 179.2vh); height:max(100vh, 55.8vw);
+  transform-origin:68% 40%;
+  transform:translate(-50%,-50%) translate(calc(var(--cx) * 1vw + var(--px,0) * 6px), calc(var(--cy) * 1vh + var(--py,0) * 4px)) scale(var(--cs));
+  will-change:transform; }
+.mn-plate{ position:absolute; inset:0; background-size:100% 100%;
+  filter:contrast(1.04) saturate(calc(1.08 - var(--night) * .25)) brightness(calc(1 - var(--night) * .18)); }
+/* свечение ворот шпиля — привязано к кадру (внутри камеры), разгорается и в финале раскрывается в свет */
+.mn-glow{ position:absolute; left:68%; top:39%; width:22%; height:30%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(calc(.55 + var(--glow) * .75)); transform-origin:50% 55%;
+  mix-blend-mode:screen; filter:blur(14px); opacity:min(1, calc(.25 + var(--glow) * .7));
   background:radial-gradient(closest-side ellipse,
-    rgba(255,185,138,.9) 0%, rgba(255,138,92,.5) 24%, rgba(224,102,60,.3) 44%, rgba(194,64,138,.14) 62%, transparent 78%); }
-.mn-vignette{ position:absolute; z-index:5; inset:0; pointer-events:none;
+    rgba(255,214,170,.95) 0%, rgba(255,160,110,.6) 22%, rgba(224,102,60,.34) 44%, rgba(194,64,138,.16) 64%, transparent 80%); }
+/* ночь — индиго-мультипликация кадра по всей странице (сумерки → ночь) */
+.mn-night{ position:absolute; inset:0; mix-blend-mode:multiply; opacity:calc(var(--night) * .8);
+  background:linear-gradient(180deg, #1b1650 0%, #2a1a5c 46%, #3b2466 100%); }
+.mn-stars{ position:absolute; inset:0 0 45% 0; opacity:calc(max(0, var(--night) - .35) * 1.4); mix-blend-mode:screen;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 18%, #fff, transparent 60%),
+    radial-gradient(1.1px 1.1px at 28% 8%, #e8dcff, transparent 60%),
+    radial-gradient(1.6px 1.6px at 44% 22%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 8% 40%, #d8ccff, transparent 60%),
+    radial-gradient(1.3px 1.3px at 36% 36%, #fff, transparent 60%),
+    radial-gradient(1.2px 1.2px at 88% 12%, #fff, transparent 60%),
+    radial-gradient(1px 1px at 94% 34%, #e8dcff, transparent 60%);
+  background-size:520px 360px;
+  -webkit-mask-image:linear-gradient(180deg,#000 40%,transparent); mask-image:linear-gradient(180deg,#000 40%,transparent); }
+/* туман: два плана, «заливает кадр» на склейках (--fog → 1) */
+.mn-fog{ position:absolute; inset:-12%; pointer-events:none; will-change:transform,opacity; }
+.mn-fog-back{ opacity:calc(var(--mist) * .8);
+  transform:translate3d(calc(var(--px,0) * 18px - (1 - var(--mist)) * 10vw), calc((1 - var(--mist)) * 14vh), 0);
   background:
-    radial-gradient(120% 100% at 52% 42%, transparent 44%, rgba(6,3,14,.68) 100%),
-    linear-gradient(180deg, rgba(10,7,19,.5) 0%, transparent 24%, transparent 60%, rgba(6,3,14,.82) 100%); }
+    radial-gradient(50% 38% at 24% 60%, rgba(211,189,232,.7), transparent 70%),
+    radial-gradient(56% 42% at 78% 40%, rgba(150,120,196,.7), transparent 72%),
+    radial-gradient(80% 50% at 50% 100%, rgba(110,80,160,.8), transparent 75%); }
+.mn-fog-front{ opacity:calc(var(--mist) * .95);
+  transform:translate3d(calc(var(--px,0) * 40px), calc((1 - var(--mist)) * 22vh), 0) scale(calc(1.3 - var(--mist) * .25));
+  background:
+    radial-gradient(46% 34% at 36% 64%, rgba(226,210,240,.8), transparent 70%),
+    radial-gradient(52% 40% at 72% 56%, rgba(176,146,214,.75), transparent 72%),
+    radial-gradient(90% 46% at 50% 30%, rgba(160,130,205,.55), transparent 74%),
+    linear-gradient(180deg, transparent 30%, rgba(120,90,170,.6) 100%); }
+.mn-vignette{ position:absolute; inset:0;
+  background:
+    radial-gradient(120% 100% at 55% 42%, transparent 46%, rgba(6,3,14,.62) 100%),
+    linear-gradient(180deg, rgba(10,7,19,.34) 0%, transparent 22%, transparent 64%, rgba(6,3,14,.7) 100%); }
 
-/* манифест — строки проявляются по ходу наезда, окна разнесены по --t (снизу-слева) */
-.mn-manifest{ position:absolute; z-index:6; left:6vw; top:50%; transform:translateY(-50%);
-  display:grid; gap:14px; max-width:22ch; }
-.mn-manifest-line{ font:700 clamp(20px,2.6vw,40px)/1.04 "Syne",sans-serif; letter-spacing:-.01em; color:var(--fog-2);
-  --pp:clamp(0, calc((var(--t,0) - 0.12 - var(--i,0)*0.16) / 0.10), 1);
-  --oo:clamp(0, calc((var(--t,0) - 0.66 - var(--i,0)*0.05) / 0.10), 1);
-  transform:translateY(calc((1 - var(--pp)) * 40px));
-  opacity:calc(var(--pp) * (1 - var(--oo)*.9)); will-change:transform,opacity;
-  text-shadow:0 6px 40px rgba(6,3,14,.8); }
+/* путник — силуэт из кадра, у ворот подсвечен контровым светом шпиля */
+.mn-traveler img{ filter:drop-shadow(0 0 calc(2px + var(--glow) * 6px) rgba(255,160,110,calc(var(--glow) * .45))) drop-shadow(0 18px 24px rgba(6,3,14,.35)); }
 
-/* финальная плашка — всплывает на глубоком dolly (--t>0.72) */
-.mn-surface{ position:absolute; z-index:6; right:6vw; bottom:12vh; text-align:right;
-  --s:clamp(0, calc((var(--t,0) - 0.72) / 0.14), 1);
-  transform:translateY(calc((1 - var(--s)) * 30px)); opacity:var(--s); will-change:transform,opacity; }
-.mn-surface-idx{ font:700 11px "Archivo"; letter-spacing:.28em; color:var(--ember-2); }
-.mn-surface h2{ margin:8px 0 0; font:800 clamp(34px,5.2vw,88px)/.9 "Syne",sans-serif; letter-spacing:-.03em;
-  text-transform:uppercase; color:var(--fog-2); text-shadow:0 8px 44px rgba(6,3,14,.8); }
-.mn-dolly-tag{ position:absolute; z-index:6; left:6vw; bottom:12vh; font:600 11px "Archivo";
-  letter-spacing:.2em; text-transform:uppercase; color:#8a71ad; }
+/* 0 · УТЁС ---------------------------------------------------------------- */
+.mn-cover{ min-height:100vh; }
+.mn-cover-copy{ position:absolute; z-index:4; left:6vw; top:14vh; width:max-content; max-width:88vw; }
+.mn-eyebrow{ margin:0 0 18px; font:700 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:var(--ember-3);
+  text-shadow:0 2px 16px rgba(6,3,14,.7); }
+.mn-hero{ margin:0; font:800 clamp(30px,3.9vw,72px)/.96 "Syne",sans-serif; letter-spacing:-.025em;
+  text-transform:uppercase; text-shadow:0 10px 44px rgba(6,3,14,.72); }
+.mn-hero i{ font-style:normal; white-space:nowrap; }
 
-/* 2 · OUTRO — мир тонет в туман, спец-лист + CTA */
-.mn-end{ display:grid; place-items:center; text-align:center; }
-.mn-end-img{ position:absolute; inset:0; background-size:cover; background-position:center 36%;
-  transform:scale(calc(1.12 - var(--t,0)*0.08)); transform-origin:52% 40%; will-change:transform; filter:brightness(.6) contrast(1.05) saturate(1.08); }
-.mn-end-veil{ position:absolute; inset:0;
-  background:linear-gradient(180deg, rgba(16,8,30,.6), rgba(6,3,14,.9));
-  opacity:calc(.6 + min(.35, var(--t,0)*.6)); }
+/* 1 · ПЕРЕВАЛ ------------------------------------------------------------- */
+.mn-pass .scene-sticky, .mn-gate .scene-sticky{ background:transparent; }
+.mn-chapter{ position:absolute; left:6vw; top:20vh; z-index:4; display:grid; gap:14px; width:min(40vw, 40rem); }
+.mn-ch-idx{ font:700 11px "Archivo"; letter-spacing:.3em; color:var(--ember-3); text-shadow:0 2px 14px rgba(6,3,14,.8);
+  opacity:clamp(0, calc((var(--t,0) - .2) * 6), 1); }
+/* строки по одной: вторая приходит, когда первая уже стоит; обе уходят перед склейкой */
+.mn-say{ margin:0; font:700 clamp(26px,3.3vw,54px)/1.02 "Syne",sans-serif; letter-spacing:-.015em; color:#f1e6fb;
+  text-shadow:0 6px 34px rgba(6,3,14,.85);
+  --pp:clamp(0, calc((var(--t,0) - 0.24 - var(--i,0)*0.2) / 0.12), 1);
+  --oo:clamp(0, calc((var(--t,0) - 0.86) / 0.1), 1);
+  transform:translateY(calc((1 - var(--pp)) * 30px)); opacity:calc(var(--pp) * (1 - var(--oo))); will-change:transform,opacity; }
+.mn-chapter .mn-ch-idx{ opacity:calc(clamp(0, (var(--t,0) - .2) * 6, 1) * (1 - clamp(0, (var(--t,0) - .86) / .1, 1))); }
+
+/* 2 · ВОРОТА -------------------------------------------------------------- */
+.mn-surface{ position:absolute; z-index:6; left:6vw; bottom:14vh;
+  --s:clamp(0, calc((var(--t,0) - 0.22) / 0.16), 1);
+  --so:clamp(0, calc((var(--t,0) - 0.84) / 0.12), 1);
+  transform:translateY(calc((1 - var(--s)) * 30px)); opacity:calc(var(--s) * (1 - var(--so))); will-change:transform,opacity; }
+.mn-surface-idx{ font:700 11px "Archivo"; letter-spacing:.3em; color:var(--ember-3); }
+.mn-surface h2{ margin:10px 0 12px; font:800 clamp(40px,6.4vw,112px)/.9 "Syne",sans-serif; letter-spacing:-.03em;
+  text-transform:uppercase; color:#f4ecfb; text-shadow:0 8px 44px rgba(6,3,14,.85); }
+.mn-surface-sub{ margin:0; font:600 clamp(16px,1.6vw,22px) "Archivo"; letter-spacing:.02em; color:var(--fog-2);
+  text-shadow:0 2px 18px rgba(6,3,14,.8); }
+
+/* 3 · ФИНАЛ --------------------------------------------------------------- */
+.mn-end{ display:grid; place-items:end center; min-height:100vh; padding-bottom:9vh; text-align:center; }
+.mn-end::before{ content:""; position:absolute; inset:auto 0 0 0; height:70%; pointer-events:none;
+  background:linear-gradient(180deg, transparent, rgba(8,5,18,.78) 70%); }
 .mn-end-block{ position:relative; z-index:2; padding:0 6vw; display:grid; justify-items:center; gap:12px; }
-.mn-specs{ list-style:none; margin:0 0 8px; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:10px 26px; }
+.mn-specs{ list-style:none; margin:0 0 6px; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:10px 26px; }
 .mn-spec{ display:flex; gap:8px; align-items:baseline;
-  --pp:clamp(0, calc((var(--t,0) - 0.04 - var(--i,0)*0.05) * 4), 1);
+  --pp:clamp(0, calc((var(--t,0) - 0.12 - var(--i,0)*0.05) * 4), 1);
   transform:translateY(calc((1 - var(--pp)) * 12px)); opacity:var(--pp); }
 .mn-spec-k{ font:700 10px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:var(--ember-2); }
-.mn-spec-v{ font:600 13px "Archivo"; letter-spacing:.02em; color:var(--steel); }
-.mn-end-block h2{ margin:8px 0 30px; font:800 clamp(40px,8.6vw,140px)/.92 "Syne",sans-serif; letter-spacing:-.03em;
+.mn-spec-v{ font:600 13px "Archivo"; letter-spacing:.02em; color:#c9b6e2; }
+.mn-end-block h2{ margin:6px 0 26px; font:800 clamp(40px,7.2vw,124px)/.92 "Syne",sans-serif; letter-spacing:-.03em;
   text-transform:uppercase; text-shadow:0 12px 60px rgba(6,3,14,.8); }
 .mn-end-block h2 i{ font-style:normal; }
-.mn-btn{ display:inline-block; padding:15px 34px; border:1px solid var(--ember); border-radius:2px;
-  color:var(--ember-2); text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em;
-  opacity:calc(clamp(0, (var(--t,0)-0.2)*3, 1)); transition:background .3s,color .3s; }
-.mn-btn:hover{ background:var(--ember); color:#0a0713; }
+.mn-btn{ display:inline-block; padding:16px 36px; background:var(--ember-2); border-radius:2px;
+  color:#1a0b12; text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em;
+  box-shadow:0 14px 44px rgba(255,138,92,.35); transition:background .3s, transform .3s; }
+.mn-btn:hover{ background:var(--ember-3); transform:translateY(-2px); }
 
+@media (max-width:760px){
+  .mn-cover-copy{ width:88vw; top:12vh; }
+  .mn-hero{ font-size:clamp(30px,8.4vw,60px); }
+}
 @media (prefers-reduced-motion:reduce){
   .mn .mn-line > i{ transform:none; opacity:1; }
-  .mn-cover-img,.mn-end-img{ transform:none; }
-  .mn-far{ transform:scale(1.3); }
-  .mn-fog-front{ opacity:.3; } .mn-fog-mid{ opacity:.4; }
-  .mn-ember{ opacity:.8; }
-  .mn-manifest-line{ transform:none; opacity:1; }
-  .mn-surface{ transform:none; opacity:1; }
-  .mn-spec{ transform:none; opacity:1; }
-  .mn-btn{ opacity:1; }
+  .mn-cam{ transform:translate(-50%,-50%) scale(1.2); }
+  .mn-fog{ opacity:.25; transform:none; }
+  .mn-say, .mn-surface, .mn-spec, .mn-ch-idx{ transform:none; opacity:1; }
 }

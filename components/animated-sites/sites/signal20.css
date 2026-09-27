@@ -1,14 +1,15 @@
-/* SIGNAL — editorial-motion, day→night + count-up. Солнечная дуга восходит по --t (pin-scrub),
-   небо night→dawn→day; строки проявляются маской по --d; числа считает rAF в компоненте.
-   --scroll/--vel — с корня; --t — со сцены. Палитра: near-black + molten-orange sunrise.
-   Шрифт: Space Grotesk (дисплей/гротеск) + IBM Plex Mono (числа/лейблы). */
+/* SIGNAL — одно небо под всей страницей. --sky (ночь → утро) и --sun (восход) пишет scene-kit <Follow>
+   на корень; главы прозрачны. Солнце встаёт из-за горизонта (окно .sg-sunwin обрезает его по линии земли).
+   Палитра: near-black + molten-orange sunrise. Шрифт: Space Grotesk + IBM Plex Mono. */
 
 .sg{
-  --night:#08090d; --night-2:#0d0f16; --ash:#171b26; --bone:#e9eaef; --dim:#7b8091;
+  --night:#08090d; --night-2:#0d0f16; --ash:#171b26; --bone:#e9eaef; --dim:#8a8fa1;
   --molten:#ff6a1f; --molten-2:#ff9445; --ember:#c23a10;
+  --sky:0; --sun:0; --sunx:70;
   background:var(--night); color:var(--bone); font-family:"Space Grotesk",system-ui,sans-serif;
 }
-.sg .sg-line{ display:block; overflow:hidden; }
+.sg .scene{ z-index:1; background:transparent; }
+.sg .sg-line{ display:block; overflow:hidden; padding-bottom:.06em; }
 .sg .sg-line > i{ display:block; font-style:normal;
   --p:clamp(0, calc((var(--t,0) - 0.08 - var(--d,0)*0.06) * 3.2), 1);
   transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
@@ -17,71 +18,91 @@
 .sg-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
   font:500 11px "IBM Plex Mono"; letter-spacing:.22em; color:var(--dim); z-index:6; }
 .sg-cue{ position:absolute; bottom:5vh; left:6vw; font:500 11px "IBM Plex Mono"; letter-spacing:.14em; color:var(--dim); z-index:6; }
-
-/* 0 · COVER — night, тлеющий пред-рассвет у горизонта */
-.sg-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw;
-  background:radial-gradient(140% 80% at 50% 116%, #2a1206 0%, #12060a 34%, #08090d 66%); }
-.sg-cover-in{ position:relative; z-index:3; }
 .sg-eyebrow{ margin:0 0 22px; font:500 12px "IBM Plex Mono"; letter-spacing:.2em; text-transform:uppercase; color:var(--molten); }
-.sg-hero{ margin:0; font:500 clamp(50px,10vw,158px)/.98 "Space Grotesk"; letter-spacing:-.03em; }
-.sg-horizon{ position:absolute; left:0; right:0; bottom:16vh; height:1px; z-index:2;
-  background:linear-gradient(90deg,transparent,#5a2b12 30%,#ff6a1f 50%,#5a2b12 70%,transparent); opacity:.7; }
-.sg-horizon::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:24vh;
-  background:radial-gradient(60% 100% at 50% 100%, rgba(255,106,31,.22), transparent 70%); }
 
-/* 1 · RISE — дуга восходит по --t, небо меняется. overflow:visible чинит sticky (клип — на .scene-sticky). */
-.sg-rise{ overflow:visible; }
-.sg-rise .scene-sticky{ display:grid; place-items:center; }
-.sg-sky{ position:absolute; inset:0; z-index:0;
-  /* небо: чем выше --t, тем теплее верх и ярче низ */
+/* НЕБО ----------------------------------------------------------------- */
+.sg-world{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+.sg-sky{ position:absolute; inset:0;
   background:
-    radial-gradient(120% 70% at 50% 118%, rgba(255,106,31,calc(.15 + var(--t,0)*.6)), transparent 60%),
+    radial-gradient(120% 70% at 50% 100%, rgba(255,106,31,calc(.08 + var(--sky) * .55)), transparent 62%),
     linear-gradient(180deg,
-      color-mix(in srgb, #0a0b10, #241326 calc(var(--t,0)*55%)) 0%,
-      color-mix(in srgb, #10070c, #7a2f12 calc(var(--t,0)*70%)) 62%,
-      color-mix(in srgb, #1a0a08, #ff7a2a calc(var(--t,0)*80%)) 100%); }
-/* солнце: дуга поднимается из-за горизонта по --t */
-.sg-sun{ position:absolute; left:50%; bottom:6vh; z-index:1;
-  width:min(62vh,720px); height:min(62vh,720px);
-  transform:translate(-50%, calc((1 - var(--t,0)) * 78%)); will-change:transform; }
+      color-mix(in srgb, #07080d, #2a1530 calc(var(--sky) * 100%)) 0%,
+      color-mix(in srgb, #0b0a12, #6a2a1c calc(var(--sky) * 100%)) 52%,
+      color-mix(in srgb, #1a0c0a, #ff7a2a calc(var(--sky) * 100%)) 80%); }
+.sg-stars{ position:absolute; inset:0 0 40% 0; opacity:calc(1 - var(--sky) * 1.6);
+  background-image:
+    radial-gradient(1.3px 1.3px at 12% 16%, #fff, transparent 60%), radial-gradient(1px 1px at 30% 8%, #e8ecff, transparent 60%),
+    radial-gradient(1.4px 1.4px at 52% 22%, #fff, transparent 60%), radial-gradient(1px 1px at 70% 12%, #fff, transparent 60%),
+    radial-gradient(1.2px 1.2px at 86% 28%, #e8ecff, transparent 60%), radial-gradient(1px 1px at 94% 6%, #fff, transparent 60%);
+  background-size:620px 380px; }
+/* солнце встаёт из-за горизонта (линия земли — 80vh) */
+.sg-sunwin{ position:absolute; left:0; right:0; top:0; height:80vh; overflow:hidden; }
+.sg-sun{ position:absolute; left:calc(var(--sunx) * 1%); bottom:0; width:min(52vh,600px); aspect-ratio:1;
+  transform:translate(-50%, calc(96% - var(--sun) * 150%)); will-change:transform; }
 .sg-sun-core{ position:absolute; inset:0; border-radius:50%;
-  background:radial-gradient(circle at 50% 42%, #ffd9a0 0%, #ff9d3f 28%, #ff6a1f 52%, #c23a10 72%, transparent 74%);
-  filter:saturate(1.1); box-shadow:0 0 140px 40px rgba(255,106,31,.35); }
-.sg-rise-copy{ position:relative; z-index:3; text-align:center; padding:0 6vw;
-  transform:translateY(calc((0.5 - var(--t,0)) * 8vh)); }
+  background:radial-gradient(circle at 50% 42%, #ffe2b0 0%, #ffab52 30%, #ff6a1f 56%, #d2410f 74%);
+  box-shadow:0 0 calc(80px + var(--sun) * 100px) calc(20px + var(--sun) * 40px) rgba(255,106,31,calc(.25 + var(--sun) * .2)); }
+.sg-haze{ position:absolute; left:0; right:0; top:62vh; height:30vh;
+  background:radial-gradient(50% 60% at calc(var(--sunx) * 1%) 60%, rgba(255,120,40,calc(.12 + var(--sun) * .4)), transparent 70%); }
+/* земля: тёмная равнина с перспективной сеткой сигналов */
+.sg-ground{ position:absolute; left:0; right:0; top:80vh; bottom:0; overflow:hidden;
+  background:linear-gradient(180deg, color-mix(in srgb, #0d0a0c, #3a180c calc(var(--sky) * 100%)), #07070a 90%);
+  box-shadow:0 -1px 0 rgba(255,140,70,calc(.25 + var(--sun) * .5)); }
+.sg-grid{ position:absolute; left:-50%; right:-50%; top:0; height:300%; transform-origin:50% 0; transform:perspective(420px) rotateX(62deg);
+  opacity:calc(.25 + var(--sky) * .35);
+  background:
+    repeating-linear-gradient(90deg, rgba(255,148,69,.28) 0 1px, transparent 1px 90px),
+    repeating-linear-gradient(0deg, rgba(255,148,69,.2) 0 1px, transparent 1px 60px);
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 60%); mask-image:linear-gradient(180deg,#000,transparent 60%); }
+
+/* 0 · COVER ------------------------------------------------------------- */
+.sg-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw 12vh; }
+.sg-cover-in{ position:relative; z-index:3; }
+.sg-hero{ margin:0; font:500 clamp(48px,9vw,148px)/.98 "Space Grotesk"; letter-spacing:-.03em; }
+
+/* 1 · RISE — три события по одному ----------------------------------------- */
+.sg-rise .scene-sticky{ background:transparent; }
+.sg-beat{ position:absolute; left:6vw; top:22vh; width:min(52vw, 820px); text-align:left;
+  --c:calc(0.17 + var(--i,0) * 0.32);
+  --in:clamp(0, calc((var(--t,0) - (var(--c) - 0.14)) / 0.06), 1);
+  --out:clamp(0, calc((var(--c) + 0.14 - var(--t,0)) / 0.06), 1);
+  opacity:min(var(--in), var(--out)); transform:translateY(calc((1 - var(--in)) * 30px - (1 - var(--out)) * 30px));
+  will-change:opacity,transform; }
+.sg-beat:first-child{ --in:1; }
+.sg-beat:last-child{ --out:clamp(0, calc((1.02 - var(--t,0)) / 0.08), 1); }
 .sg-tag{ display:inline-block; margin-bottom:20px; font:500 12px "IBM Plex Mono"; letter-spacing:.2em;
   color:#1a0d08; background:var(--molten-2); padding:5px 12px; }
-.sg-rise-copy h2{ margin:0; font:500 clamp(40px,8.2vw,140px)/.98 "Space Grotesk"; letter-spacing:-.03em; color:#fff;
-  text-shadow:0 6px 60px rgba(0,0,0,.4); }
-.sg-rise-copy em{ font-style:normal; color:#1a0d08;
-  background:linear-gradient(#ffe0b0,#ffb15a); padding:0 .1em; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.sg-beat h2{ margin:0; font:500 clamp(38px,5.6vw,96px)/.98 "Space Grotesk"; letter-spacing:-.03em; color:#fff;
+  text-shadow:0 6px 60px rgba(0,0,0,.45); }
+.sg-beat em{ font-style:normal; color:var(--molten-2); }
 
-/* 2 · SIGNAL — count-up */
-.sg-stats{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw;
-  background:linear-gradient(180deg,#100910,#0a0b10 60%); }
-.sg-stats-lead{ margin:0 0 6vh; max-width:22ch; font:500 clamp(26px,4.4vw,64px)/1.05 "Space Grotesk"; letter-spacing:-.02em; }
-.sg-grid{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid #23222b; }
-.sg-cell{ padding:36px 22px 34px 22px; border-left:1px solid #23222b; }
+/* 2 · SIGNAL — цифры на небе ---------------------------------------------- */
+.sg-stats{ display:flex; flex-direction:column; justify-content:flex-start; padding:16vh 6vw 0;
+  background:linear-gradient(90deg, rgba(10,6,8,.45), transparent 60%); }
+.sg-stats-lead{ margin:0 0 6vh; max-width:22ch; font:500 clamp(26px,4.2vw,62px)/1.05 "Space Grotesk"; letter-spacing:-.02em;
+  text-shadow:0 4px 30px rgba(0,0,0,.4); }
+.sg-grid-stats{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(255,190,140,.3); }
+.sg-cell{ padding:30px 22px 20px 22px; border-left:1px solid rgba(255,190,140,.22); }
 .sg-cell:first-child{ border-left:0; padding-left:0; }
-.sg-cell .sg-num{ display:block; font:400 clamp(40px,6vw,92px)/1 "IBM Plex Mono"; letter-spacing:-.03em; color:var(--bone); }
-.sg-cell span{ display:block; margin-top:12px; font:500 12px "IBM Plex Mono"; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
-.sg-cell-warm .sg-num{ color:var(--molten); }
+.sg-cell .sg-num{ display:block; font:400 clamp(36px,5.2vw,84px)/1 "IBM Plex Mono"; letter-spacing:-.03em; color:#fff;
+  text-shadow:0 4px 30px rgba(0,0,0,.35); }
+.sg-cell span{ display:block; margin-top:12px; font:500 12px "IBM Plex Mono"; letter-spacing:.14em; text-transform:uppercase; color:#f3d6c0; }
+.sg-cell-warm .sg-num{ color:#ffd0a0; }
 
-/* 3 · SET — палитра садится в night */
-.sg-end{ display:grid; place-items:center; text-align:center;
-  background:radial-gradient(120% 90% at 50% -20%, #3a1608 0%, #12070a 40%, #08090d 72%); }
-.sg-end-veil{ position:absolute; inset:0; background:#050508; opacity:calc(min(1, var(--t,0)*1.25)); }
+/* 3 · MORNING -------------------------------------------------------------- */
+.sg-end{ display:flex; flex-direction:column; justify-content:flex-end; align-items:center; padding-bottom:24vh; text-align:center; }
 .sg-end-block{ position:relative; z-index:2; padding:0 6vw; }
-.sg-end-block h2{ margin:0 0 40px; font:500 clamp(44px,9vw,150px)/.98 "Space Grotesk"; letter-spacing:-.03em; }
-.sg-btn{ display:inline-block; padding:15px 32px; background:var(--molten); color:#140a06; text-decoration:none;
-  font:500 14px "IBM Plex Mono"; letter-spacing:.04em;
-  opacity:calc(clamp(0, (var(--t,0)-0.25)*3, 1)); transition:transform .25s, box-shadow .25s; }
-.sg-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 36px rgba(255,106,31,.4); }
+.sg-end-block h2{ margin:0 0 36px; font:500 clamp(44px,8.4vw,140px)/.98 "Space Grotesk"; letter-spacing:-.03em;
+  text-shadow:0 8px 50px rgba(0,0,0,.4); }
+.sg-end .sg-eyebrow{ color:#ffd0a0; }
+.sg-end .sg-warm i{ color:#ffe0bc; }
+.sg-btn{ display:inline-block; padding:15px 32px; background:#140a06; color:#ffb070; text-decoration:none;
+  font:500 14px "IBM Plex Mono"; letter-spacing:.04em; transition:transform .25s, box-shadow .25s; }
+.sg-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 36px rgba(20,10,6,.5); }
 
+@media (max-width:760px){ .sg-grid-stats{ grid-template-columns:1fr 1fr; } }
 @media (prefers-reduced-motion:reduce){
   .sg .sg-line > i{ transform:none; opacity:1; }
-  .sg-sun{ transform:translate(-50%,0); }
-  .sg-rise-copy{ transform:none; }
-  .sg-end-veil{ opacity:.6; }
-  .sg-btn{ opacity:1; }
+  .sg-beat{ position:relative; top:auto; opacity:1; transform:none; margin:10vh 0; }
+  .sg-grid{ transform:none; }
 }

@@ -102,3 +102,6 @@
 .rl-slot > *{ pointer-events:auto; }
 /* свет внутри удержания (dusk): ночь наступает, пока кадр стоит */
 .rl-dusk{ position:absolute; inset:0; z-index:6; pointer-events:none; opacity:0; background:var(--rl-dusk, #0b1030); mix-blend-mode:var(--rl-dusk-blend, multiply); }
+
+/* до гидрации (и без JS) сцены лежат стопкой — показываем только первую, а не последнюю сверху */
+.rl:not([data-live]):not(.rl-reduced) .rl-scene:not(:first-of-type){ display:none; }

@@ -144,6 +144,14 @@ export function PhotographerSite() {
         <Layer z={12} depth={0.22} phase={[0.2, 0.4]} from={{ y: "3vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="p4-head">
           <span className="pg-eyebrow">03 — what I shoot</span><h2>An index of <em>light.</em></h2>
         </Layer>
+        {/* плёнка-контактка: кадр к каждой строке индекса проявляется вместе с ней */}
+        <Layer z={10} depth={0.45} phase={[0.22, 0.62]} from={{ y: "8vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="p4-stripL">
+          <div className="p4-strip" aria-hidden>
+            {["g1", "g2", "g5", "g4", "g6", "g3"].map((g, i) => (
+              <i key={g} style={{ ["--thr" as string]: 0.02 + i * 0.1 }}><img src={`${A}/${g}.jpg`} alt="" loading="lazy" /></i>
+            ))}
+          </div>
+        </Layer>
         {/* каждый тип съёмки «наводится на резкость» (blur→sharp по --lp, последовательно) */}
         <Layer z={12} depth={0.3} phase={[0.22, 0.62]} from={{ opacity: 0 }} to={{ opacity: 1 }} className="p4-indexL">
           <div className="p4-index">
@@ -163,15 +171,15 @@ export function PhotographerSite() {
           <SceneMedia src={`${A}/goldenbg.jpg`} />
         </Layer>
         <div className="p5-veil" aria-hidden />
-        <Layer z={16} depth={0} phase={[0.2, 0.3]} from={{ opacity: 0 }} to={{ opacity: 1 }}><div className="p5-eyebrow">words from clients</div></Layer>
+        <Layer z={16} depth={0} phase={[0.14, 0.26]} from={{ opacity: 0 }} to={{ opacity: 1 }}><div className="p5-eyebrow">words from clients</div></Layer>
         {/* кадры с EXIF-подписью + отзыв, проявляются как печать · develop-in */}
-        <Layer z={5} depth={0.32} phase={[0.18, 0.34]} from={{ y: "4vh", scale: 0.96, opacity: 0 }} to={{ y: "0vh", scale: 1, opacity: 1 }} className="p5-shot p5-s1">
+        <Layer z={5} depth={0.32} phase={[0.13, 0.29]} from={{ y: "4vh", scale: 0.96, opacity: 0 }} to={{ y: "0vh", scale: 1, opacity: 1 }} className="p5-shot p5-s1">
           <figure><SceneMedia src={`${A}/shot1.jpg`} alt="Backlit portrait photograph" /><figcaption><i>f/1.8 · 1/400 · ISO 200</i><p>We forgot the camera was there — then the photos undid us.</p><cite>Mara &amp; Tom · wedding</cite></figcaption></figure>
         </Layer>
-        <Layer z={6} depth={0.42} phase={[0.24, 0.4]} from={{ y: "4vh", scale: 0.96, opacity: 0 }} to={{ y: "0vh", scale: 1, opacity: 1 }} className="p5-shot p5-s2">
+        <Layer z={6} depth={0.42} phase={[0.19, 0.35]} from={{ y: "4vh", scale: 0.96, opacity: 0 }} to={{ y: "0vh", scale: 1, opacity: 1 }} className="p5-shot p5-s2">
           <figure><SceneMedia src={`${A}/shot2.jpg`} alt="Golden-hour couple photograph" /><figcaption><i>f/2.8 · 1/250 · ISO 400</i><p>Every frame looks like the light we actually remember.</p><cite>Priya K. · portrait session</cite></figcaption></figure>
         </Layer>
-        <Layer z={7} depth={0.52} phase={[0.3, 0.46]} from={{ y: "4vh", scale: 0.96, opacity: 0 }} to={{ y: "0vh", scale: 1, opacity: 1 }} className="p5-shot p5-s3">
+        <Layer z={7} depth={0.52} phase={[0.25, 0.41]} from={{ y: "4vh", scale: 0.96, opacity: 0 }} to={{ y: "0vh", scale: 1, opacity: 1 }} className="p5-shot p5-s3">
           <figure><SceneMedia src={`${A}/shot3.jpg`} alt="Cliffside engagement photograph at dawn" /><figcaption><i>f/2.0 · 1/1000 · ISO 100</i><p>One hour on a cliff at dawn. Pictures we'll hang for life.</p><cite>Jonas &amp; Lea · engagement</cite></figcaption></figure>
         </Layer>
       </ParallaxScene>

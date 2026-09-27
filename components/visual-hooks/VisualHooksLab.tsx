@@ -35,6 +35,9 @@ import { FreestyleSite } from "@/components/concept-sites/FreestyleSite";
 import { Backdrop } from "@/components/scene-kit";
 // bespoke-сайты: второй акт (актёр/погода/атмосфера + часы страницы для счётчиков акта)
 import { Actor, Atmosphere, Weather, subscribe, clamp01, smooth } from "@/components/scene-kit";
+// хук-сцены (rev/track/living-object … fold-horizon): второй акт по скроллу — часы сцены, скраб, WebGL-линза
+import { useHookClock, LensReveal, lensDrive, ScrubVideo, seek, coverPt, path, drawCover, type Beat } from "./hook-kit";
+import { win } from "@/components/scene-kit";
 
 type Scene = {
   slug: string;
@@ -74,9 +77,9 @@ const scenes: Scene[] = [
   { slug: "fold-horizon", number: "13", title: "Fold Horizon", family: "Parallax narrative", note: "The landscape folds around a human scale.", preview: "/uploads/1/hooks/casts/fold-horizon.mp4", accent: "#9cc3e0" },
 ];
 
-function Media({ src, className = "", scrubRef, poster }: { src: string; className?: string; scrubRef?: React.RefObject<HTMLVideoElement | null>; poster?: string }) {
+function Media({ src, className = "", scrubRef, poster, preload }: { src: string; className?: string; scrubRef?: React.RefObject<HTMLVideoElement | null>; poster?: string; preload?: "auto" | "metadata" | "none" }) {
   if (src.endsWith(".mp4")) {
-    return <video ref={scrubRef} className={className} src={src} poster={poster} autoPlay={!scrubRef} muted loop={!scrubRef} playsInline preload={scrubRef ? "auto" : "metadata"} />;
+    return <video ref={scrubRef} className={className} src={src} poster={poster} autoPlay={!scrubRef} muted loop={!scrubRef} playsInline preload={preload ?? (scrubRef ? "auto" : "metadata")} />;
   }
   return <img className={className} src={src} alt="" />;
 }
@@ -103,10 +106,12 @@ function Prototype({ scene }: { scene: Scene }) {
   const root = useRef<HTMLDivElement>(null);
   const scrub = useRef<HTMLVideoElement>(null);
   const scrub2 = useRef<HTMLVideoElement>(null);
+  // interactive-story: свой таймлайн, сглаженный скраб, склейка (useStoryClock); остальные сцены — прежний цикл ниже
+  useStoryClock(root, scene.slug, scrub, scrub2);
 
   useEffect(() => {
     const node = root.current;
-    if (!node) return;
+    if (!node || STORY_TL[scene.slug]) return;
     let raf = 0;
     // локальный 0→1 прогресс акта внутри окна [a,b] глобального скролла
     const seg = (v: number, a: number, b: number) => Math.min(1, Math.max(0, (v - a) / (b - a)));
@@ -184,12 +189,38 @@ function Prototype({ scene }: { scene: Scene }) {
   );
 }
 
-function TrackPortfolio({ scrub }: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+/* ==== ХУК-СЦЕНЫ · track-* · rev-* · living-object … fold-horizon ====================================================
+   Второй акт по скроллу на hook-kit: сглаженные часы сцены (--q + окна-биты), свой скраб видео (Prototype-скраб не
+   используется), touch-фолбэк (курсорные механики ведёт скролл), финал — переход-обещание, а не обрыв. */
+const pct = (v: number) => `${(v * 100).toFixed(2)}%`;
+const mix3 = (a: readonly number[], b: readonly number[], t: number) => [0, 1, 2].map((i) => a[i] + (b[i] - a[i]) * t) as [number, number, number];
+
+/* track-portfolio: взгляд — курсор, затем скролл: в камеру → вправо, на шоурил, который забирает кадр. */
+const TP_BEATS: readonly Beat[] = [["--copy", 0.46, 0.6], ["--pan", 0.5, 0.72], ["--reel", 0.52, 0.72], ["--full", 0.78, 0.92], ["--end", 0.86, 0.97]];
+function TrackPortfolio(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const vid = useRef<HTMLVideoElement>(null);
+  const reel = useRef<HTMLVideoElement>(null);
+  useHookClock(ref, TP_BEATS, ({ q, touch, ptr }) => {
+    // курсор X → поворот головы (десктоп); скролл: взгляд в камеру (4.5 с) → вправо, на шоурил (9.8 с)
+    const tp = touch || !ptr.on ? 0 : ptr.x * 9.8;
+    const u1 = smooth(win(q, 0.04, 0.4)), u2 = smooth(win(q, 0.5, 0.74));
+    seek(vid.current, u2 > 0 ? 4.5 + 5.3 * u2 : tp + (4.5 - tp) * u1);
+    const r = reel.current;
+    if (r) {
+      if (q > 0.42 && r.paused) r.play().catch(() => {});
+      else if (q < 0.36 && !r.paused) r.pause();
+    }
+  });
   return (
-    <div className="vh-canvas tp-canvas">
+    <div ref={ref} className="vh-canvas tp-canvas">
       <span className="tp-ghost">VISUALS</span>
-      <Media src="/uploads/1/hooks/scenes/gaze-face-vid.mp4" poster="/uploads/1/hooks/scenes/gaze-face-poster.jpg" className="tp-film" scrubRef={scrub} />
+      <ScrubVideo vref={vid} src="/uploads/1/hooks/scenes/gaze-face-vid.mp4" poster="/uploads/1/hooks/scenes/gaze-face-poster.jpg" className="tp-film" />
       <div className="tp-wash" />
+      <div className="tp-reel">
+        <video ref={reel} src="/uploads/1/hooks/casts/held-world.mp4" poster="/uploads/1/hooks/scenes/held-world-poster.jpg" muted loop playsInline preload="none" />
+      </div>
+      <div className="tp-reel-cap"><span>Selected work</span><b>Showreel 2026 — 02:14</b></div>
       <header className="tp-head">
         <Link href="/visual-hooks" className="tp-brand">✳ STUDIO X</Link>
         <nav className="tp-nav"><a href="#" onClick={stop}>Work</a><a href="#" onClick={stop}>Studio</a><a href="#" onClick={stop}>Contact</a></nav>
@@ -198,31 +229,77 @@ function TrackPortfolio({ scrub }: { scrub: React.RefObject<HTMLVideoElement | n
         <h1>I build compelling<br />visual stories & motion<br />that make ideas <em>shine.</em></h1>
         <a href="#" onClick={stop} className="tp-cta">Start a project <span>↗</span></a>
       </div>
-      <div className="tp-scroll"><span>Move your cursor — it follows</span> ↔</div>
+      <div className="tp-scroll"><span className="hk-desk">Move your cursor, then scroll — it follows</span><span className="hk-touch">Scroll — it turns to follow</span></div>
+      <div className="tp-end">
+        <span>Showreel 2026 · Held World, Bloom, Monolith and 21 more</span>
+        <a href="#" onClick={stop} className="tp-cta">Start a project <span>↗</span></a>
+      </div>
     </div>
   );
 }
 
-function TrackSentry({ scrub }: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+/* track-sentry: голова за курсором; скролл поворачивает её к зрителю, HUD берёт цель → нырок в глаз → его взгляд. */
+const TS_BEATS: readonly Beat[] = [["--lock", 0.2, 0.4], ["--dive", 0.44, 0.7], ["--flash", 0.58, 0.72], ["--pov", 0.64, 0.78], ["--end", 0.8, 0.95]];
+function TrackSentry(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const vid = useRef<HTMLVideoElement>(null);
+  useHookClock(ref, TS_BEATS, ({ q, f, touch, ptr, set, text }) => {
+    const idle = 1.2 + 0.7 * Math.sin(f.t / 2300);
+    const tp = touch || !ptr.on ? idle : ptr.x * 9.8;
+    seek(vid.current, tp + (3.8 - tp) * smooth(win(q, 0.04, 0.34)));
+    const eye = coverPt(0.45, 0.39, f.vw, f.vh, 16 / 9, 0.66);
+    set("--ex", pct(eye.x));
+    set("--ey", pct(eye.y));
+    text(".ts-state", q < 0.4 ? "ACTIVE" : q < 0.66 ? "LOCKED" : "LINKED");
+    text(".ts-range", `${(3.2 - 2.8 * smooth(win(q, 0.2, 0.66))).toFixed(1)} m`);
+  });
   return (
-    <div className="vh-canvas ts-canvas">
-      <Media src="/uploads/1/hooks/scenes/gaze-char-vid.mp4" poster="/uploads/1/hooks/scenes/gaze-char-poster.jpg" className="ts-film" scrubRef={scrub} />
+    <div ref={ref} className="vh-canvas ts-canvas">
+      <ScrubVideo vref={vid} src="/uploads/1/hooks/scenes/gaze-char-vid.mp4" poster="/uploads/1/hooks/scenes/gaze-char-poster.jpg" className="ts-film" />
       <div className="ts-scan" />
+      <div className="ts-flash" />
+      <div className="ts-lock"><i /><i /><i /><i /><span>TARGET · <b className="ts-range">3.2 m</b></span></div>
+      <div className="ts-pov">
+        <img src="/uploads/1/hooks/scenes/gaze-face-poster.jpg" alt="" />
+        <div className="ts-pov-box"><span>SUBJECT 002 · IDENTIFIED</span></div>
+      </div>
       <header className="ts-head">
         <Link href="/visual-hooks" className="ts-brand">◎ SENTRY</Link>
         <nav className="ts-nav"><a href="#" onClick={stop}>System</a><a href="#" onClick={stop}>Watch</a><a href="#" onClick={stop}>Access</a></nav>
       </header>
       <h1 className="ts-h1">IT SEES<br /><em>everything.</em></h1>
-      <div className="ts-data"><span>TRACKING</span><b>ACTIVE</b><span>SUBJECT</span><b>YOU</b></div>
+      <div className="ts-data"><span>TRACKING</span><b className="ts-state">ACTIVE</b><span>SUBJECT</span><b>YOU</b></div>
+      <div className="ts-end">
+        <p>Now you see<br /><em>what it sees.</em></p>
+        <a href="#" onClick={stop} className="ts-cta">Request access →</a>
+      </div>
     </div>
   );
 }
 
-function TrackNeon({ scrub }: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+/* track-neon: вращение — правда от скролла; одна грань икосаэдра открывается порталом в продукт. */
+const TN_BEATS: readonly Beat[] = [["--glow", 0.3, 0.46], ["--tri", 0.44, 0.8], ["--end", 0.78, 0.94]];
+function TrackNeon(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const vid = useRef<HTMLVideoElement>(null);
+  useHookClock(ref, TN_BEATS, ({ q, f }) => {
+    const rest = 1 - smooth(win(q, 0, 0.06));
+    seek(vid.current, 0.9 + (f.reduced ? 0 : 0.6 * Math.sin(f.t / 1900) * rest) + 8.2 * win(q, 0, 0.62));
+  });
   return (
-    <div className="vh-canvas tn-canvas">
+    <div ref={ref} className="vh-canvas tn-canvas">
       <div className="tn-grid" />
-      <Media src="/uploads/1/hooks/scenes/neon-obj-vid.mp4" poster="/uploads/1/hooks/scenes/neon-obj-poster.jpg" className="tn-film" scrubRef={scrub} />
+      <ScrubVideo vref={vid} src="/uploads/1/hooks/scenes/neon-obj-vid.mp4" poster="/uploads/1/hooks/scenes/neon-obj-poster.jpg" className="tn-film" />
+      <div className="tn-portal-rim" />
+      <div className="tn-portal">
+        <div className="tn-floor" />
+        <div className="tn-inside">
+          <span>NEON·LOGIC / FLOWS</span>
+          <h2>Wire it.<br /><em>Watch it run.</em></h2>
+          <p>Rules become live, visual flows — every branch lights up as data moves through it.</p>
+          <a href="#" onClick={stop} className="tn-cta">Start building →</a>
+        </div>
+      </div>
       <header className="tn-head">
         <Link href="/visual-hooks" className="tn-brand">◇ NEON·LOGIC</Link>
         <nav className="tn-nav"><a href="#" onClick={stop}>Product</a><a href="#" onClick={stop}>Docs</a><a href="#" onClick={stop}>Login</a></nav>
@@ -233,59 +310,333 @@ function TrackNeon({ scrub }: { scrub: React.RefObject<HTMLVideoElement | null> 
   );
 }
 
+/* rev-*: WebGL-линза с мягким «живым» краем и ободом света. Курсор — первый акт; скролл забирает линзу
+   на траекторию (на таче — с первого кадра) и раскрывает мир под кожей до конца → обещание продукта. */
+const REV_NEURA_BEATS: readonly Beat[] = [["--h", 0.46, 0.6], ["--end", 0.8, 0.94]];
+const NEURA_SCAN = [[0.3, 0.27], [0.44, 0.27], [0.37, 0.55], [0.37, 0.4]] as const; // глаз → глаз → рот → центр лица
 function RevNeura() {
+  const ref = useRef<HTMLDivElement>(null);
+  const lens = useRef(lensDrive({ x: 0.3, y: 0.3, r: 0.17, soft: 0.05, rim: 0.9 }));
+  useHookClock(ref, REV_NEURA_BEATS, ({ q, f, touch, ptr, text }) => {
+    const d = lens.current;
+    const take = touch ? 1 : smooth(win(q, 0.04, 0.18));
+    const open = smooth(win(q, 0.5, 0.8));
+    const [ix, iy] = path(NEURA_SCAN, win(q, touch ? 0 : 0.18, 0.5));
+    const s = coverPt(ix, iy, f.vw, f.vh);
+    const rest = coverPt(0.3, 0.27, f.vw, f.vh);
+    const hx = ptr.on && !touch ? ptr.x : rest.x + 0.02 * Math.sin(f.t / 1300);
+    const hy = ptr.on && !touch ? ptr.y : rest.y + 0.012 * Math.cos(f.t / 1700);
+    d.x = hx + (s.x - hx) * take;
+    d.y = hy + (s.y - hy) * take;
+    d.r = 0.17 + 0.03 * smooth(win(q, 0.18, 0.5)) + open * 1.25;
+    d.soft = 0.05 + open * 0.07;
+    d.rim = 0.9 * (1 - open);
+    d.fill = smooth(win(q, 0.74, 0.84));
+    d.push = 1 + open * 0.08;
+    const c = coverPt(0.37, 0.4, f.vw, f.vh);
+    d.zx = c.x;
+    d.zy = c.y;
+    d.zoom = 1 + 0.12 * smooth(win(q, 0.62, 1));
+    text(".rv-pct", `${String(Math.round(100 * clamp01((q - 0.04) / 0.76))).padStart(3, "0")}%`);
+  });
   return (
-    <div className="vh-canvas rv-canvas vh-rev-neura">
-      <img className="rv-base" src="/uploads/1/hooks/scenes/rev-face-a.png" alt="" />
-      <img className="rv-reveal" src="/uploads/1/hooks/scenes/rev-face-b.png" alt="" />
-      <div className="rv-lens" />
+    <div ref={ref} className="vh-canvas rv-canvas vh-rev-neura">
+      <LensReveal base="/uploads/1/hooks/scenes/rev-face-a.png" top="/uploads/1/hooks/scenes/rev-face-b.png" drive={lens} rim="#4defff" />
       <header className="rv-head">
         <Link href="/visual-hooks" className="rv-brand">◈ NEURA</Link>
         <nav className="rv-nav"><a href="#" onClick={stop}>Scan</a><a href="#" onClick={stop}>Research</a><a href="#" onClick={stop}>Access</a></nav>
       </header>
       <h1 className="rv-h1">SEE<br /><em>BENEATH.</em></h1>
-      <div className="rv-hint"><span>Move across the face — reveal the machine within.</span></div>
+      <div className="rv-hud"><span>SCAN</span><b className="rv-pct">000%</b></div>
+      <div className="rv-hint"><span className="hk-desk">Move across the face — then scroll to open the machine.</span><span className="hk-touch">Scroll — the scan moves across the face.</span></div>
+      <div className="rv-end">
+        <span className="rv-end-k">NEURA ONE — neural imaging</span>
+        <p>Every pathway, mapped at 0.2 mm. A full scan takes twelve minutes.</p>
+        <a href="#" onClick={stop} className="rv-end-cta">Book a scan →</a>
+      </div>
     </div>
   );
 }
 
+const REV_MYTHIC_BEATS: readonly Beat[] = [["--night", 0.5, 0.82], ["--end", 0.82, 0.95]];
+const MYTHIC_SUN = [[0.8, 0.14], [0.64, 0.3], [0.44, 0.6]] as const; // солнце-линза садится в туман долины
 function RevMythic() {
+  const ref = useRef<HTMLDivElement>(null);
+  const lens = useRef(lensDrive({ x: 0.45, y: 0.55, r: 0.16, soft: 0.06, rim: 0.8 }));
+  useHookClock(ref, REV_MYTHIC_BEATS, ({ q, f, touch, ptr }) => {
+    const d = lens.current;
+    const take = touch ? 1 : smooth(win(q, 0.04, 0.14));
+    const dusk = smooth(win(q, 0.1, 0.5));
+    const night = smooth(win(q, 0.5, 0.82));
+    const [ix, iy] = path(MYTHIC_SUN, win(q, touch ? 0 : 0.1, 0.5));
+    const s = coverPt(ix, iy, f.vw, f.vh, 2752 / 1536);
+    const hx = ptr.on && !touch ? ptr.x : 0.46 + 0.02 * Math.sin(f.t / 1500);
+    const hy = ptr.on && !touch ? ptr.y : 0.56 + 0.01 * Math.cos(f.t / 1900);
+    d.x = hx + (s.x - hx) * take;
+    d.y = hy + (s.y - hy) * take;
+    d.r = 0.16 - 0.06 * dusk + night * 1.5;
+    d.soft = 0.06 + 0.07 * night;
+    d.dusk = dusk * (1 - night);
+    d.rim = 0.95 * (1 - night);
+    d.rc = mix3([0.26, 0.88, 0.75], [1, 0.62, 0.3], dusk); // бирюзовый обод → закатное солнце
+    d.fill = smooth(win(q, 0.78, 0.86));
+  });
   return (
-    <div className="vh-canvas rv-canvas vh-rev-mythic">
-      <img className="rv-base" src="/uploads/1/hooks/scenes/rev-land-a.png" alt="" />
-      <img className="rv-reveal" src="/uploads/1/hooks/scenes/rev-land-b.png" alt="" />
-      <div className="rv-lens" />
+    <div ref={ref} className="vh-canvas rv-canvas vh-rev-mythic">
+      <LensReveal base="/uploads/1/hooks/scenes/rev-land-a.png" top="/uploads/1/hooks/scenes/rev-land-b.png" drive={lens} rim="#43e0c0" />
       <header className="rv-head">
         <Link href="/visual-hooks" className="rv-brand">❋ MYTHIC</Link>
         <nav className="rv-nav"><a href="#" onClick={stop}>Worlds</a><a href="#" onClick={stop}>Field</a><a href="#" onClick={stop}>Enter</a></nav>
       </header>
       <h1 className="rv-h1">IT COMES<br /><em>alive at night.</em></h1>
-      <div className="rv-hint"><span>Wander the cursor — wake the bioluminescent world.</span></div>
+      <div className="rv-hint"><span className="hk-desk">Wander the cursor — or scroll the sun down.</span><span className="hk-touch">Scroll — the sun sets and the valley wakes.</span></div>
+      <div className="rv-end">
+        <span className="rv-end-k">Night walks · from 21:00</span>
+        <p>Lantern-free trails through a valley that lights itself.</p>
+        <a href="#" onClick={stop} className="rv-end-cta">Enter the valley →</a>
+      </div>
     </div>
   );
 }
 
+const REV_IMP_BEATS: readonly Beat[] = [["--h", 0.5, 0.62], ["--flash", 0.74, 0.86], ["--end", 0.82, 0.95]];
+const IMP_ROUTE = [[0.37, 0.28], [0.56, 0.25], [0.62, 0.64], [0.41, 0.64], [0.56, 0.25]] as const;
+const IMP_NODES = ["LIS-01", "FRA-02", "SIN-03", "SYD-04", "FRA-02"];
 function RevImperial() {
+  const ref = useRef<HTMLDivElement>(null);
+  const lens = useRef(lensDrive({ x: 0.4, y: 0.3, r: 0.15, soft: 0.045, rim: 0.9 }));
+  useHookClock(ref, REV_IMP_BEATS, ({ q, f, touch, ptr, text }) => {
+    const d = lens.current;
+    const ia = 2752 / 1536;
+    const take = touch ? 1 : smooth(win(q, 0.04, 0.14));
+    const u = win(q, touch ? 0 : 0.14, 0.52);
+    const [ix, iy] = path(IMP_ROUTE, u);
+    const s = coverPt(ix, iy, f.vw, f.vh, ia);
+    const rest = coverPt(0.37, 0.28, f.vw, f.vh, ia);
+    const hx = ptr.on && !touch ? ptr.x : rest.x + 0.015 * Math.sin(f.t / 1400);
+    const hy = ptr.on && !touch ? ptr.y : rest.y + 0.012 * Math.cos(f.t / 1800);
+    const dive = smooth(win(q, 0.52, 0.86));
+    const node = coverPt(0.56, 0.25, f.vw, f.vh, ia);
+    d.x = hx + (s.x - hx) * take;
+    d.y = hy + (s.y - hy) * take;
+    d.r = 0.15 + dive * 1.2;
+    d.soft = 0.045 + dive * 0.06;
+    d.rim = 0.9 * (1 - dive);
+    d.zx = node.x;
+    d.zy = node.y;
+    d.zoom = 1 + dive * 2.2;
+    d.fill = smooth(win(q, 0.8, 0.88));
+    text(".rv-node", IMP_NODES[Math.min(4, Math.round(u * 4))]);
+    text(".rv-count", String(Math.round(12 + 130 * clamp01((q - 0.1) / 0.74))).padStart(3, "0"));
+  });
   return (
-    <div className="vh-canvas rv-canvas vh-rev-imperial">
-      <img className="rv-base" src="/uploads/1/hooks/scenes/rev-map-a.png" alt="" />
-      <img className="rv-reveal" src="/uploads/1/hooks/scenes/rev-map-b.png" alt="" />
-      <div className="rv-lens" />
+    <div ref={ref} className="vh-canvas rv-canvas vh-rev-imperial">
+      <LensReveal base="/uploads/1/hooks/scenes/rev-map-a.png" top="/uploads/1/hooks/scenes/rev-map-b.png" drive={lens} rim="#3df0ff" />
+      <div className="rv-flash" />
       <header className="rv-head">
         <Link href="/visual-hooks" className="rv-brand">▦ IMPERIAL</Link>
         <nav className="rv-nav"><a href="#" onClick={stop}>Network</a><a href="#" onClick={stop}>Servers</a><a href="#" onClick={stop}>Pricing</a></nav>
       </header>
       <h1 className="rv-h1">MAP THE<br /><em>INVISIBLE.</em></h1>
-      <div className="rv-hint"><span>Trace the globe — light up the private network.</span></div>
+      <div className="rv-hud"><span>NODE</span><b className="rv-node">LIS-01</b><span>LIVE</span><b className="rv-count">012</b></div>
+      <div className="rv-hint"><span className="hk-desk">Trace the globe — then scroll along the private routes.</span><span className="hk-touch">Scroll — the lens follows the private routes.</span></div>
+      <div className="rv-end">
+        <span className="rv-end-k">FRA-02 · private node</span>
+        <p>142 nodes, one network — 0.8 ms from the people you serve.</p>
+        <a href="#" onClick={stop} className="rv-end-cta">Deploy your node →</a>
+      </div>
     </div>
   );
 }
 
-function HeldWorld({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement | null>; scrub2: React.RefObject<HTMLVideoElement | null> }) {
+/* ==== INTERACTIVE STORIES · bloom · held-world · monolith · planet-vigil · ascension ============================
+   У каждой истории свой таймлайн (StoryTL): окна актов, склейка, передача лендингу. Склейка — zoom-through:
+   камера въезжает в объект кадра 1 (зрачок, сфера, плита, точка на планете, свет сверху), кадр 2 открывается
+   формой этого объекта и доезжает в ту же сторону — без кроссфейда и встречного зума. Скраб сглажен (lerp к цели
+   по кадрам часов scene-kit), второй клип держит preload="metadata", пока камера не подошла к склейке.
+   Финал hero совпадает с первой плитой Backdrop лендинга → вместо шва — перевод фокуса. */
+const SL = "/uploads/1/hooks/land";
+const SC = "/uploads/1/hooks/scenes";
+type Scrub = React.RefObject<HTMLVideoElement | null>;
+type StoryProps = { scrub: Scrub; scrub2: Scrub };
+type SWin = [number, number];
+type StoryTL = {
+  v1: [number, number, number, number]; // окно p → доли длительности клипа 1
+  v2: [number, number, number, number]; // то же для клипа 2
+  cut: SWin; // склейка → --cut / --ce
+  acts: SWin[]; // акты → --a1.. (линейно) и --e1.. (smoothstep)
+  kind: "circle" | "rect" | "rise";
+  a: [number, number, number]; // объект в кадре 1: u, v, радиус (доли ширины кадра)
+  b: [number, number]; // тот же мотив в кадре 2
+  box?: [number, number, number, number]; // силуэт плиты (rect): u0, v0, u1, v1
+  z1: number; // наезд в кадр 1 за склейку
+  s0: number; // стартовый масштаб кадра 2 внутри формы
+  z2: number; // доезд кадра 2 после склейки (1+z2 ≈ масштаб плиты Backdrop → финал = первая плита лендинга)
+  kb?: number; // лёгкий наезд кадра 1 до склейки
+  pull?: boolean; // held-world: выход обратно сквозь стекло — мир сжимается в сферу
+};
+const STORY_TL: Record<string, StoryTL> = {
+  bloom: { v1: [0, .44, 0, .985], v2: [.44, .80, 0, .985], cut: [.44, .58], acts: [[.10, .17], [.14, .44], [.64, .72], [.76, .82]], kind: "circle", a: [.535, .40, .022], b: [.55, .5], z1: 3.4, s0: .3, z2: .137, kb: .06 },
+  "held-world": { v1: [0, .40, 0, .985], v2: [.40, .70, 0, .985], cut: [.40, .54], acts: [[.12, .20], [.18, .40], [.54, .68], [.66, .78]], kind: "circle", a: [.45, .56, .19], b: [.46, .5], z1: 1.5, s0: .6, z2: .1, kb: .05, pull: true },
+  monolith: { v1: [0, .46, 0, .985], v2: [.46, .74, 0, .985], cut: [.46, .60], acts: [[.14, .22], [.22, .47], [.60, .70], [.69, .80]], kind: "rect", a: [.5025, .39, 0], b: [.5, .47], box: [.295, 0, .71, .78], z1: 1.25, s0: .85, z2: .06, kb: .04 },
+  "planet-vigil": { v1: [0, .42, 0, .985], v2: [.42, .80, 0, .985], cut: [.42, .56], acts: [[.10, .17], [.15, .42], [.58, .78], [.76, .82]], kind: "circle", a: [.52, .30, .03], b: [.6, .44], z1: 2.6, s0: .4, z2: .137, kb: .05 },
+  ascension: { v1: [0, .40, 0, .58], v2: [.38, .80, 0, .62], cut: [.38, .54], acts: [[.07, .13], [.12, .38], [.56, .78], [.76, .82]], kind: "rise", a: [.46, -.1, 0], b: [.46, -.1], z1: .16, s0: 1, z2: .137, kb: .04 },
+};
+
+// Часы истории: один подписчик общего rAF scene-kit. Пишет --p (сглаженный), акты, геометрию склейки; ведёт оба клипа.
+function useStoryClock(root: React.RefObject<HTMLElement | null>, slug: string, scrub: Scrub, scrub2: Scrub) {
+  useEffect(() => {
+    const tl = STORY_TL[slug];
+    const node = root.current;
+    if (!tl || !node) return;
+    const stage = node.querySelector<HTMLElement>(".vh-stage");
+    const g = { W: 1, H: 1, ax: 0, ay: 0, ar: 0, bx: 0, by: 0, x0: 0, y0: 0, x1: 0, y1: 0, diag: 1, D: 0 };
+    let sp = -1;
+    let last = -1;
+    let phase = "";
+    const measure = () => {
+      const W = stage?.clientWidth || innerWidth;
+      const H = stage?.clientHeight || innerHeight;
+      // object-fit: cover → точка кадра (u,v) в пикселях сцены
+      const cover = (v: HTMLVideoElement | null, dw: number, dh: number) => {
+        const vw = v?.videoWidth || dw;
+        const vh = v?.videoHeight || dh;
+        const sc = Math.max(W / vw, H / vh);
+        return (u: number, t: number) => [(W - vw * sc) / 2 + u * vw * sc, (H - vh * sc) / 2 + t * vh * sc, vw * sc] as const;
+      };
+      const m1 = cover(scrub.current, 1920, 1080);
+      const m2 = cover(scrub2.current, 1928, 1076);
+      const [ax, ay, w1] = m1(tl.a[0], tl.a[1]);
+      const [bx, by] = m2(tl.b[0], tl.b[1]);
+      Object.assign(g, { W, H, ax, ay, ar: tl.a[2] * w1, bx, by, diag: Math.hypot(W, H), D: (W <= 800 ? Math.min(W * 0.84, H * 0.6) : Math.min(W * 0.44, H * 0.72)) * 0.636 }); // = --orbD лендинга
+      if (tl.box) {
+        const [x0, y0] = m1(tl.box[0], tl.box[1]);
+        const [x1, y1] = m1(tl.box[2], tl.box[3]);
+        Object.assign(g, { x0, y0, x1, y1 });
+      }
+      last = -1;
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (stage) ro.observe(stage);
+    const vids = [scrub.current, scrub2.current];
+    vids.forEach((v) => v?.addEventListener("loadedmetadata", measure));
+    const px = (v: number) => `${v.toFixed(1)}px`;
+    const set = (k: string, v: number | string) => node.style.setProperty(k, typeof v === "number" ? v.toFixed(4) : v);
+    const map = (p: number, m: number[]) => m[2] + (m[3] - m[2]) * clamp01((p - m[0]) / (m[1] - m[0]));
+    const seek = (v: HTMLVideoElement | null, f: number) => {
+      if (!v || !v.duration || v.readyState < 1) return;
+      const t = Math.min(v.duration - 0.04, f * v.duration);
+      if (Math.abs(v.currentTime - t) > 0.02 && !v.seeking) v.currentTime = t;
+    };
+    const unsub = subscribe(({ dt, reduced }) => {
+      const r = node.getBoundingClientRect();
+      const travel = Math.max(1, node.offsetHeight - innerHeight);
+      const target = clamp01(-r.top / travel);
+      // сглаживание: колесо даёт ступеньки — камера доезжает к цели (lerp 0.12 на кадр 60fps)
+      if (sp < 0 || reduced) sp = target;
+      else {
+        sp += (target - sp) * (1 - Math.pow(0.88, dt / 16.67));
+        if (Math.abs(target - sp) < 3e-4) sp = target;
+      }
+      seek(scrub.current, map(sp, tl.v1));
+      seek(scrub2.current, map(sp, tl.v2));
+      const v2 = scrub2.current;
+      if (v2 && v2.preload !== "auto" && sp > tl.cut[0] - 0.22) v2.preload = "auto";
+      if (sp === last) return;
+      last = sp;
+      const p = sp;
+      set("--p", p);
+      tl.acts.forEach((w, i) => {
+        const a = clamp01((p - w[0]) / (w[1] - w[0]));
+        set(`--a${i + 1}`, a);
+        set(`--e${i + 1}`, smooth(a));
+      });
+      const cut = clamp01((p - tl.cut[0]) / (tl.cut[1] - tl.cut[0]));
+      const ci = Math.pow(cut, 1.7);
+      const co = 1 - (1 - cut) * (1 - cut);
+      const post = clamp01((p - tl.cut[1]) / Math.max(0.01, tl.v2[1] - tl.cut[1]));
+      const s1 = (1 + (tl.kb ?? 0) * clamp01(p / tl.cut[0])) * (1 + tl.z1 * ci);
+      let s2 = 1;
+      let tx2 = 0;
+      let ty2 = 0;
+      let ty1 = 0;
+      let o2x = g.W / 2;
+      let o2y = g.H / 2;
+      if (tl.kind === "rise") {
+        // подъём: мир кадра 1 уходит вниз, кадр 2 спускается сверху — камера идёт вверх сквозь туман к свету
+        ty1 = ci * g.H * 0.42;
+        ty2 = -(1 - co) * g.H * 0.3;
+        s2 = 1 + tl.z2 * smooth(post);
+      } else if (cut < 1) {
+        // кадр 2 доезжает до полного кадра к 0.8 склейки — дальше форма может закрыть экран без видимых краёв клипа
+        const k = 1 - Math.pow(1 - clamp01(cut / 0.8), 2);
+        s2 = tl.s0 + (1 - tl.s0) * k;
+        tx2 = (1 - k) * (g.ax - g.bx);
+        ty2 = (1 - k) * (g.ay - g.by);
+        o2x = g.bx;
+        o2y = g.by;
+      } else s2 = 1 + tl.z2 * smooth(post);
+      // «след» кадра 2 на сцене: форма не выходит за его края, пока он не заполнил кадр
+      const fl = o2x * (1 - s2) + tx2;
+      const fr = o2x + (g.W - o2x) * s2 + tx2;
+      const ft = o2y * (1 - s2) + ty2;
+      const fb = o2y + (g.H - o2y) * s2 + ty2;
+      const full = tl.kind === "rise" || s2 >= 0.999;
+      set("--cut", cut);
+      set("--ce", smooth(cut));
+      set("--s1", s1);
+      set("--ty1", px(ty1));
+      set("--f1", ci > 0.002 ? `blur(${(ci * 7).toFixed(2)}px) brightness(${(1 + ci * 0.3).toFixed(3)})` : "none");
+      set("--s2", s2);
+      set("--tx2", px(tx2));
+      set("--ty2", px(ty2));
+      set("--o2x", px(o2x));
+      set("--o2y", px(o2y));
+      set("--ax", px(g.ax));
+      set("--ay", px(g.ay));
+      let R = g.ar * s1 * clamp01(cut / 0.3) + Math.pow(cut, 2.2) * g.diag * 1.1;
+      if (!full) R = Math.min(R, Math.max(0, Math.min(g.ax - fl, fr - g.ax, g.ay - ft, fb - g.ay)));
+      set("--R", px(R));
+      set("--rim", Math.sin(Math.PI * clamp01(cut / 0.9)));
+      if (tl.box) {
+        const ext = Math.pow(cut, 2.2) * g.diag * 0.6;
+        // проём = силуэт плиты (растёт с наездом) ∩ след кадра 2
+        set("--il", px(Math.max(0, g.ax - (g.ax - g.x0) * s1 - ext, full ? 0 : fl)));
+        set("--ir", px(Math.max(0, g.W - (g.ax + (g.x1 - g.ax) * s1) - ext, full ? 0 : g.W - fr)));
+        set("--it", px(Math.max(0, g.ay - (g.ay - g.y0) * s1 - ext, full ? 0 : ft)));
+        set("--ib", px(Math.max(0, g.H - (g.ay + (g.y1 - g.ay) * s1) - ext, full ? 0 : g.H - fb)));
+        set("--o2", clamp01(cut / 0.28));
+      }
+      if (tl.pull) {
+        const w = tl.acts[3];
+        const e = smooth(clamp01((p - w[0]) / (w[1] - w[0])));
+        const pS = 1 - e * (1 - (g.D * 1.12) / g.H);
+        set("--pS", pS);
+        set("--pR", px((g.diag * 0.55 * (1 - e) + (g.D / 2) * e) / pS));
+        set("--D", px(g.D));
+      }
+      const ph = cut <= 0 ? "pre" : cut >= 1 ? "post" : "on";
+      if (ph !== phase) node.dataset.cut = phase = ph;
+    });
+    return () => {
+      unsub();
+      ro.disconnect();
+      vids.forEach((v) => v?.removeEventListener("loadedmetadata", measure));
+    };
+  }, [root, slug, scrub, scrub2]);
+}
+
+function HeldWorld({ scrub, scrub2 }: StoryProps) {
   return (
     <div className="vh-canvas hw-canvas">
-      <Media src="/uploads/1/hooks/scenes/held-world-vid.mp4" poster="/uploads/1/hooks/scenes/held-world-poster.jpg" className="hw-film" scrubRef={scrub} />
-      <Media src="/uploads/1/hooks/scenes/held-reveal-vid.mp4" poster="/uploads/1/hooks/scenes/held-reveal.png" className="hw-splice" scrubRef={scrub2} />
+      <Media src={`${SC}/held-world-vid.mp4`} poster={`${SC}/held-world-poster.jpg`} className="hw-film hs-film" scrubRef={scrub} />
+      {/* нырок в сферу: мир открывается кругом стекла и растёт в ту же сторону; в финале — обратно наружу, мир сжимается в сферу */}
+      <div className="hw-pull">
+        <div className="hs-cut"><Media src={`${SC}/held-reveal-vid.mp4`} poster={`${SC}/held-reveal.png`} className="hw-splice" scrubRef={scrub2} preload="metadata" /></div>
+      </div>
+      <i className="hs-rim hw-rim" aria-hidden />
+      <i className="hw-glass or-glass" aria-hidden />
       <div className="hw-wash" />
       <div className="hw-motes" aria-hidden>{Array.from({ length: 8 }).map((_, i) => <span key={i} className={`hw-mote m${i + 1}`} />)}</div>
       <header className="hw-head">
@@ -297,21 +648,23 @@ function HeldWorld({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement 
         <h1>The world,<br /><em>in your hands.</em></h1>
         <p>Living miniature ecosystems. Proof a planet can begin inside a single palm.</p>
       </div>
-      <div className="hw-manifesto hw-act"><h2><span>IT BEGINS</span> <em>small.</em></h2></div>
-      <div className="hw-finale hw-act">
-        <span className="hw-fin-line">Hold the future steady.</span>
-        <a href="#" onClick={stop} className="hw-cta">Begin terraforming <i>↗</i></a>
-      </div>
-      <div className="hw-rail" aria-hidden><i /></div>
+      {/* одна фраза, разрезанная склейкой: до — снаружи стекла, после — внутри мира */}
+      <p className="hw-half hw-h1 hw-act">Small enough<br />to <em>hold.</em><span>Ø 9 cm · sealed glass</span></p>
+      <p className="hw-half hw-h2 hw-act">Vast enough<br />to <em>fall into.</em><span>40 km of coast · three summits · one sea</span></p>
     </div>
   );
 }
 
-function Monolith({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement | null>; scrub2: React.RefObject<HTMLVideoElement | null> }) {
+function Monolith({ scrub, scrub2 }: StoryProps) {
   return (
     <div className="vh-canvas mn-canvas">
-      <Media src="/uploads/1/hooks/scenes/monolith-vid.mp4" poster="/uploads/1/hooks/scenes/monolith-poster.jpg" className="mn-film" scrubRef={scrub} />
-      <Media src="/uploads/1/hooks/scenes/monolith-reveal-vid.mp4" poster="/uploads/1/hooks/scenes/monolith-reveal.png" className="mn-splice" scrubRef={scrub2} />
+      <Media src={`${SC}/monolith-vid.mp4`} poster={`${SC}/monolith-poster.jpg`} className="mn-film hs-film" scrubRef={scrub} />
+      {/* склейка формой плиты: её тёмная грань загорается рунами и растёт до кадра */}
+      <div className="hs-cut mn-cut"><Media src={`${SC}/monolith-reveal-vid.mp4`} poster={`${SC}/monolith-reveal.png`} className="mn-splice" scrubRef={scrub2} preload="metadata" /></div>
+      <i className="mn-rim" aria-hidden />
+      {/* трещина рун — портал в ночь: та же плита под Млечным путём (первая плита лендинга) */}
+      <div className="mn-glow" aria-hidden><i /></div>
+      <div className="mn-night" aria-hidden><img src={`${SL}/obe-night.jpg`} alt="" /></div>
       <div className="mn-wash" />
       <div className="mn-embers" aria-hidden>{Array.from({ length: 10 }).map((_, i) => <span key={i} className={`mn-ember e${i + 1}`} />)}</div>
       <header className="mn-head">
@@ -321,44 +674,45 @@ function Monolith({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement |
       </header>
       <h1 className="mn-h1 mn-act">IN SILENCE<br /><em>IT REMEMBERS</em></h1>
       <div className="mn-foot mn-act">A monument to everything that refuses to be explained.</div>
-      <div className="mn-manifesto mn-act"><h2>IT PREDATES <em>us.</em></h2></div>
-      <div className="mn-finale mn-act">
-        <span className="mn-fin-line">Come stand before it.</span>
-        <a href="#" onClick={stop} className="mn-cta">Visit the site <i>↗</i></a>
-      </div>
-      <div className="mn-rail" aria-hidden><i /></div>
+      <ol className="mn-verse mn-act"><li>Older than the road.</li><li>Older than the town.</li><li>Older than <em>the word for it.</em></li></ol>
+      <p className="mn-read mn-act"><span>Carved · undated · undeciphered</span>Nine marks. <em>No one has read them.</em></p>
     </div>
   );
 }
 
-function PlanetVigil({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement | null>; scrub2: React.RefObject<HTMLVideoElement | null> }) {
+function PlanetVigil({ scrub, scrub2 }: StoryProps) {
   return (
     <div className="vh-canvas pv-canvas">
-      <Media src="/uploads/1/hooks/scenes/planet-vig-vid.mp4" poster="/uploads/1/hooks/scenes/planet-vig-poster.jpg" className="pv-film" scrubRef={scrub} />
-      <Media src="/uploads/1/hooks/scenes/planet-reveal-vid.mp4" poster="/uploads/1/hooks/scenes/planet-reveal.png" className="pv-splice" scrubRef={scrub2} />
+      <Media src={`${SC}/planet-vig-vid.mp4`} poster={`${SC}/planet-vig-poster.jpg`} className="pv-film hs-film" scrubRef={scrub} />
+      {/* её взгляд → точка на планете → подъём на орбиту: круг атмосферы раскрывает орбиту */}
+      <div className="hs-cut"><Media src={`${SC}/planet-reveal-vid.mp4`} poster={`${SC}/planet-reveal.png`} className="pv-splice" scrubRef={scrub2} preload="metadata" /></div>
+      <i className="hs-rim pv-rim" aria-hidden />
       <div className="pv-wash" />
       <div className="pv-dust" aria-hidden>{Array.from({ length: 9 }).map((_, i) => <span key={i} className={`pv-speck s${i + 1}`} />)}</div>
       <header className="pv-head">
         <Link href="/visual-hooks" className="pv-brand">◐ VIGIL</Link>
         <nav className="pv-nav"><a href="#" onClick={stop}>Observe</a><a href="#" onClick={stop}>Missions</a><a href="#" onClick={stop}>Log</a></nav>
       </header>
-      <h1 className="pv-h1 pv-act">WE ARE<br />SMALL.<br /><em>KEEP WATCHING.</em></h1>
-      <div className="pv-coord pv-act">Vigil 001. 04:12 to planetrise.</div>
-      <div className="pv-manifesto pv-act"><h2>IT <em>rises.</em></h2></div>
-      <div className="pv-finale pv-act">
-        <span className="pv-fin-line">Keep the vigil.</span>
-        <a href="#" onClick={stop} className="pv-cta">Join the watch <i>↗</i></a>
+      <h1 className="pv-h1 pv-act">We are small.<br /><em>Keep watching.</em></h1>
+      <div className="pv-coord pv-act">Vigil 001 · Meridian</div>
+      {/* обратный отсчёт до восхода планеты: скролл = время вахты */}
+      <div className="pv-count pv-act">
+        <span>Planetrise in</span>
+        <b className="pv-clock"><i className="m" />:<i className="s" /></b>
+        <p>She has kept this watch for 212 nights.</p>
       </div>
-      <div className="pv-rail" aria-hidden><i /></div>
+      <div className="pv-hud pv-act"><span>Orbit · 412 km</span><span>Night side · 7 relays online</span><span>Meridian · dust storm rising</span></div>
     </div>
   );
 }
 
-function Ascension({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement | null>; scrub2: React.RefObject<HTMLVideoElement | null> }) {
+function Ascension({ scrub, scrub2 }: StoryProps) {
   return (
     <div className="vh-canvas as-canvas">
-      <Media src="/uploads/1/hooks/scenes/ascension-vid.mp4" poster="/uploads/1/hooks/scenes/ascension-poster.jpg" className="as-film" scrubRef={scrub} />
-      <Media src="/uploads/1/hooks/scenes/ascension-reveal-vid.mp4" poster="/uploads/1/hooks/scenes/ascension-reveal.png" className="as-splice" scrubRef={scrub2} />
+      <Media src={`${SC}/ascension-vid.mp4`} poster={`${SC}/ascension-poster.jpg`} className="as-film hs-film" scrubRef={scrub} />
+      {/* подъём сквозь туман: свет открывается сверху мягким овалом, оба кадра движутся вниз — камера идёт вверх */}
+      <div className="hs-cut as-cut"><Media src={`${SC}/ascension-reveal-vid.mp4`} poster={`${SC}/ascension-reveal.png`} className="as-splice" scrubRef={scrub2} preload="metadata" /></div>
+      <i className="as-rim" aria-hidden />
       <div className="as-wash" />
       <div className="as-rays" aria-hidden />
       <div className="as-motes" aria-hidden>{Array.from({ length: 9 }).map((_, i) => <span key={i} className={`as-mote am${i + 1}`} />)}</div>
@@ -371,66 +725,66 @@ function Ascension({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement 
         <h1>Become<br /><em>weightless.</em></h1>
         <p>Guided rituals to dissolve the noise and rise into stillness.</p>
       </div>
-      <div className="as-manifesto as-act"><h2>LET <em>go.</em></h2></div>
-      <div className="as-finale as-act">
-        <span className="as-fin-line">Rise into stillness.</span>
-        <a href="#" onClick={stop} className="as-cta">Begin the ascent <i>↗</i></a>
-      </div>
-      <div className="as-rail" aria-hidden><i /></div>
+      {/* манифест — дыхание: вдох, задержка, выдох идут скроллом */}
+      <div className="as-breath as-act" aria-hidden><i className="as-orb" /><span className="w1">breathe in</span><span className="w2">hold</span><span className="w3">let it go</span></div>
+      <p className="as-quiet as-act">Above the noise,<br /><em>it is quiet.</em></p>
     </div>
   );
 }
 
-function Bloom({ scrub, scrub2 }: { scrub: React.RefObject<HTMLVideoElement | null>; scrub2: React.RefObject<HTMLVideoElement | null> }) {
+function Bloom({ scrub, scrub2 }: StoryProps) {
+  const log = [
+    { d: "001", t: "Seeded into living skin." },
+    { d: "040", t: "First veins carry light." },
+    { d: "120", t: "The garden answers back." },
+  ];
   return (
     <div className="vh-canvas bl-canvas">
-      {/* фон: основной живой кадр (скрабится весь скролл) */}
-      <Media src="/uploads/1/hooks/scenes/bloom-vid.mp4" poster="/uploads/1/hooks/scenes/bloom-poster.jpg" className="bl-film" scrubRef={scrub} />
-      {/* сплайс: макро-глаз распускается в финальном акте (скрабится по --a3) */}
-      <Media src="/uploads/1/hooks/scenes/bloom-eye-vid.mp4" poster="/uploads/1/hooks/scenes/bloom-eye.png" className="bl-eye" scrubRef={scrub2} />
+      {/* кадр 1: лицо, цветы раскрываются скроллом (скраб = таймлапс роста) */}
+      <Media src={`${SC}/bloom-vid.mp4`} poster={`${SC}/bloom-poster.jpg`} className="bl-film hs-film" scrubRef={scrub} />
+      {/* склейка сквозь её глаз: макро-глаз открывается кругом зрачка и доезжает вперёд */}
+      <div className="hs-cut"><Media src={`${SC}/bloom-eye-vid.mp4`} poster={`${SC}/bloom-eye.png`} className="bl-eye" scrubRef={scrub2} preload="metadata" /></div>
+      <i className="hs-rim bl-rim" aria-hidden />
       <div className="bl-vignette" />
-      {/* дрейфующие лепестки — «цветение» */}
       <div className="bl-petals" aria-hidden>
         {Array.from({ length: 9 }).map((_, i) => <span key={i} className={`bl-petal p${i + 1}`} />)}
       </div>
-      {/* передний слой — ветка сакуры, паралакс по курсору */}
-      <img className="bl-fg" src="/uploads/1/hooks/scenes/bloom-fg.png" alt="" aria-hidden />
-
+      {/* передний план: ветка пролетает мимо камеры на наезде (глубина), а не висит поверх глаза */}
+      <img className="bl-fg" src={`${SC}/bloom-fg.png`} alt="" aria-hidden />
       <header className="bl-head">
         <Link href="/visual-hooks" className="bl-brand">❀ Bloom</Link>
         <nav className="bl-nav"><a href="#" onClick={stop}>Atelier</a><a href="#" onClick={stop}>Collections</a><a href="#" onClick={stop}>Rituals</a><a href="#" onClick={stop}>Contact</a></nav>
       </header>
-
-      {/* АКТ 1 — интро */}
       <div className="bl-card bl-act">
         <span className="bl-eyebrow">Cyber-botanical systems</span>
         <h1>Silicon, grown<br />like a <em>garden.</em></h1>
         <p>We engineer living circuitry that heals an ecosystem while it grows inside it.</p>
       </div>
-
-      {/* АКТ 2 — манифест + характеристики */}
-      <div className="bl-manifesto bl-act">
-        <h2><span>IT IS</span> <em>alive.</em></h2>
-        <div className="bl-chips"><b>Self-healing</b><b>Bio-luminescent</b><b>Carbon-negative</b></div>
+      {/* манифест — журнал роста: счётчик дней идёт скроллом */}
+      <div className="bl-log bl-act">
+        <span className="bl-day">Day <i /></span>
+        <ol>{log.map((l, i) => <li key={l.d} className={`l${i + 1}`}><b>Day {l.d}</b>{l.t}</li>)}</ol>
       </div>
-
-      {/* АКТ 3 — reveal + CTA */}
-      <div className="bl-finale bl-act">
-        <span className="bl-fin-line">Watch it open.</span>
-        <a href="#" onClick={stop} className="bl-cta">Enter the atelier <i>↗</i></a>
-      </div>
-
-      <div className="bl-rail" aria-hidden><i /></div>
+      <p className="bl-woke bl-act"><b>Day 212.</b> It opened <em>its eyes.</em></p>
     </div>
   );
 }
 
-function LivingObject({ scrub }: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+/* living-object: скраб «запечатано → свет в шве» → камера входит в свет шва → выход на проснувшийся объект,
+   характеристики-остановки → бронь тиража. */
+const LO_BEATS: readonly Beat[] = [["--wake", 0, 0.36], ["--dive", 0.36, 0.58], ["--flash", 0.46, 0.6], ["--out", 0.58, 0.72], ["--s1", 0.68, 0.74], ["--s2", 0.75, 0.81], ["--s3", 0.82, 0.88], ["--end", 0.88, 0.97]];
+function LivingObject(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const vid = useRef<HTMLVideoElement>(null);
+  useHookClock(ref, LO_BEATS, ({ q }) => seek(vid.current, 4.95 * smooth(win(q, 0, 0.36))));
   return (
-    <div className="vh-canvas">
-      <Media src="/uploads/1/hooks/ovoid-hero.mp4" poster="/uploads/1/hooks/ovoid-hero-poster.jpg" className="lo-film" scrubRef={scrub} />
+    <div ref={ref} className="vh-canvas lo-canvas">
+      <ScrubVideo vref={vid} src="/uploads/1/hooks/ovoid-hero.mp4" poster="/uploads/1/hooks/ovoid-hero-poster.jpg" className="lo-film" />
+      <div className="lo-seam" />
       <div className="lo-glow" />
       <div className="lo-wash" />
+      <img className="lo-awake" src="/uploads/1/hooks/bot-ovoid-reveal-open.png" alt="" />
+      <div className="lo-flash" />
       <header className="lo-head">
         <Link href="/visual-hooks" className="lo-brand">AURA</Link>
         <div className="lo-meta"><span>Objects</span><i /><span>New York — 20:41</span></div>
@@ -440,33 +794,92 @@ function LivingObject({ scrub }: { scrub: React.RefObject<HTMLVideoElement | nul
         <span className="lo-eyebrow">N°01 — Sealed object</span>
         <h1>It wakes<br /><em>when you do.</em></h1>
       </div>
+      <div className="lo-copy lo-copy2">
+        <span className="lo-eyebrow">N°01 — Awake</span>
+        <p className="lo-h2">Light, from<br /><em>the inside.</em></p>
+      </div>
+      <ol className="lo-specs">
+        <li className="s1"><b>01</b><span>Hand-blown glass</span><i>3 mm wall, frosted by hand</i></li>
+        <li className="s2"><b>02</b><span>Travertine base</span><i>cut from a single Tivoli block</i></li>
+        <li className="s3"><b>03</b><span>Seam light</span><i>2700 K — wakes as you approach</i></li>
+      </ol>
+      <div className="lo-end"><span>Edition of 40 · ships in spring</span><a href="#" onClick={stop} className="lo-end-cta">Reserve N°01 ↗</a></div>
     </div>
   );
 }
 
 const stop = (e: React.MouseEvent) => e.preventDefault();
 
+/* cloud-step: Carry — кроссовок падает сквозь облака вместе со зрителем (буквы улетают вверх, белая вспышка
+   облака), приземляется на пол студии и становится дропом из трёх расцветок. */
+const CS_BEATS: readonly Beat[] = [["--fall", 0.14, 0.64], ["--land", 0.6, 0.78], ["--drop", 0.8, 0.94]];
 function CloudStep() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, CS_BEATS, ({ q, f, set }) => {
+    set("--spd", Math.sin(Math.PI * smooth(win(q, 0.14, 0.64))));
+    set("--wo", Math.pow(Math.sin(Math.PI * win(q, 0.3, 0.52)), 2));
+    set("--float", f.reduced ? 0 : Math.sin(f.t / 950) * 14 * (1 - smooth(win(q, 0.6, 0.72))));
+  });
   return (
-    <div className="vh-canvas cs-canvas">
+    <div ref={ref} className="vh-canvas cs-canvas">
       <Media src="/uploads/1/hooks/scenes/cloud-sky-vid.mp4" poster="/uploads/1/hooks/scenes/s1-sky.png" className="cs-sky" />
+      <div className="cs-bank cs-bank-far" />
       <header className="cs-head">
         <Link href="/visual-hooks" className="cs-brand">AFTERSHOCK</Link>
         <nav><a href="#" onClick={stop}>New</a><a href="#" onClick={stop}>Men</a><a href="#" onClick={stop}>Women</a><a href="#" onClick={stop}>Lab</a></nav>
         <div className="cs-actions"><a href="#" onClick={stop}>Search</a><a href="#" onClick={stop} className="cs-bag">Bag · 2</a></div>
       </header>
       <h1 className="cs-h1">IN THE<br />CLOUDS</h1>
+      <div className="cs-ground" />
+      <div className="cs-contact" />
       <img className="cs-shoe" src="/uploads/1/hooks/scenes/s1-sneaker-cut.png" alt="" />
+      <div className="cs-bank cs-bank-near" />
+      <div className="cs-white" />
       <div className="cs-card"><img src="/uploads/1/hooks/scenes/s1-sneaker-cut.png" alt="" /><div className="cs-card-info"><b>Nimbus Hi</b><span>$240</span></div><a href="#" onClick={stop} className="cs-add">Add to bag</a></div>
       <div className="cs-tag">Statement men’s kick — cushioned for altitude.</div>
+      <div className="cs-drop">
+        <span className="cs-drop-k">Nimbus Hi — landed. Three colourways.</span>
+        <div className="cs-ways">
+          <figure><img src="/uploads/1/hooks/scenes/s1-sneaker-cut.png" alt="" /><figcaption>Blush</figcaption></figure>
+          <figure className="w2"><img src="/uploads/1/hooks/scenes/s1-sneaker-cut.png" alt="" /><figcaption>Glacier</figcaption></figure>
+          <figure className="w3"><img src="/uploads/1/hooks/scenes/s1-sneaker-cut.png" alt="" /><figcaption>Dune</figcaption></figure>
+        </div>
+        <div className="cs-drop-row"><b>$240</b><a href="#" onClick={stop} className="cs-add">Add to bag</a><a href="#" onClick={stop} className="cs-drop-all">Shop the drop →</a></div>
+      </div>
     </div>
   );
 }
 
+/* strata: скан-линия режет каменную ленту на пласты (каждый разрез — возможность продукта), пласты
+   складываются обратно — и из них собирается история инцидента. */
+const STR_BEATS: readonly Beat[] = [["--take", 0.1, 0.18], ["--swap", 0.1, 0.16], ["--c1", 0.18, 0.3], ["--c2", 0.32, 0.44], ["--c3", 0.46, 0.58], ["--close", 0.64, 0.78], ["--end", 0.78, 0.93]];
+const STR_SCAN = [[0.16, 20], [0.3, 35], [0.44, 52], [0.58, 69], [0.66, 86]] as const; // [q, top %] — скан ложится на границы пластов
 function Strata() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, STR_BEATS, ({ q, set, text }) => {
+    let y: number = STR_SCAN[0][1];
+    for (let i = 1; i < STR_SCAN.length; i++) {
+      const [a, ya] = STR_SCAN[i - 1];
+      const [b, yb] = STR_SCAN[i];
+      if (q >= a) y = ya + (yb - ya) * clamp01((q - a) / (b - a));
+    }
+    set("--sy", `${y.toFixed(2)}%`);
+    text(".str-index span", `0${q < 0.3 ? 1 : q < 0.44 ? 2 : q < 0.66 ? 3 : 4}`);
+  });
   return (
-    <div className="vh-canvas str-canvas">
+    <div ref={ref} className="vh-canvas str-canvas">
       <Media src="/uploads/1/hooks/scenes/strata-vid.mp4" poster="/uploads/1/hooks/scenes/s2-strata.png" className="str-bg" />
+      <div className="str-layers">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className={`str-band b${i}`}><img src="/uploads/1/hooks/scenes/s2-strata.png" alt="" /></div>
+        ))}
+      </div>
+      <div className="str-scan" />
+      <ol className="str-cuts">
+        <li className="k1"><b>01 Collect</b><span>every log, every source — 2.1 M lines a minute</span></li>
+        <li className="k2"><b>02 Parse</b><span>structure pulled out of noise</span></li>
+        <li className="k3"><b>03 Correlate</b><span>events line up across systems</span></li>
+      </ol>
       <header className="str-head">
         <Link href="/visual-hooks" className="str-brand">easylog</Link>
         <nav className="str-nav"><a href="#" onClick={stop}>Platform</a><a href="#" onClick={stop}>Method</a><a href="#" onClick={stop}>Cases</a><a href="#" onClick={stop}>Journal</a><a href="#" onClick={stop}>Contact</a></nav>
@@ -477,30 +890,88 @@ function Strata() {
         <div className="str-index"><span>01</span><i>/</i><span>04</span></div>
       </div>
       <div className="str-lens"><span>SCAN</span></div>
+      <div className="str-story">
+        <span className="str-story-k">04 Tell — incident #2231</span>
+        <ol>
+          <li><b>09:41:07</b>deploy v2.18 to eu-west</li>
+          <li><b>09:41:52</b>checkout latency ×3</li>
+          <li><b>09:42:10</b>auto-rollback to v2.17</li>
+          <li><b>09:42:31</b>resolved — 84 seconds, end to end</li>
+        </ol>
+        <a href="#" onClick={stop} className="str-story-cta">Read your first story →</a>
+      </div>
     </div>
   );
 }
 
+/* reverie: кольцо света на фото — WebGL-портал (мягкий край + обод, центр по кольцу); лес «проталкивается»,
+   камера летит к замку, и его окно становится следующим порталом. */
+const REV_BEATS: readonly Beat[] = [["--h", 0.06, 0.24], ["--cap", 0.5, 0.62], ["--next", 0.76, 0.94], ["--end", 0.84, 0.96]];
 function Reverie() {
+  const ref = useRef<HTMLDivElement>(null);
+  const lens = useRef(lensDrive({ x: 0.525, y: 0.39, r: 0.085, soft: 0.022, rim: 1.15 }));
+  useHookClock(ref, REV_BEATS, ({ q, f, set }) => {
+    const d = lens.current;
+    const ring = coverPt(0.523, 0.39, f.vw, f.vh);
+    const castle = coverPt(0.565, 0.3, f.vw, f.vh);
+    const open = smooth(win(q, 0.04, 0.46));
+    const fly = smooth(win(q, 0.46, 0.84));
+    d.x = ring.x;
+    d.y = ring.y;
+    d.r = 0.085 + open * 1.25;
+    d.soft = 0.022 + open * 0.09;
+    d.rim = 1.15 * (1 - open * 0.9);
+    d.push = 1 + open * 0.45;
+    d.fill = smooth(win(q, 0.4, 0.48));
+    d.zx = castle.x;
+    d.zy = castle.y;
+    d.zoom = 1 + fly * 1.35;
+    set("--ringx", pct(ring.x));
+    set("--ringy", pct(ring.y));
+    set("--cx", pct(castle.x));
+    set("--cy", pct(castle.y));
+  });
   return (
-    <div className="vh-canvas rev-canvas">
-      <img className="rev-forest" src="/uploads/1/hooks/scenes/s3-forest.png" alt="" />
-      <Media src="/uploads/1/hooks/scenes/reverie-world-vid.mp4" className="rev-world" />
+    <div ref={ref} className="vh-canvas rev-canvas">
+      <LensReveal base="/uploads/1/hooks/scenes/s3-forest.png" top="/uploads/1/hooks/scenes/reverie-world-vid.mp4" video drive={lens} rim="#ffb347" />
       <div className="rev-vignette" />
+      <div className="rev-next"><i /></div>
       <header className="rev-head">
         <span className="rev-side">Worlds</span>
         <Link href="/visual-hooks" className="rev-brand">REVERIE</Link>
         <a href="#" onClick={stop} className="rev-side rev-enter">Enter ↵</a>
       </header>
       <h1 className="rev-h1">FALL <em>INTO</em><br />REVERIE</h1>
+      <p className="rev-cap">Chapter I — The golden realm</p>
       <div className="rev-hint"><span>Scroll to cross over ↓</span></div>
+      <div className="rev-end"><span>Every window here is a door.</span><a href="#" onClick={stop} className="rev-end-cta">Enter the next world ↵</a></div>
     </div>
   );
 }
 
+/* vanguard: три команды — по одной на бит скролла, команда стоит ЗА словами (контурный шрифт); в «O» последнего
+   слова камера ныряет — тёмный штрих буквы становится финальным кадром. */
+const VAN_BEATS: readonly Beat[] = [["--h", 0.06, 0.14], ["--w1", 0.1, 0.34, true], ["--w2", 0.32, 0.54, true], ["--w3", 0.52, 0.68], ["--crew", 0.1, 0.7], ["--dive", 0.7, 0.86], ["--end", 0.84, 0.95]];
 function Vanguard() {
+  const ref = useRef<HTMLDivElement>(null);
+  const geo = useRef({ vw: 0, fonts: "" });
+  useHookClock(ref, VAN_BEATS, ({ q, f, el, set, text }) => {
+    const fs = document.fonts?.status ?? "loaded";
+    if (geo.current.vw !== f.vw || geo.current.fonts !== fs) {
+      const o = el.querySelector<HTMLElement>(".van-o");
+      if (o) {
+        geo.current = { vw: f.vw, fonts: fs };
+        set("--ox", `${(o.offsetLeft + o.offsetWidth * 0.15).toFixed(1)}px`);
+        set("--oy", `${(o.offsetTop + o.offsetHeight * 0.5).toFixed(1)}px`);
+      }
+    }
+    const c = smooth(win(q, 0.86, 0.95));
+    text(".van-n1", `${Math.round(250 * c)}+`);
+    text(".van-n2", `${Math.round(95 * c)}%`);
+    text(".van-n3", `${Math.round(10 * c)}+`);
+  });
   return (
-    <div className="vh-canvas van-canvas">
+    <div ref={ref} className="vh-canvas van-canvas">
       <Media src="/uploads/1/hooks/scenes/vanguard-vid.mp4" className="van-bg" />
       <header className="van-head">
         <Link href="/visual-hooks" className="van-brand">VANGUARD</Link>
@@ -511,13 +982,33 @@ function Vanguard() {
       <h1 className="van-h1">DESIGN.<br />DISRUPT.<br />CONQUER.</h1>
       <p className="van-sub">World-class digital collective. We build fierce brand identities that lead.</p>
       <div className="van-stats"><div><b>250+</b><span>Brands transformed</span></div><div><b>95%</b><span>Client retention</span></div><div><b>10+</b><span>Years in the arena</span></div></div>
+      <div className="van-kin" aria-hidden="true">
+        <span className="van-w van-w1">DESIGN.</span>
+        <span className="van-w van-w2"><i>DISRUPT.</i><i>DISRUPT.</i></span>
+        <span className="van-w van-w3">C<span className="van-o">O</span>NQUER.</span>
+      </div>
+      <div className="van-end">
+        <p className="van-end-h">Your brand<br />is next.</p>
+        <div className="van-end-stats"><div><b className="van-n1">250+</b><span>Brands transformed</span></div><div><b className="van-n2">95%</b><span>Client retention</span></div><div><b className="van-n3">10+</b><span>Years in the arena</span></div></div>
+        <a href="#" onClick={stop} className="van-end-cta">Get in touch →</a>
+      </div>
     </div>
   );
 }
 
+/* aether: камера поднимается сквозь лавандовый туман — из него выходит монолит-резиденция и дышит
+   (медленный пульс света), характеристики-остановки → частный показ. */
+const AET_BEATS: readonly Beat[] = [["--rise", 0.1, 0.55], ["--h", 0.2, 0.36], ["--m1", 0.56, 0.62], ["--m2", 0.63, 0.69], ["--m3", 0.7, 0.76], ["--end", 0.8, 0.94]];
 function Aether() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, AET_BEATS, ({ q, f, set }) => {
+    const breath = f.reduced ? 0.5 : 0.5 - 0.5 * Math.cos((f.t / 1000) * ((Math.PI * 2) / 7)); // вдох раз в 7 с
+    set("--breath", breath * smooth(win(q, 0.3, 0.55)));
+  });
   return (
-    <div className="vh-canvas aet-canvas">
+    <div ref={ref} className="vh-canvas aet-canvas">
+      <img className="aet-mono" src="/uploads/1/hooks/scenes/s5-monolith.png" alt="" />
+      <div className="aet-glow" />
       <Media src="/uploads/1/hooks/scenes/aether-world-vid.mp4" poster="/uploads/1/hooks/scenes/s5b-world.png" className="aet-bg" />
       <header className="aet-head">
         <Link href="/visual-hooks" className="aet-brand">Aether Lane</Link>
@@ -527,32 +1018,79 @@ function Aether() {
         <h1>Space, refined<br />beyond the footprint.</h1>
         <a href="#" onClick={stop} className="aet-glass">Explore estates ↗</a>
       </div>
+      <div className="aet-house">
+        <span className="aet-house-k">N°1 — The Monolith House</span>
+        <ul>
+          <li className="m1"><b>420 m²</b>of quiet, on three levels</li>
+          <li className="m2"><b>1 of 1</b>cast in dark basalt concrete</li>
+          <li className="m3"><b>Lake Como</b>above the fog line</li>
+        </ul>
+        <a href="#" onClick={stop} className="aet-glass">Book a private viewing ↗</a>
+      </div>
       <span className="aet-corner aet-bl">Est. 2019</span>
       <span className="aet-corner aet-br">Selected residences — worldwide</span>
     </div>
   );
 }
 
+/* botanica: вернули слои объект + тень (вырезка). Скролл ведёт солнце через день — тень вращается и удлиняется,
+   свет теплеет; на десктопе тень ещё и тянется за рукой. В сумерках тень накрывает кадр → комната с растением. */
+const BOT_BEATS: readonly Beat[] = [["--day", 0.06, 0.7, true], ["--warm", 0.36, 0.7], ["--dusk", 0.66, 0.82], ["--room", 0.8, 0.9], ["--end", 0.86, 0.96]];
 function Botanica() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, BOT_BEATS, ({ q, touch, ptr, set, text }) => {
+    const day = win(q, 0.06, 0.7);
+    const hand = !touch && ptr.on ? (ptr.x - 0.5) * 44 : 0; // тень тянется за рукой: ±22°
+    set("--az", `${(-72 + 144 * day + hand).toFixed(2)}deg`);
+    set("--len", 1.5 - 1.05 * Math.sin(Math.PI * day) + 0.45 * day + 2.4 * smooth(win(q, 0.66, 0.84)));
+    const m = Math.round(400 + day * 830);
+    text(".bot-clock b", `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`);
+  });
   return (
-    <div className="vh-canvas bot-canvas">
+    <div ref={ref} className="vh-canvas bot-canvas">
+      <div className="bot-sunpatch" />
+      <div className="bot-floor" />
+      <div className="bot-shadow-w"><img className="bot-shadow" src="/uploads/1/hooks/scenes/s6-object-cut.png" alt="" /></div>
+      <img className="bot-object" src="/uploads/1/hooks/scenes/s6-object-cut.png" alt="" />
+      <div className="bot-light" />
+      <div className="bot-duskfall" />
+      <img className="bot-room" src="/uploads/1/hooks/scenes/s6b-scene.png" alt="" />
       <header className="bot-head">
         <Link href="/visual-hooks" className="bot-brand">botanica</Link>
         <nav><a href="#" onClick={stop}>Systems</a><a href="#" onClick={stop}>Science</a><a href="#" onClick={stop}>Journal</a></nav>
         <a href="#" onClick={stop} className="bot-cta">Field kit</a>
       </header>
       <h1 className="bot-h1">GROW<br />WHAT <em>LISTENS</em></h1>
-      <Media src="/uploads/1/hooks/scenes/bot-vid.mp4" poster="/uploads/1/hooks/scenes/bot-paper.png" className="bot-bg" />
       <ol className="bot-list"><li><b>01</b><span>Quiet systems that read the room</span></li><li><b>02</b><span>Light that follows your attention</span></li></ol>
-      <span className="bot-vlabel">Living technology — N°06</span>
+      <div className="bot-clock"><span>Sun · <i className="hk-desk">scroll or move your hand</i><i className="hk-touch">scroll</i></span><b>06:40</b></div>
+      <div className="bot-end">
+        <span className="bot-end-k">After dark — the field kit</span>
+        <p>A living system that reads the room: light, water and quiet, tuned to one plant.</p>
+        <a href="#" onClick={stop} className="bot-end-cta">Get the field kit →</a>
+      </div>
     </div>
   );
 }
 
+/* neon-forge: ковка по скроллу — осколок раскаляется (TEMP до 1480°), закаляется паром и выходит хромом с неоновой
+   кромкой; затем переезжает (Carry) в карточку сплава. Видео в screen-бленде — чёрный фон прозрачен, сетка видна. */
+const NF_BEATS: readonly Beat[] = [["--edge", 0.46, 0.62], ["--carry", 0.62, 0.82], ["--end", 0.8, 0.94]];
 function NeonForge() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, NF_BEATS, ({ q, set, text }) => {
+    const heat = smooth(win(q, 0.1, 0.34)) * (1 - smooth(win(q, 0.38, 0.5)));
+    set("--heat", heat);
+    set("--steam", Math.sin(Math.PI * win(q, 0.36, 0.54)));
+    text(".nf-temp", `${Math.round(24 + 1456 * heat)}°`);
+    text(".nf-flow", (0.94 * heat).toFixed(2));
+    text(".nf-state", q < 0.1 ? "IDLE" : q < 0.37 ? "MOLTEN" : q < 0.5 ? "QUENCH" : "FORGED");
+  });
   return (
-    <div className="vh-canvas nf-canvas">
+    <div ref={ref} className="vh-canvas nf-canvas">
+      <div className="nf-grid" />
       <Media src="/uploads/1/hooks/scenes/neon-vid.mp4" poster="/uploads/1/hooks/scenes/s7-chrome.png" className="nf-bg" />
+      <div className="nf-heatglow" />
+      <div className="nf-steam" />
       <div className="nf-scan" />
       <div className="nf-bracket nf-tl" /><div className="nf-bracket nf-tr" /><div className="nf-bracket nf-bl" /><div className="nf-bracket nf-br" />
       <header className="nf-head">
@@ -560,32 +1098,64 @@ function NeonForge() {
         <div className="nf-status"><i />System online — node 0x7F</div>
         <a href="#" onClick={stop} className="nf-cta">Initialize</a>
       </header>
-      <div className="nf-metrics"><div><span>TEMP</span><b>1480°</b></div><div><span>FLOW</span><b>0.94</b></div><div><span>SEED</span><b>07</b></div></div>
+      <div className="nf-metrics"><div><span>TEMP</span><b className="nf-temp">24°</b></div><div><span>FLOW</span><b className="nf-flow">0.00</b></div><div><span>SEED</span><b>07</b></div></div>
       <h1 className="nf-h1">FORGE<br />THE UNREAL</h1>
-      <div className="nf-data"><span>ALLOY</span><b>CR-07</b><span>STATE</span><b>FLUX</b></div>
+      <div className="nf-data"><span>ALLOY</span><b>CR-07</b><span>STATE</span><b className="nf-state">IDLE</b></div>
+      <div className="nf-end">
+        <span className="nf-end-k">CR-07 · forged in 0.94 s</span>
+        <p>Real-time materials for the unreal — chrome, glass and plasma, rendered in the browser.</p>
+        <a href="#" onClick={stop} className="nf-end-cta">Initialize the forge →</a>
+      </div>
     </div>
   );
 }
 
+/* macro-optics: блик идёт за курсором (на таче — по скроллу); скролл входит в оранжевую линзу → мир в её тоне →
+   очки коллекции (вернули слой .mo-glasses) и карточка → вся коллекция. */
+const MO_BEATS: readonly Beat[] = [["--h", 0.1, 0.2], ["--dive", 0.12, 0.46], ["--amber", 0.34, 0.48], ["--prod", 0.46, 0.64], ["--card", 0.6, 0.74], ["--end", 0.8, 0.94]];
 function MacroOptics() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, MO_BEATS, ({ q, f, touch, ptr, set }) => {
+    const l = coverPt(0.42, 0.31, f.vw, f.vh, 16 / 9, 0.74);
+    set("--lx", pct(l.x));
+    set("--ly", pct(l.y));
+    const take = touch ? 1 : smooth(win(q, 0.02, 0.12));
+    const byPtr = ptr.on ? (ptr.x - 0.5) * 110 : -24 + 18 * Math.sin(f.t / 2400);
+    const byScroll = -60 + 150 * win(q, 0, 0.3);
+    set("--sx", `${(q > 0.46 ? -70 + 150 * win(q, 0.5, 0.8) : byPtr + (byScroll - byPtr) * take).toFixed(2)}vw`);
+  });
   return (
-    <div className="vh-canvas mo-canvas">
-      <div className="mo-sweep" />
+    <div ref={ref} className="vh-canvas mo-canvas">
       <header className="mo-head">
         <Link href="/visual-hooks" className="mo-brand">OPTIK°</Link>
         <div className="mo-actions"><a href="#" onClick={stop}>Collection</a><a href="#" onClick={stop}>Stores</a><a href="#" onClick={stop} className="mo-bag">Bag · 1</a></div>
       </header>
       <Media src="/uploads/1/hooks/scenes/macro-face-vid.mp4" poster="/uploads/1/hooks/scenes/s8b-face.png" className="mo-face" />
+      <div className="mo-amber" />
+      <img className="mo-glasses" src="/uploads/1/hooks/scenes/s8-glasses-cut.png" alt="" />
+      <div className="mo-sweep" />
       <h1 className="mo-h1">SEE<br /><em>SHARPER</em></h1>
       <div className="mo-card"><div className="mo-card-info"><b>Aura Wrap</b><span>UV400 · Titanium · Ed. 07</span></div><div className="mo-price">$320</div><a href="#" onClick={stop} className="mo-add">Add to bag</a></div>
+      <div className="mo-end"><span>Collection 07 — six frames, one tint</span><a href="#" onClick={stop} className="mo-end-cta">See the collection →</a></div>
     </div>
   );
 }
 
+/* liquid-word: FLUX вращается скрабом по скроллу — только по чистым кадрам (0–3.3 с; «RLUX» и ребро вырезаны),
+   затем плавится в жидкий фон, в котором всплывают работы студии. */
+const LW_BEATS: readonly Beat[] = [["--turn", 0.04, 0.5], ["--melt", 0.5, 0.78], ["--work", 0.72, 0.88], ["--end", 0.84, 0.95]];
 function LiquidWord() {
+  const ref = useRef<HTMLDivElement>(null);
+  const vid = useRef<HTMLVideoElement>(null);
+  useHookClock(ref, LW_BEATS, ({ q, f }) => {
+    const turn = smooth(win(q, 0.04, 0.5));
+    const idle = f.reduced ? 0 : 0.3 * (1 + Math.sin(f.t / 1700)) * (1 - turn);
+    seek(vid.current, idle + turn * 3.25);
+  });
   return (
-    <div className="vh-canvas lw-canvas">
-      <Media src="/uploads/1/hooks/scenes/liquid-vid.mp4" className="lw-bg" />
+    <div ref={ref} className="vh-canvas lw-canvas">
+      <ScrubVideo vref={vid} src="/uploads/1/hooks/scenes/liquid-vid-clean.mp4" poster="/uploads/1/hooks/scenes/liquid-clean-poster.jpg" className="lw-bg" />
+      <div className="lw-pool" />
       <header className="lw-head">
         <Link href="/visual-hooks" className="lw-brand">Flux®</Link>
         <nav><a href="#" onClick={stop}>Index</a><a href="#" onClick={stop}>Contact</a></nav>
@@ -593,29 +1163,69 @@ function LiquidWord() {
       <p className="lw-tag">A design practice for brands that refuse to stay still.</p>
       <span className="lw-corner lw-cl">©2026 — Design studio</span>
       <span className="lw-corner lw-cr">Selected work ↓</span>
+      <div className="lw-work">
+        <span className="lw-work-k">Selected work</span>
+        <ol>
+          <li><b>Aurora Bank</b><span>Identity in motion</span><i>2026</i></li>
+          <li><b>Mercury Records</b><span>Liquid type system</span><i>2025</i></li>
+          <li><b>Halden Studio</b><span>Brand &amp; product</span><i>2025</i></li>
+        </ol>
+        <a href="#" onClick={stop} className="lw-work-cta">Start a project →</a>
+      </div>
     </div>
   );
 }
 
+/* orbit-data: цифры — остановки камеры: планета → страны → облака → твой город. */
+const OD_BEATS: readonly Beat[] = [["--s1", 0.18, 0.26], ["--s2", 0.38, 0.46], ["--cloud", 0.52, 0.76], ["--s3", 0.66, 0.74], ["--city", 0.64, 0.76], ["--end", 0.84, 0.95]];
 function OrbitData() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, OD_BEATS, ({ q, f, set }) => {
+    const g = coverPt(0.73, 0.52, f.vw, f.vh, 1928 / 1076);
+    set("--gx", pct(g.x));
+    set("--gy", pct(g.y));
+    set("--zoom", 1 + 0.35 * smooth(win(q, 0.1, 0.3)) + 0.9 * smooth(win(q, 0.3, 0.5)) + 3 * smooth(win(q, 0.5, 0.72)));
+    set("--wo", Math.pow(Math.sin(Math.PI * win(q, 0.54, 0.78)), 1.5));
+  });
   return (
-    <div className="vh-canvas od-canvas">
+    <div ref={ref} className="vh-canvas od-canvas">
       <header className="od-head">
         <Link href="/visual-hooks" className="od-brand">◐ Steadyflow</Link>
         <nav><a href="#" onClick={stop}>Product</a><a href="#" onClick={stop}>How it works</a><a href="#" onClick={stop}>Pricing</a><a href="#" onClick={stop}>Results</a></nav>
         <div className="od-actions"><a href="#" onClick={stop} className="od-login">Log in</a><a href="#" onClick={stop} className="od-cta">Get started</a></div>
       </header>
       <Media src="/uploads/1/hooks/scenes/orbit-vid.mp4" poster="/uploads/1/hooks/scenes/orbit-globe.png" className="od-bg" />
-      <div className="od-hero"><b>84,000+</b><span>Habits completed this quarter</span><div className="od-badges"><a href="#" onClick={stop}>▲ App Store</a><a href="#" onClick={stop}>▶ Google Play</a></div></div>
+      <div className="od-city"><i className="od-pin" /><span>You are here — Brooklyn, NY</span></div>
+      <div className="od-cloud c1" /><div className="od-cloud c2" />
+      <div className="od-white" />
+      <div className="od-hero od-stop0"><b>84,000+</b><span>Habits completed this quarter</span><div className="od-badges"><a href="#" onClick={stop}>▲ App Store</a><a href="#" onClick={stop}>▶ Google Play</a></div></div>
+      <div className="od-hero od-stop od-stop1"><b>112</b><span>countries keeping a streak right now</span></div>
+      <div className="od-hero od-stop od-stop2"><b>93%</b><span>feel more consistent after three weeks</span></div>
+      <div className="od-hero od-stop od-stop3"><b>1,284</b><span>people building habits near you</span></div>
       <div className="od-stats"><div><b>93%</b><span>Feel more consistent</span></div><div><b>38</b><span>Habits built / user</span></div><div><b>41+</b><span>Growing communities</span></div></div>
+      <div className="od-end"><a href="#" onClick={stop} className="od-end-cta">Join your city’s streak →</a><span>Free on iOS &amp; Android</span></div>
     </div>
   );
 }
 
+/* atelier-hand: скролл подводит камеру к флакону → склейка в макро руки (флакон без этикетки) → внутрь стекла
+   и жидкости → янтарь → ателье по записи. */
+const AH_BEATS: readonly Beat[] = [["--h", 0.1, 0.2], ["--push", 0.1, 0.44], ["--cut", 0.38, 0.47], ["--macro", 0.44, 0.74], ["--amb", 0.62, 0.78], ["--t1", 0.5, 0.58], ["--end", 0.8, 0.94]];
 function AtelierHand() {
+  const ref = useRef<HTMLDivElement>(null);
+  useHookClock(ref, AH_BEATS, ({ f, set }) => {
+    const fl = coverPt(0.42, 0.55, f.vw, f.vh, 16 / 9, 0.72);
+    set("--fx", pct(fl.x));
+    set("--fy", pct(fl.y));
+    const lq = coverPt(0.48, 0.42, f.vw, f.vh);
+    set("--lqx", pct(lq.x));
+    set("--lqy", pct(lq.y));
+  });
   return (
-    <div className="vh-canvas ah-canvas">
+    <div ref={ref} className="vh-canvas ah-canvas">
       <Media src="/uploads/1/hooks/scenes/atelier-face-vid.mp4" poster="/uploads/1/hooks/scenes/s11b-face.png" className="ah-bg" />
+      <img className="ah-macro" src="/uploads/1/hooks/scenes/s11-hand.png" alt="" />
+      <div className="ah-amber" />
       <header className="ah-head">
         <nav className="ah-navl"><a href="#" onClick={stop}>Maison</a><a href="#" onClick={stop}>Objects</a></nav>
         <Link href="/visual-hooks" className="ah-brand">OYLA</Link>
@@ -625,22 +1235,59 @@ function AtelierHand() {
       <div className="ah-tag"><b>100% handmade</b><span>Each object carries the mark of the hand that shaped it.</span></div>
       <span className="ah-num">N°01</span>
       <span className="ah-date">Spring — MMXXVI</span>
+      <p className="ah-line">Distilled for forty-eight hours.<br /><em>Poured by one hand.</em></p>
+      <div className="ah-end">
+        <span className="ah-end-k">N°01 · Eau de Main · 50 ml</span>
+        <p>The atelier in Grasse, by appointment.</p>
+        <a href="#" onClick={stop} className="ah-end-cta">Enquire ↗</a>
+      </div>
     </div>
   );
 }
 
+/* fold-horizon: кадр замирает, и горизонт складывается страницей полевого журнала (split-flap по линии
+   горизонта): на обороте — следующая глава, дальний план с путником. */
+const FH_BEATS: readonly Beat[] = [["--h", 0.12, 0.24], ["--fold", 0.24, 0.66], ["--ch", 0.6, 0.72], ["--end", 0.72, 0.92]];
 function FoldHorizon() {
+  const ref = useRef<HTMLDivElement>(null);
+  const vid = useRef<HTMLVideoElement>(null);
+  const snap = useRef<HTMLCanvasElement>(null);
+  const frozen = useRef(false);
+  useHookClock(ref, FH_BEATS, ({ q, f, set }) => {
+    set("--shade", Math.sin(Math.PI * smooth(win(q, 0.24, 0.66))));
+    const v = vid.current;
+    const c = snap.current;
+    if (!v || !c) return;
+    // застывание: на время сгиба кадр замирает — стоп-кадр уходит во флап
+    if (q > 0.23 && !frozen.current) {
+      frozen.current = true;
+      v.pause();
+      drawCover(c, v, f.vw, f.vh, 0, 0.5);
+      set("--split", 1);
+    } else if (q < 0.2 && frozen.current) {
+      frozen.current = false;
+      set("--split", 0);
+      v.play().catch(() => {});
+    }
+  });
   return (
-    <div className="vh-canvas fh-canvas">
-      <Media src="/uploads/1/hooks/scenes/fold-vid2.mp4" poster="/uploads/1/hooks/scenes/s12b-fold.png" className="fh-bg" />
+    <div ref={ref} className="vh-canvas fh-canvas">
+      <div className="fh-next" />
+      <video ref={vid} className="fh-bg" src="/uploads/1/hooks/scenes/fold-vid2.mp4" poster="/uploads/1/hooks/scenes/s12b-fold.png" autoPlay muted loop playsInline preload="metadata" />
+      <div className="fh-cast" />
+      <div className="fh-flap">
+        <div className="fh-face fh-front"><canvas ref={snap} /></div>
+        <div className="fh-face fh-back" />
+      </div>
       <div className="fh-wash" />
       <header className="fh-head">
         <div className="fh-ctx"><b>Expedition °10</b><span>68° 21′ N — Field log, day 14</span></div>
         <nav><a href="#" onClick={stop}>Index</a><a href="#" onClick={stop}>Menu</a></nav>
       </header>
-      <span className="fh-chapter">Chapter III — The Fold</span>
+      <span className="fh-chapter"><i>Chapter III — The Fold</i><i>Chapter IV — Beyond the fold</i></span>
       <h1 className="fh-h1">THE HORIZON<br />DOESN’T END.<br /><em>IT FOLDS.</em></h1>
-      <div className="fh-coord">67° 21′ 04″ N<br />18° 37′ 12″ W</div>
+      <div className="fh-coord"><i>67° 21′ 04″ N<br />18° 37′ 12″ W</i><i>68° 02′ 55″ N<br />19° 11′ 40″ W</i></div>
+      <div className="fh-end"><p>Day 15. The map ran out —<br /><em>the land kept going.</em></p><a href="#" onClick={stop} className="fh-end-cta">Continue the field log →</a></div>
     </div>
   );
 }
@@ -768,37 +1415,89 @@ function LandFoot({ brand, tagline, cols, legal }: { brand: string; tagline: str
   );
 }
 
-/* ---- Bloom: макро + cursor-reveal мёртвая/живая земля ---- */
-function BloomLand() {
+/* ---- Закреплённая глава лендингов историй: высокая секция + sticky-сцена. Пишет на сцену --q (0..1) и --st
+   (номер остановки 0..n-1 с удержанием у каждой), на элементы [data-at=k] — --rel (st-k) и --on (1 у своей остановки).
+   Маркеры .hs-pin-a/.hs-pin-b (вне sticky) — якоря начала/конца пина для Actor/Atmosphere. ---- */
+function StoryPin({ className, h, n, children }: { className: string; h: number; n: number; children: React.ReactNode }) {
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const sec = ref.current;
+    const stage = sec?.querySelector<HTMLElement>(".hs-pin-stage");
+    if (!sec || !stage) return;
+    const items = Array.from(stage.querySelectorAll<HTMLElement | SVGElement>("[data-at]"));
+    const ks = items.map((el) => Number(el.getAttribute("data-at")));
+    let last = -1;
+    return subscribe(({ vh }) => {
+      const r = sec.getBoundingClientRect();
+      if (r.bottom < -vh * 0.5 || r.top > vh * 1.5) return;
+      const q = clamp01(-r.top / Math.max(1, r.height - vh));
+      const x = q * (n - 1);
+      const i = Math.min(n - 2, Math.floor(x));
+      const st = n < 2 ? 0 : i + smooth((x - i - 0.2) / 0.6);
+      if (Math.abs(st - last) < 5e-4) return;
+      last = st;
+      stage.style.setProperty("--q", q.toFixed(4));
+      stage.style.setProperty("--st", st.toFixed(4));
+      items.forEach((el, j) => {
+        const rel = st - ks[j];
+        el.style.setProperty("--rel", rel.toFixed(4));
+        el.style.setProperty("--on", clamp01(1 - Math.abs(rel) * 1.6).toFixed(4));
+      });
+    });
+  }, [n]);
   return (
-    <div className="vh-l2 l2-bloom">
+    <section ref={ref} className={`hs-pin ${className}`} style={{ height: `${h}vh` }}>
+      <i className="hs-pin-a" aria-hidden />
+      <i className="hs-pin-b" aria-hidden />
+      <div className="hs-pin-stage">{children}</div>
+    </section>
+  );
+}
+const cssVars = (v: Record<string, string | number>) => v as React.CSSProperties;
+
+/* ---- Bloom: мир глаза продолжается под лендингом; закреплённая глава — спуск сквозь радужку в макромир ---- */
+function BloomLand() {
+  const dive = [
+    { at: 1, img: `${SL}/bloom-macro1.jpg`, c: ["58%", "44%"], k: "01 · Veins", h: <>It carries <em>light.</em></>, p: "Bioluminescent veins move signal and nutrient through the colony, the way a leaf moves water." },
+    { at: 2, img: `${SL}/bloom-macro2.jpg`, c: ["42%", "54%"], k: "02 · Spores", h: <>It <em>travels.</em></>, p: "Spores ride the air and seed the next patch of ground, a few metres every week." },
+    { at: 3, img: `${SL}/bloom-macro3.jpg`, c: ["55%", "44%"], k: "03 · Roots", h: <>It eats <em>the damage.</em></>, p: "Roots trace what poisoned the soil and break it down into something the soil can use." },
+    { at: 4, img: `${SL}/bloom-dead.jpg`, c: ["50%", "56%"], k: "04 · Dead ground", h: <>Cracked, <em>salted,</em> silent.</>, p: "Where every project starts: ground that has stopped holding water." },
+    { at: 5, img: `${SL}/bloom-alive.jpg`, c: ["50%", "50%"], k: "05 · Living ground", h: <>Ten months <em>later.</em></>, p: "The same square metre. It holds water again, and it glows at night." },
+  ];
+  return (
+    <div className="vh-l2 l2-bloom hs-land">
+      <i className="hs-from" aria-hidden />
+      <Backdrop from=".l2-bloom > .hs-from" dim={0.5} blur={6} plates={[
+        { at: ".bl2-intro", src: `${SL}/bloom-eye-open.jpg` },
+        { at: ".bl2-app", src: `${SL}/bloom-app.jpg` },
+        { at: ".bl2-proof", src: `${SL}/bloom-alive.jpg` },
+      ]} />
+      <Atmosphere stops={[{ at: ".bl2-intro", color: "#0a0710" }, { at: ".bl2-dive", color: "#03100e" }, { at: ".bl2-app", color: "#0b0814" }, { at: ".bl2-cta", color: "#0a0710" }]} />
+      <Weather kind="spores" count={16} color="#8ff0ff" color2="#f4a9d8" zIndex={3} world={0.5} between={[".bl2-intro", ".bl2-cta"]} />
+
       <section className="bl2-intro">
-        <Reveal className="bl2-intro-in vh-rv--up">
+        <div className="bl2-intro-in">
           <span className="bl2-kick">Living material</span>
           <h2>We do not build the repair.<br /><em>We grow it.</em></h2>
           <p>Bloom is a colony, not a coating. Introduced as a thin living film, it takes root in dead ground and spends the next year bringing it back.</p>
-        </Reveal>
-      </section>
-
-      <section className="bl2-reveal-sec">
-        <ShaderReveal base="/uploads/1/hooks/land/bloom-dead.jpg" top="/uploads/1/hooks/land/bloom-alive.jpg" mode="mix" radius={0.24} className="bl2-cr">
-          <div className="bl2-cr-labels"><b>Dead ground.</b><b className="alt">Living ground.</b></div>
-          <span className="bl2-cr-hint">Move across the soil</span>
-        </ShaderReveal>
-      </section>
-
-      <section className="bl2-macro">
-        <Reveal className="bl2-macro-head vh-rv--up"><h3>Look closer. It is <em>working.</em></h3></Reveal>
-        <div className="bl2-macro-grid">
-          <Reveal className="bl2-mtile a vh-rv--zoom"><ShaderImage src="/uploads/1/hooks/land/bloom-macro1.jpg" /><span>Bioluminescent veins carry signal and nutrient.</span></Reveal>
-          <Reveal className="bl2-mtile b vh-rv--zoom"><ShaderImage src="/uploads/1/hooks/land/bloom-macro2.jpg" /><span>Spores seed the next spread.</span></Reveal>
-          <Reveal className="bl2-mtile c vh-rv--zoom"><ShaderImage src="/uploads/1/hooks/land/bloom-macro3.jpg" /><span>Roots trace and break down what poisoned the soil.</span></Reveal>
         </div>
       </section>
 
+      <StoryPin className="bl2-dive" h={560} n={6}>
+        {dive.map((d, i) => {
+          const nx = dive[i + 1]?.c ?? d.c; // следующий портал: кадр наезжает в ту же точку, откуда откроется следующий
+          return <div key={d.at} className="bl2-frame" data-at={d.at} style={cssVars({ "--cx": d.c[0], "--cy": d.c[1], "--nx": nx[0], "--ny": nx[1] })}><img src={d.img} alt="" loading="lazy" /></div>;
+        })}
+        <i className="bl2-iris" data-at={0} aria-hidden />
+        <p className="bl2-look" data-at={0}>Look closer. <em>Through the iris.</em></p>
+        {dive.map((d) => (
+          <div key={d.at} className="bl2-cap" data-at={d.at}><span>{d.k}</span><h3>{d.h}</h3><p>{d.p}</p></div>
+        ))}
+        <ol className="bl2-depth" aria-hidden>{["Iris", "Veins", "Spores", "Roots", "Ground", "Alive"].map((t, i) => <li key={t} data-at={i}>{t}</li>)}</ol>
+      </StoryPin>
+
       <section className="bl2-app">
-        <Reveal className="bl2-app-media vh-rv--mask"><img loading="lazy" src="/uploads/1/hooks/land/bloom-app.jpg" alt="" /></Reveal>
-        <Reveal className="bl2-app-copy vh-rv--up"><h3>It does not hide<br />the architecture.<br /><em>It becomes it.</em></h3><p>Grown across a facade or an interior, Bloom filters the air and gives the light back at night.</p></Reveal>
+        <div className="bl2-app-copy"><span className="bl2-kick">Out, and up</span><h3>It does not hide<br />the architecture.<br /><em>It becomes it.</em></h3><p>Grown across a facade or an interior, Bloom filters the air and gives the light back at night.</p></div>
       </section>
 
       <section className="bl2-proof">
@@ -814,51 +1513,76 @@ function BloomLand() {
   );
 }
 
-/* ---- ORBE: объект + zoom-in + круговой цикл + галерея эдишенов ---- */
+/* ---- ORBE: сфера из руки — Carry-актёр: выходит из hero, садится на пьедестал товара, держит цикл, возвращается к CTA ---- */
+const ORB_D = "var(--orbD)"; // диаметр сферы = сфера на фото пьедестала (0.636 стороны квадрата .or2-stage), см. hooks-stories.css
 function OrbeLand() {
   const eds = [
-    { img: "/uploads/1/hooks/land/orbe-object.jpg", n: "The Origin", d: "Moss, fern, still water", p: "480 EUR" },
-    { img: "/uploads/1/hooks/land/orbe-ed-dune.jpg", n: "The Dune", d: "Red desert, one succulent", p: "520 EUR" },
-    { img: "/uploads/1/hooks/land/orbe-ed-coral.jpg", n: "The Reef", d: "Coral, shrimp, blue water", p: "560 EUR" },
-    { img: "/uploads/1/hooks/land/orbe-ed-forest.jpg", n: "The Canopy", d: "Ferns, mist, a small fall", p: "590 EUR" },
+    { img: `${SL}/orbe-object.jpg`, n: "The Origin", d: "Moss, fern, still water", p: "480 EUR" },
+    { img: `${SL}/orbe-ed-dune.jpg`, n: "The Dune", d: "Red desert, one succulent", p: "520 EUR" },
+    { img: `${SL}/orbe-ed-coral.jpg`, n: "The Reef", d: "Coral, shrimp, blue water", p: "560 EUR" },
+    { img: `${SL}/orbe-ed-forest.jpg`, n: "The Canopy", d: "Ferns, mist, a small fall", p: "590 EUR" },
   ];
-  const loop = [{ h: "Light", p: "feeds the algae" }, { h: "Algae", p: "feeds the shrimp" }, { h: "Shrimp", p: "feed the microbes" }, { h: "Microbes", p: "clear the water" }];
+  const loop = [
+    { h: "Light", p: "feeds the algae", c: "#ffd27a" },
+    { h: "Algae", p: "feed the shrimp", c: "#86e3a4" },
+    { h: "Shrimp", p: "feed the microbes", c: "#ff9f8a" },
+    { h: "Microbes", p: "clear the water", c: "#8fdcff" },
+  ];
   return (
-    <div className="vh-l2 l2-orbe">
+    <div className="vh-l2 l2-orbe hs-land">
+      <i className="hs-from" aria-hidden />
+      <i className="hs-mk or-c0" aria-hidden />
+      <i className="hs-mk or-c1" aria-hidden />
+      <Backdrop from=".l2-orbe > .hs-from" dim={0.74} blur={16} plates={[
+        { at: ".or2-object", src: `${SL}/orbe-world-end.jpg` },
+        { at: ".or2-loop", src: `${SL}/orbe-interior.jpg` },
+        { at: ".or2-cta", src: `${SL}/orbe-world-end.jpg` },
+      ]} />
+      <Atmosphere stops={[{ at: ".or2-object", color: "#04070b" }, { at: ".or2-loop", color: "#051410" }, { at: ".or2-eds", color: "#05080c" }, { at: ".or2-cta", color: "#06111a" }]} />
+      <Weather kind="spores" count={12} color="#bdeeff" zIndex={3} world={0.4} between={[".or2-object", ".or2-cta"]} />
+      <Actor width={ORB_D} zIndex={5} bob={3} tilt={0.03} stops={[
+        { at: ".l2-orbe > .or-c0", pose: { x: 50, y: 50, s: 1, o: 0 } },
+        { at: ".l2-orbe > .or-c1", pose: { x: 50, y: 50, s: 1, o: 1 } },
+        { at: ".or2-stage", pose: { x: 50, y: 48.2, s: 1, o: 1, dock: true } },
+        { at: ".or2-loop > .hs-pin-a", pose: { x: 50, y: 52, s: 0.78, o: 1 } },
+        { at: ".or2-loop > .hs-pin-b", pose: { x: 50, y: 52, s: 0.78, o: 1 } },
+        { at: ".or2-eds", pose: { x: 90, y: 10, s: 0.2, o: 0, blur: 3 } },
+        { at: ".or2-cta", pose: { x: 50, y: 29, s: 0.44, o: 1 } },
+        { at: ".l2-orbe .l2-foot", pose: { x: 50, y: -14, s: 0.3, o: 0 } },
+      ]}>
+        <div className="or-orb"><i className="or-glass" /></div>
+      </Actor>
+
       <section className="or2-object">
-        <Reveal className="or2-object-media vh-rv--zoom">
-          <img loading="lazy" src="/uploads/1/hooks/land/orbe-object.jpg" alt="" />
+        <div className="or2-stage" aria-hidden>
           <span className="or2-tag t1">Hand-blown glass</span>
           <span className="or2-tag t2">Sealed once</span>
           <span className="or2-tag t3">Alive for years</span>
-        </Reveal>
-        <Reveal className="or2-object-copy vh-rv--up"><span className="or2-kick">The object</span><h2>A planet you can<br />hold in one <em>hand.</em></h2><p>Sealed, self-sustaining, and quietly getting on with being a world.</p></Reveal>
+        </div>
+        <div className="or2-object-copy"><span className="or2-kick">The object</span><h2>A planet you can<br />hold in one <em>hand.</em></h2><p>The world you just fell into, sealed in hand-blown glass. It makes its own weather and quietly gets on with being a world.</p></div>
       </section>
 
-      <section className="or2-zoom">
-        <Reveal className="or2-zoom-media vh-rv--zoom"><img loading="lazy" src="/uploads/1/hooks/land/orbe-interior.jpg" alt="" /></Reveal>
-        <Reveal className="or2-zoom-copy vh-rv--up"><h3>Small enough to hold.<br /><em>Vast enough to fall into.</em></h3></Reveal>
-      </section>
-
-      <section className="or2-loop">
-        <Reveal className="or2-loop-head vh-rv--up"><h3>Nothing in. Nothing out.<br /><em>A loop that holds itself.</em></h3></Reveal>
-        <Reveal className="or2-loop-ring vh-rv--up">
-          <div className="or2-ring">
-            {loop.map((n, i) => (<div key={i} className={`or2-node n${i + 1}`}><b>{n.h}</b><span>{n.p}</span></div>))}
-            <div className="or2-ring-core">Closed<br />loop</div>
-          </div>
-        </Reveal>
-      </section>
+      <StoryPin className="or2-loop" h={460} n={5}>
+        {loop.map((n, i) => <i key={n.h} className="or2-halo" data-at={i + 1} style={cssVars({ "--c": n.c })} aria-hidden />)}
+        <div className="or2-ring" aria-hidden>
+          <svg viewBox="-100 -100 200 200"><circle r="88" className="or2-ring-bg" /><circle r="88" pathLength={1} className="or2-ring-on" /></svg>
+          {loop.map((n, i) => (
+            <div key={n.h} className={`or2-node n${i + 1}`} data-at={i + 1} style={cssVars({ "--c": n.c })}><b>{n.h}</b><span>{n.p}</span></div>
+          ))}
+        </div>
+        <div className="or2-loop-head" data-at={0}><span className="or2-kick">Nothing in. Nothing out.</span><h3>A loop that<br /><em>holds itself.</em></h3></div>
+        <p className="or2-loop-foot">Sealed once. The cycle turns for years without you.</p>
+      </StoryPin>
 
       <section className="or2-eds">
-        <Reveal className="or2-eds-head vh-rv--up"><h3>Four worlds, grown each season.</h3><p>Each ORBE is assembled and matured by hand. No two ever settle the same way.</p></Reveal>
+        <Reveal className="or2-eds-head vh-rv--up"><h3>Four worlds, grown <em>each season.</em></h3><p>Each ORBE is assembled and matured by hand. No two ever settle the same way.</p></Reveal>
         <div className="or2-eds-row">
           {eds.map((e) => (<Reveal key={e.n} className="or2-ed vh-rv--up"><div className="or2-ed-media"><ShaderImage src={e.img} /></div><div className="or2-ed-info"><b>{e.n}</b><span>{e.d}</span><i>{e.p}</i></div></Reveal>))}
         </div>
       </section>
 
       <section className="or2-cta">
-        <Reveal className="vh-rv--up"><h2>Keep a world of <em>your own.</em></h2><p>A small run opens each season. Reserve before it closes.</p><a href="#" onClick={stop} className="or2-btn">Reserve your world <i>↗</i></a></Reveal>
+        <h2>Keep a world of <em>your own.</em></h2><p>A small run opens each season. Reserve before it closes.</p><a href="#" onClick={stop} className="or2-btn">Reserve your world <i>↗</i></a>
       </section>
 
       <LandFoot brand="ORBE°" tagline="Sealed living worlds, grown by hand." cols={[{ h: "The object", links: ["Editions", "The science", "Care"] }, { h: "Buy", links: ["Reserve", "Gifting", "Shipping"] }, { h: "Studio", links: ["About", "Journal", "Contact"] }]} legal="ORBE Terraria, Reykjavik." />
@@ -866,40 +1590,47 @@ function OrbeLand() {
   );
 }
 
-/* ---- OBELISK: вертикальное кино-приближение, full-bleed, паломничество ---- */
+/* ---- OBELISK: сквозь трещину рун — в ночь; паломничество — горизонтальный пролёт с остановками; одна и та же плита ---- */
 function ObeliskLand() {
-  const pilgrim = [
-    { img: "/uploads/1/hooks/land/obelisk-wide.jpg", h: "Reserve", p: "Book a dusk window and receive the coordinates. Visits are free and timed." },
-    { img: "/uploads/1/hooks/land/obe-aerial.jpg", h: "Drive", p: "Three hours from the nearest town. The road runs out before the stone does." },
-    { img: "/uploads/1/hooks/scenes/monolith-poster.jpg", h: "Walk", p: "The last mile is on foot. Phones lose signal well before you arrive." },
-    { img: "/uploads/1/hooks/land/obe-night.jpg", h: "Stay", p: "No tour, no gift shop. You are welcome until the stars come out." },
+  const path = [
+    { img: `${SC}/monolith-reveal.png`, h: "Reserve", m: "Coordinates by letter", p: "Book a dusk window. The coordinates arrive on paper, a week before you go." },
+    { img: `${SL}/obe-aerial.jpg`, h: "Drive", m: "182 km · no signal", p: "Three hours from the nearest town. The road runs out before the stone does." },
+    { img: `${SL}/monolith-mist.jpg`, h: "Walk", m: "The last mile", p: "On foot, through the mist that settles on the flats at dusk." },
+    { img: `${SL}/obe-night.jpg`, h: "Stay", m: "Until dawn", p: "No tour, no gift shop. You are welcome until the stars come out." },
   ];
   return (
-    <div className="vh-l2 l2-obelisk">
+    <div className="vh-l2 l2-obelisk hs-land">
+      <i className="hs-from" aria-hidden />
+      <Backdrop from=".l2-obelisk > .hs-from" dim={0.55} blur={3} plates={[
+        { at: ".ob2-approach", src: `${SL}/obe-night.jpg` },
+        { at: ".ob2-manifesto", src: `${SL}/obe-night.jpg` },
+        { at: ".ob2-cta", src: `${SL}/monolith-dusk.jpg` },
+      ]} />
+      <Atmosphere stops={[{ at: ".ob2-approach", color: "#05060c" }, { at: ".ob2-path", color: "#0d0906" }, { at: ".ob2-manifesto", color: "#06070d" }, { at: ".ob2-cta", color: "#130a05" }]} />
+      <Weather kind="embers" count={12} color="#ffb877" color2="#ff7a3c" zIndex={3} world={0.5} between={[".ob2-approach", ".ob2-cta"]} />
+
       <section className="ob2-approach">
-        <Reveal className="ob2-approach-media vh-rv--zoom"><img loading="lazy" src="/uploads/1/hooks/land/obelisk-wide.jpg" alt="" /></Reveal>
-        <Reveal className="ob2-approach-copy vh-rv--up"><span>92 acres of protected Nevada desert</span><h2>You will drive a long way<br />for something with <em>no plaque.</em></h2></Reveal>
-      </section>
-
-      <section className="ob2-manifesto">
-        <Reveal className="vh-rv--up"><h2>It was raised in silence<br />and left <em>uncredited</em> on purpose.</h2></Reveal>
-      </section>
-
-      <section className="ob2-night">
-        <Reveal className="ob2-night-media vh-rv--mask"><img loading="lazy" src="/uploads/1/hooks/land/obe-night.jpg" alt="" /></Reveal>
+        <div className="ob2-approach-copy"><span>92 acres of protected Nevada desert</span><h2>You will drive a long way<br />for something with <em>no plaque.</em></h2></div>
         <div className="ob2-night-coord"><span>38.7621 N</span><span>116.9330 W</span><span>Elev. 1,684 m</span></div>
       </section>
 
-      <section className="ob2-pilgrim">
-        <Reveal className="ob2-pilgrim-head vh-rv--up"><h3>How a visit unfolds</h3></Reveal>
-        <div className="ob2-pilgrim-list">
-          {pilgrim.map((s, i) => (<Reveal key={s.h} className="ob2-step vh-rv--up"><div className="ob2-step-media"><img loading="lazy" src={s.img} alt="" /></div><div className="ob2-step-copy"><span>{String(i + 1).padStart(2, "0")}</span><b>{s.h}</b><p>{s.p}</p></div></Reveal>))}
+      <StoryPin className="ob2-path" h={480} n={4}>
+        <div className="ob2-strip">
+          {path.map((s, i) => <figure key={s.h} className="ob2-shot" data-at={i}><img src={s.img} alt="" loading="lazy" /></figure>)}
         </div>
+        <h2 className="ob2-path-head">How a visit <em>unfolds</em></h2>
+        <div className="ob2-route" aria-hidden><i /><b /></div>
+        {path.map((s, i) => (
+          <div key={s.h} className="ob2-stop" data-at={i}><span>{String(i + 1).padStart(2, "0")} · {s.m}</span><h3>{s.h}</h3><p>{s.p}</p></div>
+        ))}
+      </StoryPin>
+
+      <section className="ob2-manifesto">
+        <h2>It was raised in silence<br />and left <em>uncredited</em> on purpose.</h2>
       </section>
 
       <section className="ob2-cta">
-        <img className="ob2-cta-bg" src="/uploads/1/hooks/scenes/monolith-reveal.png" alt="" />
-        <Reveal className="ob2-cta-in vh-rv--up"><h2>Come stand <em>before it.</em></h2><p>Reserve a dusk window for the coming season.</p><a href="#" onClick={stop} className="ob2-btn">Reserve a visit <i>↗</i></a></Reveal>
+        <div className="ob2-cta-in"><h2>Come stand <em>before it.</em></h2><p>Reserve a dusk window for the coming season.</p><a href="#" onClick={stop} className="ob2-btn">Reserve a visit <i>↗</i></a></div>
       </section>
 
       <LandFoot brand="OBELISK" tagline="A monument, a desert, and a long quiet walk." cols={[{ h: "Visit", links: ["Reserve", "Getting there", "Seasons"] }, { h: "Foundation", links: ["The land", "Patrons", "Stewardship"] }, { h: "More", links: ["Story", "Press", "Contact"] }]} legal="The Obelisk Foundation, Nevada." />
@@ -907,43 +1638,54 @@ function ObeliskLand() {
   );
 }
 
-/* ---- VIGIL: сетка миров + телеметрия-marquee + reveal сырой/чёткий + реле ---- */
+/* ---- VIGIL: та же планета с орбиты; глава «семь реле» — кадр резкеет с каждым постом; финал — снова она ---- */
+const VIG_NODES = Array.from({ length: 7 }, (_, i) => {
+  const a = ((-160 + i * 46) * Math.PI) / 180;
+  return { x: +(560 + 380 * Math.cos(a)).toFixed(1), y: +(300 + 120 * Math.sin(a)).toFixed(1) };
+});
 function VigilLand() {
-  const worlds = [
-    { img: "/uploads/1/hooks/scenes/planet-reveal.png", n: "Meridian", t: "dust storm rising" },
-    { img: "/uploads/1/hooks/land/vig-w1.jpg", n: "Halo", t: "ring shear stable" },
-    { img: "/uploads/1/hooks/land/vig-w2.jpg", n: "Brack", t: "ice fracture 04" },
-    { img: "/uploads/1/hooks/land/vig-w3.jpg", n: "Ferro", t: "storm band widening" },
-    { img: "/uploads/1/hooks/land/vig-w4.jpg", n: "Tethys", t: "cloud system drifting" },
-    { img: "/uploads/1/hooks/land/vig-w5.jpg", n: "Ember", t: "vent glow rising" },
-    { img: "/uploads/1/hooks/land/vig-w6.jpg", n: "Vane", t: "haze thickening" },
+  const relays = [
+    { n: "Meridian", t: "dust storm rising", z: "UTC−7" },
+    { n: "Halo", t: "limb haze stable", z: "UTC+1" },
+    { n: "Brack", t: "ice fracture, sector 04", z: "UTC+9" },
+    { n: "Ferro", t: "storm band widening", z: "UTC−3" },
+    { n: "Tethys", t: "cloud system drifting", z: "UTC+5:30" },
+    { n: "Ember", t: "vent glow rising", z: "UTC+12" },
+    { n: "Vane", t: "night-side lights counted", z: "UTC−10" },
   ];
-  const ticker = "MERIDIAN dust storm rising // HALO ring shear stable // BRACK ice fracture 04 // FERRO storm band widening // TETHYS cloud drift // EMBER vent glow rising // VANE haze thickening // ";
   return (
-    <div className="vh-l2 l2-vigil">
-      <section className="vg2-grid-sec">
-        <Reveal className="vg2-grid-head vh-rv--up"><span className="vg2-kick">Under watch, right now</span><h2>Seven worlds. <em>Someone on each.</em></h2></Reveal>
-        <div className="vg2-grid">
-          {worlds.map((w) => (<Reveal key={w.n} className="vg2-world vh-rv--zoom"><div className="vg2-world-media"><ShaderImage src={w.img} /></div><div className="vg2-world-meta"><b>{w.n}</b><span>{w.t}</span></div></Reveal>))}
-        </div>
+    <div className="vh-l2 l2-vigil hs-land">
+      <i className="hs-from" aria-hidden />
+      <Backdrop from=".l2-vigil > .hs-from" dim={0.5} blur={4} plates={[
+        { at: ".vg2-intro", src: `${SL}/vigil-orbit-end.jpg` },
+        { at: ".vg2-relay", src: `${SL}/vigil-orbit-mid.jpg` },
+        { at: ".vg2-cta", src: `${SL}/vigil-watch.jpg` },
+      ]} />
+      <Atmosphere stops={[{ at: ".vg2-intro", color: "#070a14" }, { at: ".vg2-watch", color: "#05060d" }, { at: ".vg2-relay", color: "#0b0911" }, { at: ".vg2-cta", color: "#1a1020" }]} />
+      <Weather kind="stars" count={36} color="#ffe6f1" color2="#bcd6ff" zIndex={3} world={0.3} between={[".vg2-intro", ".vg2-cta"]} />
+
+      <section className="vg2-intro">
+        <div className="vg2-intro-in"><span className="vg2-kick">Under watch, right now</span><h2>One world.<br /><em>Seven watchers.</em></h2><p>Meridian turns once every thirty hours. Seven backyard telescopes, seven timezones, one shared feed — so it is never out of sight.</p></div>
       </section>
 
-      <section className="vg2-feed"><div className="vg2-marquee"><span>{ticker.repeat(3)}</span></div></section>
-
-      <section className="vg2-reveal-sec">
-        <Reveal className="vg2-reveal-head vh-rv--up"><h3>One eye guesses.<br /><em>Seven eyes are sure.</em></h3><p>Pooled, a backyard telescope becomes a planet under constant watch. Move across the feed to sharpen it.</p></Reveal>
-        <ShaderReveal base="/uploads/1/hooks/scenes/planet-reveal.png" top="/uploads/1/hooks/scenes/planet-reveal.png" mode="raw-sharp" radius={0.26} className="vg2-cr">
-          <span className="vg2-cr-tag raw">single relay</span>
-          <span className="vg2-cr-tag sharp">seven relays</span>
-        </ShaderReveal>
-      </section>
+      <StoryPin className="vg2-watch" h={560} n={8}>
+        <div className="vg2-planet"><img src={`${SL}/vigil-orbit-mid.jpg`} alt="" loading="lazy" /></div>
+        <svg className="vg2-orbit" viewBox="0 0 1000 562" preserveAspectRatio="xMidYMid slice" aria-hidden>
+          <ellipse cx="560" cy="300" rx="380" ry="120" />
+          {VIG_NODES.map((p, i) => <circle key={i} className="vg2-node" data-at={i + 1} cx={p.x} cy={p.y} r="7" />)}
+        </svg>
+        <h2 className="vg2-watch-head" data-at={0}>One eye <em>guesses.</em></h2>
+        <h2 className="vg2-watch-end" data-at={7}>Seven eyes <em>are sure.</em></h2>
+        <div className="vg2-count"><b><i /></b><span>of 7 relays online</span></div>
+        <ol className="vg2-logs">{relays.map((r, i) => <li key={r.n} data-at={i + 1}><b>{r.n}</b><span>{r.t}</span><i>{r.z}</i></li>)}</ol>
+      </StoryPin>
 
       <section className="vg2-relay">
-        <Reveal className="vg2-relay-in vh-rv--up"><div className="vg2-clock" aria-hidden><i /></div><div className="vg2-relay-copy"><h3>The watch never breaks.</h3><p>Members hand the feed around the clock, across every timezone. There is always someone awake and looking.</p></div></Reveal>
+        <div className="vg2-relay-in"><div className="vg2-clock" aria-hidden><i /></div><div className="vg2-relay-copy"><h3>The watch <em>never breaks.</em></h3><p>Members hand the feed around the clock, across every timezone. There is always someone awake and looking.</p></div></div>
       </section>
 
       <section className="vg2-cta">
-        <Reveal className="vh-rv--up"><h2>Take a <em>shift.</em></h2><p>Membership opens in small waves. Join the next one.</p><a href="#" onClick={stop} className="vg2-btn">Join the watch <i>↗</i></a></Reveal>
+        <div className="vg2-cta-in"><span className="vg2-kick">Night 213</span><h2>Take a <em>shift.</em></h2><p>Membership opens in small waves. Join the next one.</p><a href="#" onClick={stop} className="vg2-btn">Join the watch <i>↗</i></a></div>
       </section>
 
       <LandFoot brand="VIGIL" tagline="A shared, unbroken watch on distant worlds." cols={[{ h: "Watch", links: ["Live feed", "Worlds", "Shifts"] }, { h: "Join", links: ["Membership", "Instruments", "Guide"] }, { h: "Coop", links: ["About", "Research", "Contact"] }]} legal="The Vigil Cooperative." />
@@ -951,29 +1693,35 @@ function VigilLand() {
   );
 }
 
-/* ---- ASCENSION: дышащий круг, воздух, мягкая галерея ---- */
+/* ---- ASCENSION: над облаками → один вдох-выдох как закреплённая глава (галерея стала полётом); крем без шва ---- */
 function AscensionLand() {
-  const gal = [
-    { img: "/uploads/1/hooks/land/ascension-retreat.jpg", c: "The pavilion at dawn" },
-    { img: "/uploads/1/hooks/land/asc-g2.jpg", c: "The walk before breakfast" },
-    { img: "/uploads/1/hooks/land/asc-g3.jpg", c: "Hands, unclenched" },
+  const steps = [
+    { img: `${SL}/ascension-retreat.jpg`, k: "Arrive", h: <>Put it <em>down.</em></>, p: "The pavilion sits above the lake. Phones stay in a basket by the door." },
+    { img: `${SL}/asc-g1.jpg`, k: "In · four counts", h: <>Breathe <em>in.</em></>, p: "Slowly, through the nose, until the ribs open sideways." },
+    { img: `${SL}/asc-g2.jpg`, k: "Hold · four counts", h: <>And <em>hold.</em></>, p: "Nothing to fix. Only the pause at the top of the breath." },
+    { img: `${SL}/asc-g3.jpg`, k: "Out · six counts", h: <>Let it <em>go.</em></>, p: "Longer out than in. The body reads it as safety." },
+    { img: `${SL}/ascension-light.jpg`, k: "Rest", h: <>Then, <em>again.</em></>, p: "Four rounds to begin. A weekly session to hold it. A retreat when you are ready." },
   ];
   return (
-    <div className="vh-l2 l2-ascension">
-      <section className="as2-breathe">
-        <div className="as2-circle" aria-hidden><span>in</span></div>
-        <Reveal className="as2-breathe-copy vh-rv--up"><span className="as2-kick">A breathing practice</span><h2>The noise was never<br /><em>yours to carry.</em></h2><p>Four rituals to begin. A weekly session to hold. A retreat when you are ready to put it all down.</p></Reveal>
+    <div className="vh-l2 l2-ascension hs-land">
+      <i className="hs-from" aria-hidden />
+      <Backdrop from=".l2-ascension > .hs-from" dim={0.26} blur={4} plates={[
+        { at: ".as2-intro", src: `${SL}/ascension-light.jpg` },
+        { at: ".as2-quotes", src: `${SL}/asc-g2.jpg` },
+        { at: ".as2-cta", src: `${SL}/ascension-light.jpg` },
+      ]} />
+      <Atmosphere stops={[{ at: ".as2-intro", color: "#f4ecdc" }, { at: ".as2-breath", color: "#eee8ee" }, { at: ".as2-quotes", color: "#ebe7ee" }, { at: ".as2-cta", color: "#f4ebdb" }]} />
+      <Weather kind="dust" count={22} color="#fff8ea" zIndex={3} world={0.4} between={[".as2-intro", ".as2-cta"]} />
+
+      <section className="as2-intro">
+        <div className="as2-intro-in"><span className="as2-kick">A breathing practice</span><h2>The noise was never<br /><em>yours to carry.</em></h2><p>Four rituals to begin. A weekly session to hold. A retreat when you are ready to put it all down.</p></div>
       </section>
 
-      <section className="as2-practice">
-        <Reveal className="as2-practice-media vh-rv--mask"><DepthParallax src="/uploads/1/hooks/land/asc-g1.jpg" depth="/uploads/1/hooks/land/asc-g1-depth.jpg" amp={0.035} /></Reveal>
-        <Reveal className="as2-practice-copy vh-rv--up"><h3>It does not ask you<br />to leave your life.<br /><em>It hands it back, quieter.</em></h3></Reveal>
-      </section>
-
-      <section className="as2-gallery">
-        <Reveal className="as2-gallery-head vh-rv--up"><h3>Three days on a still mountainside.</h3></Reveal>
-        {gal.map((g, i) => (<Reveal key={i} className={`as2-gtile ${i % 2 ? "r" : "l"} vh-rv--up`}><img loading="lazy" src={g.img} alt="" /><span>{g.c}</span></Reveal>))}
-      </section>
+      <StoryPin className="as2-breath" h={520} n={5}>
+        {steps.map((s, i) => <div key={s.k} className="as2-plate" data-at={i}><img src={s.img} alt="" loading="lazy" /></div>)}
+        <div className="as2-orb" aria-hidden><i /></div>
+        {steps.map((s, i) => <div key={s.k} className="as2-step" data-at={i}><span>{s.k}</span><h3>{s.h}</h3><p>{s.p}</p></div>)}
+      </StoryPin>
 
       <section className="as2-quotes">
         <Reveal className="as2-q vh-rv--up"><blockquote>I came for the sleep and stayed for the silence.</blockquote><cite>Noor Haddad, one year in</cite></Reveal>

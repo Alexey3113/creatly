@@ -1,51 +1,82 @@
 "use client";
-/* ANIMATED · Nº26 — «STRATA» (класс scroll-reveal, приём 2.5D DEPTH-SLICE).
-   Плоская вектор-иллюстрация каньона в сумерках разрезана на 4 глубинных слоя
-   (небо · дальние гряды · средние · ближняя кромка) — каждый слой это ТОТ ЖЕ <img>
-   в кроп-контейнере с alpha-маской своей полосы и своим translateY/scale по --t →
-   камера ныряет вглубь каньона, ближняя кромка уезжает мимо зрителя. Заголовки-главы
-   сменяются масками (clip-path) по окнам --t. Палитра indigo/amber dusk ИЗ КАДРА.
-   Бренд: полевой журнал глубоких мест. */
+/* ANIMATED · Nº26 — «STRATA» (класс scroll-reveal → ОДИН СПУСК В КАНЬОН).
+   Каньон — fixed-мир под всей страницей: небо+дальние гряды (плита), средние гряды (полоса) и ближние
+   стены — отдельный слой, вырезанный из того же кадра по силуэту (стены поднимаются мимо камеры, а не
+   режутся полосами). Спуск и сумерки ведёт scene-kit <Follow> по якорям глав на ВЕСЬ скролл: --dive
+   (камера опускается между стен), --dusk (небо темнеет до ночи, проступают звёзды), на дне — река.
+   Высотомер 1470 m → 0 m идёт через все главы и полевые заметки. Первый кадр собран в покое. */
+import { Follow } from "@/components/scene-kit";
 import { ScrollStage } from "../engine/ScrollStage";
 import { Scene } from "../engine/Track";
 import "../engine/scrollstage.css";
 import "./strata26.css";
 
 const HERO = "/uploads/1/animated/strata-hero.jpg";
-const LAYERS = ["sky", "far", "mid", "near"];
+const NEAR = "/uploads/1/animated/strata-near.webp";
+
 const CHAPTERS = [
-  ["01", "The Rim", "where the light still reaches", 0.14],
-  ["02", "The Descent", "cool air, folding shadow", 0.5],
-  ["03", "The River", "the floor the sun forgot", 0.86],
+  ["st-rim", "01", "The Rim", "where the light still reaches"],
+  ["st-descent", "02", "The Descent", "cool air, folding shadow"],
+  ["st-river", "03", "The River", "the floor the sun forgot"],
 ] as const;
 
 export function Strata26() {
   return (
     <ScrollStage className="st">
-      {/* 0 · DEPTH-DIVE — камера ныряет сквозь слои, главы сменяются масками */}
-      <Scene className="st-dive" pinned vh={320}>
-        <div className="st-stage">
-          {LAYERS.map((l, i) => (
-            <div key={l} className={`st-layer st-l-${l}`} style={{ ["--i" as string]: i }} aria-hidden>
-              <img className="st-plate" src={HERO} alt="" draggable={false} />
-            </div>
-          ))}
-          <div className="st-dusk" aria-hidden />
-        </div>
-        <div className="st-kick"><span>STRATA</span><span>FIELD JOURNAL · Nº26</span></div>
-        <div className="st-chapters" aria-hidden>
-          {CHAPTERS.map(([n, title, sub, c], i) => (
-            <div key={i} className="st-ch" style={{ ["--c" as string]: c }}>
-              <span className="st-ch-n">{n}</span>
-              <h2 className="st-ch-t">{title}</h2>
-              <p className="st-ch-s">{sub}</p>
-            </div>
-          ))}
-        </div>
-        <div className="st-cue" aria-hidden>scroll to descend ↓</div>
-      </Scene>
+      {/* СПУСК И СВЕТ — одна ось на всю страницу */}
+      <Follow stops={[
+        { at: ".st-rim", vars: { "--dive": 0, "--dusk": 0 } },
+        { at: ".st-descent", vars: { "--dive": 0.48, "--dusk": 0.34 } },
+        { at: ".st-river", vars: { "--dive": 0.88, "--dusk": 0.66 } },
+        { at: ".st-intro", vars: { "--dive": 1, "--dusk": 0.8 } },
+        { at: ".st-end", vars: { "--dive": 1, "--dusk": 1 } },
+      ]} />
+      <Follow round stops={[
+        { at: ".st-rim", vars: { "--elev": 1470 } },
+        { at: ".st-descent", vars: { "--elev": 820 } },
+        { at: ".st-river", vars: { "--elev": 0 } },
+      ]} />
 
-      {/* 1 · INTRO — editorial line-reveal, тёплый amber акцент */}
+      {/* МИР — каньон под всеми главами */}
+      <div className="st-world" aria-hidden>
+        <img className="st-plate st-base" src={HERO} alt="" draggable={false} />
+        <img className="st-plate st-mid" src={HERO} alt="" draggable={false} />
+        <div className="st-night" />
+        <div className="st-stars" />
+        <svg className="st-rivr" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="st-rv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#ffd9a8" stopOpacity=".2" />
+              <stop offset=".5" stopColor="#f0a24e" stopOpacity=".85" />
+              <stop offset="1" stopColor="#8f6bd0" stopOpacity=".9" />
+            </linearGradient>
+          </defs>
+          <path d="M49 70 C 52 74, 46 78, 50 82 C 55 87, 44 92, 47 100 L 61 100 C 58 93, 66 88, 58 83 C 54 79, 57 75, 51 70 Z" fill="url(#st-rv)" />
+        </svg>
+        <img className="st-plate st-near" src={NEAR} alt="" draggable={false} />
+        <div className="st-shade" />
+      </div>
+
+      {/* высотомер — сквозная деталь спуска */}
+      <div className="st-alt" aria-hidden>
+        <span className="st-alt-k">ELEV</span>
+        <span className="st-alt-v" />
+        <span className="st-alt-rule"><i /></span>
+      </div>
+
+      {CHAPTERS.map(([cls, n, title, sub], i) => (
+        <Scene key={cls} className={`st-ch ${cls}`}>
+          {i === 0 && <div className="st-kick"><span>STRATA</span><span>FIELD JOURNAL · Nº26</span></div>}
+          <div className="st-ch-in">
+            <span className="st-ch-n">{n}</span>
+            <h2 className="st-ch-t">{title}</h2>
+            <p className="st-ch-s">{sub}</p>
+          </div>
+          {i === 0 && <div className="st-cue" aria-hidden>scroll to descend ↓</div>}
+        </Scene>
+      ))}
+
+      {/* 1 · INTRO — на дне, у реки */}
       <Scene className="st-intro">
         <p className="st-body">
           {[["A canyon is not a view.", 0, false], ["It is a stack of hours —", 1, false], ["each ledge a colder", 2, false], ["shade of the same", 3, false], ["evening.", 4, true]].map(([t, d, amber], i) => (
@@ -54,7 +85,7 @@ export function Strata26() {
         </p>
       </Scene>
 
-      {/* 2 · NOTES — тихая опись глав журнала */}
+      {/* 2 · NOTES — опись спуска */}
       <Scene className="st-notes">
         <div className="st-notes-head"><span>FIELD NOTES</span><span>Vol. VI · Dusk Descents</span></div>
         <ul className="st-list">
@@ -71,7 +102,7 @@ export function Strata26() {
         </ul>
       </Scene>
 
-      {/* 3 · CLOSER */}
+      {/* 3 · CLOSER — ночь на дне, река держит последний свет */}
       <Scene className="st-end">
         <div className="st-end-block">
           <h2>

@@ -65,8 +65,6 @@
 .df2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 40%,rgba(255,90,30,.16),transparent 62%),linear-gradient(180deg,rgba(8,6,5,.5),transparent 28% 56%,rgba(8,6,5,.82))}
 .df2-deity{place-items:center;align-content:end}
 .df2-deity .ps-media{width:34vw;height:auto;max-width:none;filter:contrast(1.06) brightness(1.02) drop-shadow(0 30px 50px rgba(0,0,0,.7)) drop-shadow(0 0 50px rgba(255,90,30,.24))}
-.df2-embers{justify-items:center;align-content:end}
-.df2-embers .ps-media{width:100vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.7}
 .df2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
 .df2-copy .dj-eyebrow{color:var(--accent)}
 .df2-copy h2{margin:0;font:800 clamp(42px,6.6vw,104px)/.86 "Bricolage Grotesque",sans-serif;color:#f4ead9;text-transform:uppercase;letter-spacing:-.02em}
@@ -82,8 +80,6 @@
 .df3-frame{position:relative;width:15vw;min-width:150px;background:#0c0806;padding:8px 8px 24px;border:1px solid rgba(255,90,30,.34);box-shadow:0 30px 60px rgba(0,0,0,.6)}
 .df3-frame .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/5;object-fit:cover;display:block;filter:saturate(1.1) contrast(1.06)}
 .df3-frame b{position:absolute;left:11px;bottom:7px;font:800 10px "Bricolage Grotesque",sans-serif;letter-spacing:.02em;text-transform:uppercase;color:var(--ember)}
-.df3-embers{align-content:end}
-.df3-embers .ps-media{width:86vw;height:auto;max-width:none;object-fit:contain;mix-blend-mode:screen;opacity:.55}
 .df3-copy{justify-items:center;align-content:end;text-align:center;padding-bottom:7vh}
 .df3-copy .dj-eyebrow{color:var(--accent)}
 .df3-copy h2{margin:0;font:800 clamp(34px,5.4vw,80px)/.94 "Bricolage Grotesque",sans-serif;color:#f4ead9;text-transform:uppercase}
@@ -92,7 +88,8 @@
 
 /* S4 THE TOUR — даты */
 .df4-scene .ps-sticky{background:#0a0d0e}
-.df4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#161008,#080604)}
+.df4-photo .ps-media{filter:brightness(.34) saturate(1.1) contrast(1.05)}
+.df4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 46%,rgba(22,16,8,.35),rgba(8,6,4,.86))}
 .df4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.24;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
 .df4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
 .df4-head .dj-eyebrow{color:var(--accent)}
@@ -117,9 +114,6 @@
 .df5-bg .ps-media{filter:contrast(1.1) saturate(1.15) brightness(.7)}
 .df5-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(74% 74% at 50% 48%,rgba(255,90,30,.1),rgba(8,8,10,.8))}
 .df5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--accent)}
-/* аудиоволна */
-.df5-wave{position:absolute;left:5vw;right:5vw;top:50%;height:20vh;transform:translateY(-50%);z-index:3;display:flex;align-items:center;gap:.36vw;pointer-events:none}
-.df5-wave i{flex:1;min-height:6%;background:linear-gradient(var(--ember),var(--accent));opacity:.42;border-radius:2px}
 /* плейхед-свип */
 .df5-head{justify-items:center;align-content:center}
 .df5-head span{display:block;width:2px;height:24vh;background:linear-gradient(transparent,var(--accent),transparent);box-shadow:0 0 16px rgba(255,90,30,.7)}
@@ -136,8 +130,8 @@
 /* S6 WITNESS THE FALL — угли + аудио-волна + CTA */
 .df6-scene .ps-sticky{background:#0a0d0e}
 .df6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 50% 40%,#1a1008,#080604)}
-.df6-embers{justify-items:center;align-content:center}
-.df6-embers .ps-media{width:82vw;height:auto;max-width:none;mix-blend-mode:screen;opacity:.6}
+.df6-photo{opacity:.4;pointer-events:none}
+.df6-photo .ps-media{filter:brightness(.6) saturate(1.1);-webkit-mask:radial-gradient(90% 80% at 60% 45%,#000 40%,transparent 85%);mask:radial-gradient(90% 80% at 60% 45%,#000 40%,transparent 85%)}
 .df6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad)}
 .df6-copy .dj-eyebrow{color:var(--accent)}
 .df6-copy h2{margin:0;font:800 clamp(52px,10vw,160px)/.86 "Bricolage Grotesque",sans-serif;color:#f4ead9;text-transform:uppercase;letter-spacing:-.02em}
@@ -147,4 +141,43 @@
 .df6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#a88a72}
 @media(max-width:900px){.df2-copy,.df6-cta{max-width:88vw}.df2-deity .ps-media{width:68vw}.df3-frame{width:42vw;min-width:0}
   .df4-route{width:92vw}.df4-stop{grid-template-columns:74px 1fr auto;gap:6px 12px}.df4-stop s{display:none}
-  .df5-cmt{width:78vw}.df5-wave{display:none}}
+  .df5-cmt{width:78vw}}
+
+/* ===== v2 · HUD-волна, искровое тело, прожиг (аудит 2026-09) ===== */
+/* АКТЁР-волна: закреплённый HUD, амплитуда растёт от скорости скролла (--vel), бары пульсируют всегда */
+.dj-hud .dj-wave{position:relative;left:auto;right:auto;bottom:auto;z-index:auto;height:58px;opacity:.7;transform-origin:50% 100%;transform:scaleY(calc(.7 + var(--vel,0) * .9))}
+/* АКТЁР-тело из углей: светится поверх мира (screen), ядро-искра по --core */
+.dj-ember{mix-blend-mode:screen}
+.dj-body{position:relative}
+.dj-ember .dj-body img{filter:none;opacity:.9}
+.dj-core{position:absolute;left:36%;top:38%;width:28%;height:28%;border-radius:50%;pointer-events:none;opacity:var(--core,0);
+  background:radial-gradient(circle,#fff 0,#ffe0a8 14%,rgba(255,140,50,.85) 34%,rgba(255,90,30,.25) 56%,transparent 72%)}
+/* hero в покое: титул тлеет, божество парит, занавес дышит */
+.dj-title span{animation:dj-smoulder 3.2s ease-in-out infinite alternate}
+@keyframes dj-smoulder{from{text-shadow:0 0 70px rgba(255,90,30,.35)}to{text-shadow:0 0 120px rgba(255,120,40,.62),0 0 20px rgba(255,170,90,.35)}}
+.dj-angel .ps-media{animation:dj-float 5s ease-in-out infinite alternate}
+@keyframes dj-float{from{transform:translateY(-.8vh)}to{transform:translateY(.8vh)}}
+.dj-bg .ps-media{animation:dj-drift 20s ease-in-out infinite alternate}
+@keyframes dj-drift{from{transform:scale(1.02) translateX(-1%)}to{transform:scale(1.05) translateX(1%)}}
+
+/* СТЫК «прожиг» (hero→S2, S3→S4): новая сцена прогорает дырами с огненной кромкой, дыры растут и сливаются */
+.dj-site .df2-scene[data-ov]>.ps-sticky,.dj-site .df4-scene[data-ov]>.ps-sticky{opacity:1;
+  --b1:calc(clamp(0, var(--ovp,0) / .62, 1) * 95vmax);--b2:calc(clamp(0, (var(--ovp,0) - .08) / .62, 1) * 95vmax);
+  --b3:calc(clamp(0, (var(--ovp,0) - .16) / .62, 1) * 95vmax);--b4:calc(clamp(0, (var(--ovp,0) - .24) / .62, 1) * 95vmax);
+  --b5:calc(clamp(0, (var(--ovp,0) - .3) / .62, 1) * 95vmax)}
+.dj-site .df2-scene[data-ov]>.ps-sticky{-webkit-mask-image:radial-gradient(circle at 30% 40%,#000 var(--b1),transparent calc(var(--b1) + 1.2vmax)),radial-gradient(circle at 72% 30%,#000 var(--b2),transparent calc(var(--b2) + 1.2vmax)),radial-gradient(circle at 55% 76%,#000 var(--b3),transparent calc(var(--b3) + 1.2vmax)),radial-gradient(circle at 14% 80%,#000 var(--b4),transparent calc(var(--b4) + 1.2vmax)),radial-gradient(circle at 88% 72%,#000 var(--b5),transparent calc(var(--b5) + 1.2vmax));mask-image:radial-gradient(circle at 30% 40%,#000 var(--b1),transparent calc(var(--b1) + 1.2vmax)),radial-gradient(circle at 72% 30%,#000 var(--b2),transparent calc(var(--b2) + 1.2vmax)),radial-gradient(circle at 55% 76%,#000 var(--b3),transparent calc(var(--b3) + 1.2vmax)),radial-gradient(circle at 14% 80%,#000 var(--b4),transparent calc(var(--b4) + 1.2vmax)),radial-gradient(circle at 88% 72%,#000 var(--b5),transparent calc(var(--b5) + 1.2vmax))}
+.dj-site .df4-scene[data-ov]>.ps-sticky{-webkit-mask-image:radial-gradient(circle at 26% 34%,#000 var(--b1),transparent calc(var(--b1) + 1.2vmax)),radial-gradient(circle at 70% 46%,#000 var(--b2),transparent calc(var(--b2) + 1.2vmax)),radial-gradient(circle at 44% 72%,#000 var(--b3),transparent calc(var(--b3) + 1.2vmax)),radial-gradient(circle at 86% 18%,#000 var(--b4),transparent calc(var(--b4) + 1.2vmax)),radial-gradient(circle at 10% 72%,#000 var(--b5),transparent calc(var(--b5) + 1.2vmax));mask-image:radial-gradient(circle at 26% 34%,#000 var(--b1),transparent calc(var(--b1) + 1.2vmax)),radial-gradient(circle at 70% 46%,#000 var(--b2),transparent calc(var(--b2) + 1.2vmax)),radial-gradient(circle at 44% 72%,#000 var(--b3),transparent calc(var(--b3) + 1.2vmax)),radial-gradient(circle at 86% 18%,#000 var(--b4),transparent calc(var(--b4) + 1.2vmax)),radial-gradient(circle at 10% 72%,#000 var(--b5),transparent calc(var(--b5) + 1.2vmax))}
+.dj-burn{position:absolute;inset:0;z-index:40;pointer-events:none;mix-blend-mode:screen;filter:blur(5px);opacity:calc((1 - clamp(0, (var(--ovp,1) - .7) * 4, 1)) * .8)}
+.dj-burn-2{background:radial-gradient(circle at 30% 40%,transparent calc(var(--b1,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b1,0px) - .5vmax),rgba(255,90,30,.5) var(--b1,0px),transparent calc(var(--b1,0px) + .2vmax)),radial-gradient(circle at 72% 30%,transparent calc(var(--b2,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b2,0px) - .5vmax),rgba(255,90,30,.5) var(--b2,0px),transparent calc(var(--b2,0px) + .2vmax)),radial-gradient(circle at 55% 76%,transparent calc(var(--b3,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b3,0px) - .5vmax),rgba(255,90,30,.5) var(--b3,0px),transparent calc(var(--b3,0px) + .2vmax)),radial-gradient(circle at 14% 80%,transparent calc(var(--b4,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b4,0px) - .5vmax),rgba(255,90,30,.5) var(--b4,0px),transparent calc(var(--b4,0px) + .2vmax)),radial-gradient(circle at 88% 72%,transparent calc(var(--b5,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b5,0px) - .5vmax),rgba(255,90,30,.5) var(--b5,0px),transparent calc(var(--b5,0px) + .2vmax))}
+.dj-burn-4{background:radial-gradient(circle at 26% 34%,transparent calc(var(--b1,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b1,0px) - .5vmax),rgba(255,90,30,.5) var(--b1,0px),transparent calc(var(--b1,0px) + .2vmax)),radial-gradient(circle at 70% 46%,transparent calc(var(--b2,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b2,0px) - .5vmax),rgba(255,90,30,.5) var(--b2,0px),transparent calc(var(--b2,0px) + .2vmax)),radial-gradient(circle at 44% 72%,transparent calc(var(--b3,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b3,0px) - .5vmax),rgba(255,90,30,.5) var(--b3,0px),transparent calc(var(--b3,0px) + .2vmax)),radial-gradient(circle at 86% 18%,transparent calc(var(--b4,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b4,0px) - .5vmax),rgba(255,90,30,.5) var(--b4,0px),transparent calc(var(--b4,0px) + .2vmax)),radial-gradient(circle at 10% 72%,transparent calc(var(--b5,0px) - 3.2vmax),rgba(255,160,80,.8) calc(var(--b5,0px) - .5vmax),rgba(255,90,30,.5) var(--b5,0px),transparent calc(var(--b5,0px) + .2vmax))}
+/* СТЫК «сбор искр» (S5→S6): финал раскрывается кругом из искры в центре, по кромке — огонь */
+.dj-site .df6-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));clip-path:circle(calc(var(--e) * 105vmax) at 50% 48%)}
+.df6-rim{position:absolute;inset:0;z-index:40;pointer-events:none;mix-blend-mode:screen;opacity:calc(1 - var(--e,1));
+  background:radial-gradient(circle at 50% 48%,transparent calc(var(--e,1) * 105vmax - 3vmax),rgba(255,176,96,.9) calc(var(--e,1) * 105vmax - .6vmax),rgba(255,90,30,.35) calc(var(--e,1) * 105vmax),transparent calc(var(--e,1) * 105vmax + .1vmax))}
+
+@media(prefers-reduced-motion:reduce){
+  .dj-site *,.dj-site *::before,.dj-site *::after{animation:none!important}
+  .dj-site .dj-exit{opacity:1!important}
+  .dj-site .ps-scene[data-ov]>.ps-sticky{clip-path:none;-webkit-mask-image:none;mask-image:none;opacity:1}
+  .dj-burn,.df6-rim{display:none}
+}

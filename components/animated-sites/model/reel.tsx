@@ -27,6 +27,7 @@
    Прогресс считается КАЖДЫЙ кадр в едином rAF scene-kit (после Lenis) — актёры и сцены видят одну позицию.
    ЭТО ЕДИНСТВЕННОЕ ОБЩЕЕ между 30 сайтами. Сайт задаёт палитру (--rl-void/--rl-spark), копи и лендинг. */
 import { useEffect, useRef } from "react";
+import { preload } from "react-dom";
 import Lenis from "lenis";
 import { subscribe, useLenisInClock, smooth as E, win, clamp01 } from "@/components/scene-kit/clock";
 import "./reel.css";
@@ -121,6 +122,11 @@ export function Reel({
     if (i < n - 1) marks.push([`t${i}`, (holdEnd(i) + starts[i] + lens[i]) / 2]);
   });
   marks.push(["end", total]);
+  scenes.forEach((s, i) => {
+    preload(s.bg, { as: "image", fetchPriority: i === 0 ? "high" : "low" });
+    if (s.mid) preload(s.mid, { as: "image", fetchPriority: i === 0 ? "high" : "low" });
+    if (s.fg) preload(s.fg, { as: "image", fetchPriority: i === 0 ? "high" : "low" });
+  });
   const key = JSON.stringify({ lens, holds, into: scenes.map((s) => s.into), p: scenes.map((s) => s.portal), f: scenes.map((s) => !!s.freeze), depth });
 
   useEffect(() => {
@@ -165,6 +171,7 @@ export function Reel({
       return;
     }
 
+    el.dataset.live = "1";
     const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1, smoothWheel: true });
     useLenisInClock(lenis);
     const fine = matchMedia("(pointer:fine)").matches;

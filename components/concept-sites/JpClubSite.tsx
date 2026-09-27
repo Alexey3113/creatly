@@ -49,8 +49,8 @@ export function JpClubSite() {
       {/* луна катится по небу через клубные сцены */}
       <Follow unit="%" stops={[
         { at: ".j3-scene", vars: { "--mx": 82, "--my": 20 } },
-        { at: ".j4-scene", vars: { "--mx": 64, "--my": 10 } },
-        { at: ".j6-scene", vars: { "--mx": 24, "--my": 22 } },
+        { at: ".j4-scene", vars: { "--mx": 70, "--my": 24 } },
+        { at: ".j6-scene", vars: { "--mx": 13, "--my": 15 } },
       ]} />
       <Weather kind="petals" count={16} color="#ff77aa" color2="#ffd6e6" zIndex={29} world={0.5} seed={19} between={[".jc-hero", ".j3-scene"]} />
       <header className="jc-head">

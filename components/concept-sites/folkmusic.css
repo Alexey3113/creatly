@@ -166,11 +166,11 @@
 .k2-grain{position:absolute;inset:0;z-index:13;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.84' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
 
 /* S3 ЖИВЬЁМ — grayscale-вырезки на холодной бумаге */
-.k3-scene .ps-sticky{background:#d1cfc7}
-.k3-bg{position:absolute;inset:0;z-index:1;background:#cfcdc5}
-.k3-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+.k3-scene .ps-sticky{background:var(--atm,#231811)}
+.k3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(90% 90% at 50% 46%,color-mix(in srgb,var(--atm,#231811) 72%,#4a2a16),var(--atm,#231811))}
+.k3-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.3;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
 .k3-word{place-items:center}
-.k3-word span{font:900 clamp(100px,20vw,320px)/.9 "Playfair Display",serif;color:rgba(21,20,16,.05);letter-spacing:-.01em}
+.k3-word span{font:900 clamp(100px,20vw,320px)/.9 "Playfair Display",serif;color:rgba(234,220,200,.06);letter-spacing:-.01em}
 /* фото на уголках-фотокорнерах, ч/б, рукописная подпись */
 .k3-photo{position:relative;width:15vw;min-width:150px;background:#f2efe6;padding:9px 9px 30px;box-shadow:0 20px 40px rgba(20,18,12,.22)}
 .k3-photo .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/5;object-fit:cover;display:block;filter:grayscale(1) contrast(1.06)}
@@ -179,14 +179,14 @@
 .k3-photo::after{bottom:25px;right:4px;border-bottom-color:rgba(21,20,16,.72);border-right-color:rgba(21,20,16,.72)}
 .k3-photo b{position:absolute;left:0;right:0;bottom:6px;text-align:center;font:italic 600 15px "Playfair Display",serif;color:#3a2a1a}
 .k3-copy{justify-items:center;align-content:end;text-align:center;padding-bottom:5vh}
-.k3-copy .fk-eyebrow{color:var(--red)}
-.k3-copy h2{margin:0;font:700 clamp(32px,5vw,72px)/1 "Playfair Display",serif;color:#151410}
-.k3-copy h2 em{font-style:italic;color:var(--red)}
-.k3-copy p{margin:16px auto 0;max-width:46ch;font:400 15px/1.7 "Manrope",sans-serif;color:#6a685f}
+.k3-copy .fk-eyebrow{color:#e0a79b}
+.k3-copy h2{margin:0;font:700 clamp(32px,5vw,72px)/1 "Playfair Display",serif;color:#eae7de}
+.k3-copy h2 em{font-style:italic;color:#e0a79b}
+.k3-copy p{margin:16px auto 0;max-width:46ch;font:400 15px/1.7 "Manrope",sans-serif;color:#a39a88}
 
 /* S4 АФИША — плотная типографская афиша (ink) */
-.k4-scene .ps-sticky{background:#151410}
-.k4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c1a15,#0e0d0a)}
+.k4-scene .ps-sticky{background:var(--atm,#151410)}
+.k4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,color-mix(in srgb,var(--atm,#161210) 74%,#3a2418),var(--atm,#0e0d0a))}
 .k4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.28;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
 .k4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
 .k4-head .fk-eyebrow{color:#e0a79b}
@@ -208,8 +208,8 @@
 .k4-line em.on{color:var(--accent)}
 
 /* S5 ГОЛОСА ЗАЛА — отзывы как рукопись */
-.k5-scene .ps-sticky{background:#0e0d0a}
-.k5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1a1813,#080806)}
+.k5-scene .ps-sticky{background:var(--atm,#0e0d0a)}
+.k5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,color-mix(in srgb,var(--atm,#0d0b09) 70%,#2a2016),#080806)}
 /* пергамент-свиток */
 .k5-scroll{position:absolute;z-index:2;left:50%;top:4vh;bottom:4vh;width:min(62ch,64vw);transform:translateX(-50%);background:linear-gradient(180deg,#efe7ce,#e0d3b2);box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 70px rgba(120,90,40,.28);border-radius:2px}
 .k5-glow{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(48vw 30vh at 50% 90%,rgba(217,164,65,.2),transparent 60%);mix-blend-mode:screen}
@@ -224,8 +224,8 @@
 .k5-eyebrow{position:absolute;z-index:16;top:6vh;left:50%;transform:translateX(-50%);font:700 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#7a1220}
 
 /* S6 ПРИХОДИТЕ НА ЗАРЮ — красный диск-восход + CTA */
-.k6-scene .ps-sticky{background:#0e0d0a}
-.k6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 82% at 50% 62%,#1a120f,#0a0908)}
+.k6-scene .ps-sticky{background:var(--atm,#0e0d0a)}
+.k6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 82% at 50% 70%,color-mix(in srgb,var(--atm,#2a0f0b) 64%,#7a2414),#0a0908)}
 .k6-disc{justify-items:center;align-content:center}
 .k6-disc i{display:block;width:52vh;height:52vh;border-radius:50%;background:radial-gradient(circle at 50% 40%,#c9382a,#8f1d14);box-shadow:0 0 130px rgba(179,46,30,.4),inset 0 0 60px rgba(0,0,0,.2)}
 .k6-copy{justify-items:center;align-content:center;text-align:center}
@@ -237,3 +237,46 @@
 @media(max-width:900px){.k2-copy,.k6-cta{max-width:88vw}.k2-lyric{display:none}.k3-photo{width:42vw;min-width:0}
   .k4-bill{width:92vw;padding:26px 20px 22px}.k4-line{grid-template-columns:64px 1fr;gap:4px 10px}.k4-line em{grid-column:2}
   .k5-scroll{width:88vw}.k5-stz>div{width:80vw}.k6-disc i{width:60vw;height:60vw}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
+/* диск зари — один объект: позиция и размер от Follow (--zx/--zy/--zs), в каждой сцене своя роль */
+.fp-disc2,.k2-disc,.k3-disc,.k4-seal,.k5-disc,.k6-disc2{position:absolute;left:var(--zx,50%);top:var(--zy,31vh);width:var(--zs,46vh);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none}
+.fp-disc2{z-index:2;background:var(--red,#b32e1e);box-shadow:inset 0 0 60px rgba(0,0,0,.15);animation:fk-pulse 4.2s ease-in-out infinite,fk-rise 1s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fk-pulse{0%,100%{scale:1}50%{scale:1.035}}
+@keyframes fk-rise{from{opacity:0;translate:0 5vh}to{opacity:1;translate:0 0}}
+/* в покое дрожит венок */
+.fp-figure .ps-media{transform-origin:50% 100%;animation:fk-tremble 3.2s ease-in-out infinite}
+@keyframes fk-tremble{0%,100%{rotate:0deg}22%{rotate:.4deg}48%{rotate:-.3deg}74%{rotate:.22deg}}
+/* S2: диск садится в пламя свечей */
+.k2-disc{z-index:3;mix-blend-mode:screen;background:radial-gradient(circle,#ffd48a 0,#ff8a3d 24%,#c9382a 46%,rgba(179,46,30,.3) 62%,transparent 72%);animation:fk-flick 2.6s ease-in-out infinite}
+@keyframes fk-flick{0%,100%{opacity:.92}30%{opacity:1}55%{opacity:.8}78%{opacity:.97}}
+/* S3: в его свете проявляются снимки */
+.k3-disc{z-index:2;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,176,96,.46),rgba(201,56,42,.24) 42%,rgba(179,46,30,.08) 60%,transparent 72%);animation:fk-flick 3.4s ease-in-out infinite}
+/* S4: печать на афише */
+.k4-seal{z-index:13;rotate:-9deg;display:grid;place-content:center;text-align:center;color:#f2e6d0;background:radial-gradient(circle at 45% 40%,#c9382a,#8f1d14);box-shadow:0 10px 26px rgba(0,0,0,.5),inset 0 0 0 4px rgba(242,230,208,.18),inset 0 0 0 7px #a42418,inset 0 0 0 8.5px rgba(242,230,208,.45)}
+.k4-seal b{font:900 clamp(12px,1.5vw,20px)/1 "Playfair Display",serif;letter-spacing:.06em}
+.k4-seal i{margin-top:3px;font:700 9px "DM Mono",monospace;font-style:normal;letter-spacing:.12em}
+/* S5: заря светит сквозь свиток (multiply по пергаменту) */
+.k5-disc{z-index:2;mix-blend-mode:multiply;background:radial-gradient(circle,rgba(201,56,42,.5),rgba(201,56,42,.26) 46%,transparent 70%)}
+/* S6: восход */
+.k6-disc2{z-index:3;background:radial-gradient(circle at 50% 40%,#c9382a,#8f1d14);box-shadow:0 0 130px rgba(179,46,30,.4),inset 0 0 60px rgba(0,0,0,.2);animation:fk-pulse 4.2s ease-in-out infinite}
+
+/* S1→S2: сумерки опускаются сверху — ночь натекает мягкой кромкой */
+.fk-site .k2-scene[data-ov]>.ps-sticky{opacity:1;-webkit-mask:linear-gradient(180deg,#000 calc(var(--ovp,0) * 140% - 40%),transparent calc(var(--ovp,0) * 140%));mask:linear-gradient(180deg,#000 calc(var(--ovp,0) * 140% - 40%),transparent calc(var(--ovp,0) * 140%))}
+/* стык «свеча»: пламя вырастает из огонька до размера кадра и гаснет уже в следующей сцене */
+.fk-site .k3-scene{--fx:50%;--fy:93vh}
+.fk-site .k6-scene{--fx:50%;--fy:86vh}
+.fk-site .k3-scene[data-ov]>.ps-sticky,.fk-site .k6-scene[data-ov]>.ps-sticky{opacity:1;--r:calc(var(--ovp,0) * var(--ovp,0) * 150vmax + 1px);
+  --flame:radial-gradient(circle var(--r) at var(--fx) var(--fy),#000 95%,transparent 100%),
+    radial-gradient(ellipse calc(var(--r) * .72) calc(var(--r) * 1.35) at var(--fx) calc(var(--fy) - var(--r) * .78),#000 94%,transparent 100%),
+    radial-gradient(ellipse calc(var(--r) * .34) calc(var(--r) * .95) at var(--fx) calc(var(--fy) - var(--r) * 1.75),#000 90%,transparent 100%);
+  -webkit-mask:var(--flame);mask:var(--flame)}
+.fk-flame{position:absolute;inset:0;z-index:30;pointer-events:none;mix-blend-mode:screen;opacity:calc(1 - var(--ovp,1) * 1.3);
+  background:radial-gradient(70vmax 80vmax at var(--fx,50%) var(--fy,90vh),rgba(255,206,130,.95),rgba(255,130,60,.55) 38%,transparent 72%)}
+/* текст уходящей сцены гаснет до перекрытия — один заголовок на экране */
+.k2-copy>*,.k2-lyric,.k3-copy>*,.k4-head>*,.k5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .64) / .08,1))}
+@media(max-width:900px){.k4-seal{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .k2-copy>*,.k3-copy>*,.k4-head>*,.k5-eyebrow{opacity:1}.k2-lyric{opacity:.85}
+  .fp-disc2,.fp-figure .ps-media,.k2-disc,.k3-disc,.k6-disc2{animation:none}
+}

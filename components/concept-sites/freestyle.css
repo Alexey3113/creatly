@@ -133,7 +133,7 @@
 .f3-rec i{width:9px;height:9px;border-radius:50%;background:var(--crim);box-shadow:0 0 10px rgba(204,35,35,.8)}
 
 /* S4 THE SESSIONS — расписание-штампы на бумаге */
-.f4-scene .ps-sticky{background:#e4e1d8}
+.f4-scene .ps-sticky{background:#0e1014}
 .f4-bg{position:absolute;inset:0;z-index:1;background:#e2dfd6}
 .f4-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
 .f4-head{justify-items:center;align-content:start;text-align:center;padding-top:11vh}
@@ -178,3 +178,59 @@
 .f6-cta p{margin:0 0 22px;font:400 15px "Manrope",sans-serif;color:#aab0bc}
 @media(max-width:900px){.f2-copy,.f6-cta{max-width:88vw}.f3-screen{width:88vw}.f3-thumb{width:27vw;min-width:0}.f5-tag>div{width:80vw}
   .f4-board{width:90vw}.f4-sess{grid-template-columns:96px 1fr;gap:6px 12px}.f4-sess b{font-size:20px}.f4-sess s{grid-column:2;text-align:left}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА v2 (аудит 2026-09) ===== */
+/* hero: жизнь без скролла — глитч титула, бегущая лента SESSION, печать покачивается */
+.sp-title span{animation:spGlitch 5s steps(1) infinite}
+@keyframes spGlitch{0%,86%,100%{text-shadow:none;transform:skewX(-4deg)}87%{text-shadow:-6px 0 rgba(204,35,35,.85),6px 0 rgba(20,19,15,.5);transform:skewX(-4deg) translateX(3px)}89%{text-shadow:4px 0 rgba(204,35,35,.8),-3px 0 rgba(20,19,15,.5);transform:skewX(-6deg) translateX(-2px)}91%{text-shadow:none;transform:skewX(-4deg)}}
+.sp-strip span{display:inline-block;animation:spStrip 34s linear infinite}
+@keyframes spStrip{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.sp-seal{animation:spSeal 6s ease-in-out infinite}
+@keyframes spSeal{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(-3deg) scale(1.03)}}
+
+/* АКТЁР — скейтер: ч/б как постер; в S3 трюк раскладывается стробо-копиями (--strobe) */
+.fs-sk-actor .fs-sk{position:relative}
+.fs-site .fs-sk-actor .fs-sk{filter:grayscale(1) contrast(1.16) brightness(1.08) drop-shadow(-.28vw 0 0 rgba(204,35,35,.8)) drop-shadow(.2vw 0 0 rgba(236,236,236,.38)) drop-shadow(0 26px 48px rgba(0,0,0,.62));animation:fsArrive 1.3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fsArrive{from{transform:translateY(9vh) rotate(-9deg);opacity:0}to{transform:none;opacity:1}}
+.fs-site .fs-sk-actor .fs-ghost{position:absolute;left:0;top:0;width:100%;filter:grayscale(1) sepia(1) saturate(5) hue-rotate(-38deg) brightness(.75)}
+.fs-g1{transform:translate(-15%,7%) rotate(-24deg);opacity:calc(var(--strobe,0)*.42)}
+.fs-g2{transform:translate(-29%,16%) rotate(-48deg);opacity:calc(var(--strobe,0)*.22)}
+
+/* СТЫК S1→S2 «рваный постер»: постер отрывается справа налево, под ним — бетон под мостом */
+.fs-site .f2-scene[data-ov]>.ps-sticky{opacity:clamp(0,var(--ovp,0)*60,1);--k:calc(var(--ovp,0)*var(--ovp,0)*(3 - 2*var(--ovp,0)));--X:calc(102% - var(--k)*124%);
+  clip-path:polygon(calc(var(--X) + -1.92%) -2.0%,calc(var(--X) + 0.93%) 1.9%,calc(var(--X) + 0.11%) 5.39%,calc(var(--X) + 2.5%) 9.63%,calc(var(--X) + 2.59%) 13.77%,calc(var(--X) + 4.94%) 18.59%,calc(var(--X) + 5.34%) 21.81%,calc(var(--X) + 4.21%) 26.4%,calc(var(--X) + 4.9%) 32.37%,calc(var(--X) + 6.57%) 35.64%,calc(var(--X) + 6.81%) 40.41%,calc(var(--X) + 9.58%) 44.57%,calc(var(--X) + 9.91%) 48.48%,calc(var(--X) + 10.2%) 51.4%,calc(var(--X) + 10.44%) 55.51%,calc(var(--X) + 10.15%) 59.3%,calc(var(--X) + 12.05%) 64.31%,calc(var(--X) + 14.09%) 69.83%,calc(var(--X) + 12.62%) 73.58%,calc(var(--X) + 14.07%) 77.34%,calc(var(--X) + 13.46%) 80.22%,calc(var(--X) + 16.04%) 85.6%,calc(var(--X) + 17.38%) 89.28%,calc(var(--X) + 16.1%) 94.86%,calc(var(--X) + 17.56%) 98.56%,calc(var(--X) + 18.56%) 102.0%,112% 102%,112% -2%)}
+.sp-fiber{position:absolute;inset:0;z-index:30;pointer-events:none;background:linear-gradient(90deg,#d6d2c8,#f2efe7);
+  --ko:clamp(0,(var(--sp,0) - .634)/.366,1);--k:calc(var(--ko)*var(--ko)*(3 - 2*var(--ko)));--X:calc(102% - var(--k)*124%);opacity:clamp(0,var(--ko)*60,1);
+  clip-path:polygon(calc(var(--X) + -1.92% - 0.75vw) -2.0%,calc(var(--X) + 0.93% - 0.78vw) 1.9%,calc(var(--X) + 0.11% - 1.58vw) 5.39%,calc(var(--X) + 2.5% - 1.46vw) 9.63%,calc(var(--X) + 2.59% - 1.18vw) 13.77%,calc(var(--X) + 4.94% - 0.72vw) 18.59%,calc(var(--X) + 5.34% - 1.12vw) 21.81%,calc(var(--X) + 4.21% - 1.07vw) 26.4%,calc(var(--X) + 4.9% - 0.88vw) 32.37%,calc(var(--X) + 6.57% - 1.84vw) 35.64%,calc(var(--X) + 6.81% - 0.87vw) 40.41%,calc(var(--X) + 9.58% - 0.64vw) 44.57%,calc(var(--X) + 9.91% - 1.45vw) 48.48%,calc(var(--X) + 10.2% - 1.55vw) 51.4%,calc(var(--X) + 10.44% - 0.88vw) 55.51%,calc(var(--X) + 10.15% - 1.03vw) 59.3%,calc(var(--X) + 12.05% - 1.69vw) 64.31%,calc(var(--X) + 14.09% - 1.89vw) 69.83%,calc(var(--X) + 12.62% - 0.83vw) 73.58%,calc(var(--X) + 14.07% - 1.48vw) 77.34%,calc(var(--X) + 13.46% - 1.8vw) 80.22%,calc(var(--X) + 16.04% - 0.72vw) 85.6%,calc(var(--X) + 17.38% - 1.44vw) 89.28%,calc(var(--X) + 16.1% - 1.19vw) 94.86%,calc(var(--X) + 17.56% - 1.63vw) 98.56%,calc(var(--X) + 18.56% - 0.75vw) 102.0%,112% 102%,112% -2%)}
+
+/* СТЫК S4→S5 «рваный постер»: постер расписания срывают слева направо — под ним стена с тегами */
+.fs-site .f5-scene[data-ov]>.ps-sticky{opacity:clamp(0,var(--ovp,0)*60,1);--k:calc(var(--ovp,0)*var(--ovp,0)*(3 - 2*var(--ovp,0)));--X:calc(-2% + var(--k)*119%);
+  clip-path:polygon(-12% -2%,calc(var(--X) + -1.16%) -2.0%,calc(var(--X) + -0.1%) 1.01%,calc(var(--X) + 0.65%) 5.82%,calc(var(--X) + -3.25%) 11.4%,calc(var(--X) + -1.87%) 14.68%,calc(var(--X) + -2.49%) 19.94%,calc(var(--X) + -3.36%) 23.4%,calc(var(--X) + -3.9%) 27.4%,calc(var(--X) + -5.82%) 31.42%,calc(var(--X) + -4.45%) 35.26%,calc(var(--X) + -5.83%) 39.28%,calc(var(--X) + -5.6%) 44.92%,calc(var(--X) + -7.26%) 47.24%,calc(var(--X) + -6.38%) 51.95%,calc(var(--X) + -8.33%) 55.86%,calc(var(--X) + -8.82%) 60.32%,calc(var(--X) + -10.34%) 65.75%,calc(var(--X) + -11.09%) 68.95%,calc(var(--X) + -12.23%) 72.06%,calc(var(--X) + -12.57%) 76.51%,calc(var(--X) + -13.28%) 81.0%,calc(var(--X) + -11.38%) 85.89%,calc(var(--X) + -12.81%) 89.08%,calc(var(--X) + -12.79%) 93.07%,calc(var(--X) + -16.21%) 97.95%,calc(var(--X) + -14.61%) 102.0%,-12% 102%)}
+.f4-fiber{position:absolute;inset:0;z-index:30;pointer-events:none;background:linear-gradient(90deg,#f2efe7,#d6d2c8);
+  --ko:clamp(0,(var(--sp,0) - .55)/.45,1);--k:calc(var(--ko)*var(--ko)*(3 - 2*var(--ko)));--X:calc(-2% + var(--k)*119%);opacity:clamp(0,var(--ko)*60,1);
+  clip-path:polygon(-12% -2%,calc(var(--X) + -1.16% + 1.37vw) -2.0%,calc(var(--X) + -0.1% + 1.87vw) 1.01%,calc(var(--X) + 0.65% + 1.43vw) 5.82%,calc(var(--X) + -3.25% + 1.56vw) 11.4%,calc(var(--X) + -1.87% + 1.09vw) 14.68%,calc(var(--X) + -2.49% + 1.54vw) 19.94%,calc(var(--X) + -3.36% + 1.66vw) 23.4%,calc(var(--X) + -3.9% + 0.78vw) 27.4%,calc(var(--X) + -5.82% + 1.36vw) 31.42%,calc(var(--X) + -4.45% + 1.37vw) 35.26%,calc(var(--X) + -5.83% + 0.89vw) 39.28%,calc(var(--X) + -5.6% + 1.11vw) 44.92%,calc(var(--X) + -7.26% + 1.43vw) 47.24%,calc(var(--X) + -6.38% + 0.67vw) 51.95%,calc(var(--X) + -8.33% + 0.66vw) 55.86%,calc(var(--X) + -8.82% + 1.0vw) 60.32%,calc(var(--X) + -10.34% + 1.08vw) 65.75%,calc(var(--X) + -11.09% + 1.21vw) 68.95%,calc(var(--X) + -12.23% + 1.49vw) 72.06%,calc(var(--X) + -12.57% + 0.94vw) 76.51%,calc(var(--X) + -13.28% + 1.5vw) 81.0%,calc(var(--X) + -11.38% + 0.66vw) 85.89%,calc(var(--X) + -12.81% + 1.7vw) 89.08%,calc(var(--X) + -12.79% + 0.65vw) 93.07%,calc(var(--X) + -16.21% + 0.81vw) 97.95%,calc(var(--X) + -14.61% + 1.18vw) 102.0%,-12% 102%)}
+
+/* S4 — расписание как постер на ночной стене (светлый экран больше не ломает ночь) */
+.f4-night .ps-media{filter:grayscale(1) contrast(1.1) brightness(.46) blur(1.5px)}
+.f4-nveil{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(70% 70% at 50% 50%,rgba(10,11,13,.25),rgba(10,11,13,.82))}
+.f4-posterL{place-items:center;filter:drop-shadow(0 26px 44px rgba(0,0,0,.6))}
+.f4-poster{position:relative;width:min(900px,86vw);height:80vh;
+  clip-path:polygon(0 1%,6% 0,14% .8%,23% 0,31% 1.2%,40% .3%,49% 1%,58% 0,67% 1.1%,76% .2%,85% .9%,93% 0,100% .8%,99.4% 12%,100% 26%,99.2% 41%,100% 57%,99.4% 72%,100% 88%,99.3% 100%,90% 99.2%,80% 100%,70% 99.1%,60% 100%,50% 99.3%,40% 100%,30% 99%,20% 100%,10% 99.2%,0 100%,.6% 86%,0 71%,.8% 55%,0 40%,.5% 24%,0 10%)}
+.f4-tape{position:absolute;z-index:3;top:.6vh;width:9vw;height:3vh;background:rgba(236,231,216,.66);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.f4-ta{left:8%;transform:rotate(-7deg)}.f4-tb{right:8%;transform:rotate(6deg)}
+/* S6 — крю на фото под «DROP IN.», скейтер приземляется на титул */
+.f6-crew .ps-media{filter:grayscale(1) contrast(1.08) brightness(.42)}
+.f6-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(70% 70% at 50% 46%,rgba(8,9,12,.3),rgba(8,9,12,.86))}
+.f3-bg,.f6-bg{background:radial-gradient(80% 92% at 50% 42%,var(--atm,#14161b),#08090c)}
+
+/* уход текста старой сцены до проявления следующей */
+.f2-copy>*,.f2-spots{opacity:clamp(0,(.8 - var(--sp,0))*9,1)}
+.f3-copy>*,.f3-thumbs>*,.f3-screen{opacity:clamp(0,(.78 - var(--sp,0))*9,1)}
+.f5-tag>div,.f5-eyebrow{opacity:clamp(0,(.82 - var(--sp,0))*9,1)}
+
+@media(max-width:900px){.f4-poster{height:84vh}}
+@media(prefers-reduced-motion:reduce){
+  .sp-title span,.sp-strip span,.sp-seal,.fs-site .fs-sk-actor .fs-sk{animation:none}
+  .sp-fiber,.f4-fiber{display:none}
+  .f2-copy>*,.f2-spots,.f3-copy>*,.f3-thumbs>*,.f3-screen,.f5-tag>div,.f5-eyebrow{opacity:1}
+}

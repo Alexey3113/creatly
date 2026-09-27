@@ -1,103 +1,113 @@
-/* STRATA — 2.5D depth-slice scroll-reveal на ScrollStage. Палитра ИЗ КАДРА strata-hero:
-   indigo/фиолет неба → amber горизонт → жжёно-оранжевые гряды → тёмно-синий силуэт.
-   4 слоя = один и тот же <img>, каждый в кроп-контейнере с alpha-маской своей полосы;
-   плита (.st-plate) внутри двигается/масштабируется по --t с разной силой → мультиплан-нырок.
-   Главы сменяются clip-path-масками по окнам --t. Шрифты — тут (try-strata не тянет lab-css). */
+/* STRATA — один спуск в каньон. Мир fixed под всеми главами: плита (небо+дальние гряды), полоса средних
+   гряд, река и ближние стены (отдельный слой-силуэт из того же кадра). --dive/--dusk/--elev пишет
+   scene-kit <Follow> по якорям глав. Главы прозрачны; текст живёт внутри каньона.
+   Палитра ИЗ КАДРА: indigo/фиолет неба → amber горизонт → жжёно-оранжевые гряды → тёмно-синие стены. */
 
-.st{ --ink:#f4e9d6; --mute:#a48fb0; --amber:#f0a24e; --indigo:#211b40; background:#211b40;
-  color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }
-.st .st-line{ display:block; overflow:hidden; }
+.st{ --ink:#f4e9d6; --mute:#b9a6c4; --amber:#f0a24e; --indigo:#211b40;
+  --dive:0; --dusk:0; --elev:1470;
+  background:var(--indigo); color:var(--ink); font-family:"Archivo",system-ui,sans-serif; }
+.st .scene{ z-index:2; background:transparent; }
+.st .st-line{ display:block; overflow:hidden; padding-bottom:.08em; }
 .st .st-line > i{ display:block; font-style:inherit;
-  --p:clamp(0, calc((var(--t,0) - 0.06 - var(--d,0)*0.05) * 3.2), 1);
+  --p:clamp(0, calc((var(--t,0) - 0.12 - var(--d,0)*0.05) * 3.2), 1);
   transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
 .st .st-amber i, .st .st-amber{ color:var(--amber); }
 
-/* 0 · DEPTH-DIVE --------------------------------------------------------- */
-.st-dive{ background:#211b40; }
-.st-stage{ position:absolute; inset:0; overflow:hidden; }
-.st-layer{ position:absolute; inset:0; overflow:hidden; will-change:transform; }
-.st-plate{ position:absolute; inset:-2%; width:104%; height:104%; object-fit:cover; object-position:center;
-  transform-origin:center; will-change:transform; }
+/* МИР ------------------------------------------------------------------- */
+.st-world{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; background:#211b40; }
+.st-plate{ position:absolute; left:-2%; top:-2%; width:104%; height:104%; object-fit:cover; object-position:50% 50%;
+  transform-origin:50% 100%; will-change:transform; }
+/* небо + дальние гряды: камера опускается → горизонт уходит вверх, свет гаснет */
+.st-base{ transform:translate3d(calc(var(--px,0) * 4px), calc(var(--dive) * -9vh), 0) scale(calc(1 + var(--dive) * .08));
+  filter:brightness(calc(1 - var(--dusk) * .35)) saturate(calc(1 - var(--dusk) * .2)); }
+/* средние гряды — полоса ниже горизонта, растёт быстрее плиты (мультиплан) */
+.st-mid{ transform:translate3d(calc(var(--px,0) * 12px), calc(var(--dive) * -5vh), 0) scale(calc(1 + var(--dive) * .34));
+  -webkit-mask-image:linear-gradient(180deg, transparent 50%, #000 62%); mask-image:linear-gradient(180deg, transparent 50%, #000 62%);
+  filter:brightness(calc(1 - var(--dusk) * .4)); }
+/* ближние стены: поднимаются мимо камеры, раскрывая дно */
+.st-near{ transform:translate3d(calc(var(--px,0) * 26px), 0, 0) scale(calc(1 + var(--dive) * 1.05)); }
+/* ночь: небо темнеет по всей странице (multiply) */
+.st-night{ position:absolute; inset:0; mix-blend-mode:multiply; opacity:calc(var(--dusk) * .82);
+  background:linear-gradient(180deg, #120c30 0%, #231a4a 40%, #3a2a58 70%, #2a2046 100%); }
+.st-stars{ position:absolute; inset:0 0 58% 0; mix-blend-mode:screen; opacity:calc(max(0, var(--dusk) - .3) * 1.5);
+  background-image:
+    radial-gradient(1.4px 1.4px at 10% 20%, #fff, transparent 60%), radial-gradient(1.1px 1.1px at 26% 8%, #f1e6ff, transparent 60%),
+    radial-gradient(1.5px 1.5px at 41% 30%, #fff, transparent 60%), radial-gradient(1px 1px at 57% 12%, #fff, transparent 60%),
+    radial-gradient(1.3px 1.3px at 72% 26%, #f6e9d6, transparent 60%), radial-gradient(1.1px 1.1px at 88% 10%, #fff, transparent 60%);
+  background-size:560px 340px;
+  -webkit-mask-image:linear-gradient(180deg,#000 30%,transparent); mask-image:linear-gradient(180deg,#000 30%,transparent); }
+/* река на дне — появляется, когда стены раскрылись; держит последний свет */
+.st-rivr{ position:absolute; inset:0; width:100%; height:100%;
+  opacity:clamp(0, calc((var(--dive) - .5) * 2.6), 1);
+  transform:translateY(calc((1 - var(--dive)) * 14vh)) scaleX(calc(.7 + var(--dive) * .5)); transform-origin:50% 100%;
+  filter:drop-shadow(0 0 10px rgba(240,162,78,.55)); }
+.st-shade{ position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(20,14,40,.18) 0%, transparent 26%, transparent 62%, rgba(14,10,30,.55) 100%); }
 
-/* каждая полоса кадра = свой слой (alpha-маска по вертикали) + свой нырок плиты по --t.
-   Параллакс курсора (--px) на разной глубине даёт 2.5D-объём. */
-.st-l-sky{ -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 40%,transparent 52%);
-           mask-image:linear-gradient(to bottom,#000 0%,#000 40%,transparent 52%); }
-.st-l-sky .st-plate{ transform:translate(calc(var(--px,0)*4px), calc(var(--t,0)*-2vh)) scale(calc(1 + var(--t,0)*.05)); }
+/* высотомер — fixed справа, число из --elev (Follow round) */
+.st-alt{ position:fixed; z-index:3; right:3.2vw; top:50%; transform:translateY(-50%); display:grid; justify-items:end; gap:8px;
+  pointer-events:none; font:700 11px "Archivo"; letter-spacing:.2em; color:var(--mute); }
+.st-alt-v{ counter-reset:elev var(--elev); font:500 13px "Archivo"; letter-spacing:.08em; color:var(--ink); }
+.st-alt-v::after{ content:counter(elev) " m"; }
+.st-alt-rule{ position:relative; width:2px; height:22vh; background:rgba(244,233,214,.18); }
+.st-alt-rule i{ position:absolute; left:-3px; width:8px; height:8px; border-radius:50%; background:var(--amber);
+  top:calc(var(--dive) * 100%); transform:translateY(-50%); box-shadow:0 0 12px rgba(240,162,78,.7); }
 
-.st-l-far{ -webkit-mask-image:linear-gradient(to bottom,transparent 30%,#000 41%,#000 58%,transparent 66%);
-           mask-image:linear-gradient(to bottom,transparent 30%,#000 41%,#000 58%,transparent 66%); }
-.st-l-far .st-plate{ transform:translate(calc(var(--px,0)*9px), calc(var(--t,0)*-1vh)) scale(calc(1 + var(--t,0)*.15)); }
-
-.st-l-mid{ -webkit-mask-image:linear-gradient(to bottom,transparent 48%,#000 60%,#000 78%,transparent 86%);
-           mask-image:linear-gradient(to bottom,transparent 48%,#000 60%,#000 78%,transparent 86%); }
-.st-l-mid .st-plate{ transform:translate(calc(var(--px,0)*18px), calc(var(--t,0)*6vh)) scale(calc(1 + var(--t,0)*.32)); }
-
-.st-l-near{ -webkit-mask-image:linear-gradient(to bottom,transparent 66%,#000 80%,#000 100%);
-            mask-image:linear-gradient(to bottom,transparent 66%,#000 80%,#000 100%); }
-.st-l-near .st-plate{ transform:translate(calc(var(--px,0)*32px), calc(var(--t,0)*22vh)) scale(calc(1 + var(--t,0)*.66)); }
-
-/* сумерки густеют ко дну по мере нырка */
-.st-dusk{ position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(to bottom, transparent 30%, rgba(23,16,42,.35) 72%, rgba(15,10,30,.72) 100%);
-  opacity:calc(.4 + var(--t,0)*.6); }
-
+/* ГЛАВЫ спуска — каждая видна, пока её секция в центре; первая собрана в покое */
+.st-ch{ min-height:100vh; }
+.st-rim{ min-height:100vh; }
+.st-descent, .st-river{ min-height:130vh; }
 .st-kick{ position:absolute; top:5vh; left:6vw; right:6vw; z-index:5; display:flex; justify-content:space-between;
-  font:700 11px "Archivo"; letter-spacing:.28em; color:#e8d4c0; mix-blend-mode:screen; }
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#f1dcc6; }
 .st-kick span:first-child{ color:var(--amber); letter-spacing:.42em; }
-
-.st-chapters{ position:absolute; left:6vw; bottom:15vh; z-index:5; width:80vw; height:34vh; }
-.st-ch{ position:absolute; left:0; bottom:0; --w:.28;
-  --dist:max(calc(var(--t,0) - var(--c,0)), calc(var(--c,0) - var(--t,0)));
-  --near:clamp(0, calc(1 - var(--dist) / var(--w)), 1);
-  opacity:var(--near); transform:translateY(calc((1 - var(--near)) * 44px));
-  -webkit-clip-path:inset(calc((1 - var(--near)) * 100%) 0 0 0); clip-path:inset(calc((1 - var(--near)) * 100%) 0 0 0);
-  will-change:transform, opacity; }
+.st-ch-in{ position:absolute; left:6vw; top:calc(50% + 6vh); z-index:4;
+  --far:max(calc(var(--t,0) - .5), calc(.5 - var(--t,0)));
+  --vis:clamp(0, calc((0.26 - var(--far)) / 0.1), 1);
+  opacity:var(--vis); transform:translateY(calc((1 - var(--vis)) * 30px)); will-change:transform,opacity; }
 .st-ch-n{ display:block; font:700 12px "Archivo"; letter-spacing:.3em; color:var(--amber); }
-.st-ch-t{ margin:.4vh 0 .2vh; font:300 clamp(48px,9vw,150px)/.94 "Fraunces",serif; letter-spacing:-.01em;
+.st-ch-t{ margin:.6vh 0 .3vh; font:300 clamp(52px,8.4vw,140px)/1 "Fraunces",serif; letter-spacing:-.01em;
   color:#fbf1e2; text-shadow:0 6px 40px rgba(20,12,36,.6); }
-.st-ch-s{ margin:0; font:italic 300 clamp(16px,2vw,26px) "Fraunces",serif; color:#e4d3c4; }
-.st-cue{ position:absolute; bottom:5vh; right:6vw; z-index:5; font:700 11px "Archivo"; letter-spacing:.2em; color:#c9b6c8; }
+.st-ch-s{ margin:0; font:italic 300 clamp(16px,2vw,26px) "Fraunces",serif; color:#ecdccb; text-shadow:0 2px 18px rgba(20,12,36,.7); }
+.st-cue{ position:absolute; bottom:5vh; left:6vw; z-index:5; font:700 11px "Archivo"; letter-spacing:.2em; color:#e4d0dc; }
 
 /* 1 · INTRO -------------------------------------------------------------- */
 .st-intro{ display:flex; align-items:center; padding:0 8vw;
-  background:linear-gradient(160deg,#2a2350,#171030); }
-.st-body{ margin:0; max-width:16ch; font:300 clamp(34px,6vw,96px)/1.02 "Fraunces",serif; }
+  background:linear-gradient(90deg, rgba(18,12,36,.62) 0%, rgba(18,12,36,.2) 55%, transparent 80%); }
+.st-body{ margin:0; max-width:16ch; font:300 clamp(34px,5.6vw,90px)/1.04 "Fraunces",serif; text-shadow:0 6px 36px rgba(12,8,26,.7); }
 .st-body i{ font-style:normal; }
 
 /* 2 · NOTES -------------------------------------------------------------- */
-.st-notes{ display:flex; flex-direction:column; justify-content:center; padding:0 6vw;
-  background:linear-gradient(160deg,#1c1538,#2b1c1e); }
+.st-notes{ display:flex; flex-direction:column; justify-content:center; padding:0 12vw 0 6vw;
+  background:linear-gradient(180deg, rgba(16,11,32,.55), rgba(16,11,32,.72)); }
 .st-notes-head{ display:flex; justify-content:space-between; padding-bottom:3vh; margin-bottom:2vh;
-  border-bottom:1px solid rgba(240,162,78,.3); font:700 11px "Archivo"; letter-spacing:.26em; color:#c9b6c8; }
+  border-bottom:1px solid rgba(240,162,78,.35); font:700 11px "Archivo"; letter-spacing:.26em; color:#d8c4d6; }
 .st-notes-head span:first-child{ color:var(--amber); }
 .st-list{ list-style:none; margin:0; padding:0; }
 .st-item{ display:grid; grid-template-columns:3ch 1.6fr .8fr auto; gap:2vw; align-items:baseline;
-  padding:2.6vh 0; border-bottom:1px solid rgba(244,233,214,.1);
-  --p:clamp(0, calc((var(--t,0) - 0.12 - var(--d,0)*0.07) * 3), 1);
+  padding:2.6vh 0; border-bottom:1px solid rgba(244,233,214,.14);
+  --p:clamp(0, calc((var(--t,0) - 0.16 - var(--d,0)*0.07) * 3), 1);
   transform:translateY(calc((1 - var(--p)) * 26px)); opacity:var(--p); will-change:transform; }
 .st-item-n{ font:700 12px "Archivo"; letter-spacing:.2em; color:var(--amber); }
 .st-item-name{ font:400 clamp(22px,3vw,44px)/1 "Fraunces",serif; color:var(--ink); }
 .st-item-elev{ font:500 13px "Archivo"; letter-spacing:.04em; color:var(--mute); }
-.st-item-time{ font:700 12px "Archivo"; letter-spacing:.14em; color:#c9b6c8; justify-self:end; }
+.st-item-time{ font:700 12px "Archivo"; letter-spacing:.14em; color:#d8c4d6; justify-self:end; }
 
 /* 3 · CLOSER ------------------------------------------------------------- */
 .st-end{ display:grid; place-items:center; text-align:center;
-  background:linear-gradient(180deg,#e8934a 0%,#8a5a54 42%,#241a3e 100%); }
+  background:radial-gradient(70% 60% at 50% 55%, rgba(16,11,32,.62), transparent 80%); }
 .st-end-block{ position:relative; z-index:2; padding:0 7vw; }
-.st-end-block h2{ margin:0 0 5vh; font:300 clamp(38px,7.5vw,118px)/1 "Fraunces",serif; color:#faf0e0; }
+.st-end-block h2{ margin:0 0 5vh; font:300 clamp(38px,7.2vw,116px)/1.02 "Fraunces",serif; color:#faf0e0;
+  text-shadow:0 8px 44px rgba(12,8,26,.7); }
 .st-end-block h2 i{ font-style:italic; }
-.st-end .st-amber i{ color:#fff2df; }
-.st-btn{ display:inline-block; padding:16px 34px; border:1px solid #fbe6cf; border-radius:999px;
-  color:#fbe6cf; text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
-  opacity:calc(clamp(0, (var(--t,0) - 0.28) * 3, 1)); transition:background .3s, color .3s; }
-.st-btn:hover{ background:#fbe6cf; color:#241a3e; }
+.st-btn{ display:inline-block; padding:16px 34px; background:var(--amber); border-radius:999px;
+  color:#241a3e; text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
+  box-shadow:0 12px 40px rgba(240,162,78,.35); transition:background .3s, transform .3s; }
+.st-btn:hover{ background:#ffc07a; transform:translateY(-2px); }
 
+@media (max-width:760px){ .st-alt{ display:none; } .st-notes{ padding:0 6vw; } }
 @media (prefers-reduced-motion:reduce){
   .st .st-line > i{ transform:none; opacity:1; }
   .st-item{ transform:none; opacity:1; }
-  .st-plate{ transform:none; }
-  .st-dusk{ opacity:.5; }
-  .st-ch{ opacity:1; -webkit-clip-path:none; clip-path:none; transform:none; position:relative; margin-bottom:3vh; }
-  .st-chapters{ height:auto; }
+  .st-plate, .st-rivr{ transform:none; }
+  .st-ch-in{ opacity:1; transform:none; }
 }

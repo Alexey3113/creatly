@@ -12,8 +12,7 @@
 .ec-blobs{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(42vw 42vw at 50% 42%,rgba(124,174,98,.32),transparent 62%),radial-gradient(30vw 30vw at 16% 84%,rgba(90,140,80,.3),transparent 64%)}
 .ec-grain{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.34;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
 
-.ec-capsule .ps-media{filter:drop-shadow(0 44px 80px rgba(0,0,0,.5))}
-.ec-word{place-items:center;align-content:center;padding-top:12vh}
+.ec-word{place-items:center;align-content:start;padding-top:15vh}
 .ec-word b{display:block;font:500 clamp(40px,6.4vw,116px)/1 "Manrope",sans-serif;color:#f2f7ec;letter-spacing:-.02em;text-align:center;text-shadow:0 4px 26px rgba(0,0,0,.5)}
 .ec-word span{display:block;text-align:center;margin-top:12px;font:600 12px "DM Mono",monospace;letter-spacing:.26em;text-transform:uppercase;color:#c2e0a8}
 .ec-leaves{left:-4vw;right:auto;top:-8vh;width:42vw;height:56vh;place-items:start}
@@ -64,10 +63,8 @@
 
 /* S2 HOW IT GROWS — капсула + листья */
 .ec2-scene .ps-sticky{background:#16211a}
-.ec2-bg .ps-media{filter:saturate(1.02) brightness(.92)}
-.ec2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(22,33,26,.55),transparent 44%),linear-gradient(0deg,rgba(22,33,26,.5),transparent 40%)}
-.ec2-capsule{place-items:center;align-content:center}
-.ec2-capsule .ps-media{width:26vw;height:auto;max-width:none;filter:contrast(1.03) drop-shadow(0 26px 46px rgba(0,0,0,.5))}
+.ec2-bg .ps-media{filter:saturate(.95) brightness(.78) contrast(1.04)}
+.ec2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(22,33,26,.72),rgba(22,33,26,.2) 46%,transparent 70%),linear-gradient(0deg,rgba(22,33,26,.55),transparent 42%)}
 .ec2-fg{justify-items:end;align-content:start}
 .ec2-fg .ps-media{width:32vw;height:auto;max-width:none;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
 .ec2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
@@ -78,7 +75,8 @@
 
 /* S3 WHAT WE PROTECT — лес */
 .ec3-scene .ps-sticky{background:#16211a}
-.ec3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c2a22,#101812)}
+.ec3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,var(--atm,#1c2a22),var(--atm2,#101812))}
+.ec3-fog,.ec4-fog{opacity:.38;mix-blend-mode:screen;pointer-events:none}
 /* базовая линия «земли» */
 .ec3-ground{position:absolute;left:5vw;right:5vw;top:80%;z-index:3;height:1px;background:linear-gradient(90deg,transparent,rgba(166,213,133,.5) 18% 82%,transparent);box-shadow:0 0 26px 3px rgba(166,213,133,.12)}
 .ec3-slot{justify-items:center;align-content:end}
@@ -96,7 +94,7 @@
 
 /* S4 THE IMPACT — числа */
 .ec4-scene .ps-sticky{background:#16211a}
-.ec4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c2a22,#101812)}
+.ec4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,var(--atm,#1c2a22),var(--atm2,#101812))}
 .ec4-head{justify-items:center;align-content:start;text-align:center;padding-top:9vh}
 .ec4-head .ec-eyebrow{color:#a6d585}
 .ec4-stats{display:flex!important;gap:5vw;justify-content:center;align-items:flex-end;padding:0 var(--pad)}
@@ -111,7 +109,7 @@
 
 /* S5 FROM THE GROUND — голоса */
 .ec5-scene .ps-sticky{background:#16211a}
-.ec5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1c2a22,#0e150f)}
+.ec5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,var(--atm,#1c2a22),var(--atm2,#0e150f))}
 /* dotted-графикула карты */
 .ec5-mapbg{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.45;background-image:radial-gradient(rgba(166,213,133,.16) 1px,transparent 1px);background-size:34px 34px;-webkit-mask:radial-gradient(120% 92% at 50% 50%,#000 44%,transparent 92%);mask:radial-gradient(120% 92% at 50% 50%,#000 44%,transparent 92%)}
 .ec5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#a6d585}
@@ -125,13 +123,49 @@
 
 /* S6 GROW A FOREST — капсула + CTA */
 .ec6-scene .ps-sticky{background:#16211a}
-.ec6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 56% 42%,#1e2c23,#101812)}
-.ec6-capsule{justify-items:end;align-content:center;padding-right:6vw}
-.ec6-capsule .ps-media{width:26vw;height:auto;max-width:none;filter:contrast(1.03) drop-shadow(0 26px 48px rgba(0,0,0,.5))}
+.ec6-forest .ps-media{filter:saturate(1.05) brightness(.82)}
+.ec6-bg{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(16,26,18,.82),rgba(16,26,18,.45) 44%,rgba(16,26,18,.08) 72%),linear-gradient(0deg,rgba(16,26,18,.5),transparent 40%)}
 .ec6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad);clip-path:inset(0 calc((1 - clamp(0,var(--lp,0)*1.5,1))*100%) -14% 0)}
 .ec6-copy .ec-eyebrow{color:#a6d585}
 .ec6-copy h2{margin:0;font:300 clamp(52px,9vw,150px)/.98 "Manrope",sans-serif;color:#e4ecdf;letter-spacing:-.02em}
 .ec6-copy h2 em{font-style:normal;color:#a6d585}
 .ec6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
 .ec6-cta p{margin:0 0 22px;font:400 15px/1.75 "Manrope",sans-serif;color:#8aa088}
-@media(max-width:900px){.ec2-copy,.ec6-cta{max-width:88vw}.ec2-capsule .ps-media{width:56vw}.ec2-fg,.ec6-capsule{display:none}.ec3-g1,.ec3-g2,.ec3-g3,.ec3-g4{width:34vw}.ec4-stats{flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:center;gap:6vh}.ec5-note{padding:0 3vw}.ec5-card{width:80vw}}
+@media(max-width:900px){.ec2-copy,.ec6-cta{max-width:88vw}.ec2-capsule .ps-media{width:56vw}.ec2-fg{display:none}.ec3-g1,.ec3-g2,.ec3-g3,.ec3-g4{width:34vw}.ec4-stats{flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:center;gap:6vh}.ec5-note{padding:0 3vw}.ec5-card{width:80vw}}
+
+/* ===== v2 · капсула-актёр, рост как сюжет, стыки листвой (аудит 2026-09) ===== */
+/* КАПСУЛА: в куполе дышит луч; на стекле растёт уровень (--level/--lvl из Follow в S4) */
+.ec-cap{position:relative}
+.ec-actor .ec-cap img{filter:drop-shadow(0 40px 70px rgba(0,0,0,.45))}
+.ec-cap-beam{position:absolute;left:37%;right:37%;top:22%;height:34%;border-radius:999px 999px 40% 40%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(60% 70% at 50% 0%,rgba(236,255,214,.62),rgba(200,240,170,.16) 55%,transparent 75%);animation:ec-beam 5.5s ease-in-out infinite}
+@keyframes ec-beam{0%,100%{opacity:.55}50%{opacity:1}}
+.ec-cap-level{position:absolute;left:35.5%;right:35.5%;top:24%;bottom:23%;border-radius:999px;overflow:hidden;pointer-events:none}
+.ec-cap-level b{position:absolute;left:0;right:0;bottom:0;height:calc(var(--level,0) * 100%);mix-blend-mode:screen;
+  background:linear-gradient(180deg,rgba(186,236,150,.62),rgba(120,190,90,.34) 12%,rgba(90,160,70,.28));box-shadow:inset 0 3px 0 rgba(230,255,200,.85)}
+.ec-cap-pct{position:absolute;left:50%;bottom:calc(23% + var(--level,0) * 53%);transform:translate(-50%,-6px);opacity:clamp(0, var(--level,0) * 2, 1);
+  font:600 clamp(14px,1.6vw,26px) "DM Mono",monospace;color:#f2ffe6;text-shadow:0 0 14px rgba(0,0,0,.7)}
+.ec-cap-pct::after{counter-reset:l var(--lvl,0);content:counter(l) "%"}
+/* листва на швах — передний план, чуть не в фокусе */
+.ec-fern-wipe img{filter:drop-shadow(0 30px 40px rgba(0,0,0,.4)) saturate(1.08) brightness(.95)}
+/* hero в покое: туман плывёт, папоротник качается */
+.ec-mist{position:absolute;inset:-10%;z-index:3;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(40% 28% at 30% 62%,rgba(220,236,210,.14),transparent 70%),radial-gradient(34% 24% at 72% 38%,rgba(220,236,210,.11),transparent 70%);
+  animation:ec-mist 18s ease-in-out infinite alternate}
+@keyframes ec-mist{from{transform:translateX(-4vw)}to{transform:translateX(4vw)}}
+.ec-leaves .ps-media,.ec2-fg .ps-media{transform-origin:20% 20%;animation:ec-sway 6.5s ease-in-out infinite alternate}
+@keyframes ec-sway{from{transform:rotate(-3deg)}to{transform:rotate(2.5deg)}}
+
+/* СТЫК «листва» (hero→S2, S3→S4): новая сцена поднимается из-под кромки, кромку закрывает папоротник-актёр (та же кривая, что у актёра) */
+.ec-site .ec2-scene[data-ov]>.ps-sticky,.ec-site .ec4-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));
+  -webkit-mask-image:linear-gradient(0deg,#000 calc(var(--e) * 130% - 30%),transparent calc(var(--e) * 130% - 5%));
+  mask-image:linear-gradient(0deg,#000 calc(var(--e) * 130% - 30%),transparent calc(var(--e) * 130% - 5%))}
+/* СТЫК «капсула лопается» (S5→S6): лес вырывается из колбы вытянутым эллипсом, актёр-капсула раздувается и растворяется */
+.ec-site .ec6-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0));clip-path:ellipse(calc(var(--e) * 90vmax + .5vmax) calc(var(--e) * 150vmax + 1vmax) at 50% 41%)}
+
+@media(prefers-reduced-motion:reduce){
+  .ec-site *,.ec-site *::before,.ec-site *::after{animation:none!important}
+  .ec-site .ec-exit{opacity:1!important}
+  .ec-site .ps-scene[data-ov]>.ps-sticky{clip-path:none;-webkit-mask-image:none;mask-image:none;opacity:1}
+  .ec-fern-wipe{display:none}
+}

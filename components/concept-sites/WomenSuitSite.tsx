@@ -28,10 +28,10 @@ export function WomenSuitSite() {
       <Actor className="ws-tape-actor" width="2px" zIndex={24} bob={3} tilt={0.03} stops={[
         { at: ".wv-hero", anchor: 0.18, pose: { x: -1, y: 38, r: -2, s: 1 } },
         { at: ".wv-hero", anchor: 0.5, pose: { x: -1, y: 38.5, r: -1, s: 1 } },
-        { at: ".w2-scene", anchor: 0.46, pose: { x: 43, y: 63, r: 6, s: 0.6 } },
+        { at: ".w2-scene", anchor: 0.46, pose: { x: 48, y: 64, r: 6, s: 0.6 } },
         { at: ".w3-scene", anchor: 0.5, pose: { x: 46.5, y: 29, r: 62, s: 0.5 } },
         { at: ".w4-scene", anchor: 0.5, pose: { x: 9, y: 89, r: 0, s: 0.78 } },
-        { at: ".w5-scene", anchor: 0.5, pose: { x: 5, y: 13, r: 27, s: 0.72 } },
+        { at: ".w5-scene", anchor: 0.5, pose: { x: -1, y: 12.5, r: 0.4, s: 1 } },
         { at: ".w6-scene", anchor: 0.42, pose: { x: 80, y: 57, r: -14, s: 0.46, o: 1 } },
         { at: ".w6-scene", anchor: 0.62, pose: { x: 83.5, y: 58, r: -30, s: 0.4, o: 0 } },
       ]}>
@@ -44,7 +44,7 @@ export function WomenSuitSite() {
         { at: ".wv-hero", anchor: 0.18, vars: { "--unroll": 0.6 } },
         { at: ".wv-hero", anchor: 0.5, vars: { "--unroll": 1 } },
         { at: ".w2-scene", anchor: 0.46, vars: { "--unroll": 0.82 } },
-        { at: ".w3-scene", anchor: 0.5, vars: { "--unroll": 0.62 } },
+        { at: ".w3-scene", anchor: 0.5, vars: { "--unroll": 0.46 } },
         { at: ".w4-scene", anchor: 0.5, vars: { "--unroll": 1 } },
         { at: ".w5-scene", anchor: 0.5, vars: { "--unroll": 1 } },
         { at: ".w6-scene", anchor: 0.42, vars: { "--unroll": 0.1 } },

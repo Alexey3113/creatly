@@ -1,82 +1,91 @@
-/* PULP — kinetic-typography. Приём: продукт зажат в z-сэндвич между bg/fg вордмарком; полноэкранная
-   смена candy-цвет-блока по секции; velocity-skew marquee. Палитра candy-block из split-hero.jpg:
-   hot-pink / orange / yellow / cream. Display: Anton (плакатный гротеск) + Space Grotesk (лейблы).
-   --scroll/--vel с корня; --t со сцены. Ассет один — split-hero.jpg (банка+цитрус). */
+/* PULP — одна банка через все цветовые сцены. Фон корня — var(--atm) от <Atmosphere> (pink → orange →
+   yellow → pink), секции прозрачны. Банка — fixed-актёр (z2) между задним (z1) и передним (z3) словом.
+   Всплеск сока в цвете следующей сцены (--atm2) — на стыках (--splash), в финале шипение (--open).
+   Display: Anton + Space Grotesk. Ассет: splash-can.webp (банка, вырезанная из split-hero). */
 
 .sp{
   --pink:#ff2d7e; --orange:#ff7a2f; --yellow:#ffc61a; --cream:#fff3e2; --ink:#2a1018;
-  background:var(--pink); color:var(--ink);
+  --splash:0; --open:0;
+  background:var(--atm, var(--pink)); color:var(--ink);
   font-family:"Space Grotesk",system-ui,sans-serif;
 }
+.sp .scene{ background:transparent; overflow:visible; }
 .sp .sp-accent{ color:var(--cream); }
 
 .sp-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
-  font:700 11px "Space Grotesk"; letter-spacing:.24em; color:rgba(42,16,24,.62); z-index:8; }
-.sp-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Space Grotesk"; letter-spacing:.14em; color:rgba(42,16,24,.6); z-index:8; }
+  font:700 11px "Space Grotesk"; letter-spacing:.24em; color:rgba(42,16,24,.66); z-index:8; }
+.sp-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Space Grotesk"; letter-spacing:.14em; color:rgba(42,16,24,.62); z-index:8; }
 
-/* строки-подписи (маска) */
 .sp .sp-line{ display:block; overflow:hidden; }
 .sp .sp-line > i{ display:block; font-style:italic; font-family:"Space Grotesk";
   --p:clamp(0, calc((var(--t,0) - 0.12 - var(--d,0)*0.06) * 3.0), 1);
   transform:translateY(calc((1 - var(--p)) * 120%)); opacity:var(--p); will-change:transform; }
 
-/* продукт-плита (общая): кадр банки, кроп по центру */
-.sp-product{ position:relative; z-index:2; width:min(44vw, 60vh); aspect-ratio:3/4; overflow:hidden;
-  border-radius:6px; box-shadow:0 40px 90px -24px rgba(42,8,16,.55); }
-.sp-product-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 42%; }
+/* БАНКА (актёр) -------------------------------------------------------------- */
+.sp-can{ position:relative; width:100%; aspect-ratio:535/1040; }
+.sp-can-img{ position:absolute; inset:0; width:100%; height:100%; display:block;
+  filter:drop-shadow(0 34px 40px rgba(60,8,20,.35)); }
+/* этикетка «печатью» по серебру: розовая лента (multiply) + кремовый вордмарк */
+.sp-can-label{ position:absolute; left:4%; right:4%; top:34%; height:34%; display:grid; place-items:center; align-content:center; gap:2%;
+  background:linear-gradient(90deg, rgba(120,10,50,.35), transparent 22%, transparent 78%, rgba(120,10,50,.35)), var(--pink);
+  mix-blend-mode:multiply; overflow:hidden; }
+.sp-can-label b{ font:400 calc(17vw * .36)/.9 "Anton",sans-serif; letter-spacing:-.01em; color:var(--cream); mix-blend-mode:normal;
+  transform:scaleY(1.08); }
+.sp-can-label i{ font:700 calc(17vw * .045) "Space Grotesk"; letter-spacing:.2em; text-transform:uppercase; font-style:normal; color:#ffe8f0; }
+/* всплеск сока в цвете следующей сцены — вокруг банки на стыках */
+.sp-splash{ position:absolute; left:50%; top:52%; width:320%; height:auto; overflow:visible; pointer-events:none;
+  transform:translate(-50%,-50%) scale(calc(.25 + var(--splash) * .95)); opacity:min(1, calc(var(--splash) * 1.4));
+  fill:var(--atm2, var(--orange)); z-index:-1; }
+/* шипение при вскрытии — капли бьют вверх из-под крышки */
+.sp-fizz{ position:absolute; left:50%; top:1.5%; width:0; height:0; pointer-events:none; }
+.sp-fizz i{ position:absolute; left:0; top:0; width:calc(.45vw + var(--k) * .09vw); aspect-ratio:1; border-radius:50%;
+  background:var(--cream); box-shadow:0 0 10px rgba(255,243,226,.85);
+  transform:translate(-50%,-50%) translate(calc((var(--k) - 4) * 1.15vw * var(--open)), calc(var(--open) * (-2.2vw - var(--k) * .9vw - (4 - max(var(--k) - 4, 4 - var(--k))) * .6vw))) scale(var(--open));
+  opacity:calc(var(--open) * (1 - var(--k) * .04)); }
 
-/* 0 · COVER — z-сэндвич на розовом блоке */
-.sp-cover{ display:grid; place-items:center; background:var(--pink); }
-.sp-stack{ position:relative; display:grid; place-items:center; width:100%; height:100vh; }
-.sp-word{ position:absolute; margin:0; font:400 clamp(120px,34vw,560px)/.8 "Anton",sans-serif;
-  letter-spacing:-.02em; pointer-events:none; will-change:transform; }
+/* 0 · COVER — z-сэндвич на розовом ----------------------------------------------- */
+.sp-cover{ display:grid; place-items:center; min-height:100vh; overflow:hidden; }
+.sp-word{ position:absolute; left:50%; top:50%; margin:0; font:400 clamp(120px,34vw,560px)/.8 "Anton",sans-serif;
+  letter-spacing:-.02em; pointer-events:none; will-change:transform; white-space:nowrap; }
 .sp-word-bg{ z-index:1; color:var(--cream);
-  transform:translateY(calc(-8vh - var(--scroll,0)*26vh)) skewX(calc(var(--vel,0)*-2deg)); }
+  transform:translate(-50%, calc(-50% - 10vh - var(--scroll,0)*26vh)) skewX(calc(var(--vel,0)*-2deg)); }
 .sp-word-fg{ z-index:3; color:var(--ink);
-  transform:translateY(calc(14vh + var(--scroll,0)*24vh)) skewX(calc(var(--vel,0)*2deg)); }
-.sp-cover .sp-product{ transform:translateY(calc(var(--scroll,0)*-6vh)); }
+  transform:translate(-50%, calc(-50% + 22vh + var(--scroll,0)*24vh)) skewX(calc(var(--vel,0)*2deg)); }
 
-/* 1 · MARQUEE — оранжевый блок */
-.sp-band{ display:flex; flex-direction:column; justify-content:center; gap:.4vh; background:var(--orange); color:var(--ink); overflow:hidden; }
+/* 1 · MARQUEE ------------------------------------------------------------------- */
+.sp-band{ display:flex; flex-direction:column; justify-content:center; gap:.4vh; min-height:100vh; overflow:hidden; color:var(--ink); }
 .sp-band-row{ white-space:nowrap; font:400 13vw/1 "Anton",sans-serif; letter-spacing:-.01em;
   transform:translateX(calc((var(--t,0) - .5) * 96vw)) skewX(calc(var(--vel,0) * -3.4deg)); will-change:transform; }
 .sp-band-rev{ color:var(--cream);
   transform:translateX(calc((.5 - var(--t,0)) * 96vw)) skewX(calc(var(--vel,0) * 3.4deg)); }
 .sp-band-row span{ display:inline-block; }
-.sp-band-note{ position:absolute; bottom:11vh; left:6vw; font:500 clamp(18px,2.6vw,34px)/1.2 "Space Grotesk"; }
+.sp-band-note{ position:absolute; bottom:9vh; left:6vw; z-index:3; font:500 clamp(18px,2.4vw,32px)/1.2 "Space Grotesk"; }
 .sp-band-note i{ font-style:italic; }
 
-/* 2 · SANDWICH (флагман) — жёлтый блок, банка вплывает между слоями «TASTE» */
-.sp-sandwich .scene-sticky{ display:grid; place-items:center; background:var(--yellow); overflow:hidden; }
-.sp-sandwich-in{ position:relative; display:grid; place-items:center; width:100%; height:100vh; }
-.sp-big{ position:absolute; margin:0; font:400 clamp(120px,30vw,500px)/.8 "Anton",sans-serif;
-  letter-spacing:-.02em; pointer-events:none; will-change:transform; }
+/* 2 · SANDWICH — банка держится, слова TASTE скользят сзади и спереди ------------ */
+.sp-sandwich{ display:grid; place-items:center; min-height:140vh; overflow:hidden; }
+.sp-big{ position:absolute; left:50%; top:50%; margin:0; font:400 clamp(120px,30vw,500px)/.8 "Anton",sans-serif;
+  letter-spacing:-.02em; pointer-events:none; will-change:transform; white-space:nowrap; }
 .sp-big-bg{ z-index:1; color:var(--orange);
-  transform:translateY(calc(-2vh - var(--t,0)*20vh)) scale(calc(1 + var(--t,0)*.14)); }
+  transform:translate(-50%, calc(-50% - 12vh + (var(--t,0) - .5) * 30vh)) scale(calc(1 + var(--t,0)*.12)); }
 .sp-big-fg{ z-index:3; color:var(--ink);
-  transform:translateY(calc(2vh + var(--t,0)*22vh)) scale(calc(1 + var(--t,0)*.14)); }
-.sp-product-lg{ z-index:2; width:min(40vw, 62vh);
-  transform:scale(calc(.7 + var(--t,0)*.42)) rotate(calc(-4deg + var(--t,0)*4deg));
-  box-shadow:0 calc(30px + var(--t,0)*40px) 90px -20px rgba(120,52,6,.5); will-change:transform; }
-.sp-sandwich-cap{ position:absolute; bottom:9vh; left:0; right:0; text-align:center; z-index:4;
-  font:500 clamp(18px,2.6vw,34px) "Space Grotesk"; color:var(--ink); }
+  transform:translate(-50%, calc(-50% + 22vh + (var(--t,0) - .5) * 44vh)) scale(calc(1 + var(--t,0)*.12)); }
+.sp-sandwich-cap{ position:absolute; bottom:24vh; left:0; right:0; text-align:center; z-index:4;
+  font:500 clamp(18px,2.4vw,32px) "Space Grotesk"; color:var(--ink); }
 
-/* 3 · CTA — розовый блок */
-.sp-end{ display:grid; place-items:center; text-align:center; background:var(--pink); color:var(--ink); }
-.sp-end-h{ margin:0; font:400 clamp(70px,16vw,260px)/.82 "Anton",sans-serif; letter-spacing:-.02em;
-  transform:skewX(calc(var(--vel,0) * -2deg)); }
-.sp-btn{ position:absolute; bottom:12vh; padding:16px 34px; border:none; border-radius:999px;
+/* 3 · CTA — банка вскрывается ------------------------------------------------------ */
+.sp-end{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center; min-height:100vh; padding-bottom:9vh; color:var(--ink); }
+.sp-end-h{ margin:0 0 4vh; font:400 clamp(56px,9vw,150px)/.9 "Anton",sans-serif; letter-spacing:-.01em; white-space:nowrap;
+  transform:skewX(calc(var(--vel,0) * -2deg)); position:relative; z-index:3; }
+.sp-btn{ position:relative; z-index:3; padding:16px 34px; border-radius:999px;
   background:var(--ink); color:var(--cream); text-decoration:none; font:700 14px "Space Grotesk"; letter-spacing:.03em;
   transition:transform .25s, box-shadow .25s; }
 .sp-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 40px rgba(42,8,16,.4); }
 
-@media (max-width:820px){
-  .sp-product{ width:70vw; }
-  .sp-product-lg{ width:66vw; }
-}
+@media (max-width:820px){ .sp-end-h{ white-space:normal; } }
 @media (prefers-reduced-motion:reduce){
-  .sp-word,.sp-band-row,.sp-band-rev,.sp-big,.sp-product-lg,.sp-end-h,.sp-cover .sp-product{ transform:none; }
+  .sp-word,.sp-band-row,.sp-band-rev,.sp-big,.sp-end-h{ transform:translate(-50%,-50%); }
+  .sp-band-row,.sp-band-rev,.sp-end-h{ transform:none; }
   .sp .sp-line > i{ transform:none; opacity:1; }
-  .sp-word-bg{ transform:translateY(-8vh); }
-  .sp-word-fg{ transform:translateY(14vh); }
+  .sp-splash{ display:none; }
 }

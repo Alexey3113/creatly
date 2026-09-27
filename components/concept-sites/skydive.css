@@ -61,7 +61,7 @@
 .sd-scene p{color:#b6ccc3;font-size:clamp(14px,1.15vw,18px);line-height:1.72;max-width:34ch;margin:20px 0 0}
 
 /* S2 — sixty seconds: формация в облаках, облака проносятся вверх мимо камеры */
-.sd2-scene{background:#0d1513}
+.sd2-scene .ps-sticky{background:#0d1513}
 .sd2-bg .ps-media{object-fit:cover;filter:brightness(.78) saturate(.72) contrast(1.04)}
 .sd2-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(13,21,19,.72),rgba(13,21,19,.18) 46%,transparent 70%),linear-gradient(0deg,rgba(13,21,19,.7),transparent 42%)}
 .sd2-rush{mix-blend-mode:screen;opacity:.42;pointer-events:none}
@@ -69,7 +69,7 @@
 .sd2-copy{align-content:end;justify-items:start;text-align:left;padding:0 0 12vh var(--pad)}
 
 /* S3 — the fall (лента высот: след и стадии ведёт общий --alt, маркер — сам парашютист-актёр) */
-.sd3-scene{background:#0d1513}
+.sd3-scene .ps-sticky{background:#0d1513}
 .sd3-photo .ps-media{filter:brightness(.62) saturate(.8) contrast(1.05)}
 .sd3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(130% 90% at 50% 34%,rgba(26,42,38,.5),rgba(13,21,19,.9) 70%)}
 .sd3-word{align-content:center;justify-items:center}
@@ -91,7 +91,7 @@
 .sd3-stage s{display:block;margin-top:3px;font:600 10px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:#7fa89b;text-decoration:none}
 
 /* S4 — how you jump: под куполом — побережье */
-.sd4-scene{background:#0d1513}
+.sd4-scene .ps-sticky{background:#0d1513}
 .sd4-photo .ps-media{filter:brightness(.62) saturate(.78)}
 .sd4-bg{position:absolute;inset:0;z-index:1;background:repeating-linear-gradient(90deg,rgba(188,216,205,.05)0 1px,transparent 1px 8vw),linear-gradient(90deg,rgba(13,21,19,.9),rgba(13,21,19,.72) 48%,rgba(13,21,19,.2) 78%,rgba(13,21,19,.1))}
 .sd4-head{align-content:start;justify-items:start;text-align:left;padding:14vh 0 0 var(--pad)}
@@ -107,7 +107,7 @@
 .sd4-level s{text-decoration:none;color:#9fb8af;font-size:15px;line-height:1.6}
 
 /* S5 — from the door (бортовой jump-log · каждый отзыв = записанный прыжок) · под ним — дропзона ближе */
-.sd5-scene{background:#0d1513}
+.sd5-scene .ps-sticky{background:#0d1513}
 .sd5-photo .ps-media{filter:brightness(.5) saturate(.75)}
 .sd5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(120% 90% at 30% 20%,rgba(19,36,32,.62),rgba(11,18,16,.86) 70%)}
 .sd5-loghdr{position:absolute;z-index:6;top:17vh;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:5ch 12ch 7ch 7ch 1fr;column-gap:1.5vw;width:min(940px,90vw);padding:0 22px 8px;border-bottom:1px solid rgba(188,216,205,.28)}
@@ -123,7 +123,7 @@
 .sd5-eyebrow{position:absolute;top:5vh;left:50%;transform:translateX(-50%);z-index:8;font:600 11px "DM Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:#7fa89b}
 
 /* S6 — the first fall (portal + CTA · object) */
-.sd6-scene{background:#0d1513}
+.sd6-scene .ps-sticky{background:#0d1513}
 .sd6-bg .ps-media{object-fit:cover;filter:brightness(.6) saturate(.68)}
 .sd6-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(120% 90% at 50% 46%,transparent 30%,rgba(13,21,19,.82))}
 .sd6-portal{justify-items:center;align-content:center}
@@ -169,11 +169,11 @@
 /* СТЫК «сквозь облако» (hero→S2, S2→S3): белая вата заполняет кадр и рассеивается уже в следующей сцене */
 .sd-site .sd2-scene[data-ov]>.ps-sticky,.sd-site .sd3-scene[data-ov]>.ps-sticky{opacity:min(1, var(--ovp,0) * 2.6)}
 .sd-cloud{position:absolute;inset:-25% -15%;z-index:30;pointer-events:none;
-  background:radial-gradient(40% 34% at 30% 40%,rgba(255,255,255,.5),transparent 70%),radial-gradient(36% 30% at 70% 62%,rgba(255,255,255,.45),transparent 70%),url(/uploads/1/hooks/sites/anim/skydive/sky.jpg) 50% 94%/cover;
-  filter:brightness(1.3) contrast(1.4) saturate(.5);
+  background:radial-gradient(34% 28% at 30% 40%,rgba(255,255,255,.34),transparent 70%),radial-gradient(30% 26% at 70% 62%,rgba(255,255,255,.3),transparent 70%),url(/uploads/1/hooks/sites/anim/skydive/sky.jpg) 50% 100%/260% auto;
+  filter:brightness(1.1) contrast(1.45) saturate(.5);
   opacity:calc(1 - clamp(0, (var(--ovp,1) - .45) * 2.5, 1));
   transform:translateY(calc((.45 - var(--ovp,1)) * 60%)) scale(1.3)}
-.sd-cloud-2{background-position:50% 50%,50% 50%,30% 100%;filter:brightness(1.05) contrast(1.5) saturate(.5)}
+.sd-cloud-2{background-position:50% 50%,50% 50%,30% 100%;filter:brightness(.95) contrast(1.5) saturate(.5)}
 /* СТЫК «портал»: финал раскрывается кругом из точки портала, по кромке — светлый обод */
 .sd-site .sd6-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));clip-path:circle(calc(var(--e) * 105vmax) at 50% 46%)}
 .sd6-rim{position:absolute;inset:0;z-index:40;pointer-events:none;

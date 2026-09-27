@@ -1,176 +1,469 @@
 "use client";
 
 /**
- * Лендинг v3 — dogfood: страница собрана на тех же движках, что и
- * генерируемые сайты (lib/site/*): сцена-аврора с морфингом по секциям,
- * word-reveal, highlight-текст, tilt-карточки с бликом, marquee,
- * магнитные CTA, счётчики. Никакой отдельной анимационной кодбазы —
- * лендинг литерально демонстрирует продукт собой.
+ * ГЛАВНАЯ Creatly — страница сама фильм и витрина (аудит 2026-09-28: была 1/5, «типовой тёмно-синий AI-SaaS»).
+ *
+ * Hero — рил из 4 сцен трёх миров на движке Reel v2 (тот же, что у /animated/w-*):
+ *   Hollow · чаща ─(портал в свет фонаря странника)→ Lumen · бухта маяка, стоп-кадр
+ *   ─(луч маяка уносит ночь)→ Ember Road · полдень в дюнах ─(смена света в той же точке)→ Ember Road · ночь.
+ * Актёры: кленовый лист («листают») летит через все миры и весь лендинг — садится на бриф, в кадр «Актёр»,
+ *   на обложки и в кнопку финала; свет фонаря перетекает в лампу маяка (match-cut); караван идёт из дня в ночь.
+ * Дальше сюжет «бриф → режиссура → сайт» на плитах миров (Backdrop) и свете страницы (Atmosphere):
+ *   ночь пустыни → рассвет у маяка → утренний лес (та же чаща, что в первом кадре). В конце — порталы в витрины.
+ * Стили — ./landing3.css (префикс cl-). Движки (reel.*, scene-kit) не трогаем.
  */
 
-import { useEffect, useRef } from "react";
-import { SCENE_CSS, sceneMarkup, sceneRuntime } from "@/lib/site/scene-runtime";
-import { textRuntime, textRuntimeCss } from "@/lib/site/text-runtime";
-import { widgetsRuntime } from "@/lib/site/widgets-runtime";
-import { REVEAL_CSS, REVEAL_JS } from "@/lib/site/render";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Reel, reelMark, type ReelScene } from "@/components/animated-sites/model/reel";
+import { Actor, Atmosphere, Backdrop, Follow, Weather } from "@/components/scene-kit";
+import { FontLinks } from "@/components/shared/FontLinks";
+import "./landing3.css";
 
-const SCENE_HTML = sceneMarkup({ type: "aurora", intensity: 0.6, grain: true });
+const H = "/uploads/1/animated/hollow";
+const L = "/uploads/1/animated/lumen";
+const E = "/uploads/1/animated/emberroad";
+const T = "/uploads/1/animated/tidewell";
+const V = "/uploads/1/animated/voyage";
+const BIZ = "/uploads/1/hooks/sites";
+const S2 = "/uploads/1/story2";
+const LEAF = "/uploads/1/animated/emberfall/actor-leaf.webp";
+
+/** фонарь странника в кадре hero (% экрана; вырезка уведена в правую треть CSS-ом, как у Hollow) */
+const LAMP = { x: 66.6, y: 72.4 };
+/** лампа маяка в кадре бухты — сюда перетекает свет фонаря */
+const BEACON = { x: 58.4, y: 66.4 };
+
+const v = (o: Record<string, string | number>) => o as CSSProperties;
+
+const scenes: ReelScene[] = [
+  {
+    id: "thicket", dark: true, len: 1.05, hold: 0.5,
+    bg: `${H}/s1-bg.webp`, mid: `${H}/s1-mid.webp`, fg: `${H}/s1-fg.webp`,
+    copy: (
+      <div className="cl-copy">
+        <span className="cl-eyebrow">Creatly · AI-режиссёр сайтов</span>
+        <h1 className="cl-h1">Сайты, которые <em>листают</em> как кино</h1>
+        <p className="cl-lead">
+          Опишите бизнес в паре фраз — AI поставит сайт как фильм: мир, свет, склейки и героя,
+          который ведёт посетителя от первого кадра до заявки.
+        </p>
+        <div className="cl-actions">
+          <a className="cl-btn" href="/dashboard">Собрать свой сайт</a>
+          <a className="cl-ghost" href="#showcase">Смотреть витрины</a>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "cove", dark: true, into: "portal", portal: { x: LAMP.x + 0.6, y: LAMP.y - 1.6 }, len: 1.2, hold: 0.56,
+    bg: `${L}/s2-bg.webp`, mid: `${L}/s2-mid.webp`, fg: `${L}/s2-fg.webp`, fgMask: [68, 84], fgGrow: 0.4, fgLift: 4,
+    freeze: (
+      <div className="cl-slate">
+        <span className="cl-slate-bar" aria-hidden />
+        <b>Стоп-кадр</b>
+        <span>сцена 02 · дубль 1</span>
+        <em>камера встала — вы успели прочесть</em>
+      </div>
+    ),
+    copy: (
+      <div className="cl-copy">
+        <span className="cl-idx">02 · склейка «портал»</span>
+        <h2 className="cl-h2">Камера входит в свет</h2>
+        <p className="cl-p">
+          Фонарь, окно, арка — AI находит в кадре дверь и проводит зрителя сквозь неё.
+          Сцена не сменяет сцену, она из неё вырастает.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "noon", into: "sweep", tint: "#ffd36a", len: 1, hold: 0.46,
+    bg: `${E}/s1-bg.webp`, fg: `${E}/s1-fg.webp`, fgMask: [72, 88], fgGrow: 0.3, fgLift: 6,
+    copy: (
+      <div className="cl-copy">
+        <span className="cl-idx">03 · склейка «луч»</span>
+        <h2 className="cl-h2">Свет ведёт сюжет</h2>
+        <p className="cl-p">
+          Луч маяка проходит по кадру и уносит ночь. Время суток, погода и цвет текут
+          через весь сайт — и под блоками тоже.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "night", dark: true, into: "lightshift", tint: "#ff9a4a", len: 1.05, hold: 0.5,
+    bg: `${E}/s4-bg.webp`, fg: `${E}/s4-fg.webp`,
+    copy: (
+      <div className="cl-copy">
+        <span className="cl-idx">04 · смена света</span>
+        <h2 className="cl-h2">Та же точка — другое время</h2>
+        <p className="cl-p">
+          День гаснет, караван идёт дальше, лист летит рядом с вами. Четыре сцены,
+          три склейки и ни одного слайда.
+        </p>
+      </div>
+    ),
+  },
+];
+
+/** брифы в одну фразу → первые экраны реальных сайтов витрины /visual-hooks */
+const BRIEFS = [
+  { slug: "forge", brand: "FORGE", img: "forge-hero.jpg", brief: "Кую ножи вручную — каждый под руку владельца" },
+  { slug: "comb", brand: "COMB", img: "comb.jpg", brief: "Сырой мёд с нашей пасеки, без нагрева и фильтра" },
+  { slug: "hide", brand: "HIDE", img: "hide.jpg", brief: "Кожаные сумки, которые переживут хозяина" },
+  { slug: "roast", brand: "ROAST", img: "roast.jpg", brief: "Обжариваем кофе малыми партиями каждое утро" },
+  { slug: "pour", brand: "POUR", img: "pour.jpg", brief: "Коктейльный бар на двенадцать мест" },
+  { slug: "velo", brand: "VÉLO", img: "velo.jpg", brief: "Собираем велосипеды из титана на заказ" },
+];
+
+/** обложки кино-историй /story2 — «листаются» веером в главе III */
+const COVERS = [
+  { slug: "forlorn", name: "Forlorn", img: "forlorn-hero.jpg", r0: -7, ay: 14 },
+  { slug: "portfolio", name: "Portfolio", img: "p01-hero.jpg", r0: 5, ay: 4 },
+  { slug: "salt", name: "Salt", img: "salt-hero.jpg", r0: -3, ay: 0 },
+  { slug: "alexander", name: "Alexander", img: "alexander-hero.jpg", r0: 8, ay: 4 },
+  { slug: "justice", name: "Justice", img: "justice-hero.jpg", r0: -2, ay: 14 },
+];
+
+const SHOT_IDS = ["portal", "actor", "freeze", "light"] as const;
 
 export function LandingClient() {
-  const booted = useRef(false);
+  const root = useRef<HTMLDivElement>(null);
+
+  // плиты лендинга и спрайт каравана нужны только ниже первого экрана — монтируем после load, в простое
+  const [late, setLate] = useState(false);
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    const go = () => setLate(true);
+    let t = 0;
+    const kick = () => { t = window.setTimeout(() => (w.requestIdleCallback ? w.requestIdleCallback(go, { timeout: 1500 }) : go()), 250); };
+    if (document.readyState === "complete") kick(); else window.addEventListener("load", kick, { once: true });
+    return () => { window.removeEventListener("load", kick); window.clearTimeout(t); };
+  }, []);
 
   useEffect(() => {
-    if (booted.current) return;
-    booted.current = true;
-    // Запускаем те же IIFE-рантаймы, что уходят на опубликованные сайты
-    for (const src of [REVEAL_JS, textRuntime, widgetsRuntime, sceneRuntime]) {
-      try { new Function(src)(); } catch (e) { console.error("[landing3 runtime]", e); }
-    }
+    // до гидрации видна только первая сцена рила (иначе сверху лежит последняя); снимаем после первого кадра движка
+    const id = requestAnimationFrame(() => root.current?.classList.add("is-booted"));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   return (
-    <div className="l3">
-      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
-      <style>{`:root{--color-bg:#08080d;--color-bg-alt:#0e0e15;--color-surface:#12121a;--color-text:#f5f5f7;--color-text-muted:rgba(235,235,245,.55);--color-primary:#101018;--color-accent:#3b5bff;--color-border:rgba(255,255,255,.09);--color-text-on-primary:#fff;--color-text-on-accent:#fff;--font-heading:'Unbounded',sans-serif;--font-body:'Manrope',sans-serif;--radius-md:14px;--radius-lg:22px;--radius-full:999px;--space-block:clamp(20px,4vw,56px)}`}</style>
-      <style>{SCENE_CSS}</style>
-      <style>{REVEAL_CSS}</style>
-      <style>{textRuntimeCss}</style>
-      <style>{L3_CSS}</style>
+    <div className="cl" id="top" ref={root}>
+      {/* LCP — плита первого кадра (CSS-фон рила не виден сканеру предзагрузки): React 19 поднимает link в <head> */}
+      <link rel="preload" as="image" href={`${H}/s1-bg.webp`} fetchPriority="high" />
+      <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"]} />
+      {/* fg бухты Lumen: гасим магента-кромку вырезки (дефект ассета из аудита) */}
+      <svg className="cl-defs" width="0" height="0" aria-hidden focusable="false">
+        <filter id="cl-demag" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1.2 2.6 -1.4 1 .2" />
+        </filter>
+      </svg>
 
-      <div dangerouslySetInnerHTML={{ __html: SCENE_HTML }} />
-
-      {/* ── Шапка ── */}
-      <header className="l3-header" data-header>
-        <div className="l3-header__in">
-          <a className="l3-logo" href="/">Creatly</a>
-          <nav className="l3-nav">
-            <a href="#how">Как работает</a>
-            <a href="#features">Возможности</a>
-            <a href="#numbers">Цифры</a>
-          </nav>
-          <a className="l3-cta l3-cta--sm" href="/dashboard" data-magnet="0.2">Собрать сайт</a>
-        </div>
+      <header className="cl-head">
+        <a className="cl-logo" href="#top">Creatly</a>
+        <nav className="cl-nav" aria-label="Разделы">
+          <a href="#how">Как ставим</a>
+          <a href="#showcase">Витрины</a>
+          <a href="/auth">Войти</a>
+        </nav>
+        <a className="cl-btn cl-btn--sm" href="/dashboard">Собрать сайт</a>
       </header>
 
-      {/* ── Hero ── */}
-      <section className="l3-hero" data-scene-tint="#3b5bff">
-        <p className="l3-eyebrow" data-reveal="fade">AI-режиссёр сайтов</p>
-        <h1 className="l3-hero__title" data-reveal="word">Сайты, которые листают как кино</h1>
-        <p className="l3-hero__sub" data-reveal="fade" style={{ ["--stagger" as never]: 3 }}>
-          Опишите бизнес — AI соберёт storytelling-сайт: живая сцена на фоне,
-          видео по главам скролла, кинетический текст. Готово за минуту,
-          выглядит как работа студии.
+      {/* ── ФИЛЬМ: живое демо того, что делает продукт ── */}
+      <Reel scenes={scenes} unit={125} cue="листайте — это живое демо ↓" />
+
+      {/* ── СКВОЗНОЙ СЛОЙ ── */}
+      <Atmosphere stops={[
+        { at: reelMark("end"), color: "#0c1326" },
+        { at: ".cl-manifest", color: "#0c1326" },
+        { at: ".cl-ch1", color: "#0f1830" },
+        { at: ".cl-ch2", color: "#1d2533" },
+        { at: ".cl-ch3", color: "#1b2528" },
+        { at: ".cl-portals", color: "#10221d" },
+        { at: ".cl-final", color: "#15291f" },
+      ]} />
+      {late && <Backdrop from=".cl-manifest" dim={0.52} plates={[
+        { at: ".cl-manifest", src: `${E}/s4-bg.webp`, pos: "50% 38%" },
+        { at: ".cl-ch1", src: `${E}/s4-bg.webp`, pos: "50% 38%" },
+        { at: ".cl-ch2", src: `${L}/s4-bg.webp` },
+        { at: ".cl-ch3", src: `${L}/s4-bg.webp`, pos: "50% 60%" },
+        { at: ".cl-portals", src: `${H}/s4-bg.webp` },
+        { at: ".cl-final", src: `${H}/s4-bg.webp`, pos: "50% 30%" },
+      ]} />}
+      <Weather kind="spores" count={20} color="#8affd8" color2="#ffd98a" between={[".cl .rl-reel", reelMark("h0")]} world={0.5} zIndex={31} />
+      <Weather kind="stars" count={38} color="#fff4d6" between={[reelMark("t2"), ".cl-ch2"]} world={0.08} zIndex={30} />
+      <Weather kind="dust" count={24} seed={11} color="#ffe6b0" color2="#fff6dd" between={[reelMark("t1"), ".cl-foot"]} world={0.35} wind={1.2} zIndex={31} />
+
+      {/* свет фонаря странника → портал → лампа маяка (match-cut) */}
+      <Actor className="cl-glow-actor" width="13vw" zIndex={33} bob={3} tilt={0} stops={[
+        { at: reelMark("a0"), pose: { x: LAMP.x, y: LAMP.y, s: 1, o: 1 } },
+        { at: reelMark("h0"), pose: { x: LAMP.x, y: LAMP.y, s: 1.1, o: 1 } },
+        { at: reelMark("t0"), pose: { x: LAMP.x + 0.6, y: LAMP.y - 1.6, s: 3.4, o: 1 } },
+        { at: reelMark("a1"), pose: { x: BEACON.x, y: BEACON.y, s: 0.5, o: 0.95 } },
+        { at: reelMark("h1"), pose: { x: BEACON.x, y: BEACON.y, s: 0.5, o: 0.95 } },
+        { at: reelMark("t1"), pose: { x: BEACON.x + 12, y: BEACON.y - 10, s: 1.8, o: 0 } },
+      ]}><div className="cl-glow" /></Actor>
+
+      {/* караван: полдень → ночь, уходит к горизонту */}
+      {late && <Actor src={`${E}/actor-caravan.webp`} className="cl-caravan" width="24vw" zIndex={32} bob={1.2} tilt={0.03} stops={[
+        { at: reelMark("h1"), pose: { x: -18, y: 72, s: 1, o: 0 } },
+        { at: reelMark("t1"), pose: { x: 2, y: 72, s: 1, o: 1 } },
+        { at: reelMark("a2"), pose: { x: 22, y: 72, s: 1, o: 1 } },
+        { at: reelMark("h2"), pose: { x: 44, y: 71, s: 0.94, o: 1 } },
+        { at: reelMark("t2"), pose: { x: 54, y: 70, s: 0.84, o: 1 } },
+        { at: reelMark("s3"), pose: { x: 64, y: 69, s: 0.7, o: 0.85 } },
+        { at: reelMark("end"), pose: { x: 72, y: 68, s: 0.58, o: 0 } },
+      ]} />}
+
+      <Follow target=".cl-caravan" stops={[{ at: reelMark("h2"), vars: { "--night": 0 } }, { at: reelMark("a3"), vars: { "--night": 1 } }]} />
+
+      {/* ЛИСТ — сквозной актёр всей страницы */}
+      <Actor src={LEAF} className="cl-leaf" width="clamp(34px, 4.6vw, 80px)" zIndex={34} bob={4} tilt={0.22} stops={[
+        { at: reelMark("a0"), pose: { x: 80, y: 20, s: 0.9, r: -24 } },
+        { at: reelMark("h0"), pose: { x: 72, y: 50, s: 1, r: 36 } },
+        { at: reelMark("t0"), pose: { x: 67, y: 69, s: 0.3, r: 130, blur: 2 } },
+        { at: reelMark("a1"), pose: { x: 28, y: 56, s: 1.25, r: 212 } },
+        { at: reelMark("h1"), pose: { x: 28, y: 56, s: 1.25, r: 212 } },
+        { at: reelMark("t1"), pose: { x: 64, y: 26, s: 0.9, r: 300, blur: 1 } },
+        { at: reelMark("s2"), pose: { x: 58, y: 42, s: 0.85, r: 372 } },
+        { at: reelMark("t2"), pose: { x: 62, y: 36, s: 0.75, r: 420 } },
+        { at: reelMark("s3"), pose: { x: 74, y: 28, s: 0.65, r: 468 } },
+        { at: ".cl-manifest", pose: { x: 86, y: 34, s: 0.9, r: 520 } },
+        { at: ".cl-ch1-m0", pose: { dockTo: ".cl-brief", x: 99, y: -2, s: 0.8, r: 560 } },
+        { at: ".cl-ch1-m1", pose: { dockTo: ".cl-brief", x: 99, y: -2, s: 0.8, r: 568 } },
+        { at: ".cl-shot--actor .cl-shot-frame", pose: { dock: true, x: 88, y: 16, s: 0.9, r: 610 } },
+        { at: ".cl-ch3-m0", pose: { dockTo: ".cl-deck", x: 50, y: 2, s: 0.9, r: 660 } },
+        { at: ".cl-ch3-m1", pose: { dockTo: ".cl-deck", x: 50, y: 2, s: 0.9, r: 676 } },
+        { at: ".cl-portals", pose: { x: 90, y: 22, s: 0.8, r: 720 } },
+        { at: ".cl-final-cta", pose: { dock: true, x: 98, y: -18, s: 0.85, r: 760 } },
+      ]} />
+
+      {/* переменные глав: линза брифа, плёнка, кадры режиссуры, веер обложек, параллакс порталов */}
+      <Follow target=".cl-ch1" stops={[{ at: ".cl-ch1-m0", vars: { "--lens": 0 } }, { at: ".cl-ch1-m1", vars: { "--lens": 1 } }]} />
+      <Follow target=".cl-strip" stops={[{ at: ".cl-strip", anchor: -1, vars: { "--strip": 0 } }, { at: ".cl-strip", anchor: 2, vars: { "--strip": 1 } }]} />
+      {SHOT_IDS.map((id) => (
+        <Follow key={id} target={`.cl-shot--${id}`} stops={[
+          { at: `.cl-shot--${id} .cl-shot-frame`, anchor: -0.5, vars: { "--p": 0 } },
+          { at: `.cl-shot--${id} .cl-shot-frame`, anchor: 0.95, vars: { "--p": 1 } },
+        ]} />
+      ))}
+      <Follow target=".cl-ch3" stops={[{ at: ".cl-ch3-m0", vars: { "--deal": 0 } }, { at: ".cl-ch3-m1", vars: { "--deal": 1 } }]} />
+      <Follow target=".cl-portals" stops={[{ at: ".cl-portals", anchor: -0.2, vars: { "--sp": 0 } }, { at: ".cl-portals", anchor: 1.2, vars: { "--sp": 1 } }]} />
+
+      {/* ── РАЗВЯЗКА ФИЛЬМА ── */}
+      <section className="cl-manifest">
+        <p>
+          Вы только что пролистали фильм: <em>четыре сцены, три склейки, один стоп-кадр</em> и лист,
+          который летел рядом. Это не видео. Это сайт.
         </p>
-        <div className="l3-hero__actions" data-reveal="fade" style={{ ["--stagger" as never]: 4 }}>
-          <a className="l3-cta" href="/dashboard" data-magnet="0.22">Собрать сайт за минуту</a>
-          <a className="l3-ghost" href="#how">Как это устроено ↓</a>
-        </div>
-        <p className="l3-hero__note" data-reveal="fade" style={{ ["--stagger" as never]: 5 }}>
-          178 живых блоков · 6 анимационных движков · ни одного шаблонного вида
-        </p>
+        <span className="cl-manifest-sub">Так Creatly ставит сайты — по вашему брифу.</span>
       </section>
 
-      {/* ── Marquee ── */}
-      <section className="l3-mq" aria-hidden="true">
-        <div className="l3-mq__row">
-          <div className="l3-mq__track" data-marquee>
-            {["Скраб-видео", "Живая сцена", "Шаги-жесты", "Кинетический текст", "Демо-прокрутка"].map((w) => (
-              <span className="l3-mq__item" key={w}><em>{w}</em><i>✦</i></span>
-            ))}
+      {/* ── ГЛАВА I · БРИФ — линза: текст брифа → первый экран готового сайта ── */}
+      <section className="cl-ch1" id="how" aria-labelledby="cl-ch1-t">
+        <i className="cl-mk cl-ch1-m0" aria-hidden />
+        <i className="cl-mk cl-ch1-m1" aria-hidden />
+        <div className="cl-pin cl-ch1-pin">
+          <div className="cl-ch-copy">
+            <span className="cl-kick">Глава I · Бриф</span>
+            <h2 id="cl-ch1-t" className="cl-h2">Вы рассказываете — <em>как другу</em></h2>
+            <p className="cl-p">
+              Пара фраз голосом или текстом. Можно приложить старый сайт — AI заберёт из него
+              факты, цены и контакты. Дальше работает режиссёр.
+            </p>
           </div>
-        </div>
-        <div className="l3-mq__row l3-mq__row--rev">
-          <div className="l3-mq__track" data-marquee>
-            {["Аврора", "Mesh", "Field", "Liquid", "Зерно", "Морфинг"].map((w) => (
-              <span className="l3-mq__item l3-mq__item--ghost" key={w}><em>{w}</em><i>✦</i></span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Как работает ── */}
-      <section className="l3-how" id="how" data-scene-tint="#8b5cf6">
-        <p className="l3-eyebrow" data-reveal="fade">Три шага</p>
-        <h2 className="l3-h2" data-reveal="word">От брифа до кино</h2>
-        <div className="l3-how__grid">
-          {[
-            ["01", "Расскажите о бизнесе", "Голосом или текстом — как удобно. Можно приложить старый сайт, AI заберёт из него факты."],
-            ["02", "AI ставит режиссуру", "Выбирает блоки и сцену, пишет тексты, подбирает живые фото, раскладывает свет и ритм по секциям."],
-            ["03", "Записывайте рилс", "Жмёте «Демо» — сайт сам эффектно проезжает под запись экрана. Публикация — в один клик."],
-          ].map(([n, t, d], i) => (
-            <article className="l3-step" key={n} data-reveal="up" style={{ ["--stagger" as never]: i }}>
-              <span className="l3-step__num" aria-hidden="true">{n}</span>
-              <h3>{t}</h3>
-              <p>{d}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Highlight-манифест ── */}
-      <section className="l3-mani" data-scene-tint="#e8432d">
-        <p className="l3-mani__text" data-reveal="highlight">
-          Мы не продаём шаблоны. Мы ставим каждому сайту режиссуру — сцену,
-          ритм, свет и историю, которую посетитель досматривает до конца
-          и пересказывает друзьям.
-        </p>
-      </section>
-
-      {/* ── Возможности (tilt) ── */}
-      <section className="l3-feat" id="features" data-scene-tint="#3b5bff">
-        <p className="l3-eyebrow" data-reveal="fade">Возможности</p>
-        <h2 className="l3-h2" data-reveal="word">Механики, которых нет у конструкторов</h2>
-        <div className="l3-feat__grid">
-          {[
-            ["◉", "Живая сцена", "Один непрерывный анимированный фон на весь сайт: аврора, mesh, точечное поле или liquid. Морфится по секциям."],
-            ["🎬", "Storytelling-движок", "Экран прилипает, видео скрабится по главам, текст сменяется шагами. В обе стороны, без блокировки скролла."],
-            ["⇢", "Жесты как в сторис", "Режим «один тик — один шаг»: страница сама доезжает до следующей главы истории."],
-            ["▶", "Демо-режим", "Кнопка — и сайт сам кинематографично проезжает сверху вниз. Включайте запись экрана, рилс готов."],
-            ["✦", "Кинетический текст", "Заголовки собираются по словам, манифесты «загораются» по мере чтения — как у Apple."],
-            ["◇", "3D и магниты", "Карточки наклоняются к курсору с бликом, кнопки притягиваются. На тачах — аккуратная статика."],
-          ].map(([icon, t, d], i) => (
-            <article className="l3-card" key={t} data-tilt="8" data-reveal="up" style={{ ["--stagger" as never]: i % 3 }}>
-              <span className="l3-card__icon" aria-hidden="true">{icon}</span>
-              <h3>{t}</h3>
-              <p>{d}</p>
-              <span className="l3-card__glare" aria-hidden="true" />
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Цифры ── */}
-      <section className="l3-num" id="numbers" data-scene-tint="#10b981">
-        <div className="l3-num__grid">
-          {[
-            ["178+", "живых блоков в каталоге"],
-            ["60 сек", "от брифа до сайта"],
-            ["6", "анимационных движков"],
-            ["0", "чужих библиотек на сайте"],
-          ].map(([v, l], i) => (
-            <div className="l3-num__stat" key={l} data-reveal="up" style={{ ["--stagger" as never]: i }}>
-              <span className="l3-num__value" data-count>{v}</span>
-              <span className="l3-num__label">{l}</span>
+          <figure className="cl-brief-fig">
+            <div className="cl-brief">
+              <div className="cl-brief-page">
+                <span className="cl-brief-slug">Инт. Пекарня на углу — рассвет</span>
+                <p className="cl-brief-text">
+                  «Печём на закваске в дровяной печи с шести утра — запах слышно с улицы.
+                  Хочу, чтобы хлеб заказывали к завтраку».
+                </p>
+                <span className="cl-brief-sign">бриф · две фразы</span>
+              </div>
+              <div className="cl-lens">
+                <Image src={`${BIZ}/loaf.jpg`} alt="Первый экран сайта пекарни LOAF" fill sizes="(max-width: 820px) 92vw, 46vw" />
+                <div className="cl-lens-ui" aria-hidden>
+                  <span className="cl-lens-nav"><b>LOAF</b><i>The bake</i><i>The crumb</i><i>Reserve</i></span>
+                  <strong>SOURDOUGH</strong>
+                  <span>Wild yeast, a long slow proof, and a wood fire at dawn.</span>
+                </div>
+              </div>
+              <span className="cl-lens-ring" aria-hidden />
             </div>
-          ))}
+            <figcaption className="cl-brief-cap">
+              <Link href="/visual-hooks/loaf" prefetch={false}>Открыть сайт пекарни LOAF →</Link>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* ── Финальный CTA ── */}
-      <section className="l3-final" data-scene-tint="#3b5bff">
-        <h2 className="l3-final__title" data-reveal="word">Соберите свой первый сайт-кино</h2>
-        <p className="l3-final__sub" data-reveal="fade" style={{ ["--stagger" as never]: 2 }}>
-          Бесплатно. Без карточки. Через минуту у вас будет что показать.
-        </p>
-        <a className="l3-cta l3-cta--xl" href="/dashboard" data-magnet="0.25" data-reveal="scale">
-          Начать бесплатно
-        </a>
+      <section className="cl-reelstrip" aria-labelledby="cl-strip-t">
+        <div className="cl-strip-head">
+          <span className="cl-kick" id="cl-strip-t">Одна фраза о деле → первый экран</span>
+          <Link className="cl-link" href="/visual-hooks/sites" prefetch={false}>Все 50 бизнес-сайтов →</Link>
+        </div>
+        <div className="cl-strip">
+          <ul className="cl-strip-track">
+            {BRIEFS.map((b) => (
+              <li key={b.slug} className="cl-frame">
+                <Link href={`/visual-hooks/${b.slug}`} prefetch={false}>
+                  <span className="cl-frame-img">
+                    <Image src={`${BIZ}/${b.img}`} alt={`Первый экран сайта ${b.brand}`} fill sizes="(max-width: 820px) 45vw, 380px" />
+                  </span>
+                  <q>{b.brief}</q>
+                  <b>{b.brand}</b>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
-      <footer className="l3-footer">
-        <span>© {new Date().getFullYear()} Creatly</span>
-        <nav>
+      {/* ── ГЛАВА II · РЕЖИССУРА — вместо карточек фич: живые кадры приёмов из настоящих миров ── */}
+      <section className="cl-ch2" aria-labelledby="cl-ch2-t">
+        <div className="cl-ch-copy cl-ch-copy--wide">
+          <span className="cl-kick">Глава II · Режиссура</span>
+          <h2 id="cl-ch2-t" className="cl-h2">AI ставит сайт <em>как фильм</em></h2>
+          <p className="cl-p">
+            Выбирает мир и свет, режет историю на сцены, ставит склейки и находит героя,
+            который проведёт зрителя до заявки. Каждый приём работает на сюжет — не ради эффекта.
+          </p>
+        </div>
+        <div className="cl-shots">
+          <Link className="cl-shot cl-shot--portal" href="/animated/w-hollow" prefetch={false}>
+            <span className="cl-shot-frame">
+              <span className="cl-lay"><Image src={`${H}/s1-bg.webp`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+              <span className="cl-lay cl-lay-mid"><Image src={`${H}/s1-mid.webp`} alt="" fill sizes="(max-width: 820px) 70vw, 34vw" /></span>
+              <span className="cl-lay cl-lay-b"><Image src={`${H}/s2-bg.webp`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+              <span className="cl-shot-lamp" aria-hidden />
+              <span className="cl-shot-ring" aria-hidden />
+              <span className="cl-shot-slate">кадр 01 · склейка</span>
+            </span>
+            <b>Портал</b>
+            <span className="cl-shot-txt">Камера входит в свет фонаря и выходит уже в новой сцене. <span className="cl-world">Мир Hollow →</span></span>
+          </Link>
+          <Link className="cl-shot cl-shot--actor" href="/animated/w-emberroad" prefetch={false}>
+            <span className="cl-shot-frame">
+              <span className="cl-lay"><Image src={`${E}/s2-bg.webp`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+              <span className="cl-shot-caravan"><Image src={`${E}/actor-caravan.webp`} alt="" fill sizes="(max-width: 820px) 44vw, 22vw" /></span>
+              <span className="cl-shot-slate">кадр 02 · актёр</span>
+            </span>
+            <b>Актёр</b>
+            <span className="cl-shot-txt">Караван проходит все сцены сайта — до кнопки заявки. Лист, что сел на этот кадр, летит с вами с первого экрана. <span className="cl-world">Мир Ember Road →</span></span>
+          </Link>
+          <Link className="cl-shot cl-shot--freeze" href="/animated/w-tidewell" prefetch={false}>
+            <span className="cl-shot-frame">
+              <span className="cl-lay cl-lay-grade"><Image src={`${T}/s3-bg.webp`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+              <span className="cl-shot-diver"><Image src={`${T}/actor-diver-down.webp`} alt="" fill sizes="80px" /></span>
+              <span className="cl-shot-depth" aria-hidden><b>−18 m</b><i>one breath · hold it here</i></span>
+              <span className="cl-shot-slate">кадр 03 · стоп-кадр</span>
+            </span>
+            <b>Стоп-кадр</b>
+            <span className="cl-shot-txt">Камера встаёт, кадр выцветает, выходит цифра — зритель успевает её прочесть. <span className="cl-world">Мир Tidewell →</span></span>
+          </Link>
+          <Link className="cl-shot cl-shot--light" href="/animated/w-lumen" prefetch={false}>
+            <span className="cl-shot-frame">
+              <span className="cl-lay"><Image src={`${L}/s1-bg.webp`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+              <span className="cl-lay cl-lay-dawn"><Image src={`${L}/s4-bg.webp`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+              <span className="cl-shot-beam" aria-hidden />
+              <span className="cl-shot-slate">кадр 04 · свет</span>
+            </span>
+            <b>Свет и погода</b>
+            <span className="cl-shot-txt">Шторм сменяется рассветом прямо под текстом: фон — участник сюжета, а не заливка. <span className="cl-world">Мир Lumen →</span></span>
+          </Link>
+        </div>
+      </section>
+
+      {/* ── ГЛАВА III · САЙТ — обложки кино-историй листаются веером ── */}
+      <section className="cl-ch3" aria-labelledby="cl-ch3-t">
+        <i className="cl-mk cl-ch3-m0" aria-hidden />
+        <i className="cl-mk cl-ch3-m1" aria-hidden />
+        <div className="cl-pin cl-ch3-pin">
+          <div className="cl-ch-copy">
+            <span className="cl-kick">Глава III · Сайт</span>
+            <h2 id="cl-ch3-t" className="cl-h2">Готовый сайт — <em>ваш</em></h2>
+            <p className="cl-p">
+              Публикация в один клик, заявки приходят в Telegram, любой текст правится прямо
+              на странице. Первый сайт-фильм — меньше чем за час.
+            </p>
+            <Link className="cl-link" href="/story2" prefetch={false}>Все 20 кино-историй →</Link>
+          </div>
+          <div className="cl-deck">
+            {COVERS.map((c, i) => (
+              <Link key={c.slug} className="cl-cover" href={`/story2/${c.slug}`} prefetch={false} style={v({ "--i": i, "--r0": c.r0, "--ay": c.ay })}>
+                <Image src={`${S2}/${c.img}`} alt={`Обложка кино-истории ${c.name}`} fill sizes="(max-width: 820px) 34vw, 240px" />
+                <span>{c.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ВИТРИНЫ — карточки-порталы ── */}
+      <section className="cl-portals" id="showcase" aria-labelledby="cl-pt-t">
+        <div className="cl-ch-copy cl-ch-copy--wide">
+          <span className="cl-kick">Витрины</span>
+          <h2 id="cl-pt-t" className="cl-h2">Войдите в <em>любой мир</em></h2>
+          <p className="cl-p">Всё, что вы видели выше, живёт в наших витринах. Откройте любую — и листайте.</p>
+        </div>
+        <div className="cl-portal-grid">
+          <Link className="cl-portal cl-portal--worlds" href="/animated/worlds" prefetch={false}>
+            <span className="cl-portal-win">
+              <span className="cl-lay"><Image src={`${V}/s2-bg.webp`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+              <span className="cl-portal-ship"><Image src={`${V}/actor-aurelia.webp`} alt="" fill sizes="(max-width: 820px) 30vw, 14vw" /></span>
+            </span>
+            <span className="cl-portal-meta"><b>Миры</b><em>30 иллюстрированных сайтов-фильмов</em></span>
+            <span className="cl-portal-txt">Камера идёт сквозь сцены, актёр — вместе со зрителем. Там родился рил с первого экрана.</span>
+            <span className="cl-portal-go">Войти →</span>
+          </Link>
+          <Link className="cl-portal cl-portal--story" href="/story2" prefetch={false}>
+            <span className="cl-portal-win">
+              <span className="cl-lay"><Image src={`${S2}/forlorn-hero.jpg`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+            </span>
+            <span className="cl-portal-pop" aria-hidden><Image src={`${S2}/forlorn-hero-cut.png`} alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+            <span className="cl-portal-meta"><b>Кино-истории</b><em>20 сайтов-историй</em></span>
+            <span className="cl-portal-txt">Личный бренд, портфолио, артист: кадр перелетает из сцены в сцену, историю ведёт жест.</span>
+            <span className="cl-portal-go">Войти →</span>
+          </Link>
+          <Link className="cl-portal cl-portal--biz" href="/visual-hooks/sites" prefetch={false}>
+            <span className="cl-portal-win">
+              <span className="cl-lay cl-fan cl-fan-1"><Image src={`${BIZ}/curd.jpg`} alt="" fill sizes="(max-width: 820px) 60vw, 26vw" /></span>
+              <span className="cl-lay cl-fan cl-fan-2"><Image src={`${BIZ}/spice.jpg`} alt="" fill sizes="(max-width: 820px) 60vw, 26vw" /></span>
+              <span className="cl-lay cl-fan cl-fan-3"><Image src={`${BIZ}/lume.jpg`} alt="" fill sizes="(max-width: 820px) 60vw, 26vw" /></span>
+            </span>
+            <span className="cl-portal-meta"><b>Сайты для бизнеса</b><em>50 готовых сайтов</em></span>
+            <span className="cl-portal-txt">Сыроварня, специи, ювелир, кузница, бар: продукт — главный герой первого экрана.</span>
+            <span className="cl-portal-go">Войти →</span>
+          </Link>
+          <Link className="cl-portal cl-portal--hooks" href="/visual-hooks" prefetch={false}>
+            <span className="cl-portal-win">
+              <span className="cl-lay"><Image src="/uploads/1/hooks/scenes/held-world-poster.jpg" alt="" fill sizes="(max-width: 820px) 92vw, 44vw" /></span>
+            </span>
+            <span className="cl-portal-meta"><b>Первые экраны</b><em>24 хук-сцены</em></span>
+            <span className="cl-portal-txt">Мир на ладони, монолит, планета на горизонте — первый экран, с которого не уходят.</span>
+            <span className="cl-portal-go">Войти →</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* ── ФИНАЛ: та же чаща, что в первом кадре, — уже при свете ── */}
+      <section className="cl-final" aria-labelledby="cl-final-t">
+        <span className="cl-kick">Ваша очередь</span>
+        <h2 id="cl-final-t" className="cl-final-t">Соберите свой <em>сайт-фильм</em></h2>
+        <p className="cl-p">Бесплатный старт, без карточки. Первый сайт — меньше чем за час.</p>
+        <div className="cl-actions cl-actions--center">
+          <a className="cl-btn cl-btn--xl cl-final-cta" href="/dashboard">Начать бесплатно</a>
+          <a className="cl-ghost" href="/auth">У меня есть аккаунт</a>
+        </div>
+      </section>
+
+      <footer className="cl-foot">
+        <span className="cl-logo">Creatly</span>
+        <nav aria-label="Контакты">
           <a href="/auth">Вход</a>
           <a href="mailto:hello@creatly.ru">hello@creatly.ru</a>
         </nav>
@@ -178,81 +471,3 @@ export function LandingClient() {
     </div>
   );
 }
-
-const L3_CSS = `
-.l3{background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);overflow-x:hidden;min-height:100vh}
-.l3 a{-webkit-tap-highlight-color:transparent}
-.l3-eyebrow{font-size:.8125rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--color-accent);margin:0 0 1.25rem}
-.l3-h2{font-family:var(--font-heading);font-weight:600;font-size:clamp(1.7rem,3.6vw,2.9rem);letter-spacing:-.01em;line-height:1.12;margin:0 0 3rem;max-width:820px}
-.l3-cta{display:inline-flex;align-items:center;min-height:54px;padding:0 2.2rem;border-radius:var(--radius-full);background:var(--color-accent);color:#fff;text-decoration:none;font-weight:800;font-size:.95rem;box-shadow:0 16px 44px -12px rgba(59,91,255,.65);transition:box-shadow .3s}
-.l3-cta:hover{box-shadow:0 24px 56px -14px rgba(59,91,255,.85)}
-.l3-cta--sm{min-height:42px;padding:0 1.4rem;font-size:.85rem}
-.l3-cta--xl{min-height:62px;padding:0 3rem;font-size:1.05rem}
-.l3-ghost{color:var(--color-text);text-decoration:none;font-weight:700;font-size:.95rem;border-bottom:1.5px solid rgba(255,255,255,.25);padding-bottom:.15rem;transition:border-color .2s}
-.l3-ghost:hover{border-color:var(--color-accent)}
-
-.l3-header{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid transparent;transition:background .35s,border-color .35s,backdrop-filter .35s}
-.l3-header.is-scrolled{background:rgba(8,8,13,.72);backdrop-filter:blur(16px);border-bottom-color:rgba(255,255,255,.08)}
-.l3-header__in{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.9rem var(--space-block)}
-.l3-logo{font-family:var(--font-heading);font-weight:800;font-size:1.15rem;color:#fff;text-decoration:none;letter-spacing:-.01em}
-.l3-nav{display:flex;gap:clamp(1rem,2.5vw,2rem);margin:0 auto}
-.l3-nav a{color:var(--color-text-muted);text-decoration:none;font-weight:600;font-size:.9rem;transition:color .2s}
-.l3-nav a:hover{color:#fff}
-@media(max-width:768px){.l3-nav{display:none}}
-
-.l3-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem var(--space-block) 4rem}
-.l3-hero__title{font-family:var(--font-heading);font-weight:800;font-size:clamp(2.3rem,7vw,5.5rem);line-height:1.04;letter-spacing:-.02em;margin:0;max-width:1080px}
-.l3-hero__sub{font-size:clamp(1rem,1.6vw,1.25rem);color:var(--color-text-muted);line-height:1.7;max-width:640px;margin:1.75rem 0 2.5rem}
-.l3-hero__actions{display:flex;align-items:center;gap:1.75rem;flex-wrap:wrap;justify-content:center}
-.l3-hero__note{margin-top:2.75rem;font-size:.8125rem;letter-spacing:.06em;color:rgba(235,235,245,.4)}
-
-.l3-mq{padding:1.5rem 0;border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);overflow:hidden}
-.l3-mq__row{display:flex;width:max-content;animation:l3mq 30s linear infinite}
-.l3-mq__row--rev{animation-direction:reverse;animation-duration:38s;margin-top:.4rem}
-.l3-mq__row:hover{animation-play-state:paused}
-.l3-mq__track{display:flex;align-items:center}
-.l3-mq__item{display:inline-flex;align-items:center;white-space:nowrap}
-.l3-mq__item em{font-family:var(--font-heading);font-style:normal;font-weight:600;font-size:clamp(1.4rem,3vw,2.4rem);letter-spacing:-.01em;color:#fff;padding:0 clamp(.9rem,2vw,1.6rem)}
-.l3-mq__item i{font-style:normal;color:var(--color-accent);font-size:1rem}
-.l3-mq__item--ghost em{color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.35)}
-@keyframes l3mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.l3-mq__row{animation:none}}
-
-.l3-how{padding:clamp(5rem,14vh,9rem) var(--space-block);max-width:1280px;margin:0 auto}
-.l3-how__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem}
-.l3-step{position:relative;padding:2.5rem 2rem;border-radius:var(--radius-lg);background:rgba(255,255,255,.035);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.07)}
-.l3-step__num{font-family:var(--font-heading);font-weight:800;font-size:3.2rem;line-height:1;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1.5px rgba(59,91,255,.85);display:block;margin-bottom:1.4rem}
-.l3-step h3{font-family:var(--font-heading);font-weight:600;font-size:1.15rem;margin:0 0 .6rem}
-.l3-step p{color:var(--color-text-muted);line-height:1.65;font-size:.9375rem;margin:0}
-@media(max-width:768px){.l3-how__grid{grid-template-columns:1fr}}
-
-.l3-mani{padding:clamp(5rem,16vh,10rem) var(--space-block)}
-.l3-mani__text{font-family:var(--font-heading);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.75rem);line-height:1.4;letter-spacing:-.01em;max-width:960px;margin:0 auto}
-
-.l3-feat{padding:clamp(4rem,12vh,8rem) var(--space-block);max-width:1280px;margin:0 auto}
-.l3-feat__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;perspective:1100px}
-.l3-card{position:relative;overflow:hidden;padding:2.4rem 2rem;border-radius:var(--radius-lg);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .2s ease-out;will-change:transform}
-.l3-card.is-tilting{transition:transform .05s linear}
-.l3-card__glare{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.13) 0%,transparent 55%)}
-.l3-card.is-tilting .l3-card__glare{opacity:1}
-.l3-card__icon{font-size:1.35rem;display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:var(--radius-md);background:rgba(59,91,255,.16);margin-bottom:1.4rem}
-.l3-card h3{font-family:var(--font-heading);font-weight:600;font-size:1.1rem;margin:0 0 .55rem}
-.l3-card p{color:var(--color-text-muted);line-height:1.6;font-size:.9rem;margin:0}
-@media(max-width:900px){.l3-feat__grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.l3-feat__grid{grid-template-columns:1fr}}
-
-.l3-num{padding:clamp(4rem,12vh,7rem) var(--space-block)}
-.l3-num__grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
-.l3-num__value{font-family:var(--font-heading);font-weight:800;font-size:clamp(2.4rem,5.5vw,4.25rem);letter-spacing:-.02em;line-height:1;color:var(--color-accent);font-variant-numeric:tabular-nums;display:block;margin-bottom:.6rem}
-.l3-num__label{color:var(--color-text-muted);font-size:.9rem}
-@media(max-width:768px){.l3-num__grid{grid-template-columns:1fr 1fr;gap:2.25rem 1rem}}
-
-.l3-final{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem var(--space-block)}
-.l3-final__title{font-family:var(--font-heading);font-weight:800;font-size:clamp(2rem,5.5vw,4.25rem);letter-spacing:-.02em;line-height:1.06;margin:0 0 1.25rem;max-width:900px}
-.l3-final__sub{color:var(--color-text-muted);font-size:1.05rem;margin:0 0 2.5rem}
-
-.l3-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:1280px;margin:0 auto;padding:2rem var(--space-block);border-top:1px solid var(--color-border);color:rgba(235,235,245,.4);font-size:.85rem}
-.l3-footer nav{display:flex;gap:1.5rem}
-.l3-footer a{color:rgba(235,235,245,.55);text-decoration:none}
-.l3-footer a:hover{color:#fff}
-`;

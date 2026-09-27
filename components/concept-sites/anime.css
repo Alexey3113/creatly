@@ -77,8 +77,6 @@
 .am2-scene .ps-sticky{background:#f4e9ec}
 .am2-bg .ps-media{filter:contrast(1.02) saturate(1.05) brightness(1.02)}
 .am2-kanji{position:absolute;z-index:4;right:2vw;top:50%;transform:translateY(-50%);font:700 74vh/1 "Noto Sans JP",sans-serif;color:rgba(224,50,110,.1);pointer-events:none}
-.am2-figure{place-items:center;align-content:end}
-.am2-figure .ps-media{width:32vw;height:auto;max-width:none;filter:contrast(1.02) drop-shadow(0 20px 40px rgba(42,21,32,.28))}
 .am2-fg{justify-items:end;align-content:start}
 .am2-fg .ps-media{width:38vw;height:auto;max-width:none;filter:drop-shadow(0 8px 16px rgba(42,21,32,.2))}
 .am2-copy{justify-items:start;align-content:end;padding:0 0 13vh var(--pad)}
@@ -122,8 +120,10 @@
 .am4-head h2{margin:0;font:800 clamp(32px,4.8vw,68px)/1 "Bricolage Grotesque",sans-serif;color:#2a1520;text-transform:uppercase}
 .am4-head h2 em{font-style:normal;color:#e0326e}
 /* contents влетают манга-свушем с разных сторон + спид-стрик (по --lp, последовательно) */
-.am4-tocL{justify-items:center;align-content:center}
-.am4-toc{width:min(800px,88vw)}
+.am4-tocL{justify-items:start;align-content:center;padding:6vh 0 0 22vw}
+.am4-toc{width:min(680px,58vw)}
+.am4-art{justify-items:end;align-content:center}
+.am4-art .ps-media{width:50vw;height:auto;max-width:none;opacity:.9;-webkit-mask:linear-gradient(90deg,transparent,#000 34%);mask:linear-gradient(90deg,transparent,#000 34%)}
 .am4-item{position:relative;display:grid;grid-template-columns:50px 1fr auto auto;gap:22px;align-items:baseline;padding:16px 0;border-top:1px solid rgba(224,50,110,.28);
   opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 10, 1));
   transform:translateX(calc(var(--dir,1) * (1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 8, 1)) * 46px))}
@@ -157,7 +157,7 @@
 .am6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(92% 100% at 50% 42%,#e84a80,#c81e5c)}
 .am6-kanji{place-items:center}
 .am6-kanji span{font:700 64vh/1 "Noto Sans JP",sans-serif;color:rgba(255,255,255,.14)}
-.am6-play{position:absolute;z-index:5;left:64%;top:50%;transform:translate(-50%,-50%);width:110px;height:110px;border:3px solid #fff;border-radius:50%;display:grid;place-content:center}
+.am6-play{position:absolute;z-index:5;left:78%;top:50%;transform:translate(-50%,-50%);width:110px;height:110px;border:3px solid #fff;border-radius:50%;display:grid;place-content:center}
 .am6-play i{width:0;height:0;border-left:30px solid #fff;border-top:19px solid transparent;border-bottom:19px solid transparent;margin-left:8px}
 .am6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad)}
 .am6-copy .am-eyebrow{color:#fff}
@@ -166,7 +166,36 @@
 .am6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
 .am6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:rgba(255,255,255,.9)}
 .am6-scene a.am-btn{background:#2a1520;color:#fff}
-@media(max-width:900px){.am2-copy,.am6-cta{max-width:88vw}.am2-figure .ps-media{width:64vw}.am2-fg{display:none}
+@media(max-width:900px){.am2-copy,.am6-cta{max-width:88vw}.am2-fg{display:none}.am4-art{display:none}.am4-tocL{justify-items:center;padding:0}.am4-toc{width:88vw}
   .am3-u1 .am3-cel,.am3-u2 .am3-cel,.am3-u3 .am3-cel{width:50vw}.am3-u1{padding:0 0 8vh 5vw}.am3-u2{padding-top:2vh}.am3-u3{padding:8vh 5vw 0 0}
   .am4-item{grid-template-columns:40px 1fr auto;gap:6px 12px}.am4-item s{display:none}.am4-streak{display:none}
   .am5-bubble{width:78vw}.am5-b1{padding:12vh 0 0 4vw}.am5-b2{padding:0 4vw 0 0}.am5-b3{padding:0 0 12vh 4vw}.am6-play{display:none}}
+
+/* ===== v2 · Харука-актёр, лепестки, манга-стыки (аудит 2026-09) ===== */
+/* героиня «дышит» и чуть покачивается от ветра (волосы/рукава — всей фигурой), ветка сакуры качается */
+.am-actor img{filter:drop-shadow(0 28px 52px rgba(120,40,80,.28));transform-origin:50% 96%;animation:am-breath 4.6s ease-in-out infinite}
+@keyframes am-breath{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(-.7deg) scale(1.008,1.012)}}
+.am-petals .ps-media,.am2-fg .ps-media{transform-origin:90% 10%;animation:am-sway 6s ease-in-out infinite alternate}
+@keyframes am-sway{from{transform:rotate(-3deg)}to{transform:rotate(2.5deg)}}
+.am-blobs{animation:am-glow 7s ease-in-out infinite alternate}
+@keyframes am-glow{from{opacity:.8}to{opacity:1}}
+
+/* СТЫК «CUT TO — манга-гаттеры» (S2→S3): кадр режется на три косые панели, они раскрываются по очереди — внутри уже S3 */
+.am-site .am3-scene[data-ov]>.ps-sticky{opacity:1;
+  --w1:calc(clamp(0, var(--ovp,0) / .6, 1) * 17.6%);--w2:calc(clamp(0, (var(--ovp,0) - .18) / .6, 1) * 17.6%);--w3:calc(clamp(0, (var(--ovp,0) - .36) / .6, 1) * 17.6%);
+  -webkit-mask-image:linear-gradient(98deg,transparent calc(16.67% - var(--w1,0%)),#000 calc(16.67% - var(--w1,0%)),#000 calc(16.67% + var(--w1,0%)),transparent calc(16.67% + var(--w1,0%))),linear-gradient(98deg,transparent calc(50% - var(--w2,0%)),#000 calc(50% - var(--w2,0%)),#000 calc(50% + var(--w2,0%)),transparent calc(50% + var(--w2,0%))),linear-gradient(98deg,transparent calc(83.33% - var(--w3,0%)),#000 calc(83.33% - var(--w3,0%)),#000 calc(83.33% + var(--w3,0%)),transparent calc(83.33% + var(--w3,0%)));mask-image:linear-gradient(98deg,transparent calc(16.67% - var(--w1,0%)),#000 calc(16.67% - var(--w1,0%)),#000 calc(16.67% + var(--w1,0%)),transparent calc(16.67% + var(--w1,0%))),linear-gradient(98deg,transparent calc(50% - var(--w2,0%)),#000 calc(50% - var(--w2,0%)),#000 calc(50% + var(--w2,0%)),transparent calc(50% + var(--w2,0%))),linear-gradient(98deg,transparent calc(83.33% - var(--w3,0%)),#000 calc(83.33% - var(--w3,0%)),#000 calc(83.33% + var(--w3,0%)),transparent calc(83.33% + var(--w3,0%)))}
+.am3-gutters{position:absolute;inset:0;z-index:40;pointer-events:none;opacity:calc(1 - clamp(0, (var(--ovp,1) - .88) * 9, 1));background:linear-gradient(98deg,transparent calc(16.67% - var(--w1,0%)),#16121a calc(16.67% - var(--w1,0%)),#16121a calc(16.67% - var(--w1,0%) + .32%),transparent calc(16.67% - var(--w1,0%) + .32%)),linear-gradient(98deg,transparent calc(16.67% + var(--w1,0%) - .32%),#16121a calc(16.67% + var(--w1,0%) - .32%),#16121a calc(16.67% + var(--w1,0%)),transparent calc(16.67% + var(--w1,0%))),linear-gradient(98deg,transparent calc(50% - var(--w2,0%)),#16121a calc(50% - var(--w2,0%)),#16121a calc(50% - var(--w2,0%) + .32%),transparent calc(50% - var(--w2,0%) + .32%)),linear-gradient(98deg,transparent calc(50% + var(--w2,0%) - .32%),#16121a calc(50% + var(--w2,0%) - .32%),#16121a calc(50% + var(--w2,0%)),transparent calc(50% + var(--w2,0%))),linear-gradient(98deg,transparent calc(83.33% - var(--w3,0%)),#16121a calc(83.33% - var(--w3,0%)),#16121a calc(83.33% - var(--w3,0%) + .32%),transparent calc(83.33% - var(--w3,0%) + .32%)),linear-gradient(98deg,transparent calc(83.33% + var(--w3,0%) - .32%),#16121a calc(83.33% + var(--w3,0%) - .32%),#16121a calc(83.33% + var(--w3,0%)),transparent calc(83.33% + var(--w3,0%)))}
+/* СТЫК «удар» (S4→S5): отзывы врываются звездой speed-lines из центра */
+.am-site .am5-scene[data-ov]>.ps-sticky{opacity:1;--R:calc(var(--ovp,0) * var(--ovp,0) * 150vmax);clip-path:polygon(calc(50% + var(--R) * 0.000) calc(50% + var(--R) * -1.000),calc(50% + var(--R) * 0.214) calc(50% + var(--R) * -0.517),calc(50% + var(--R) * 0.707) calc(50% + var(--R) * -0.707),calc(50% + var(--R) * 0.517) calc(50% + var(--R) * -0.214),calc(50% + var(--R) * 1.000) calc(50% + var(--R) * 0.000),calc(50% + var(--R) * 0.517) calc(50% + var(--R) * 0.214),calc(50% + var(--R) * 0.707) calc(50% + var(--R) * 0.707),calc(50% + var(--R) * 0.214) calc(50% + var(--R) * 0.517),calc(50% + var(--R) * 0.000) calc(50% + var(--R) * 1.000),calc(50% + var(--R) * -0.214) calc(50% + var(--R) * 0.517),calc(50% + var(--R) * -0.707) calc(50% + var(--R) * 0.707),calc(50% + var(--R) * -0.517) calc(50% + var(--R) * 0.214),calc(50% + var(--R) * -1.000) calc(50% + var(--R) * 0.000),calc(50% + var(--R) * -0.517) calc(50% + var(--R) * -0.214),calc(50% + var(--R) * -0.707) calc(50% + var(--R) * -0.707),calc(50% + var(--R) * -0.214) calc(50% + var(--R) * -0.517))}
+/* СТЫК «взрыв схлопывается в play» (S5→S6): взрыв виден в круге, который сжимается точно в кнопку */
+.am-site .am6-scene[data-ov]>.ps-sticky{opacity:1;--r:calc((1 - var(--ovp,0)) * (1 - var(--ovp,0)) * 150vmax);
+  -webkit-mask-image:radial-gradient(circle at 78% 50%,transparent var(--r),#000 calc(var(--r) + 1px));mask-image:radial-gradient(circle at 78% 50%,transparent var(--r),#000 calc(var(--r) + 1px))}
+.am6-ring{position:absolute;inset:0;z-index:40;pointer-events:none;opacity:calc(1 - clamp(0, (var(--ovp,1) - .92) * 12, 1));
+  background:radial-gradient(circle at 78% 50%,transparent var(--r,0px),#fff var(--r,0px),#fff calc(var(--r,0px) + .5vmax),rgba(255,255,255,.35) calc(var(--r,0px) + .7vmax),transparent calc(var(--r,0px) + 2.6vmax))}
+
+@media(prefers-reduced-motion:reduce){
+  .am-site *,.am-site *::before,.am-site *::after{animation:none!important}
+  .am-site .am-exit{opacity:1!important}
+  .am-site .ps-scene[data-ov]>.ps-sticky{clip-path:none;-webkit-mask-image:none;mask-image:none;opacity:1}
+  .am3-gutters,.am6-ring{display:none}
+}

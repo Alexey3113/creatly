@@ -1,116 +1,95 @@
-/* VERTEX — 3d-product-theatre на ScrollStage. Полка объектов из одного кинокадра: pin-сцена панит
-   кроп-слой по --t (translateX), rack-focus = резкая копия под радиальной центр-маской поверх мягкой
-   размытой подложки → в фокусе только объект по центру; лот-таблички сменяются clip-path-wipe'ом.
-   Палитра из кадра: amber lamp #e2b26f · burgundy #8a2f2a · walnut #2a1810 · cream #f1ddb6.
-   Шрифт: Fraunces (аукционный дисплей) + Archivo (лейблы). --t со сцены, --px/--py с корня. */
+/* VERTEX — одна проводка вдоль стола. Кадр fixed под всеми главами: мягкая (размытая) копия + резкая под
+   экранной маской фокуса. Камеру (--s/--tx/--ty), фокус (--focus), сумерки (--dusk) и время часов (--mm)
+   пишет scene-kit <Follow> на корень. Палитра из кадра: amber lamp #e2b26f · burgundy · walnut · cream.
+   Шрифт: Fraunces (аукционный дисплей) + Archivo (лейблы). */
 
 .vx{
   --ink:#140b06; --ink-2:#1d1108; --walnut:#2a1810; --cream:#f1ddb6; --cream-2:#f7ead0;
   --amber:#e2b26f; --amber-2:#f0c583; --gold:#caa46a; --burg:#a03a33; --burg-2:#c05046;
+  --s:1.02; --tx:0; --ty:0; --dusk:0; --mm:0; --focus:0;
   background:var(--ink); color:var(--cream); font-family:"Archivo",system-ui,sans-serif;
 }
-.vx .vx-line{ display:block; overflow:hidden; }
+.vx .scene{ z-index:2; background:transparent; }
+.vx .vx-line{ display:block; overflow:hidden; padding-bottom:.08em; }
 .vx .vx-line > i{ display:block; font-style:normal;
   --p:clamp(0, calc((var(--t,0) - 0.08 - var(--d,0)*0.07) * 3.0), 1);
   transform:translateY(calc((1 - var(--p)) * 116%)); opacity:var(--p); will-change:transform; }
 .vx-amber > i, .vx-amber{ color:var(--amber-2); }
 .vx-kick{ position:absolute; top:5vh; left:6vw; right:6vw; display:flex; justify-content:space-between;
-  font:700 11px "Archivo"; letter-spacing:.24em; color:#a8895e; z-index:6; }
-.vx-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.18em; color:#a8895e; z-index:6; }
+  font:700 11px "Archivo"; letter-spacing:.24em; color:#b89868; z-index:6; }
+.vx-cue{ position:absolute; bottom:5vh; left:6vw; font:700 11px "Archivo"; letter-spacing:.18em; color:#b89868; z-index:6; }
 
-/* 0 · COVER — весь кадр, медленный ken-burns */
-.vx-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 0 4vh; }
-.vx-cover-img{ position:absolute; inset:-3%; background-size:cover; background-position:center 46%;
-  transform:scale(calc(1.03 + var(--t,0)*0.09)); transform-origin:56% 60%; will-change:transform; }
-.vx-cover-grade{ position:absolute; inset:0;
-  background:linear-gradient(94deg, rgba(20,11,6,.9) 0%, rgba(20,11,6,.5) 34%, rgba(20,11,6,.05) 62%),
-             linear-gradient(180deg, rgba(20,11,6,.55) 0%, rgba(20,11,6,0) 30%, rgba(20,11,6,.6) 88%); }
-.vx-cover-copy{ position:relative; z-index:4; padding:0 6vw; width:min(92vw,54rem); }
-.vx-eyebrow{ margin:0 0 18px; font:700 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:var(--amber); }
-.vx-hero{ margin:0; font:500 clamp(46px,9.4vw,164px)/.95 "Fraunces",serif; letter-spacing:-.015em;
-  text-shadow:0 10px 60px rgba(10,6,3,.6); }
-.vx-hero i{ font-style:normal; }
-
-/* 1 · SHELF — pin-scrub. .scene-pin{overflow:visible} чинит sticky; клип — на .scene-sticky. */
-.vx-shelf .scene-sticky{ background:radial-gradient(120% 120% at 56% 50%, #1c1109 0%, #0c0603 74%); }
-.vx-stage{ position:absolute; inset:0; }
-
-/* общий пан+dolly для обеих копий: центрируем поочерёдно каждый объект. tune: bird→tide.
-   scale~1.62 даёт запас на горизонтальный проезд; translateX ведёт объект в центр по --t. */
-.vx-plane{ position:absolute; inset:0; background-size:cover; background-position:center 62%;
-  transform-origin:50% 62%;
-  transform:
-    translate3d( calc(46% - var(--t,0)*82% + var(--px,0)*10px), calc(-16% + var(--py,0)*8px), 0)
-    scale(1.62);
+/* СТОЛ ------------------------------------------------------------------- */
+.vx-world{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; background:#0c0603; }
+.vx-cam{ position:absolute; left:50%; top:50%; width:max(100vw, 179.2vh); height:max(100vh, 55.8vw);
+  transform:translate(-50%,-50%) translate3d(calc(var(--tx) * 1% + var(--px,0) * 8px), calc(var(--ty) * 1% + var(--py,0) * 6px), 0) scale(var(--s));
   will-change:transform; }
-/* мягкая подложка — весь стол, но размыт и притушен (контекст «вне фокуса») */
-.vx-plane-soft{ filter:blur(9px) brightness(.62) saturate(1.02); z-index:1; }
-/* резкая копия — видна только в центральной фокус-зоне через радиальную маску (rack-focus) */
-.vx-plane-sharp{ z-index:2; filter:brightness(1.03) saturate(1.06) contrast(1.03);
-  -webkit-mask-image:radial-gradient(38% 60% at 50% 54%, #000 0%, #000 34%, rgba(0,0,0,.55) 56%, transparent 76%);
-          mask-image:radial-gradient(38% 60% at 50% 54%, #000 0%, #000 34%, rgba(0,0,0,.55) 56%, transparent 76%); }
-/* тёплый ореол лампы (верх-право кадра) — «дышит» по --t */
-.vx-lamp{ position:absolute; z-index:3; inset:0; pointer-events:none; mix-blend-mode:screen;
-  background:radial-gradient(30% 40% at 74% 26%, rgba(240,197,131,calc(.16 + var(--t,0)*.12)), transparent 60%); }
-/* центральный тёплый прожектор фокуса */
-.vx-spot{ position:absolute; z-index:3; inset:0; pointer-events:none;
-  background:radial-gradient(34% 52% at 50% 54%, rgba(240,197,131,.12), transparent 62%); }
-.vx-vignette{ position:absolute; z-index:4; inset:0; pointer-events:none;
-  background:
-    radial-gradient(120% 92% at 50% 52%, transparent 40%, rgba(10,6,3,.72) 100%),
-    linear-gradient(180deg, rgba(12,7,3,.5) 0%, transparent 20%, transparent 66%, rgba(10,6,3,.82) 100%); }
-
-/* центральная фокус-рамка — тонкие уголки-«brackets» */
-.vx-frame{ position:absolute; z-index:6; left:50%; top:54%; width:min(40vw,440px); height:min(52vh,430px);
-  transform:translate(-50%,-50%); pointer-events:none;
-  opacity:calc(.5 + min(.5, var(--t,0)*1.2)); }
-.vx-frame-cnr{ position:absolute; width:22px; height:22px; border:1.5px solid rgba(240,197,131,.7); }
+.vx-plate{ position:absolute; inset:0; background-size:100% 100%; }
+.vx-plate-soft{ filter:blur(calc(var(--focus) * 8px)) brightness(calc(1 - var(--focus) * .36)) saturate(1.02); }
+.vx-plate-sharp{ filter:brightness(1.04) saturate(1.06) contrast(1.03); }
+/* резкая зона: экранная маска фокуса — сужается к центру, когда камера встаёт на лот */
+.vx-sharpwin{ position:absolute; inset:0;
+  -webkit-mask-image:radial-gradient(calc(26% + (1 - var(--focus)) * 120%) calc(40% + (1 - var(--focus)) * 120%) at 50% 52%, #000 52%, transparent 100%);
+          mask-image:radial-gradient(calc(26% + (1 - var(--focus)) * 120%) calc(40% + (1 - var(--focus)) * 120%) at 50% 52%, #000 52%, transparent 100%); }
+.vx-dusk{ position:absolute; inset:0; mix-blend-mode:multiply; opacity:calc(var(--dusk) * .85);
+  background:radial-gradient(90% 80% at 50% 52%, #7a5a40, #2a160c 70%); }
+.vx-world::after{ content:""; position:absolute; inset:0;
+  background:radial-gradient(120% 92% at 50% 52%, transparent 44%, rgba(10,6,3,.66) 100%),
+             linear-gradient(180deg, rgba(12,7,3,.4) 0%, transparent 20%, transparent 64%, rgba(10,6,3,.78) 100%); }
+/* фокус-рамка по центру — видна, когда камера стоит на лоте */
+.vx-frame{ position:absolute; z-index:2; left:50%; top:52%; width:min(30vw,380px); height:min(44vh,380px);
+  transform:translate(-50%,-50%) scale(calc(1.2 - var(--focus) * .2)); opacity:calc(var(--focus) * .85); }
+.vx-frame-cnr{ position:absolute; width:22px; height:22px; border:1.5px solid rgba(240,197,131,.75); }
 .vx-tl{ top:0; left:0; border-right:0; border-bottom:0; }
 .vx-tr{ top:0; right:0; border-left:0; border-bottom:0; }
 .vx-bl{ bottom:0; left:0; border-right:0; border-top:0; }
 .vx-br{ bottom:0; right:0; border-left:0; border-top:0; }
 
-/* бегущий прогресс полки */
-.vx-progress{ position:absolute; z-index:6; top:5vh; left:6vw; right:6vw; height:1px; background:rgba(168,137,94,.28); }
-.vx-progress-fill{ position:absolute; inset:0 auto 0 0; width:calc(var(--t,0)*100%); background:var(--amber); }
+/* ЧАСЫ АУКЦИОНА (актёр) ----------------------------------------------------- */
+.vx-clock{ display:block; width:100%; height:auto; overflow:visible; filter:drop-shadow(0 10px 18px rgba(10,6,3,.6)); }
+.vx-clock-rim{ fill:#2a1810; stroke:var(--gold); stroke-width:3; }
+.vx-clock-face{ fill:#f1e2c2; }
+.vx-clock-tick{ stroke:#5a3a20; stroke-width:2; stroke-linecap:round; }
+.vx-hand{ stroke:#2a1810; stroke-linecap:round; transform-origin:50px 50px; }
+.vx-hand-h{ stroke-width:4; transform:rotate(calc(180deg + var(--mm) * .5deg)); }
+.vx-hand-m{ stroke-width:2.5; stroke:var(--burg); transform:rotate(calc(var(--mm) * 6deg)); }
+.vx-clock-pin{ fill:var(--gold); }
 
-/* нижние лот-таблички — истинная СМЕНА wipe'ом clip-path по --t (окна совпадают с паном) */
-.vx-plaques{ position:absolute; z-index:7; left:6vw; bottom:11vh; width:min(94vw,64rem); height:26vh; }
-.vx-plaque{ position:absolute; left:0; bottom:0; display:flex; flex-direction:column; justify-content:flex-end;
-  --c:calc(0.13 + var(--i,0)*0.25);
-  --in:clamp(0, calc((var(--t,0) - (var(--c) - 0.15)) / 0.10), 1);
-  --out:clamp(0, calc((var(--t,0) - (var(--c) + 0.09)) / 0.10), 1);
-  z-index:calc(var(--i,0) + 1);
-  clip-path:inset(0 calc((1 - var(--in)) * 100%) 0 calc(var(--out) * 100%)); }
+/* 0 · COVER ----------------------------------------------------------------- */
+.vx-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 0 4vh; min-height:100vh;
+  background:linear-gradient(94deg, rgba(20,11,6,.86) 0%, rgba(20,11,6,.46) 34%, rgba(20,11,6,0) 60%); }
+.vx-cover-copy{ position:relative; z-index:4; padding:0 6vw; width:max-content; max-width:92vw; }
+.vx-eyebrow{ margin:0 0 18px; font:700 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:var(--amber); }
+.vx-hero{ margin:0; font:500 clamp(46px,8.2vw,146px)/.95 "Fraunces",serif; letter-spacing:-.015em; text-shadow:0 10px 60px rgba(10,6,3,.6); }
+.vx-hero i{ font-style:normal; }
+
+/* ЛОТЫ ------------------------------------------------------------------------ */
+.vx-lot{ min-height:105vh; }
+.vx-plaque{ position:absolute; left:6vw; top:calc(50% + 14vh); display:flex; flex-direction:column;
+  --far:max(calc(var(--t,0) - .5), calc(.5 - var(--t,0)));
+  --v:clamp(0, calc((0.24 - var(--far)) / 0.08), 1);
+  opacity:var(--v); transform:translateY(calc((1 - var(--v)) * 22px)); will-change:transform,opacity; }
 .vx-plaque-lot{ font:700 12px "Archivo"; letter-spacing:.26em; color:var(--amber-2); }
-.vx-plaque h2{ margin:6px 0 8px; font:500 clamp(36px,5.4vw,84px)/.92 "Fraunces",serif; letter-spacing:-.02em;
-  color:var(--cream-2); white-space:nowrap; text-shadow:0 8px 44px rgba(10,6,3,.7); }
+.vx-plaque h2{ margin:6px 0 8px; font:500 clamp(36px,5vw,80px)/.92 "Fraunces",serif; letter-spacing:-.02em;
+  color:var(--cream-2); text-shadow:0 8px 44px rgba(10,6,3,.8); }
 .vx-plaque-mat{ font:400 italic clamp(17px,1.9vw,26px) "Fraunces",serif; color:var(--gold); }
-.vx-plaque-prov{ margin-top:4px; font:600 11px "Archivo"; letter-spacing:.16em; text-transform:uppercase; color:#9a7e56; }
-.vx-shelf-tag{ position:absolute; z-index:7; right:6vw; bottom:11vh; font:600 11px "Archivo";
-  letter-spacing:.2em; text-transform:uppercase; color:#9a7e56; }
+.vx-plaque-prov{ margin-top:4px; font:600 11px "Archivo"; letter-spacing:.16em; text-transform:uppercase; color:#b0936a; }
 
-/* 2 · OUTRO — свет садится */
-.vx-end{ display:grid; place-items:center; text-align:center; }
-.vx-end-img{ position:absolute; inset:0; background-size:cover; background-position:center 58%;
-  transform:scale(calc(1.1 - var(--t,0)*0.07)); transform-origin:56% 60%; will-change:transform; filter:brightness(.5) saturate(1.04); }
-.vx-end-veil{ position:absolute; inset:0;
-  background:radial-gradient(90% 80% at 50% 46%, rgba(20,11,6,.5), rgba(10,6,3,.9));
-  opacity:calc(.6 + min(.35, var(--t,0)*.6)); }
+/* 5 · OUTRO ------------------------------------------------------------------- */
+.vx-end{ display:flex; flex-direction:column; justify-content:flex-end; align-items:center; padding-bottom:9vh; text-align:center; min-height:100vh;
+  background:linear-gradient(180deg, transparent 30%, rgba(12,7,3,.7) 80%); }
 .vx-end-block{ position:relative; z-index:2; padding:0 6vw; }
-.vx-end-eyebrow{ margin:0 0 20px; font:700 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:var(--amber); }
-.vx-end-block h2{ margin:0 0 40px; font:500 clamp(42px,8.6vw,142px)/.96 "Fraunces",serif; letter-spacing:-.015em;
+.vx-end-eyebrow{ margin:0 0 18px; font:700 12px "Archivo"; letter-spacing:.22em; text-transform:uppercase; color:var(--amber); }
+.vx-end-block h2{ margin:0 0 34px; font:500 clamp(42px,7.4vw,126px)/.96 "Fraunces",serif; letter-spacing:-.015em;
   text-shadow:0 10px 60px rgba(10,6,3,.7); }
 .vx-end-block h2 i{ font-style:normal; }
-.vx-btn{ display:inline-block; padding:15px 34px; border:1px solid var(--amber); border-radius:2px;
-  color:var(--amber-2); text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em;
-  opacity:calc(clamp(0, (var(--t,0)-0.2)*3, 1)); transition:background .3s,color .3s; }
-.vx-btn:hover{ background:var(--amber); color:#140b06; }
+.vx-btn{ display:inline-block; padding:15px 34px; background:var(--amber); border-radius:2px;
+  color:#140b06; text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em;
+  box-shadow:0 12px 40px rgba(226,178,111,.3); transition:background .3s; }
+.vx-btn:hover{ background:var(--amber-2); }
 
 @media (prefers-reduced-motion:reduce){
   .vx .vx-line > i{ transform:none; opacity:1; }
-  .vx-cover-img,.vx-end-img{ transform:none; }
-  .vx-plane{ transform:scale(1.62) translate(-6%,-16%); }
-  .vx-plaque:not(:last-child){ display:none; } .vx-plaque{ clip-path:none; }
-  .vx-btn{ opacity:1; }
+  .vx-cam{ transform:translate(-50%,-50%) scale(1.02); }
+  .vx-plaque{ opacity:1; transform:none; }
 }

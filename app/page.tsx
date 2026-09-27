@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-// v3 — лендинг на движках продукта (сцена/story/text-runtime);
+// Главная — сама фильм и витрина: рил на Reel v2 + scene-kit (актёр, атмосфера, плиты миров), порталы в витрины.
 // v1 остаётся в components/landing как запасной вариант.
+// Срок в копи и meta один и правдивый: «первый сайт — меньше чем за час» (медиа-конвейер генерации — десятки минут).
 import { LandingClient } from "@/components/landing-3/LandingClient";
 
 export const metadata: Metadata = {
   title: "Creatly — Создание сайтов с AI | Конструктор сайтов под ключ",
-  description: "Расскажите о бизнесе — получите профессиональный сайт за 2 минуты. AI-генерация, inline-редактирование, заявки в Telegram. Бесплатный старт.",
+  description: "Опишите бизнес в паре фраз — AI поставит сайт как фильм: мир, свет, склейки, тексты. Первый сайт — меньше чем за час. Заявки в Telegram, бесплатный старт.",
   keywords: [
     "конструктор сайтов", "создание сайтов", "AI конструктор", "сайт под ключ",
     "создать сайт бесплатно", "лендинг пейдж", "генератор сайтов",
@@ -22,14 +23,14 @@ export const metadata: Metadata = {
     locale: "ru_RU",
     url: "https://creatly.ru",
     siteName: "Creatly",
-    title: "Creatly — Создание сайтов с AI за 2 минуты",
-    description: "Опишите бизнес голосом или текстом — AI создаст профессиональный сайт. Inline-редактирование, заявки в Telegram, публикация в один клик.",
+    title: "Creatly — сайты, которые листают как кино",
+    description: "Опишите бизнес голосом или текстом — AI поставит сайт как фильм меньше чем за час. Правка прямо на странице, заявки в Telegram, публикация в один клик.",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "Creatly — AI-конструктор сайтов" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Creatly — Создание сайтов с AI за 2 минуты",
-    description: "Опишите бизнес — получите сайт. AI-генерация, inline-редактирование, заявки в Telegram.",
+    title: "Creatly — сайты, которые листают как кино",
+    description: "Опишите бизнес — AI поставит сайт как фильм меньше чем за час. Правка прямо на странице, заявки в Telegram.",
     images: ["/og.png"],
   },
   robots: {
@@ -47,7 +48,7 @@ const jsonLd = {
   applicationCategory: "WebApplication",
   operatingSystem: "Web",
   url: "https://creatly.ru",
-  description: "AI-конструктор сайтов. Расскажите о бизнесе — получите профессиональный сайт за 2 минуты.",
+  description: "AI-конструктор сайтов. Опишите бизнес — AI поставит сайт как фильм; первый сайт — меньше чем за час.",
   offers: {
     "@type": "Offer",
     price: "0",

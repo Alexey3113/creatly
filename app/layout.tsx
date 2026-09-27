@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: { default: "Creatly — AI-конструктор сайтов", template: "%s | Creatly" },
-  description: "Создавайте профессиональные сайты с помощью AI за 2 минуты. Конструктор нового поколения.",
+  description: "Сайты, которые листают как кино: AI собирает сюжет, сцены и переходы — первый сайт меньше чем за час.",
   metadataBase: new URL("https://creatly.ru"),
   icons: {
     icon: [

@@ -96,7 +96,7 @@
 
 /* S3 THE FLOOR — манга-панели */
 .j3-scene .ps-sticky{background:#0e0308}
-.j3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1c0813,#0a0206)}
+.j3-bg{position:absolute;inset:0;z-index:1;background:var(--moon),radial-gradient(80% 92% at 50% 42%,#1c0813,#0a0206)}
 .j3-word{place-items:center}
 .j3-word span{font:900 62vh/1 "Noto Sans JP",sans-serif;color:rgba(255,61,127,.08)}
 /* манга-панели: фикс. комикс-сетка с белыми рамками, чёрные гаттеры */
@@ -116,14 +116,14 @@
 
 /* S4 THE NIGHTS — лайн-ап */
 .j4-scene .ps-sticky{background:#0e0308}
-.j4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1c0813,#0a0206)}
-.j4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.j4-bg{position:absolute;inset:0;z-index:1;background:var(--moon),radial-gradient(84% 92% at 50% 42%,#1c0813,#0a0206)}
+.j4-head{justify-items:center;align-content:start;text-align:center;padding-top:41vh}
 .j4-head .jc-eyebrow{color:var(--accent)}
 .j4-head h2{margin:0;font:900 clamp(32px,4.8vw,68px)/1 "Noto Sans JP",sans-serif;color:#ffe0ec}
 .j4-head h2 em{font-style:normal;color:var(--accent)}
 /* дек: каждый вечер — трек, неоновый уровень-бар заполняется по --lp (последовательно) */
-.j4-deckL{justify-items:center;align-content:center;padding-top:2vh}
-.j4-deck{width:min(880px,90vw)}
+.j4-deckL{justify-items:center;align-content:start;padding-top:55vh}
+.j4-deck{width:min(860px,62vw)}
 .j4-night{display:grid;grid-template-columns:82px minmax(0,1fr) minmax(110px,1.3fr) auto auto;gap:20px;align-items:center;padding:15px 0;border-top:1px solid rgba(255,61,127,.24);
   opacity:calc(clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1));transform:translateX(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * 14px))}
 .j4-night time{font:700 14px "DM Mono",monospace;color:var(--accent);letter-spacing:.04em}
@@ -155,15 +155,59 @@
 
 /* S6 THE LIST — гигант-кандзи 入 + CTA */
 .j6-scene .ps-sticky{background:#0e0308}
-.j6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 50% 42%,#1c0813,#0a0206)}
+.j6-bg{position:absolute;inset:0;z-index:1;background:var(--moon),radial-gradient(82% 86% at 50% 42%,#240a18,#0a0206)}
 .j6-kanji{place-items:center}
-.j6-kanji span{font:900 66vh/1 "Noto Sans JP",sans-serif;color:transparent;-webkit-text-stroke:2px rgba(255,61,127,.45)}
+.j6-kanji span{font:900 66vh/1 "Noto Sans JP",sans-serif;color:transparent;-webkit-text-stroke:2px rgba(255,61,127,.26)}
 .j6-copy{justify-items:center;align-content:center;text-align:center}
 .j6-copy .jc-eyebrow{color:var(--accent)}
-.j6-copy h2{margin:0;font:900 clamp(52px,9vw,150px)/.88 "Noto Sans JP",sans-serif;color:#ffe0ec}
+.j6-copy h2{margin:0;font:900 clamp(48px,7vw,116px)/.88 "Noto Sans JP",sans-serif;color:#ffe0ec}
 .j6-copy h2 em{font-style:normal;color:var(--accent)}
 .j6-cta{position:absolute;z-index:16;left:50%;bottom:12vh;transform:translateX(-50%);text-align:center;max-width:44ch}
 .j6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#c77a97}
 @media(max-width:900px){.j2-copy,.j6-cta{max-width:88vw}.j2-figure .ps-media{width:64vw}.j2-fg{display:none}.j3-copy>*{max-width:90vw}
   .j4-deck{width:92vw}.j4-night{grid-template-columns:60px 1fr auto;gap:6px 10px}.j4-meter{grid-column:1 / -1;order:5}.j4-bpm{font-size:10px}
   .j5-neon>div{width:82vw}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
+/* луна: позиция от Follow (--mx/--my на корне), катится по небу S3→S6 */
+.jc-site{--moon:radial-gradient(circle 11vh at var(--mx,82%) var(--my,20%),rgba(255,92,149,.62),rgba(255,61,127,.42) 93%,transparent 100%),radial-gradient(circle 34vh at var(--mx,82%) var(--my,20%),rgba(255,61,127,.2),transparent 70%)}
+/* актёр: неоновые тории (svg) — мерцает неоном */
+.jc-torii{display:block;width:100%;height:auto;aspect-ratio:200/170;overflow:visible;animation:jc-tneon 4.8s infinite}
+.jc-torii .l{fill:rgba(14,3,8,.3);stroke:#ff5c95;stroke-width:2}
+.jc-torii .g{fill:none;stroke:rgba(255,61,127,.32);stroke-width:10}
+@keyframes jc-tneon{0%,100%{opacity:1}41%{opacity:1}42%{opacity:.45}43%{opacity:1}71%{opacity:.85}72%{opacity:.3}74%{opacity:1}}
+
+/* HERO: в покое мигает неон 夜, рябит вода; в конце камера влетает в проём нарисованных тории */
+.jc-hero{--go:clamp(0,(var(--sp,0) - .783) / .217,1)}
+.jc-bg .ps-media{transform-origin:30.4% 51.75%;transform:scale(calc(1 + var(--go) * var(--go) * 7))}
+.jc-kanji span{opacity:calc(.9 - var(--go) * 2);animation:jc-kneon 5.2s infinite}
+@keyframes jc-kneon{0%,100%{text-shadow:0 0 90px rgba(255,61,127,.4);color:#ff3d7f}44%{text-shadow:0 0 90px rgba(255,61,127,.4);color:#ff3d7f}45%{text-shadow:none;color:#8a1f45}46%{text-shadow:0 0 30px #ff3d7f,0 0 120px rgba(255,61,127,.7);color:#ff5c95}48%{text-shadow:none;color:#8a1f45}50%{text-shadow:0 0 30px #ff3d7f,0 0 120px rgba(255,61,127,.6);color:#ff4a88}}
+.jc-figure .ps-media{opacity:calc(1 - var(--go) * 2);transform:scale(calc(1 + var(--go) * .35));transform-origin:60% 100%}
+.jc-petals .ps-media{opacity:calc(1 - var(--go) * 2)}
+.jc-left>*,.jc-tr-block,.jc-br-block,.jc-bl-block,.jc-cue{opacity:calc(1 - var(--go) * 3)}
+.jc-ripple{position:absolute;left:0;right:0;bottom:0;height:38vh;z-index:2;pointer-events:none;mix-blend-mode:screen;opacity:calc(.55 - var(--go));
+  background:repeating-linear-gradient(180deg,transparent 0 9px,rgba(255,140,185,.28) 9px 10px,transparent 10px 17px),repeating-linear-gradient(90deg,transparent 0 40px,rgba(255,61,127,.14) 40px 70px,transparent 70px 110px);
+  -webkit-mask:linear-gradient(transparent,#000 45%);mask:linear-gradient(transparent,#000 45%);animation:jc-ripple 3.4s ease-in-out infinite alternate}
+@keyframes jc-ripple{from{background-position:0 0,0 0;transform:skewX(0deg) scaleY(1)}to{background-position:0 17px,-110px 0;transform:skewX(-3deg) scaleY(1.03)}}
+
+/* S1→S2: следующая сцена в проёме тории hero (синхронно с зумом: --ovp ≡ --go) */
+.jc-site .j2-scene[data-ov]>.ps-sticky{opacity:clamp(0,var(--ovp,0) * 40,1);--z:calc(1 + var(--ovp,0) * var(--ovp,0) * 7);
+  clip-path:inset(max(0px,calc(54.2vh - 12.95vh * var(--z))) max(0px,calc(72.6% - 10.3vw * var(--z))) max(0px,calc(45.8vh - 12.95vh * var(--z))) max(0px,calc(27.4% - 10.3vw * var(--z))))}
+/* S2: в конце камера проходит в проём тории S2 */
+.j2-scene{--go:clamp(0,(var(--sp,0) - .667) / .333,1)}
+.j2-bg .ps-media{transform-origin:50.6% 54.5%;transform:scale(calc(1 + var(--go) * var(--go) * 10))}
+.j2-figure .ps-media{opacity:calc(1 - var(--go) * 1.8);transform:scale(calc(1 + var(--go) * .4));transform-origin:50% 100%}
+.j2-fg .ps-media,.j2-kanji{opacity:calc(1 - var(--go) * 2)}
+.jc-site .j3-scene[data-ov]>.ps-sticky{opacity:clamp(0,var(--ovp,0) * 40,1);--z:calc(1 + var(--ovp,0) * var(--ovp,0) * 10);
+  clip-path:inset(max(0px,calc(56.7vh - 7.2vh * var(--z))) max(0px,calc(49.4% - 4.97vw * var(--z))) max(0px,calc(43.3vh - 7.2vh * var(--z))) max(0px,calc(50.6% - 4.97vw * var(--z))))}
+/* S5→S6: сквозь неоновые врата в конце переулка — проём растёт синхронно с актёром (--g6 от Follow) */
+.jc-site .j6-scene[data-ov]>.ps-sticky{opacity:clamp(0,var(--ovp,0) * 40,1);--W:calc(30vw * (.42 + 11.58 * var(--g6,0)));--cl:clamp(0,(1 - var(--ovp,0)) * 1000,1);
+  clip-path:inset(calc(max(0px,calc(41vh - .185 * var(--W))) * var(--cl)) calc(max(0px,calc(50% - .21 * var(--W))) * var(--cl)) calc(max(0px,calc(59vh - .425 * var(--W))) * var(--cl)) calc(max(0px,calc(50% - .21 * var(--W))) * var(--cl)))}
+/* текст уходящей сцены гаснет до перекрытия — один заголовок на экране */
+.j2-copy>*,.j3-copy>*,.j4-head>*,.j4-deck,.j5-neon>div,.j5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .62) / .08,1))}
+@media(max-width:900px){.sk-actor.jc-gate{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .jc-hero,.j2-scene{--go:0}
+  .j2-copy>*,.j3-copy>*,.j4-head>*,.j4-deck,.j5-neon>div,.j5-eyebrow{opacity:1}
+  .jc-torii,.jc-kanji span,.jc-ripple{animation:none}
+}

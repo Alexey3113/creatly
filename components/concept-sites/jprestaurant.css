@@ -181,3 +181,79 @@
   .jr3-cr1{padding-top:22vh}.jr3-cr2{padding-top:31vh}.jr3-cr3{padding-top:40vh}.jr3-cr4{padding-top:49vh}.jr3-cr5{padding-top:58vh}
   .jr4-enso2{width:auto;height:auto;inset:-4vh -6vw}.jr4-steps2{width:86vw}.jr4-step2{grid-template-columns:36px 1fr}
   .jr5-rail{display:none}.jr5-tag{width:74vw}.jr5-cord{display:none}.jr5-fuda{justify-items:center}.jr5-f1{padding:13vh 0 0}.jr5-f2{padding-top:40vh}.jr5-f3{padding:67vh 0 0}.jr6-hanko{display:none}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА v2 (аудит 2026-09) ===== */
+/* hero: жизнь без скролла — свет фонаря качается, над нигири поднимается пар */
+.jr-lantern{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;transform-origin:70% -12%;
+  background:radial-gradient(15vw 19vh at 70% 21%,rgba(255,196,120,.34),rgba(255,160,80,.08) 55%,transparent 72%);animation:jrLantern 5.2s ease-in-out infinite}
+@keyframes jrLantern{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}
+.jr-dish,.jr2-card{position:relative}
+.jr-steam{position:absolute;left:16%;right:16%;bottom:calc(100% - 3vh);height:17vh;pointer-events:none;z-index:2}
+.jr-steam i{position:absolute;bottom:0;width:28%;height:100%;border-radius:50%;opacity:0;filter:blur(7px);
+  background:radial-gradient(50% 50% at 50% 62%,rgba(255,250,240,.38),transparent 70%);animation:jrSteam 5.6s ease-in-out infinite}
+.jr-steam i:nth-child(1){left:6%}
+.jr-steam i:nth-child(2){left:37%;animation-delay:-1.9s}
+.jr-steam i:nth-child(3){left:66%;animation-delay:-3.7s}
+@keyframes jrSteam{0%{transform:translateY(22%) scaleX(.55);opacity:0}28%{opacity:.95}100%{transform:translateY(-58%) scaleX(1.3) skewX(9deg);opacity:0}}
+
+/* АКТЁР 1 — печать 結 */
+.jr-seal{width:100%;aspect-ratio:1;display:grid;place-content:center;border-radius:3px;background:#c0392b;color:#f2ece0;
+  background-image:radial-gradient(circle at 30% 24%,rgba(255,255,255,.14),transparent 52%);box-shadow:inset 0 0 0 .16vw rgba(242,236,224,.3),0 .7vw 1.7vw rgba(0,0,0,.45)}
+.jr-seal span{font:700 1.55vw/1 "Noto Sans JP",sans-serif}
+
+/* АКТЁР 2 — стойка хиноки: волокно едет вдоль стойки (--run), тарелки курсов (--p1..5) */
+.jr-cnt{position:relative;width:100%;height:18vh;box-shadow:0 -1.4vh 3.4vh rgba(0,0,0,.5);
+  background:linear-gradient(180deg,rgba(255,232,196,.34),rgba(255,232,196,0) 36%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0045 0.14' numOctaves='3' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .22 0 0 0 0 .09 1.1 0 0 0 -.42'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E") calc(var(--run,0)*-1vw) 0/620px 100% repeat-x,
+    linear-gradient(180deg,#dcbd8f,#caa471 58%,#b98f5c)}
+.jr-cnt::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3vh;background:linear-gradient(180deg,#8d6739,#573c20);box-shadow:inset 0 1px 0 rgba(255,220,170,.35)}
+.jr-plate{position:absolute;top:2.4vh;width:11vh;aspect-ratio:1;border-radius:50%;overflow:hidden;opacity:var(--pv,0);
+  transform:translateX(-50%) translateY(calc((1 - var(--pv,0))*-3vh)) scale(calc(.8 + var(--pv,0)*.2));
+  box-shadow:0 0 0 .55vh #efe7d8,0 1.4vh 2.2vh rgba(60,36,14,.5)}
+.jr-plate img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* СТЫК «норэн»: занавеска опускается сверху (клип сцены = ткань) и раздвигается, 結 делится пополам */
+.jr-noren{display:none}
+.jr-site .jr2-scene[data-ov]>.ps-sticky,.jr-site .jr6-scene[data-ov]>.ps-sticky{opacity:1;clip-path:inset(0 0 calc((1 - clamp(0,var(--ovp,0)/.45,1))*100%) 0)}
+.jr-site [data-ov]>.ps-sticky .jr-noren{display:block;position:absolute;inset:0;z-index:40;pointer-events:none;
+  --a:clamp(0,var(--ovp,0)/.45,1);--b:clamp(0,(var(--ovp,0) - .5)/.5,1);transform:translateY(calc((var(--a) - 1)*100%))}
+.jr-noren::before{content:"";position:absolute;left:-1%;right:-1%;top:0;height:2.4vh;z-index:3;background:linear-gradient(#7a5c3a,#3c2c1a);box-shadow:0 .6vh 1.2vh rgba(0,0,0,.45);opacity:calc(1 - var(--b))}
+.jr-nl,.jr-nr{position:absolute;top:0;bottom:0;width:50.4%;overflow:hidden;box-shadow:0 2vh 5vh rgba(0,0,0,.5)}
+.jr-nl{left:0;transform-origin:0 0;transform:translateX(calc(var(--b)*-104%)) rotate(calc(var(--b)*5deg))}
+.jr-nr{right:0;transform-origin:100% 0;transform:translateX(calc(var(--b)*104%)) rotate(calc(var(--b)*-5deg))}
+.jr-nl::after,.jr-nr::after{content:"";position:absolute;left:calc(50% - 1.5px);top:24%;bottom:0;width:3px;background:rgba(4,8,20,.75)}
+.jr-nl b,.jr-nr b{position:absolute;top:31%;width:1em;text-align:center;font:600 28vh/1 "Shippori Mincho",serif}
+.jr-nl b{right:-.5em}.jr-nr b{left:-.5em}
+.jr-noren-indigo .jr-nl,.jr-noren-indigo .jr-nr{background:linear-gradient(90deg,rgba(0,0,0,.2),transparent 14% 86%,rgba(0,0,0,.2)),repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 2px,transparent 2px 5px),linear-gradient(180deg,#1c2a50,#26365f 70%,#1a2645)}
+.jr-noren-indigo b{color:#efe7d6}
+.jr-noren-washi .jr-nl,.jr-noren-washi .jr-nr{background:linear-gradient(90deg,rgba(80,50,20,.14),transparent 14% 86%,rgba(80,50,20,.14)),repeating-linear-gradient(90deg,rgba(120,90,50,.05) 0 1px,transparent 1px 6px),linear-gradient(180deg,#efe6d3,#e4d8c0)}
+.jr-noren-washi b{color:#c0392b}
+.jr-noren-washi .jr-nl::after,.jr-noren-washi .jr-nr::after{background:rgba(90,60,30,.45)}
+
+/* СТЫК «панорама вдоль стойки»: новая станция въезжает справа, старая уезжает влево (по своему --sp) */
+.jr-site .jr3-scene[data-ov]>.ps-sticky,.jr-site .jr5-scene[data-ov]>.ps-sticky{opacity:1;--k:calc(var(--ovp,0)*var(--ovp,0)*(3 - 2*var(--ovp,0)));clip-path:inset(0 0 0 calc((1 - var(--k))*100%))}
+.jr-site .jr3-scene[data-ov] .ps-viewport,.jr-site .jr5-scene[data-ov] .ps-viewport{transform:translateX(calc((1 - var(--k))*28vw))}
+.jr-site .jr3-scene[data-ov]>.ps-sticky::after,.jr-site .jr5-scene[data-ov]>.ps-sticky::after{content:"";position:absolute;inset:0;z-index:40;pointer-events:none;opacity:calc(1 - var(--k));
+  background:linear-gradient(90deg,rgba(0,0,0,.55) calc((1 - var(--k))*100%),transparent calc((1 - var(--k))*100% + 9vw))}
+.jr2-scene .ps-viewport{--ko:clamp(0,(var(--sp,0) - .65)/.35,1);transform:translateX(calc(var(--ko)*var(--ko)*(3 - 2*var(--ko))*-34vw))}
+.jr4-scene .ps-viewport{--ko:clamp(0,(var(--sp,0) - .6111)/.3889,1);transform:translateX(calc(var(--ko)*var(--ko)*(3 - 2*var(--ko))*-34vw))}
+
+/* S2 — руки итамаэ крупно + карточка «сегодня» */
+.jr2-bg .ps-media{object-position:50% 70%;filter:contrast(1.04) saturate(1.04) brightness(.8)}
+.jr2-cardL{justify-items:end;align-content:start;padding:15vh 9vw 0 0}
+/* S6 — пустое место гостя у стойки */
+.jr6-seat .ps-media{object-position:50% 62%;filter:brightness(.6) saturate(1.02)}
+.jr6-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(14,12,8,.88),rgba(14,12,8,.45) 50%,rgba(14,12,8,.2)),linear-gradient(180deg,rgba(14,12,8,.4),transparent 30% 70%,rgba(14,12,8,.55))}
+.jr3-bg,.jr4-bg,.jr5-bg{background:radial-gradient(84% 92% at 50% 38%,var(--atm,#1c1913),#0c0a07)}
+
+/* уход текста S3 до проявления S4 */
+.jr3-copy>*,.jr3-row{opacity:clamp(0,(.8 - var(--sp,0))*9,1)}
+
+@media(max-width:900px){.jr2-cardL{display:none}.jr-plate{width:8vh}}
+@media(prefers-reduced-motion:reduce){
+  .jr-lantern,.jr-steam i{animation:none}
+  .jr-steam{display:none}
+  .jr-site [data-ov]>.ps-sticky .jr-noren,.jr-site .jr3-scene[data-ov]>.ps-sticky::after,.jr-site .jr5-scene[data-ov]>.ps-sticky::after{display:none}
+  .jr2-scene .ps-viewport,.jr4-scene .ps-viewport{transform:none}
+  .jr3-copy>*,.jr3-row{opacity:1}
+}

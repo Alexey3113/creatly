@@ -115,8 +115,8 @@
 .d3-word{place-items:center}
 .d3-word span{font:800 clamp(120px,26vw,420px)/.9 "Bricolage Grotesque",sans-serif;text-transform:uppercase;color:transparent;-webkit-text-stroke:2px rgba(255,45,120,.14);letter-spacing:-.03em}
 /* motion-trail: центральный танцор + розовые эхо-силуэты */
-.d3-echo{place-items:center;align-content:center}
-.d3-echo .ps-media{width:auto;height:62vh;max-width:none;object-fit:contain;display:block;filter:grayscale(1) sepia(1) saturate(6) hue-rotate(300deg) brightness(1.05)}
+.d3-echo{place-items:center;align-content:center;padding-top:4vh}
+.d3-echo .ps-media{width:auto;height:78vh;max-width:none;object-fit:contain;display:block;filter:grayscale(1) sepia(1) saturate(6) hue-rotate(300deg) brightness(1.05)}
 .d3-dancer{place-items:center;align-content:center}
 .d3-dancer .ps-media{width:auto;height:64vh;max-width:none;object-fit:contain;display:block;filter:grayscale(1) contrast(1.12) brightness(1.02)}
 /* миниатюры-фазы снизу */
@@ -153,7 +153,7 @@
 .d5-scene .ps-sticky{background:#141416}
 .d5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1b1b1f,#0a0a0c)}
 /* кинетик-тайп с розовым эхо-шлейфом (motion-trail на типографике) */
-.d5-line p{margin:0;width:min(30ch,54vw);font:800 clamp(22px,3.2vw,48px)/1.05 "Bricolage Grotesque",sans-serif;color:#f0f0ee;text-transform:uppercase;letter-spacing:-.02em;text-shadow:7px 0 0 rgba(255,45,120,.42),15px 0 0 rgba(255,45,120,.2)}
+.d5-line p{margin:0;width:min(26ch,46vw);font:800 clamp(22px,3.2vw,48px)/1.05 "Bricolage Grotesque",sans-serif;color:#f0f0ee;text-transform:uppercase;letter-spacing:-.02em;text-shadow:7px 0 0 rgba(255,45,120,.42),15px 0 0 rgba(255,45,120,.2)}
 .d5-line cite{display:block;margin-top:12px;font:700 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#ff2d78}
 .d5-l1{justify-items:start;align-content:start;padding:13vh 0 0 var(--pad)}
 .d5-l2{justify-items:start;align-content:center;padding-left:calc(var(--pad) + 12vw)}
@@ -175,3 +175,31 @@
 @media(max-width:900px){.d2-copy,.d6-cta{max-width:88vw}.d2-dancer .ps-media,.d2-echo .ps-media{width:64vw}.d3-thumb{width:40vw;min-width:0}
   .d4-sched{width:92vw}.d4-cls{grid-template-columns:40px 1fr auto;gap:4px 12px}.d4-cls time{grid-column:2}.d4-cls s{display:none}
   .d5-line p{width:86vw}.d5-l2{padding-left:var(--pad)}.d6-obj{display:none}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
+/* актёр-танцовщица: в покое едва заметно «дышат» поза и ткань */
+.sk-actor.dn-dancerA img{filter:contrast(1.06) drop-shadow(0 30px 50px rgba(20,10,20,.3));transform-origin:50% 86%;animation:dn-breathe 3.8s ease-in-out infinite}
+@keyframes dn-breathe{0%,100%{transform:scale(1) rotate(0deg) skewX(0deg)}50%{transform:scale(1.014) rotate(-.5deg) skewX(-.6deg)}}
+/* «рампа»: свет сжимается в точку на танцовщице (свет → тьма) */
+.dn-site .d3-scene[data-ov]>.ps-sticky,.dn-site .d5-scene[data-ov]>.ps-sticky{opacity:1;--R:calc((1 - var(--ovp,0)) * (1 - var(--ovp,0)) * 96vmax);
+  -webkit-mask:radial-gradient(circle at var(--dx,50%) var(--dy,52%),transparent calc(var(--R) - 3vmax),#000 var(--R));
+  mask:radial-gradient(circle at var(--dx,50%) var(--dy,52%),transparent calc(var(--R) - 3vmax),#000 var(--R))}
+/* рампа зажигается: свет раскрывается из танцовщицы (тьма → свет) */
+.dn-site .d4-scene[data-ov]>.ps-sticky,.dn-site .d6-scene[data-ov]>.ps-sticky{opacity:1;--R:calc(var(--ovp,0) * var(--ovp,0) * 112vmax);
+  -webkit-mask:radial-gradient(circle at var(--dx,50%) var(--dy,52%),#000 calc(var(--R) - 3vmax),transparent var(--R));
+  mask:radial-gradient(circle at var(--dx,50%) var(--dy,52%),#000 calc(var(--R) - 3vmax),transparent var(--R))}
+/* S3: тёмная сцена со светом софитов, луч на танцовщице */
+.d3-stage .ps-media{opacity:.5;filter:grayscale(1) contrast(1.1)}
+.d3-spot,.d5-spot{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:screen;animation:dn-spot 4.4s ease-in-out infinite}
+.d3-spot{clip-path:polygon(45% -4%,55% -4%,68% 100%,32% 100%);background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,240,245,.1) 64%,rgba(255,45,120,.06))}
+.d3-spot::after,.d5-spot::after{content:"";position:absolute;left:50%;bottom:4vh;width:36vw;height:9vh;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.34),transparent)}
+.d5-spot{clip-path:polygon(72% -4%,84% -4%,94% 100%,62% 100%);background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,45,120,.1) 70%,rgba(255,45,120,.04))}
+.d5-spot::after{left:78%;width:26vw}
+@keyframes dn-spot{0%,100%{opacity:.85}50%{opacity:1}}
+/* текст уходящей сцены гаснет до перекрытия — один заголовок на экране */
+.d2-copy>*,.d3-copy>*,.d4-head>*,.d5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .64) / .08,1))}
+@media(max-width:900px){.d3-spot,.d5-spot{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .d2-copy>*,.d3-copy>*,.d4-head>*,.d5-eyebrow{opacity:1}
+  .sk-actor.dn-dancerA img,.d3-spot,.d5-spot{animation:none}
+}

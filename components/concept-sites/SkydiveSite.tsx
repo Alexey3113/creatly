@@ -33,6 +33,7 @@ const PATH = [
   { a: at(".sd5-scene", H.s5, 0.62), alt: 0, canopy: 1, pose: { x: 88, y: 76, s: 1, r: 0 } },
   { a: at(".sd6-scene", H.s6, 0.2), alt: 0, canopy: 0, pose: { x: 50, y: 83, s: 0.72, r: 0 } },
   { a: at(".sd6-scene", H.s6, 0.9), alt: 0, canopy: 0, pose: { x: 50, y: 83, s: 0.72, r: 0 } },
+  { a: { at: ".sd-foot", anchor: 0 }, alt: 0, canopy: 0, pose: { x: 50, y: 108, s: 0.72, r: 0, o: 0 } },
 ];
 
 export function SkydiveSite() {

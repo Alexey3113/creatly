@@ -152,3 +152,72 @@
 .hd6-cta{position:absolute;z-index:16;left:var(--pad);bottom:12vh;max-width:38ch}
 .hd6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#8f8f88}
 @media(max-width:900px){.hd2-copy,.hd6-cta{max-width:88vw}.hd2-model .ps-media{width:56vw}.hd2-garment,.hd6-garment{display:none}.hd3-shot{width:42vw}.hd5-cop{width:80vw}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА v2 (аудит 2026-09) ===== */
+/* hero: жизнь без скролла — мигающий натриевый свет, качающийся хэнгтэг (тикер бежит сам) */
+.hd-flicker{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(46% 40% at 50% 16%,rgba(255,196,90,.2),transparent 70%);animation:hdFlicker 7s steps(1) infinite}
+@keyframes hdFlicker{0%,100%{opacity:1}8%{opacity:.3}9%{opacity:1}42%{opacity:1}43%{opacity:.45}45%{opacity:1}46%{opacity:.6}47%{opacity:1}}
+.hd-tag{transform-origin:20px 18px;animation:hdTag 4.6s ease-in-out infinite}
+@keyframes hdTag{0%,100%{transform:rotate(4deg)}50%{transform:rotate(-1.5deg)}}
+
+/* АКТЁР — одна сигнальная лента: едет вдоль длины от скролла (--run), рвётся в финале (--tear) */
+.hd-tape{position:relative;width:100%;height:6.9vw;font:800 6vw/1.16 "Bricolage Grotesque",sans-serif;text-transform:uppercase;letter-spacing:-.01em}
+.hd-tape-half{position:absolute;top:0;bottom:0;width:50%;overflow:hidden;background:#e8e200;color:#141400;box-shadow:0 1vw 2.2vw rgba(0,0,0,.5)}
+.hd-tape-l{left:0;transform-origin:100% 50%;transform:translateX(calc(var(--tear,0)*-8vw)) rotate(calc(var(--tear,0)*-5deg));
+  clip-path:polygon(0 0,100% 0,99.5% 16%,100% 31%,99.3% 49%,100% 66%,99.4% 83%,100% 100%,0 100%)}
+.hd-tape-r{left:50%;transform-origin:0 50%;transform:translateX(calc(var(--tear,0)*8vw)) rotate(calc(var(--tear,0)*6deg));
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%,.6% 84%,0 67%,.7% 50%,0 33%,.5% 17%)}
+.hd-tape-run{position:absolute;left:0;top:0;white-space:nowrap;transform:translateX(calc(var(--run,0)*-1vw))}
+.hd-tape-r .hd-tape-run{left:-160vw}
+.hd-tape-txt{display:inline-block;padding-left:.3em;animation:hd-left 90s linear infinite}
+.hd-soldout{position:absolute;left:50%;top:50%;z-index:2;padding:.18em .5em;font:800 4.6vw/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;
+  color:#0a0a0a;background:#eeece6;border:.35vw solid #0a0a0a;white-space:nowrap;box-shadow:0 1vw 2vw rgba(0,0,0,.5);
+  transform:translate(-50%,-50%) rotate(-8deg) scale(calc(.55 + var(--tear,0)*.45));opacity:clamp(0,(var(--tear,0) - .3)*3,1)}
+
+/* СТЫКИ-ЛЕНТЫ: кромка клипа новой сцены — наклонная прямая (12°); пучок лент едет прямо на кромке */
+.hd-site .hd2-scene[data-ov]>.ps-sticky{opacity:1;--k:calc(var(--ovp,0)*var(--ovp,0)*(3 - 2*var(--ovp,0)));
+  --Y:calc(100vh + 21.3vw + 30vh - var(--k)*(100vh + 21.3vw + 60vh));
+  clip-path:polygon(0 var(--Y),100% calc(var(--Y) - 21.3vw),100% 100%,0 100%)}
+.hd-site .hd5-scene[data-ov]>.ps-sticky{opacity:1;--k:calc(var(--ovp,0)*var(--ovp,0)*(3 - 2*var(--ovp,0)));
+  --Y:calc(-30vh + var(--k)*(100vh + 21.3vw + 60vh));
+  clip-path:polygon(0 0,100% 0,100% calc(var(--Y) - 21.3vw),0 var(--Y))}
+.hd-bundle{position:absolute;left:0;width:112vw;height:22vh;z-index:30;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
+.hd-bundle-up{top:var(--Y);transform-origin:0 0;transform:rotate(-12deg)}
+.hd-bundle-down{top:calc(var(--Y) - 22vh);transform-origin:0 100%;transform:rotate(-12deg)}
+.hd-bt{display:block;overflow:hidden;white-space:nowrap;box-shadow:0 1vh 2.6vh rgba(0,0,0,.55)}
+.hd-bt span{display:inline-block;padding-left:.3em;font:800 5.4vh/1.25 "Bricolage Grotesque",sans-serif;text-transform:uppercase;animation:hd-left 16s linear infinite}
+.hd-bt1{height:7vh;background:#e8e200;color:#141400;transform:rotate(.5deg)}
+.hd-bt2{height:3.2vh;background:repeating-linear-gradient(-45deg,#e8e200 0 1.6vh,#0a0a0a 1.6vh 3.2vh);transform:rotate(-.9deg)}
+.hd-bt3{height:6vh;background:#0a0a0a;color:#e8e200;border-top:2px solid #e8e200;border-bottom:2px solid #e8e200;transform:rotate(.35deg)}
+.hd-bt3 span{font-size:4.2vh;line-height:1.3;animation-name:hd-right;animation-duration:20s}
+
+/* S2 — макро шнурка + бирка-кадр (вместо повтора hero) */
+.hd2-veil{background:linear-gradient(90deg,rgba(12,12,11,.74),rgba(12,12,11,.28) 46%,transparent 66%),linear-gradient(180deg,rgba(15,15,14,.42),transparent 30% 58%,rgba(15,15,14,.72))}
+.hd2-tagL{justify-items:end;align-content:center;padding-right:9vw}
+.hd2-tagshot{position:relative;width:16vw;min-width:170px;background:#0a0a0a;padding:7px 7px 32px;border:1px solid rgba(232,226,0,.42);box-shadow:0 26px 52px rgba(0,0,0,.6);transform-origin:50% 0;animation:hdTag 5.4s ease-in-out infinite}
+.hd2-tagshot .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/5;object-fit:cover;display:block;filter:contrast(1.08)}
+.hd2-tagshot b{position:absolute;left:9px;bottom:10px;font:800 10px "Bricolage Grotesque",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#e8e200}
+.hd3-white{background:#f2f0ea}.hd3-white b{color:#141400}
+
+/* S4 — худи слева обмотан лентой-актёром, спеки справа */
+.hd4-garment{justify-items:start;align-content:center;padding-left:5vw}
+.hd4-garment .ps-media{width:36vw;height:auto;max-width:none;filter:drop-shadow(0 30px 50px rgba(0,0,0,.6))}
+.hd4-head{justify-items:end;text-align:right;padding:10vh 7vw 0 0}
+.hd4-list{justify-items:end;padding-right:7vw}
+.hd4-row{width:min(600px,48vw)}
+
+/* фон как сюжет (Atmosphere) */
+.hd3-bg,.hd4-bg,.hd5-bg{background:radial-gradient(84% 92% at 50% 42%,var(--atm,#1a1a18),#0b0b0a)}
+.hd6-bg{background:radial-gradient(82% 86% at 56% 42%,var(--atm,#1a1a18),#0c0c0b)}
+
+/* уход текста старой сцены до проявления следующей (перекрытия) */
+.hd2-copy>*,.hd2-tagshot{opacity:clamp(0,(.8 - var(--sp,0))*9,1)}
+.hd3-copy>*,.hd3-shot{opacity:clamp(0,(.78 - var(--sp,0))*9,1)}
+.hd5-cop,.hd5-eyebrow{opacity:clamp(0,(.76 - var(--sp,0))*9,1)}
+
+@media(max-width:900px){.hd4-garment .ps-media{width:70vw;opacity:.35}.hd4-list,.hd4-head{justify-items:center;padding-right:0;text-align:center}.hd4-row{width:88vw}.hd2-tagL{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .hd-flicker,.hd-tag,.hd-tape-txt,.hd-bt span,.hd2-tagshot{animation:none}
+  .hd2-copy>*,.hd2-tagshot,.hd3-copy>*,.hd3-shot,.hd5-cop,.hd5-eyebrow{opacity:1}
+}
