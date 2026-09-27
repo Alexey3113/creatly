@@ -19,7 +19,8 @@
     rotate(calc(var(--frot,0deg) + (var(--trot,0deg) - var(--frot,0deg))*var(--lp)))
     scale(calc(var(--fsc,1) + (var(--tsc,1) - var(--fsc,1))*var(--lp)));
   opacity:calc((var(--fop,1) + (var(--top,1) - var(--fop,1))*var(--lp)) * (1 - var(--olp,0)));
-  --olp:clamp(0,calc((var(--sp,0) - var(--ostart,2)) * var(--oinv,1)),1);
+  --ostart:2;--oinv:1; /* окно ухода НЕ наследуется вложенными слоями (у слоя с out — инлайн) */
+  --olp:clamp(0,calc((var(--sp,0) - var(--ostart)) * var(--oinv)),1);
   will-change:transform,opacity}
 .ps-media{width:100%;height:100%;object-fit:var(--fit,cover);object-position:var(--pos,center);display:block;-webkit-user-drag:none}
 
