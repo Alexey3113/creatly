@@ -1,18 +1,18 @@
 /* ДВИЖОК РИЛА v2 — механика слоёв (палитро-нейтральная). Сайт задаёт --rl-void / --rl-spark и
    стилизует копи внутри .rl-copy своими классами. Все трансформы/прозрачности пишет JS каждый кадр. */
-.rl{ --mx:0; --my:0; --rl-void:#12100e; --rl-spark:#ffd98a; }
+.rl{ --mx:0; --my:0; }
 
-.rl-reel{ position:relative; background:var(--rl-void); }
+.rl-reel{ position:relative; background:var(--rl-void, #12100e); }
 /* невидимые якоря для сквозных слоёв scene-kit (Actor/Atmosphere/Backdrop) */
 .rl-mark{ position:absolute; left:0; width:1px; height:0; pointer-events:none; visibility:hidden; }
-.rl-reel-stage{ position:sticky; top:0; height:100vh; overflow:hidden; background:var(--rl-void); }
+.rl-reel-stage{ position:sticky; top:0; height:100vh; overflow:hidden; background:var(--rl-void, #12100e); }
 
 .rl-scene{ position:absolute; inset:0; overflow:hidden; will-change:transform, opacity; backface-visibility:hidden;
   transform-origin:50% 50%; }
 .rl-world{ position:absolute; inset:0; transition:filter .6s ease; }
 
 /* bg-плита: чуть больше кадра (запас под параллакс и дрейф) */
-.rl-bg{ position:absolute; inset:-3%; background-size:cover; background-position:50% 46%; background-color:var(--rl-void);
+.rl-bg{ position:absolute; inset:-3%; background-size:cover; background-position:50% 46%; background-color:var(--rl-void, #12100e);
   transform-origin:50% 42%; will-change:transform; }
 
 /* атмосферная дымка/виньетка (нейтральная, работает на любой палитре) */
@@ -62,23 +62,23 @@
 /* полоса стыка при спуске/подъёме: поверхность воды / облачный слой */
 .rl-fx-seam{ left:-5%; right:-5%; top:0; height:46vh;
   background:
-    radial-gradient(60% 55% at 30% 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 55%, transparent), transparent 70%),
-    radial-gradient(55% 60% at 72% 48%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 42%, transparent), transparent 70%),
+    radial-gradient(60% 55% at 30% 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark, #ffd98a)) 55%, transparent), transparent 70%),
+    radial-gradient(55% 60% at 72% 48%, color-mix(in srgb, var(--fx-tint, var(--rl-spark, #ffd98a)) 42%, transparent), transparent 70%),
     linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--fx-tint, #fff) 62%, transparent) 38%, color-mix(in srgb, var(--fx-tint, #fff) 78%, transparent) 50%, color-mix(in srgb, var(--fx-tint, #fff) 62%, transparent) 62%, transparent 100%);
   filter:blur(12px); }
 /* луч, ведущий кромку раскрытия */
 .rl-fx-beam{ top:-10%; bottom:-10%; width:26vw; margin-left:-13vw; transform:rotate(10deg); mix-blend-mode:screen;
-  background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 70%, transparent) 42%, #fff8 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 70%, transparent) 58%, transparent);
+  background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--fx-tint, var(--rl-spark, #ffd98a)) 70%, transparent) 42%, #fff8 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark, #ffd98a)) 70%, transparent) 58%, transparent);
   filter:blur(6px); }
 /* вспышка смены света */
 .rl-fx-bloom{ inset:0; mix-blend-mode:screen;
-  background:radial-gradient(70% 60% at 50% 42%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 85%, #fff), transparent 72%); }
+  background:radial-gradient(70% 60% at 50% 42%, color-mix(in srgb, var(--fx-tint, var(--rl-spark, #ffd98a)) 85%, #fff), transparent 72%); }
 /* вуаль окклюзии — цвет силуэта */
-.rl-fx-occ{ inset:0; background:var(--fx-tint, var(--rl-void)); }
+.rl-fx-occ{ inset:0; background:var(--fx-tint, var(--rl-void, #12100e)); }
 
 /* DOM-искры (светлячки/пыльца/угли) — цвет через --rl-spark */
-.rl-fly{ position:absolute; z-index:6; width:5px; height:5px; border-radius:50%; background:var(--rl-spark);
-  box-shadow:0 0 10px 3px color-mix(in srgb, var(--rl-spark) 60%, transparent); animation:rl-fly 7s ease-in-out infinite; }
+.rl-fly{ position:absolute; z-index:6; width:5px; height:5px; border-radius:50%; background:var(--rl-spark, #ffd98a);
+  box-shadow:0 0 10px 3px color-mix(in srgb, var(--rl-spark, #ffd98a) 60%, transparent); animation:rl-fly 7s ease-in-out infinite; }
 .rl-fly-1{ left:22%; top:52%; animation-delay:0s } .rl-fly-2{ left:38%; top:64%; animation-delay:1.4s }
 .rl-fly-3{ left:63%; top:48%; animation-delay:2.6s } .rl-fly-4{ left:74%; top:60%; animation-delay:.8s } .rl-fly-5{ left:52%; top:70%; animation-delay:3.4s }
 @keyframes rl-fly{ 0%,100%{ transform:translate(0,0); opacity:.35 } 50%{ transform:translate(14px,-20px); opacity:1 } }
@@ -96,3 +96,9 @@
   .rl-copy{ left:5vw; top:16vh; width:90vw; }
   .rl-freeze{ right:5vw; bottom:10vh; }
 }
+
+/* слот сцены между mid и fg: актёр/текст позади переднего плана (лодка за камышом, солнце за баобабом) */
+.rl-slot{ position:absolute; inset:0; z-index:4; pointer-events:none; }
+.rl-slot > *{ pointer-events:auto; }
+/* свет внутри удержания (dusk): ночь наступает, пока кадр стоит */
+.rl-dusk{ position:absolute; inset:0; z-index:6; pointer-events:none; opacity:0; background:var(--rl-dusk, #0b1030); mix-blend-mode:var(--rl-dusk-blend, multiply); }

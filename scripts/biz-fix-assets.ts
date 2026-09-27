@@ -77,6 +77,10 @@ async function vid(file: string, start: string, prompt: string) {
 
 async function main() {
   if (!(await higsAvailable())) throw new Error("Higs Bot недоступен");
+  // точечный перезапуск одного видео: --only-video=canto-hero.mp4
+  const onlyVid = process.argv.find((x) => x.startsWith("--only-video="))?.split("=")[1];
+  if (onlyVid === "canto-hero.mp4") { await vid("canto-hero.mp4", path.join(S, "canto-hero.jpg"), "The black vinyl record spins slowly on the brass turntable, the tonearm resting in the groove, warm lamp light flickering softly on the glowing valves behind. Seamless, no cuts, cinematic."); return; }
+  if (onlyVid === "ledger-hero.mp4") { await vid("ledger-hero.mp4", path.join(S, "ledger.jpg"), "The plain black metal card floats and turns very slowly in deep space while ribbons of blue and violet light flow around it. Seamless, no cuts, cinematic."); return; }
   const imgs: Array<() => Promise<void>> = [
     () => img(G, "horo-dial.jpg", "The exact same macro photograph of the watch: same aventurine galaxy dial, same gold hands and applied indices, same lighting and framing — but the dial carries no brand name, no wordmark and no printed text of any kind", path.join(G, "horo-dial.jpg"), "Macro photograph of a luxury mechanical wristwatch: a deep blue aventurine dial full of tiny glittering gold stars like a night galaxy, slim gold dauphine hands and applied gold indices, polished gold case, dark studio background, crisp macro detail, premium product photography"),
     () => img(G, "horo-caseback.jpg", "The exact same macro photograph of the open watch caseback: same gold rotor, jewels and blued screws, same lighting and framing — but the bezel rim is plain polished metal with no engraved words or numbers", path.join(G, "horo-caseback.jpg"), "Macro photograph of an open mechanical watch caseback seen through sapphire glass: gold winding rotor, ruby jewels, blued screws, perlage finishing, polished gold rim, brown leather strap, warm studio light, premium product photography"),

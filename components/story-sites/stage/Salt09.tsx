@@ -31,7 +31,7 @@ export function Salt09() {
         {/* 0 · OCCLUDED IDOL */}
         <div transition="push" className="scene-body sl-cover">
           <div className="sl-cover-bg" aria-hidden />
-          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ y: "3vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="sl-wordmark"><span aria-hidden>SALT</span></Layer>
+          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ y: "3vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="sl-wordmark sl-tx"><span aria-hidden>SALT</span></Layer>
           <Layer z={3} depth={0.16} phase={[0, 0.9]} from={{ y: "6vh", scale: 1.05 }} to={{ y: "0vh", scale: 1 }} className="sl-cover-fig">
             <SceneMedia src={CUT} alt="SALT — фигура с повязкой и терновым нимбом" share="statue" />
           </Layer>

@@ -66,6 +66,19 @@ export function StageDeck({ children, duration = 1000, cooldown = 300 }: { child
       g.setAttribute("aria-hidden", "true");
       return g;
     };
+    // геометрия элемента: центр по bounding box, собственный размер (без поворота), угол и скругление
+    const geom = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      const cs = getComputedStyle(el);
+      let ang = 0;
+      const m = cs.transform && cs.transform !== "none" ? cs.transform.match(/matrix\(([^)]+)\)/) : null;
+      if (m) { const [a, b] = m[1].split(",").map(parseFloat); ang = (Math.atan2(b, a) * 180) / Math.PI; }
+      const w0 = el.offsetWidth || r.width, h0 = el.offsetHeight || r.height;
+      // масштаб предков (слои дека масштабируются): bounding box = w·|cos|+h·|sin| при повороте ang
+      const c = Math.abs(Math.cos((ang * Math.PI) / 180)), s = Math.abs(Math.sin((ang * Math.PI) / 180));
+      const k = r.width / Math.max(1, w0 * c + h0 * s);
+      return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: w0 * k, h: h0 * k, ang, rad: (parseFloat(cs.borderTopLeftRadius) || 0) * k };
+    };
     const setupShared = (cur: HTMLElement, nxt: HTMLElement) => {
       const out: typeof ghosts = [];
       cur.querySelectorAll<HTMLElement>("[data-share]").forEach((a) => {
@@ -74,23 +87,27 @@ export function StageDeck({ children, duration = 1000, cooldown = 300 }: { child
         if (!b) return;
         const prev = nxt.style.getPropertyValue("--sp");
         nxt.style.setProperty("--sp", "1");
-        const rb = b.getBoundingClientRect();
+        const B = geom(b);
         nxt.style.setProperty("--sp", prev || "0");
+        const A = geom(a);
+        if (!A.w || !B.w) return;
         const ra = a.getBoundingClientRect();
-        if (!ra.width || !rb.width) return;
         const g = makeGhost(a, ra);
+        g.style.transformOrigin = "50% 50%";
         root.appendChild(g);
         a.style.visibility = "hidden";
         b.style.visibility = "hidden";
         const L = (x: number, y: number, e: number) => x + (y - x) * e;
-        out.push({
-          at: (e) => {
-            const k2 = e * e * (3 - 2 * e);
-            g.style.left = `${L(ra.left, rb.left, k2)}px`; g.style.top = `${L(ra.top, rb.top, k2)}px`;
-            g.style.width = `${L(ra.width, rb.width, k2)}px`; g.style.height = `${L(ra.height, rb.height, k2)}px`;
-          },
-          destroy: () => { g.remove(); a.style.visibility = ""; b.style.visibility = ""; },
-        });
+        const place = (e: number) => {
+          const k2 = e * e * (3 - 2 * e);
+          const w = L(A.w, B.w, k2), h = L(A.h, B.h, k2);
+          g.style.width = `${w}px`; g.style.height = `${h}px`;
+          g.style.left = `${L(A.cx, B.cx, k2) - w / 2}px`; g.style.top = `${L(A.cy, B.cy, k2) - h / 2}px`;
+          g.style.transform = `rotate(${L(A.ang, B.ang, k2).toFixed(2)}deg)`;
+          g.style.borderRadius = `${L(A.rad, B.rad, k2).toFixed(1)}px`;
+        };
+        place(0);
+        out.push({ at: place, destroy: () => { g.remove(); a.style.visibility = ""; b.style.visibility = ""; } });
       });
       return out;
     };

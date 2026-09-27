@@ -117,7 +117,8 @@ export function Willow() {
         { at: ".ww-stop:nth-child(2)", anchor: 0.5, pose: { x: 28, y: 62, s: 0.48, fx: 1, dock: true } },
         { at: ".ww-stop:nth-child(3)", anchor: 0.5, pose: { x: 72, y: 62, s: 0.5, fx: -1, dock: true } },
         { at: ".ww-stop:nth-child(4)", anchor: 0.5, pose: { x: 28, y: 62, s: 0.48, fx: 1, dock: true } },
-        { at: ".ww-ways", pose: { x: 86, y: 90, s: 0.36, fx: -1, o: 0.7 } },
+        { at: ".ww-ways", pose: { x: 80, y: 34, s: 0.4, fx: -1, o: 0 } },
+        { at: ".ww-deal-head", pose: { x: 50, y: 70, s: 0.42, fx: -1, o: 0 } },
         { at: ".ww-deal-hi", pose: { x: 50, y: -16, s: 0.46, fx: -1, dock: true } },
         { at: ".ww-climax", anchor: 0, pose: { x: 58, y: 6, s: 0.34, fx: -1, o: 0 } },
       ]} />

@@ -66,6 +66,13 @@ export type ReelScene = {
   /** маска fg-полосы: [где начинается проявление, где полностью видно], % высоты (по умолчанию [52, 72]).
       Ниже — чтобы полупрозрачная кромка травы/скал не ложилась «призраком» на героя */
   fgMask?: [number, number];
+  /** fg: сдвиг вниз (vh, >0 — ниже) и множитель роста в удержании (0 — не растёт) — чтобы не закрывать сцену */
+  fgLift?: number;
+  fgGrow?: number;
+  /** слот между mid и fg (z-index 4): что-то позади переднего плана этой сцены */
+  slot?: React.ReactNode;
+  /** смена света ВНУТРИ удержания: вуаль цвета нарастает от начала к концу hold (ночь наступает в кадре) */
+  dusk?: { color: string; to?: number; blend?: string };
   /** background-position плиты */
   bgPos?: string;
 };
@@ -139,8 +146,22 @@ export function Reel({
     };
     const cueEl = el.querySelector<HTMLElement>(".rl-cue");
     const into = scenes.map((s) => s.into ?? "rise");
+    // светлый tint → окклюзия «белая» (метель/брызги/туман): передний план светлеет, а не чернеет
+    const lum = (c?: string) => { if (!c || !c.startsWith("#")) return 0; const h = c.length === 4 ? c.slice(1).split("").map((x) => x + x).join("") : c.slice(1, 7); const [r, g, b] = [0, 2, 4].map((k) => parseInt(h.slice(k, k + 2), 16) / 255); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+    const lightOcc = scenes.map((s) => lum(s.tint) > 0.6);
+    const duskEls = sc.map((s) => s.querySelector<HTMLElement>(".rl-dusk"));
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) { el.classList.add("rl-reduced"); return; }
+    if (reduced) {
+      el.classList.add("rl-reduced");
+      // сцены стоят стопкой по 100vh → якоря переставляем на них, иначе актёры уезжают
+      el.querySelectorAll<HTMLElement>(".rl-mark").forEach((m) => {
+        const k = m.dataset.reelMark || "";
+        const i = parseInt(k.slice(1), 10) || 0;
+        const top = k === "end" ? n * 100 : k[0] === "s" ? i * 100 + 50 : k[0] === "a" ? i * 100 + 12 : k[0] === "h" ? i * 100 + 88 : (i + 1) * 100;
+        m.style.top = `${top}vh`;
+      });
+      return;
+    }
 
     const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1, smoothWheel: true });
     useLenisInClock(lenis);
@@ -188,7 +209,8 @@ export function Reel({
         let st = 0, sx = 0, ss = 1, so = 1, ox = 50, oy = 50;
         let bs = 1.03 + sp * 0.06 * D, by = (0.5 - sp) * 2 * D, bx = 0, bo = 1, bb = 0;
         let ms = (1.0 + sp * 0.14 * D) * (scenes[i].midScale ?? 1), my = (0.5 - sp) * 5 * D, mxo = scenes[i].midShift ?? 0, mo = 1, mb = 0;
-        let fs = 1.02 + sp * 0.3 * D, fy = (sp - 0.5) * 10 * D, fxo = 0, fo = 1, fb = 0, fl = 1;
+        const fg0 = scenes[i].fgGrow ?? 1;
+        let fs = 1.02 + sp * 0.3 * D * fg0, fy = (sp - 0.5) * 10 * D * fg0 + (scenes[i].fgLift ?? 0), fxo = 0, fo = 1, fb = 0, fl = 1;
         let clip = "", mask = "", mist = 0;
 
         // ВХОД в сцену
@@ -257,7 +279,7 @@ export function Reel({
             case "sweep": ss = 1 + t * 0.04; break;
             case "occlude": {
               const g = E(win(tout, 0, 0.6));
-              fs *= 1 + g * 3.2; fy -= g * 30; fl = 1 - t * 0.85; fo = 1 - E(win(tout, 0.62, 0.92));
+              fs *= 1 + g * 3.2; fy -= g * 30; fl = lightOcc[i + 1] ? 1 + t * 1.4 : 1 - t * 0.85; fo = 1 - E(win(tout, 0.62, 0.92));
               mo = bo = 1 - E(win(tout, 0.32, 0.55));
               break;
             }
@@ -301,7 +323,14 @@ export function Reel({
           P.copy.style.visibility = co < 0.01 ? "hidden" : "";
         }
         if (P.mist) P.mist.style.opacity = (mist * 0.85).toFixed(3);
+        const dk = scenes[i].dusk;
+        if (dk && duskEls[i]) duskEls[i]!.style.opacity = ((dk.to ?? 0.62) * E(win(u, U, hEnd + (i === n - 1 ? 0 : (U + L - hEnd) * 0.5)))).toFixed(3);
       }
+      // канал прогресса для своих слоёв сайта: --rl-p (0..1 весь рил), --rl-i (индекс сцены + доля перехода)
+      let ii = 0;
+      for (let i = 0; i < n; i++) { if (u >= starts[i]) ii = i + (i < n - 1 ? win(u, holdEnd(i), starts[i] + lens[i]) : 0); }
+      el.style.setProperty("--rl-p", (u / total).toFixed(4));
+      el.style.setProperty("--rl-i", ii.toFixed(4));
 
       // ЭФФЕКТЫ ШВА: активен максимум один переход (удержания их разделяют)
       let j = -1, tj = 0;
@@ -311,7 +340,7 @@ export function Reel({
       const setFx = (node: HTMLElement | null, o: number, extra?: (n: HTMLElement) => void) => {
         if (!node) return;
         node.style.opacity = o.toFixed(3);
-        node.style.visibility = o < 0.005 ? "hidden" : "";
+        node.style.visibility = o < 0.005 ? "hidden" : "visible";
         if (o >= 0.005) { node.style.setProperty("--fx-tint", tint || ""); extra?.(node); }
       };
       // шов спуска/подъёма: полоса (поверхность воды, облачный слой) на линии стыка
@@ -347,8 +376,10 @@ export function Reel({
                   <div className="rl-bg" style={{ backgroundImage: `url(${s.bg})`, backgroundPosition: s.bgPos }} aria-hidden />
                   <div className="rl-haze" aria-hidden />
                   {s.mid && <div className="rl-mid" aria-hidden><span className="rl-shadow" /><img src={s.mid} alt="" decoding="async" style={{ objectPosition: s.midPos }} /></div>}
+                  {s.slot != null && <div className="rl-slot">{s.slot}</div>}
                   {s.fg && <div className="rl-fg" aria-hidden><img src={s.fg} alt="" decoding="async" /></div>}
                   {s.spark ? Array.from({ length: s.spark }, (_, k) => <span key={k} className={`rl-fly rl-fly-${(k % 5) + 1}`} aria-hidden />) : null}
+                  {s.dusk && <div className="rl-dusk" aria-hidden style={{ ["--rl-dusk" as string]: s.dusk.color, ["--rl-dusk-blend" as string]: s.dusk.blend }} />}
                 </div>
                 {i > 0 && tin === "rise" && <div className="rl-mist" aria-hidden />}
                 {s.freeze != null && <div className="rl-freeze">{s.freeze}</div>}

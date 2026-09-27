@@ -31,7 +31,7 @@ export function Deity10() {
         <div transition="dt-orbit" className="scene-body dt-cover">
           <div className="dt-cover-bg" aria-hidden />
           <div className="dt-cover-light" aria-hidden />
-          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ scale: 1.08, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="dt-wordmark dt-far">
+          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ scale: 1.08, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="dt-wordmark dt-far dt-tx">
             <span className="dt-wm-self" aria-hidden>SELF</span><span className="dt-wm-app" aria-hidden>APPOINTED</span>
           </Layer>
           <Layer z={3} depth={0.16} phase={[0, 0.9]} from={{ y: "5vh", scale: 1.04 }} to={{ y: "0vh", scale: 1 }} className="dt-cover-fig dt-subject">

@@ -13,7 +13,7 @@ export type ActorSpec = { slug: string; name: string; subject: string; aspect?: 
 export const ACTORS: ActorSpec[] = [
   { slug: "tidewell", name: "diver-down", subject: "a lone freediver in a dark wetsuit with long fins, diving head-first straight down, arms stretched forward, seen from the side, a thin trail of small bubbles above the fins, small and elegant", aspect: "3:4" },
   { slug: "tidewell", name: "diver-up", subject: "a lone freediver in a dark wetsuit with long fins, rising upward toward the light, arms along the body, seen from the side, a few bubbles rising above the head", aspect: "3:4" },
-  { slug: "cocoa", name: "macaw", subject: "a single scarlet macaw in flight seen from the side, wings spread wide, long red tail feathers, vivid red with yellow and blue wing tips", aspect: "4:3" },
+  { slug: "cocoa", name: "macaw", subject: "one large scarlet macaw filling most of the frame, in flight seen from the side facing right, wings raised, long red tail feathers, vivid red with yellow and blue wing feathers, crisp silhouette with clear edges", aspect: "4:3" },
   { slug: "emberfall", name: "leaf", subject: "a single bright red-orange maple leaf with its stem, flat and whole, seen from above, veins visible, slightly curled edges", aspect: "1:1" },
   { slug: "emberroad", name: "caravan", subject: "a small silhouette caravan of four camels with riders walking in a line to the right, one lantern swinging on the first camel, long shadows, seen from the side", aspect: "16:9" },
   { slug: "fjord", name: "boat", subject: "a small red wooden rowing boat with one oar resting, seen from the side at water level, simple and clean, a thin line of reflection under the hull", aspect: "16:9" },

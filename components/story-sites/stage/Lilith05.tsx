@@ -65,8 +65,8 @@ export function Lilith05() {
           <div className="ll-grain" aria-hidden />
         </div>
 
-        {/* 2 · SPLIT PERSONA — кадр-тень сжимается в правую половину (share="shadow"), слева входит свет */}
-        <div transition="wipe-y" className="scene-body ll-split">
+        {/* 2 · SPLIT PERSONA — кадр-тень сжимается в правую половину (share="shadow"), слева входит свет (fade: непрерывность несёт сам кадр) */}
+        <div transition="fade" className="scene-body ll-split">
           <Layer z={3} depth={0.1} phase={[0, 1]} from={{ x: "-6vw", opacity: 0 }} to={{ x: "0vw", opacity: 1 }} className="ll-split-a">
             <SceneMedia src={`${A}/lilith-hero.jpg`} alt="Lilith — свет" />
           </Layer>

@@ -16,7 +16,7 @@ import "./highland.css";
 const A = "/uploads/1/animated/highland";
 /* mid-плашки 1–3 (прямоугольники неба) сняты; путник — чистая вырезка s4-mid, кадрированная CSS-ом */
 const scenes: ReelScene[] = [
-  { id: "moor", len: 1.1, hold: 0.5, bg: `${A}/s1-bg.webp`, fg: `${A}/s1-fg.webp`, copy: (
+  { id: "moor", fgMask: [46, 53], len: 1.1, hold: 0.5, bg: `${A}/s1-bg.webp`, fg: `${A}/s1-fg.webp`, copy: (
     <>
       <span className="hg-eyebrow">Highland walking &amp; whisky trails</span>
       <h1>Walk until<br /><em>the sky changes its mind.</em></h1>
@@ -24,16 +24,16 @@ const scenes: ReelScene[] = [
       <div className="hg-cta"><a href="#book" className="hg-btn">Book the walk</a><a href="#route" className="hg-ghost">See the route →</a></div>
     </>
   ) },
-  { id: "loch", into: "sweep", tint: "#f2d488", bg: `${A}/s2-bg.webp`, fg: `${A}/s2-fg.webp`, copy: (
+  { id: "loch", fgMask: [50, 58], into: "sweep", tint: "#f2d488", bg: `${A}/s2-bg.webp`, fg: `${A}/s2-fg.webp`, copy: (
     <><span className="hg-idx">— 02 · the loch</span><h2>Loch Ault</h2>
       <p>The water goes still and dark enough to double the hills standing round it. We stop here, flask out, and say nothing for a while.</p></>
   ) },
-  { id: "ruin", into: "ascend", tint: "#d8d2c4", len: 1.25, hold: 0.55, bg: `${A}/s3-bg.webp`, fg: `${A}/s3-fg.webp`,
+  { id: "ruin", fgMask: [62, 70], into: "ascend", tint: "#d8d2c4", len: 1.25, hold: 0.55, bg: `${A}/s3-bg.webp`, fg: `${A}/s3-fg.webp`,
     freeze: (<div className="hg-freeze"><b>Mile 8</b><span>roofless since 1624 · first dram poured</span></div>), copy: (
     <><span className="hg-idx">— 03 · the ruin</span><h2>Ardnoch Keep</h2>
       <p>Roofless four hundred years, and still the best shelter on the hill when the rain decides to turn sideways.</p></>
   ) },
-  { id: "storm", into: "occlude", tint: "#2c3434", bg: `${A}/s4-bg.webp`, fg: `${A}/s4-fg.webp`, spark: 5, copy: (
+  { id: "storm", fgMask: [44, 53], into: "occlude", tint: "#2c3434", bg: `${A}/s4-bg.webp`, fg: `${A}/s4-fg.webp`, spark: 5, copy: (
     <><span className="hg-idx">— 04 · the clearing</span><h2>After the Squall</h2>
       <p>The rain quits mid-stride and the whole glen goes gold, then silver, then — more often than not — a full arch of rainbow.</p></>
   ) },
@@ -155,7 +155,9 @@ export function Highland() {
         { at: reelMark("t0"), pose: { x: 62, y: 66, s: 1.3, o: 0.62 } },
         { at: reelMark("s1"), pose: { x: 96, y: 70, s: 1, o: 0.4 } },
         { at: reelMark("t1"), pose: { x: 64, y: 30, s: 1.2, o: 0.35 } },
+        { at: reelMark("a2"), pose: { x: 14, y: 78, s: 1.1, o: 0.4 } },
         { at: reelMark("s2"), pose: { x: 14, y: 78, s: 1.1, o: 0.4 } },
+        { at: reelMark("h2"), pose: { x: 14, y: 78, s: 1.1, o: 0.4 } },
         { at: reelMark("t2"), pose: { x: 48, y: 52, s: 2.4, o: 0.75 } },
         { at: reelMark("s3"), pose: { x: 120, y: 60, s: 1.4, o: 0 } },
         { at: ".hg-manifest", pose: { x: -10, y: 50, s: 1.2, o: 0 } },
@@ -172,7 +174,9 @@ export function Highland() {
         { at: reelMark("t0"), pose: { x: 76, y: 57, s: 0.7, o: 1 } },
         { at: reelMark("s1"), pose: { x: 64, y: 61, s: 0.72, o: 1 } },
         { at: reelMark("t1"), pose: { x: 56, y: 96, s: 1.2, o: 0.6 } },
+        { at: reelMark("a2"), pose: { x: 56.5, y: 68, s: 0.72, o: 1 } },
         { at: reelMark("s2"), pose: { x: 56.5, y: 68, s: 0.72, o: 1 } },
+        { at: reelMark("h2"), pose: { x: 56.5, y: 68, s: 0.72, o: 1 } },
         { at: reelMark("t2"), pose: { x: 60, y: 72, s: 0.9, o: 0.5, blur: 1 } },
         { at: reelMark("s3"), pose: { x: 70, y: 67, s: 0.85, o: 1 } },
         { at: ".hg-manifest", pose: { x: 70, y: 40, s: 0.9, o: 0 } },

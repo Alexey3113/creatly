@@ -112,6 +112,9 @@
 .ll-feathers i{width:7px!important;height:30px!important;border-radius:50% 50% 45% 45%/85% 85% 15% 15%!important;
   background:linear-gradient(90deg,#060908 0 42%,#5a6860 47%,#1a231f 54%,#0a0f0c 100%)!important}
 
+/* ===== S2→S3: кадр-тень (share=shadow) уходит ПОД титром FALLEN divine — титр гаснет, а не мигает ===== */
+.ll-site .stage[data-trans="fade"] .is-leaving:has(.ll-guillo){z-index:61;opacity:calc(1 - var(--ep))}
+
 /* ===== S3→S4 «Fall.»: обе половины сплита срываются вниз с ускорением (гравитация), под ними — слово ===== */
 .ll-site .stage[data-trans="drop"] .is-entering{transform:none;opacity:1}
 .ll-site .stage[data-trans="drop"] .is-leaving{transform:none;opacity:1;z-index:4}

@@ -59,8 +59,6 @@
 .ww-halo-actor{ mix-blend-mode:screen; }
 
 /* ── ЛЕНДИНГ поверх плиты мира ───────────────────────────────────────────────────────── */
-/* обход движка: Backdrop снимает inline visibility, а в scene-kit.css по умолчанию visibility:hidden */
-.ww .sk-backdrop{ visibility:visible; }
 .ww-kick{ display:block; margin-bottom:10px; font:600 12px "Epilogue",sans-serif; letter-spacing:.2em; text-transform:uppercase; color:var(--fog); }
 .ww-link{ color:var(--firefly); text-decoration:none; font:600 15px "Epilogue",sans-serif; }
 

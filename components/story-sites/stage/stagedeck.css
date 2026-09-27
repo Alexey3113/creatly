@@ -6,7 +6,7 @@
   transform-style:preserve-3d;backface-visibility:hidden;will-change:transform,opacity,clip-path,filter}
 .stage-scene.is-active{visibility:visible;opacity:1;z-index:2;--sp:1}
 .stage-scene.is-entering{visibility:visible;opacity:1;z-index:3}
-.stage-scene.is-leaving{visibility:visible;z-index:2}
+.stage-scene.is-leaving{visibility:visible;opacity:1;z-index:2}
 .stage-inner{position:absolute;inset:0;transform-style:preserve-3d}
 .scene-body{position:absolute;inset:0}
 
@@ -25,7 +25,7 @@
 .stage[data-trans="wipe-x"][data-dir="back"] .is-entering{clip-path:inset(0 calc((1 - var(--sp))*100%) 0 0)}
 
 /* IRIS — круговая диафрагма */
-.stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*140%) at 50% 44%)}
+.stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*140%) at var(--iris-x,50%) var(--iris-y,44%))}
 .stage[data-trans="iris"] .is-leaving{transform:scale(calc(1 + var(--ep)*.16));opacity:calc(1 - var(--ep))}
 
 /* SMASH — влёт сбоку с оверщутом, вылет в противоход */
@@ -73,8 +73,8 @@
 /* Амбиент-движение: медленный ken-burns на full-bleed кадрах активной сцены (не ещё один вход — постоянная жизнь).
    scale-свойство композится с transform слоя. Гейт по .is-active чтобы не жечь скрытые сцены. reduced-motion off. */
 @keyframes stage-kb{from{scale:1}to{scale:1.08}}
-.stage-scene.is-active .kb-media .ps-media{animation:stage-kb 22s ease-in-out infinite alternate;will-change:transform}
-@media(prefers-reduced-motion:reduce){.stage-scene.is-active .kb-media .ps-media{animation:none}}
+.stage-scene:is(.is-active,.is-leaving) .kb-media .ps-media{animation:stage-kb 22s ease-in-out infinite alternate;will-change:transform}
+@media(prefers-reduced-motion:reduce){.stage-scene:is(.is-active,.is-leaving) .kb-media .ps-media{animation:none}}
 
 /* POINTER-PARALLAX: слои активной сцены медленно дрейфуют за курсором по глубине — «кадр дышит».
    StageDeck пишет --px/--py [-1..1] в корень .stage (наследуется). Амплитуда ∝ --depth (ближние слои

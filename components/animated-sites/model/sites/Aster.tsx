@@ -77,7 +77,7 @@ export function Aster() {
         { at: ".as-cards", color: "#0e1130" }, { at: ".as-split", color: "#16143a" }, { at: ".as-log", color: "#211a44" },
         { at: ".as-deal", color: "#2d2149" }, { at: ".as-climax", color: "#3d2d50" },
       ]} />
-      <Backdrop from=".as-manifest" dim={0.46} plates={[
+      <Backdrop from=".as-manifest" dim={0.4} plates={[
         { at: ".as-manifest", src: `${A}/s3-bg.webp`, pos: "50% 62%" }, { at: ".as-const", src: `${A}/s1-bg.webp`, pos: "50% 30%" },
         { at: ".as-night", src: `${A}/s3-bg.webp`, pos: "50% 62%" }, { at: ".as-split", src: `${A}/s1-bg.webp`, pos: "50% 30%" },
         { at: ".as-deal", src: `${A}/s4-bg.webp`, pos: "50% 60%" },

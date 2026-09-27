@@ -32,7 +32,7 @@ export function Corrosive12() {
         {/* 0 · OCCLUDED IDOL — вордмарк в поясе рогов: рога пронзают буквы, а не прячут их */}
         <div transition="cs-corrode" className="scene-body cs-cover">
           <div className="cs-cover-bg" aria-hidden />
-          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ scale: 1.08, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="cs-wordmark"><KineticText as="h1" text="CORROSIVE" mode="slam" /></Layer>
+          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ scale: 1.08, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="cs-wordmark cs-tx"><KineticText as="h1" text="CORROSIVE" mode="slam" /></Layer>
           <Layer z={3} depth={0.16} phase={[0, 0.9]} from={{ y: "5vh", scale: 1.04 }} to={{ y: "0vh", scale: 1 }} className="cs-cover-fig">
             <SceneMedia src={CUT} alt="CORROSIVE — рогатая монахиня, поп-арт" share="nun" />
           </Layer>

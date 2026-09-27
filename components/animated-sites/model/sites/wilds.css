@@ -62,8 +62,6 @@
 .wl-herd img{ filter:brightness(.16) sepia(.6) saturate(.8); }
 
 /* ── ЛЕНДИНГ ─────────────────────────────────────────────────────────────── */
-/* обход движка: Backdrop снимает inline visibility, а в scene-kit.css по умолчанию visibility:hidden */
-.wl .sk-backdrop{ visibility:visible; }
 .wl-kick{ display:block; font:600 12px "Epilogue",sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); }
 .wl-link{ color:var(--sun); text-decoration:none; font:600 15px "Epilogue",sans-serif; }
 

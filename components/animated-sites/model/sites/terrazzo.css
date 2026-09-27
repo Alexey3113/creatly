@@ -58,8 +58,6 @@
 .tz-stair-art{ display:block; width:100%; height:auto; overflow:visible; filter:drop-shadow(0 20px 30px rgba(18,47,71,.22)); }
 
 /* ───────── ЛЕНДИНГ ───────── */
-/* обход движка: Backdrop снимает inline visibility, а в scene-kit.css по умолчанию visibility:hidden */
-.tz .sk-backdrop{ visibility:visible; }
 .tz-kick{ display:block; font:600 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:#1f5f99; }
 
 /* MANIFESTO — одна мысль; острова строкой вместо бегущей ленты */
@@ -152,6 +150,8 @@
 @media (max-width:820px){
   .tz-nav nav a:not(.tz-nav-cta){ display:none; }
   .tz .rl-cue{ right:5vw; }
+  .tz .rl-scene[data-scene="steps"] .rl-copy{ left:5vw; right:auto; }
+  .tz .rl-scene[data-scene="steps"] .rl-freeze{ left:auto; right:5vw; }
   .tz-steps{ padding-left:8vw; }
   .tz-stair-row{ grid-template-columns:3.4rem 1fr; }
   .tz-stair-row:nth-child(n){ margin-left:0; }

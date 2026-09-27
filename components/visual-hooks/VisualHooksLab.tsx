@@ -1431,7 +1431,6 @@ function NoctSite() {
         { index: "The pour", title: <>We pour slowly,<br /><em>and tell the story.</em></>, body: "If you want it. Otherwise the glass does the talking, and the candle keeps the time.", align: "left", media: `${BS}g/noct-pour.jpg` },
         { index: "Forty bottles", title: <>Small growers,<br /><em>honest hands.</em></>, body: "Farmed without chemicals, made without shortcuts. Some of it is a little wild. That is the good part.", align: "left", media: `${BS}g/noct-cellar.jpg` },
       ] }}>
-        <div className="noct-lantern" />
         <div className="noct-flame bs-w" style={aw(-0.2, 0.62, { "--wr": 0.1 })} />
       </Act>
       <section className="noct-cta"><Reveal className="vh-rv--up"><h2>Come in <em>after dark.</em></h2><p>No bookings before eight. Sit at the bar and let us pour you something strange.</p><a href="#" onClick={stop} className="noct-btn">Find us <i>↗</i></a></Reveal></section>
@@ -1452,7 +1451,7 @@ function SolSite() {
         { at: ".sol-hero", anchor: 0.9, pose: { x: 80, y: 14, o: 1, s: 0.8 } },
         { at: ".sol-act", anchor: 0.3, pose: { x: 62, y: 9, o: 1, s: 1 } },
         { at: ".sol-act", anchor: 0.6, pose: { x: 40, y: 8, o: 1, s: 1 } },
-        { at: ".sol-act", anchor: 0.9, pose: { x: 22, y: 16, o: 1, s: 1.1 } },
+        { at: ".sol-act", anchor: 0.9, pose: { x: 30, y: 9, o: 1, s: 1.1 } },
         { at: ".sol-cta", anchor: 0.5, pose: { x: 50, y: 20, o: 1, s: 1.25, dock: true } },
         { at: ".sol-foot", anchor: 0.9, pose: { x: 50, y: 60, o: 0, s: 1.3, dock: true } },
       ]}><div className="sol-sun" /></Actor>
@@ -1721,26 +1720,48 @@ function BizSite({ slug, brand, eyebrow, title, statement, statementBody, cta, c
 const BIZ: Record<string, React.ComponentProps<typeof BizSite>> = {
 };
 
-/* ===== LEDGER — fintech (production: idea · cinematic · features · gallery · stats) ===== */
+/* ===== LEDGER — fintech (production: quiet-pin · features · stats · quote) ===== */
+// шум, который банк НЕ делает: чипы геймификации разлетаются слоями, пока фон гаснет в матовый чёрный
+const LG_NOISE = ["+250 points", "Cashback unlocked!", "3 new offers", "Level up", "12-day streak", "Refer a friend", "Limited time", "Badge earned", "Spin to win", "9 notifications", "Upgrade to Premium", "Round-ups ×2", "Tap to claim", "Boost your score", "Rewards", "You're on fire", "Flash deal", "Confetti"];
+const LG_CHIPS = LG_NOISE.map((w, i) => {
+  const a = i * 2.4 + 0.6, r = 16 + ((i * 5) % 7) * 4.4;
+  const x = Math.min(93, Math.max(8, 64 + Math.cos(a) * r * 1.25)), y = Math.min(88, Math.max(12, 46 + Math.sin(a) * r));
+  return { w, x, y, t: 0.16 + (i % 6) * 0.05, dx: Math.cos(a), dy: Math.sin(a), hue: (i * 47) % 360 };
+});
+/* второй акт «A bank that does less»: сцена на пине вычитает шум — туманность и шлейфы гаснут, «points / confetti /
+   notifications» слетают слоями, фон уходит в матовый чёрный, остаётся металл карты и одно честное число. */
+function LedgerQuiet() {
+  const ref = useSectionProgress<HTMLElement>();
+  return (
+    <section ref={ref} className="lg-quiet bs-act">
+      <div className="lg-quiet-pin">
+        <ShaderBg mode="nebula" palette={["#05060a", "#1a2f5e", "#86dcb8"]} speed={0.6} className="lg-quiet-noise" />
+        <div className="lg-quiet-chips" aria-hidden>{LG_CHIPS.map((c) => <span key={c.w} style={{ ["--x" as string]: c.x.toFixed(1), ["--y" as string]: c.y.toFixed(1), ["--t" as string]: c.t.toFixed(2), ["--dx" as string]: c.dx.toFixed(3), ["--dy" as string]: c.dy.toFixed(3), ["--h" as string]: c.hue }}>{c.w}</span>)}</div>
+        <figure className="lg-quiet-card" aria-hidden><img src="/uploads/1/hooks/sites/g/ledger-edge.jpg" alt="" /></figure>
+        <div className="lg-quiet-scrim" aria-hidden />
+        <div className="lg-quiet-chap bs-w" style={aw(-0.2, 0.33)}><span className="lg-kick">The idea</span><h2>A bank that does<br /><em>less, on purpose.</em></h2><p>No points, no confetti, no notifications begging for your thumb.</p></div>
+        <div className="lg-quiet-chap bs-w" style={aw(0.4, 0.66)}><span className="lg-kick">Taken away</span><h2>No points. No noise.<br /><em>No fees you did not agree to.</em></h2><p>One clean account and one honest card, in the metal.</p></div>
+        <div className="lg-quiet-chap bs-w" style={aw(0.72, 1.3)}><span className="lg-kick">Left behind</span><h2>One number you can<br /><em>trust at a glance.</em></h2>
+          <div className="lg-bal"><span>Available · pending and upcoming included</span><b><ActCount from={0} to={2418.6} dec={2} pre="£" comma a={0.74} b={0.93} /></b></div></div>
+      </div>
+    </section>
+  );
+}
 function LedgerSite() {
   const g = "/uploads/1/hooks/sites/g/";
   return (
     <div className="vh-site l-ledger">
+      {/* фон = уровень шума: космос → матовый чёрный, дальше только тишина */}
+      <Atmosphere stops={[{ at: ".lg-hero", color: "#08090e" }, { at: ".lg-quiet", color: "#0a0c16", anchor: 0.2 }, { at: ".lg-quiet", color: "#050506", anchor: 0.8 }, { at: ".lg-cta", color: "#040405" }]} />
       <section className="lg-hero">
-        <video className="lg-hero-vid" src="/uploads/1/hooks/sites/ledger-hero.mp4" poster="/uploads/1/hooks/sites/ledger.jpg" autoPlay muted loop playsInline />
+        {/* hero-видео несло карту «ASTRA FINTECH» — вместо него перегенерированный кадр без бренда, с медленным дрейфом */}
+        <img className="lg-hero-vid lg-hero-still" src="/uploads/1/hooks/sites/ledger.jpg" alt="" />
         <div className="lg-hero-wash" />
         <header className="lg-head"><Link href="/visual-hooks/sites" className="lg-brand">LEDGER</Link><nav className="lg-nav"><a href="#" onClick={stop}>Account</a><a href="#" onClick={stop}>Card</a><a href="#" onClick={stop}>Invite</a></nav></header>
-        <div className="lg-hero-copy"><span className="lg-eyebrow">Banking, quietly</span><h1>Money, made<br /><em>quiet.</em></h1><p>An account that tells you the truth and gets out of your way.</p></div>
+        <div className="lg-hero-copy"><span className="lg-eyebrow">Banking, quietly</span><h1>Money,<br />made <em>quiet.</em></h1><p>An account that tells you the truth and gets out of your way.</p></div>
       </section>
 
-      <section className="lg-idea">
-        <Reveal className="vh-rv--up"><span className="lg-kick">The idea</span><h2>A bank that does<br /><em>less, on purpose.</em></h2><p>No points, no confetti, no notifications begging for your thumb. One clean account, one honest card, and a balance you can actually trust at a glance.</p></Reveal>
-      </section>
-
-      <section className="lg-cine">
-        <ShaderBg mode="nebula" palette={["#05060a", "#1a2f5e", "#86dcb8"]} speed={0.6} className="lg-cine-bg" />
-        <Reveal className="lg-cine-copy vh-rv--up"><h2>No points.<br />No noise.<br /><em>No fees you did not agree to.</em></h2></Reveal>
-      </section>
+      <LedgerQuiet />
 
       <section className="lg-feat">
         <Reveal className="lg-feat-media vh-rv--mask"><img loading="lazy" src={`${g}ledger-app.jpg`} alt="" /></Reveal>
@@ -1754,14 +1775,6 @@ function LedgerSite() {
         </Reveal>
       </section>
 
-      <section className="lg-gal">
-        <Reveal className="lg-gal-head vh-rv--up"><h3>Built to be <em>looked at less.</em></h3></Reveal>
-        <div className="lg-gal-grid">
-          <Reveal className="lg-tile a vh-rv--zoom"><ShaderImage src={`${g}ledger-edge.jpg`} /><span>The card, in the metal.</span></Reveal>
-          <Reveal className="lg-tile b vh-rv--zoom"><ShaderImage src={`${g}ledger-calm.jpg`} /><span>Check it, then put it away.</span></Reveal>
-        </div>
-      </section>
-
       <section className="lg-stats">
         <div className="lg-stats-row">
           {[["£0", "in monthly fees"], ["60 sec", "to open, from your phone"], ["24/7", "human support, no bots"]].map(([v, l]) => (<Reveal key={l} className="lg-stat vh-rv--up"><b>{v}</b><span>{l}</span></Reveal>))}
@@ -1771,7 +1784,8 @@ function LedgerSite() {
 
       <section className="lg-quote"><Reveal className="vh-rv--up"><blockquote>I opened it, moved my salary over, and then just forgot about it. That is the whole compliment.</blockquote><cite>Elin R., beta member</cite></Reveal></section>
 
-      <section className="lg-cta"><Reveal className="vh-rv--up"><h2>Ask for <em>an invite.</em></h2><p>We onboard in small waves, so support stays human.</p><a href="#" onClick={stop} className="lg-btn">Request an invite <i>↗</i></a></Reveal></section>
+      {/* «check it, then put it away»: телефон уходит в тёмный край экрана */}
+      <section className="lg-cta"><i className="lg-cta-away" aria-hidden /><Reveal className="vh-rv--up"><h2>Ask for <em>an invite.</em></h2><p>We onboard in small waves, so support stays human.</p><a href="#" onClick={stop} className="lg-btn">Request an invite <i>↗</i></a></Reveal></section>
 
       <footer className="lg-foot"><div className="lg-foot-top"><b>LEDGER</b><p>A quiet account for grown-ups.</p></div><div className="lg-foot-legal"><span>Ledger</span><span>A Visual Hooks concept</span></div></footer>
     </div>

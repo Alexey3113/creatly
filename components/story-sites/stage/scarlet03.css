@@ -155,6 +155,9 @@
 .sc-site .stage[data-trans="cut"] .is-leaving{opacity:calc(1 - var(--ep)*2.4);filter:brightness(calc(1 + var(--ep)*2)) contrast(calc(1 + var(--ep)))}
 @media(prefers-reduced-motion:reduce){.sc-site .stage[data-trans="cut"] .is-entering::after{display:none}}
 
+/* улика (share=gloves) летит ПОД HUD/титром уходящей сцены: они гаснут, а не мигают в первый тик */
+.sc-site .stage[data-trans="fade"] .is-leaving:has(.sc-surv){z-index:61;opacity:calc(1 - var(--ep))}
+
 /* ===== шапка на светлом зине ===== */
 .sc-nav a,.sc-nav .sc-cta{transition:color .4s,border-color .4s}
 .sc-site:has(.stage-scene.is-active .sc-zine) .sc-brand{color:#140c0c}

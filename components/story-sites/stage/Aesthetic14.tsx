@@ -31,7 +31,7 @@ export function Aesthetic14() {
         {/* 0 · OCCLUDED IDOL — вордмарк строчными над головой (чёрный шрифт читается), вуаль лишь касается букв */}
         <div transition="push" className="scene-body ae-cover">
           <div className="ae-cover-bg" aria-hidden />
-          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ scale: 1.06, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="ae-wordmark"><span aria-hidden>Aesthetic</span></Layer>
+          <Layer z={1} depth={0.05} phase={[0, 0.9]} from={{ scale: 1.06, opacity: 0 }} to={{ scale: 1, opacity: 1 }} className="ae-wordmark ae-tx"><span aria-hidden>Aesthetic</span></Layer>
           <Layer z={3} depth={0.16} phase={[0, 0.9]} from={{ y: "5vh", scale: 1.04 }} to={{ y: "0vh", scale: 1 }} className="ae-cover-fig">
             <SceneMedia src={CUT} alt="Aesthetic — тату-монахиня с терновой короной" share="nun" />
           </Layer>

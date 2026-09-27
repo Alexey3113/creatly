@@ -35,8 +35,7 @@
 .hg-ghost:active{ transform:translateY(2px); }
 
 /* fg: маска плотнее — облачные куски с магентой и прямоугольник неба в fg-вырезках не проступают */
-/* короткий переход маски (без «призрачной» полупрозрачной стены), выше облачных кусков вырезки */
-.hg .rl-scene[data-scene="moor"] .rl-fg img{ -webkit-mask-image:linear-gradient(180deg, transparent 46%, #000 53%); mask-image:linear-gradient(180deg, transparent 46%, #000 53%); }
+/* короткий переход маски fg задан полем сцены fgMask (без «призрачной» полупрозрачной стены) */
 /* магента-кромка вырезок (дрок, облачные куски) срезана эрозией альфы; руину не трогаем — её fg перерисовывается при окклюзии */
 .hg .rl-scene[data-scene="moor"] .rl-fg img, .hg .rl-scene[data-scene="loch"] .rl-fg img, .hg .rl-scene[data-scene="storm"] .rl-fg img{ filter:url(#hg-trim); }
 .hg-defs{ position:absolute; width:0; height:0; overflow:hidden; }

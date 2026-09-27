@@ -223,6 +223,8 @@
 .so-links a:hover{color:#1d1408}
 .so-sign{margin-top:24px;font:500 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:#5e4520}
 
+@media(prefers-reduced-motion:reduce){.so-flame,.stage-scene.is-active .so-bloom{animation:none}}
+
 @media(max-width:900px){
   .so-site{--pearl-x:calc(50vw + 2.6vh);--pearl-y:66.2vh}
   .so-nav a:not(.so-cta){display:none}

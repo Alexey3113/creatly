@@ -229,7 +229,9 @@ export function Halcyon() {
       <Actor className="hc-streamer-actor" width="44vw" zIndex={32} bob={9} tilt={0.12} stops={[
         { at: reelMark("s0"), pose: { x: 72, y: 20, s: 0.95, r: -9, o: 1 } },
         { at: reelMark("t0"), pose: { x: 58, y: 44, s: 1.9, r: -3, o: 1, blur: 3 } },
+        { at: reelMark("a1"), pose: { x: 64, y: 57, s: 1, r: 5, o: 1 } },
         { at: reelMark("s1"), pose: { x: 64, y: 57, s: 1, r: 5, o: 1 } },
+        { at: reelMark("h1"), pose: { x: 64, y: 57, s: 1, r: 5, o: 1 } },
         { at: reelMark("t1"), pose: { x: 50, y: 48, s: 2.4, r: 84, o: 1 } },
         { at: reelMark("s2"), pose: { x: 75, y: 17, s: 0.95, r: -6, o: 1 } },
         { at: reelMark("t2"), pose: { x: 74, y: 19, s: 1.05, r: -2, o: 1 } },

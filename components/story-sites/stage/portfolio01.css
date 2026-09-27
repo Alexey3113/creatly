@@ -139,6 +139,10 @@
 .pf-site:has(.stage-scene.is-active :is(.pf-contact,.pf-mono,.pf-final)) .stage-dots span{background:rgba(44,22,32,.24)}
 .pf-site:has(.stage-scene.is-active :is(.pf-contact,.pf-mono,.pf-final)) .stage-dots span.on{background:#2c1620}
 
+/* разворот (share=spread) летит ПОД титрами уходящей макро-сцены: титры/скан гаснут, а не мигают в первый тик */
+.pf-site .stage[data-trans="fade"] .is-leaving:has(.pf-macro){z-index:61;opacity:calc(1 - var(--ep))}
+.pf-site .stage[data-trans="fade"] .is-leaving .pf-macro{background:transparent}
+
 /* iris — из карандашного круга вокруг кадра 02 контакт-листа (а не из центра экрана) */
 .pf-site .stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*150%) at 38.7% 50%)}
 

@@ -35,7 +35,7 @@ export function Handover15() {
             <SceneMedia src={`${A}/handover-hero.jpg`} alt="Пророк тянется к огненной колеснице" />
           </Layer>
           <div className="hv-cover-veil" aria-hidden />
-          <Layer z={4} depth={0.3} phase={[0, 0.9]} from={{ y: "6vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="hv-wordmark"><h1>HANDOVER</h1></Layer>
+          <Layer z={4} depth={0.3} phase={[0, 0.9]} from={{ y: "6vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="hv-wordmark hv-tx"><h1>HANDOVER</h1></Layer>
           <div className="hv-orn" aria-hidden>
             <span className="hv-orn-l">// a transition</span>
             <span className="hv-orn-r">// a new move</span>

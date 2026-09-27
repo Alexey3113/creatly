@@ -76,9 +76,9 @@ async function runJob(job) {
       await shot(`S${i + 1}`);
       if (i < n - 1) {
         await pg.keyboard.press("ArrowDown");
-        await pg.waitForTimeout(330);
+        await pg.waitForTimeout(110); // StageDeck v2: доводка lerp 0.13/кадр → ~110 мс ≈ середина перехода
         await shot(`S${i + 1}→${i + 2} mid`);
-        await pg.waitForTimeout(1500);
+        await pg.waitForTimeout(1300);
       }
     }
     // что под деком (если есть)
