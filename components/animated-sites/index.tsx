@@ -71,6 +71,10 @@ export const SITES: Entry[] = [
   { slug: "monolith", title: "Stele", kicker: "3d-theatre · dolly-in", technique: "dolly-in + fog parallax + ember", Comp: Monolith28 },
 ];
 
+/* Аудит 2026-09 (docs/audit/sites/legacy.md): техно-демо, где эффект — самоцель и нет мира/сюжета,
+   уходят в «Архив лаборатории» (роуты живы, техники сохранены для новой архитектуры). */
+const ARCHIVE = new Set(["manifesto", "ledger", "cipher", "flux", "aurora", "pulse", "drift", "bloom", "prism", "helix", "column", "ovation"]);
+
 export function AnimatedLab({ initialSlug }: { initialSlug?: string }) {
   const site = initialSlug ? SITES.find((s) => s.slug === initialSlug) : undefined;
   if (site?.Comp) return <site.Comp />;
@@ -84,7 +88,7 @@ export function AnimatedLab({ initialSlug }: { initialSlug?: string }) {
       </header>
       <ul className="al-grid">
         {SITES.length === 0 && <li className="al-empty">Флагманы собираются… (Phase 5)</li>}
-        {SITES.map((s) => (
+        {SITES.filter((s) => !ARCHIVE.has(s.slug)).map((s) => (
           <li key={s.slug} className="al-card">
             <Link href={`/animated/${s.slug}`}>
               <span className="al-kicker">{s.kicker}</span>
@@ -94,6 +98,21 @@ export function AnimatedLab({ initialSlug }: { initialSlug?: string }) {
           </li>
         ))}
       </ul>
+      <section className="al-archive">
+        <h2>Архив лаборатории</h2>
+        <p>Техно-демо отдельных приёмов (шейдеры, частицы, кинетика). Приёмы перенесены в сквозную архитектуру сцен; сами страницы — как справочник.</p>
+        <ul className="al-grid al-grid-archive">
+          {SITES.filter((s) => ARCHIVE.has(s.slug)).map((s) => (
+            <li key={s.slug} className="al-card">
+              <Link href={`/animated/${s.slug}`}>
+                <span className="al-kicker">{s.kicker}</span>
+                <b>{s.title}</b>
+                <span className="al-tech">{s.technique}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

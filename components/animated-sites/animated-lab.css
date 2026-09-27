@@ -11,3 +11,10 @@
 .al-kicker{ font:700 10px "Archivo"; letter-spacing:.2em; text-transform:uppercase; color:#c9a24a; }
 .al-card b{ font:600 26px/1 "Fraunces",serif; }
 .al-tech{ font:400 12px "Archivo"; color:#7a7570; }
+
+/* архив лаборатории: приглушённые карточки техно-демо */
+.al-archive{margin-top:12vh;padding-top:6vh;border-top:1px solid rgba(255,255,255,.12)}
+.al-archive h2{margin:0 0 10px;font:600 13px/1.2 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.al-archive p{max-width:60ch;margin:0 0 32px;opacity:.6;font:400 15px/1.6 system-ui,sans-serif}
+.al-grid-archive .al-card{opacity:.62;filter:grayscale(.4)}
+.al-grid-archive .al-card:hover{opacity:1;filter:none}
