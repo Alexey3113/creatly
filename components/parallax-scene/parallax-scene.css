@@ -1,6 +1,8 @@
 /* Движок parallax-сцен. Вся хореография — через CSS-переменные (--sp/--px/--py от сцены; --start/--inv/--fx.. от слоя). */
 .ps-scene{position:relative}
 .ps-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--bg,#0a0d12)}
+/* overlapVh: сцена проявляется поверх предыдущей, пока обе закреплены (--ovp пишет JS) */
+.ps-scene[data-ov]>.ps-sticky{opacity:var(--ovp,0)}
 .ps-site-bg{position:absolute;inset:0;z-index:0}
 .ps-viewport{position:absolute;inset:0;z-index:1}
 
@@ -10,7 +12,7 @@
   transform:
     translate3d(
       calc(var(--fx,0px) + (var(--tx,0px) - var(--fx,0px))*var(--lp) + var(--px,0)*var(--cx,0px)*var(--depth,0)),
-      calc(var(--fy,0px) + (var(--ty,0px) - var(--fy,0px))*var(--lp) + var(--py,0)*var(--cy,0px)*var(--depth,0)),
+      calc(var(--fy,0px) + (var(--ty,0px) - var(--fy,0px))*var(--lp) + var(--py,0)*var(--cy,0px)*var(--depth,0) + (.5 - var(--sp,0))*var(--psy,0)*var(--depth,0)*1vh),
       0)
     rotate(calc(var(--frot,0deg) + (var(--trot,0deg) - var(--frot,0deg))*var(--lp)))
     scale(calc(var(--fsc,1) + (var(--tsc,1) - var(--fsc,1))*var(--lp)));
@@ -50,4 +52,5 @@
   .ps-layer{--lp:1}
   .ps-line>span{--lnp:1}
   .ps-trans{display:none}
+  .ps-scene[data-ov]>.ps-sticky{opacity:1}
 }

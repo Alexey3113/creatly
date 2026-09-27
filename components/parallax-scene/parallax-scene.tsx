@@ -12,18 +12,27 @@ export type SceneTransform = { x?: V; y?: V; scale?: number; rotate?: string; op
 export type SceneMask = "none" | "soft" | "radial" | "diag-in" | "diag-out" | "curtain";
 
 // Сцена: sticky-вьюпорт высотой heightVh, пишет --sp/--px/--py в корень секции.
+// v2 (аудит 2026-09): rest — hero собран без скролла; intro — сборка за N мс после загрузки;
+// overlapVh — сцена накладывается на предыдущую и проявляется поверх, пока обе закреплены (без пустого экрана);
+// parallax — скролл-параллакс слоёв по их depth (vh на весь проход сцены).
 export function ParallaxScene({
-  heightVh = 220, pointer = true, background, className, children, id, transitionOut,
+  heightVh = 220, pointer = true, background, className, children, id, transitionOut, rest = 0, intro = 0, overlapVh = 0, parallax = 0,
 }: {
   heightVh?: number; pointer?: boolean; background?: React.ReactNode; className?: string;
   children: React.ReactNode; id?: string; transitionOut?: { type: "diagonal" | "curtain" | "crossfade"; angle?: number; color?: string; start?: number };
+  rest?: number; intro?: number; overlapVh?: number; parallax?: number;
 }) {
-  const ref = useSceneProgress<HTMLDivElement>(pointer);
+  const ref = useSceneProgress<HTMLDivElement>(pointer, { rest, intro, overlapVh });
+  const svars = {
+    height: `${heightVh}vh`,
+    ...(overlapVh ? { marginTop: `calc(-100vh - ${overlapVh}vh)` } : {}),
+    ...(parallax ? { ["--psy"]: parallax } : {}),
+  } as CSSProperties;
   const tvars = transitionOut
     ? ({ ["--tr-start"]: transitionOut.start ?? 0.8, ["--tr-angle"]: `${transitionOut.angle ?? -12}deg`, ["--tr-color"]: transitionOut.color ?? "var(--bg, #0a0d12)" } as CSSProperties)
     : undefined;
   return (
-    <section ref={ref} id={id} className={`ps-scene ${className || ""}`} style={{ height: `${heightVh}vh` }}>
+    <section ref={ref} id={id} className={`ps-scene ${className || ""}`} style={svars} data-ov={overlapVh ? "" : undefined}>
       <div className="ps-sticky">
         {background && <div className="ps-site-bg">{background}</div>}
         <div className="ps-viewport">{children}</div>
@@ -58,8 +67,9 @@ export function Layer({
 }
 
 // Медиа-слой (img → позже video). object-fit/position наследуются из Layer через --fit/--pos.
-export function SceneMedia({ src, alt = "", className }: { src: string; alt?: string; className?: string }) {
-  return <img src={src} alt={alt} className={`ps-media ${className || ""}`} loading="lazy" draggable={false} />;
+// share: ключ shared element — StageDeck переносит этот кадр в элемент с тем же ключом соседней сцены (FLIP по прогрессу)
+export function SceneMedia({ src, alt = "", className, share }: { src: string; alt?: string; className?: string; share?: string }) {
+  return <img src={src} alt={alt} className={`ps-media ${className || ""}`} loading="lazy" draggable={false} data-share={share} />;
 }
 
 // Reveal одной строки: клип/подлёт по своему окну прогресса (--lnp).
@@ -89,15 +99,32 @@ export function SceneTitle({ back = [], front = [], phase = [0.12, 0.5], backZ =
 }
 
 // Хук сцены: --sp (скролл-прогресс) + сглаженные --px/--py (курсор). Один RAF, IO-гейт, reduced-motion.
-export function useSceneProgress<T extends HTMLElement>(pointer = true) {
+// opts.rest — пол прогресса (sp = rest + (1-rest)·raw); opts.intro — сборка от 0 до rest за N мс после загрузки;
+// opts.overlapVh — пишет --ovp 0→1 пока сцена проходит первые overlapVh (проявление поверх предыдущей).
+export function useSceneProgress<T extends HTMLElement>(pointer = true, opts: { rest?: number; intro?: number; overlapVh?: number } = {}) {
   const ref = useRef<T>(null);
+  const { rest = 0, intro = 0, overlapVh = 0 } = opts;
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     // reduced-motion: замираем на осмысленном КОНЕЧНОМ состоянии (контент раскрыт, до перехода 0.86), а не на середине
-    if (reduce) { el.style.setProperty("--sp", "0.84"); return; }
+    if (reduce) { el.style.setProperty("--sp", "0.84"); el.style.setProperty("--ovp", "1"); return; }
     let raf = 0, active = false;
-    const compute = () => { raf = 0; const r = el.getBoundingClientRect(); const travel = Math.max(1, el.offsetHeight - window.innerHeight); el.style.setProperty("--sp", Math.max(0, Math.min(1, -r.top / travel)).toFixed(4)); };
+    // сборка hero без скролла: floor поднимается 0 → rest за intro мс (ease-out)
+    let floor = intro > 0 ? 0 : rest;
+    let introRaf = 0;
+    if (intro > 0 && rest > 0) {
+      const t0 = performance.now();
+      const tick = (now: number) => { const k = Math.min(1, (now - t0) / intro); floor = rest * (1 - Math.pow(1 - k, 3)); compute(); if (k < 1) introRaf = requestAnimationFrame(tick); };
+      introRaf = requestAnimationFrame(tick);
+    }
+    const compute = () => {
+      raf = 0; const r = el.getBoundingClientRect(); const vh = window.innerHeight;
+      const travel = Math.max(1, el.offsetHeight - vh);
+      const raw = Math.max(0, Math.min(1, -r.top / travel));
+      el.style.setProperty("--sp", (floor + (1 - floor) * raw).toFixed(4));
+      if (overlapVh) el.style.setProperty("--ovp", Math.max(0, Math.min(1, -r.top / (vh * overlapVh / 100))).toFixed(4));
+    };
     const onScroll = () => { if (!raf && active) raf = requestAnimationFrame(compute); };
     const io = new IntersectionObserver((es) => { active = es[0].isIntersecting; el.classList.toggle("is-active", active); if (active) onScroll(); }, { threshold: 0 });
     io.observe(el); addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", onScroll); compute();
@@ -108,7 +135,7 @@ export function useSceneProgress<T extends HTMLElement>(pointer = true) {
     const onMove = (e: PointerEvent) => { const r = el.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width) * 2 - 1; ty = ((e.clientY - r.top) / r.height) * 2 - 1; if (!praf) praf = requestAnimationFrame(tick); };
     const onLeave = () => { tx = 0; ty = 0; if (!praf) praf = requestAnimationFrame(tick); };
     if (fine) { el.addEventListener("pointermove", onMove); el.addEventListener("pointerleave", onLeave); }
-    return () => { cancelAnimationFrame(raf); cancelAnimationFrame(praf); io.disconnect(); removeEventListener("scroll", onScroll); removeEventListener("resize", onScroll); if (fine) { el.removeEventListener("pointermove", onMove); el.removeEventListener("pointerleave", onLeave); } };
-  }, [pointer]);
+    return () => { cancelAnimationFrame(raf); cancelAnimationFrame(praf); cancelAnimationFrame(introRaf); io.disconnect(); removeEventListener("scroll", onScroll); removeEventListener("resize", onScroll); if (fine) { el.removeEventListener("pointermove", onMove); el.removeEventListener("pointerleave", onLeave); } };
+  }, [pointer, rest, intro, overlapVh]);
   return ref;
 }

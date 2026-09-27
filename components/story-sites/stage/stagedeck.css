@@ -87,3 +87,17 @@
   }
 }
 @media(prefers-reduced-motion:reduce){.stage-scene .ps-layer{translate:none}}
+
+/* ── v2 (аудит 2026-09): переход ведёт зритель (scrub), поэтому слои получают глубину на входе и уходе:
+   ближние (depth↑) обгоняют дальние. Отдельное свойство translate — не конфликтует с transform слоя. */
+.stage-scene.is-entering .ps-layer{translate:0 calc((1 - var(--sp,1)) * var(--depth,0) * 7vh)}
+.stage-scene.is-leaving .ps-layer{translate:0 calc(var(--ep,0) * var(--depth,0) * -9vh)}
+/* программный фокус сцены (a11y) без системной рамки поперёк кадра */
+.stage-scene:focus,.stage-scene:focus-visible{outline:none}
+@media (prefers-reduced-motion:reduce){ .stage-scene .ps-layer{translate:none} }
+/* fade: нейтральная склейка — непрерывность несёт shared element (объект перелетает из сцены в сцену) */
+.stage[data-trans="fade"] .is-entering{opacity:var(--sp)}
+.stage[data-trans="fade"] .is-leaving{opacity:calc(1 - var(--ep)*.85)}
+/* push: непрерывный наезд камеры на тот же мотив (без блюра и двойной экспозиции zoom) */
+.stage[data-trans="push"] .is-entering{transform:scale(calc(1.22 - var(--sp)*.22));opacity:clamp(0,calc(var(--sp)*1.6),1)}
+.stage[data-trans="push"] .is-leaving{transform:scale(calc(1 + var(--ep)*.3));opacity:calc(1 - var(--ep))}

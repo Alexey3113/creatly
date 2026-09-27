@@ -36,7 +36,7 @@ export function Deity10() {
             <span className="dt-orn-tag">the comment-immune entity<br />免疫体</span>
             <span className="dt-orn-lm">I cast<br />myself<br />in plaster</span>
             <span className="dt-orn-script">deity</span>
-            <span className="dt-orn-bar">POSTER DESIGN · hype unbothered · 神 · 947.523.598</span>
+            <span className="dt-orn-bar">POSTER DESIGN · hype unbothered · 神 · MMXXVI</span>
           </div>
           <Layer z={6} depth={0.3} phase={[0.08, 0.7]} from={{ y: "3vh", opacity: 0 }} to={{ y: "0vh", opacity: 1 }} className="dt-cover-hi">
             <span className="dt-eyebrow">hype, unbothered · a self-appointed deity</span>

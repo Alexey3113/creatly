@@ -10,8 +10,6 @@ import { Children, cloneElement, useEffect, useRef, useState, isValidElement, ty
 import "@/components/parallax-scene/parallax-scene.css";
 import "./stagedeck.css";
 
-const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
 type SceneProps = { transition?: string; className?: string };
 
 export function StageDeck({ children, duration = 1000, cooldown = 300 }: { children: ReactNode; duration?: number; cooldown?: number }) {
@@ -19,104 +17,179 @@ export function StageDeck({ children, duration = 1000, cooldown = 300 }: { child
   const n = scenes.length;
   const rootRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const st = useRef({ active: 0, animating: false, raf: 0, accum: 0, downY: 0, downX: 0, lockUntil: 0, viaKey: false });
   const goRef = useRef<(dir: number) => void>(() => {});
+  void duration; void cooldown; // v1-API: длительность/кулдаун больше не нужны — переход ведёт зритель
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const els = () => Array.from(root.querySelectorAll<HTMLElement>(":scope > .stage-scene"));
+    const list = Array.from(root.querySelectorAll<HTMLElement>(":scope > .stage-scene"));
     const setVar = (el: HTMLElement | undefined, name: string, v: number) => el && el.style.setProperty(name, v.toFixed(4));
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const clampPos = (v: number) => Math.max(0, Math.min(n - 1, v));
 
-    const list = els();
-    list.forEach((el, i) => {
-      setVar(el, "--sp", i === 0 ? 1 : 0);
-      setVar(el, "--ep", 0);
-      el.classList.toggle("is-active", i === 0);
-      el.toggleAttribute("inert", i !== 0);
-      el.setAttribute("aria-hidden", i !== 0 ? "true" : "false");
-    });
+    /* ── SCRUB + SNAP ─────────────────────────────────────────────────────────────
+       pos — куда ведёт зритель (float, индекс сцены), vis — сглаженная видимая позиция.
+       Между i и i+1: входящей --sp = f, уходящей --ep = f (те же CSS-переходы, но их ведёт скролл/палец,
+       можно остановиться и вернуться). Пауза ввода → доводка к ближайшей сцене по направлению (удержание). */
+    let pos = 0, vis = 0, raf = 0, lastInput = 0, lastDir = 1, dragging = false, activeIdx = 0, pair = -1;
+    let ghosts: Array<{ at: (e: number) => void; destroy: () => void }> = [];
+    const unit = () => Math.max(380, innerHeight * 0.55);
 
-    const finish = (cur: HTMLElement, nxt: HTMLElement, next: number) => {
-      cur.classList.remove("is-active", "is-leaving");
-      cur.toggleAttribute("inert", true);
-      cur.setAttribute("aria-hidden", "true");
-      setVar(cur, "--sp", 0); setVar(cur, "--ep", 0);
-      nxt.classList.remove("is-entering");
-      nxt.classList.add("is-active");
-      nxt.toggleAttribute("inert", false);
-      nxt.setAttribute("aria-hidden", "false");
-      setVar(nxt, "--sp", 1); setVar(nxt, "--ep", 0);
-      st.current.active = next;
-      st.current.animating = false;
-      st.current.lockUntil = performance.now() + cooldown;
-      st.current.accum = 0;
-      const live = root.querySelector<HTMLElement>(".stage-live");
-      if (live) live.textContent = `Сцена ${next + 1} из ${n}`;
-      if (st.current.viaKey) { nxt.focus?.(); st.current.viaKey = false; }
+    const markActive = (k: number) => {
+      list.forEach((el, j) => {
+        const on = j === k;
+        el.classList.toggle("is-active", on);
+        el.toggleAttribute("inert", !on);
+        el.setAttribute("aria-hidden", on ? "false" : "true");
+        if (!introRunning || j !== 0) { setVar(el, "--sp", on ? 1 : 0); setVar(el, "--ep", 0); }
+      });
+      if (activeIdx !== k) {
+        activeIdx = k;
+        setActive(k);
+        const live = root.querySelector<HTMLElement>(".stage-live");
+        if (live) live.textContent = `Сцена ${k + 1} из ${n}`;
+        if (viaKey) { list[k].focus?.({ preventScroll: true }); viaKey = false; }
+      }
     };
 
-    const goTo = (next: number, instant = false) => {
-      const s = st.current;
-      if (s.animating || performance.now() < s.lockUntil) return;
-      if (next < 0 || next >= n || next === s.active) return;
-      const l = els();
-      const cur = l[s.active];
-      const nxt = l[next];
-      if (!cur || !nxt) return;
-      s.animating = true;
-      root.dataset.dir = next > s.active ? "fwd" : "back";
-      // переход диктует ВХОДЯЩАЯ сцена (при back — уходящая, чтобы обратка зеркалила)
-      const drive = (next > s.active ? nxt : cur).dataset.transition || "zoom";
-      root.dataset.trans = drive;
-      nxt.classList.add("is-entering");
-      cur.classList.add("is-leaving");
-      setVar(nxt, "--sp", 0); setVar(cur, "--ep", 0);
-      setActive(next);
-      if (reduce || instant) { finish(cur, nxt, next); return; }
+    /* SHARED ELEMENTS: [data-share="key"] в соседних сценах — призрак перелетает из A в B по прогрессу */
+    const copyProps = ["font-family", "font-size", "font-weight", "font-style", "letter-spacing", "line-height", "color", "text-transform",
+      "-webkit-text-stroke", "text-shadow", "white-space", "text-align", "object-fit", "object-position", "border-radius", "filter", "opacity"];
+    const makeGhost = (a: HTMLElement, r: DOMRect) => {
+      const g = a.cloneNode(true) as HTMLElement;
+      const cs = getComputedStyle(a);
+      copyProps.forEach((p) => g.style.setProperty(p, cs.getPropertyValue(p)));
+      g.removeAttribute("data-share");
+      Object.assign(g.style, { position: "fixed", left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px`,
+        margin: "0", transform: "none", zIndex: "60", pointerEvents: "none", visibility: "visible", maxWidth: "none", maxHeight: "none" });
+      g.setAttribute("aria-hidden", "true");
+      return g;
+    };
+    const setupShared = (cur: HTMLElement, nxt: HTMLElement) => {
+      const out: typeof ghosts = [];
+      cur.querySelectorAll<HTMLElement>("[data-share]").forEach((a) => {
+        const k = a.getAttribute("data-share");
+        const b = k ? nxt.querySelector<HTMLElement>(`[data-share="${CSS.escape(k)}"]`) : null;
+        if (!b) return;
+        const prev = nxt.style.getPropertyValue("--sp");
+        nxt.style.setProperty("--sp", "1");
+        const rb = b.getBoundingClientRect();
+        nxt.style.setProperty("--sp", prev || "0");
+        const ra = a.getBoundingClientRect();
+        if (!ra.width || !rb.width) return;
+        const g = makeGhost(a, ra);
+        root.appendChild(g);
+        a.style.visibility = "hidden";
+        b.style.visibility = "hidden";
+        const L = (x: number, y: number, e: number) => x + (y - x) * e;
+        out.push({
+          at: (e) => {
+            const k2 = e * e * (3 - 2 * e);
+            g.style.left = `${L(ra.left, rb.left, k2)}px`; g.style.top = `${L(ra.top, rb.top, k2)}px`;
+            g.style.width = `${L(ra.width, rb.width, k2)}px`; g.style.height = `${L(ra.height, rb.height, k2)}px`;
+          },
+          destroy: () => { g.remove(); a.style.visibility = ""; b.style.visibility = ""; },
+        });
+      });
+      return out;
+    };
+    const teardownPair = () => {
+      if (pair < 0) return;
+      ghosts.forEach((g) => g.destroy()); ghosts = [];
+      list[pair]?.classList.remove("is-leaving");
+      list[pair + 1]?.classList.remove("is-entering");
+      pair = -1;
+    };
+    const setPair = (i: number) => {
+      if (pair === i) return;
+      teardownPair();
+      pair = i;
+      const cur = list[i], nxt = list[i + 1];
+      root.dataset.trans = nxt.dataset.transition || "zoom";
+      root.dataset.dir = "fwd";
+      stopIntro();
+      [cur, nxt].forEach((el) => { el.classList.remove("is-active"); el.toggleAttribute("inert", true); });
+      cur.classList.add("is-leaving"); nxt.classList.add("is-entering");
+      setVar(cur, "--sp", 1);
+      ghosts = setupShared(cur, nxt);
+    };
+    const render = () => {
+      const i = Math.floor(vis + 1e-6), f = vis - i;
+      if (f < 0.0015 || i >= n - 1) { teardownPair(); delete root.dataset.trans; markActive(Math.round(clampPos(vis))); return; }
+      setPair(i);
+      setVar(list[i + 1], "--sp", f);
+      setVar(list[i], "--ep", f);
+      ghosts.forEach((g) => g.at(f));
+    };
+    const snapTarget = () => {
+      const base = Math.floor(pos), frac = pos - base;
+      if (frac < 1e-4) return base;
+      return clampPos(lastDir > 0 ? (frac > 0.12 ? base + 1 : base) : (frac < 0.88 ? base : base + 1));
+    };
+    const loop = () => {
+      raf = 0;
+      const now = performance.now();
+      const idle = !dragging && now - lastInput > 170;
+      if (idle) pos = snapTarget();
+      vis += (pos - vis) * (reduce ? 1 : 0.13);
+      if (Math.abs(pos - vis) < 0.0006) vis = pos;
+      render();
+      if (vis !== pos || !idle) raf = requestAnimationFrame(loop);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+    const go = (dir: number) => { pos = clampPos(Math.round(vis) + dir); lastDir = dir; lastInput = 0; kick(); };
+    goRef.current = go;
+    let viaKey = false;
+
+    /* ОБЛОЖКА СОБИРАЕТСЯ ПРИ ЗАГРУЗКЕ (раньше стояла сразу в финальном кадре) */
+    let introRunning = !reduce;
+    let introRaf = 0;
+    const stopIntro = () => { if (introRunning) { introRunning = false; cancelAnimationFrame(introRaf); setVar(list[0], "--sp", 1); } };
+    list.forEach((el, i) => { setVar(el, "--sp", i === 0 ? (reduce ? 1 : 0) : 0); setVar(el, "--ep", 0); el.classList.toggle("is-active", i === 0); el.toggleAttribute("inert", i !== 0); el.setAttribute("aria-hidden", i !== 0 ? "true" : "false"); });
+    if (introRunning) {
       const t0 = performance.now();
       const tick = (now: number) => {
-        const p = Math.min(1, (now - t0) / duration);
-        const e = easeInOutCubic(p);
-        setVar(nxt, "--sp", e);
-        setVar(cur, "--ep", e);
-        if (p < 1) s.raf = requestAnimationFrame(tick);
-        else finish(cur, nxt, next);
+        const k = Math.min(1, (now - t0) / 1500);
+        setVar(list[0], "--sp", 1 - Math.pow(1 - k, 3));
+        if (k < 1 && introRunning) introRaf = requestAnimationFrame(tick); else introRunning = false;
       };
-      s.raf = requestAnimationFrame(tick);
-    };
-    const go = (dir: number) => goTo(st.current.active + dir);
-    goRef.current = go;
+      introRaf = requestAnimationFrame(tick);
+    }
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const s = st.current;
-      if (s.animating || performance.now() < s.lockUntil) { s.accum = 0; return; }
-      s.accum += e.deltaY;
-      if (Math.abs(s.accum) > 30) { const d = Math.sign(s.accum); s.accum = 0; go(d); }
+      const d = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaY;
+      pos = clampPos(pos + d / unit());
+      lastDir = Math.sign(d) || lastDir;
+      lastInput = performance.now();
+      kick();
     };
     const interactive = (el: EventTarget | null) =>
       el instanceof Element && !!el.closest("a,button,input,textarea,select,[contenteditable],[data-scroll]");
     const onKey = (e: KeyboardEvent) => {
       if (interactive(e.target)) return;
-      st.current.viaKey = true;
+      viaKey = true;
       if (["ArrowDown", "PageDown", " ", "Spacebar"].includes(e.key)) { e.preventDefault(); go(1); }
       else if (["ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); go(-1); }
-      else if (e.key === "Home") { e.preventDefault(); goTo(0, true); }
-      else if (e.key === "End") { e.preventDefault(); goTo(n - 1, true); }
-      else st.current.viaKey = false;
+      else if (e.key === "Home") { e.preventDefault(); pos = 0; lastInput = 0; kick(); }
+      else if (e.key === "End") { e.preventDefault(); pos = n - 1; lastInput = 0; kick(); }
+      else viaKey = false;
     };
-    const onDown = (e: PointerEvent) => { st.current.downY = e.clientY; st.current.downX = e.clientX; };
-    const onUp = (e: PointerEvent) => {
-      if (interactive(e.target)) return;
-      const dy = e.clientY - st.current.downY;
-      const dx = e.clientX - st.current.downX;
-      if (Math.abs(dy) > 48 && Math.abs(dy) > Math.abs(dx)) go(dy < 0 ? 1 : -1);
+    // тач/перо: палец ведёт переход напрямую
+    let y0 = 0, p0 = 0, pid = -1;
+    const onDown = (e: PointerEvent) => { if (e.pointerType === "mouse" || interactive(e.target)) return; pid = e.pointerId; y0 = e.clientY; p0 = pos; dragging = true; };
+    const onMoveTouch = (e: PointerEvent) => {
+      if (!dragging || e.pointerId !== pid) return;
+      const d = (y0 - e.clientY) / unit();
+      pos = clampPos(p0 + d * 1.25);
+      lastDir = Math.sign(d) || lastDir;
+      lastInput = performance.now();
+      kick();
     };
+    const onUp = (e: PointerEvent) => { if (e.pointerId !== pid) return; dragging = false; pid = -1; lastInput = performance.now(); kick(); };
 
-    // сглаженный pointer-канал: пишет --px/--py [-1..1] в корень .stage; слои активной сцены
-    // читают их через inherit (visual drift задаётся per-site в CSS). Не влияет на переходы.
+    // сглаженный pointer-канал: --px/--py [-1..1] в корень .stage (дрейф слоёв за мышью, per-site CSS)
     const fine = matchMedia("(pointer:fine)").matches;
     let praf = 0, ptx = 0, pty = 0, pcx = 0, pcy = 0;
     const ptick = () => {
@@ -136,22 +209,28 @@ export function StageDeck({ children, duration = 1000, cooldown = 300 }: { child
 
     root.addEventListener("wheel", onWheel, { passive: false });
     root.addEventListener("pointerdown", onDown);
-    root.addEventListener("pointerup", onUp);
+    window.addEventListener("pointermove", onMoveTouch);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
     window.addEventListener("keydown", onKey);
     if (fine && !reduce) { root.addEventListener("pointermove", onPMove); root.addEventListener("pointerleave", onPLeave); }
     return () => {
-      cancelAnimationFrame(st.current.raf);
+      cancelAnimationFrame(raf);
       cancelAnimationFrame(praf);
+      cancelAnimationFrame(introRaf);
+      teardownPair();
       root.removeEventListener("wheel", onWheel);
       root.removeEventListener("pointerdown", onDown);
-      root.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointermove", onMoveTouch);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
       window.removeEventListener("keydown", onKey);
       root.removeEventListener("pointermove", onPMove);
       root.removeEventListener("pointerleave", onPLeave);
     };
-  }, [n, duration, cooldown]);
+  }, [n]);
 
-  const jump = (dir: number) => { st.current.viaKey = true; goRef.current(dir); };
+  const jump = (dir: number) => { goRef.current(dir); };
 
   return (
     <div className="stage" ref={rootRef} role="group" aria-roledescription="кино-история" tabIndex={0} aria-label={`Кино-история, сцена ${active + 1} из ${n}`}>

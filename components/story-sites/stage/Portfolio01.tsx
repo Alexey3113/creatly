@@ -89,7 +89,7 @@ export function Portfolio01() {
         {/* 3 · MACRO EVIDENCE — AURELIA */}
         <div transition="wipe-x" className="scene-body pf-macro">
           <Layer z={1} depth={0.1} phase={[0, 1]} from={{ scale: 1.14, x: "2vw" }} to={{ scale: 1.02, x: "0vw" }} className="pf-macro-fig kb-media">
-            <SceneMedia src={`${A}/p01-still-2.jpg`} alt="AURELIA — упаковка и арт-дирекшн, макро" />
+            <SceneMedia src={`${A}/p01-still-2.jpg`} alt="AURELIA — упаковка и арт-дирекшн, макро" share="spread" />
           </Layer>
           <div className="pf-macro-scan" aria-hidden />
           <div className="pf-macro-huge" aria-hidden>AURELIA</div>
@@ -103,12 +103,12 @@ export function Portfolio01() {
         </div>
 
         {/* 4 · CONTACT SHEET — плёночный контактный лист арт-директора (не сетка) */}
-        <div transition="drop" className="scene-body pf-contact">
+        <div transition="fade" className="scene-body pf-contact">
           <div className="pf-contact-bg" aria-hidden />
           <div className="pf-contact-head" aria-hidden><b>The Archive</b><span>selected work · 2020—2026</span></div>
           <div className="pf-contact-strip">
             <figure className="pf-neg pf-neg-1"><img src={`${A}/p01-hero.jpg`} alt="Портрет — обложка кампании" loading="lazy" /><figcaption>01 · face</figcaption></figure>
-            <figure className="pf-neg pf-neg-2 pf-neg-sel"><img src={`${A}/p01-still-2.jpg`} alt="Разворот журнала" loading="lazy" /><figcaption>02 · spread</figcaption><span className="pf-select" aria-hidden /></figure>
+            <figure className="pf-neg pf-neg-2 pf-neg-sel"><img src={`${A}/p01-still-2.jpg`} alt="Разворот журнала" loading="lazy" data-share="spread" /><figcaption>02 · spread</figcaption><span className="pf-select" aria-hidden /></figure>
             <figure className="pf-neg pf-neg-3"><img src={`${A}/p01-still-1.jpg`} alt="Продуктовый кадр" loading="lazy" /><figcaption>03 · still</figcaption></figure>
             <figure className="pf-neg pf-neg-4"><img src={`${A}/p01-portrait-b.jpg`} alt="Портрет в очках" loading="lazy" /><figcaption>04 · look</figcaption></figure>
           </div>

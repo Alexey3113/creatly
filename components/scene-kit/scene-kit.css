@@ -1,0 +1,35 @@
+/* SCENE-KIT · общие слои визуальной архитектуры (актёр, погода, бэкдроп). Префикс sk-. */
+
+/* АКТЁР — fixed, позицию целиком пишет JS (transform от левого-верхнего угла экрана) */
+.sk-actor{ position:fixed; left:0; top:0; pointer-events:none; will-change:transform, opacity; transform-origin:50% 50%;
+  transform:translate3d(-50vw,-50vh,0); }
+.sk-actor img{ display:block; width:100%; height:auto; -webkit-user-drag:none; user-select:none;
+  filter:drop-shadow(0 18px 24px rgba(0,0,0,.28)); }
+
+/* ПОГОДА — fixed на весь экран, частицы позиционирует JS */
+.sk-weather{ position:fixed; inset:0; pointer-events:none; overflow:hidden; contain:strict; }
+.sk-weather i{ position:absolute; left:0; top:0; display:block; will-change:transform, opacity; background:var(--sk-c); }
+.sk-weather i.alt{ background:var(--sk-c2); }
+.sk-w-snow i, .sk-w-ash i, .sk-w-dust i, .sk-w-stars i{ border-radius:50%; }
+.sk-w-snow i{ box-shadow:0 0 6px rgba(255,255,255,.55); }
+.sk-w-embers i, .sk-w-sparks i, .sk-w-fireflies i, .sk-w-spores i{ border-radius:50%;
+  box-shadow:0 0 10px 3px color-mix(in srgb, var(--sk-c) 60%, transparent); }
+.sk-w-bubbles i{ border-radius:50%; background:transparent; border:1px solid color-mix(in srgb, var(--sk-c) 70%, transparent);
+  box-shadow:inset -2px -2px 4px color-mix(in srgb, var(--sk-c) 35%, transparent); }
+.sk-w-rain i{ border-radius:2px; opacity:.5; background:linear-gradient(180deg, transparent, var(--sk-c)); }
+/* лист: асимметричная капля с прожилкой */
+.sk-w-leaves i{ border-radius:0 70% 0 70%; background:linear-gradient(135deg, var(--sk-c), color-mix(in srgb, var(--sk-c) 70%, #000)); }
+.sk-w-leaves i.alt{ background:linear-gradient(135deg, var(--sk-c2), color-mix(in srgb, var(--sk-c2) 70%, #000)); }
+/* лепесток: мягкий овал с вырезом */
+.sk-w-petals i{ border-radius:60% 60% 60% 10%; background:radial-gradient(120% 90% at 30% 30%, #fff 0, var(--sk-c) 55%); }
+.sk-w-petals i.alt{ background:radial-gradient(120% 90% at 30% 30%, #fff 0, var(--sk-c2) 55%); }
+
+/* БЭКДРОП — плита мира под лендингом (корень сайта должен быть isolation:isolate) */
+.sk-backdrop{ position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0; visibility:hidden; overflow:hidden; }
+.sk-bd-plate{ position:absolute; inset:-4%; background-size:cover; opacity:0; will-change:opacity, transform;
+  filter:blur(var(--sk-blur, 0px)) saturate(.92); transition:none; }
+.sk-bd-veil{ position:absolute; inset:0; background:var(--sk-tint); opacity:var(--sk-dim, .5); }
+
+@media (prefers-reduced-motion:reduce){
+  .sk-weather{ display:none; }
+}

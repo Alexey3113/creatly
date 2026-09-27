@@ -1,44 +1,38 @@
-/* ДВИЖОК РИЛА — только механика слоёв (палитро-нейтральный). Сайт задаёт --rl-void / --rl-spark и
-   стилизует копи внутри .rl-copy своими классами. Проверено на пилоте (frame-sync rAF, без contain). */
+/* ДВИЖОК РИЛА v2 — механика слоёв (палитро-нейтральная). Сайт задаёт --rl-void / --rl-spark и
+   стилизует копи внутри .rl-copy своими классами. Все трансформы/прозрачности пишет JS каждый кадр. */
 .rl{ --mx:0; --my:0; --rl-void:#12100e; --rl-spark:#ffd98a; }
 
 .rl-reel{ position:relative; background:var(--rl-void); }
+/* невидимые якоря для сквозных слоёв scene-kit (Actor/Atmosphere/Backdrop) */
+.rl-mark{ position:absolute; left:0; width:1px; height:0; pointer-events:none; visibility:hidden; }
 .rl-reel-stage{ position:sticky; top:0; height:100vh; overflow:hidden; background:var(--rl-void); }
 
-/* сцена выезжает снизу и накрывает предыдущую; верх растворяется пока едет (--feather 1→0) */
-.rl-scene{ --sp:0; --enter:1; --feather:0; position:absolute; inset:0; overflow:visible;
-  transform:translate3d(0, calc((1 - var(--enter)) * 100%), 0); will-change:transform; backface-visibility:hidden; }
-.rl-scene:not(:first-child){
-  /* при --feather:0 маска полностью непрозрачна (без постоянной прозрачной полоски сверху) —
-     иначе под накрытой сценой приходилось держать предыдущую ради этого ~0.5%-шва */
-  -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent calc(var(--feather)*3%), #000 calc(var(--feather)*13%), #000 100%);
-          mask-image:linear-gradient(180deg, transparent 0, transparent calc(var(--feather)*3%), #000 calc(var(--feather)*13%), #000 100%); }
+.rl-scene{ position:absolute; inset:0; overflow:hidden; will-change:transform, opacity; backface-visibility:hidden;
+  transform-origin:50% 50%; }
+.rl-world{ position:absolute; inset:0; transition:filter .6s ease; }
 
-/* bg-плита: dolly (scale по --sp) + мягкий сдвиг по курсору */
-.rl-bg{ position:absolute; inset:0; background-size:cover; background-position:50% 46%; background-color:var(--rl-void);
-  transform:scale(calc(1.03 + var(--sp)*0.13)) translate3d(calc(var(--mx)*-10px), calc(var(--my)*-6px), 0); transform-origin:50% 42%; will-change:transform; }
+/* bg-плита: чуть больше кадра (запас под параллакс и дрейф) */
+.rl-bg{ position:absolute; inset:-3%; background-size:cover; background-position:50% 46%; background-color:var(--rl-void);
+  transform-origin:50% 42%; will-change:transform; }
 
-/* атмосферная дымка/винетка (нейтральная, работает на любой палитре) */
+/* атмосферная дымка/виньетка (нейтральная, работает на любой палитре) */
 .rl-haze{ position:absolute; inset:0; z-index:2; pointer-events:none;
   background:radial-gradient(120% 80% at 20% 6%, rgba(255,250,238,.30), transparent 46%),
             linear-gradient(180deg, rgba(255,255,255,.10) 0%, transparent 22%, transparent 58%, rgba(0,0,0,.34) 100%); }
 .rl-dark .rl-haze{ background:radial-gradient(120% 80% at 24% 6%, rgba(190,205,225,.22), transparent 48%),
             linear-gradient(180deg, rgba(120,140,170,.10) 0%, transparent 24%, transparent 54%, rgba(0,0,0,.5) 100%); }
 
-/* дрейфующая mist-полоса по стыку — прячет шов между мирами */
-.rl-mist{ position:absolute; left:-6%; right:-6%; top:-2%; height:26%; z-index:9; pointer-events:none;
+/* дрейфующий туман на кромке наезда (rise) — прячет шов */
+.rl-mist{ position:absolute; left:-6%; right:-6%; top:-2%; height:26%; z-index:9; pointer-events:none; opacity:0;
   background:radial-gradient(120% 100% at 30% 40%, rgba(240,244,240,.5), transparent 60%),
             radial-gradient(120% 100% at 72% 55%, rgba(220,228,224,.42), transparent 62%);
-  filter:blur(8px); opacity:calc(var(--feather,0) * .85); animation:rl-mist 16s ease-in-out infinite alternate; }
+  filter:blur(8px); animation:rl-mist 16s ease-in-out infinite alternate; }
 .rl-dark .rl-mist{ background:radial-gradient(120% 100% at 34% 42%, rgba(150,170,190,.4), transparent 60%),
             radial-gradient(120% 100% at 70% 52%, rgba(120,140,168,.34), transparent 62%); }
 @keyframes rl-mist{ from{ transform:translateX(-3%) } to{ transform:translateX(4%) } }
 
-/* midground-субъект (изолированная вырезка) — НЕ обрезаем: object-fit contain, якорь к низу */
-.rl-mid{ position:absolute; inset:0; z-index:3; will-change:transform;
-  transform:translate3d(calc(var(--mx)*-20px), calc((var(--sp) - .5)*-5vh - var(--my)*10px), 0) scale(calc(1.03 + var(--sp)*0.14)); transform-origin:50% 82%; }
-/* edge-fade маска гасит внешние ~4% кадра вырезки — убирает прямоугольную кромку/матовый остаток
-   remove-bg (центральный субъект не задет; субъекты в вырезках к краям не подходят) */
+/* midground-субъект (вырезка) — не обрезаем: contain, якорь к низу; края гасит маска (остатки remove-bg) */
+.rl-mid{ position:absolute; inset:0; z-index:3; will-change:transform, opacity; transform-origin:50% 82%; }
 .rl-mid img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:50% 86%; backface-visibility:hidden;
   -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%), linear-gradient(180deg, transparent 0, #000 3.5%, #000 96.5%, transparent 100%);
           mask-image:linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%), linear-gradient(180deg, transparent 0, #000 3.5%, #000 96.5%, transparent 100%);
@@ -46,19 +40,41 @@
 .rl-shadow{ position:absolute; left:50%; top:82%; width:22vw; height:3vh; transform:translateX(-50%); z-index:-1;
   background:radial-gradient(closest-side, rgba(0,0,0,.42), transparent 72%); filter:blur(14px); }
 
-/* fg — нижняя полоса-рамка: якорь к низу, feathered верх (там оседает chroma-кромка) */
-.rl-fg{ position:absolute; inset:0; z-index:5; will-change:transform;
-  transform:translate3d(calc(var(--mx)*-34px), calc((var(--sp) - .5)*7vh - var(--my)*12px), 0) scale(calc(1.05 + var(--sp)*0.12)); transform-origin:50% 100%; }
-/* маска съедает верхние ~52% fg — там сидит chroma-бахрома (магента-кромка); fg-полосы донные, верх не нужен */
+/* fg — нижняя полоса-рамка, уходит вниз быстрее всех (ближний план обгоняет) */
+.rl-fg{ position:absolute; inset:0 0 -4% 0; z-index:5; will-change:transform, opacity; transform-origin:50% 100%; }
 .rl-fg img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 100%;
   -webkit-mask-image:linear-gradient(180deg, transparent 0%, transparent 52%, #000 72%, #000 100%);
           mask-image:linear-gradient(180deg, transparent 0%, transparent 52%, #000 72%, #000 100%); }
 
-/* копи-контейнер: reel только позиционирует и синхронит прозрачность (проявление × гашение) */
-.rl-copy{ position:absolute; z-index:10; left:6vw; top:22vh; width:min(46rem,88vw);
-  opacity:calc(clamp(0, (var(--enter) - 0.5) * 2.6, 1) * clamp(0, (0.85 - var(--sp)) * 4, 1));
-  transform:translateY(calc((1 - var(--enter)) * 4vh)); }
-.rl-cue{ position:absolute; z-index:20; left:6vw; bottom:4vh; font:600 12px system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.85); text-shadow:0 1px 8px rgba(0,0,0,.4); }
+/* копи: reel позиционирует и ведёт прозрачность (эстафета); оформление — сайта */
+.rl-copy{ position:absolute; z-index:10; left:6vw; top:22vh; width:min(46rem,88vw); will-change:opacity, transform; }
+.rl-cue{ position:absolute; z-index:20; left:6vw; bottom:4vh; font:600 12px system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,.85); text-shadow:0 1px 8px rgba(0,0,0,.4); pointer-events:none; }
+
+/* ЗАСТЫВАНИЕ: камера встала, кадр слегка обесцвечен, выходит титр (контент — сайта, позиция по умолчанию) */
+.rl-scene[data-frozen] .rl-world{ filter:saturate(.55) contrast(1.06) brightness(.93); }
+.rl-freeze{ position:absolute; z-index:11; right:6vw; bottom:12vh; opacity:0; transform:scale(1.18) rotate(-2deg);
+  transition:opacity .45s ease, transform .6s cubic-bezier(.2,.9,.25,1.15); pointer-events:none; }
+.rl-scene[data-frozen] .rl-freeze{ opacity:1; transform:scale(1) rotate(-2deg); }
+
+/* ЭФФЕКТЫ ШВА — над всеми сценами */
+.rl-fx{ position:absolute; pointer-events:none; opacity:0; visibility:hidden; z-index:40; }
+/* полоса стыка при спуске/подъёме: поверхность воды / облачный слой */
+.rl-fx-seam{ left:-5%; right:-5%; top:0; height:34vh;
+  background:
+    radial-gradient(60% 55% at 30% 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 55%, transparent), transparent 70%),
+    radial-gradient(55% 60% at 72% 48%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 42%, transparent), transparent 70%),
+    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--fx-tint, #fff) 38%, transparent) 50%, transparent 100%);
+  filter:blur(10px); }
+/* луч, ведущий кромку раскрытия */
+.rl-fx-beam{ top:-10%; bottom:-10%; width:26vw; margin-left:-13vw; transform:rotate(10deg); mix-blend-mode:screen;
+  background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 70%, transparent) 42%, #fff8 50%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 70%, transparent) 58%, transparent);
+  filter:blur(6px); }
+/* вспышка смены света */
+.rl-fx-bloom{ inset:0; mix-blend-mode:screen;
+  background:radial-gradient(70% 60% at 50% 42%, color-mix(in srgb, var(--fx-tint, var(--rl-spark)) 85%, #fff), transparent 72%); }
+/* вуаль окклюзии — цвет силуэта */
+.rl-fx-occ{ inset:0; background:var(--fx-tint, var(--rl-void)); }
 
 /* DOM-искры (светлячки/пыльца/угли) — цвет через --rl-spark */
 .rl-fly{ position:absolute; z-index:6; width:5px; height:5px; border-radius:50%; background:var(--rl-spark);
@@ -67,4 +83,16 @@
 .rl-fly-3{ left:63%; top:48%; animation-delay:2.6s } .rl-fly-4{ left:74%; top:60%; animation-delay:.8s } .rl-fly-5{ left:52%; top:70%; animation-delay:3.4s }
 @keyframes rl-fly{ 0%,100%{ transform:translate(0,0); opacity:.35 } 50%{ transform:translate(14px,-20px); opacity:1 } }
 
-@media (prefers-reduced-motion:reduce){ .rl-bg,.rl-mid,.rl-fg{ transform:none } .rl-fly{ animation:none } }
+/* reduced-motion: сцены стопкой обычным потоком, без переходов */
+.rl-reduced .rl-reel{ height:auto !important; }
+.rl-reduced .rl-reel-stage{ position:relative; height:auto; overflow:visible; }
+.rl-reduced .rl-scene{ position:relative; height:100vh; transform:none !important; clip-path:none !important;
+  -webkit-mask-image:none !important; mask-image:none !important; display:block !important; opacity:1 !important; }
+.rl-reduced .rl-copy{ opacity:1 !important; transform:none !important; visibility:visible !important; }
+.rl-reduced .rl-cue, .rl-reduced .rl-fx, .rl-reduced .rl-mist{ display:none; }
+@media (prefers-reduced-motion:reduce){ .rl-fly{ animation:none } .rl-mist{ animation:none } }
+
+@media (max-width:820px){
+  .rl-copy{ left:5vw; top:16vh; width:90vw; }
+  .rl-freeze{ right:5vw; bottom:10vh; }
+}
