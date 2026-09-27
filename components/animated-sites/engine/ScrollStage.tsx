@@ -2,11 +2,12 @@
 /* ScrollStage — «reel»-движок модуля /animated. Наследует ДНК StageDeck (контракт CSS-переменных,
    единый RAF, reduced-motion→мгновенный финал), но вместо дискретного snap-дека — НЕПРЕРЫВНЫЙ
    scroll-scrub на нативном высоком скролле + Lenis-инерция.
-   L0 Transport: Lenis (+нативный скролл).  L1 Clock: ОДИН RAF/страница пишет CSS-переменные батчем
+   L0 Transport: Lenis (+нативный скролл).  L1 Clock: общие часы scene-kit (один RAF на страницу) — пишет CSS-переменные батчем
    и раздаёт прогресс зарегистрированным трекам.  L2 Track: см. useTrack ниже.
    Контракт корня .reel: --scroll[0..1 страница] · --vel[clamp] · --px/--py[-1..1 курсор]. */
 import Lenis from "lenis";
 import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
+import { subscribe, useLenisInClock } from "@/components/scene-kit/clock";
 
 type TrackFn = (vpProgress: number, vel: number) => void;
 type Ctx = { register: (fn: TrackFn) => () => void; reduced: boolean };
@@ -33,15 +34,16 @@ export function ScrollStage({ children, className = "" }: { children: ReactNode;
 
     const fine = matchMedia("(pointer:fine)").matches;
     const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true });
-    let raf = 0, lastScroll = 0, cx = 0, cy = 0, tx = 0, ty = 0;
+    // общие часы scene-kit крутят Lenis первым делом в кадре → треки, Follow и Actor видят один scrollY
+    useLenisInClock(lenis);
+    let lastScroll = 0, cx = 0, cy = 0, tx = 0, ty = 0;
 
-    const frame = (time: number) => {
-      lenis.raf(time);
+    const unsub = subscribe(({ y }) => {
       const doc = document.documentElement;
       const max = Math.max(1, doc.scrollHeight - window.innerHeight);
-      const s = Math.min(1, Math.max(0, window.scrollY / max));
-      const vel = Math.max(-3, Math.min(3, (window.scrollY - lastScroll) * 0.05));
-      lastScroll = window.scrollY;
+      const s = Math.min(1, Math.max(0, y / max));
+      const vel = Math.max(-3, Math.min(3, (y - lastScroll) * 0.05));
+      lastScroll = y;
       // сглаженный курсор
       cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
       root.style.setProperty("--scroll", s.toFixed(4));
@@ -50,14 +52,12 @@ export function ScrollStage({ children, className = "" }: { children: ReactNode;
       root.style.setProperty("--py", cy.toFixed(3));
       // раздать прогресс трекам (каждый сам знает своё окно)
       tracks.current.forEach((fn) => fn(s, vel));
-      raf = requestAnimationFrame(frame);
-    };
-    raf = requestAnimationFrame(frame);
+    });
 
     const onMove = (e: PointerEvent) => { tx = (e.clientX / window.innerWidth) * 2 - 1; ty = (e.clientY / window.innerHeight) * 2 - 1; };
     if (fine) window.addEventListener("pointermove", onMove);
 
-    return () => { cancelAnimationFrame(raf); lenis.destroy(); if (fine) window.removeEventListener("pointermove", onMove); };
+    return () => { unsub(); useLenisInClock(null); lenis.destroy(); if (fine) window.removeEventListener("pointermove", onMove); };
   }, []);
 
   const register = (fn: TrackFn) => { tracks.current.add(fn); return () => { tracks.current.delete(fn); }; };

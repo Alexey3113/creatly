@@ -65,7 +65,7 @@
 
 /* ЭПОХИ ------------------------------------------------------------------ */
 .rl-era{ min-height:115vh; }
-.rl-era-in{ position:absolute; left:54vw; top:calc(50% - 20vh); width:min(40vw, 36rem);
+.rl-era-in{ position:absolute; left:54vw; top:calc(50% - 20vh); width:min(42vw, 42rem);
   --far:max(calc(var(--t,0) - .5), calc(.5 - var(--t,0)));
   --v:clamp(0, calc((0.25 - var(--far)) / 0.09), 1);
   opacity:var(--v); transform:translateY(calc((1 - var(--v)) * 26px)); will-change:transform,opacity; }

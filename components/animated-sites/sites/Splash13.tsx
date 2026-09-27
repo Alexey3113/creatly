@@ -20,6 +20,13 @@ const DROPS = Array.from({ length: 14 }, (_, i) => {
   return { x: Math.cos(a) * (58 + (i % 4) * 9), y: Math.sin(a) * (36 + (i % 5) * 6), s: 0.6 + ((i * 7) % 5) * 0.18, r: (a * 180) / Math.PI };
 });
 
+/* шипение при вскрытии: веер капель из-под крышки (угол, дальность, размер — детерминированно) */
+const FIZZ = Array.from({ length: 13 }, (_, i) => ({
+  a: (-66 + i * 11).toFixed(1),
+  r: (3.2 + ((i * 5) % 4) * 1.15).toFixed(2),
+  z: (0.45 + ((i * 3) % 5) * 0.16).toFixed(2),
+}));
+
 export function Splash13() {
   return (
     <ScrollStage className="sp">
@@ -58,7 +65,10 @@ export function Splash13() {
           </svg>
           <img src={CAN} alt="" className="sp-can-img" draggable={false} />
           <span className="sp-can-label" aria-hidden><b>PULP</b><i>blood-orange · lime</i></span>
-          <span className="sp-fizz" aria-hidden>{Array.from({ length: 9 }, (_, i) => <i key={i} style={{ ["--k" as string]: i }} />)}</span>
+          <span className="sp-fizz" aria-hidden>
+            {FIZZ.map((f, i) => <i key={i} style={{ ["--a" as string]: `${f.a}deg`, ["--r" as string]: `${f.r}vw`, ["--z" as string]: `${f.z}vw` }} />)}
+            <b />
+          </span>
         </div>
       </Actor>
 

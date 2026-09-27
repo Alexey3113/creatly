@@ -48,7 +48,7 @@ export function Atlas15() {
   return (
     <ScrollStage className="at scroll-reveal">
       {/* ПРОГРЕСС КАРТЫ НА ВСЮ СТРАНИЦУ: маршрут дорисовывается через все главы, --tt — время карты */}
-      <Follow stops={[
+      <Follow curve="linear" stops={[
         { at: ".at-cover", vars: { "--tt": 0, "--mapdim": 0.55, "--route": 0 } },
         ...Array.from({ length: 9 }, (_, k) => ({ at: ".at-atlas", anchor: pin(k / 8), vars: { "--tt": k / 8, "--mapdim": 0, "--route": 0.1 + (k / 8) * 0.8 } })),
         { at: ".at-end", vars: { "--tt": 1, "--mapdim": 0.42, "--route": 1 } },
