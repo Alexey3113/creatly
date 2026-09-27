@@ -38,6 +38,7 @@ const EMBER = [
   { a: at(".df6-scene", H.s6, 0.06), core: 0.6, pose: { x: 50, y: 48, s: 0.12, o: 1 } },
   { a: at(".df6-scene", H.s6, 0.36), core: 0, pose: { x: 60, y: 44, s: 0.92, o: 0.8 } },
   { a: at(".df6-scene", H.s6, 0.9), core: 0, pose: { x: 60, y: 42, s: 0.95, o: 0.8 } },
+  { a: { at: ".dj-foot", anchor: -1 }, core: 0, pose: { x: 60, y: 36, s: 0.95, o: 0 } },
 ];
 
 export function DjSite() {
@@ -69,6 +70,8 @@ export function DjSite() {
         { ...at(".df5-scene", H.s5, 0.24), pose: { x: 50, y: 52, s: 1.7 } },
         { ...at(".df5-scene", H.s5, 0.62), pose: { x: 50, y: 52, s: 1.7 } },
         { ...at(".df6-scene", H.s6, 0.3), pose: { x: 50, y: 92, s: 1 } },
+        { ...at(".df6-scene", H.s6, 0.9), pose: { x: 50, y: 92, s: 1 } },
+        { at: ".dj-foot", anchor: -1, pose: { x: 50, y: 112, s: 1, o: 0 } },
       ]}>
         <div className="dj-wave">{BARS.map((b, i) => <i key={i} style={{ ["--h" as string]: `${b.h}%`, ["--d" as string]: `${b.d / 100}s` }} />)}</div>
       </Actor>

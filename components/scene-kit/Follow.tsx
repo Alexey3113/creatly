@@ -9,8 +9,10 @@ import { segment, selectorCache } from "./anchors";
 
 export type FollowStop = { at: string; vars: Record<string, number>; anchor?: number };
 
-export function Follow({ stops, target, line = 0.5, unit = "", round = false }: {
+export function Follow({ stops, target, line = 0.5, unit = "", round = false, curve = "smooth" }: {
   stops: FollowStop[]; target?: string; line?: number;
+  /** smooth (smoothstep: e = t²(3−2t)) или linear */
+  curve?: "smooth" | "linear";
   /** суффикс единицы для всех значений (например "vh"); пусто — голое число */
   unit?: string;
   round?: boolean;
@@ -26,7 +28,7 @@ export function Follow({ stops, target, line = 0.5, unit = "", round = false }: 
     return subscribe(({ vh }) => {
       const seg = segment(els(), vh, anchors, line);
       if (!seg) return;
-      const k = smooth(seg.t);
+      const k = curve === "linear" ? seg.t : smooth(seg.t);
       for (const n of names) {
         const a = list[seg.a].vars[n] ?? list[seg.b].vars[n] ?? 0;
         const b = list[seg.b].vars[n] ?? a;
@@ -34,6 +36,6 @@ export function Follow({ stops, target, line = 0.5, unit = "", round = false }: 
         host.style.setProperty(n, (round ? Math.round(v).toString() : v.toFixed(3)) + unit);
       }
     });
-  }, [key, target, line, unit, round]);
+  }, [key, target, line, unit, round, curve]);
   return <span ref={ref} hidden aria-hidden />;
 }

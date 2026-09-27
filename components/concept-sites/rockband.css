@@ -163,15 +163,15 @@
   .b5-clip>div{width:78vw}.b6-obj{display:none}}
 
 /* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
-/* фронтмен-актёр: глитч в покое; в толпе растворяется снизу (--sink), строб в S3 (--stb × --flash), силуэт с красным контуром в S4 (--sil) */
-@property --flash{syntax:"<number>";inherits:false;initial-value:0}
+/* фронтмен-актёр: глитч в покое; в толпе растворяется снизу (--sink), строб в S3 (--stb × --rb-flash), силуэт с красным контуром в S4 (--sil) */
+@property --rb-flash{syntax:"<number>";inherits:false;initial-value:0}
 .sk-actor.rb-front img{
-  filter:brightness(calc((1 + var(--flash) * var(--stb,0) * 1.5) * (1 - var(--sil,0) * .96))) contrast(1.08) drop-shadow(0 30px 50px rgba(0,0,0,.7)) drop-shadow(0 0 calc(22px + var(--sil,0) * 14px) rgba(229,35,27,calc(.22 + var(--sil,0) * .7)));
+  filter:brightness(calc((1 + var(--rb-flash) * var(--stb,0) * 1.5) * (1 - var(--sil,0) * .96))) contrast(1.08) drop-shadow(0 30px 50px rgba(0,0,0,.7)) drop-shadow(0 0 calc(22px + var(--sil,0) * 14px) rgba(229,35,27,calc(.22 + var(--sil,0) * .7)));
   -webkit-mask:linear-gradient(180deg,#000 calc(100% - var(--sink,0) * 100%),transparent calc(100% - var(--sink,0) * 100% + 16%));
   mask:linear-gradient(180deg,#000 calc(100% - var(--sink,0) * 100%),transparent calc(100% - var(--sink,0) * 100% + 16%));
   animation:rb-glitch 3.4s steps(1) infinite,rb-flash .96s steps(1) infinite}
 @keyframes rb-glitch{0%,100%{transform:none}61%{transform:translate(5px,-2px) skewX(6deg)}62%{transform:translate(-4px,1px) skewX(-3deg)}63%{transform:none}88%{transform:translate(-3px,0) scaleY(1.02)}89%{transform:none}}
-@keyframes rb-flash{0%,100%{--flash:0}12%{--flash:1}20%{--flash:0}47%{--flash:.8}53%{--flash:0}}
+@keyframes rb-flash{0%,100%{--rb-flash:0}12%{--rb-flash:1}20%{--rb-flash:0}47%{--rb-flash:.8}53%{--rb-flash:0}}
 /* руки толпы: только нижняя полоса кадра, screen */
 .sk-actor.rb-hands{mix-blend-mode:screen}
 .sk-actor.rb-hands img{filter:none;opacity:.62;-webkit-mask:linear-gradient(180deg,transparent 66%,#000 86%);mask:linear-gradient(180deg,transparent 66%,#000 86%)}

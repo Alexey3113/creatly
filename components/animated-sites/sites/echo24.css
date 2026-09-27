@@ -1,9 +1,8 @@
-/* ECHO — split-title портал на ScrollStage. Палитра ИЗ КАДРОВ echo-*-hero:
-   тёплый bone-плаштер (#e6dcc4) · honey-дуб/timber (#b98a52) · умбра-тень (#5a3f28) · бронза-вердигри (#6f7355).
-   Приём: двусловный заголовок расщепляется по --t, между словами растёт разрыв (ec-gap),
-   в него въезжает горизонтальная галерея (ec-rail translateX по --t). Финал — кадр-маска через
-   background-clip:text. Кинетика — skewX по --vel на вордмарке. Шрифты тут (try-echo не тянет lab-css).
-   Тёплый timber-контраст к sage-зелёному Column — палитры разные. */
+/* ECHO — заголовок-занавес и панорама за ним. Палитра ИЗ КАДРОВ echo-*-hero: тёплый bone-плаштер (#e6dcc4)
+   · honey-дуб/timber (#b98a52) · умбра (#5a3f28) · бронза (#6f7355). Одна пин-сцена: разрыв между STILL/LIFE
+   растёт до полного экрана, рельс из полноразмерных кадров панорамирует, последний кадр остаётся только
+   внутри слова ECHO (тот же кадр: background-attachment:fixed = та же геометрия, что у кадра в разрыве).
+   Окно-кадр — scene-kit Actor. Кинетика — skewX по --vel на вордмарке. */
 
 .ec{ --bone:#e6dcc4; --paper:#efe7d5; --timber:#b98a52; --umber:#5a3f28; --ink:#2b2016;
   --bronze:#6f7355; --mute:#9a8b72;
@@ -14,7 +13,11 @@
   font:700 11px "Archivo"; letter-spacing:.28em; color:var(--mute); }
 .ec-cue{ position:absolute; bottom:5vh; left:6vw; z-index:3; font:700 11px "Archivo"; letter-spacing:.18em; color:var(--mute); }
 
-/* 0 · COVER — вордмарк наклоняется на скорости --------------------------- */
+/* окно-кадр (актёр) */
+.ec-win{ display:block; width:100%; aspect-ratio:4/3; border-radius:3px; background-size:cover; background-position:center;
+  box-shadow:0 26px 60px -24px rgba(43,32,22,.7), 0 0 0 1px rgba(185,138,82,.35); }
+
+/* 0 · COVER --------------------------------------------------------------- */
 .ec-cover{ display:flex; flex-direction:column; justify-content:center; padding:0 5vw;
   background:radial-gradient(115% 90% at 20% 15%, #efe4cd 0%, var(--paper) 58%); }
 .ec-hero{ display:flex; flex-direction:column; line-height:.82; }
@@ -25,70 +28,52 @@
 .ec-hero-l:nth-child(3){ margin-left:3vw; }
 .ec-hero-l:nth-child(4){ margin-left:12vw; }
 
-/* 1 · SPLIT-TITLE PORTAL -------------------------------------------------- */
-.ec-split{ background:var(--bone); }
-.ec-stage{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  overflow:hidden; }
-.ec-word{ font:900 clamp(64px,20vw,320px)/.86 "Archivo",sans-serif; letter-spacing:-.05em; color:var(--ink);
-  will-change:transform; z-index:2; }
-/* слова разъезжаются от центра по --t (доп. к росту разрыва) */
-.ec-word-top{ transform:translateY(calc(var(--t,0) * -3vh)) skewX(calc(var(--vel,0) * -1.4deg)); }
-.ec-word-bot{ transform:translateY(calc(var(--t,0) * 3vh)) skewX(calc(var(--vel,0) * -1.4deg)); }
-
-/* разрыв: высота растёт по --t; внутри — рельс галереи, панорамирует влево */
-.ec-gap{ position:relative; width:100%; height:calc(var(--t,0) * 54vh); overflow:hidden; }
-.ec-gap::before, .ec-gap::after{ content:""; position:absolute; top:0; bottom:0; width:9vw; z-index:3; pointer-events:none; }
-.ec-gap::before{ left:0; background:linear-gradient(90deg, var(--bone), transparent); }
-.ec-gap::after{ right:0; background:linear-gradient(270deg, var(--bone), transparent); }
-.ec-rail{ position:absolute; top:0; left:0; height:100%; display:flex; align-items:center; gap:2.4vw; padding:0 6vw;
-  white-space:nowrap;
-  transform:translateX(calc((0.12 - var(--t,0)) * 168vw)); will-change:transform; }
-.ec-plate{ position:relative; flex:0 0 auto; width:46vw; height:82%; margin:0; overflow:hidden; border-radius:2px;
-  background:#d8ccb2; box-shadow:0 18px 60px -30px rgba(43,32,22,.7); }
-.ec-plate-img{ width:100%; height:100%; object-fit:cover;
-  transform:scale(calc(1.04 + var(--t,0)*.06)); will-change:transform; }
-.ec-plate-n{ position:absolute; top:14px; left:18px; font:900 clamp(28px,3.4vw,58px)/1 "Archivo",sans-serif;
-  color:#f6efdd; letter-spacing:-.03em; mix-blend-mode:screen; text-shadow:0 2px 20px rgba(40,28,18,.5); }
-.ec-plate-cap{ position:absolute; left:18px; bottom:16px; right:18px; }
-.ec-plate-name{ display:block; font:300 clamp(20px,2.4vw,38px)/1 "Fraunces",serif; font-style:italic; color:#f7f1e3;
-  text-shadow:0 3px 24px rgba(38,26,16,.55); }
-.ec-plate-note{ display:block; margin-top:5px; font:700 11px "Archivo"; letter-spacing:.18em; text-transform:uppercase; color:#e6d8bd; }
-
+/* 1 · CURTAIN → PANORAMA → ECHO ---------------------------------------------- */
+.ec-split .scene-sticky{ background:var(--bone); }
+.ec-stage{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; }
+.ec-word{ flex:0 0 auto; font:900 clamp(64px,20vw,320px)/.86 "Archivo",sans-serif; letter-spacing:-.05em; color:var(--ink); z-index:2; }
+.ec-word-top{ transform:skewX(calc(var(--vel,0) * -1.4deg)); }
+.ec-word-bot{ transform:skewX(calc(var(--vel,0) * -1.4deg)); }
+/* разрыв-занавес: растёт до полного экрана к t≈.62 */
+.ec-gap{ position:relative; flex:0 0 auto; width:100%; height:calc(min(1, var(--t,0) * 1.6) * 100vh); overflow:hidden; }
+.ec-rail{ position:absolute; top:0; left:0; height:100%; width:300vw; display:flex;
+  transform:translateX(calc(clamp(0, (var(--t,0) - .14) / .48, 1) * -200vw)); will-change:transform; }
+.ec-plate{ position:relative; flex:0 0 100vw; height:100%; margin:0; overflow:hidden; background:#d8ccb2; }
+.ec-plate-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.ec-plate-cap{ position:absolute; left:6vw; bottom:7vh; display:grid; gap:6px; }
+.ec-plate-n{ font:900 clamp(28px,3.4vw,58px)/1 "Archivo",sans-serif; color:#f6efdd; letter-spacing:-.03em; text-shadow:0 2px 20px rgba(40,28,18,.5); }
+.ec-plate-name{ font:300 clamp(22px,2.8vw,44px)/1 "Fraunces",serif; font-style:italic; color:#f7f1e3; text-shadow:0 3px 24px rgba(38,26,16,.55); }
+.ec-plate-note{ font:700 11px "Archivo"; letter-spacing:.18em; text-transform:uppercase; color:#efe2c6; }
+/* финал пина: кадр гаснет вокруг слова, остаётся внутри ECHO */
+.ec-dark{ position:absolute; inset:0; z-index:3; background:#1e160f; opacity:calc(clamp(0, (var(--t,0) - .7) / .12, 1) * .9); }
+.ec-mask{ position:absolute; z-index:4; left:0; right:0; top:50%; margin:-.42em 0 0; text-align:center;
+  font:900 clamp(120px,30vw,500px)/.84 "Archivo",sans-serif; letter-spacing:-.05em;
+  background:url('/uploads/1/animated/echo-3-hero.jpg') center/cover fixed no-repeat;
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;
+  opacity:clamp(0, (var(--t,0) - .7) / .1, 1); }
+.ec-frame-cap{ position:absolute; z-index:4; bottom:10vh; left:0; right:0; margin:0; text-align:center;
+  font:300 clamp(18px,2.2vw,30px) "Fraunces",serif; font-style:italic; color:#e9dcc2;
+  opacity:clamp(0, (var(--t,0) - .8) / .08, 1); }
 .ec-split-head{ position:absolute; top:5vh; left:6vw; right:6vw; z-index:5; display:flex; justify-content:space-between;
-  font:700 11px "Archivo"; letter-spacing:.28em; color:#5a4a34; pointer-events:none; }
+  font:700 11px "Archivo"; letter-spacing:.28em; color:#5a4a34; pointer-events:none;
+  opacity:calc(1 - clamp(0, (var(--t,0) - .3) / .1, 1)); }
 .ec-split-head span:first-child{ color:var(--timber); letter-spacing:.4em; }
 
-/* 2 · FRAME MASK — слово-маска сквозь кадр ------------------------------- */
-.ec-frame{ display:grid; place-items:center; background:#241a12; overflow:hidden; }
-.ec-frame-bg{ position:absolute; inset:0;
-  background:url('/uploads/1/animated/echo-3-hero.jpg') center/cover no-repeat;
-  transform:scale(calc(1.08 + var(--t,0)*.12)); opacity:.28; will-change:transform; }
-.ec-mask{ position:relative; z-index:2; margin:0; text-align:center;
-  font:900 clamp(120px,32vw,520px)/.8 "Archivo",sans-serif; letter-spacing:-.05em;
-  background:url('/uploads/1/animated/echo-3-hero.jpg') center/cover no-repeat;
-  background-position:calc(50% + (var(--t,0) - .5) * 12%) center;
-  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;
-  filter:contrast(1.05) brightness(1.08); }
-.ec-frame-cap{ position:absolute; bottom:11vh; z-index:2; text-align:center; width:100%; margin:0;
-  font:300 clamp(18px,2.4vw,32px) "Fraunces",serif; font-style:italic; color:#e9dcc2; }
-.ec-frame-cap .ec-line{ display:block; overflow:hidden; }
-.ec-frame-cap i{ display:block; --p:clamp(0, calc((var(--t,0)-.35)*3), 1);
-  transform:translateY(calc((1 - var(--p))*120%)); opacity:var(--p); }
-
-/* 3 · CLOSER ------------------------------------------------------------- */
+/* 2 · CLOSER — окно между строк --------------------------------------------- */
 .ec-end{ display:grid; place-items:center; text-align:center; background:var(--paper); color:var(--ink); }
 .ec-end-block{ position:relative; z-index:2; }
-.ec-end-h{ font:900 clamp(60px,15vw,236px)/.82 "Archivo",sans-serif; letter-spacing:-.045em;
+.ec-end-h{ display:flex; flex-direction:column; align-items:center; font:900 clamp(56px,12vw,200px)/.84 "Archivo",sans-serif; letter-spacing:-.045em;
   transform:skewX(calc(var(--vel,0) * -1.8deg)); }
-.ec-btn{ display:inline-block; margin-top:6vh; padding:16px 34px; border:1px solid var(--timber); border-radius:999px;
-  color:var(--umber); text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
-  transition:background .3s, color .3s; }
-.ec-btn:hover{ background:var(--timber); color:#fff; }
+.ec-end-gap{ display:block; height:24vh; }
+.ec-btn{ display:inline-block; margin-top:5vh; padding:16px 34px; background:var(--umber); border-radius:999px;
+  color:#f6efdd; text-decoration:none; font:700 13px "Archivo"; letter-spacing:.08em; text-transform:uppercase;
+  transition:background .3s; }
+.ec-btn:hover{ background:var(--timber); }
 
 @media (prefers-reduced-motion:reduce){
   .ec-hero-l, .ec-word-top, .ec-word-bot, .ec-end-h{ transform:none; }
-  .ec-gap{ height:54vh; }
-  .ec-rail{ transform:translateX(-40vw); }
-  .ec-plate-img, .ec-frame-bg, .ec-mask{ transform:none; }
-  .ec-frame-cap i{ transform:none; opacity:1; }
+  .ec-gap{ height:60vh; }
+  .ec-rail{ transform:none; }
+  .ec-dark{ opacity:0; } .ec-mask{ opacity:1; position:relative; top:auto; margin:0; }
+  .ec-frame-cap{ opacity:1; }
 }

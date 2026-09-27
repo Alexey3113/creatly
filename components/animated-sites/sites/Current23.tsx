@@ -4,8 +4,19 @@
    ВСПЛЫВАЮТ полупрозрачные data-карточки со стаггером (translateY по окну --t + --i) — «аналитика
    в дикой природе»: датчики влажности, температуры, расхода ручья считаются rAF-каунтерами.
    Палитра снята с кадра: moss-green + cool cream mist, акцент — лишайниково-зелёный.
-   Бренд CANOPY — сенсорная сеть дикой природы. Шрифт: Bricolage Grotesque + JetBrains Mono (числа). */
+   Бренд CANOPY — сенсорная сеть дикой природы. Шрифт: Bricolage Grotesque + JetBrains Mono (числа).
+   ПЕРЕСБОРКА: ущелье — fixed-мир под всей страницей (одна камера, без повтора фото в CTA). scene-kit <Follow>
+   ведёт камеру по ущелью от датчика к датчику; показания — метки НА объектах сцены (туман крон, водопад,
+   мох, скала), а не SaaS-карточки поверх пейзажа; пройденные узлы остаются гореть — сеть собирается к финалу. */
+
+const NODES = [
+  { k: 1, x: 44, y: 22, node: "CANOPY-04", metric: "air humidity", value: "94.2", unit: "%", note: "fog holding at the ridge line" },
+  { k: 2, x: 53, y: 70, node: "CREEK-11", metric: "stream flow", value: "3.8", unit: "m³/s", note: "snowmelt, rising since dawn", warm: true },
+  { k: 3, x: 30, y: 63, node: "MOSS-27", metric: "ground temp", value: "6.4", unit: "°C", note: "stable under the north face" },
+  { k: 4, x: 70, y: 36, node: "CANOPY-19", metric: "light under canopy", value: "1180", unit: "lux", note: "soft, diffused through mist" },
+];
 import { useEffect, useRef, useState } from "react";
+import { Follow, Weather } from "@/components/scene-kit";
 import { ScrollStage } from "../engine/ScrollStage";
 import { Scene } from "../engine/Track";
 import "../engine/scrollstage.css";
@@ -40,28 +51,45 @@ function CountUp({ to, decimals = 0, prefix = "", suffix = "" }:
   return <span ref={ref} className="cu-num">{prefix}{v.toFixed(decimals)}{suffix}</span>;
 }
 
-/* data-карточка: всплывает по окну --t сцены со стаггером --i (translateY + fade + blur→0). */
-function Card({ i, node, metric, value, unit, note, warm = false }:
-  { i: number; node: string; metric: string; value: React.ReactNode; unit?: string; note: string; warm?: boolean }) {
-  return (
-    <article className={`cu-card${warm ? " cu-card-warm" : ""}`} style={{ ["--i" as string]: i }}>
-      <header><span className="cu-dot" aria-hidden />{node}</header>
-      <p className="cu-metric">{metric}</p>
-      <p className="cu-value">{value}{unit && <span className="cu-unit">{unit}</span>}</p>
-      <p className="cu-note">{note}</p>
-    </article>
-  );
-}
-
 export function Current23() {
   return (
     <ScrollStage className="cu scroll-reveal">
-      {/* 0 · COVER — кадр ущелья с parallax по курсору, заголовок проявляется маской */}
-      <Scene className="cu-cover">
-        <div className="cu-bg cu-bg--cover" aria-hidden>
-          <img src={HERO} alt="" className="cine-media" />
-          <div className="cu-fog" />
+      {/* КАМЕРА ПО УЩЕЛЬЮ — от датчика к датчику; --nk: узел k выхвачен (1) / пройден (.4) */}
+      <Follow stops={[
+        { at: ".cu-cover", vars: { "--s": 1.06, "--tx": 0, "--ty": 0, "--n1": 0, "--n2": 0, "--n3": 0, "--n4": 0 } },
+        { at: ".cu-n1", vars: { "--s": 1.5, "--tx": 9, "--ty": 25, "--n1": 1, "--n2": 0, "--n3": 0, "--n4": 0 } },
+        { at: ".cu-n2", vars: { "--s": 1.7, "--tx": -5, "--ty": -34, "--n1": 0.4, "--n2": 1, "--n3": 0, "--n4": 0 } },
+        { at: ".cu-n3", vars: { "--s": 1.6, "--tx": 32, "--ty": -21, "--n1": 0.4, "--n2": 0.4, "--n3": 1, "--n4": 0 } },
+        { at: ".cu-n4", vars: { "--s": 1.5, "--tx": -29, "--ty": 20, "--n1": 0.4, "--n2": 0.4, "--n3": 0.4, "--n4": 1 } },
+        { at: ".cu-net", vars: { "--s": 1.12, "--tx": 0, "--ty": 0, "--n1": 0.7, "--n2": 0.7, "--n3": 0.7, "--n4": 0.7 } },
+        { at: ".cu-end", vars: { "--s": 1.08, "--tx": 0, "--ty": 3, "--n1": 0.85, "--n2": 0.85, "--n3": 0.85, "--n4": 0.85 } },
+      ]} />
+
+      {/* УЩЕЛЬЕ — один кадр под всеми главами; метки датчиков живут на объектах кадра */}
+      <div className="cu-world" aria-hidden>
+        <div className="cu-cam">
+          <img src={HERO} alt="" className="cu-plate" />
+          <svg className="cu-net-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M44 22 L70 36 L53 70 L30 63 Z" />
+          </svg>
+          {NODES.map((n) => (
+            <div key={n.k} className={`cu-node${n.warm ? " cu-node-warm" : ""}`} style={{ left: `${n.x}%`, top: `${n.y}%`, ["--on" as string]: `var(--n${n.k})` }}>
+              <span className="cu-node-dot" />
+              <div className="cu-node-card">
+                <header>{n.node}</header>
+                <p className="cu-metric">{n.metric}</p>
+                <p className="cu-value">{n.value}<span className="cu-unit">{n.unit}</span></p>
+                <p className="cu-note">{n.note}</p>
+              </div>
+            </div>
+          ))}
         </div>
+        <div className="cu-fog" />
+      </div>
+      <Weather kind="spores" count={24} color="#d8e6b0" color2="#b7d15f" world={0.4} zIndex={1} />
+
+      {/* 0 · COVER — ущелье в тумане, заголовок */}
+      <Scene className="cu-cover">
         <div className="cu-kick"><span>CANOPY — WILDERNESS SIGNAL NETWORK</span><span>Nº23 · SCROLL-REVEAL</span></div>
         <div className="cu-cover-in">
           <p className="cu-eyebrow">telemetry from the deep forest</p>
@@ -71,30 +99,21 @@ export function Current23() {
             <span className="cu-line cu-moss" style={{ ["--d" as string]: 2 }}><i>reporting.</i></span>
           </h1>
         </div>
-        <div className="cu-cue" aria-hidden>scroll — read the wild ↓</div>
+        <div className="cu-cue" aria-hidden>scroll — walk the gorge, node by node ↓</div>
       </Scene>
 
-      {/* 1 · TELEMETRY — кадр наезжает по --t, полупрозрачные data-карточки всплывают стаггером */}
-      <Scene className="cu-reveal">
-        <div className="cu-bg cu-bg--reveal" aria-hidden>
-          <img src={HERO} alt="" className="cine-media" />
-          <div className="cu-fog cu-fog--deep" />
-        </div>
-        <div className="cu-reveal-in">
-          <p className="cu-lead">
-            <span className="cu-line" style={{ ["--d" as string]: 0 }}><i>Two hundred sensors,</i></span>
-            <span className="cu-line cu-moss" style={{ ["--d" as string]: 1 }}><i>listening to the gorge.</i></span>
-          </p>
-          <div className="cu-cards">
-            <Card i={0} node="NODE · CANOPY-04" metric="air humidity" value={<CountUp to={94.2} decimals={1} />} unit="%" note="fog holding at the ridge line" />
-            <Card i={1} node="NODE · CREEK-11" metric="stream flow" value={<CountUp to={3.8} decimals={1} />} unit="m³/s" note="snowmelt, rising since dawn" warm />
-            <Card i={2} node="NODE · MOSS-27" metric="ground temp" value={<CountUp to={6.4} decimals={1} />} unit="°C" note="stable under the north face" />
-            <Card i={3} node="NODE · CANOPY-19" metric="light under canopy" value={<CountUp to={1180} />} unit="lux" note="soft, diffused through mist" />
-          </div>
-        </div>
+      {/* 1–4 · ДАТЧИКИ — камера подходит к каждому */}
+      <Scene className="cu-node-sec cu-n1">
+        <p className="cu-lead">
+          <span className="cu-line" style={{ ["--d" as string]: 0 }}><i>Two hundred sensors,</i></span>
+          <span className="cu-line cu-moss" style={{ ["--d" as string]: 1 }}><i>listening to the gorge.</i></span>
+        </p>
       </Scene>
+      <Scene className="cu-node-sec cu-n2"><span className="cu-step" aria-hidden>02 / 04 · the creek</span></Scene>
+      <Scene className="cu-node-sec cu-n3"><span className="cu-step" aria-hidden>03 / 04 · the moss floor</span></Scene>
+      <Scene className="cu-node-sec cu-n4"><span className="cu-step" aria-hidden>04 / 04 · the light shaft</span></Scene>
 
-      {/* 2 · NETWORK — тихая полоса итоговой статистики на mossy-тёмном */}
+      {/* 5 · NETWORK — камера отходит: все узлы в одной сети */}
       <Scene className="cu-net">
         <p className="cu-net-lead">
           <span className="cu-line" style={{ ["--d" as string]: 0 }}><i>No cameras. No cages.</i></span>
@@ -107,12 +126,8 @@ export function Current23() {
         </div>
       </Scene>
 
-      {/* 3 · CTA — закрытие на глубоком mossy-тумане */}
+      {/* 6 · CTA — сеть горит в ущелье */}
       <Scene className="cu-end">
-        <div className="cu-bg cu-bg--end" aria-hidden>
-          <img src={HERO} alt="" className="cine-media" />
-          <div className="cu-fog cu-fog--end" />
-        </div>
         <div className="cu-end-block">
           <p className="cu-eyebrow cu-moss">deploy a canopy</p>
           <h2>

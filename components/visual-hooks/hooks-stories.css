@@ -179,7 +179,7 @@
   clip-path:circle(calc(var(--in) * var(--in) * 150vmax) at var(--cx,50%) var(--cy,50%))}
 .bl2-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   transform-origin:calc(var(--cx,50%) + (var(--nx,50%) - var(--cx,50%)) * var(--sg)) calc(var(--cy,50%) + (var(--ny,50%) - var(--cy,50%)) * var(--sg));
-  transform:scale(calc((.55 + .45 * var(--in)) * (1 + var(--out) * 1.3)));filter:blur(calc(var(--out) * 5px)) brightness(calc(1 - var(--out) * .25))}
+  transform:scale(calc((1 + .28 * var(--in)) * (1 + var(--out) * 1.3)));filter:blur(calc(var(--out) * 5px)) brightness(calc(1 - var(--out) * .25))}
 .bl2-iris{position:absolute;left:58%;top:44%;width:13vmin;height:13vmin;border-radius:50%;pointer-events:none;
   transform:translate(-50%,-50%) scale(calc(1 + (1 - var(--on,1)) * 2.4));opacity:var(--on,1);
   border:1px solid rgba(174,233,255,.75);box-shadow:0 0 30px rgba(174,233,255,.45),inset 0 0 24px rgba(174,233,255,.3);animation:bl2-pulse 3.2s ease-in-out infinite}
@@ -206,7 +206,7 @@
 .l2-orbe>.or-c0{top:-125vh}
 .l2-orbe>.or-c1{top:-104vh}
 .l2-orbe>.or-c2{top:0}
-.or-orb{position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:#0a1016 url(/uploads/1/hooks/land/orbe-world-end.jpg) 50% 50%/auto 123% no-repeat}
+.or-orb{position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:#0a1016 url(/uploads/1/hooks/land/orbe-world-end.jpg) 50% 50%/auto calc(123% * var(--orbK,1)) no-repeat}
 .or-orb .or-glass{position:absolute;inset:0;border-radius:50%}
 .l2-orbe .or2-object{min-height:100vh;display:grid;grid-template-columns:auto 1fr;gap:min(6vw,96px);align-items:center;padding:12vh var(--l2-pad)}
 .or2-stage{position:relative;width:var(--orbS);aspect-ratio:1;border-radius:22px;background:#0a1016 url(/uploads/1/hooks/land/orbe-object.jpg) 50% 48% / cover no-repeat;box-shadow:0 40px 100px rgba(0,0,0,.55)}
@@ -333,6 +333,12 @@
   .l2-bloom .bl2-intro-in,.vg2-intro-in{max-width:none}
   .bl2-depth{display:none}
   .or2-loop-head{max-width:none;right:var(--l2-pad);top:10vh}
+  .or2-ring{width:calc(var(--orbD) * .78 + 96px)}
+  .l2-orbe .or2-node{width:104px}
+  .l2-orbe .or2-node.n2{left:96%}
+  .l2-orbe .or2-node.n4{left:4%}
+  .l2-orbe .or2-node b{font-size:20px}
+  .l2-orbe .or2-node span{font-size:11px}
   .vg2-logs{top:auto;bottom:24vh;width:auto;right:var(--l2-pad)}
   .vg2-logs li:not(:last-child){display:none}
   .as2-orb{right:50%;top:30%}

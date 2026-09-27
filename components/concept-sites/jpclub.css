@@ -205,7 +205,7 @@
   clip-path:inset(calc(max(0px,calc(41vh - .185 * var(--W))) * var(--cl)) calc(max(0px,calc(50% - .21 * var(--W))) * var(--cl)) calc(max(0px,calc(59vh - .425 * var(--W))) * var(--cl)) calc(max(0px,calc(50% - .21 * var(--W))) * var(--cl)))}
 /* текст уходящей сцены гаснет до перекрытия — один заголовок на экране */
 .j2-copy>*,.j3-copy>*,.j4-head>*,.j4-deck,.j5-neon>div,.j5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .62) / .08,1))}
-@media(max-width:900px){.sk-actor.jc-gate{display:none}}
+@media(max-width:900px){.sk-actor.jc-gate{display:none}.j5-n2{align-content:center;padding-top:0}}
 @media(prefers-reduced-motion:reduce){
   .jc-hero,.j2-scene{--go:0}
   .j2-copy>*,.j3-copy>*,.j4-head>*,.j4-deck,.j5-neon>div,.j5-eyebrow{opacity:1}

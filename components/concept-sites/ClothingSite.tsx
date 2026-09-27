@@ -45,6 +45,7 @@ export function ClothingSite() {
         { ...at(".cl6-scene", H.s6, 0.09), pose: { x: 50, y: 52, s: 0.3, r: 0 } },
         { ...at(".cl6-scene", H.s6, 0.36), pose: { x: 75, y: 50, s: 0.95, r: 6 } },
         { ...at(".cl6-scene", H.s6, 0.9), pose: { x: 73, y: 46, s: 1, r: -2 } },
+        { at: ".cl-foot", anchor: -1, pose: { x: 73, y: 40, s: 1, r: -2, o: 0 } },
       ]} />
 
       <header className="cl-head">

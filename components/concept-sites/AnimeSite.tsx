@@ -35,7 +35,7 @@ export function AnimeSite() {
         { ...at(".am5-scene", H.s5, 0.62), pose: { x: 50, y: 54, s: 0.75, r: 0 } },
         { ...at(".am6-scene", H.s6, 0.36), pose: { x: 68, y: 62, s: 0.6, r: 0 } },
         { ...at(".am6-scene", H.s6, 0.9), pose: { x: 68, y: 62, s: 0.6, r: 0 } },
-        { at: ".am-foot", anchor: 0, pose: { x: 68, y: 50, s: 0.6, o: 0 } },
+        { at: ".am-foot", anchor: -1, pose: { x: 68, y: 50, s: 0.6, o: 0 } },
       ]} />
 
       <header className="am-head">

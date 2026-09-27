@@ -33,6 +33,7 @@ const PATH = [
   { a: at(".v6-scene", H.s6, 0.1), tilt: 0, arm: 0, pose: { x: 50, y: 50, s: 2.3, r: 0 } },
   { a: at(".v6-scene", H.s6, 0.4), tilt: 0, arm: 0, pose: { x: 78, y: 50, s: 1.75, r: 0 } },
   { a: at(".v6-scene", H.s6, 0.9), tilt: 0, arm: 0, pose: { x: 77, y: 48, s: 1.8, r: 0 } },
+  { a: { at: ".vn-foot", anchor: -1 }, tilt: 0, arm: 0, pose: { x: 77, y: 40, s: 1.8, r: 0, o: 0 } },
 ];
 
 export function VinylSite() {

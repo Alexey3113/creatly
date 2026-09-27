@@ -140,7 +140,7 @@
 
 /* ===== v2 · одна нить через весь сайт, стыки «ножницы» и «шов» (аудит 2026-09) ===== */
 /* НИТЬ — закреплённый SVG 160×100 (16:10), видимое окно (хвост .085 длины пути) тянется за иглой по общему --draw (Follow) */
-.rd-thread{position:fixed;inset:0;width:100vw;height:100vh;z-index:29;pointer-events:none;overflow:visible}
+.rd-thread{position:fixed;inset:0;width:100vw;height:100vh;z-index:29;pointer-events:none;overflow:visible;opacity:var(--tho,1)}
 .rd-thread path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.085 2;stroke-dashoffset:calc(.085 - var(--draw,0))}
 .rd-thread-shadow{stroke:rgba(20,2,6,.5);stroke-width:.95;filter:blur(1.2px)}
 .rd-thread-line{stroke:#d92a3c;stroke-width:.46}

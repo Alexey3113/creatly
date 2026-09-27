@@ -31,7 +31,7 @@ const PATH = [
   { a: at(".pr5-scene", H.s5, 0.66), night: 0.94, lights: 1, lap: 1, pose: { x: 72, y: 62, s: 0.5, o: 0 } },
   { a: at(".pr6-scene", H.s6, 0.3), night: 1, lights: 1, lap: 1, pose: { x: 71, y: 60, s: 0.72, o: 1 } },
   { a: at(".pr6-scene", H.s6, 0.9), night: 1, lights: 1, lap: 1, pose: { x: 70, y: 60, s: 0.75, o: 1 } },
-  { a: { at: ".pr-foot", anchor: 0 }, night: 1, lights: 1, lap: 1, pose: { x: 70, y: 40, s: 0.75, o: 0 } },
+  { a: { at: ".pr-foot", anchor: -1 }, night: 1, lights: 1, lap: 1, pose: { x: 70, y: 40, s: 0.75, o: 0 } },
 ];
 const CIRCUIT = "M70 250 C60 130 150 58 262 70 L424 82 C506 90 524 156 468 196 L384 252 C342 282 362 318 424 318 L482 318 C524 318 524 352 482 352 L144 352 C94 352 72 312 70 250 Z";
 

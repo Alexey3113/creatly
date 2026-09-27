@@ -106,3 +106,5 @@ npx tsc --noEmit -p tsconfig.json   # 0 ошибок
 - `<Layer>` пишет инлайн `--cx/--cy` — не называй так свои переменные.
 - Свой `data-transition` в деке: базовая `.stage-scene{opacity:0}`, уходящей сцене движок теперь ставит `opacity:1`, свой переход задаёт остальное.
 - Призрак shared-элемента копирует типографику, фон, рамку, тень, маску, clip-path, скругление (в т.ч. %), поворот и масштаб предков; держи пары с одинаковыми filter/object-position.
+- parallax-scene: у `<Layer>` есть `out={[a,b]}` — штатный уход слоя по --sp (reduced-motion не гасит); фон ставь на `.ps-sticky`, не на `.ps-scene` (при overlapVh движок снимает фон секции).
+- `Actor`/`Follow` интерполируют smoothstep (e = t²(3−2t)); для синхронизации с CSS-маской — `curve="linear"`.

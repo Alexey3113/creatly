@@ -3,6 +3,8 @@
 .ps-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--bg,#0a0d12)}
 /* overlapVh: сцена проявляется поверх предыдущей, пока обе закреплены (--ovp пишет JS) */
 .ps-scene[data-ov]>.ps-sticky{opacity:var(--ovp,0)}
+/* отрицательный margin кладёт коробку секции поверх sticky предыдущей — фон рисует только .ps-sticky */
+.ps-scene[data-ov]{background:none!important}
 .ps-site-bg{position:absolute;inset:0;z-index:0}
 .ps-viewport{position:absolute;inset:0;z-index:1}
 
@@ -16,7 +18,8 @@
       0)
     rotate(calc(var(--frot,0deg) + (var(--trot,0deg) - var(--frot,0deg))*var(--lp)))
     scale(calc(var(--fsc,1) + (var(--tsc,1) - var(--fsc,1))*var(--lp)));
-  opacity:calc(var(--fop,1) + (var(--top,1) - var(--fop,1))*var(--lp));
+  opacity:calc((var(--fop,1) + (var(--top,1) - var(--fop,1))*var(--lp)) * (1 - var(--olp,0)));
+  --olp:clamp(0,calc((var(--sp,0) - var(--ostart,2)) * var(--oinv,1)),1);
   will-change:transform,opacity}
 .ps-media{width:100%;height:100%;object-fit:var(--fit,cover);object-position:var(--pos,center);display:block;-webkit-user-drag:none}
 
@@ -49,7 +52,7 @@
 @media(prefers-reduced-motion:reduce){
   .ps-layer,.ps-line>span{will-change:auto}
   /* честный resting-state: каждый слой в полном «to», без цветной вуали перехода */
-  .ps-layer{--lp:1}
+  .ps-layer{--lp:1;--olp:0}
   .ps-line>span{--lnp:1}
   .ps-trans{display:none}
   .ps-scene[data-ov]>.ps-sticky{opacity:1}

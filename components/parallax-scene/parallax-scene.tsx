@@ -44,9 +44,11 @@ export function ParallaxScene({
 
 // Слой: depth-параллакс + phase-окно + from/to интерполяция. Всё через CSS-переменные.
 export function Layer({
-  depth = 0.4, z = 1, phase = [0, 1], from, to, cursor, mask = "none", blend, fit, position, className, children, style,
+  depth = 0.4, z = 1, phase = [0, 1], from, to, cursor, mask = "none", blend, fit, position, className, children, style, out,
 }: {
   depth?: number; z?: number; phase?: readonly [number, number];
+  /** уход слоя: окно --sp, в котором он гаснет до 0 (reduced-motion — не гаснет) */
+  out?: readonly [number, number];
   from?: SceneTransform; to?: SceneTransform; cursor?: { x?: number; y?: number };
   mask?: SceneMask; blend?: string; fit?: "cover" | "contain"; position?: string;
   className?: string; children: React.ReactNode; style?: CSSProperties;
@@ -59,6 +61,7 @@ export function Layer({
     ["--fx"]: f.x, ["--tx"]: t.x, ["--fy"]: f.y, ["--ty"]: t.y,
     ["--fsc"]: f.scale, ["--tsc"]: t.scale, ["--frot"]: f.rotate, ["--trot"]: t.rotate,
     ["--fop"]: f.opacity, ["--top"]: t.opacity,
+    ...(out ? { ["--ostart"]: out[0], ["--oinv"]: 1 / Math.max(0.0001, out[1] - out[0]) } : {}),
     ["--depth"]: depth, ["--cx"]: `${cursor?.x ?? 0}px`, ["--cy"]: `${cursor?.y ?? 0}px`,
     zIndex: z, ...(blend ? { mixBlendMode: blend as CSSProperties["mixBlendMode"] } : {}),
     ...(fit ? { ["--fit"]: fit } : {}), ...(position ? { ["--pos"]: position } : {}), ...style,

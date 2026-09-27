@@ -182,10 +182,10 @@
 .sk-actor.sk-rider img{filter:drop-shadow(0 24px 46px rgba(31,63,214,.26)) grayscale(var(--rw,0)) brightness(calc(1 + var(--rw,0) * 2.6)) contrast(calc(1 - var(--rw,0) * .25));animation:sk-rise 1s cubic-bezier(.2,.7,.2,1) .1s both}
 @keyframes sk-rise{from{opacity:0;transform:translateY(6vh) scale(.96)}to{opacity:1;transform:none}}
 /* «25» отсчитывается при загрузке */
-@property --sk-n{syntax:"<integer>";inherits:false;initial-value:25}
-.sk-25{counter-reset:skn var(--sk-n);animation:sk-count 1.4s cubic-bezier(.16,.8,.3,1) .15s backwards}
+@property --ski-n{syntax:"<integer>";inherits:false;initial-value:25}
+.sk-25{counter-reset:skn var(--ski-n);animation:sk-count 1.4s cubic-bezier(.16,.8,.3,1) .15s backwards}
 .sk-25::before{content:counter(skn)}
-@keyframes sk-count{from{--sk-n:0}to{--sk-n:25}}
+@keyframes sk-count{from{--ski-n:0}to{--ski-n:25}}
 
 /* снежный выброс: сцена открывается веером снежных клубов из-под доски, белая пудра оседает */
 .sk-site .sk2-scene[data-ov]>.ps-sticky{opacity:1;

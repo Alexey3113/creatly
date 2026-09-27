@@ -106,7 +106,7 @@
 .lo-seam{position:absolute;z-index:1;left:71%;top:41%;width:2.4vmin;height:70vh;transform:translate(-50%,-50%) scaleX(calc(1 + var(--dive,0) * 30));background:radial-gradient(50% 50% at 50% 50%,#fff7e0,rgba(255,196,107,.55) 40%,transparent 72%);mix-blend-mode:screen;opacity:calc(var(--wake,0) * .9);filter:blur(4px);pointer-events:none}
 .lo-glow{background:radial-gradient(34vmax 34vmax at 71% 45%,#ffbb61,transparent 62%);opacity:calc(var(--wake,0) * .6 + var(--dive,0) * .4)}
 .lo-wash{opacity:calc(1 - var(--dive,0))}
-.lo-awake{position:absolute;inset:0;z-index:3;width:100%;height:100%;object-fit:cover;opacity:var(--out,0);transform:scale(calc(1.3 - var(--out,0) * .3))}
+.lo-awake{position:absolute;inset:0;z-index:3;width:100%;height:100%;object-fit:cover;opacity:min(1,calc(var(--out,0) * 40));transform:scale(calc(1.3 - var(--out,0) * .3))}
 .lo-flash{position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at 71% 41%,#fffaf0 0,#ffe2b0 45%,#f1c58a 100%);opacity:calc(var(--flash,0) - var(--out,0))}
 .lo-copy{opacity:calc(1 - var(--dive,0) * 3)}
 .lo-copy.lo-copy2{top:15vh;bottom:auto;opacity:calc(var(--out,0) * 1.5 - .5)}
@@ -129,7 +129,7 @@
 .cs-bank{position:absolute;top:0;left:-25vw;right:-25vw;height:80vh;pointer-events:none;background:radial-gradient(38% 46% at 18% 58%,#fff 0,rgba(255,248,244,.85) 34%,transparent 70%),radial-gradient(30% 40% at 46% 44%,#fff 0,rgba(253,239,240,.8) 36%,transparent 72%),radial-gradient(36% 48% at 78% 60%,#fff 0,rgba(255,244,238,.8) 30%,transparent 70%),radial-gradient(60% 40% at 50% 90%,#fff4f0,transparent 70%);filter:blur(14px)}
 .cs-bank-far{z-index:1;opacity:calc(var(--spd,0) * .9);transform:translateY(calc(110vh - var(--fall,0) * 190vh)) scale(1.2)}
 .cs-bank-near{z-index:5;opacity:calc(var(--spd,0) * 1.1);transform:translateY(calc(140vh - var(--fall,0) * 290vh)) scale(1.6);filter:blur(24px)}
-.cs-white{position:absolute;inset:0;z-index:6;background:#fff8f6;opacity:calc(var(--wo,0) * .92);pointer-events:none}
+.cs-white{position:absolute;inset:0;z-index:3;background:#fff8f6;opacity:calc(var(--wo,0) * .92);pointer-events:none}
 .cs-h1{transform:translateY(calc(-50% - var(--fall,0) * 120vh)) scale(calc(1 + var(--fall,0) * .25))}
 .cs-shoe{animation:none;transform:translate(calc(-50% - var(--drop,0) * 20vw),-50%) translate(calc((var(--mx) - 50%) * .07 * (1 - var(--land,0))),calc((var(--my) - 50%) * .05 * (1 - var(--land,0)) + var(--float,0) * 1px + var(--land,0) * 9vh)) rotate(calc(-8deg + var(--fall,0) * 22deg - var(--land,0) * 14deg)) scale(calc(1 - var(--spd,0) * .08 - var(--drop,0) * .38));filter:drop-shadow(0 40px 55px rgba(60,40,70,.3)) blur(calc(var(--spd,0) * 1.6px))}
 .cs-ground{position:absolute;z-index:2;left:-5vw;right:-5vw;bottom:-2vh;height:48vh;pointer-events:none;background:linear-gradient(180deg,#f7e3dc 0%,#f1d1cc 38%,#e7c0bd 100%);box-shadow:0 -40px 70px 30px #f7e3dc;transform:translateY(calc((1 - var(--land,0)) * 70vh))}
@@ -183,7 +183,7 @@
 .rev-h1{opacity:calc(1 - var(--h,0));filter:blur(calc(var(--h,0) * 8px));letter-spacing:calc(.06em + var(--h,0) * .14em);transform:translateY(calc(var(--h,0) * -2vh))}
 .rev-hint{opacity:calc(1 - var(--q,0) * 6)}
 .rev-cap{position:absolute;z-index:10;left:0;right:0;top:15vh;margin:0;text-align:center;font:400 italic clamp(22px,2.4vw,36px) var(--vh-serif);color:#fff3d6;text-shadow:0 2px 24px rgba(60,30,0,.6);opacity:calc(var(--cap,0) - var(--next,0) * 2)}
-.rev-next{position:absolute;z-index:6;left:var(--cx,57%);top:var(--cy,30%);width:calc(var(--next,0) * 12vmin);height:calc(var(--next,0) * 12vmin);transform:translate(-50%,-50%);border-radius:50%;background:#140f1e url(/uploads/1/hooks/scenes/s3-forest.png) 52% 39%/340% auto no-repeat;box-shadow:0 0 0 2px #ffd27a,0 0 34px 10px rgba(255,179,71,.6),inset 0 0 22px 6px rgba(0,0,0,.55);opacity:calc(var(--next,0) * 3);pointer-events:none}
+.rev-next{position:absolute;z-index:6;left:var(--cx,57%);top:var(--cy,30%);width:calc(var(--next,0) * 17vmin);height:calc(var(--next,0) * 17vmin);transform:translate(-50%,-50%);border-radius:50%;background:#140f1e url(/uploads/1/hooks/scenes/s3-forest.png) 52% 39%/300% auto no-repeat;box-shadow:0 0 0 2px #ffe0a0,0 0 50px 18px rgba(255,190,90,.75),0 0 120px 40px rgba(255,170,60,.35),inset 0 0 26px 8px rgba(0,0,0,.5);opacity:calc(var(--next,0) * 3);pointer-events:none}
 .rev-next i{position:absolute;inset:-16%;border-radius:50%;border:1px solid rgba(255,210,122,.55);animation:rev-pulse 2.4s ease-out infinite}
 @keyframes rev-pulse{from{transform:scale(.8);opacity:1}to{transform:scale(1.6);opacity:0}}
 .rev-end{position:absolute;z-index:10;left:0;right:0;bottom:9vh;display:flex;flex-direction:column;align-items:center;gap:16px;opacity:var(--end,0);transform:translateY(calc((1 - var(--end,0)) * 2vh))}
@@ -213,7 +213,9 @@
 @media(max-width:800px){.van-w{font-size:34vw}.van-end{padding:0 18px}.van-end-stats{gap:20px}.van-end-stats b{font-size:26px}}
 
 /* ========== aether: подъём сквозь туман → монолит-резиденция дышит → показ ========== */
-.aet-mono{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:calc(var(--rise,0) * 1.3);transform:scale(calc(1.3 - var(--rise,0) * .26 + var(--breath,0) * .02));filter:contrast(1.28) brightness(calc(.88 + var(--breath,0) * .12)) saturate(1.05)}
+.aet-monowrap{position:absolute;inset:0;z-index:0;opacity:calc(var(--rise,0) * 1.3);transform:scale(calc(1.3 - var(--rise,0) * .26 + var(--breath,0) * .02))}
+.aet-mono{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.32) brightness(calc(.86 + var(--breath,0) * .12)) saturate(1.05)}
+.aet-window{position:absolute;left:27%;top:45.5%;width:40%;height:.8vh;transform:rotate(7deg);transform-origin:left center;border-radius:2px;background:linear-gradient(90deg,transparent,#ffd9a8 10%,#fff3e2 50%,#ffd9a8 90%,transparent);box-shadow:0 0 22px 7px rgba(255,186,120,.5);opacity:calc(.5 + var(--breath,0) * .5)}
 .aet-glow{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(38% 52% at 66% 40%,rgba(255,236,255,.6),transparent 70%);mix-blend-mode:soft-light;opacity:calc(var(--breath,0) * .9)}
 .aet-bg{z-index:1;transform:translateY(calc(var(--rise,0) * 32vh)) scale(calc(1.02 + var(--rise,0) * .7));opacity:calc(1 - var(--rise,0) * 1.15);filter:blur(calc(var(--rise,0) * 6px))}
 .aet-brand,.aet-corner{color:color-mix(in srgb,#241833 calc((1 - var(--rise,0)) * 100%),#f4eefc)}

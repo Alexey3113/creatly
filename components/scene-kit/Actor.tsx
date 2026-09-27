@@ -43,6 +43,7 @@ export function Actor({
   bob = 6,
   tilt = 0.08,
   line = 0.5,
+  curve = "smooth",
   className = "",
 }: {
   src?: string;
@@ -56,6 +57,8 @@ export function Actor({
   tilt?: number;
   /** линия экрана, на которой «срабатывает» якорь (0.5 = середина) */
   line?: number;
+  /** кривая между якорями: smooth (smoothstep, по умолчанию) или linear — для синхронизации с CSS-масками */
+  curve?: "smooth" | "linear";
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -84,7 +87,7 @@ export function Actor({
       if (!seg) return;
       const A = poseOf(seg.a, vw, vh);
       const B = poseOf(seg.b, vw, vh);
-      const k = smooth(seg.t);
+      const k = curve === "linear" ? seg.t : smooth(seg.t);
       const x = lerp(A.x, B.x, k);
       const y = lerp(A.y, B.y, k);
       const s = lerp(A.s, B.s, k);
@@ -99,7 +102,7 @@ export function Actor({
       el.style.filter = bl > 0.1 ? `blur(${bl.toFixed(1)}px)` : "";
       el.style.visibility = o < 0.01 ? "hidden" : "";
     });
-  }, [key, bob, tilt, line]);
+  }, [key, bob, tilt, line, curve]);
 
   return (
     <div ref={ref} className={`sk-actor ${className}`} style={{ width, zIndex }} aria-hidden>

@@ -554,7 +554,7 @@ function useStoryClock(root: React.RefObject<HTMLElement | null>, slug: string, 
       let s2 = 1;
       let tx2 = 0;
       let ty2 = 0;
-      let ty1 = 0;
+      const ty1 = 0;
       let o2x = g.W / 2;
       let o2y = g.H / 2;
       if (tl.kind === "rise") {
@@ -608,8 +608,9 @@ function useStoryClock(root: React.RefObject<HTMLElement | null>, slug: string, 
         // фаза A: диафрагма закрывается до вписанного круга (углы гаснут); фаза B: круг вместе с миром уезжает в сферу Ø D
         const eA = clamp01(e / 0.3);
         const eB = clamp01((e - 0.3) / 0.7);
-        const inner = g.H / 2; // коробка .hs-cut (масштаб pS) обрезает кадр по высоте
-        const pS = 1 - eB * (1 - (g.D * 1.12) / g.H);
+        const m = Math.min(g.W, g.H); // коробка .hs-cut (масштаб pS) обрезает кадр по меньшей стороне
+        const inner = m / 2;
+        const pS = 1 - eB * (1 - (g.D * 1.12) / m);
         const vis = eB > 0 ? inner + (g.D / 2 - inner) * eB : g.diag * 0.55 + (inner - g.diag * 0.55) * eA;
         set("--pS", pS);
         set("--pR", px(vis / pS));
@@ -771,7 +772,7 @@ function Bloom({ scrub, scrub2 }: StoryProps) {
 
 /* living-object: скраб «запечатано → свет в шве» → камера входит в свет шва → выход на проснувшийся объект,
    характеристики-остановки → бронь тиража. */
-const LO_BEATS: readonly Beat[] = [["--wake", 0, 0.36], ["--dive", 0.36, 0.58], ["--flash", 0.46, 0.6], ["--out", 0.58, 0.72], ["--s1", 0.68, 0.74], ["--s2", 0.75, 0.81], ["--s3", 0.82, 0.88], ["--end", 0.88, 0.97]];
+const LO_BEATS: readonly Beat[] = [["--wake", 0, 0.36], ["--dive", 0.36, 0.58], ["--flash", 0.44, 0.58], ["--out", 0.6, 0.74], ["--s1", 0.68, 0.74], ["--s2", 0.75, 0.81], ["--s3", 0.82, 0.88], ["--end", 0.88, 0.97]];
 function LivingObject(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
   const ref = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
@@ -1006,7 +1007,7 @@ function Aether() {
   });
   return (
     <div ref={ref} className="vh-canvas aet-canvas">
-      <img className="aet-mono" src="/uploads/1/hooks/scenes/s5-monolith.png" alt="" />
+      <div className="aet-monowrap"><img className="aet-mono" src="/uploads/1/hooks/scenes/s5-monolith.png" alt="" /><i className="aet-window" /></div>
       <div className="aet-glow" />
       <Media src="/uploads/1/hooks/scenes/aether-world-vid.mp4" poster="/uploads/1/hooks/scenes/s5b-world.png" className="aet-bg" />
       <header className="aet-head">
@@ -1440,7 +1441,7 @@ function StoryPin({ className, h, n, children }: { className: string; h: number;
       items.forEach((el, j) => {
         const rel = st - ks[j];
         el.style.setProperty("--rel", rel.toFixed(4));
-        el.style.setProperty("--on", clamp01(1 - Math.abs(rel) * 1.6).toFixed(4));
+        el.style.setProperty("--on", clamp01(1 - Math.abs(rel) * 2.4).toFixed(4)); // соседние подписи не пересекаются
       });
     });
   }, [n]);
@@ -1515,6 +1516,16 @@ function BloomLand() {
 /* ---- ORBE: сфера из руки — Carry-актёр: выходит из hero, садится на пьедестал товара, держит цикл, возвращается к CTA ---- */
 const ORB_D = "var(--orbD)"; // диаметр сферы = сфера на фото пьедестала (0.636 стороны квадрата .or2-stage), см. hooks-stories.css
 function OrbeLand() {
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    // высота кадра (cover 1928×1076) / меньшая сторона экрана — как в финале hero (useStoryClock, pull)
+    const fit = () => el.style.setProperty("--orbK", (Math.max(innerWidth * 0.558, innerHeight) / Math.min(innerWidth, innerHeight)).toFixed(4));
+    fit();
+    addEventListener("resize", fit);
+    return () => removeEventListener("resize", fit);
+  }, []);
   const eds = [
     { img: `${SL}/orbe-object.jpg`, n: "The Origin", d: "Moss, fern, still water", p: "480 EUR" },
     { img: `${SL}/orbe-ed-dune.jpg`, n: "The Dune", d: "Red desert, one succulent", p: "520 EUR" },
@@ -1528,7 +1539,7 @@ function OrbeLand() {
     { h: "Microbes", p: "clear the water", c: "#8fdcff" },
   ];
   return (
-    <div className="vh-l2 l2-orbe hs-land">
+    <div ref={root} className="vh-l2 l2-orbe hs-land">
       <i className="hs-from" aria-hidden />
       <i className="hs-mk or-c0" aria-hidden />
       <i className="hs-mk or-c1" aria-hidden />

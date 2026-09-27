@@ -51,6 +51,7 @@ export function RedsuitSite() {
   return (
     <div className="rd-site">
       <Follow stops={ROUTE.map((p, i) => ({ ...p.a, vars: { "--draw": DRAW[i] } }))} />
+      <Follow stops={[{ ...at(".rd6-scene", H.s6, 0.9), vars: { "--tho": 1 } }, { at: ".rd-foot", anchor: -1, vars: { "--tho": 0 } }]} />
       {/* НИТЬ — закреплённый SVG: видимое «окно» нити тянется за иглой */}
       <svg className="rd-thread" viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden>
         <path d={D} pathLength={1} className="rd-thread-shadow" />
@@ -58,7 +59,10 @@ export function RedsuitSite() {
         <path d={D} pathLength={1} className="rd-thread-sheen" />
       </svg>
       {/* АКТЁР — игла на голове нити */}
-      <Actor width="64px" zIndex={30} bob={2} tilt={0} className="rd-needle" stops={ROUTE.map((p, i) => ({ ...p.a, pose: { x: p.x, y: p.y, r: ANG[i] } }))}>
+      <Actor width="64px" zIndex={30} bob={2} tilt={0} className="rd-needle" stops={[
+        ...ROUTE.map((p, i) => ({ ...p.a, pose: { x: p.x, y: p.y, r: ANG[i] } })),
+        { at: ".rd-foot", anchor: -1, pose: { x: ROUTE[ROUTE.length - 1].x, y: ROUTE[ROUTE.length - 1].y, r: ANG[ANG.length - 1], o: 0 } },
+      ]}>
         <svg viewBox="0 0 64 12" aria-hidden><defs><linearGradient id="rdn" x1="0" x2="1"><stop offset="0" stopColor="#8e8a88" /><stop offset=".5" stopColor="#f4f0ee" /><stop offset="1" stopColor="#b7b2b0" /></linearGradient></defs>
           <path d="M2 6 L52 4.2 Q62 6 52 7.8 Z" fill="url(#rdn)" /><ellipse cx="9" cy="6" rx="3.2" ry="1" fill="#2a0810" /></svg>
       </Actor>
