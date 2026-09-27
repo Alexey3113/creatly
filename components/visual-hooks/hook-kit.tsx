@@ -171,7 +171,7 @@ const LENS_VERT = `attribute vec2 aPos; varying vec2 vUv; void main(){ vUv = aPo
 const LENS_FRAG = `precision highp float;
 varying vec2 vUv;
 uniform sampler2D uBase, uTop;
-uniform vec2 uCoverB, uCoverT;
+uniform vec2 uCoverB, uCoverT, uOffB, uOffT;
 uniform float uAspect, uTime;
 uniform vec3 uLens;
 uniform vec4 uCam;
@@ -181,7 +181,7 @@ float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
 float noise(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
   return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),f.x), mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),f.x), f.y); }
 float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<4;i++){ v+=a*noise(p); p*=2.03; a*=0.5; } return v; }
-vec2 cover(vec2 p, vec2 c){ return (p-0.5)*c+0.5; }
+vec2 cover(vec2 p, vec2 c, vec2 o){ return (p-0.5)*c+0.5+o; }
 void main(){
   vec2 p = (vUv - uCam.xy) / uCam.z + uCam.xy;
   vec2 d = (vUv - uLens.xy) * vec2(uAspect, 1.0);
@@ -191,9 +191,9 @@ void main(){
   float band = clamp(1.0 - abs(reveal*2.0 - 1.0), 0.0, 1.0);
   vec2 wob = (vec2(fbm(vUv*7.0 + uTime*0.2), fbm(vUv*7.0 - uTime*0.2)) - 0.5) * 0.035 * band;
   vec2 pb = (p - uLens.xy) / uCam.w + uLens.xy;
-  vec3 base = texture2D(uBase, cover(pb, uCoverB)).rgb;
+  vec3 base = texture2D(uBase, cover(pb, uCoverB, uOffB)).rgb;
   base = mix(base, base*vec3(1.05,0.62,0.46)*0.62, uFx.w);
-  vec3 top = texture2D(uTop, cover(p + wob, uCoverT)).rgb;
+  vec3 top = texture2D(uTop, cover(p + wob, uCoverT, uOffT)).rgb;
   vec3 col = mix(base, top, reveal);
   float ring = exp(-pow((dist - uLens.z) / max(uFx.x*0.5, 0.002), 2.0));
   col += uRimC * ring * uFx.y * (1.0 - uFx.z);
@@ -206,8 +206,9 @@ const hexRgb = (h: string): [number, number, number] => {
   return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 };
 
-/** Линза «под кожу»: base — внешний мир, top — то, что под ним (картинка или видео). Управляется drive (мутабельный ref). */
-export function LensReveal({ base, top, video = false, drive, rim = "#ffffff", className = "" }: { base: string; top: string; video?: boolean; drive: React.RefObject<LensDrive>; rim?: string; className?: string }) {
+/** Линза «под кожу»: base — внешний мир, top — то, что под ним (картинка или видео). Управляется drive (мутабельный ref).
+ *  posX — как object-position по X (0..1): что держать в кадре на узком (портретном) экране. */
+export function LensReveal({ base, top, video = false, drive, rim = "#ffffff", posX = 0.5, className = "" }: { base: string; top: string; video?: boolean; drive: React.RefObject<LensDrive>; rim?: string; posX?: number; className?: string }) {
   const wrap = useRef<HTMLDivElement>(null);
   const cv = useRef<HTMLCanvasElement>(null);
   const bImg = useRef<HTMLImageElement>(null);
@@ -253,7 +254,7 @@ export function LensReveal({ base, top, video = false, drive, rim = "#ffffff", c
     gl.enableVertexAttribArray(aPos);
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
     const U = (n: string) => gl.getUniformLocation(prog, n);
-    const uCoverB = U("uCoverB"), uCoverT = U("uCoverT"), uAspect = U("uAspect"), uTime = U("uTime");
+    const uCoverB = U("uCoverB"), uCoverT = U("uCoverT"), uOffB = U("uOffB"), uOffT = U("uOffT"), uAspect = U("uAspect"), uTime = U("uTime");
     const uLens = U("uLens"), uCam = U("uCam"), uFx = U("uFx"), uRimC = U("uRimC");
     const mkTex = (unit: number, name: string) => {
       const t = gl.createTexture();
@@ -279,8 +280,11 @@ export function LensReveal({ base, top, video = false, drive, rim = "#ffffff", c
       canvas.height = Math.round(vh * dpr);
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform1f(uAspect, vw / vh);
-      gl.uniform2fv(uCoverB, cover(aB));
-      gl.uniform2fv(uCoverT, cover(aT));
+      const cb = cover(aB), ct = cover(aT);
+      gl.uniform2fv(uCoverB, cb);
+      gl.uniform2fv(uCoverT, ct);
+      gl.uniform2f(uOffB, (1 - cb[0]) * (posX - 0.5), 0);
+      gl.uniform2f(uOffT, (1 - ct[0]) * (posX - 0.5), 0);
     };
     const upload = (unit: number, tex: WebGLTexture | null, src: TexImageSource) => {
       gl.activeTexture(gl.TEXTURE0 + unit);
@@ -350,10 +354,10 @@ export function LensReveal({ base, top, video = false, drive, rim = "#ffffff", c
       box.classList.remove("is-gl");
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
-  }, [base, top, video, rim, drive]);
+  }, [base, top, video, rim, posX, drive]);
 
   return (
-    <div ref={wrap} className={`hk-lens ${className}`}>
+    <div ref={wrap} className={`hk-lens ${className}`} style={{ ["--lpos" as string]: `${posX * 100}% 50%` } as React.CSSProperties}>
       <img ref={bImg} className="hk-lens-base" src={base} alt="" />
       {video ? <video ref={tVid} className="hk-lens-top" src={top} muted loop playsInline preload="auto" /> : <img ref={tImg} className="hk-lens-top" src={top} alt="" />}
       <canvas ref={cv} className="hk-lens-cv" />

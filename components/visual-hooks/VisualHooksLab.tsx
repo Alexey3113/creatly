@@ -192,6 +192,8 @@ function Prototype({ scene }: { scene: Scene }) {
    Второй акт по скроллу на hook-kit: сглаженные часы сцены (--q + окна-биты), свой скраб видео (Prototype-скраб не
    используется), touch-фолбэк (курсорные механики ведёт скролл), финал — переход-обещание, а не обрыв. */
 const pct = (v: number) => `${(v * 100).toFixed(2)}%`;
+// траектория линзы держится в видимой части кадра (на портретном экране cover срезает края картинки)
+const inView = (v: number) => Math.min(0.88, Math.max(0.12, v));
 const mix3 = (a: readonly number[], b: readonly number[], t: number) => [0, 1, 2].map((i) => a[i] + (b[i] - a[i]) * t) as [number, number, number];
 
 /* track-portfolio: взгляд — курсор, затем скролл: в камеру → вправо, на шоурил, который забирает кадр. */
@@ -237,7 +239,7 @@ function TrackSentry(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
   const ref = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
   useHookClock(ref, TS_BEATS, ({ q, f, touch, ptr, set, text }) => {
-    const idle = 1.2 + 0.7 * Math.sin(f.t / 2300);
+    const idle = 1.2 + (f.reduced ? 0 : 0.7 * Math.sin(f.t / 2300));
     const tp = touch || !ptr.on ? idle : ptr.x * 9.8;
     seek(vid.current, tp + (3.8 - tp) * smooth(win(q, 0.04, 0.34)));
     const eye = coverPt(0.45, 0.39, f.vw, f.vh, 16 / 9, 0.66);
@@ -271,7 +273,7 @@ function TrackSentry(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
 }
 
 /* track-neon: вращение — правда от скролла; одна грань икосаэдра открывается порталом в продукт. */
-const TN_BEATS: readonly Beat[] = [["--glow", 0.3, 0.46], ["--tri", 0.44, 0.76], ["--end", 0.62, 0.8]];
+const TN_BEATS: readonly Beat[] = [["--glow", 0.3, 0.46], ["--tri", 0.44, 0.76], ["--end", 0.52, 0.72]];
 function TrackNeon(_: { scrub: React.RefObject<HTMLVideoElement | null> }) {
   const ref = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
@@ -315,18 +317,19 @@ function RevNeura() {
     const take = touch ? 1 : smooth(win(q, 0.04, 0.18));
     const open = smooth(win(q, 0.5, 0.8));
     const [ix, iy] = path(NEURA_SCAN, win(q, touch ? 0 : 0.18, 0.5));
-    const s = coverPt(ix, iy, f.vw, f.vh);
-    const rest = coverPt(0.3, 0.27, f.vw, f.vh);
-    const hx = ptr.on && !touch ? ptr.x : rest.x + 0.02 * Math.sin(f.t / 1300);
-    const hy = ptr.on && !touch ? ptr.y : rest.y + 0.012 * Math.cos(f.t / 1700);
-    d.x = hx + (s.x - hx) * take;
+    const s = coverPt(ix, iy, f.vw, f.vh, 16 / 9, 0.37);
+    const rest = coverPt(0.3, 0.27, f.vw, f.vh, 16 / 9, 0.37);
+    const w = f.reduced ? 0 : 1; // покачивание в покое — не при reduced-motion
+    const hx = ptr.on && !touch ? ptr.x : rest.x + 0.02 * w * Math.sin(f.t / 1300);
+    const hy = ptr.on && !touch ? ptr.y : rest.y + 0.012 * w * Math.cos(f.t / 1700);
+    d.x = hx + (inView(s.x) - hx) * take;
     d.y = hy + (s.y - hy) * take;
     d.r = 0.17 + 0.03 * smooth(win(q, 0.18, 0.5)) + open * 1.25;
     d.soft = 0.05 + open * 0.07;
     d.rim = 0.9 * (1 - open);
     d.fill = smooth(win(q, 0.74, 0.84));
     d.push = 1 + open * 0.08;
-    const c = coverPt(0.37, 0.4, f.vw, f.vh);
+    const c = coverPt(0.37, 0.4, f.vw, f.vh, 16 / 9, 0.37);
     d.zx = c.x;
     d.zy = c.y;
     d.zoom = 1 + 0.12 * smooth(win(q, 0.62, 1));
@@ -334,7 +337,7 @@ function RevNeura() {
   });
   return (
     <div ref={ref} className="vh-canvas rv-canvas vh-rev-neura">
-      <LensReveal base="/uploads/1/hooks/scenes/rev-face-a.png" top="/uploads/1/hooks/scenes/rev-face-b.png" drive={lens} rim="#4defff" />
+      <LensReveal base="/uploads/1/hooks/scenes/rev-face-a.png" top="/uploads/1/hooks/scenes/rev-face-b.png" drive={lens} rim="#4defff" posX={0.37} />
       <header className="rv-head">
         <Link href="/visual-hooks" className="rv-brand">◈ NEURA</Link>
         <nav className="rv-nav"><a href="#" onClick={stop}>Scan</a><a href="#" onClick={stop}>Research</a><a href="#" onClick={stop}>Access</a></nav>
@@ -363,9 +366,10 @@ function RevMythic() {
     const night = smooth(win(q, 0.5, 0.82));
     const [ix, iy] = path(MYTHIC_SUN, win(q, touch ? 0 : 0.1, 0.5));
     const s = coverPt(ix, iy, f.vw, f.vh, 2752 / 1536);
-    const hx = ptr.on && !touch ? ptr.x : 0.46 + 0.02 * Math.sin(f.t / 1500);
-    const hy = ptr.on && !touch ? ptr.y : 0.56 + 0.01 * Math.cos(f.t / 1900);
-    d.x = hx + (s.x - hx) * take;
+    const w = f.reduced ? 0 : 1;
+    const hx = ptr.on && !touch ? ptr.x : 0.46 + 0.02 * w * Math.sin(f.t / 1500);
+    const hy = ptr.on && !touch ? ptr.y : 0.56 + 0.01 * w * Math.cos(f.t / 1900);
+    d.x = hx + (inView(s.x) - hx) * take;
     d.y = hy + (s.y - hy) * take;
     d.r = 0.16 - 0.06 * dusk + night * 1.5;
     d.soft = 0.06 + 0.07 * night;
@@ -406,11 +410,12 @@ function RevImperial() {
     const [ix, iy] = path(IMP_ROUTE, u);
     const s = coverPt(ix, iy, f.vw, f.vh, ia);
     const rest = coverPt(0.37, 0.28, f.vw, f.vh, ia);
-    const hx = ptr.on && !touch ? ptr.x : rest.x + 0.015 * Math.sin(f.t / 1400);
-    const hy = ptr.on && !touch ? ptr.y : rest.y + 0.012 * Math.cos(f.t / 1800);
+    const w = f.reduced ? 0 : 1;
+    const hx = ptr.on && !touch ? ptr.x : rest.x + 0.015 * w * Math.sin(f.t / 1400);
+    const hy = ptr.on && !touch ? ptr.y : rest.y + 0.012 * w * Math.cos(f.t / 1800);
     const dive = smooth(win(q, 0.52, 0.86));
     const node = coverPt(0.56, 0.25, f.vw, f.vh, ia);
-    d.x = hx + (s.x - hx) * take;
+    d.x = hx + (inView(s.x) - hx) * take;
     d.y = hy + (s.y - hy) * take;
     d.r = 0.15 + dive * 1.2;
     d.soft = 0.045 + dive * 0.06;
@@ -1119,7 +1124,7 @@ function MacroOptics() {
     set("--lx", pct(l.x));
     set("--ly", pct(l.y));
     const take = touch ? 1 : smooth(win(q, 0.02, 0.12));
-    const byPtr = ptr.on ? (ptr.x - 0.5) * 110 : -24 + 18 * Math.sin(f.t / 2400);
+    const byPtr = ptr.on ? (ptr.x - 0.5) * 110 : -24 + (f.reduced ? 0 : 18 * Math.sin(f.t / 2400));
     const byScroll = -60 + 150 * win(q, 0, 0.3);
     set("--sx", `${(q > 0.46 ? -70 + 150 * win(q, 0.5, 0.8) : byPtr + (byScroll - byPtr) * take).toFixed(2)}vw`);
   });
