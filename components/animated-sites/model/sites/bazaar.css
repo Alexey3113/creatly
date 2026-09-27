@@ -174,7 +174,3 @@
 @media (prefers-reduced-motion:reduce){
   .bz-kilim-track, .bz-tag{ animation:none; }
 }
-
-/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
-   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
-.bz .sk-backdrop, .bz .rl-fx{ visibility:visible; }

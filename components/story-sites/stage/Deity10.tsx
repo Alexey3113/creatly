@@ -58,7 +58,7 @@ export function Deity10() {
         {/* 1 · PROFILE — камера облетела идола: профиль той же статуи, 免疫 стоит за ним */}
         <div transition="dt-orbit" className="scene-body dt-guillo">
           <div className="dt-guillo-bg" aria-hidden />
-          <div className="dt-guillo-type dt-far" aria-hidden><span>免</span><span className="dt-guillo-gold">疫</span></div>
+          <div className="dt-guillo-type dt-far dt-tx" aria-hidden><span>免</span><span className="dt-guillo-gold">疫</span></div>
           <Layer z={3} depth={0} phase={[0, 1]} className="dt-bust dt-bust-a dt-subject">
             <SceneMedia src={`${A}/deity-still-1.jpg`} alt="Та же статуя в профиль — золото в трещинах щеки" />
           </Layer>
@@ -93,6 +93,7 @@ export function Deity10() {
           <Layer z={1} depth={0.12} phase={[0, 1]} from={{ scale: 1.16 }} to={{ scale: 1.02 }} className="dt-tunnel-fig">
             <SceneMedia src={`${A}/deity-hero.jpg`} alt="Статуя-божество под прожектором" share="idol" />
           </Layer>
+          <div className="dt-tunnel-glow" aria-hidden />
           <div className="dt-tunnel-veil" aria-hidden />
           <div className="dt-tunnel-huge dt-tx" aria-hidden>自由</div>
           <Layer z={6} depth={0.24} phase={[0.35, 0.9]} from={{ opacity: 0, scale: 1.06 }} to={{ opacity: 1, scale: 1 }} className="dt-tunnel-cap dt-tx">

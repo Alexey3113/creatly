@@ -147,7 +147,7 @@
 /* мобилка */
 @media(max-width:900px){
   .cr-cut{height:78%}
-  .cr-wordmark{padding-top:30vh}.cr-wordmark .kt{font-size:16vw}
+  .cr-wordmark{padding-top:30vh}.cr-wordmark .kt{font-size:12.4vw;letter-spacing:.06em}
   .cr-win-mesh{right:auto;left:50%;top:12vh;height:44vh;transform:translateX(-50%)}
   .cr-side-cap{max-width:none;padding:0 5vw 8vh;justify-content:flex-end}
   .cr-plate-pb{--X:58%;--z:1.1}

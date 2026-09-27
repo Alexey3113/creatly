@@ -75,6 +75,8 @@ export type ReelScene = {
   dusk?: { color: string; to?: number; blend?: string };
   /** background-position плиты */
   bgPos?: string;
+  /** background-size плиты (кадрирование леттербокса/швов) */
+  bgSize?: string;
 };
 
 /** селектор маркера рила для якорей scene-kit: reelMark("s2") середина удержания, reelMark("a2")/reelMark("h2")
@@ -223,16 +225,24 @@ export function Reel({
               st = (1 - t) * 100; by -= (1 - t) * 10 * D; fy += (1 - t) * 8 * D; mist = f;
               mask = `linear-gradient(180deg, transparent 0, transparent ${(f * 3).toFixed(2)}%, #000 ${(f * 13).toFixed(2)}%, #000 100%)`;
               break;
-            case "descend":
-              st = (1 - t) * 100; by -= (1 - t) * 14 * D; fy += (1 - t) * 10 * D;
+            case "descend": {
+              const ov = (1 - t) * 18;
+              st = (1 - t) * 100 - ov; by -= (1 - t) * 14 * D; fy += (1 - t) * 10 * D;
+              mask = `linear-gradient(180deg, transparent 0, #000 ${(ov * 1.05).toFixed(2)}%, #000 100%)`;
               break;
-            case "ascend":
-              st = -(1 - t) * 100; by += (1 - t) * 14 * D; fy -= (1 - t) * 10 * D;
+            }
+            case "ascend": {
+              const ov = (1 - t) * 18;
+              st = -(1 - t) * 100 + ov; by += (1 - t) * 14 * D; fy -= (1 - t) * 10 * D;
+              mask = `linear-gradient(0deg, transparent 0, #000 ${(ov * 1.05).toFixed(2)}%, #000 100%)`;
               break;
-            case "pan":
-              sx = (1 - t) * 88; bx -= (1 - t) * 18 * D; fxo += (1 - t) * 12 * D;
-              mask = `linear-gradient(90deg, transparent 0, transparent ${(f * 2).toFixed(2)}%, #000 ${(f * 12).toFixed(2)}%, #000 100%)`;
+            }
+            case "pan": {
+              const ov = (1 - t) * 22;
+              sx = (1 - t) * 100 - ov; bx -= (1 - t) * 18 * D; fxo += (1 - t) * 12 * D;
+              mask = `linear-gradient(90deg, transparent 0, #000 ${(ov * 1.05).toFixed(2)}%, #000 100%)`;
               break;
+            }
             case "flythrough":
               ss = 1.3 - 0.3 * t; mo = E(win(tin, 0.35, 0.9)); fo = E(win(tin, 0.55, 1));
               break;
@@ -373,7 +383,7 @@ export function Reel({
             return (
               <section key={s.id} className={`rl-scene ${s.dark ? "rl-dark" : ""}`} style={{ zIndex: i + 1, ["--rl-tint" as string]: s.tint, ...(s.fgMask ? { ["--rl-fg-a" as string]: `${s.fgMask[0]}%`, ["--rl-fg-b" as string]: `${s.fgMask[1]}%` } : {}) }} data-scene={s.id} data-into={i > 0 ? tin : undefined}>
                 <div className="rl-world">
-                  <div className="rl-bg" style={{ backgroundImage: `url(${s.bg})`, backgroundPosition: s.bgPos }} aria-hidden />
+                  <div className="rl-bg" style={{ backgroundImage: `url(${s.bg})`, backgroundPosition: s.bgPos, backgroundSize: s.bgSize }} aria-hidden />
                   <div className="rl-haze" aria-hidden />
                   {s.mid && <div className="rl-mid" aria-hidden><span className="rl-shadow" /><img src={s.mid} alt="" decoding="async" style={{ objectPosition: s.midPos }} /></div>}
                   {s.slot != null && <div className="rl-slot">{s.slot}</div>}

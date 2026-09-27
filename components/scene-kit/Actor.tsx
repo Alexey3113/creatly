@@ -26,11 +26,13 @@ export type ActorPose = {
   fx?: number;
   /** x/y считаются внутри прямоугольника якоря */
   dock?: boolean;
+  /** причал к ДРУГОМУ элементу (напр. внутри закреплённой главы): момент задаёт at, место — dockTo */
+  dockTo?: string;
 };
 
 export type ActorStop = { at: string; pose: ActorPose; anchor?: number };
 
-const DEF: Required<Omit<ActorPose, "dock">> = { x: 50, y: 50, s: 1, r: 0, o: 1, blur: 0, fx: 1 };
+const DEF: Required<Omit<ActorPose, "dock" | "dockTo">> = { x: 50, y: 50, s: 1, r: 0, o: 1, blur: 0, fx: 1 };
 
 export function Actor({
   src,
@@ -67,8 +69,8 @@ export function Actor({
     const anchors = list.map((s) => s.anchor ?? 0.5);
     const poseOf = (i: number, vw: number, vh: number) => {
       const p = { ...DEF, ...list[i].pose };
-      if (list[i].pose.dock) {
-        const n = els()[i];
+      if (list[i].pose.dock || list[i].pose.dockTo) {
+        const n = list[i].pose.dockTo ? document.querySelector(list[i].pose.dockTo) : els()[i];
         if (n) {
           const r = n.getBoundingClientRect();
           p.x = ((r.left + r.width * (p.x / 100)) / vw) * 100;

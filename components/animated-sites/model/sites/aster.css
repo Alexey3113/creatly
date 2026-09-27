@@ -178,7 +178,3 @@
   .as-cards-head{ align-items:flex-start; }
 }
 @media (prefers-reduced-motion:reduce){ .as-lamp{ animation:none; } }
-
-/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
-   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
-.as .sk-backdrop, .as .rl-fx{ visibility:visible; }

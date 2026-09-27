@@ -78,7 +78,10 @@ export function StageDeck({ children, duration = 1000, cooldown = 300 }: { child
       // масштаб предков (слои дека масштабируются): bounding box = w·|cos|+h·|sin| при повороте ang
       const c = Math.abs(Math.cos((ang * Math.PI) / 180)), s = Math.abs(Math.sin((ang * Math.PI) / 180));
       const k = r.width / Math.max(1, w0 * c + h0 * s);
-      return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: w0 * k, h: h0 * k, ang, rad: (parseFloat(cs.borderTopLeftRadius) || 0) * k };
+      // скругление: % (круг/эллипс) — в долях размера, иначе px с учётом масштаба предков
+      const br = cs.borderTopLeftRadius || "0px";
+      const radPct = br.trim().endsWith("%") ? parseFloat(br) / 100 : -1;
+      return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: w0 * k, h: h0 * k, ang, rad: radPct >= 0 ? -1 : (parseFloat(br) || 0) * k, radPct };
     };
     const setupShared = (cur: HTMLElement, nxt: HTMLElement) => {
       const out: typeof ghosts = [];
@@ -105,7 +108,10 @@ export function StageDeck({ children, duration = 1000, cooldown = 300 }: { child
           g.style.width = `${w}px`; g.style.height = `${h}px`;
           g.style.left = `${L(A.cx, B.cx, k2) - w / 2}px`; g.style.top = `${L(A.cy, B.cy, k2) - h / 2}px`;
           g.style.transform = `rotate(${L(A.ang, B.ang, k2).toFixed(2)}deg)`;
-          g.style.borderRadius = `${L(A.rad, B.rad, k2).toFixed(1)}px`;
+          // скругление в px текущего размера: % пересчитываем от меньшей стороны (круг остаётся кругом)
+          const ra2 = A.radPct >= 0 ? A.radPct * Math.min(A.w, A.h) : A.rad;
+          const rb2 = B.radPct >= 0 ? B.radPct * Math.min(B.w, B.h) : B.rad;
+          g.style.borderRadius = A.radPct >= 0 && B.radPct >= 0 ? `${(L(A.radPct, B.radPct, k2) * 100).toFixed(2)}%` : `${L(ra2, rb2, k2).toFixed(1)}px`;
         };
         place(0);
         out.push({ at: place, destroy: () => { g.remove(); a.style.visibility = ""; b.style.visibility = ""; } });

@@ -115,7 +115,7 @@ export function Chivalry20() {
           <div className="cv-tript-bg" aria-hidden />
           <div className="cv-tript-head" aria-hidden><b>The Order</b><span>honor · valor · MMXXVI</span></div>
           <div className="cv-tondo-wrap">
-            <img className="cv-seal" src={`${A}/chivalry-hero.jpg`} alt="Тондо ордена — венценосная" loading="lazy" data-share="hero" />
+            <div className="cv-seal-box" data-share="hero"><img className="cv-seal" src={`${A}/chivalry-hero.jpg`} alt="Тондо ордена — венценосная" loading="lazy" /></div>
             <Ring c="cv-ring-tondo" />
           </div>
           <div className="cv-tript-panels">
@@ -131,7 +131,7 @@ export function Chivalry20() {
         <div transition="fade" className="scene-body cv-oath">
           <div className="cv-oath-bg" aria-hidden />
           <div className="cv-oath-crest">
-            <img className="cv-seal" src={`${A}/chivalry-hero.jpg`} alt="Венценосная — печать клятвы" loading="lazy" data-share="hero" />
+            <div className="cv-seal-box" data-share="hero"><img className="cv-seal" src={`${A}/chivalry-hero.jpg`} alt="Венценосная — печать клятвы" loading="lazy" /></div>
             <Ring c="cv-ring-oath" />
           </div>
           <div className="cv-oath-block">

@@ -66,16 +66,17 @@
 .lv-guillo-cap p{margin:6px 0 0;max-width:36ch;font:400 15px/1.6 "Work Sans",sans-serif;color:#f0e2dc;text-shadow:0 1px 14px rgba(0,0,0,.85)}
 
 /* 2 · THE KISS — portrait-b: точка поцелуя (50%,30%) в (50%,45%) кадра; виньетка оставляет свет только на губах */
-.lv-kiss{background:var(--bg)}
+.lv-kiss{background:#1a0a0b}
+.lv-kiss-fig .ps-media{filter:contrast(1.04) brightness(1.08)!important}
 .lv-kiss-fig{display:block}
-.lv-kiss-fig .ps-media{--W:max(140vw,170vh);position:absolute;width:var(--W);height:calc(var(--W)*1.2414);max-width:none;left:calc(50% - var(--W)*.5);top:calc(45% - var(--W)*1.2414*.3);object-fit:cover;filter:contrast(1.05) brightness(.9)}
-.lv-kiss-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(46% 52% at 50% 44%,transparent 40%,rgba(7,5,5,.62) 100%),linear-gradient(0deg,rgba(7,5,5,.8),transparent 34%)}
+.lv-kiss-fig .ps-media{--W:max(140vw,170vh);position:absolute;width:var(--W);height:calc(var(--W)*1.2414);max-width:none;left:calc(50% - var(--W)*.5);top:calc(45% - var(--W)*1.2414*.3);object-fit:cover;filter:contrast(1.05)}
+.lv-kiss-veil{position:absolute;inset:0;z-index:3;background:radial-gradient(58% 64% at 50% 44%,transparent 52%,rgba(7,5,5,.24) 100%),linear-gradient(0deg,rgba(7,5,5,.7),transparent 26%)}
 .lv-tunnel-huge{position:absolute;inset:0;z-index:4;display:grid;place-items:center;font:400 40vh "Prata",serif;color:rgba(229,48,60,.12);pointer-events:none}
 .lv-tunnel-cap{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 6vw 7vh}
 .lv-tunnel-cap p{margin:8px 0;max-width:40ch;font:400 15px/1.6 "Work Sans",sans-serif;color:#f0e2dc}
 
 /* 3 · PLINTH — алый луч на постаменте, стена освещена (светлее прежних) */
-.lv-plinth-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(56% 70% at 62% 36%,#3a1316,#120809 84%)}
+.lv-plinth-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(66% 84% at 60% 38%,#6e2428,#2c1113 88%)}
 .lv-plinth-spot{position:absolute;left:62%;top:-6vh;transform:translateX(-50%);z-index:1;width:46vw;height:86vh;pointer-events:none;
   background:linear-gradient(180deg,rgba(229,48,60,.3),rgba(229,48,60,.04) 80%);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%)}
 .lv-plinth-fig{position:absolute;inset:auto;top:calc(44% - 27vh);left:calc(62% - 20vh);width:40vh;height:54vh;z-index:2;display:block}
@@ -87,7 +88,7 @@
 .lv-plinth-spec{font:600 11px "Work Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--red-hi)}
 
 /* 4 · LIVE. — пара крошечная под растущим лучом (ещё светлее) */
-.lv-mono-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 64% at 50% 76%,#4a1418,#120708 82%)}
+.lv-mono-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(84% 80% at 50% 72%,#80242a,#321013 86%)}
 .lv-mono-beam{position:absolute;left:50%;top:-4vh;transform:translateX(-50%);z-index:1;width:64vw;height:100vh;pointer-events:none;
   background:linear-gradient(180deg,rgba(229,48,60,.34),rgba(229,48,60,.08) 82%);clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
 .lv-mono-word{display:grid;place-items:start center;padding-top:14vh;pointer-events:none}
@@ -99,7 +100,7 @@
 .lv-mono-cap p{margin:6px 0 0;max-width:30ch;font:italic 400 16px/1.6 "Prata",serif;color:#e0ccc8}
 
 /* 5 · PLAQUE — финал: пара в полном свете справа, светлая мраморная табличка слева (самая светлая сцена) */
-.lv-plaque-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(70% 86% at 70% 48%,#7a1e24,#2c0b0d 74%)}
+.lv-plaque-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(76% 90% at 70% 48%,#962a31,#420f13 76%)}
 .lv-plaque-fig{display:block}
 .lv-plaque-fig .ps-media{position:absolute;bottom:0;height:94vh;width:auto;max-width:none;left:calc(69% - 94vh*.8056/2);object-fit:contain}
 .lv-plaque-plate{position:absolute;top:50%;left:7vw;transform:translateY(-50%);z-index:6;width:min(50ch,40vw);text-align:left;

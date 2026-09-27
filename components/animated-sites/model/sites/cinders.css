@@ -157,7 +157,3 @@
   .cn-temp-row::before{ left:calc(4vw - 7px); top:8vh; }
 }
 @media (prefers-reduced-motion:reduce){ .cn-wisp, .cn-wisp path{ animation:none; } }
-
-/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
-   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
-.cn .sk-backdrop, .cn .rl-fx{ visibility:visible; }

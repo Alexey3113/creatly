@@ -68,12 +68,11 @@
 
 /* S2 A WARDROBE OF ONE — модель + стеклянный shard */
 .cl2-scene .ps-sticky{background:#e9ebfa}
-.cl2-bg .ps-media{filter:saturate(1.02) brightness(1.02)}
-.cl2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(233,235,250,.62),transparent 44%),linear-gradient(0deg,rgba(233,235,250,.42),transparent 36%)}
-.cl2-model{place-items:center;align-content:end}
-.cl2-model .ps-media{width:28vw;height:auto;max-width:none;filter:contrast(1.02) drop-shadow(0 24px 44px rgba(43,46,92,.24))}
-.cl2-shard{justify-items:end;align-content:center}
-.cl2-shard .ps-media{width:34vw;height:auto;max-width:none;opacity:.8;mix-blend-mode:screen}
+.cl2-bg .ps-media{filter:saturate(.9) brightness(1.04) hue-rotate(-6deg)}
+.cl2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(233,235,250,.86),rgba(233,235,250,.5) 38%,transparent 62%),linear-gradient(0deg,rgba(233,235,250,.42),transparent 36%)}
+/* крупный план: та же модель по пояс, справа (смена крупности, а не повтор hero) */
+.cl2-model{place-items:start}
+.cl2-model .ps-media{position:absolute;left:26vw;top:-8vh;width:84vw;height:auto;max-width:none;filter:contrast(1.03) drop-shadow(0 30px 60px rgba(43,46,92,.28))}
 .cl2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
 .cl2-copy .cl-eyebrow{color:#6d72d6}
 .cl2-copy h2{margin:0;font:900 clamp(38px,5.6vw,88px)/.94 "Playfair Display",serif;color:#2b2e5c}
@@ -82,7 +81,7 @@
 
 /* S3 THE COLLECTION — look-карточки */
 .cl3-scene .ps-sticky{background:#e9ebfa}
-.cl3-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#eceefb,#e2e5f6)}
+.cl3-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,var(--atm,#eceefb),var(--atm2,#e2e5f6))}
 .cl3-word{place-items:center}
 .cl3-word span{font:900 clamp(140px,28vw,480px)/.9 "Playfair Display",serif;color:rgba(109,114,214,.08)}
 /* editorial-плиты: журнальный разворот */
@@ -125,13 +124,13 @@
 
 /* S5 CLIENTS — тихие отзывы */
 .cl5-scene .ps-sticky{background:#e9ebfa}
-.cl5-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,#eceefb,#e0e3f5)}
+.cl5-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(160deg,var(--atm,#eceefb),var(--atm2,#e0e3f5))}
 /* swing-tags: бирки на нитках */
-.cl5-swing{position:relative;width:min(26ch,25vw);background:#fbfbff;border:1px solid rgba(109,114,214,.3);padding:28px 20px 20px;box-shadow:0 22px 46px rgba(43,46,92,.16)}
+.cl5-swing{position:relative;width:min(30ch,27vw);background:#fbfbff;border:1px solid rgba(109,114,214,.3);padding:28px 20px 20px;box-shadow:0 22px 46px rgba(43,46,92,.16)}
 .cl5-swing::before{content:"";position:absolute;left:50%;top:-46vh;width:1px;height:46vh;background:rgba(109,114,214,.4)}
 .cl5-hole{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:12px;height:12px;border:2px solid #6d72d6;border-radius:50%}
 .cl5-swing b{display:block;text-align:center;font:600 9px "DM Mono",monospace;letter-spacing:.3em;color:#8f92bc}
-.cl5-swing p{margin:14px 0 0;font:italic 400 clamp(16px,1.8vw,26px)/1.36 "Playfair Display",serif;color:#2b2e5c}
+.cl5-swing p{margin:14px 0 0;font:italic 400 clamp(17px,2vw,30px)/1.32 "Playfair Display",serif;color:#2b2e5c}
 .cl5-swing cite{display:block;margin-top:12px;font:600 10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:#6d72d6}
 .cl5-t1{align-content:start;justify-items:start;padding:16vh 0 0 12vw}
 .cl5-t2{align-content:center;justify-items:center}
@@ -140,9 +139,7 @@
 
 /* S6 YOUR STYLE — стекло + CTA + зеркальный титул */
 .cl6-scene .ps-sticky{background:#e9ebfa}
-.cl6-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#e6e8f8,#dcdff3)}
-.cl6-shard{justify-items:end;align-content:center}
-.cl6-shard .ps-media{width:40vw;height:auto;max-width:none;opacity:.8;mix-blend-mode:screen}
+.cl6-bg{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,var(--atm,#e6e8f8),var(--atm2,#dcdff3))}
 .cl6-mirror{position:absolute;z-index:3;right:var(--pad);bottom:7vh;text-align:right;font:900 clamp(48px,9vw,140px)/.84 "Playfair Display",serif;color:rgba(109,114,214,.16);pointer-events:none}
 .cl6-mirror em{font-style:italic;font-weight:400;display:block}
 .cl6-copy{justify-items:start;align-content:start;padding:20vh 0 0 var(--pad)}
@@ -151,4 +148,41 @@
 .cl6-copy h2 em{font-style:italic;font-weight:400;color:#6d72d6}
 .cl6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
 .cl6-cta p{margin:0 0 22px;font:400 15px/1.7 "Manrope",sans-serif;color:#5a5e8c}
-@media(max-width:900px){.cl2-copy,.cl6-cta{max-width:88vw}.cl2-model .ps-media{width:58vw}.cl2-shard,.cl6-shard{display:none}.cl3-plate{position:relative;top:auto;left:auto;width:44vw;height:auto;aspect-ratio:3/4}.cl3-copy{padding:2vh var(--pad)}.cl4-seam{width:88vw;padding-left:34px}.cl4-stitch{grid-template-columns:30px 1fr}.cl4-knot{left:-34px}.cl5-swing{width:80vw}.cl5-t1,.cl5-t3{padding-left:var(--pad);padding-right:var(--pad)}.cl6-mirror{display:none}}
+@media(max-width:900px){.cl2-copy,.cl6-cta{max-width:88vw}.cl2-model .ps-media{left:18vw;width:110vw;opacity:.55}.cl3-plate{position:relative;top:auto;left:auto;width:44vw;height:auto;aspect-ratio:3/4}.cl3-copy{padding:2vh var(--pad)}.cl4-seam{width:88vw;padding-left:34px}.cl4-stitch{grid-template-columns:30px 1fr}.cl4-knot{left:-34px}.cl5-swing{width:80vw}.cl5-t1,.cl5-t3{padding-left:var(--pad);padding-right:var(--pad)}.cl6-mirror{display:none}}
+
+/* ===== v2 · сквозная архитектура (аудит 2026-09) ===== */
+/* АКТЁР — стеклянная молния: переливается и чуть качается сама по себе */
+.cl-actor{opacity:.96}
+.cl-actor img{filter:drop-shadow(0 22px 34px rgba(60,64,160,.28));animation:cl-glint 7s ease-in-out infinite,cl-sway-bolt 9s ease-in-out infinite alternate}
+@keyframes cl-glint{0%,100%{filter:drop-shadow(0 22px 34px rgba(60,64,160,.28)) hue-rotate(0) brightness(1)}50%{filter:drop-shadow(0 22px 34px rgba(60,64,160,.34)) hue-rotate(16deg) brightness(1.16) saturate(1.2)}}
+@keyframes cl-sway-bolt{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+/* hero в покое: штора колышется, свечение дышит, модель «дышит» */
+.cl-curtain .ps-media{transform-origin:50% 0;animation:cl-curtain 10s ease-in-out infinite alternate}
+@keyframes cl-curtain{from{transform:skewX(-.7deg) scaleX(1.02) translateX(-.6%)}to{transform:skewX(.8deg) scaleX(1.03) translateX(.6%)}}
+.cl-blobs{animation:cl-breathe 8s ease-in-out infinite alternate}
+@keyframes cl-breathe{from{opacity:.75;background-position:0 0,0 0}to{opacity:1;background-position:2vw 1.5vh,-2vw -1vh}}
+.cl-model .ps-media{transform-origin:50% 100%;animation:cl-breath 5.5s ease-in-out infinite}
+@keyframes cl-breath{0%,100%{transform:scale(1)}50%{transform:scale(1.007) translateY(-.25%)}}
+
+/* СТЫК 1 · «разрез молнией»: S2 открывается внутри силуэта молнии, растущей из актёра (×15) */
+.cl-site .cl2-scene[data-ov]>.ps-sticky{opacity:1;--k:calc(var(--ovp,0) * var(--ovp,0) * 15vmax);
+  clip-path:polygon(calc(50% + var(--k) * 10) calc(50% - var(--k) * 48),calc(50% - var(--k) * 26) calc(50% + var(--k) * 4),calc(50% - var(--k) * 3) calc(50% + var(--k) * 4),calc(50% - var(--k) * 12) calc(50% + var(--k) * 48),calc(50% + var(--k) * 28) calc(50% - var(--k) * 8),calc(50% + var(--k) * 4) calc(50% - var(--k) * 8),calc(50% + var(--k) * 20) calc(50% - var(--k) * 48))}
+/* СТЫК 2 · «шторы раздвигаются»: ателье открывается щелью из центра, у кромок — полотнища шторы из hero */
+.cl-site .cl4-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0) * (3 - 2 * var(--ovp,0)));clip-path:inset(0 calc(50% - var(--e) * 50%))}
+.cl4-drape{position:absolute;top:0;bottom:0;width:22vw;z-index:30;pointer-events:none;
+  background:linear-gradient(90deg,rgba(43,46,92,.05),rgba(43,46,92,.22)),url(/uploads/1/hooks/sites/anim/clothing/bg.jpg) center/auto 100%}
+.cl4-drape-l{left:calc(50% - var(--e,1) * 50% + var(--e,1) * (1 - var(--e,1)) * 60vw - 22vw);box-shadow:14px 0 40px rgba(43,46,92,.28)}
+.cl4-drape-r{right:calc(50% - var(--e,1) * 50% + var(--e,1) * (1 - var(--e,1)) * 60vw - 22vw);transform:scaleX(-1);box-shadow:14px 0 40px rgba(43,46,92,.28)}
+/* СТЫК 3 · «молния-застёжка»: финал расстёгивается V-образом с зубцами, актёр — бегунок в вершине */
+.cl-site .cl6-scene[data-ov]>.ps-sticky{opacity:1;--e:calc(var(--ovp,0) * var(--ovp,0));--W:calc(var(--e) * 160%);--D:calc(var(--e) * 330%);--zt:calc(min(1, var(--e) * 8) * 1.4vw);
+  clip-path:polygon(calc(50% - var(--W) * 1.00) calc(var(--D) * 0.00),calc(50% - var(--W) * 0.90 - var(--zt)) calc(var(--D) * 0.10),calc(50% - var(--W) * 0.80) calc(var(--D) * 0.20),calc(50% - var(--W) * 0.70 - var(--zt)) calc(var(--D) * 0.30),calc(50% - var(--W) * 0.60) calc(var(--D) * 0.40),calc(50% - var(--W) * 0.50 - var(--zt)) calc(var(--D) * 0.50),calc(50% - var(--W) * 0.40) calc(var(--D) * 0.60),calc(50% - var(--W) * 0.30 - var(--zt)) calc(var(--D) * 0.70),calc(50% - var(--W) * 0.20) calc(var(--D) * 0.80),calc(50% - var(--W) * 0.10 - var(--zt)) calc(var(--D) * 0.90),calc(50% - var(--W) * 0.00) calc(var(--D) * 1.00),calc(50% + var(--W) * 0.00) calc(var(--D) * 1.00),calc(50% + var(--W) * 0.10 + var(--zt)) calc(var(--D) * 0.90),calc(50% + var(--W) * 0.20) calc(var(--D) * 0.80),calc(50% + var(--W) * 0.30 + var(--zt)) calc(var(--D) * 0.70),calc(50% + var(--W) * 0.40) calc(var(--D) * 0.60),calc(50% + var(--W) * 0.50 + var(--zt)) calc(var(--D) * 0.50),calc(50% + var(--W) * 0.60) calc(var(--D) * 0.40),calc(50% + var(--W) * 0.70 + var(--zt)) calc(var(--D) * 0.30),calc(50% + var(--W) * 0.80) calc(var(--D) * 0.20),calc(50% + var(--W) * 0.90 + var(--zt)) calc(var(--D) * 0.10),calc(50% + var(--W) * 1.00) calc(var(--D) * 0.00))}
+
+/* S5: бирки висят на фоне шторы из hero */
+.cl5-curtain{opacity:.42}
+.cl5-curtain .ps-media{filter:saturate(.8) brightness(1.08)}
+@media(prefers-reduced-motion:reduce){
+  .cl-site *,.cl-site *::before,.cl-site *::after{animation:none!important}
+  .cl-site .cl-exit{opacity:1!important}
+  .cl-site .ps-scene[data-ov]>.ps-sticky{clip-path:none}
+  .cl4-drape{display:none}
+}

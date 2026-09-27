@@ -88,11 +88,11 @@
 .sl-relic-cap h3{margin:6px 0 12px;font:700 clamp(40px,6vw,104px)/.86 "UnifrakturCook",cursive;color:var(--bone)}
 .sl-relic-cap p{margin:0;max-width:40ch;font:400 16px/1.55 "Barlow Condensed",sans-serif;color:#d2c7b6}
 .sl-relic-band{position:absolute;left:0;right:0;top:auto;bottom:0;height:46vh;z-index:2;overflow:hidden;border-top:1px solid rgba(212,122,30,.4)}
-.sl-relic-band .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:sepia(.15) contrast(1.05)}
+.sl-relic-band .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 24%;filter:sepia(.15) contrast(1.05)}
 .sl-relic-marks{position:absolute;right:12px;bottom:10px;z-index:3;font:500 11px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:rgba(22,15,11,.7);padding:4px 8px}
 
 /* 4 · RELIQUARY — веер; пластина iii прямая и сверху: в неё садится реликвия из S4 (без скачка поворота/кропа/грейда) */
-.sl-cascade-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 75% at 50% 46%,#3a2a1c,#150e09 80%)}
+.sl-cascade-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(85% 75% at 50% 46%,#4d3825,#1c140d 82%)}
 .sl-cascade-head{position:absolute;top:8vh;left:6vw;z-index:6;opacity:clamp(0,calc(var(--sp,1)*2.2 - 1.1),1)}
 .sl-cascade-head b{display:block;font:700 clamp(30px,5vw,70px)/.85 "UnifrakturCook",cursive;color:var(--bone)}
 .sl-cascade-head span{font:500 12px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
@@ -104,15 +104,15 @@
 .sl-plate-1{--d:0;left:2%;transform:rotate(-8deg) translateY(calc((1 - var(--r))*40px))}
 .sl-plate-2{--d:.1;left:24%;top:8%;transform:rotate(-3deg) translateY(calc((1 - var(--r))*40px));z-index:2}
 .sl-plate-3{--d:0;left:46%;top:2%;z-index:5;opacity:1;transform:none;box-shadow:0 26px 60px rgba(0,0,0,.65),0 0 0 1px rgba(212,122,30,.5)}
-.sl-plate-3 img{object-position:50% 42%;filter:sepia(.15) contrast(1.05)}
+.sl-plate-3 img{object-position:50% 24%;filter:sepia(.15) contrast(1.05)}
 .sl-plate-4{--d:.3;left:67%;top:12%;transform:rotate(8deg) translateY(calc((1 - var(--r))*40px));z-index:4}
 .sl-cascade-code{position:absolute;left:6vw;bottom:3vh;z-index:6;font:500 12px "JetBrains Mono",monospace;letter-spacing:.08em;color:var(--mut)}
 
 /* 5 · LETTER — кольцо: соляная статуя в полный рост справа (как на обложке), за ней зарево горящего дома */
 .sl-letter-bg{position:absolute;inset:0;z-index:0;background:
-  radial-gradient(38% 34% at 76% 100%,rgba(255,168,74,.55),transparent 72%),
-  radial-gradient(70% 52% at 74% 100%,rgba(212,122,30,.42),transparent 75%),
-  linear-gradient(180deg,#1a1410 0,#140e0a 60%,#24160d 100%)}
+  radial-gradient(44% 42% at 76% 100%,rgba(255,176,86,.66),transparent 74%),
+  radial-gradient(86% 66% at 72% 100%,rgba(212,122,30,.5),transparent 78%),
+  linear-gradient(180deg,#241a12 0,#1c140d 52%,#3a2410 100%)}
 .sl-letter-word{position:absolute;right:1vw;top:7vh;z-index:1;font:700 clamp(80px,21vw,340px)/.8 "UnifrakturCook",cursive;color:rgba(212,122,30,.13);pointer-events:none}
 .sl-letter-fig{display:block;transform-origin:79% 41%}
 .sl-letter-fig .ps-media{position:absolute;bottom:0;height:92vh;width:auto;max-width:none;left:calc(72% - 92vh*.8056*.5);object-fit:contain;

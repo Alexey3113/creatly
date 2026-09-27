@@ -1,7 +1,7 @@
 /* StageDeck — кино-переходы. Дек ставит data-trans (тип) + data-dir (fwd/back) на время анимации;
    CSS красит и входящую (--sp 0→1), и уходящую (--ep 0→1) сцену одним переходом. */
 .stage{position:fixed;inset:0;height:100vh;height:100svh;height:100dvh;width:100%;overflow:hidden;
-  overscroll-behavior:none;touch-action:none;background:#000;perspective:1500px;perspective-origin:50% 42%}
+  overscroll-behavior:none;touch-action:none;background:var(--stage-bg,#000);perspective:1500px;perspective-origin:50% 42%}
 .stage-scene{position:absolute;inset:0;visibility:hidden;opacity:0;z-index:1;--sp:0;--ep:0;
   transform-style:preserve-3d;backface-visibility:hidden;will-change:transform,opacity,clip-path,filter}
 .stage-scene.is-active{visibility:visible;opacity:1;z-index:2;--sp:1}

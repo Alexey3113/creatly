@@ -146,7 +146,3 @@
   .bh-window{ grid-template-columns:1fr; border-radius:40% 40% 10px 10px / 12% 12% 10px 10px; }
   .bh-pane:nth-child(n){ border-radius:0; padding-top:4vh; }
 }
-
-/* ОБХОД БАГА ДВИЖКА: base-CSS прячет бэкдроп и эффекты шва (visibility:hidden), а JS «показывает» их,
-   снимая inline-visibility пустой строкой → они не видны никогда. Inline 'hidden' по-прежнему прячет. */
-.bh .sk-backdrop, .bh .rl-fx{ visibility:visible; }

@@ -54,7 +54,7 @@ reelMark("s{i}") — середина удержания сцены i; reelMark(
 fgMask: [52, 72] (ниже — чтобы полупрозрачная кромка fg не ложилась «призраком» на героя), seam: { h: 46, o: 1.15 } (шов спуска/подъёма).
 scene-kit `Follow`: числовые CSS-переменные по якорям (счётчики, высотомеры, stroke-dashoffset SVG-нити) —
 `<Follow target=".xx-rope" stops={[{ at: reelMark("s0"), vars: { "--draw": 0 } }, { at: ".xx-cta", vars: { "--draw": 1 } }]} />`.
-Backdrop: у плиты можно `size` (background-size). Баг видимости Backdrop исправлен в движке — обходы `visibility:visible` не нужны.
+Backdrop: у плиты можно `size` (background-size). Сцена рила: `bgSize`. Актёр: `pose.dockTo` — причал к элементу внутри закреплённой главы (момент задаёт `at`). Дек: фон `--stage-bg` (не чёрный под светлыми сценами), центр iris `--iris-x/--iris-y`. Баг видимости Backdrop исправлен в движке — обходы `visibility:visible` не нужны.
 ```
 Склейку выбирай ИЗ МИРА: подъём → `ascend`; спуск/нырок → `descend`; путь по горизонтали → `pan`;
 заросли/облака/рынок → `flythrough`; окно/арка/грот/окуляр → `portal`; луч/рассвет/фонарь → `sweep`;

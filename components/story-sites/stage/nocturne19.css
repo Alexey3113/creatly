@@ -145,7 +145,8 @@
 /* мобилка */
 @media(max-width:900px){
   .nc-wordmark span{font-size:40vw}
-  .nc-orn-l,.nc-orn-r{font-size:10px}.nc-orn-l{top:30vh}.nc-orn-r{top:20vh}
+  .nc-orn-l,.nc-orn-r{display:none}
+  .nc-wordmark{padding-top:14vh}
   .nc-plate-pb{--Y:36%}
   .nc-word-s2{height:24vh;bottom:4vh}
   .nc-tunnel-cap{justify-content:flex-start;padding:12vh 6vw 0}

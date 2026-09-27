@@ -67,8 +67,6 @@
 .nd2-scene .ps-sticky{background:#141a33}
 .nd2-bg .ps-media{filter:contrast(1.05) saturate(1.04) brightness(.82)}
 .nd2-veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(60vw 60vh at 50% 44%,rgba(108,134,216,.1),transparent 60%),linear-gradient(90deg,rgba(20,26,51,.6),transparent 46%),linear-gradient(0deg,rgba(20,26,51,.55),transparent 40%)}
-.nd2-rose{justify-items:end;align-content:start}
-.nd2-rose .ps-media{width:30vw;height:auto;max-width:none;opacity:.85;filter:drop-shadow(0 0 40px rgba(203,162,74,.24))}
 .nd2-copy{justify-items:start;align-content:end;padding:0 0 14vh var(--pad)}
 .nd2-copy .nd-eyebrow{color:#cba24a}
 .nd2-copy h2{margin:0;font:400 clamp(40px,6vw,92px)/1.02 "Playfair Display",serif;color:#ece6d6}
@@ -78,11 +76,9 @@
 
 /* S3 THE CATHEDRAL — детали */
 .nd3-scene .ps-sticky{background:#141a33}
-.nd3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 50% 42%,#1a2242,#0e142a)}
+.nd3-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 92% at 30% 30%,color-mix(in srgb,var(--atm2,#cba24a) 16%,var(--atm,#1a2242)),var(--atm,#0e142a) 70%,#0a0f22)}
 /* вертикальный луч света нефа */
 .nd3-shaft{position:absolute;z-index:2;top:-6%;bottom:-6%;left:8vw;width:28vw;pointer-events:none;background:linear-gradient(180deg,rgba(203,162,74,.32),rgba(203,162,74,.1) 32%,rgba(108,134,216,.06) 64%,transparent);filter:blur(14px);mix-blend-mode:screen}
-.nd3-rose{justify-items:start;align-content:start;padding:1vh 0 0 8vw}
-.nd3-rose .ps-media{width:24vw;height:auto;max-width:none;object-fit:contain;filter:sepia(.3) brightness(1.06) drop-shadow(0 0 44px rgba(203,162,74,.4))}
 /* элевация: узкие вертикальные пластины восходят вдоль оси */
 .nd3-el{position:relative;width:12vw;min-width:150px;background:#0e1428;padding:7px 7px 24px;box-shadow:0 26px 52px rgba(0,0,0,.55);border:1px solid rgba(203,162,74,.3)}
 .nd3-el .ps-media{width:100%;height:auto;max-width:none;aspect-ratio:4/5;object-fit:cover;display:block;filter:saturate(1.04) contrast(1.05)}
@@ -95,14 +91,14 @@
 
 /* S4 PLAN YOUR VISIT — расписание */
 .nd4-scene .ps-sticky{background:#141a33}
-.nd4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 50% 42%,#1a2242,#0e142a)}
-.nd4-head{justify-items:center;align-content:start;text-align:center;padding-top:10vh}
+.nd4-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(84% 92% at 22% 56%,color-mix(in srgb,var(--atm2,#4a5fb0) 22%,var(--atm,#1a2242)),var(--atm,#0e142a) 72%)}
+.nd4-head{justify-items:end;align-content:start;text-align:right;padding:12vh var(--pad) 0 0}
 .nd4-head .nd-eyebrow{color:#cba24a}
 .nd4-head h2{margin:0;font:400 clamp(32px,4.8vw,64px)/1.02 "Playfair Display",serif;color:#ece6d6}
 .nd4-head h2 em{font-style:italic;color:#cba24a}
 /* визиты «загораются» как витраж: из тьмы в золотой свет (по --lp, последовательно) */
-.nd4-visitsL{justify-items:center;align-content:center}
-.nd4-visits{width:min(840px,88vw)}
+.nd4-visitsL{justify-items:end;align-content:center;padding:10vh var(--pad) 0 0}
+.nd4-visits{width:min(760px,58vw)}
 .nd4-visit{position:relative;display:grid;grid-template-columns:160px 1fr auto auto;gap:22px;align-items:baseline;padding:16px 0;border-top:1px solid rgba(203,162,74,.2);
   opacity:calc(0.1 + clamp(0, (var(--lp,0) - var(--thr,0)) * 9, 1) * 0.9);
   transform:translateY(calc((1 - clamp(0, (var(--lp,0) - var(--thr,0)) * 7, 1)) * 8px))}
@@ -118,15 +114,15 @@
 
 /* S5 VOICES — отзывы */
 .nd5-scene .ps-sticky{background:#141a33}
-.nd5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 50% 42%,#1a2242,#0c1226)}
+.nd5-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(80% 82% at 80% 50%,color-mix(in srgb,var(--atm2,#e0a050) 18%,var(--atm,#1a2242)),var(--atm,#0c1226) 74%)}
 /* свечное свечение снизу, мягкое мерцание */
 .nd5-glow{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(52vw 42vh at 50% 84%,rgba(203,162,74,.22),transparent 66%);mix-blend-mode:screen;animation:nd-flicker 4.5s ease-in-out infinite}
 @keyframes nd-flicker{0%,100%{opacity:.82}42%{opacity:1}68%{opacity:.68}}
 @media(prefers-reduced-motion:reduce){.nd5-glow{animation:none}}
-.nd5-eyebrow{position:absolute;z-index:16;top:96px;left:50%;transform:translateX(-50%);font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#cba24a}
+.nd5-eyebrow{position:absolute;z-index:16;top:96px;left:9vw;font:600 11px "DM Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#cba24a}
 /* иллюминированный стих с золотой буквицей */
-.nd5-verse{justify-items:center}
-.nd5-verse>div{width:min(58ch,78vw)}
+.nd5-verse{justify-items:start;padding-left:9vw}
+.nd5-verse>div{width:min(46ch,56vw)}
 .nd5-cap{float:left;margin:6px 16px 0 0;font:400 clamp(48px,6.4vw,90px)/.72 "Playfair Display",serif;color:#cba24a;text-shadow:0 0 30px rgba(203,162,74,.5)}
 .nd5-verse p{margin:0;font:400 clamp(18px,2.2vw,32px)/1.34 "Playfair Display",serif;color:#ece6d6}
 .nd5-verse cite{display:block;clear:both;margin-top:12px;font:600 11px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#cba24a}
@@ -136,13 +132,87 @@
 
 /* S6 ENTER THE LIGHT — роза + CTA */
 .nd6-scene .ps-sticky{background:#141a33}
-.nd6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 58% 42%,#1c2446,#0e142a)}
-.nd6-rose{justify-items:end;align-content:center;padding-right:4vw}
-.nd6-rose .ps-media{width:40vw;height:auto;max-width:none;opacity:.9;filter:drop-shadow(0 0 50px rgba(203,162,74,.28))}
+.nd6-bg{position:absolute;inset:0;z-index:1;background:radial-gradient(82% 86% at 70% 50%,color-mix(in srgb,var(--atm2,#f0c070) 20%,var(--atm,#1c2446)),var(--atm,#0e142a) 76%)}
 .nd6-copy{justify-items:start;align-content:start;padding:22vh 0 0 var(--pad);clip-path:circle(calc(clamp(0, var(--lp,0) * 1.5, 1) * 96%) at 22% 44%)}
 .nd6-copy .nd-eyebrow{color:#cba24a}
 .nd6-copy h2{margin:0;font:400 clamp(48px,9vw,140px)/.98 "Playfair Display",serif;color:#ece6d6}
 .nd6-copy h2 em{font-style:italic;color:#cba24a}
 .nd6-cta{position:absolute;z-index:16;left:var(--pad);bottom:14vh;max-width:38ch}
 .nd6-cta p{margin:0 0 22px;font:400 15px/1.75 "Manrope",sans-serif;color:#a8afd0}
-@media(max-width:900px){.nd2-copy,.nd6-cta{max-width:88vw}.nd2-rose,.nd6-rose,.nd3-rose{display:none}.nd3-el{width:34vw}.nd4-visits{width:92vw}.nd4-visit{grid-template-columns:1fr auto;gap:4px 12px}.nd4-visit s{display:none}.nd4-visit time{grid-column:1}.nd5-verse>div{max-width:90vw}.nd5-cap{font-size:60px}}
+@media(max-width:900px){.nd2-copy,.nd6-cta{max-width:88vw}.nd4-dial{display:none}.nd3-el{width:34vw}.nd4-visits{width:92vw}.nd4-visit{grid-template-columns:1fr auto;gap:4px 12px}.nd4-visit s{display:none}.nd4-visit time{grid-column:1}.nd5-verse>div{max-width:90vw}.nd5-cap{font-size:60px}}
+
+/* ===== СКВОЗНАЯ АРХИТЕКТУРА (аудит 2026-09) ===== */
+.nd-site{background:var(--atm,#141a33)}
+/* актёр: роза-витраж (rose.jpg на чёрном → screen: светится стеклом), в покое медленно вращается и дышит */
+.sk-actor.nd-actor{mix-blend-mode:screen}
+.nd-rosea{position:relative;aspect-ratio:1;border-radius:50%}
+.nd-rosea::before{content:"";position:absolute;inset:-18%;border-radius:50%;background:radial-gradient(circle,rgba(108,134,216,.42),rgba(203,162,74,.16) 44%,transparent 68%);animation:nd-breathe 4.2s ease-in-out infinite}
+.nd-rosea img{position:relative;display:block;width:100%;height:auto;border-radius:50%;filter:none;-webkit-mask:radial-gradient(circle,#000 66%,transparent 71%);mask:radial-gradient(circle,#000 66%,transparent 71%);animation:nd-spin 140s linear infinite}
+@keyframes nd-spin{to{transform:rotate(360deg)}}
+@keyframes nd-breathe{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+
+/* HERO: собран в покое; в конце камера влетает в розу фасада (зум вокруг неё) */
+.nd-hero{--zk:clamp(0,(var(--sp,0) - .72) / .28,1)}
+.nd-strips .ps-media{transform-origin:49.7% 71.9%;transform:scale(calc(1 + var(--zk) * var(--zk) * .7))}
+.nd-halo{position:absolute;left:49.7%;top:71.9%;width:12vw;aspect-ratio:1;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(255,226,160,.75),rgba(108,134,216,.5) 34%,rgba(108,134,216,.12) 56%,transparent 70%);
+  transform:translate(-50%,-50%) scale(calc(1 + var(--zk) * var(--zk) * .7));animation:nd-halo 3.6s ease-in-out infinite}
+@keyframes nd-halo{0%,100%{opacity:.55}50%{opacity:1}}
+.nd-rose .ps-media{opacity:calc(1 - var(--zk));animation:nd-spin 180s linear infinite}
+.nd-title h1{opacity:calc(1 - var(--zk) * 1.4)}
+.nd-blobs{animation:nd-blobs 6s ease-in-out infinite}
+@keyframes nd-blobs{0%,100%{opacity:.8}50%{opacity:1}}
+/* свечи у подножия — мерцают без скролла */
+.nd-candles{position:absolute;z-index:10;left:0;right:0;bottom:0;height:22vh;pointer-events:none;mix-blend-mode:screen}
+.nd-candles i{position:absolute;bottom:-6vh;width:16vw;height:18vh;border-radius:50%;background:radial-gradient(closest-side,rgba(255,196,110,.5),rgba(255,150,60,.16) 55%,transparent);animation:nd-flicker 2.6s ease-in-out infinite}
+.nd-candles i:nth-child(1){left:4%;animation-delay:-.4s}.nd-candles i:nth-child(2){left:17%;animation-duration:3.1s}
+.nd-candles i:nth-child(3){left:30%;animation-delay:-1.2s;animation-duration:2.2s}.nd-candles i:nth-child(4){left:43%;animation-duration:3.4s}
+.nd-candles i:nth-child(5){left:56%;animation-delay:-.8s}.nd-candles i:nth-child(6){left:69%;animation-duration:2.9s;animation-delay:-1.9s}
+.nd-candles i:nth-child(7){left:82%;animation-duration:2.4s}
+
+/* S1→S2: следующая сцена открывается в круге розы фасада */
+.nd-site .nd2-scene[data-ov]>.ps-sticky{opacity:1;clip-path:circle(calc(var(--ovp,0) * var(--ovp,0) * 82%) at 49.7% 66%)}
+/* S2 уходит: камера наезжает к стрельчатому окну */
+.nd2-scene .ps-viewport{transform-origin:50% 88%;transform:scale(calc(1 + clamp(0,(var(--sp,0) - .7) / .3,1) * .22))}
+/* S2→S3: стрельчатое (ланцетное) окно растёт от низа — новая сцена внутри готической арки */
+.nd-site .nd3-scene[data-ov]>.ps-sticky{opacity:1;--w:calc(var(--ovp,0) * 150vw);--b:112vh;--r:calc(var(--ovp,0) * 70vh);
+  clip-path:polygon(calc(50% - var(--w) * .5) var(--b),calc(50% - var(--w) * .5) calc(var(--b) - var(--r)),
+    calc(50% - var(--w) * .466) calc(var(--b) - var(--r) - var(--w) * .259),calc(50% - var(--w) * .366) calc(var(--b) - var(--r) - var(--w) * .5),
+    calc(50% - var(--w) * .207) calc(var(--b) - var(--r) - var(--w) * .707),50% calc(var(--b) - var(--r) - var(--w) * .866),
+    calc(50% + var(--w) * .207) calc(var(--b) - var(--r) - var(--w) * .707),calc(50% + var(--w) * .366) calc(var(--b) - var(--r) - var(--w) * .5),
+    calc(50% + var(--w) * .466) calc(var(--b) - var(--r) - var(--w) * .259),calc(50% + var(--w) * .5) calc(var(--b) - var(--r)),
+    calc(50% + var(--w) * .5) var(--b))}
+.nd3-shaft{animation:nd-flicker 5.5s ease-in-out infinite}
+/* S5→S6: снова через розу — круг из её центра справа */
+.nd-site .nd6-scene[data-ov]>.ps-sticky{opacity:1;clip-path:circle(calc(var(--ovp,0) * var(--ovp,0) * 112%) at 80% 50%)}
+
+/* S4: неф после заката + циферблат на месте розы */
+.nd4-nave{-webkit-mask:linear-gradient(90deg,transparent 18%,#000 62%);mask:linear-gradient(90deg,transparent 18%,#000 62%)}
+.nd4-nave .ps-media{opacity:.3;filter:saturate(.7) brightness(.8) sepia(.2)}
+.nd4-dial{position:absolute;z-index:6;left:19vw;top:56vh;width:27vw;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;
+  --on:clamp(0,var(--sp,0) * 3.2,1);opacity:var(--on)}
+.nd4-dial span{position:absolute;font:400 clamp(14px,1.5vw,22px) "Playfair Display",serif;color:#e6c98a;text-shadow:0 0 14px rgba(203,162,74,.7);transform:translate(-50%,-50%)}
+.nd4-dial .n12{left:50%;top:-6%}.nd4-dial .n3{left:106%;top:50%}.nd4-dial .n6{left:50%;top:106%}.nd4-dial .n9{left:-6%;top:50%}
+
+/* S5: лучи розы на буквицы */
+.nd5-rays{-webkit-mask:radial-gradient(60% 80% at 80% 45%,#000 20%,transparent 75%);mask:radial-gradient(60% 80% at 80% 45%,#000 20%,transparent 75%)}
+.nd5-rays .ps-media{opacity:.34;filter:saturate(.8) brightness(.9)}
+.nd5-cap{animation:nd-cap 3.8s ease-in-out infinite}
+@keyframes nd-cap{0%,100%{text-shadow:0 0 22px rgba(203,162,74,.4)}50%{text-shadow:0 0 44px rgba(255,210,130,.85)}}
+
+/* S6: финал — свет заливает кадр, камера проходит сквозь розу */
+.nd6-flood{place-items:center}
+.nd6-flood i{width:120vw;height:120vh;border-radius:50%;background:radial-gradient(closest-side at 70% 50%,rgba(255,228,170,.55),rgba(240,192,112,.22) 45%,transparent 78%);mix-blend-mode:screen}
+
+/* стрелки циферблата (внутри актёра-розы; видимы только в S4 через --nd-clock от Follow) */
+.nd-rosea i{position:absolute;left:50%;top:50%;border-radius:3px;background:linear-gradient(#fff1c9,#e6b85a);box-shadow:0 0 12px rgba(255,210,130,.9);transform-origin:50% 100%;opacity:var(--nd-clock,0)}
+.nd-hh{width:4%;height:24%;margin:-24% 0 0 -2%;transform:rotate(-105deg)}
+.nd-mh{width:2.6%;height:38%;margin:-38% 0 0 -1.3%;transform:rotate(-120deg);animation:nd-tick 8s steps(8) infinite}
+@keyframes nd-tick{to{transform:rotate(-96deg)}}
+/* текст уходящей сцены гаснет в начале перекрытия — на экране один заголовок */
+.nd2-copy>*,.nd3-copy>*,.nd4-head>*,.nd4-visits,.nd5-verse>div,.nd5-eyebrow{opacity:calc(1 - clamp(0,(var(--sp,0) - .7) / .12,1))}
+@media(prefers-reduced-motion:reduce){
+  .nd-hero{--zk:0}.nd2-scene .ps-viewport{transform:none}
+  .nd2-copy>*,.nd3-copy>*,.nd4-head>*,.nd4-visits,.nd5-verse>div,.nd5-eyebrow{opacity:1}
+  .nd-mh,.nd-rosea::before,.nd-rosea img,.nd-halo,.nd-rose .ps-media,.nd-blobs,.nd-candles i,.nd3-shaft,.nd5-cap{animation:none}
+}
