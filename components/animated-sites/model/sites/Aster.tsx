@@ -16,7 +16,7 @@ const DOME = { x: 71, y: 66.5 }; // купол на холме (s1-bg)
 const EYEPIECE = { x: 84, y: 75.5 }; // окуляр латунного телескопа (s2-bg)
 
 const scenes: ReelScene[] = [
-  { id: "hilltop", dark: true, len: 1.05, hold: 0.5, fgMask: [66, 84], bg: `${A}/s1-bg.webp`, fg: `${A}/s1-fg.webp`, copy: (
+  { id: "hilltop", dark: true, len: 1.05, hold: 0.5, fgMask: [76, 90], bg: `${A}/s1-bg.webp`, fg: `${A}/s1-fg.webp`, copy: (
     <>
       <span className="as-eyebrow">Dark-sky observatory &amp; stargazing retreat</span>
       <h1>Come this<br />close to <em>the stars.</em></h1>

@@ -33,8 +33,6 @@ import { CarDealerSite } from "@/components/concept-sites/CarDealerSite";
 import { JpRestaurantSite } from "@/components/concept-sites/JpRestaurantSite";
 import { FreestyleSite } from "@/components/concept-sites/FreestyleSite";
 import { Backdrop } from "@/components/scene-kit";
-import "./biz-prosite.css";
-import "./biz-bespoke.css";
 // bespoke-сайты: второй акт (актёр/погода/атмосфера + часы страницы для счётчиков акта)
 import { Actor, Atmosphere, Weather, subscribe, clamp01, smooth } from "@/components/scene-kit";
 
