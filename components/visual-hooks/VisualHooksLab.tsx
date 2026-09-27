@@ -1527,10 +1527,10 @@ function HavenSite() {
       <Atmosphere stops={[{ at: ".hav-hero", color: "#eadcc4", anchor: 0.3 }, { at: ".hav-act", color: "#eeece6", anchor: 0.2 }, { at: ".hav-act", color: "#1c2740", anchor: 0.82 }, { at: ".hav-cta", color: "#19233a" }]} />
       {/* актёр — линия горизонта: кромка бассейна → горизонт в окне → море с холма → линия заката под солнцем CTA */}
       <Actor width="100vw" zIndex={6} bob={0} tilt={0} stops={[
-        { at: ".hav-hero", anchor: 0.28, pose: { x: 50, y: 42, o: 0 } },
-        { at: ".hav-hero", anchor: 0.6, pose: { x: 50, y: 42, o: 0.9 } },
-        { at: ".hav-act", anchor: 0.25, pose: { x: 50, y: 40, o: 0.55 } },
-        { at: ".hav-act", anchor: 0.75, pose: { x: 50, y: 35, o: 0.55 } },
+        { at: ".hav-hero", anchor: 0.28, pose: { x: 50, y: 49, o: 0 } },
+        { at: ".hav-hero", anchor: 0.6, pose: { x: 50, y: 49, o: 0.9 } },
+        { at: ".hav-act", anchor: 0.25, pose: { x: 50, y: 56, o: 0.55 } },
+        { at: ".hav-act", anchor: 0.75, pose: { x: 50, y: 45, o: 0.55 } },
         { at: ".hav-cta", anchor: 0.5, pose: { x: 50, y: 20, o: 0.95, dock: true } },
         { at: ".hav-foot", anchor: 0.9, pose: { x: 50, y: 20, o: 0 } },
       ]}><div className="hav-line" /></Actor>

@@ -6,6 +6,9 @@
 .op-site{--bg:#181009;--warm:#2c1c0e;--amber:#c88a38;--gold:#dcac54;--cream:#ecdcbe;--sienna:#8a4a22;--mut:#a88c62;
   position:fixed;inset:0;background:var(--bg);color:var(--cream);font-family:"Outfit",system-ui,sans-serif;overflow:hidden}
 
+/* фон деке — тёплая тень вместо чёрного: кроссфейды не проваливаются в чёрное */
+.op-site .stage{background:#2a1a0c}
+
 .op-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .op-head a{pointer-events:auto}
 .op-brand{font:400 22px/1 "Rozha One",serif;letter-spacing:.06em;color:var(--cream);text-decoration:none}

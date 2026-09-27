@@ -136,7 +136,7 @@
 /* мобилка */
 @media(max-width:900px){
   .sf-cover-fig .ps-media,.sf-halo-fig .ps-media{height:80vh}
-  .sf-wordmark span{font-size:24vw}.sf-cover-halo,.sf-halo-ring{width:44vh;height:44vh}
+  .sf-wordmark{place-items:start center;padding-top:11vh}.sf-wordmark span{font-size:15vw}.sf-cover-halo,.sf-halo-ring{width:44vh;height:44vh}
   .sf-side-fig .ps-media{width:60vw;height:46vh;transform:translateX(0)}
   .sf-side-cap{max-width:none;padding:0 5vw;justify-content:flex-end;padding-bottom:8vh}
   .sf-study-main .ps-media{width:56vw;height:34vh;transform:translate(0,-2vh)}
@@ -151,6 +151,6 @@
   .sf-ring-c{left:calc(50% - 16vh);top:6vh;width:32vh;height:32vh}
   .sf-index-arch{left:30vw;width:40vw;top:8vh;height:36vh}
   .sf-index-block{top:auto;bottom:5vh;transform:none}
-  .sf-wordmark span{letter-spacing:.2em;margin-right:-.2em}
+  .sf-wordmark span{letter-spacing:.16em;margin-right:-.16em}
   .sf-ring-a{left:calc(50% - 16vh);width:32vh;height:32vh;top:calc(30% - 16vh)}.sf-ring-b{left:calc(50% - 22vh);width:44vh;height:44vh;top:calc(34% - 22vh)}
 }

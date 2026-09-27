@@ -13,7 +13,7 @@ import "./cinders.css";
 
 const A = "/uploads/1/animated/cinders";
 const scenes: ReelScene[] = [
-  { id: "blacksand", dark: true, len: 1.05, hold: 0.5, bg: `${A}/s1-bg.webp`, mid: `${A}/s1-mid.webp`, fg: `${A}/s1-fg.webp`, copy: (
+  { id: "blacksand", dark: true, len: 1.05, hold: 0.5, midShift: 27, fgLift: 35, fgMask: [33, 44], bg: `${A}/s1-bg.webp`, mid: `${A}/s1-mid.webp`, fg: `${A}/s1-fg.webp`, copy: (
     <>
       <span className="cn-eyebrow">Elemental expeditions · Iceland</span>
       <h1>Walk the line between<br /><em>fire and ice.</em></h1>
@@ -25,7 +25,7 @@ const scenes: ReelScene[] = [
     <><span className="cn-idx">— 02 · the breath of the earth</span><h2>Geyser Field</h2>
       <p>Ground that exhales. We route you between the vents at the one hour the light turns the steam to gold.</p></>
   ) },
-  { id: "lava", dark: true, into: "descend", tint: "#ff6a2a", len: 1.3, hold: 0.56, spark: 9, bg: `${A}/s3-bg.webp`, mid: `${A}/s3-mid.webp`, fg: `${A}/s3-fg.webp`,
+  { id: "lava", dark: true, into: "descend", tint: "#ff6a2a", len: 1.3, hold: 0.56, spark: 9, midShift: 16, fgMask: [66, 80], bg: `${A}/s3-bg.webp`, mid: `${A}/s3-mid.webp`, fg: `${A}/s3-fg.webp`,
     freeze: (<div className="cn-freeze"><b>1,117°C</b><span>the rock under tonight&rsquo;s trail</span></div>), copy: (
     <><span className="cn-idx cn-light">— 03 · the forge</span><h2>Night Lava</h2>
       <p>Black rock splits and glows beneath your boots. No moon required — the cracks light the trail themselves.</p></>
@@ -91,6 +91,7 @@ export function Cinders() {
         { at: reelMark("s1"), pose: { x: 69, y: 36, s: 1.7, o: 0.72 } },
         { at: reelMark("t1"), pose: { x: 62, y: 18, s: 1.2, o: 0.6 } },
         { at: reelMark("s2"), pose: { x: 55, y: 36, s: 1.15, o: 0.9 } },
+        { at: reelMark("h2"), pose: { x: 54, y: 35, s: 1.2, o: 0.9 } },
         { at: reelMark("t2"), pose: { x: 58, y: 34, s: 1.5, o: 0.8, blur: 2 } },
         { at: reelMark("s3"), pose: { x: 74, y: 44, s: 1.25, o: 0.62 } },
         { at: ".cn-manifest", pose: { x: 80, y: 40, s: 1, o: 0 } },

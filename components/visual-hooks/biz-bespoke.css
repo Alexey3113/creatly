@@ -10,6 +10,7 @@
 .bs-act .pb-cband-chap h3 em{font-style:italic;color:var(--a)}
 .bs-act .pb-cband-chap p{text-shadow:0 1px 14px rgba(0,0,0,.45)}
 .bs-act .pb-cband-chap h3{text-shadow:0 2px 30px rgba(0,0,0,.28)}
+.bs-act .pb-cband-chap.center p{margin-left:auto;margin-right:auto}
 @media (prefers-reduced-motion:reduce),(max-width:900px){.bs-act-over{display:none}}
 /* мягкий вход/выход акта: край кадра растворяется в цвет мира (--atm), пока план не закреплён / уже отпущен */
 .bs-act .pb-cband-sticky::after{content:"";position:absolute;left:0;right:0;top:0;height:42vh;z-index:1;pointer-events:none;background:linear-gradient(180deg,var(--atm,var(--bg)),transparent);opacity:clamp(0,calc(1 - var(--sp)*6),1)}
@@ -87,12 +88,15 @@
 /* кадр 1 — небо циферблата (вектор): медленный провал внутрь */
 .horo .pb-cband .pb-cband-frame.is-first img{transform:scale(calc(1.02 + var(--sp)*.9));transform-origin:58% 46%}
 /* разнесённый вид: кольца деталей расходятся по глубине вокруг центра механизма */
-.horo-rings{position:absolute;left:59%;top:47%;width:0;height:0;--W:min(34vw,420px)}
-.horo-rings i{position:absolute;left:0;top:0;width:var(--W);aspect-ratio:1;border-radius:50%;border:1px solid rgba(224,191,114,.6);
-  box-shadow:0 0 22px rgba(224,191,114,.12),inset 0 0 22px rgba(224,191,114,.08);
+/* механизм приглушается, пока детали разносятся — золотые кольца не тонут в золоте гильоше */
+.horo .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 70% at 58% 47%,rgba(4,5,12,.42),rgba(4,5,12,.7));
+  opacity:calc(clamp(0,calc((var(--sp) - .32)/.08),1)*clamp(0,calc((.72 - var(--sp))/.08),1))}
+.horo-rings{position:absolute;left:59%;top:47%;width:0;height:0;--W:min(50vw,620px)}
+.horo-rings i{position:absolute;left:0;top:0;width:var(--W);aspect-ratio:1;border-radius:50%;border:1.5px solid rgba(255,240,208,.85);
+  box-shadow:0 0 0 1px rgba(0,0,0,.25),0 0 26px rgba(240,205,130,.28),inset 0 0 26px rgba(240,205,130,.14);
   transform:translate(-50%,-50%) scale(calc(.45 + var(--k)*(.2 + var(--i)*.24)));opacity:calc(.95 - var(--k)*.3 - var(--i)*.1)}
 .horo-rings span{position:absolute;white-space:nowrap;left:calc(var(--W)/2*(.45 + var(--k)*(.2 + var(--i)*.24))*.72 + 8px);top:calc(var(--W)/2*(.45 + var(--k)*(.2 + var(--i)*.24))*-.72 - 14px);
-  font:500 10px var(--vh-mono);letter-spacing:.22em;text-transform:uppercase;color:#e9d6a6;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+  font:500 11px var(--vh-mono);letter-spacing:.22em;text-transform:uppercase;color:#fff0d0;text-shadow:0 1px 8px rgba(0,0,0,.9)}
 /* луна: тень сползает влево — растущая луна до полнолуния */
 .horo-moon{position:absolute;right:9vw;top:13vh;width:clamp(84px,8vw,124px);text-align:center}
 .horo-moon b{display:block;position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;
@@ -282,16 +286,17 @@
 /* сырое зерно (серо-зелёный) → first crack (янтарная вспышка) → тёмная обжарка */
 .roast .pb-cband .pb-cband-wash::before{content:"";position:absolute;inset:0;background:#7d8a5e;mix-blend-mode:color;opacity:calc(.42*(1 - clamp(0,calc((var(--sp) - .04)/.24),1)))}
 .roast .pb-cband .pb-cband-wash::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 60% 40%,rgba(255,170,70,.55),transparent 70%);mix-blend-mode:soft-light;opacity:calc(clamp(0,calc((var(--sp) - .22)/.14),1)*clamp(0,calc((.68 - var(--sp))/.14),1))}
-.roast-chart{position:absolute;right:6vw;top:15vh;width:620px;height:270px;--k2:clamp(0,calc((var(--sp) - .34)/.3),1)}
+.roast-chart{position:absolute;left:var(--pad);top:12vh;width:620px;height:270px;--k2:clamp(0,calc((var(--sp) - .34)/.3),1)}
+.roast-chart::before{content:"";position:absolute;left:-12%;right:-16%;top:-26%;bottom:-24%;background:radial-gradient(closest-side,rgba(12,7,3,.72),rgba(12,7,3,.4) 60%,transparent);pointer-events:none}
 .roast-chart svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .roast-base{stroke:rgba(255,236,214,.3);stroke-width:1}
 .roast-peakband{stroke:rgba(255,196,120,.22);stroke-width:1;stroke-dasharray:3 6}
-.roast-line{stroke:#ffc07a;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--k2));filter:drop-shadow(0 0 8px rgba(255,160,70,.55))}
-.roast-bean{position:absolute;left:0;top:0;width:18px;height:12px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#9a5a2c,#4a2410);box-shadow:0 0 0 2px rgba(255,200,140,.35),0 4px 10px rgba(0,0,0,.5);
+.roast-line{stroke:#ffc07a;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--k2));filter:drop-shadow(0 0 8px rgba(255,160,70,.55))}
+.roast-bean{position:absolute;left:0;top:0;width:24px;height:16px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#9a5a2c,#4a2410);box-shadow:0 0 0 2px rgba(255,200,140,.35),0 4px 10px rgba(0,0,0,.5);
   offset-distance:calc(var(--k2)*100%);offset-rotate:auto}
 .roast-bean::after{content:"";position:absolute;left:18%;right:18%;top:50%;height:1.5px;margin-top:-.75px;border-radius:2px;background:#e7b27e;opacity:.7}
-.roast-mk{position:absolute;white-space:nowrap;font:500 11px var(--vh-mono);letter-spacing:.1em;text-transform:uppercase;color:#f2dcc4;text-shadow:0 1px 10px rgba(0,0,0,.8)}
-.roast-mk b{display:block;font:600 12px var(--vh-mono);letter-spacing:.14em;color:#ffc07a}
+.roast-mk{position:absolute;white-space:nowrap;font:500 12px var(--vh-mono);letter-spacing:.1em;text-transform:uppercase;color:#f2dcc4;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+.roast-mk b{display:block;font:600 13px var(--vh-mono);letter-spacing:.14em;color:#ffc07a}
 .roast-mk.pk b{font:400 italic 30px var(--vh-serif);letter-spacing:0;color:#ffd29b}
 .roast-mk:nth-of-type(1){opacity:clamp(0,calc((var(--k2) - .01)/.06),1)}
 .roast-mk:nth-of-type(2){opacity:clamp(0,calc((var(--k2) - .12)/.06),1)}
@@ -363,7 +368,7 @@
   background:linear-gradient(90deg,transparent,rgba(255,236,206,.07) 30%,rgba(255,236,206,.11) 50%,rgba(255,236,206,.07) 70%,transparent);
   -webkit-mask:linear-gradient(180deg,#000,rgba(0,0,0,.6) 55%,transparent 80%);mask:linear-gradient(180deg,#000,rgba(0,0,0,.6) 55%,transparent 80%);mix-blend-mode:screen}
 .form-parts{position:absolute;right:var(--pad);top:14vh;text-align:right;color:#efe6da}
-.form-parts span{display:block;font:600 11px var(--vh-mono);letter-spacing:.26em;text-transform:uppercase;color:#bfae98;margin-bottom:8px}
+.form-parts > span{display:block;font:600 11px var(--vh-mono);letter-spacing:.26em;text-transform:uppercase;color:#bfae98;margin-bottom:8px}
 .form-parts b{display:block;font:400 clamp(72px,8vw,128px)/.9 var(--vh-serif);letter-spacing:-.02em}
 .vh-site.form .form-cta{border-top:0;position:relative}
 .vh-site.form .form-cta::before{content:"";position:absolute;left:50%;top:44%;width:80vmax;height:60vmax;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,220,170,.13),transparent);pointer-events:none}
@@ -389,7 +394,7 @@
 .lg-quiet-chap h2 em{font-style:italic;color:#9fe3c6}
 .lg-quiet-chap p{margin:20px 0 0;max-width:44ch;font:400 16px/1.6 var(--vh-sans);color:rgba(233,237,244,.82)}
 .lg-bal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14)}
-.lg-bal span{display:block;font:500 11px var(--vh-mono);letter-spacing:.18em;text-transform:uppercase;color:#8b93a2;margin-bottom:10px}
+.lg-bal > span{display:block;font:500 11px var(--vh-mono);letter-spacing:.18em;text-transform:uppercase;color:#8b93a2;margin-bottom:10px}
 .lg-bal b{display:block;font:300 clamp(46px,5vw,78px)/1 var(--vh-mono);letter-spacing:-.03em;color:#fff}
 .vh-site.l-ledger .lg-feat,.vh-site.l-ledger .lg-stats,.vh-site.l-ledger .lg-quote{border-top:0}
 .vh-site.l-ledger .lg-cta{position:relative;overflow:hidden;border-top:0;min-height:70vh;display:grid;place-items:center}
@@ -399,3 +404,10 @@
 @media (prefers-reduced-motion:reduce){.lg-hero-still{animation:none}.lg-quiet{height:auto}.lg-quiet-pin{position:relative}}
 .vh-site.l-ledger .lg-hero-copy h1{font-size:clamp(46px,6.6vw,104px)}
 @media (prefers-reduced-motion:reduce){.canto-hero-still{animation:none}}
+@media (prefers-reduced-motion:reduce){
+  .vh-site.hav .hav-hero{height:auto}
+  .hav-hero-pin{position:relative;height:auto;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px var(--pad) 10vh}
+  .vh-site.hav .hav-hero-copy{position:relative;left:auto;bottom:auto;opacity:1;transform:none}
+  .hav-hero-state{position:relative;left:auto;bottom:auto;margin-top:6vh;opacity:1;filter:none;transform:none}
+  .vh-site.hav .hav-hero-vid{transform:none}.hav-haze{display:none}
+}

@@ -47,10 +47,6 @@
 .ab-ghost { padding: 15px 6px; color: var(--ivory); text-decoration: none; font: 600 14px "Outfit", sans-serif; border-bottom: 1px solid rgba(237, 230, 216, 0.35); text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8); }
 .ab-ghost:active { transform: translateY(2px); }
 
-/* герой мира уходит из-под текста в правую треть (midPos по X не работает на 16:10 — двигаем картинку) */
-.ab [data-scene="forecourt"] .rl-mid img { translate: 30vw 1vh; }
-.ab [data-scene="colonnade"] .rl-mid img { translate: 16vw 0; }
-.ab [data-scene="brinepool"] .rl-mid img { translate: 12vw 2vh; scale: 0.86; }
 /* плита идола с леттербокс-полосой сверху — чуть крупнее и ниже, полоса уходит за кадр */
 .ab [data-scene="idol"] .rl-bg { background-size: auto 116%; background-position: 50% 85%; }
 /* у идола копи справа: лицо и глаз в центре кадра свободны; локальный скрим вместо карточки */

@@ -16,7 +16,7 @@ const DOME = { x: 71, y: 66.5 }; // купол на холме (s1-bg)
 const EYEPIECE = { x: 84, y: 75.5 }; // окуляр латунного телескопа (s2-bg)
 
 const scenes: ReelScene[] = [
-  { id: "hilltop", dark: true, len: 1.05, hold: 0.5, bg: `${A}/s1-bg.webp`, fg: `${A}/s1-fg.webp`, copy: (
+  { id: "hilltop", dark: true, len: 1.05, hold: 0.5, fgMask: [66, 84], bg: `${A}/s1-bg.webp`, fg: `${A}/s1-fg.webp`, copy: (
     <>
       <span className="as-eyebrow">Dark-sky observatory &amp; stargazing retreat</span>
       <h1>Come this<br />close to <em>the stars.</em></h1>
@@ -99,6 +99,7 @@ export function Aster() {
         { at: reelMark("s1"), pose: { x: EYEPIECE.x, y: EYEPIECE.y, s: 0.5, o: 1 } },
         { at: reelMark("t1"), pose: { x: EYEPIECE.x, y: EYEPIECE.y, s: 7, o: 0 } },
         { at: reelMark("s2"), pose: { x: 64, y: 50, s: 4.6, o: 0.5 } },
+        { at: reelMark("h2"), pose: { x: 63, y: 49, s: 4.8, o: 0.5 } },
         { at: reelMark("t2"), pose: { x: 60, y: 44, s: 9, o: 0 } },
         { at: ".as-manifest", pose: { x: 50, y: 50, s: 1, o: 0 } },
         { at: ".as-star:nth-of-type(1)", pose: { x: 0, y: 0, s: 1.1, o: 1, dock: true } },

@@ -37,8 +37,7 @@
 .bh [data-scene="lilypond"] .rl-mid img{
   -webkit-mask-image:radial-gradient(30% 26% at 48% 66%, #000 58%, transparent 100%);
           mask-image:radial-gradient(30% 26% at 48% 66%, #000 58%, transparent 100%);
-  -webkit-mask-composite:source-over; mask-composite:add; translate:8vw 3vh; }
-.bh [data-scene="dome"] .rl-mid img{ translate:12vw 0; scale:.92; }
+  -webkit-mask-composite:source-over; mask-composite:add; }
 /* дуга света по залам: утренний туман → тёплые орхидеи → зелёная тень пруда → небо купола */
 .bh [data-scene="entry"] .rl-haze{ background:radial-gradient(90% 60% at 30% 8%, rgba(255,253,240,.5), transparent 60%), linear-gradient(180deg, transparent 55%, rgba(40,70,50,.22) 100%); }
 .bh [data-scene="orchids"] .rl-haze{ background:radial-gradient(80% 70% at 82% 12%, rgba(255,226,200,.55), transparent 62%), linear-gradient(180deg, rgba(255,236,226,.2), transparent 40%, rgba(90,40,50,.16) 100%); }
@@ -53,25 +52,14 @@
 
 /* ── АКТЁР: кованая лоза ─────────────────────────────────────────────────────────── */
 .bh-vine{ display:block; width:100%; height:auto; overflow:visible; }
-.bh-vine-stem, .bh-vine-curl{ fill:none; stroke:var(--iron); stroke-width:3; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:0; }
-.bh-vine-curl{ stroke-width:2; }
-.bh-leaf{ fill:#2f6a44; stroke:var(--iron); stroke-width:.8; }
+.bh-vine-stem, .bh-vine-curl{ fill:none; stroke:var(--iron); stroke-width:3; stroke-linecap:round; stroke-dasharray:100px; }
+/* рост пишет <Follow>: --grow 0..1 (без JS — лоза уже выросла), завитки и листья — когда стебель до них дорос */
+.bh-vine-stem{ stroke-dashoffset:calc((1 - var(--grow, 1)) * 100px); }
+.bh-vine-curl{ stroke-width:2; stroke-dashoffset:calc((1 - clamp(0, calc((var(--grow, 1) - var(--c0, 0)) * 7), 1)) * 100px); }
+.bh-leaf{ fill:#2f6a44; stroke:var(--iron); stroke-width:.8; opacity:clamp(0, calc((var(--grow, 1) - var(--g, 0)) * 12), 1); }
 .bh-flower circle{ fill:var(--blush); stroke:#b0707e; stroke-width:.8; }
 .bh-flower .bh-flower-c{ fill:var(--brass); stroke:none; }
-@supports (animation-timeline: scroll()){
-  .bh-vine-stem{ animation:bh-grow linear both; animation-timeline:scroll(root); animation-range:0% 36%; }
-  .bh-vine-curl{ animation:bh-curl linear both; animation-timeline:scroll(root); animation-range:9% 13%; }
-  .bh-vine-curl-2{ animation-range:20% 24%; }
-  .bh-leaf{ animation:bh-leaf linear both; animation-timeline:scroll(root); animation-range:var(--g) calc(var(--g) + 3%); }
-  .bh-leaf-on{ animation:none; }
-  .bh-flower{ animation:bh-bloom linear both; animation-timeline:scroll(root); }
-  .bh-flower-1{ animation-range:44% 48%; } .bh-flower-2{ animation-range:54% 58%; }
-  .bh-flower-3{ animation-range:64% 68%; } .bh-flower-4{ animation-range:74% 78%; }
-}
-@keyframes bh-grow{ from{ stroke-dashoffset:.86 } to{ stroke-dashoffset:0 } }
-@keyframes bh-curl{ from{ stroke-dashoffset:1 } to{ stroke-dashoffset:0 } }
-@keyframes bh-leaf{ from{ opacity:0 } to{ opacity:1 } }
-@keyframes bh-bloom{ from{ opacity:0 } to{ opacity:1 } }
+.bh-flower{ opacity:clamp(0, calc(var(--bloom, 4) - var(--k, 0)), 1); }
 
 /* ── ЛЕНДИНГ: залы просвечивают сквозь светлую вуаль (Backdrop + --atm) ─────────────── */
 .bh-kick{ display:block; font:600 12px "Karla",system-ui,sans-serif; letter-spacing:.2em; text-transform:uppercase; color:#8a5f18; }

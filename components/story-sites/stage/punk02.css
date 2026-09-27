@@ -133,6 +133,9 @@
   .pk-mani-type,.pk-final-type{padding:0 5vw 30vh}
   .pk-mani-type .kt{font-size:8.4vw}.pk-final-type .kt,.pk-mark-big{font-size:10vw}
   .pk-star-final{left:auto;right:8vw}
+  /* текст поверх фигуры: строки на бумажных полосах (ransom-note), «BUILD» не тонет в чёрном жакете */
+  .pk-cover-hi h1 .kt,.pk-cover-hi h1 em{display:table;background:var(--paper);box-shadow:0 0 0 5px var(--paper);margin-bottom:6px}
+  .pk-cover-hi p{background:rgba(244,242,236,.9);box-shadow:0 0 0 6px rgba(244,242,236,.9)}
   .pk-o b{font-size:34px}.pk-o-tag{display:none}
   .pk-pod-fig .ps-media{width:78vw;height:40vh;transform:translateX(0) rotate(-3deg)}
   .pk-pod-cap{margin-left:0;max-width:none;padding:0 5vw;justify-content:flex-end;padding-bottom:8vh}

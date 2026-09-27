@@ -6,6 +6,9 @@
 .cv-site{--bg:#0c0607;--panel:#180a0b;--crimson:#9a1620;--red-hi:#d02a36;--leaf:#7a1414;--bone:#e6d6d0;--mut:#9a7a78;--gold:#e0b060;
   position:fixed;inset:0;background:var(--bg);color:var(--bone);font-family:"Chivo",system-ui,sans-serif;overflow:hidden}
 
+/* фон деке — багровая тень вместо чистого чёрного */
+.cv-site .stage{background:#170909}
+
 .cv-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .cv-head a{pointer-events:auto}
 .cv-brand{font:400 22px/1 "Gilda Display",serif;letter-spacing:.08em;color:var(--bone);text-decoration:none}

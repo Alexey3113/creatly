@@ -6,6 +6,9 @@
 .cr-site{--bg:#08090b;--panel:#111318;--steel:#c8cdd3;--chrome:#eef2f6;--lime:#c6ff2e;--mut:#80868c;
   position:fixed;inset:0;background:var(--bg);color:var(--chrome);font-family:"Space Grotesk",system-ui,sans-serif;overflow:hidden}
 
+/* фон деке — графит вместо чистого чёрного */
+.cr-site .stage{background:#14161a}
+
 .cr-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .cr-head a{pointer-events:auto}
 .cr-brand{font:400 16px/1 "Michroma",sans-serif;letter-spacing:.06em;color:var(--chrome);text-decoration:none}

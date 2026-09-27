@@ -6,7 +6,7 @@
    все залы и закручивается кольцом у купола; в лендинге остаётся на поле страницы и распускается к CTA.
    Акварель на белой бумаге: fg/mid смешиваются multiply — белые плашки вырезок исчезают. */
 import { Reel, reelMark, type ReelScene } from "../reel";
-import { Actor, Weather, Atmosphere, Backdrop } from "@/components/scene-kit";
+import { Actor, Weather, Atmosphere, Backdrop, Follow } from "@/components/scene-kit";
 import { FontLinks } from "@/components/shared/FontLinks";
 import "./bloomhouse.css";
 
@@ -24,11 +24,11 @@ const scenes: ReelScene[] = [
     <><span className="bh-idx">— 02 · the orchid hall</span><h2>Orchid Hall</h2>
       <p>Tiered blooms climb the brass trellises in blush and ivory, warmed by glass overhead. Even in January, it is midsummer in here.</p></>
   ) },
-  { id: "lilypond", into: "flythrough", bg: `${A}/s3-bg.webp`, mid: `${A}/s3-mid.webp`, fg: `${A}/s3-fg.webp`, copy: (
+  { id: "lilypond", into: "flythrough", midShift: 8, bg: `${A}/s3-bg.webp`, mid: `${A}/s3-mid.webp`, fg: `${A}/s3-fg.webp`, copy: (
     <><span className="bh-idx">— 03 · the lily pond</span><h2>The Lily Pond</h2>
       <p>Giant pads rest on still green water beneath a stone footbridge, koi moving like shadows under the glass.</p></>
   ) },
-  { id: "dome", into: "portal", portal: { x: 50, y: 6 }, len: 1.2, hold: 0.6, bg: `${A}/s4-bg.webp`, mid: `${A}/s4-mid.webp`, fg: `${A}/s4-fg.webp`,
+  { id: "dome", into: "portal", portal: { x: 50, y: 6 }, len: 1.2, hold: 0.6, midShift: 12, midScale: 0.92, bg: `${A}/s4-bg.webp`, mid: `${A}/s4-mid.webp`, fg: `${A}/s4-fg.webp`,
     freeze: (<div className="bh-freeze"><b>21 m</b><span>up, to the last iron ring</span></div>), copy: (
     <><span className="bh-idx">— 04 · the dome</span><h2>The Dome</h2>
       <p>Vines climb the last iron ring to an open crown of sky. Every arch in the house has been leading here.</p></>
@@ -87,7 +87,13 @@ export function Bloomhouse() {
       ]} />
       <Weather kind="petals" count={14} color="#f0b8c6" color2="#fbeef0" between={[reelMark("t0"), ".bh-deal"]} world={0.55} zIndex={31} />
 
-      {/* КОВАНАЯ ЛОЗА — растёт вверх по полю кадра (scroll-timeline в css; без поддержки — уже выросла) */}
+      {/* КОВАНАЯ ЛОЗА — растёт вверх по полю кадра: --grow (доля стебля) по залам рила, --bloom (цветы) по лендингу */}
+      <Follow target=".bh-vine" stops={[
+        { at: reelMark("a0"), vars: { "--grow": 0.14, "--bloom": 0 } }, { at: reelMark("s1"), vars: { "--grow": 0.42, "--bloom": 0 } },
+        { at: reelMark("s2"), vars: { "--grow": 0.7, "--bloom": 0 } }, { at: reelMark("s3"), vars: { "--grow": 1, "--bloom": 0 } },
+        { at: ".bh-climb", vars: { "--grow": 1, "--bloom": 0.6 } }, { at: ".bh-split", vars: { "--grow": 1, "--bloom": 1.6 } },
+        { at: ".bh-panes", vars: { "--grow": 1, "--bloom": 2.6 } }, { at: ".bh-deal", vars: { "--grow": 1, "--bloom": 4 } },
+      ]} />
       <Actor className="bh-vine-actor" width="8.5vw" zIndex={33} bob={0} tilt={0.03} stops={[
         { at: reelMark("s0"), pose: { x: 3.4, y: 52, s: 1, o: 1 } },
         { at: reelMark("t0"), pose: { x: 3.4, y: 56, s: 1, o: 1 } },
@@ -98,20 +104,17 @@ export function Bloomhouse() {
         { at: ".bh-deal-card", anchor: 0.5, pose: { x: -7, y: 50, s: 0.66, o: 1, dock: true } },
         { at: ".bh-climax", pose: { x: 3.2, y: 40, s: 0.9, o: 0 } },
       ]}>
-        <svg className="bh-vine" viewBox="0 0 120 1000" aria-hidden>
-          <path className="bh-vine-stem" pathLength={1} d="M60,1010 C22,930 96,850 58,760 S20,580 60,470 S104,300 62,200 C34,140 38,70 70,52 C96,40 104,76 86,86 C72,94 62,78 72,70" />
-          <path className="bh-vine-curl" pathLength={1} d="M58,760 c-26,-8 -40,-34 -22,-48 c12,-9 24,2 15,12" />
-          <path className="bh-vine-curl bh-vine-curl-2" pathLength={1} d="M62,420 c26,-10 40,-36 22,-50 c-12,-9 -24,2 -15,12" />
-          {LEAVES.map(([x, y, r, g], i) => {
-            /* стебель уже пророс на 14% и дорастает к 36% скролла — лист раскрывается, когда стебель до него дошёл */
-            const at = (36 * (g - 0.14)) / 0.86;
-            return (
-              <path key={i} className={at <= 0 ? "bh-leaf bh-leaf-on" : "bh-leaf"} style={{ ["--g" as string]: `${at.toFixed(1)}%` }}
-                transform={`translate(${x} ${y}) rotate(${r})`} d="M0,0 C8,-12 26,-12 34,0 C26,12 8,12 0,0 Z" />
-            );
-          })}
+        <svg className="bh-vine" viewBox="0 0 120 1000" style={{ ["--grow" as string]: 0.14, ["--bloom" as string]: 0 }} aria-hidden>
+          <path className="bh-vine-stem" pathLength={100} d="M60,1010 C22,930 96,850 58,760 S20,580 60,470 S104,300 62,200 C34,140 38,70 70,52 C96,40 104,76 86,86 C72,94 62,78 72,70" />
+          <path className="bh-vine-curl" style={{ ["--c0" as string]: 0.3 }} pathLength={100} d="M58,760 c-26,-8 -40,-34 -22,-48 c12,-9 24,2 15,12" />
+          <path className="bh-vine-curl" style={{ ["--c0" as string]: 0.62 }} pathLength={100} d="M62,420 c26,-10 40,-36 22,-50 c-12,-9 -24,2 -15,12" />
+          {LEAVES.map(([x, y, r, g], i) => (
+            /* лист раскрывается, когда стебель (--grow) до него дорос */
+            <path key={i} className="bh-leaf" style={{ ["--g" as string]: g }}
+              transform={`translate(${x} ${y}) rotate(${r})`} d="M0,0 C8,-12 26,-12 34,0 C26,12 8,12 0,0 Z" />
+          ))}
           {FLOWERS.map(([x, y, k]) => (
-            <g key={k} className={`bh-flower bh-flower-${k + 1}`} transform={`translate(${x} ${y})`}>
+            <g key={k} className="bh-flower" style={{ ["--k" as string]: k }} transform={`translate(${x} ${y})`}>
               <circle r="9" /><circle className="bh-flower-c" r="3.5" />
             </g>
           ))}

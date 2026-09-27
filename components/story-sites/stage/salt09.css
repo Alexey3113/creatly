@@ -88,7 +88,7 @@
 .sl-relic-cap h3{margin:6px 0 12px;font:700 clamp(40px,6vw,104px)/.86 "UnifrakturCook",cursive;color:var(--bone)}
 .sl-relic-cap p{margin:0;max-width:40ch;font:400 16px/1.55 "Barlow Condensed",sans-serif;color:#d2c7b6}
 .sl-relic-band{position:absolute;left:0;right:0;top:auto;bottom:0;height:46vh;z-index:2;overflow:hidden;border-top:1px solid rgba(212,122,30,.4)}
-.sl-relic-band .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:sepia(.15) contrast(1.05)}
+.sl-relic-band .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:sepia(.15) contrast(1.05)}
 .sl-relic-marks{position:absolute;right:12px;bottom:10px;z-index:3;font:500 11px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:rgba(22,15,11,.7);padding:4px 8px}
 
 /* 4 · RELIQUARY — веер; пластина iii прямая и сверху: в неё садится реликвия из S4 (без скачка поворота/кропа/грейда) */

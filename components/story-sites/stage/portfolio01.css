@@ -149,7 +149,7 @@
 /* ===== мобилка ===== */
 @media(max-width:900px){
   .pf-cover-fig .ps-media{height:82vh}
-  .pf-wordmark .kt{font-size:34vw}
+  .pf-wordmark{place-items:start center;padding-top:10vh}.pf-wordmark .kt{font-size:21vw}
   .pf-cover-hi{padding:0 5vw 13vh}
   .pf-fore-orb{transform:translate(10vw,24vh);width:70vw;height:70vw}
   .pf-side-fig .ps-media{width:82vw;height:44vh;transform:translateX(0)}
@@ -158,12 +158,12 @@
   .pf-contact-strip{flex-wrap:wrap;height:auto;top:20vh;bottom:8vh;transform:none}
   .pf-neg{flex:1 1 44%;min-height:22vh}
   .pf-side-cap h2,.pf-guillo-type .kt{text-align:left}
-  .pf-cover-script{right:5vw;bottom:auto;top:15vh;font-size:22px}
+  .pf-cover-script{display:none}
   .pf-guillo-fig .ps-media{left:auto;right:-38vw;height:112vh}
   .pf-guillo-type .kt{font-size:17vw}
   .pf-loupe{left:6vw;width:88vw;top:calc(43% - 15vh);height:30vh}
   .pf-mono-print{right:6vw;bottom:22vh;width:26vw}
-  .pf-final-fig .ps-media{height:70vh;transform:translateX(18vw);opacity:.9}
-  .pf-final-type{padding:0 0 30vh 6vw}.pf-final-type .kt{font-size:11vw}
+  .pf-final-fig .ps-media{height:56vh;transform:translateX(26vw)}
+  .pf-final-type{padding:0 0 38vh 6vw}.pf-final-type .kt{font-size:9.4vw}
   .pf-site .stage[data-trans="iris"] .is-entering{clip-path:circle(calc(var(--sp)*160%) at 74% 36%)}
 }

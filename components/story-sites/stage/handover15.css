@@ -27,7 +27,7 @@
    входящей растворён (шов не режет), к концу маска полностью непрозрачна (нет щелчка при смене класса). */
 .hv-site .stage[data-trans="hv-descend"] .is-entering{transform:translateY(calc((1 - var(--sp))*100%));
   -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,var(--sp)) 0,#000 16vh);mask-image:linear-gradient(180deg,rgba(0,0,0,var(--sp)) 0,#000 16vh)}
-.hv-site .stage[data-trans="hv-descend"] .is-leaving{transform:translateY(calc(var(--ep)*-100%));opacity:1}
+.hv-site .stage[data-trans="hv-descend"] .is-leaving{transform:translateY(calc(var(--ep)*-70%));opacity:1}
 @media(prefers-reduced-motion:reduce){.hv-site .stage .stage-scene{-webkit-mask-image:none!important;mask-image:none!important}.hv-canvas img{translate:none!important}}
 
 /* ОДИН ХОЛСТ (extra-3, 1536×2752): ширина --Wc, три вида (A колесница, B мантия, C пророк). Картинка каждой
@@ -54,7 +54,7 @@
 /* 0 · COVER (full-bleed кадр + ОДИН вордмарк) */
 .hv-cover-bg{position:absolute;inset:0;z-index:0;background:#150e05}
 .hv-cover-fig{z-index:1}
-.hv-cover-fig .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 34%;filter:contrast(1.05) saturate(1.08)}
+.hv-cover-fig .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 34%;filter:contrast(1.05) saturate(1.08)}
 .hv-cover-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,rgba(21,14,5,.9),rgba(21,14,5,.12) 44%,rgba(21,14,5,.4))}
 .hv-wordmark{display:grid;place-items:center;align-content:center;pointer-events:none}
 .hv-wordmark h1{margin:0;font:400 clamp(70px,20vw,320px)/.86 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream);
@@ -78,7 +78,7 @@
 /* 4 · RELIC — песок: полоса-кадр у левого края, подпись справа; фон теплее прежнего */
 .hv-relic-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(100deg,#2a1c0a 30%,#4a3214)}
 .hv-relic-strip{position:absolute;left:0;top:0;bottom:0;width:38vw;z-index:2;overflow:hidden}
-.hv-relic-strip .ps-media{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.05)}
+.hv-relic-strip .ps-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:contrast(1.05)}
 .hv-relic-huge{position:absolute;right:5vw;top:8vh;z-index:1;font:400 52vh "Bebas Neue",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(242,198,90,.22);pointer-events:none}
 .hv-relic-cap{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 6vw 0 46vw;max-width:none}
 .hv-relic-cap h3{margin:6px 0 14px;font:400 clamp(48px,7vw,120px)/.86 "Bebas Neue",sans-serif;letter-spacing:.02em;color:var(--cream)}

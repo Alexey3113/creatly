@@ -7,7 +7,7 @@
    и по маршруту лендинга; гирлянда фонарей висит по верху кадра, фонари зажигаются по одному,
    в лендинге остаётся кромкой и ложится на карточку цены. */
 import { Reel, reelMark, type ReelScene } from "../reel";
-import { Actor, Weather, Atmosphere, Backdrop } from "@/components/scene-kit";
+import { Actor, Weather, Atmosphere, Backdrop, Follow } from "@/components/scene-kit";
 import { FontLinks } from "@/components/shared/FontLinks";
 import "./bazaar.css";
 
@@ -47,6 +47,7 @@ const scenes: ReelScene[] = [
     dark: true,
     into: "portal",
     portal: GATE,
+    fgLift: 13,
     bg: `${A}/s2-bg.webp`,
     fg: `${A}/s2-fg.webp`,
     copy: (
@@ -67,6 +68,8 @@ const scenes: ReelScene[] = [
     len: 1.25,
     hold: 0.55,
     spark: 6,
+    midShift: 16,
+    midScale: 0.9,
     bg: `${A}/s3-bg.webp`,
     mid: `${A}/s3-mid.webp`,
     fg: `${A}/s3-fg.webp`,
@@ -197,7 +200,12 @@ export function Bazaar() {
       <Weather kind="embers" count={16} color="#ffb02a" color2="#ff7a3a" between={[reelMark("t0"), reelMark("t2")]} world={0.6} zIndex={31} />
       <Weather kind="stars" count={46} color="#f2e6c8" between={[reelMark("t2"), ".bz-foot"]} world={0.15} zIndex={6} seed={11} />
 
-      {/* ГИРЛЯНДА — кромка кадра через весь сайт; фонари зажигаются по одному (scroll-timeline в css) */}
+      {/* ГИРЛЯНДА — кромка кадра через весь сайт; фонари зажигаются по одному: --lit (сколько горит) по якорям рила */}
+      <Follow target=".bz-garland" stops={[
+        { at: reelMark("a0"), vars: { "--lit": 1.2 } }, { at: reelMark("h0"), vars: { "--lit": 2.4 } },
+        { at: reelMark("s1"), vars: { "--lit": 4 } }, { at: reelMark("s2"), vars: { "--lit": 6.6 } },
+        { at: reelMark("s3"), vars: { "--lit": 9 } },
+      ]} />
       <Actor
         className="bz-garland-actor"
         width="100vw"
@@ -214,13 +222,14 @@ export function Bazaar() {
           { at: ".bz-climax", pose: { x: 50, y: 6, s: 0.9, o: 0 } },
         ]}
       >
-        <svg className="bz-garland" viewBox="0 0 1000 80" aria-hidden>
+        <svg className="bz-garland" viewBox="0 0 1000 80" style={{ ["--lit" as string]: 1.2 }} aria-hidden>
           <path d="M-10,4 Q500,60 1010,4" />
           {LANTERNS.map(({ x, y, i }) => (
-            <g key={i} className={`bz-lan bz-lan-${i + 1}`} transform={`translate(${x} ${y})`}>
+            <g key={i} className="bz-lan" style={{ ["--k" as string]: i }} transform={`translate(${x} ${y})`}>
               <line x1="0" y1="0" x2="0" y2="8" />
               <circle className="bz-lan-glow" cx="0" cy="22" r="17" />
               <path className="bz-lan-body" d="M-6,8 h12 l3,6 v14 l-3,6 h-12 l-3,-6 v-14 z" />
+              <path className="bz-lan-lit" d="M-6,8 h12 l3,6 v14 l-3,6 h-12 l-3,-6 v-14 z" />
               <rect className="bz-lan-cap" x="-4" y="34" width="8" height="3" rx="1" />
             </g>
           ))}
@@ -240,6 +249,7 @@ export function Bazaar() {
           { at: reelMark("s1"), pose: { x: 64, y: 84, s: 0.8, o: 1 } },
           { at: reelMark("t1"), pose: { x: 82, y: 104, s: 1.7, o: 0, blur: 6 } },
           { at: reelMark("s2"), pose: { x: 28, y: 82, s: 0.78, o: 1 } },
+          { at: reelMark("h2"), pose: { x: 31, y: 82, s: 0.78, o: 1 } },
           { at: reelMark("t2"), pose: { x: 50, y: 81, s: 0.72, o: 1 } },
           { at: reelMark("s3"), pose: { x: 66, y: 79, s: 0.6, o: 1 } },
           { at: reelMark("end"), pose: { x: 76, y: 74, s: 0.42, o: 1 } },

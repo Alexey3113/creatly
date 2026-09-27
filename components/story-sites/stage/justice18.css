@@ -6,6 +6,9 @@
 .js-site{--bg:#0a0708;--panel:#160a0c;--red:#a81620;--red-hi:#e0303c;--bone:#ece2d4;--gold:#d8ae52;--mut:#8e7c72;
   position:fixed;inset:0;background:var(--bg);color:var(--bone);font-family:"Petrona",Georgia,serif;overflow:hidden}
 
+/* фон деке — тёплая тень вместо чёрного: тёплые финальные склейки не проваливаются в чёрное */
+.js-site .stage{background:#1e0e07}
+
 .js-head{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 4vw;pointer-events:none}
 .js-head a{pointer-events:auto}
 .js-brand{font:600 22px/1 "Petrona",serif;letter-spacing:.14em;color:var(--bone);text-decoration:none}

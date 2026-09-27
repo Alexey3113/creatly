@@ -38,10 +38,8 @@
 .bz [data-scene="gate"] .rl-world{ transform:scaleX(-1); }
 /* пряный ряд на плите почти дневной — уводим в ночь под фонарями */
 .bz [data-scene="spice"] .rl-bg{ filter:brightness(.6) saturate(1.18) contrast(1.05); }
-.bz [data-scene="spice"] .rl-fg img{ translate:0 14%; }
 .bz [data-scene="spice"] .rl-haze{ background:linear-gradient(180deg, rgba(18,20,58,.62) 0, rgba(18,20,58,.2) 42%, transparent 60%, rgba(10,4,10,.5) 100%); }
 /* ковровая палатка майдана — из-под копи вправо */
-.bz [data-scene="square"] .rl-mid img{ translate:15vw 2vh; scale:.9; }
 /* стоп-кадр майдана */
 .bz-freeze{ display:grid; gap:6px; justify-items:end; text-shadow:0 2px 26px rgba(20,6,16,.95); }
 .bz-freeze b{ font:700 clamp(64px,8vw,120px)/.9 "Cinzel",serif; color:var(--cta); }
@@ -52,20 +50,13 @@
 .bz-garland > path{ fill:none; stroke:rgba(40,16,12,.85); stroke-width:1.6; }
 .bz-lan line{ stroke:rgba(40,16,12,.9); stroke-width:1.2; }
 .bz-lan-glow{ fill:rgba(255,176,42,.42); filter:blur(5px); }
-.bz-lan-body{ fill:#ffb02a; stroke:#5a2a0c; stroke-width:1.2; }
 .bz-lan-cap{ fill:#5a2a0c; }
-.bz-lan:nth-child(3n+2) .bz-lan-body{ fill:#ff8a3a; }
-.bz-lan:nth-child(3n+3) .bz-lan-body{ fill:#ffd06a; }
-/* фонари зажигаются по одному по ходу скролла (где scroll-timeline нет — горят сразу) */
-@supports (animation-timeline: scroll()){
-  .bz-lan-glow{ animation:bz-glow linear both; animation-timeline:scroll(root); animation-range:var(--r0) var(--r1); }
-  .bz-lan-body{ animation:bz-body linear both; animation-timeline:scroll(root); animation-range:var(--r0) var(--r1); }
-  .bz-lan-1 .bz-lan-glow, .bz-lan-1 .bz-lan-body{ animation:none; } .bz-lan-2{ --r0:3%; --r1:5%; } .bz-lan-3{ --r0:7%; --r1:9%; }
-  .bz-lan-4{ --r0:10%; --r1:12%; } .bz-lan-5{ --r0:13%; --r1:15%; } .bz-lan-6{ --r0:16%; --r1:18%; }
-  .bz-lan-7{ --r0:19%; --r1:21%; } .bz-lan-8{ --r0:22%; --r1:24%; } .bz-lan-9{ --r0:25%; --r1:27%; }
-}
-@keyframes bz-glow{ from{ opacity:0 } to{ opacity:1 } }
-@keyframes bz-body{ from{ fill:#7a4a30 } }
+.bz-lan-lit{ fill:#ffb02a; stroke:#5a2a0c; stroke-width:1.2; }
+.bz-lan:nth-child(3n+2) .bz-lan-lit{ fill:#ff8a3a; }
+.bz-lan:nth-child(3n+3) .bz-lan-lit{ fill:#ffd06a; }
+.bz-lan-body{ fill:#7a4a30; stroke:#5a2a0c; stroke-width:1.2; }
+/* фонари зажигаются по одному: --lit пишет <Follow> по якорям рила (без JS — горят все) */
+.bz-lan-glow, .bz-lan-lit{ opacity:clamp(0, calc(var(--lit, 9) - var(--k, 0)), 1); }
 
 /* ── ЛЕНДИНГ: ночь рынка под блоками (Backdrop + --atm) ─────────────────────────────── */
 .bz-kick{ display:block; font:600 12px "Work Sans",system-ui,sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--teal-l); }
