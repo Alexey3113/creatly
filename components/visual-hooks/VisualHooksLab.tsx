@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SiteMenu } from "@/components/shared/SiteMenu";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ShaderImage } from "./ShaderImage";
 import { DepthParallax } from "./DepthParallax";
@@ -1311,12 +1312,14 @@ function Gallery() {
     return () => removeEventListener("scroll", onScroll);
   }, []);
   return (
+    <>
+    <SiteMenu variant="bar" />
     <main className="vh-gallery">
       <section ref={cover} className="vh-cover">
         <div className="cv-grain" />
         <header className="cv-head">
           <Link href="/visual-hooks" className="cv-mark"><span>CR</span>Visual Hooks Lab</Link>
-          <nav><a href="#experiments">Experiments</a><Link href="/visual-hooks/animated">Animated sites</Link><Link href="/visual-hooks/sites">Business sites</Link><a href="#manifesto">Manifesto</a><span>{scenes.length} first screens</span></nav>
+          <nav><a href="#experiments">Experiments</a><a href="#manifesto">Manifesto</a><span>{scenes.length} first screens</span></nav>
         </header>
         <p className="cv-tag">SOME FIRST SCREENS FORGET TO BLINK<br />ONLY MOTION REMEMBERS WHAT THEY PROMISED</p>
         <span className="cv-star a">✦</span><span className="cv-star b">✦</span><span className="cv-star c">✦</span>
@@ -1368,6 +1371,7 @@ function Gallery() {
       </section>
       <footer id="manifesto"><b>CREATLY / VISUAL HOOKS LAB</b><span>Temporary media will be replaced through the Higgsfield pipeline.</span><a href="#top">Back to top ↑</a></footer>
     </main>
+    </>
   );
 }
 

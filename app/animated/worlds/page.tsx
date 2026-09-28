@@ -1,6 +1,7 @@
 /* ГАЛЕРЕЯ 30 миров — единая витрина иллюстрированных кино-скроллителлинг-лендингов.
    Данные из scripts/animated/worlds.ts; превью — s1-bg.webp каждого мира; ссылка → /animated/w-<slug>. */
 import Link from "next/link";
+import { SiteMenu } from "@/components/shared/SiteMenu";
 import { WORLDS } from "@/scripts/animated/worlds";
 import "./worlds.css";
 
@@ -8,6 +9,8 @@ const hex = (s: string) => (s.match(/#[0-9a-fA-F]{3,8}/)?.[0] ?? "#888");
 
 export default function WorldsGallery() {
   return (
+    <>
+    <SiteMenu variant="bar" />
     <div className="wg">
       <header className="wg-head">
         <span className="wg-kick">Creatly · Animated</span>
@@ -31,5 +34,6 @@ export default function WorldsGallery() {
       </div>
       <footer className="wg-foot">Creatly · 30 illustrated worlds · a shared reel, thirty stories</footer>
     </div>
+    </>
   );
 }

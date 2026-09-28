@@ -14,6 +14,7 @@
  */
 
 import Image from "next/image";
+import { SiteMenu } from "@/components/shared/SiteMenu";
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Reel, reelMark, type ReelScene } from "@/components/animated-sites/model/reel";
@@ -163,11 +164,8 @@ export function LandingClient() {
 
       <header className="cl-head">
         <a className="cl-logo" href="#top">Creatly</a>
-        <nav className="cl-nav" aria-label="Разделы">
-          <a href="#how">Как ставим</a>
-          <a href="#showcase">Витрины</a>
-          <a href="/auth">Войти</a>
-        </nav>
+        {/* главное меню: вкладки семейств сайтов с панелями-списками (телефон — бургер) */}
+        <SiteMenu variant="inline" tail={<a href="/auth">Войти</a>} />
         <a className="cl-btn cl-btn--sm" href="/dashboard">Собрать сайт</a>
       </header>
 

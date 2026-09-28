@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { SiteMenu } from "@/components/shared/SiteMenu";
 
 type Site = { slug: string; brand: string; niche: string; img: string; accent: string };
 
@@ -33,6 +34,8 @@ const SITES: Site[] = [
 
 export function AnimatedIndex() {
   return (
+    <>
+    <SiteMenu variant="bar" />
     <div className="vh-sindex ai-index">
       <header className="sx-head">
         <Link href="/visual-hooks" className="sx-brand"><span>CR</span><b>Visual Hooks · Animated concepts</b></Link>
@@ -52,5 +55,6 @@ export function AnimatedIndex() {
       </div>
       <footer className="sx-foot"><span>A Visual Hooks concept library — animated series</span><Link href="/visual-hooks">Back to the lab</Link></footer>
     </div>
+    </>
   );
 }

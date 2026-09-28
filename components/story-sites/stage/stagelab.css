@@ -1,20 +1,20 @@
 /* STORY v2 — галерея-реестр кино-историй */
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@400;600;800&display=swap');
 
-.sl-index{min-height:100dvh;background:radial-gradient(120% 90% at 50% -10%,#241019,#0c0709 70%);color:#f2e4dc;padding:8vh 6vw 12vh;font-family:"Manrope",system-ui,sans-serif}
-.sl-head{max-width:900px;margin:0 auto 6vh}
-.sl-kicker{font:600 12px "Manrope",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#e08aa0}
-.sl-head h1{margin:14px 0 10px;font:400 clamp(44px,8vw,116px)/.92 "Anton",sans-serif;letter-spacing:.01em;text-transform:uppercase}
-.sl-head p{margin:0;max-width:56ch;font:400 16px/1.6 "Manrope",sans-serif;color:#c9aeb8}
-.sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto}
-.sl-card{position:relative;overflow:hidden;border-radius:6px;border:1px solid rgba(224,138,160,.2);background:var(--b,#1c0f16);text-decoration:none;color:inherit;aspect-ratio:4/5;display:block;transition:transform .4s,border-color .4s}
-.sl-card:hover{transform:translateY(-4px);border-color:var(--c,#e08aa0)}
-.sl-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82;transition:transform .6s,opacity .4s}
-.sl-card:hover img{transform:scale(1.05);opacity:1}
-.sl-card-body{position:absolute;left:0;right:0;bottom:0;padding:20px 18px 16px;background:linear-gradient(0deg,rgba(12,7,9,.92),transparent);z-index:2}
-.sl-card-body b{display:block;font:400 clamp(26px,3vw,40px)/1 "Anton",sans-serif;letter-spacing:.01em;text-transform:uppercase;color:var(--c,#fff)}
-.sl-card-body span{display:block;margin:4px 0 6px;font:600 12px "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#f2e4dc}
-.sl-card-body em{font:italic 400 14px/1.4 "Cormorant Garamond",serif;color:#c9aeb8}
-.sl-soon{display:grid;place-items:center;aspect-ratio:4/5;border:1px dashed rgba(224,138,160,.24);border-radius:6px;text-align:center}
-.sl-soon span{font:600 12px/1.7 "Manrope",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6e5058}
-@media(max-width:640px){.sl-index{padding:6vh 5vw 10vh}}
+.slx-index{min-height:100dvh;background:radial-gradient(120% 90% at 50% -10%,#241019,#0c0709 70%);color:#f2e4dc;padding:8vh 6vw 12vh;font-family:"Manrope",system-ui,sans-serif}
+.slx-head{max-width:900px;margin:0 auto 6vh}
+.slx-kicker{font:600 12px "Manrope",sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#e08aa0}
+.slx-head h1{margin:14px 0 10px;font:400 clamp(44px,8vw,116px)/.92 "Anton",sans-serif;letter-spacing:.01em;text-transform:uppercase}
+.slx-head p{margin:0;max-width:56ch;font:400 16px/1.6 "Manrope",sans-serif;color:#c9aeb8}
+.slx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto}
+.slx-card{position:relative;overflow:hidden;border-radius:6px;border:1px solid rgba(224,138,160,.2);background:var(--b,#1c0f16);text-decoration:none;color:inherit;aspect-ratio:4/5;display:block;transition:transform .4s,border-color .4s}
+.slx-card:hover{transform:translateY(-4px);border-color:var(--c,#e08aa0)}
+.slx-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82;transition:transform .6s,opacity .4s}
+.slx-card:hover img{transform:scale(1.05);opacity:1}
+.slx-card-body{position:absolute;left:0;right:0;bottom:0;padding:20px 18px 16px;background:linear-gradient(0deg,rgba(12,7,9,.92),transparent);z-index:2}
+.slx-card-body b{display:block;font:400 clamp(26px,3vw,40px)/1 "Anton",sans-serif;letter-spacing:.01em;text-transform:uppercase;color:var(--c,#fff)}
+.slx-card-body span{display:block;margin:4px 0 6px;font:600 12px "Manrope",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#f2e4dc}
+.slx-card-body em{font:italic 400 14px/1.4 "Cormorant Garamond",serif;color:#c9aeb8}
+.slx-soon{display:grid;place-items:center;aspect-ratio:4/5;border:1px dashed rgba(224,138,160,.24);border-radius:6px;text-align:center}
+.slx-soon span{font:600 12px/1.7 "Manrope",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#6e5058}
+@media(max-width:640px){.slx-index{padding:6vh 5vw 10vh}}

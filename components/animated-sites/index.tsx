@@ -2,6 +2,7 @@
 /* ANIMATED — реестр модуля кино-анимированных сайтов (движок ScrollStage). Растёт по мере сборки 30.
    Каждый сайт = композиция рецептов L3 + свой арт. Пока — лендинг-витрина + первые флагманы. */
 import Link from "next/link";
+import { SiteMenu } from "@/components/shared/SiteMenu";
 import { Manifesto01 } from "./sites/Manifesto01";
 import { Kinetic02 } from "./sites/Kinetic02";
 import { Ledger10 } from "./sites/Ledger10";
@@ -80,6 +81,8 @@ export function AnimatedLab({ initialSlug }: { initialSlug?: string }) {
   if (site?.Comp) return <site.Comp />;
 
   return (
+    <>
+    <SiteMenu variant="bar" />
     <main className="al-home">
       <header className="al-head">
         <span className="al-tag">CREATLY / ANIMATED</span>
@@ -114,5 +117,6 @@ export function AnimatedLab({ initialSlug }: { initialSlug?: string }) {
         </ul>
       </section>
     </main>
+    </>
   );
 }

@@ -5,6 +5,7 @@
    — shadows  : красный грандж-оккульт-зин
    — solitude : ренессанс-портрет + техно-декор
    Между разворотами — «закладки» (трэш-объекты) как контакт-CTA. */
+import { SiteMenu } from "@/components/shared/SiteMenu";
 import Link from "next/link";
 import { VisionSite } from "./VisionSite";
 import { ShadowsSite } from "./ShadowsSite";
@@ -25,6 +26,8 @@ export function StoryLab({ initialSlug }: { initialSlug?: string }) {
   if (initialSlug === "solitude") return <SolitudeSite />;
 
   return (
+    <>
+    <SiteMenu variant="bar" />
     <main className="st-index">
       <header className="st-index-head">
         <span className="st-kicker">Creatly · story</span>
@@ -44,5 +47,6 @@ export function StoryLab({ initialSlug }: { initialSlug?: string }) {
         ))}
       </div>
     </main>
+    </>
   );
 }

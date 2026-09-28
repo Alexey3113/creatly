@@ -2,6 +2,7 @@
 /* STORY v2 — кино-истории на движке StageDeck. Каждый сайт 1:1 переносит арт-дирекшн своего пина
    (analitic/pins/tatoo/story/N.jpg), затем оживает: zoom/wipe/smash-переходы, foreground/маски, 3D,
    гипер-типографика. Реестр растёт по мере сборки 21 сайта. */
+import { SiteMenu } from "@/components/shared/SiteMenu";
 import Link from "next/link";
 import { Portfolio01 } from "./Portfolio01";
 import { Punk02 } from "./Punk02";
@@ -110,18 +111,20 @@ export function StageLab({ initialSlug }: { initialSlug?: string }) {
       <Site /></>);
   }
   return (
-    <main className="sl-index">
+    <>
+    <SiteMenu variant="bar" />
+    <main className="slx-index">
       <StageFonts />
-      <header className="sl-head">
-        <span className="sl-kicker">Creatly · story v2</span>
+      <header className="slx-head">
+        <span className="slx-kicker">Creatly · story v2</span>
         <h1>Кино-истории</h1>
         <p>Один жест перелистывает сцену. Каждый сайт — арт-дирекшн своего пина, оживший в движении: zoom, wipe, smash, foreground.</p>
       </header>
-      <div className="sl-grid">
+      <div className="slx-grid">
         {SITES.map((s) => (
-          <Link key={s.slug} href={`/story2/${s.slug}`} className="sl-card" style={{ ["--c" as string]: s.accent, ["--b" as string]: s.bg }}>
+          <Link key={s.slug} href={`/story2/${s.slug}`} className="slx-card" style={{ ["--c" as string]: s.accent, ["--b" as string]: s.bg }}>
             <img src={s.hero} alt={s.who} loading="lazy" />
-            <div className="sl-card-body">
+            <div className="slx-card-body">
               <b>{s.title}</b>
               <span>{s.who}</span>
               <em>{s.note}</em>
@@ -130,5 +133,6 @@ export function StageLab({ initialSlug }: { initialSlug?: string }) {
         ))}
       </div>
     </main>
+    </>
   );
 }

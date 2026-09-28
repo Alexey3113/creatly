@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { SiteMenu } from "@/components/shared/SiteMenu";
 
 type Site = { slug: string; brand: string; niche: string; img: string };
 const SITES: Site[] = [
@@ -57,6 +58,8 @@ const SITES: Site[] = [
 
 export function SitesIndex() {
   return (
+    <>
+    <SiteMenu variant="bar" />
     <div className="vh-sindex">
       <header className="sx-head">
         <Link href="/visual-hooks" className="sx-brand"><span>CR</span><b>Visual Hooks · Business sites</b></Link>
@@ -76,5 +79,6 @@ export function SitesIndex() {
       </div>
       <footer className="sx-foot"><span>A Visual Hooks concept library</span><Link href="/visual-hooks">Back to the lab</Link></footer>
     </div>
+    </>
   );
 }
