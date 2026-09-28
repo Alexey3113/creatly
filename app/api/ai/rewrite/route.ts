@@ -3,7 +3,9 @@ import { getSession } from "@/lib/auth/session";
 import OpenAI from "openai";
 import { apiLimiter, getClientId, LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// клиент — по запросу: без OPENAI_API_KEY сборка не падает на «Collecting page data», запрос получает «AI error»
+let client: OpenAI | null = null;
+const openai = () => (client ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY }));
 
 const ACTIONS: Record<string, string> = {
   shorten: "Сократи текст в 2 раза. Оставь главную мысль, убери лишнее.",
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
   if (!instruction) return NextResponse.json({ error: "Unknown action" }, { status: 400 });
 
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await openai().chat.completions.create({
       model: process.env.OPENAI_MODEL || "gpt-4o-mini",
       messages: [
         { role: "system", content: "Ты редактор текста для сайтов. Отвечай ТОЛЬКО переписанным текстом, без объяснений и пометок." },

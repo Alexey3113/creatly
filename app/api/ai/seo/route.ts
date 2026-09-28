@@ -3,7 +3,9 @@ import { getSession } from "@/lib/auth/session";
 import OpenAI from "openai";
 import { apiLimiter, getClientId, LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// клиент — по запросу: без OPENAI_API_KEY сборка не падает на «Collecting page data», запрос получает «AI error»
+let client: OpenAI | null = null;
+const openai = () => (client ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY }));
 
 export async function POST(request: Request) {
   const session = await getSession();
@@ -33,7 +35,7 @@ export async function POST(request: Request) {
     .join("\n\n");
 
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await openai().chat.completions.create({
       model: process.env.OPENAI_MODEL || "gpt-4o-mini",
       response_format: { type: "json_object" },
       messages: [
