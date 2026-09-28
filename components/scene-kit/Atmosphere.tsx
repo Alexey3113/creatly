@@ -7,7 +7,7 @@
      Рендерится в корне сайта (корень должен быть isolation:isolate), z-index:-1 — под секциями;
      секции, где мир должен просвечивать, делают фон прозрачным/полупрозрачным. */
 import { useEffect, useRef } from "react";
-import { subscribe, smooth } from "./clock";
+import { subscribe, smooth, setStyle } from "./clock";
 import { segment, selectorCache, parseColor, mixColor } from "./anchors";
 import "./scene-kit.css";
 
@@ -30,10 +30,13 @@ export function Atmosphere({ stops, target, line = 0.5 }: { stops: AtmStop[]; ta
       const k = smooth(seg.t);
       const a = mixColor(c1[seg.a], c1[seg.b], k);
       if (a === last) return;
-      last = a;
-      host.style.setProperty("--atm", a);
-      host.style.setProperty("--atm2", mixColor(c2[seg.a], c2[seg.b], k));
-      host.style.setProperty("--atm-rgb", a.replace(/rgb\(|\)/g, "").replace(/ /g, ", "));
+      // запись — после всех чтений кадра (цвет пишется на корень сайта: инвалидация всей страницы)
+      return () => {
+        last = a;
+        host.style.setProperty("--atm", a);
+        host.style.setProperty("--atm2", mixColor(c2[seg.a], c2[seg.b], k));
+        host.style.setProperty("--atm-rgb", a.replace(/rgb\(|\)/g, "").replace(/ /g, ", "));
+      };
     });
   }, [key, target, line]);
   return <span ref={ref} hidden aria-hidden />;
@@ -76,22 +79,29 @@ export function Backdrop({
         const s = start()[0];
         if (s) { const r = s.getBoundingClientRect(); vis = smooth((vh - r.top) / (vh * 0.6)); }
       }
-      root.style.opacity = vis.toFixed(3);
-      root.style.visibility = vis < 0.01 ? "hidden" : "visible";
-      if (vis < 0.01) return;
-      const seg = segment(els(), vh, anchors, 0.5);
-      if (!seg) return;
-      const k = smooth(seg.t);
-      const drift = reduced ? 1.04 : 1.04 + ((y / vh) % 6) * 0.004;
-      layers.forEach((l, i) => {
-        const o = i === seg.a ? (seg.a === seg.b ? 1 : 1 - k) : i === seg.b ? k : 0;
-        l.style.opacity = o.toFixed(3);
-        l.style.transform = `scale(${drift.toFixed(4)})`;
-      });
+      const seg = vis < 0.01 ? null : segment(els(), vh, anchors, 0.5);
+      // запись — после всех чтений кадра. Видеопамять: слой держат только плиты, которые сейчас видны
+      // (одна, на стыке — две); остальные visibility:hidden без will-change — не растеризуются и не композятся.
+      return () => {
+        setStyle(root, "opacity", vis.toFixed(3));
+        setStyle(root, "visibility", vis < 0.01 ? "hidden" : "visible");
+        if (!seg) return;
+        const k = smooth(seg.t);
+        const drift = reduced ? 1.04 : 1.04 + ((y / vh) % 6) * 0.004;
+        layers.forEach((l, i) => {
+          const o = i === seg.a ? (seg.a === seg.b ? 1 : 1 - k) : i === seg.b ? k : 0;
+          const on = o > 0.002;
+          setStyle(l, "visibility", on ? "visible" : "hidden");
+          setStyle(l, "will-change", on ? "opacity, transform" : "auto");
+          if (!on) return;
+          setStyle(l, "opacity", o.toFixed(3));
+          setStyle(l, "transform", `scale(${drift.toFixed(4)})`);
+        });
+      };
     });
   }, [key, from]);
   return (
-    <div ref={ref} className={`sk-backdrop ${className}`} aria-hidden style={{ ["--sk-dim" as string]: dim, ["--sk-blur" as string]: `${blur}px`, ["--sk-tint" as string]: tint ?? "var(--atm, #000)" }}>
+    <div ref={ref} className={`sk-backdrop${blur > 0 ? " sk-bd-blur" : ""} ${className}`} aria-hidden style={{ ["--sk-dim" as string]: dim, ["--sk-blur" as string]: `${blur}px`, ["--sk-tint" as string]: tint ?? "var(--atm, #000)" }}>
       {plates.map((p, i) => (
         <div key={i} className="sk-bd-plate" style={{ backgroundImage: `url(${p.src})`, backgroundPosition: p.pos ?? "50% 50%", backgroundSize: p.size }} />
       ))}

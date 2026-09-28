@@ -7,9 +7,10 @@
    Контракт корня .reel: --scroll[0..1 страница] · --vel[clamp] · --px/--py[-1..1 курсор]. */
 import Lenis from "lenis";
 import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
-import { subscribe, useLenisInClock } from "@/components/scene-kit/clock";
+import { subscribe, useLenisInClock, setStyle } from "@/components/scene-kit/clock";
 
-type TrackFn = (vpProgress: number, vel: number) => void;
+/** трек читает раскладку и возвращает запись — её ScrollStage выполнит после всех чтений кадра */
+type TrackFn = (vpProgress: number, vel: number) => void | (() => void);
 type Ctx = { register: (fn: TrackFn) => () => void; reduced: boolean };
 const StageCtx = createContext<Ctx | null>(null);
 export const useStage = () => useContext(StageCtx);
@@ -38,6 +39,7 @@ export function ScrollStage({ children, className = "" }: { children: ReactNode;
     useLenisInClock(lenis);
     let lastScroll = 0, cx = 0, cy = 0, tx = 0, ty = 0;
 
+    // двухфазный подписчик: сначала все чтения (высота документа, прямоугольники треков), потом все записи
     const unsub = subscribe(({ y }) => {
       const doc = document.documentElement;
       const max = Math.max(1, doc.scrollHeight - window.innerHeight);
@@ -46,12 +48,16 @@ export function ScrollStage({ children, className = "" }: { children: ReactNode;
       lastScroll = y;
       // сглаженный курсор
       cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
-      root.style.setProperty("--scroll", s.toFixed(4));
-      root.style.setProperty("--vel", vel.toFixed(3));
-      root.style.setProperty("--px", cx.toFixed(3));
-      root.style.setProperty("--py", cy.toFixed(3));
-      // раздать прогресс трекам (каждый сам знает своё окно)
-      tracks.current.forEach((fn) => fn(s, vel));
+      // раздать прогресс трекам (каждый сам знает своё окно): чтения сейчас, записи — ниже
+      const writes: Array<() => void> = [];
+      tracks.current.forEach((fn) => { const w = fn(s, vel); if (w) writes.push(w); });
+      return () => {
+        setStyle(root, "--scroll", s.toFixed(4));
+        setStyle(root, "--vel", vel.toFixed(3));
+        setStyle(root, "--px", cx.toFixed(3));
+        setStyle(root, "--py", cy.toFixed(3));
+        for (const w of writes) w();
+      };
     });
 
     const onMove = (e: PointerEvent) => { tx = (e.clientX / window.innerWidth) * 2 - 1; ty = (e.clientY / window.innerHeight) * 2 - 1; };

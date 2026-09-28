@@ -29,7 +29,7 @@
 import { useEffect, useRef } from "react";
 import { preload } from "react-dom";
 import Lenis from "lenis";
-import { subscribe, useLenisInClock, smooth as E, win, clamp01 } from "@/components/scene-kit/clock";
+import { subscribe, useLenisInClock, setStyle, smooth as E, win, clamp01 } from "@/components/scene-kit/clock";
 import "./reel.css";
 
 export type ReelTransition = "rise" | "descend" | "ascend" | "pan" | "flythrough" | "portal" | "sweep" | "occlude" | "lightshift";
@@ -93,6 +93,7 @@ export function Reel({
   unit = 140,
   hold = 0.42,
   depth = 1,
+  vars = false,
   className = "",
 }: {
   scenes: ReelScene[];
@@ -103,6 +104,9 @@ export function Reel({
   hold?: number;
   /** множитель параллакса слоёв */
   depth?: number;
+  /** писать --rl-p / --rl-i на корень рила (прогресс для своих слоёв сайта). По умолчанию выкл.:
+      наследуемая переменная на корне — пересчёт стилей всего поддерева на каждом кадре */
+  vars?: boolean;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -187,10 +191,12 @@ export function Reel({
       const r = reel.getBoundingClientRect();
       const travel = Math.max(1, reel.offsetHeight - vh);
       const u = (clamp01(-r.top / travel)) * total;
+      // двухфазный подписчик: выше — чтение раскладки, ниже — записи (выполняются после всех чтений кадра)
+      return () => {
 
       if (cueEl) {
         const h0 = holdEnd(0);
-        cueEl.style.opacity = (1 - E(win(u, h0 * 0.45, h0 * 0.95))).toFixed(3);
+        setStyle(cueEl, "opacity", (1 - E(win(u, h0 * 0.45, h0 * 0.95))).toFixed(3));
       }
 
       for (let i = 0; i < n; i++) {
@@ -308,46 +314,45 @@ export function Reel({
         const z = Tout && tout > 0 && OUT_ON_TOP.has(Tout) ? n + 2 : i + 1;
         if (P.s.style.zIndex !== String(z)) P.s.style.zIndex = String(z);
 
-        P.s.style.transform = `translate3d(${sx.toFixed(3)}%, ${st.toFixed(3)}%, 0) scale(${ss.toFixed(4)})`;
-        P.s.style.transformOrigin = `${ox}% ${oy}%`;
-        P.s.style.opacity = so < 0.999 ? so.toFixed(3) : "";
-        P.s.style.clipPath = clip;
-        P.s.style.setProperty("-webkit-mask-image", mask || "none");
-        P.s.style.setProperty("mask-image", mask || "none");
+        setStyle(P.s, "transform", `translate3d(${sx.toFixed(3)}%, ${st.toFixed(3)}%, 0) scale(${ss.toFixed(4)})`);
+        setStyle(P.s, "transform-origin", `${ox}% ${oy}%`);
+        setStyle(P.s, "opacity", so < 0.999 ? so.toFixed(3) : "");
+        setStyle(P.s, "clip-path", clip);
+        setStyle(P.s, "-webkit-mask-image", mask || "none");
+        setStyle(P.s, "mask-image", mask || "none");
 
-        P.bg.style.transform = `translate3d(calc(${bx.toFixed(2)}vw + ${(cx * -10).toFixed(2)}px), calc(${by.toFixed(2)}vh + ${(cy * -6).toFixed(2)}px), 0) scale(${bs.toFixed(4)})`;
-        P.bg.style.opacity = bo < 0.999 ? bo.toFixed(3) : "";
-        if (P.haze) P.haze.style.opacity = bo < 0.999 ? bo.toFixed(3) : "";
-        P.bg.style.filter = bb > 0.1 ? `blur(${bb.toFixed(1)}px)` : "";
+        setStyle(P.bg, "transform", `translate3d(calc(${bx.toFixed(2)}vw + ${(cx * -10).toFixed(2)}px), calc(${by.toFixed(2)}vh + ${(cy * -6).toFixed(2)}px), 0) scale(${bs.toFixed(4)})`);
+        setStyle(P.bg, "opacity", bo < 0.999 ? bo.toFixed(3) : "");
+        if (P.haze) setStyle(P.haze, "opacity", bo < 0.999 ? bo.toFixed(3) : "");
+        setStyle(P.bg, "filter", bb > 0.1 ? `blur(${bb.toFixed(1)}px)` : "");
         if (P.mid) {
-          P.mid.style.transform = `translate3d(calc(${mxo.toFixed(2)}vw + ${(cx * -20).toFixed(2)}px), calc(${my.toFixed(2)}vh + ${(cy * -10).toFixed(2)}px), 0) scale(${ms.toFixed(4)})`;
-          P.mid.style.opacity = mo < 0.999 ? mo.toFixed(3) : "";
-          P.mid.style.filter = mb > 0.1 ? `blur(${mb.toFixed(1)}px)` : "";
+          setStyle(P.mid, "transform", `translate3d(calc(${mxo.toFixed(2)}vw + ${(cx * -20).toFixed(2)}px), calc(${my.toFixed(2)}vh + ${(cy * -10).toFixed(2)}px), 0) scale(${ms.toFixed(4)})`);
+          setStyle(P.mid, "opacity", mo < 0.999 ? mo.toFixed(3) : "");
+          setStyle(P.mid, "filter", mb > 0.1 ? `blur(${mb.toFixed(1)}px)` : "");
         }
         if (P.fg) {
-          P.fg.style.transform = `translate3d(calc(${fxo.toFixed(2)}vw + ${(cx * -34).toFixed(2)}px), calc(${fy.toFixed(2)}vh + ${(cy * -12).toFixed(2)}px), 0) scale(${fs.toFixed(4)})`;
-          P.fg.style.opacity = fo < 0.999 ? fo.toFixed(3) : "";
+          setStyle(P.fg, "transform", `translate3d(calc(${fxo.toFixed(2)}vw + ${(cx * -34).toFixed(2)}px), calc(${fy.toFixed(2)}vh + ${(cy * -12).toFixed(2)}px), 0) scale(${fs.toFixed(4)})`);
+          setStyle(P.fg, "opacity", fo < 0.999 ? fo.toFixed(3) : "");
           const fil = (fb > 0.1 ? `blur(${fb.toFixed(1)}px) ` : "") + (fl < 0.999 ? `brightness(${fl.toFixed(3)})` : "");
-          P.fg.style.filter = fil;
+          setStyle(P.fg, "filter", fil);
         }
         if (P.copy) {
           const cin = i === 0 ? 1 : E(win(tin, 0.72, 1));
           const cout = i === n - 1 ? 1 : 1 - E(win(tout, 0, 0.28));
           const co = cin * cout;
-          P.copy.style.opacity = co.toFixed(3);
-          P.copy.style.transform = `translate3d(0, ${((1 - cin) * 3 - (1 - cout) * 3).toFixed(2)}vh, 0)`;
-          P.copy.style.pointerEvents = co > 0.5 ? "" : "none";
-          P.copy.style.visibility = co < 0.01 ? "hidden" : "";
+          setStyle(P.copy, "opacity", co.toFixed(3));
+          setStyle(P.copy, "transform", `translate3d(0, ${((1 - cin) * 3 - (1 - cout) * 3).toFixed(2)}vh, 0)`);
+          setStyle(P.copy, "pointer-events", co > 0.5 ? "" : "none");
+          setStyle(P.copy, "visibility", co < 0.01 ? "hidden" : "");
         }
-        if (P.mist) P.mist.style.opacity = (mist * 0.85).toFixed(3);
+        if (P.mist) setStyle(P.mist, "opacity", (mist * 0.85).toFixed(3));
         const dk = scenes[i].dusk;
-        if (dk && duskEls[i]) duskEls[i]!.style.opacity = ((dk.to ?? 0.62) * E(win(u, U, hEnd + (i === n - 1 ? 0 : (U + L - hEnd) * 0.5)))).toFixed(3);
+        if (dk && duskEls[i]) setStyle(duskEls[i]!, "opacity", ((dk.to ?? 0.62) * E(win(u, U, hEnd + (i === n - 1 ? 0 : (U + L - hEnd) * 0.5)))).toFixed(3));
       }
       // канал прогресса для своих слоёв сайта: --rl-p (0..1 весь рил), --rl-i (индекс сцены + доля перехода)
       let ii = 0;
       for (let i = 0; i < n; i++) { if (u >= starts[i]) ii = i + (i < n - 1 ? win(u, holdEnd(i), starts[i] + lens[i]) : 0); }
-      el.style.setProperty("--rl-p", (u / total).toFixed(4));
-      el.style.setProperty("--rl-i", ii.toFixed(4));
+      if (vars) { setStyle(el, "--rl-p", (u / total).toFixed(4)); setStyle(el, "--rl-i", ii.toFixed(4)); }
 
       // ЭФФЕКТЫ ШВА: активен максимум один переход (удержания их разделяют)
       let j = -1, tj = 0;
@@ -356,23 +361,24 @@ export function Reel({
       const tint = j > 0 ? (scenes[j].tint ?? "") : "";
       const setFx = (node: HTMLElement | null, o: number, extra?: (n: HTMLElement) => void) => {
         if (!node) return;
-        node.style.opacity = o.toFixed(3);
-        node.style.visibility = o < 0.005 ? "hidden" : "visible";
-        if (o >= 0.005) { node.style.setProperty("--fx-tint", tint || ""); extra?.(node); }
+        setStyle(node, "opacity", o.toFixed(3));
+        setStyle(node, "visibility", o < 0.005 ? "hidden" : "visible");
+        if (o >= 0.005) { setStyle(node, "--fx-tint", tint || ""); extra?.(node); }
       };
       // шов спуска/подъёма: полоса (поверхность воды, облачный слой) на линии стыка
       const sm = j > 0 ? scenes[j].seam : undefined;
       setFx(fx.seam, T === "descend" || T === "ascend" ? Math.min(1, Math.sin(Math.PI * tj) * (sm?.o ?? 1.15)) : 0, (s) => {
         const y = T === "descend" ? (1 - E(tj)) * 100 : E(tj) * 100;
-        s.style.height = `${sm?.h ?? 46}vh`;
-        s.style.transform = `translate3d(0, calc(${y.toFixed(2)}vh - 50%), 0)`;
+        setStyle(s, "height", `${sm?.h ?? 46}vh`);
+        setStyle(s, "transform", `translate3d(0, calc(${y.toFixed(2)}vh - 50%), 0)`);
       });
       // луч: светящаяся полоса ведёт кромку раскрытия новой сцены
-      setFx(fx.beam, T === "sweep" ? Math.sin(Math.PI * tj) : 0, (b) => { b.style.left = `${(E(tj) * 140 - 20).toFixed(2)}%`; });
+      setFx(fx.beam, T === "sweep" ? Math.sin(Math.PI * tj) : 0, (b) => { setStyle(b, "left", `${(E(tj) * 140 - 20).toFixed(2)}%`); });
       // вспышка смены света
       setFx(fx.bloom, T === "lightshift" ? Math.sin(Math.PI * tj) * 0.85 : 0);
       // окклюзия: вуаль цвета силуэта закрывает щели на пике перекрытия
       setFx(fx.occ, T === "occlude" ? E(win(tj, 0.3, 0.46)) * (1 - E(win(tj, 0.58, 0.74))) : 0);
+          };
     });
     return () => { unsub(); useLenisInClock(null); lenis.destroy(); removeEventListener("pointermove", onMove); };
     // eslint-disable-next-line react-hooks/exhaustive-deps

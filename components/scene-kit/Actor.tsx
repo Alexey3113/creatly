@@ -5,7 +5,7 @@
    dock: поза считается ОТ ПРЯМОУГОЛЬНИКА якоря (актёр «причаливает» в блок и едет вместе с ним,
    напр. садится на карточку цены). Живость без скролла: лёгкое покачивание (bob) и крен от скорости. */
 import { useEffect, useRef } from "react";
-import { subscribe, lerp, smooth } from "./clock";
+import { subscribe, lerp, smooth, setStyle } from "./clock";
 import { segment, selectorCache } from "./anchors";
 import "./scene-kit.css";
 
@@ -101,10 +101,14 @@ export function Actor({
       const o = lerp(A.o, B.o, k);
       const bl = lerp(A.blur, B.blur, k);
       const by = reduced ? 0 : Math.sin(t / 950) * bob;
-      el.style.transform = `translate3d(${x.toFixed(3)}vw, calc(${y.toFixed(3)}vh + ${by.toFixed(2)}px), 0) translate(-50%, -50%) rotate(${r.toFixed(2)}deg) scale(${(s * fx).toFixed(4)}, ${s.toFixed(4)})`;
-      el.style.opacity = o.toFixed(3);
-      el.style.filter = bl > 0.1 ? `blur(${bl.toFixed(1)}px)` : "";
-      el.style.visibility = o < 0.01 ? "hidden" : "";
+      // запись — после всех чтений кадра (двухфазный подписчик), только изменившихся свойств
+      return () => {
+        setStyle(el, "visibility", o < 0.01 ? "hidden" : "");
+        if (o < 0.01) return;
+        setStyle(el, "transform", `translate3d(${x.toFixed(3)}vw, calc(${y.toFixed(3)}vh + ${by.toFixed(2)}px), 0) translate(-50%, -50%) rotate(${r.toFixed(2)}deg) scale(${(s * fx).toFixed(4)}, ${s.toFixed(4)})`);
+        setStyle(el, "opacity", o.toFixed(3));
+        setStyle(el, "filter", bl > 0.1 ? `blur(${bl.toFixed(1)}px)` : "");
+      };
     });
   }, [key, bob, tilt, line, curve]);
 

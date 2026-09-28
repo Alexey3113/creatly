@@ -6,6 +6,7 @@
    Всё визуальное решается в CSS от --t; JS только пишет число. */
 import { useEffect, useRef, type ReactNode, type CSSProperties } from "react";
 import { useStage } from "./ScrollStage";
+import { setStyle } from "@/components/scene-kit/clock";
 
 export function useTrack<T extends HTMLElement>(mode: "through" | "pin" = "through") {
   const ref = useRef<T>(null);
@@ -27,10 +28,12 @@ export function useTrack<T extends HTMLElement>(mode: "through" | "pin" = "throu
         const span = Math.max(1, Math.min(vh + r.height, vh - r.top + leftToScroll));
         t = Math.min(1, Math.max(0, (vh - r.top) / span));
       }
-      el.style.setProperty("--t", t.toFixed(4));
+      // запись — отдельно: ScrollStage выполнит её после чтений всех треков кадра
+      const v = t.toFixed(4);
+      return () => setStyle(el, "--t", v);
     };
     const unregister = stage.register(compute);
-    compute();
+    compute()();
     return unregister;
   }, [stage, mode]);
   return ref;

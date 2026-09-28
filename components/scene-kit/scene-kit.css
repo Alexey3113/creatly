@@ -26,8 +26,10 @@
 
 /* БЭКДРОП — плита мира под лендингом (корень сайта должен быть isolation:isolate) */
 .sk-backdrop{ position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0; visibility:hidden; overflow:hidden; }
-.sk-bd-plate{ position:absolute; inset:-4%; background-size:cover; opacity:0; will-change:opacity, transform;
-  filter:blur(var(--sk-blur, 0px)) saturate(.92); transition:none; }
+/* слой (will-change) и видимость плитам выдаёт JS — только видимой плите; фильтр — только при заданном blur:
+   фильтр на полноэкранном слое с меняющимся масштабом GPU пересчитывает каждый кадр */
+.sk-bd-plate{ position:absolute; inset:-4%; background-size:cover; opacity:0; visibility:hidden; transition:none; }
+.sk-bd-blur .sk-bd-plate{ filter:blur(var(--sk-blur, 0px)); }
 .sk-bd-veil{ position:absolute; inset:0; background:var(--sk-tint); opacity:var(--sk-dim, .5); }
 
 @media (prefers-reduced-motion:reduce){

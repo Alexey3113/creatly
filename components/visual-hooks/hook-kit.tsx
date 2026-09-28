@@ -64,9 +64,13 @@ export function useHookClock(ref: React.RefObject<HTMLElement | null>, beats: re
       // lerp ~100 мс: колесо мыши не даёт ступенек, скраб и акты идут плавно
       q = q < 0 || f.reduced ? target : q + (target - q) * Math.min(1, 0.15 * (f.dt / 16.7));
       if (Math.abs(target - q) < 3e-4) q = target;
-      set("--q", q);
-      for (const [k, a, b, lin] of beats) set(k, lin ? win(q, a, b) : smooth(win(q, a, b)));
-      tick.current?.({ q, f, el, touch, ptr, set, text });
+      // запись — после всех чтений кадра (двухфазный подписчик scene-kit)
+      const qq = q;
+      return () => {
+        set("--q", qq);
+        for (const [k, a, b, lin] of beats) set(k, lin ? win(qq, a, b) : smooth(win(qq, a, b)));
+        tick.current?.({ q: qq, f, el, touch, ptr, set, text });
+      };
     });
     return () => {
       off();

@@ -4,7 +4,7 @@
    Пишет интерполированные значения каждый кадр на цель (по умолчанию — родитель). Счётчики, высотомеры,
    положение солнца, яркость фонаря — без своих rAF в каждом сайте. */
 import { useEffect, useRef } from "react";
-import { subscribe, smooth, lerp } from "./clock";
+import { subscribe, smooth, lerp, setStyle } from "./clock";
 import { segment, selectorCache } from "./anchors";
 
 export type FollowStop = { at: string; vars: Record<string, number>; anchor?: number };
@@ -25,16 +25,19 @@ export function Follow({ stops, target, line = 0.5, unit = "", round = false, cu
     const anchors = list.map((s) => s.anchor ?? 0.5);
     const names = Array.from(new Set(list.flatMap((s) => Object.keys(s.vars))));
     const host = (target ? document.querySelector<HTMLElement>(target) : ref.current?.parentElement) ?? document.documentElement;
+    // двухфазный подписчик: чтение якорей → запись переменных после всех чтений кадра, только изменившихся
     return subscribe(({ vh }) => {
       const seg = segment(els(), vh, anchors, line);
       if (!seg) return;
       const k = curve === "linear" ? seg.t : smooth(seg.t);
-      for (const n of names) {
-        const a = list[seg.a].vars[n] ?? list[seg.b].vars[n] ?? 0;
-        const b = list[seg.b].vars[n] ?? a;
-        const v = lerp(a, b, k);
-        host.style.setProperty(n, (round ? Math.round(v).toString() : v.toFixed(3)) + unit);
-      }
+      return () => {
+        for (const n of names) {
+          const a = list[seg.a].vars[n] ?? list[seg.b].vars[n] ?? 0;
+          const b = list[seg.b].vars[n] ?? a;
+          const v = lerp(a, b, k);
+          setStyle(host, n, (round ? Math.round(v).toString() : v.toFixed(3)) + unit);
+        }
+      };
     });
   }, [key, target, line, unit, round, curve]);
   return <span ref={ref} hidden aria-hidden />;

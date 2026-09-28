@@ -4,7 +4,7 @@
    уезжает вверх — частицы тоже, ближние быстрее дальних (параллакс по глубине d). Ветер = скорость.
    Детерминированные «случайности» от индекса — без Math.random в рендере (иначе hydration-mismatch). */
 import { useEffect, useRef } from "react";
-import { subscribe, smooth } from "./clock";
+import { subscribe, smooth, setStyle } from "./clock";
 import { selectorCache } from "./anchors";
 import "./scene-kit.css";
 
@@ -87,14 +87,19 @@ export function Weather({
     const win2 = between ? selectorCache(between) : null;
     return subscribe(({ vh, vw, vy, t, dt, reduced }) => {
       if (reduced) return;
+      let vis = 1;
       if (win2) {
         const [a, b] = win2();
         const ta = a ? a.getBoundingClientRect().top : -1e9;
         const tb = b ? b.getBoundingClientRect().top : 1e9;
         // проявление, пока якорь «с» поднимается от низа экрана; угасание, пока якорь «до» уходит за верх
-        const vis = smooth((vh - ta) / (vh * 0.6)) * smooth((tb + vh * 0.2) / (vh * 0.6));
-        root.style.opacity = vis.toFixed(3);
-        root.style.visibility = vis < 0.01 ? "hidden" : "visible";
+        vis = smooth((vh - ta) / (vh * 0.6)) * smooth((tb + vh * 0.2) / (vh * 0.6));
+      }
+      // запись — после всех чтений кадра (двухфазный подписчик)
+      return () => {
+      if (win2) {
+        setStyle(root, "opacity", vis.toFixed(3));
+        setStyle(root, "visibility", vis < 0.01 ? "hidden" : "visible");
         if (vis < 0.01) return;
       }
       const k = dt / 16.7;
@@ -115,6 +120,7 @@ export function Weather({
         n.style.transform = `translate3d(${(p.x * vw).toFixed(1)}px, ${(p.y * vh).toFixed(1)}px, 0) rotate(${rot.toFixed(1)}deg) scale(${p.d.toFixed(3)})`;
         n.style.opacity = (Math.min(1, 0.35 + p.d * 0.55) * tw).toFixed(3);
       }
+      };
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [kind, count, seed, wind, world, between?.[0], between?.[1]]);
