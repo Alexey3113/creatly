@@ -42,3 +42,10 @@
 .pro.pro-malt .ph .ph-th-copy h1 em{color:#ffdca6;text-shadow:0 2px 22px rgba(0,0,0,.75)}
 .pro-spice .pb-edit-copy :is(h3,p){text-shadow:0 2px 24px rgba(0,0,0,.7)}.pro.pro-spice .pb-edit .pb-edit-copy h3 em{color:#ffd2a6}
 .pro-mane .pb-edit-copy :is(h3,p){text-shadow:0 2px 24px rgba(0,0,0,.55)}.pro.pro-mane .pb-edit .pb-edit-copy h3 em{color:#f6c3d0}
+/* fetch: собака hero лежит в центре кадра — на десктопе объект справа, заголовок не ложится на морду */
+@media(min-width:901px){.pro-fetch .ph-th-object{left:61%}}
+/* type-collision на телефоне: объект 74vw × 52vh по центру — передняя копия слова режется по НЕМУ
+   (на десктопе рамка 33%/21%) и того же кегля, что и задняя; иначе от «KICKFLIP» оставалось «CKFI» */
+@media(max-width:900px){.ph--collision .ph-tc-front{clip-path:inset(24% 13% 24% 13%)}:where(.ph--collision) .ph-tc-front h1{font-size:clamp(60px,20vw,120px)}}
+/* product-theatre на телефоне: объект 64vh заходил под заголовок (текст ложился прямо на фото) — ниже и короче */
+@media(max-width:900px){.ph--theatre .ph-th-object{height:54vh}.ph--theatre .ph-th-copy{padding-top:8vh}.pro .ph--theatre .ph-th-copy h1{font-size:clamp(40px,11.4vw,56px)}}

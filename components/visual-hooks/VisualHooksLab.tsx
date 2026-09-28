@@ -3212,7 +3212,7 @@ const PRO: Record<string, Pro> = {
     { t: "gallery", head: <>Earned, <em>not printed.</em></>, items: [{ img: `${g}selvedge-jean.jpg`, cap: "Raw, to begin." }, { img: `${g}selvedge-fade.jpg`, cap: "A year later." }] },
     { t: "cta", title: <>Find <em>your pair.</em></>, body: "A handful of cuts, a proper fitting, and a lifetime of free repairs.", label: "See the cuts" },
   ] },
-  deck: { slug: "deck", theme: "deck", brand: "DECK", typography: "grotesk", hero: { archetype: "type-collision", object: "/uploads/1/hooks/sites/g/deck-skate.jpg", eyebrow: "A skate shop", title: <>KICKFLIP</>, sub: "Pressed by skaters, for the way you actually ride." }, nav: ["The idea", "The shop", "Build"], tagline: "A skater-run board shop.", legal: "Deck Shop", blocks: [
+  deck: { slug: "deck", theme: "deck", brand: "DECK", typography: "grotesk", hero: { archetype: "type-collision", object: "/uploads/1/hooks/sites/g/deck-kickflip.jpg", eyebrow: "A skate shop", title: <>KICKFLIP</>, sub: "Pressed by skaters, for the way you actually ride." }, nav: ["The idea", "The shop", "Build"], tagline: "A skater-run board shop.", legal: "Deck Shop", blocks: [
     { t: "cinematicBand", media: "/uploads/1/hooks/sites/deck.jpg", motif: "grain", chapters: [
       { index: "Pressed", title: <>Our own<br />wood.</>, body: "Pressed by skaters, shaped to the concave we ride.", align: "left", media: "/uploads/1/hooks/sites/deck.jpg" },
       { index: "Set up", title: <>Built on<br />the counter.</>, body: "Trucks, grip and wheels to your stance while you wait.", align: "right", media: `${g}deck-shop.jpg` },
