@@ -108,3 +108,7 @@ npx tsc --noEmit -p tsconfig.json   # 0 ошибок
 - Призрак shared-элемента копирует типографику, фон, рамку, тень, маску, clip-path, скругление (в т.ч. %), поворот и масштаб предков; держи пары с одинаковыми filter/object-position.
 - parallax-scene: у `<Layer>` есть `out={[a,b]}` — штатный уход слоя по --sp (reduced-motion не гасит); фон ставь на `.ps-sticky`, не на `.ps-scene` (при overlapVh движок снимает фон секции).
 - `Actor`/`Follow` интерполируют smoothstep (e = t²(3−2t)); для синхронизации с CSS-маской — `curve="linear"`.
+- Телефон (≤ 820px): текст идёт одной колонкой, десктопная поза актёра ложится на него — у точки пути есть
+  `m: { x, y, s, o, … }` (поправка позы только на телефоне): `{ at: ".bm4-scene", pose: {…}, m: { x: 50, y: 84, s: 0.4 } }`.
+- ScrollStage (legacy) работает на часах scene-kit (`subscribe` + `useLenisInClock`) — один rAF на страницу, как у Reel.
+- Проверка телефона: `VP=mobile` у `cap.mjs` и `sheet.mjs` (390×844, тач, `hover:none`).
