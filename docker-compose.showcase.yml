@@ -1,0 +1,40 @@
+# Стенд витрин Creatly на общем сервере: отдельный compose-проект (docker compose -p creatly-showcase),
+# своя база без публикации портов, приложение только на 127.0.0.1:${SHOWCASE_APP_PORT:-3100} —
+# наружу его отдаёт nginx хоста на отдельном порту (nginx/showcase.conf). Ассеты — томом из ./public/uploads.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-creatly}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-creatly}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-creatly}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.showcase
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-creatly}:${DB_PASSWORD}@db:5432/${DB_NAME:-creatly}
+      SESSION_SECRET: ${SESSION_SECRET:?SESSION_SECRET}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      NEXT_PUBLIC_TELEGRAM_BOT_USERNAME: ${NEXT_PUBLIC_TELEGRAM_BOT_USERNAME:-}
+    volumes:
+      - ./public/uploads:/app/public/uploads:ro
+    ports:
+      - "127.0.0.1:${SHOWCASE_APP_PORT:-3100}:3000"
+
+volumes:
+  pgdata:

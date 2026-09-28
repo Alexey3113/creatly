@@ -1,0 +1,15 @@
+node_modules
+.next
+.git
+.env
+.env.*
+!.env.docker.example
+.claude
+.DS_Store
+public/uploads
+analitic
+docs
+additional
+upd-photos
+undefined
+*.md
