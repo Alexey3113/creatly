@@ -212,3 +212,5 @@
   .jt2-copy>*,.jt3-copy>*,.jt4-head>*,.jt5-eyebrow{opacity:1}
   .jt-sun,.jt6-sun,.jt3-sun,.jt5-sun,.jt-hanko,.jt-kanji span,.jt-brush .ps-media{animation:none}
 }
+/* телефон: солнце финала (46–50vh) шире экрана и гасило красное «STORY» — висит между заголовком и подписью */
+@media(max-width:900px){.jt-site .jt6-sun{left:58%;top:50vh;width:32vh;height:32vh}}

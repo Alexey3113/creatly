@@ -86,7 +86,7 @@
   transition:background .3s; }
 .or-btn:hover{ background:var(--sand-deep); }
 
-@media (max-width:760px){ .or-ch-in{ width:84vw; left:8vw; right:auto; text-align:left; } .or-specs{ justify-items:start; } }
+@media (max-width:760px){ .or-ch-in{ width:84vw; left:8vw; right:auto; text-align:left; } .or-specs{ justify-items:start; } .or-cover-copy{ max-width:88vw; } }
 @media (prefers-reduced-motion:reduce){
   .or .or-line > i{ transform:none; opacity:1; }
   .or-cam{ transform:translate(-50%,-50%); }

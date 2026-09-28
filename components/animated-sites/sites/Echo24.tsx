@@ -34,6 +34,8 @@ export function Echo24() {
       {/* …и в финале полный кадр сжимается обратно в окно между строками */}
       <Actor zIndex={4} width="15vw" bob={3} tilt={0.04} className="ec-win-actor" stops={[
         { at: ".ec-split", anchor: pin(0.97), pose: { x: 50, y: 50, s: 6.8, r: 0, o: 0 } },
+        // проявляется, когда уже почти окно: крупный полупрозрачный «призрак» на стыке не нужен
+        { at: ".ec-end", anchor: 0.2, pose: { x: 50, y: 49, s: 2.4, r: 0, o: 0.12 } },
         { at: ".ec-end", anchor: 0.3, pose: { x: 50, y: 48, s: 1.6, r: 0, o: 1 } },
         { at: ".ec-end", anchor: 0.5, pose: { x: 50, y: 47, s: 1.2, r: -3, o: 1 } },
       ]}>

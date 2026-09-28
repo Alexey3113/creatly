@@ -95,6 +95,10 @@
 @media (max-width:820px){
   .rl-copy{ left:5vw; top:16vh; width:90vw; }
   .rl-freeze{ right:5vw; bottom:10vh; }
+  /* портретный кадр кладёт под копи другой участок плиты (часто светлое небо/поверхность воды) —
+     у тёмных сцен (светлая копи) мягкий локальный скрим в цвет пустоты мира */
+  .rl-dark .rl-copy::before{ content:""; position:absolute; inset:-9vh -5vw -5vh; z-index:-1; pointer-events:none;
+    background:radial-gradient(115% 80% at 34% 42%, color-mix(in srgb, var(--rl-void, #0b0f14) 62%, transparent), color-mix(in srgb, var(--rl-void, #0b0f14) 26%, transparent) 58%, transparent 82%); }
 }
 
 /* слот сцены между mid и fg: актёр/текст позади переднего плана (лодка за камышом, солнце за баобабом) */

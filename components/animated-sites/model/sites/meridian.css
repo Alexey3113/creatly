@@ -149,6 +149,9 @@
 @media (max-width:820px){
   .mr-nav nav a:not(.mr-nav-cta){ display:none; }
   .mr-hour{ grid-template-columns:1fr; padding:12vh 16vw 12vh 6vw; }
+  /* вывеска на телефоне висит у самой кромки стены, копи сцены её не подрезает */
+  .mr-sign-actor .mr-sign{ transform:translateX(36%) scale(.82); transform-origin:50% 40%; }
+  .mr .rl-copy{ width:calc(90vw - 34px); }
 }
 
 @media (prefers-reduced-motion:reduce){

@@ -30,7 +30,10 @@ export type ActorPose = {
   dockTo?: string;
 };
 
-export type ActorStop = { at: string; pose: ActorPose; anchor?: number };
+/** m — поправка позы на телефоне (≤ 820px): текст там идёт одной колонкой, и десктопная поза ложится на него */
+export type ActorStop = { at: string; pose: ActorPose; anchor?: number; m?: ActorPose };
+
+const MOBILE_MAX = 820;
 
 const DEF: Required<Omit<ActorPose, "dock" | "dockTo">> = { x: 50, y: 50, s: 1, r: 0, o: 1, blur: 0, fx: 1 };
 
@@ -71,9 +74,10 @@ export function Actor({
     const els = selectorCache(list.map((s) => s.at));
     const anchors = list.map((s) => s.anchor ?? 0.5);
     const poseOf = (i: number, vw: number, vh: number) => {
-      const p = { ...DEF, ...list[i].pose };
-      if (list[i].pose.dock || list[i].pose.dockTo) {
-        const n = list[i].pose.dockTo ? document.querySelector(list[i].pose.dockTo) : els()[i];
+      const src = vw <= MOBILE_MAX && list[i].m ? { ...list[i].pose, ...list[i].m } : list[i].pose;
+      const p = { ...DEF, ...src };
+      if (src.dock || src.dockTo) {
+        const n = src.dockTo ? document.querySelector(src.dockTo) : els()[i];
         if (n) {
           const r = n.getBoundingClientRect();
           p.x = ((r.left + r.width * (p.x / 100)) / vw) * 100;

@@ -98,3 +98,4 @@
   .fg-cards{ position:relative; inset:auto; display:flex; flex-direction:column; padding:12vh 0; }
   .fg-word{ opacity:.25; }
 }
+@media (max-width:760px){ .fg-hero-l{ font-size:14vw; } .fg-hero-l:nth-child(2){ margin-left:5vw; } } /* «WITHSTAND» не уходит за кромку */
