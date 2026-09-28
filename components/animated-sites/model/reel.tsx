@@ -30,6 +30,8 @@ import { useEffect, useRef } from "react";
 import { preload } from "react-dom";
 import Lenis from "lenis";
 import { subscribe, useLenisInClock, setStyle, smooth as E, win, clamp01 } from "@/components/scene-kit/clock";
+import { predecode } from "@/components/scene-kit/predecode";
+import { isWebKit } from "@/components/scene-kit/engine";
 import "./reel.css";
 
 export type ReelTransition = "rise" | "descend" | "ascend" | "pan" | "flythrough" | "portal" | "sweep" | "occlude" | "lightshift";
@@ -176,6 +178,12 @@ export function Reel({
     }
 
     el.dataset.live = "1";
+    // WebKit (Safari, все браузеры iOS): первая отрисовка полноэкранных слоёв новой сцены на Retina ~100 мс в
+    // главном потоке, фильтр стоп-кадра ~110 мс. Поэтому там: следующая сцена рисуется ЗАРАНЕЕ, под текущей,
+    // в паузу скролла (не в момент перехода), а стоп-кадр — вуалью вместо filter (см. reel.css).
+    const webkit = isWebKit();
+    if (webkit) el.dataset.engine = "webkit";
+    let idle = 0, warmIdx = -1;
     const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1, smoothWheel: true });
     useLenisInClock(lenis);
     const fine = matchMedia("(pointer:fine)").matches;
@@ -184,13 +192,23 @@ export function Reel({
     if (fine) addEventListener("pointermove", onMove);
     const frozenSp: Array<number | null> = sc.map(() => null);
     const D = depth;
+    // картинки сцены декодируются заранее, когда до её появления остаётся экран прокрутки (см. scene-kit/predecode)
+    const near = sc.map(() => false);
 
-    const unsub = subscribe(({ vh }) => {
+    const unsub = subscribe(({ vh, vy }) => {
       if (!reel) return;
+      idle = Math.abs(vy) < 0.15 ? idle + 1 : 0;
       cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
       const r = reel.getBoundingClientRect();
       const travel = Math.max(1, reel.offsetHeight - vh);
       const u = (clamp01(-r.top / travel)) * total;
+      const ahead = (vh / travel) * total;
+      for (let j = 1; j < n; j++) {
+        const from = holdEnd(j - 1), to = starts[j] + lens[j];
+        const nr = u >= from - ahead && u <= to + ahead && !(u >= from && u < to);
+        if (nr && !near[j]) { const s = scenes[j]; predecode(s.bg); if (s.mid) predecode(s.mid); if (s.fg) predecode(s.fg); }
+        near[j] = nr;
+      }
       // двухфазный подписчик: выше — чтение раскладки, ниже — записи (выполняются после всех чтений кадра)
       return () => {
 
@@ -206,8 +224,19 @@ export function Reel({
         const tin = i === 0 ? 1 : win(u, holdEnd(i - 1), U);
         const tout = i === n - 1 ? 0 : win(u, hEnd, U + L);
         const live = tin > 0 && tout < 1;
-        const want = live ? "" : "none";
+        // WebKit: сцена, следующая за последней живой, отрисовывается заранее (в паузу ~160 мс) — под текущей
+        if (webkit && live && i + 1 < n && warmIdx !== i + 1 && idle > 9 && win(u, holdEnd(i), starts[i + 1]) === 0) warmIdx = i + 1;
+        const warm = webkit && !live && i === warmIdx && tin === 0;
+        const want = live || warm ? "" : "none";
         if (P.s.style.display !== want) P.s.style.display = want;
+        if (warm) {
+          // покой: без сдвига и масок, под всеми сценами — WebKit рисует её слои сейчас, а не на стыке
+          if (P.s.style.zIndex !== "0") P.s.style.zIndex = "0";
+          setStyle(P.s, "transform", "none"); setStyle(P.s, "clip-path", ""); setStyle(P.s, "opacity", "");
+          setStyle(P.s, "-webkit-mask-image", "none"); setStyle(P.s, "mask-image", "none");
+          if (P.copy) setStyle(P.copy, "visibility", "hidden");
+          continue;
+        }
         if (!live) continue;
 
         // локальный ход камеры: вход 0→.3, удержание .3→.7, уход .7→1

@@ -5,7 +5,6 @@
 .nm{ --gold:#c9b46a; --sky:#5a8ac0; --felt:#e8ede0; --saddle:#8a5a3a; --sun:#ffcf4a; --ink:#2c2412; --dusk:#182a42; --nm-dusk:.1;
   --rl-void:#182a42; --rl-spark:#ffcf4a;
   isolation:isolate; background:var(--atm, var(--dusk)); color:var(--ink); font-family:"Schibsted Grotesk",system-ui,sans-serif; }
-.nm-defs{ position:absolute; width:0; height:0; overflow:hidden; pointer-events:none; }
 
 /* NAV — scrim for readable brand/links over any scene */
 .nm-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
@@ -40,7 +39,7 @@
 .nm .rl-scene[data-scene="grassland"] .rl-copy{ top:15vh; width:min(54rem,88vw); }
 .nm .rl-scene[data-scene="grassland"] .rl-mid img{ transform:translate(24%,8%) scale(.74); }
 .nm .rl-scene[data-scene="grassland"] .rl-shadow{ left:72%; top:84%; width:16vw; }
-.nm .rl-scene[data-scene="grassland"] .rl-fg img{ filter:url(#nm-demag); transform:translateY(17%); }
+.nm .rl-scene[data-scene="grassland"] .rl-fg img{ transform:translateY(17%); }
 /* лагерь: копи уже — юрта и костёр справа от неё */
 .nm .rl-scene[data-scene="camp"] .rl-copy{ width:min(30rem,88vw); }
 .nm .rl-scene[data-scene="camp"] .rl-mid img{ transform:translateX(16%); }
@@ -50,7 +49,6 @@
 .nm .rl-scene[data-scene="pass"] .rl-haze{ mix-blend-mode:multiply;
   background:linear-gradient(180deg, #3e3a78 0%, #7a5a86 30%, #d88a6a 50%, #f0a868 56%, #4a4a70 70%, #262a48 100%); }
 .nm .rl-scene[data-scene="pass"] .rl-mid img{ filter:brightness(.45) saturate(.8); }
-.nm .rl-scene[data-scene="pass"] .rl-fg img{ filter:url(#nm-demag) brightness(.42) saturate(.85); }
 .nm .rl-scene[data-scene="pass"] .rl-freeze{ top:16vh; bottom:auto; }
 .nm-freeze{ display:grid; gap:8px; justify-items:end; text-align:right; }
 .nm-freeze b{ font:700 clamp(54px,7vw,104px)/.9 "Unbounded",sans-serif; letter-spacing:-.03em; color:var(--sun); text-shadow:0 0 40px rgba(255,160,70,.4), 0 2px 20px rgba(10,10,24,.6); }

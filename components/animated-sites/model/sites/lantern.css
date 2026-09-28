@@ -4,7 +4,6 @@
 .ln{ --jade:#2f5d4a; --jade-deep:#0e2119; --vermilion:#b02a24; --gold:#d9b46a; --mist:#cfd8cf; --cta:#ff5a4a; --ink:#122019;
   --thread:#e0392e; --rl-void:#0a1a14; --rl-spark:#f4c76a; --ln-up:0;
   isolation:isolate; background:var(--atm, var(--jade-deep)); color:var(--ink); font-family:"IBM Plex Sans",system-ui,sans-serif; }
-.ln-defs{ position:absolute; width:0; height:0; overflow:hidden; pointer-events:none; }
 
 /* NAV — скрим сверху для контраста на светлом герое и тёмных сценах */
 .ln-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:20px 6vw; }
@@ -40,16 +39,14 @@
 .ln .rl-scene[data-scene="terraces"] .rl-shadow{ left:74%; }
 /* ворота стоят слева — копи уходит вправо, в туман */
 .ln .rl-scene[data-scene="gate"] .rl-copy{ left:auto; right:6vw; width:min(33rem,88vw); }
-/* магента по кромкам fg: срезаем фильтром + маска ниже, туманная полоса не лезет на ворота */
-.ln .rl-scene[data-scene="gate"] .rl-fg img{ filter:url(#ln-demag);
+/* маска fg ниже — туманная полоса не лезет на ворота (магента кромок снята в самом ассете) */
+.ln .rl-scene[data-scene="gate"] .rl-fg img{
   -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 62%, #000 78%, #000 100%);
           mask-image:linear-gradient(180deg, transparent 0, transparent 62%, #000 78%, #000 100%); }
-.ln .rl-scene[data-scene="shrine"] .rl-fg img{ filter:url(#ln-demag);
+.ln .rl-scene[data-scene="shrine"] .rl-fg img{
   -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 60%, #000 76%, #000 100%);
           mask-image:linear-gradient(180deg, transparent 0, transparent 60%, #000 76%, #000 100%); }
-/* НОЧЬ ФОНАРЕЙ: плиту дня переводим в ночь — туман в синюю тьму, фонари остаются светом */
-.ln .rl-scene[data-scene="festival"] .rl-bg{ filter:url(#ln-night); }
-.ln .rl-scene[data-scene="festival"] .rl-fg img{ filter:url(#ln-night); }
+/* НОЧЬ ФОНАРЕЙ: плита и fg запечены ночью (туман в синюю тьму, фонари остаются светом) — scripts/animated/bake-filters.ts */
 .ln .rl-scene[data-scene="festival"] .rl-haze{
   background:radial-gradient(70% 40% at 58% 68%, rgba(255,150,70,.14), transparent 70%),
              linear-gradient(180deg, rgba(4,8,22,.55) 0%, transparent 38%, transparent 70%, rgba(3,5,14,.6) 100%); }
@@ -81,8 +78,8 @@
 @keyframes ln-sway{ from{ transform:skewX(-1.6deg) } to{ transform:skewX(1.6deg) } }
 @keyframes ln-pulse{ 0%,100%{ transform:scale(1) } 50%{ transform:scale(1.18) } }
 
-/* облачный слой подъёма */
-.ln-cloud{ display:block; width:100%; height:62vh; pointer-events:none; filter:blur(14px);
+/* облачный слой подъёма (мягкость — в самих градиентах: filter:blur на слое 150vw в Safari пересчитывался каждый кадр, ~150 мс) */
+.ln-cloud{ display:block; width:100%; height:62vh; pointer-events:none;
   background:
     radial-gradient(38% 55% at 18% 52%, rgba(238,242,236,.96), rgba(238,242,236,0) 72%),
     radial-gradient(34% 60% at 50% 46%, rgba(244,246,241,.98), rgba(244,246,241,0) 74%),
@@ -181,9 +178,6 @@
 /* FOOT */
 .ln-foot{ display:flex; justify-content:space-between; align-items:center; padding:38px 6vw; background:#061310; color:#6b8577; font:500 13px "IBM Plex Sans"; }
 .ln-foot .ln-brand{ color:#9fb3a6; text-shadow:none; }
-
-/* Backdrop под лендингом: ночная плита фестиваля — тоже ночью */
-.ln-bd .sk-bd-plate:nth-child(4), .ln-bd .sk-bd-plate:nth-child(6), .ln-bd .sk-bd-plate:nth-child(7){ filter:url(#ln-night); }
 
 @media (max-width:820px){
   .ln-nav nav a:not(.ln-nav-cta){ display:none; }

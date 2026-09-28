@@ -17,13 +17,20 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
+// WebKit (Safari и все браузеры iOS) считает CSS/SVG-фильтры на CPU: сайты упрощают там дорогие украшения через
+// [data-engine="webkit"]. Метка ставится до первой отрисовки (та же проверка — components/scene-kit/engine.ts).
+const ENGINE_JS = `(function(){var u=navigator.userAgent;if(/AppleWebKit/.test(u)&&(!/Chrome|Chromium|Edg|OPR/.test(u)||/CriOS|FxiOS|EdgiOS/.test(u)))document.documentElement.setAttribute("data-engine","webkit")})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru">
+    <html lang="ru" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: ENGINE_JS }} />
+      </head>
       <body>{children}</body>
     </html>
   );

@@ -83,19 +83,6 @@ export function Lantern() {
   return (
     <div className="ln" ref={root}>
       <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"]} />
-      {/* фильтры мира: ночь фестиваля (тёплые фонари остаются светом, туман уходит в синюю ночь) и снятие магенты с кромок fg */}
-      <svg className="ln-defs" width="0" height="0" aria-hidden focusable="false">
-        <filter id="ln-night" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
-          <feColorMatrix in="SourceGraphic" type="matrix" result="dark" values=".2 .04 .02 0 0  .02 .22 .06 0 .005  .05 .08 .36 0 .03  0 0 0 1 0" />
-          <feColorMatrix in="SourceGraphic" type="matrix" result="k0" values="1.18 0 0 0 0  0 1.04 0 0 0  0 0 .86 0 0  3.4 0 -3.4 0 -.4" />
-          <feComposite in="k0" in2="SourceAlpha" operator="in" result="key" />
-          <feGaussianBlur in="key" stdDeviation="6" result="glow" />
-          <feMerge><feMergeNode in="dark" /><feMergeNode in="glow" /><feMergeNode in="key" /></feMerge>
-        </filter>
-        <filter id="ln-demag" colorInterpolationFilters="sRGB">
-          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 2.6 -2.6 1 .12" />
-        </filter>
-      </svg>
 
       <header className="ln-nav">
         <span className="ln-brand">REDTHREAD</span>

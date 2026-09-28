@@ -5,6 +5,10 @@
   transform:translate3d(-50vw,-50vh,0); }
 .sk-actor img{ display:block; width:100%; height:auto; -webkit-user-drag:none; user-select:none;
   filter:drop-shadow(0 18px 24px rgba(0,0,0,.28)); }
+/* содержимое актёра — свой слой: фильтр (тень картинки, размытие облака, drop-shadow SVG) растеризуется один раз,
+   дальше слой только двигается. Иначе Safari/iOS перерисовывает фильтр на CPU каждый кадр движения актёра —
+   на Highland/Voyage/Tidewell до 80% кадров по 100–250 мс. Пустой слой самого актёра памяти не занимает. */
+.sk-actor > *{ will-change:transform; }
 
 /* ПОГОДА — fixed на весь экран, частицы позиционирует JS */
 .sk-weather{ position:fixed; inset:0; pointer-events:none; overflow:hidden; contain:strict; }

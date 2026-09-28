@@ -153,6 +153,8 @@
 
 /* АКТЁР — приглашение с печатью: тёплое свечение, в hero «горит» в просвете */
 .es-site .es-invite img{filter:drop-shadow(0 18px 30px rgba(0,0,0,.5)) drop-shadow(0 0 22px rgba(203,167,90,.34));animation:esGlow 4.2s ease-in-out infinite}
+/* Safari/iOS: пульс filter — CPU каждый кадр (99% кадров тяжёлые) — там свечение статично */
+[data-engine="webkit"] .es-site .es-invite img{animation:none}
 @keyframes esGlow{0%,100%{filter:drop-shadow(0 18px 30px rgba(0,0,0,.5)) drop-shadow(0 0 16px rgba(203,167,90,.26))}50%{filter:drop-shadow(0 18px 30px rgba(0,0,0,.5)) drop-shadow(0 0 34px rgba(236,200,120,.55))}}
 
 /* СТЫК «капля сургуча»: SVG-капля растёт из точки до размера кадра, внутри — следующая сцена; золотой ободок = кольцо той же капли */

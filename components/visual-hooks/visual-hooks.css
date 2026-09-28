@@ -87,7 +87,8 @@
 .cv-statue{position:absolute;z-index:4;inset:0;pointer-events:none}
 .cv-statue img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:82vh;width:auto;object-fit:contain;object-position:bottom}
 .cv-closed{filter:contrast(1.06)}
-.cv-open{opacity:var(--eye,0);filter:contrast(1.06) drop-shadow(0 0 46px rgba(176,32,27,calc(var(--eye,0)*.55)))}
+/* тень — постоянная, проявление — opacity своего слоя: тень 46px с цветом от --eye пересчитывалась на каждый scroll (Safari — CPU) */
+.cv-open{opacity:var(--eye,0);will-change:opacity;filter:contrast(1.06) drop-shadow(0 0 46px rgba(176,32,27,.4))}
 .cv-redpanel{position:absolute;z-index:3;inset:0;background:#a81f1a;clip-path:polygon(0 60%,5% 54%,9% 58%,15% 51%,21% 57%,27% 50%,33% 55%,39% 48%,46% 53%,53% 46%,59% 51%,66% 44%,72% 49%,79% 43%,86% 48%,92% 42%,100% 46%,100% 100%,0 100%)}
 .cv-redpanel .cv-grain{mix-blend-mode:overlay;opacity:.4}
 .cv-red{height:52vh!important;filter:grayscale(1) sepia(1) saturate(16) hue-rotate(-44deg) brightness(.42) contrast(1.15);opacity:.9;z-index:-1;mix-blend-mode:multiply}

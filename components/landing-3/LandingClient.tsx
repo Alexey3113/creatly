@@ -18,7 +18,7 @@ import { SiteMenu } from "@/components/shared/SiteMenu";
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Reel, reelMark, type ReelScene } from "@/components/animated-sites/model/reel";
-import { Actor, Atmosphere, Backdrop, Follow, Weather } from "@/components/scene-kit";
+import { Actor, Atmosphere, Backdrop, Follow, Weather, usePredecode } from "@/components/scene-kit";
 import { FontLinks } from "@/components/shared/FontLinks";
 import "./landing3.css";
 
@@ -149,18 +149,15 @@ export function LandingClient() {
     const id = requestAnimationFrame(() => root.current?.classList.add("is-booted"));
     return () => cancelAnimationFrame(id);
   }, []);
+  // картинки секций (витрины, карточки) декодируются за полтора экрана до появления — без рывка в Safari;
+  // сцены рила декодирует сам рил
+  usePredecode(root, "img:not(.rl img)");
 
   return (
     <div className="cl" id="top" ref={root}>
       {/* LCP — плита первого кадра (CSS-фон рила не виден сканеру предзагрузки): React 19 поднимает link в <head> */}
       <link rel="preload" as="image" href={`${H}/s1-bg.webp`} fetchPriority="high" />
       <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"]} />
-      {/* fg бухты Lumen: гасим магента-кромку вырезки (дефект ассета из аудита) */}
-      <svg className="cl-defs" width="0" height="0" aria-hidden focusable="false">
-        <filter id="cl-demag" colorInterpolationFilters="sRGB">
-          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1.2 2.6 -1.4 1 .2" />
-        </filter>
-      </svg>
 
       <header className="cl-head">
         <a className="cl-logo" href="#top">Creatly</a>

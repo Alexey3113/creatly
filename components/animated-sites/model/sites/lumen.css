@@ -11,7 +11,6 @@
   font-family:"Public Sans",system-ui,-apple-system,sans-serif;
 }
 .lm em{ font-style:italic; }
-.lm-defs{ position:absolute; width:0; height:0; overflow:hidden; pointer-events:none; }
 
 /* NAV — scrim + brand shadow for contrast over any scene */
 .lm-nav{ position:fixed; inset:0 0 auto 0; z-index:60; display:flex; justify-content:space-between; align-items:center; padding:22px 6vw; }
@@ -40,13 +39,12 @@
 .lm-ghost{ padding:15px 18px; color:var(--foam); text-decoration:none; font:600 14px "Public Sans",sans-serif; border-bottom:1px solid rgba(232,238,240,.55); text-shadow:0 1px 10px rgba(6,10,16,.8); }
 
 /* сцены рила */
-/* мыс: магента по кромке виньетки fg — фильтр + нижняя кромка уходит в плиту */
-.lm .rl-scene[data-scene="cape"] .rl-fg img{ filter:url(#lm-demag);
+/* мыс: нижняя кромка fg уходит в плиту (магента кромок снята в самом ассете — scripts/animated/bake-filters.ts) */
+.lm .rl-scene[data-scene="cape"] .rl-fg img{
   -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 56%, #000 72%, #000 88%, transparent 97%);
           mask-image:linear-gradient(180deg, transparent 0, transparent 56%, #000 72%, #000 88%, transparent 97%); }
 /* бухта: смотритель с фонарём стоит слева — копи уходит вправо, на тёмные скалы */
 .lm .rl-scene[data-scene="cove"] .rl-copy{ left:auto; right:6vw; width:min(31rem,88vw); }
-.lm .rl-scene[data-scene="cove"] .rl-fg img{ filter:url(#lm-demag); }
 .lm .rl-scene[data-scene="cove"] .rl-haze{ mix-blend-mode:multiply;
   background:linear-gradient(180deg, #56616e 0%, #7d8994 32%, #c9d0d6 52%, #e6eaec 70%, #9aa4ac 100%); }
 .lm .rl-scene[data-scene="cove"] .rl-copy::before{ content:""; position:absolute; inset:-12vh -8vw -10vh -10vw; z-index:-1; pointer-events:none;
@@ -55,10 +53,9 @@
 .lm .rl-scene[data-scene="beam"] .rl-bg{ filter:brightness(.46) contrast(1.14) saturate(.8); }
 .lm .rl-scene[data-scene="beam"] .rl-haze{ mix-blend-mode:multiply;
   background:linear-gradient(180deg, #2a3446 0%, #4a5668 30%, #3a4658 37%, #3a4658 45%, #8a96a4 58%, #6a7684 80%, #2a3240 100%); }
-.lm .rl-scene[data-scene="beam"] .rl-fg img{ filter:url(#lm-demag) brightness(.55) saturate(.85); }
 /* рассвет: копи справа (маяк слева), тёмный текст по розовому небу без стекла */
 .lm .rl-scene[data-scene="dawn"] .rl-copy{ left:auto; right:6vw; width:min(33rem,88vw); }
-.lm .rl-scene[data-scene="dawn"] .rl-fg img{ filter:url(#lm-demag);
+.lm .rl-scene[data-scene="dawn"] .rl-fg img{
   -webkit-mask-image:linear-gradient(180deg, transparent 0, transparent 64%, #000 80%, #000 100%);
           mask-image:linear-gradient(180deg, transparent 0, transparent 64%, #000 80%, #000 100%); }
 .lm .rl-copy .lm-idx-dark{ color:#3a2a14; text-shadow:0 0 12px rgba(250,236,230,.95); }

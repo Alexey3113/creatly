@@ -9,6 +9,7 @@
    кадра выполняются после всех чтений. Иначе «прочитал-записал-прочитал» заставляет браузер пересчитывать
    стили и раскладку всей страницы по нескольку раз за кадр (на главной было ~6 принудительных пересчётов на кадр).
    Порядок кадра: двухфазные (чтение) → старые однофазные (читают и пишут сами) → записи двухфазных. */
+import { isWebKit } from "./engine";
 
 export type Frame = {
   /** scrollY после продвижения Lenis */
@@ -66,6 +67,7 @@ function loop(t: number) {
 export function subscribe(fn: Sub): () => void {
   subs.set(fn, 0);
   if (!raf) {
+    isWebKit(); // <html data-engine="webkit"> для CSS сайтов
     reducedMq = matchMedia("(prefers-reduced-motion: reduce)");
     lastY = window.scrollY;
     lastT = 0;

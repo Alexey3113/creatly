@@ -56,6 +56,9 @@
 
 /* белая лестница-актёр */
 .tz-stair-art{ display:block; width:100%; height:auto; overflow:visible; filter:drop-shadow(0 20px 30px rgba(18,47,71,.22)); }
+/* Safari/iOS: «ручная» шероховатость кромок (SVG-турбулентность #tzRough) пересчитывается на CPU при каждом
+   масштабе актёра — там лестница с ровными кромками (половина кадров была по 50–275 мс) */
+[data-engine="webkit"] .tz-stair-art g[filter]{ filter:none; }
 
 /* ───────── ЛЕНДИНГ ───────── */
 .tz-kick{ display:block; font:600 12px "Instrument Sans",system-ui,sans-serif; letter-spacing:.24em; text-transform:uppercase; color:#1f5f99; }

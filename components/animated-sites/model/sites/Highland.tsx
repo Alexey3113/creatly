@@ -130,7 +130,6 @@ export function Highland() {
   return (
     <div className="hg">
       <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Public+Sans:wght@400;500;600;700;800&display=swap"]} />
-      <svg className="hg-defs" aria-hidden focusable="false"><filter id="hg-trim"><feMorphology in="SourceAlpha" operator="erode" radius="2.2" result="a" /><feComposite in="SourceGraphic" in2="a" operator="in" /></filter></svg>
       <header className="hg-nav">
         <span className="hg-brand">DRYSTANE</span>
         <nav><a href="#route">The Route</a><a href="#forecast">The Sky</a><a href="#book" className="hg-nav-cta">Book the Walk</a></nav>

@@ -79,12 +79,6 @@ export function Nomad() {
   return (
     <div className="nm" ref={root}>
       <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap"]} />
-      {/* снятие магенты с кромок травы fg */}
-      <svg className="nm-defs" width="0" height="0" aria-hidden focusable="false">
-        <filter id="nm-demag" colorInterpolationFilters="sRGB">
-          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -.6 2.4 -1.8 1 .15" />
-        </filter>
-      </svg>
       <header className="nm-nav">
         <span className="nm-brand">WINDMANE</span>
         <nav>

@@ -70,13 +70,6 @@ export function Lumen() {
   return (
     <div className="lm" ref={root}>
       <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Public+Sans:wght@400;500;600;700;800&display=swap"]} />
-      {/* снятие магенты с кромок fg (остатки хромакея) */}
-      <svg className="lm-defs" width="0" height="0" aria-hidden focusable="false">
-        <filter id="lm-demag" colorInterpolationFilters="sRGB">
-          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1.2 2.6 -1.4 1 .2" />
-        </filter>
-      </svg>
-
       <header className="lm-nav">
         <span className="lm-brand">FARLIGHT</span>
         <nav>

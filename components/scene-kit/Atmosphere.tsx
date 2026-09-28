@@ -9,6 +9,7 @@
 import { useEffect, useRef } from "react";
 import { subscribe, smooth, setStyle } from "./clock";
 import { segment, selectorCache, parseColor, mixColor } from "./anchors";
+import { predecode } from "./predecode";
 import "./scene-kit.css";
 
 export type AtmStop = { at: string; color: string; color2?: string; anchor?: number };
@@ -72,14 +73,23 @@ export function Backdrop({
     const els = selectorCache(list.map((p) => p.at));
     const anchors = list.map((p) => p.anchor ?? 0.5);
     const start = from ? selectorCache([from]) : null;
+    // плита, которая проявится следующей, декодируется заранее (см. predecode): на подходе — первая,
+    // во второй половине перехода a→b — та, что после b, в первой — та, что перед a (прокрутка вверх)
+    let pre = "";
+    const warm = (key: string, j: number) => { if (key !== pre) { pre = key; if (list[j]) predecode(list[j].src); } };
     return subscribe(({ vh, y, reduced }) => {
       // проявление бэкдропа: от момента, когда верх `from` у низа экрана, до его прихода на середину
       let vis = 1;
       if (start) {
         const s = start()[0];
-        if (s) { const r = s.getBoundingClientRect(); vis = smooth((vh - r.top) / (vh * 0.6)); }
+        if (s) {
+          const r = s.getBoundingClientRect();
+          vis = smooth((vh - r.top) / (vh * 0.6));
+          if (vis < 0.01 && r.top < vh * 2.5) warm("first", 0);
+        }
       }
       const seg = vis < 0.01 ? null : segment(els(), vh, anchors, 0.5);
+      if (seg) warm(seg.t > 0.5 || seg.a === seg.b ? `n${seg.b}` : `p${seg.a}`, seg.t > 0.5 || seg.a === seg.b ? seg.b + 1 : seg.a - 1);
       // запись — после всех чтений кадра. Видеопамять: слой держат только плиты, которые сейчас видны
       // (одна, на стыке — две); остальные visibility:hidden без will-change — не растеризуются и не композятся.
       return () => {

@@ -141,7 +141,6 @@ export function Koi() {
     <div className="ko" data-nav="light">
       <FontLinks hrefs={["https://fonts.googleapis.com/css2?family=Italiana&family=Sora:wght@400;500;600;700&display=swap"]} />
       <NavTone />
-      <svg className="ko-defs" aria-hidden focusable="false"><filter id="ko-trim"><feMorphology in="SourceAlpha" operator="erode" radius="1.6" result="a" /><feComposite in="SourceGraphic" in2="a" operator="in" /></filter></svg>
       <header className="ko-nav">
         <span className="ko-brand"><i aria-hidden />KOIAN</span>
         <nav>

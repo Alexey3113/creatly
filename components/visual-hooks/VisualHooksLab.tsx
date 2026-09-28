@@ -79,9 +79,24 @@ const scenes: Scene[] = [
 
 function Media({ src, className = "", scrubRef, poster, preload }: { src: string; className?: string; scrubRef?: React.RefObject<HTMLVideoElement | null>; poster?: string; preload?: "auto" | "metadata" | "none" }) {
   if (src.endsWith(".mp4")) {
-    return <video ref={scrubRef} className={className} src={src} poster={poster} autoPlay={!scrubRef} muted loop={!scrubRef} playsInline preload={preload ?? (scrubRef ? "auto" : "metadata")} />;
+    if (!scrubRef) return <LoopVideo className={className} src={src} poster={poster} preload={preload ?? "metadata"} />;
+    return <video ref={scrubRef} className={className} src={src} poster={poster} muted playsInline preload={preload ?? "auto"} />;
   }
   return <img className={className} src={src} alt="" />;
+}
+
+/* фоновое видео-петля играет только на экране: десяток одновременно декодируемых роликов в сетке галереи
+   давал в Safari больше половины тяжёлых кадров прокрутки */
+function LoopVideo({ src, className, poster, preload }: { src: string; className?: string; poster?: string; preload: "auto" | "metadata" | "none" }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }, { rootMargin: "10% 0px" });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+  return <video ref={ref} className={className} src={src} poster={poster} autoPlay muted loop playsInline preload={preload} />;
 }
 
 function LabMark({ light = true }: { light?: boolean }) {

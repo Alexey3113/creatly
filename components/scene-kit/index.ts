@@ -6,3 +6,5 @@ export { Actor, type ActorPose, type ActorStop } from "./Actor";
 export { Weather, type WeatherKind } from "./Weather";
 export { Atmosphere, Backdrop, type AtmStop, type Plate } from "./Atmosphere";
 export { Follow, type FollowStop } from "./Follow";
+export { predecode, usePredecode } from "./predecode";
+export { isWebKit } from "./engine";

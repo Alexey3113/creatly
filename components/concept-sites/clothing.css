@@ -154,6 +154,8 @@
 /* АКТЁР — стеклянная молния: переливается и чуть качается сама по себе */
 .cl-actor{opacity:.96}
 .cl-actor img{filter:drop-shadow(0 22px 34px rgba(60,64,160,.28));animation:cl-glint 7s ease-in-out infinite,cl-sway-bolt 9s ease-in-out infinite alternate}
+/* Safari/iOS: анимация filter пересчитывается на CPU каждый кадр (вся страница шла рывками) — там только покачивание */
+[data-engine="webkit"] .cl-actor img{animation:cl-sway-bolt 9s ease-in-out infinite alternate}
 @keyframes cl-glint{0%,100%{filter:drop-shadow(0 22px 34px rgba(60,64,160,.28)) hue-rotate(0) brightness(1)}50%{filter:drop-shadow(0 22px 34px rgba(60,64,160,.34)) hue-rotate(16deg) brightness(1.16) saturate(1.2)}}
 @keyframes cl-sway-bolt{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
 /* hero в покое: штора колышется, свечение дышит, модель «дышит» */

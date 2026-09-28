@@ -10,7 +10,6 @@
   font-family:"Manrope", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
 .cl a{ color:inherit; text-decoration:none; -webkit-tap-highlight-color:transparent; }
 .cl :focus-visible{ outline:2px solid var(--amber); outline-offset:4px; border-radius:6px; }
-.cl-defs{ position:absolute; width:0; height:0; overflow:hidden; }
 
 /* до гидрации — только первый кадр рила (движок ещё не раздал сцены) */
 .cl:not(.is-booted) .rl-scene:not(:first-of-type), .cl:not(.is-booted) .rl-fx{ display:none; }
@@ -62,7 +61,6 @@
 .cl .rl-scene[data-scene="thicket"] .rl-mid img{ inset:auto; left:34vw; width:72vw; height:auto; top:calc(72.4vh - 23.4vw); }
 /* 2 · бухта маяка: копи справа (смотритель и маяк — слева/по центру), стоп-кадр — слева внизу */
 .cl .rl-scene[data-scene="cove"] .rl-copy{ left:auto; right:6vw; width:min(30rem,88vw); }
-.cl .rl-scene[data-scene="cove"] .rl-fg img{ filter:url(#cl-demag); }
 .cl .rl-scene[data-scene="cove"] .rl-freeze{ right:auto; left:6vw; bottom:13vh; }
 /* 3 · полдень: светлый кадр — тёмные чернила и тёплый скрим */
 .cl .rl-scene[data-scene="noon"] .cl-copy::before{ background:radial-gradient(closest-side, rgba(252,240,216,.74), rgba(252,240,216,.3) 58%, rgba(252,240,216,0)); }

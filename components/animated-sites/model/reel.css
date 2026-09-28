@@ -53,6 +53,12 @@
 
 /* ЗАСТЫВАНИЕ: камера встала, кадр слегка обесцвечен, выходит титр (контент — сайта, позиция по умолчанию) */
 .rl-scene[data-frozen] .rl-world{ filter:saturate(.55) contrast(1.06) brightness(.93); }
+/* WebKit (Safari/iOS): фильтр на контейнере мира с композитными слоями внутри — перерисовка всего поддерева
+   (~110 мс рывок на входе в стоп-кадр). Там стоп-кадр — притеняющая вуаль (дёшево: только opacity слоя). */
+.rl[data-engine="webkit"] .rl-scene[data-frozen] .rl-world{ filter:none; }
+.rl[data-engine="webkit"] .rl-world::after{ content:""; position:absolute; inset:0; z-index:7; pointer-events:none; opacity:0;
+  background:rgba(14,14,20,.26); will-change:opacity; transition:opacity .45s ease; }
+.rl[data-engine="webkit"] .rl-scene[data-frozen] .rl-world::after{ opacity:1; }
 .rl-freeze{ position:absolute; z-index:11; right:6vw; bottom:12vh; opacity:0; transform:scale(1.18) rotate(-2deg);
   transition:opacity .45s ease, transform .6s cubic-bezier(.22,1,.36,1); pointer-events:none; }
 .rl-scene[data-frozen] .rl-freeze{ opacity:1; transform:scale(1) rotate(-2deg); }

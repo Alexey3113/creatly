@@ -37,7 +37,6 @@
 .ko .rl-copy p{ margin:0 0 26px; max-width:42ch; font:400 16px/1.75 "Sora",system-ui,sans-serif; color:#2b3829; text-shadow:0 1px 12px rgba(244,237,224,.85); }
 .ko .rl-copy .ko-pl{ color:#dde3d9; text-shadow:0 1px 16px rgba(0,0,0,.75); }
 .ko .rl-cue{ color:var(--paper); text-shadow:0 1px 8px rgba(0,0,0,.7); }
-.ko-defs{ position:absolute; width:0; height:0; overflow:hidden; }
 .ko-cta{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
 .ko-btn{ display:inline-block; padding:15px 30px; border-radius:3px; background:var(--cta); color:#fff; text-decoration:none; font:600 14px "Sora",system-ui,sans-serif; letter-spacing:.03em; box-shadow:0 14px 32px rgba(255,90,74,.32); transition:transform .15s ease; }
 .ko-btn:active{ transform:translateY(2px); }
@@ -46,8 +45,8 @@
 /* ВОРОТА — уведены в правую треть (проём = точка портала в пруд) */
 .ko .rl-shadow{ display:none; }
 .ko .rl-scene[data-scene="torii"] .rl-mid img{ inset:auto; left:38.1vw; width:64vw; height:auto; top:calc(86vh - 32.5vw); }
-/* кусты hero ниже — путник в проёме ворот виден; кромка-магента срезана эрозией альфы (#ko-trim) */
-.ko .rl-scene[data-scene="torii"] .rl-fg img{ top:13%; filter:url(#ko-trim); }
+/* кусты hero ниже — путник в проёме ворот виден; кромка-магента срезана эрозией альфы в самом ассете */
+.ko .rl-scene[data-scene="torii"] .rl-fg img{ top:13%; }
 /* шов панорамы/портала — цвет сада, а не чёрная щель (движок задаёт свой --rl-void на .rl) */
 .ko .rl{ --rl-void:#56644f; --rl-spark:#f0c987; }
 
